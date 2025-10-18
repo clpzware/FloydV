@@ -1,0 +1,24 @@
+package cheadleware.mixin;
+
+import cheadleware.config.Config;
+import net.minecraft.entity.EntityLivingBase;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+
+
+@Mixin(EntityLivingBase.class)
+public abstract class EntityLivingBaseMixin {
+
+    /**
+     * @author
+     * @reason
+     */
+
+    @Overwrite
+    private int getArmSwingAnimationEnd() {
+        int percentage = Math.max(0, Math.min(Config.swingspeed, 100));
+        return (int) (6 + ((percentage / 100.0) * (20 - 6)));
+    }
+
+
+}
