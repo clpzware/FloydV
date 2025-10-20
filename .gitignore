@@ -1,0 +1,44 @@
+# Project settings
+.vs/
+.vscode/
+.idea/
+.settings/
+
+# Build systems
+.m2/
+.gradle/
+
+# Project files
+.classpath
+.project
+*.iml
+
+# Common compiler output directories
+target/
+!src/**/target/
+build/
+!src/**/build/
+out/
+!src/**/out/
+
+# Common working directories
+run/
+!src/**/run/
+test_run/
+!src/**/test_run/
+work/
+!src/**/work/
+workspace/
+!src/**/workspace/
+
+# Ignored by default
+*.class
+*.log
+
+# JVM Crash Logs
+hs_err_pid*
+replay_pid*
+ViaMCP/ViaLoadingBase/viaversion.yml
+ViaMCP/ViaLoadingBase/viarewind.yml
+ViaMCP/ViaLoadingBase/viabackwards.yml
+/logs

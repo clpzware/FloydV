@@ -1,0 +1,118 @@
+plugins {
+    id 'application'
+    id 'java'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+group = 'io.github.legitphase.dogclient'
+version = "2.0"
+
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 21
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+
+    maven { url 'https://jitpack.io' }
+    maven { url 'https://litarvan.github.io/maven' }
+    maven { url 'https://repo.viaversion.com/everything/' }
+    maven { url 'https://repo.hypixel.net/repository/Hypixel/' }
+}
+
+configurations {
+    implementation.extendsFrom lib
+    api.extendsFrom lib
+}
+
+dependencies {
+    implementation 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    implementation 'io.netty:netty-all:4.1.0.Final'
+    implementation fileTree("library")
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.apache.logging.log4j:log4j-api:2.17.2'
+    implementation 'org.apache.logging.log4j:log4j-core:2.17.2'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation 'com.squareup.okio:okio:3.9.0'
+    implementation 'net.java.dev.jna:jna:5.8.0'
+    implementation 'net.java.dev.jna:jna-platform:5.8.0'
+    implementation 'org.java-websocket:Java-WebSocket:1.5.7'
+    implementation 'fr.litarvan:openauth:1.1.3' // why is the fucking build folder 100mb bruh
+}   // the fucking lib file is 100mb
+
+
+configurations {
+    all {
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'ch.qos.logback', module: 'logback-classic'
+    }
+}
+
+task assetsJar(type: Jar) {
+    archiveFileName.set("assets.jar")
+    from {
+        configurations.runtimeClasspath.findAll {
+            it.name.endsWith(".jar")
+        }.collect {
+            zipTree(it)
+        }
+    }
+    from sourceSets.main.resources
+    from sourceSets.main.output.classesDirs
+    exclude '**/fr/ambient/**'
+    exclude '**/net/minecraft/**'
+    exclude '**/net/minecraftforge/**'
+    exclude '**/de/florianmichael/**'
+    exclude '**/net/optifine/**'
+    exclude '**/cc/**'
+    exclude '**/org/lwjglx/**'
+    exclude '**/paulscode/sound/**'
+    manifest {
+        attributes(
+                'Multi-Release': 'true'
+        )
+    }
+
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+task compiledCodeJar(type: Jar) {
+    archiveFileName.set("client.jar")
+    from {
+        sourceSets.main.output.classesDirs
+    }
+    include '**/fr/ambient/**'
+    include '**/net/minecraft/**'
+    include '**/net/minecraftforge/**'
+    include '**/de/florianmichael/**'
+    include '**/net/optifine/**'
+    include '**/org/lwjglx/**'
+    include '**/paulscode/sound/**'
+
+    manifest {
+        attributes(
+                'Main-Class': 'net.minecraft.client.main.Main',
+                'Multi-Release': 'true'
+        )
+    }
+}
+
+
+tasks.build {
+    dependsOn compiledCodeJar
+    dependsOn assetsJar
+}
