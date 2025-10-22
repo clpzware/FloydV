@@ -1,0 +1,118 @@
+package femcum.modernfloyd.clients.component.impl.player;
+
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.component.Component;
+import femcum.modernfloyd.clients.event.Listener;
+import femcum.modernfloyd.clients.event.annotations.EventLink;
+import femcum.modernfloyd.clients.event.impl.other.WorldChangeEvent;
+import femcum.modernfloyd.clients.module.impl.combat.KillAura;
+import femcum.modernfloyd.clients.util.Accessor;
+import femcum.modernfloyd.clients.util.player.PlayerUtil;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.player.EntityPlayer;
+import rip.vantage.commons.util.time.StopWatch;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class TargetComponent extends Component implements Accessor {
+
+    private static final HashMap<Class<?>, List<EntityLivingBase>> targetMap = new HashMap<>();
+    private static final HashMap<Class<?>, Integer> entityAmountMap = new HashMap<>();
+    private static final HashMap<Class<?>, StopWatch> timerMap = new HashMap<>();
+    private static final HashMap<Integer, Class<?>> queuedMap = new HashMap<>();
+    private static int id;
+    private static KillAura killAura;
+    private static boolean forceUpdate;
+
+    public static void forceUpdate() {
+        forceUpdate = true;
+    }
+
+    @EventLink
+    public final Listener<WorldChangeEvent> onWorldChange = event -> {
+        targetMap.clear();
+        entityAmountMap.clear();
+        timerMap.clear();
+        queuedMap.clear();
+        id = 0;
+    };
+
+    public static EntityLivingBase getTarget(double range) {
+        return getTargets(range).stream().findFirst().orElse(null);
+    }
+
+    public static List<EntityLivingBase> getTargets(double range) {
+        if (killAura == null) {
+            killAura = Floyd.INSTANCE.getModuleManager().get(KillAura.class);
+        }
+
+        return getTargets(killAura.getClass(), killAura.player.getValue(), killAura.invisibles.getValue(), killAura.animals.getValue(), killAura.mobs.getValue(), killAura.teams.getValue()).stream().filter(entity -> mc.thePlayer.getDistanceToEntity(entity) <= range).collect(Collectors.toList());
+    }
+
+    public static List<EntityLivingBase> getTargets(Class<?> module, double range, boolean players, boolean invisibles, boolean animals, boolean mobs, boolean teams) {
+        return getTargets(module, players, invisibles, animals, mobs, teams).stream().filter(entity -> mc.thePlayer.getDistanceToEntity(entity) <= range).collect(Collectors.toList());
+    }
+
+    public static List<EntityLivingBase> getTargets() {
+        if (killAura == null) {
+            killAura = Floyd.INSTANCE.getModuleManager().get(KillAura.class);
+        }
+
+        return getTargets(killAura.getClass(), killAura.player.getValue(), killAura.invisibles.getValue(), killAura.animals.getValue(), killAura.mobs.getValue(), killAura.teams.getValue());
+    }
+
+    public static List<EntityLivingBase> getTargets(Class<?> module, boolean players, boolean invisibles, boolean animals, boolean mobs, boolean teams) {
+        if (queuedMap.containsValue(module) && !timerMap.get(module).finished(5000L) && !forceUpdate) {
+            return targetMap.getOrDefault(module, new ArrayList<>()).stream().filter(entity -> mc.theWorld.loadedEntityList.contains(entity)).collect(Collectors.toList());
+        }
+
+        if (!targetMap.containsKey(module) ||
+                timerMap.containsKey(module) && (timerMap.get(module).finished(5000L) ||
+                        entityAmountMap.containsKey(module) && entityAmountMap.get(module) != mc.theWorld.loadedEntityList.size() && timerMap.get(module).finished(1000L)) || forceUpdate) {
+            List<EntityLivingBase> startingTargets = mc.theWorld.loadedEntityList
+                    .stream()
+
+                    .filter(entity -> entity instanceof EntityLivingBase && entity != mc.getRenderViewEntity() && !UserFriendAndTargetComponent.isFriend(entity.getCommandSenderName()))
+
+                    .map(entity -> ((EntityLivingBase) entity))
+
+                    .filter(entity -> !Floyd.INSTANCE.getBotManager().contains(entity))
+
+                    .filter(entity -> {
+                        if (entity instanceof EntityPlayer) {
+                            if (players) {
+                                return (!PlayerUtil.sameTeam(entity) || teams);
+                            } else {
+                                return false;
+                            }
+                        }
+
+                        return entity instanceof EntityAnimal || entity instanceof EntityMob;
+                    })
+
+                    .collect(Collectors.toList());
+
+            if (startingTargets.isEmpty()) {
+                return new ArrayList<>();
+            }
+
+            List<Entity> entityList = new ArrayList<>();
+            //startingTargets.forEach(entity -> entityList.add(new Entity(entity.getEntityId(), entity instanceof EntityPlayer ? 0 : entity instanceof EntityAnimal ? 1 : 2, entity.isInvisible())));
+
+            id++;
+
+            entityAmountMap.put(module, mc.theWorld.loadedEntityList.size());
+            timerMap.put(module, new StopWatch());
+            queuedMap.put(id, module);
+        }
+
+        forceUpdate = false;
+        return targetMap.getOrDefault(module, new ArrayList<>()).stream().filter(entity -> mc.theWorld.loadedEntityList.contains(entity)).collect(Collectors.toList());
+    }
+}

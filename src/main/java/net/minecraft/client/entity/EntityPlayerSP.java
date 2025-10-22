@@ -1,11 +1,11 @@
 package net.minecraft.client.entity;
 
-import com.alan.clients.Client;
-import com.alan.clients.event.impl.input.ChatInputEvent;
-import com.alan.clients.event.impl.motion.*;
-import com.alan.clients.event.impl.other.MoveEvent;
-import com.alan.clients.util.Accessor;
-import com.alan.clients.util.vector.Vector2f;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.event.impl.input.ChatInputEvent;
+import femcum.modernfloyd.clients.event.impl.motion.*;
+import femcum.modernfloyd.clients.event.impl.other.MoveEvent;
+import femcum.modernfloyd.clients.util.Accessor;
+import femcum.modernfloyd.clients.util.vector.Vector2f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -160,7 +160,7 @@ public class EntityPlayerSP extends AbstractClientPlayer implements Accessor {
             boolean player = this == Minecraft.getMinecraft().thePlayer;
 
             if (player) {
-                Client.INSTANCE.getEventBus().handle(new PreUpdateEvent());
+                Floyd.INSTANCE.getEventBus().handle(new PreUpdateEvent());
             }
 
             super.onUpdate();
@@ -168,7 +168,7 @@ public class EntityPlayerSP extends AbstractClientPlayer implements Accessor {
             this.onUpdateWalkingPlayer();
 
             if (player) {
-                Client.INSTANCE.getEventBus().handle(new PostMotionEvent());
+                Floyd.INSTANCE.getEventBus().handle(new PostMotionEvent());
             }
         }
     }
@@ -188,7 +188,7 @@ public class EntityPlayerSP extends AbstractClientPlayer implements Accessor {
         );
 
         if (this == mc.thePlayer) {
-            Client.INSTANCE.getEventBus().handle(event);
+            Floyd.INSTANCE.getEventBus().handle(event);
         }
 
         final boolean flag = event.isSprinting();
@@ -284,7 +284,7 @@ public class EntityPlayerSP extends AbstractClientPlayer implements Accessor {
      */
     public void sendChatMessage(final String message) {
         final ChatInputEvent event = new ChatInputEvent(message);
-        Client.INSTANCE.getEventBus().handle(event);
+        Floyd.INSTANCE.getEventBus().handle(event);
 
         if (event.isCancelled())
             return;
@@ -413,7 +413,7 @@ public class EntityPlayerSP extends AbstractClientPlayer implements Accessor {
 
             if (!this.isOpenBlockSpace(blockpos)) {
                 PushOutOfBlockEvent pushOutOfBlockEvent = new PushOutOfBlockEvent();
-                Client.INSTANCE.getEventBus().handle(pushOutOfBlockEvent);
+                Floyd.INSTANCE.getEventBus().handle(pushOutOfBlockEvent);
                 if (pushOutOfBlockEvent.isCancelled()) {
                     return false;
                 }
@@ -695,7 +695,7 @@ public class EntityPlayerSP extends AbstractClientPlayer implements Accessor {
         this.movementInput.updatePlayerMoveState();
 
         final SlowDownEvent slowDownEvent = new SlowDownEvent(0.2F, 0.2F, this.isUsingItem());
-        Client.INSTANCE.getEventBus().handle(slowDownEvent);
+        Floyd.INSTANCE.getEventBus().handle(slowDownEvent);
 
         if (!slowDownEvent.isCancelled() && slowDownEvent.isUseItem() && !this.isRiding()) {
             this.movementInput.moveStrafe *= slowDownEvent.getStrafeMultiplier();
@@ -798,7 +798,7 @@ public class EntityPlayerSP extends AbstractClientPlayer implements Accessor {
         final MoveEvent moveEvent = new MoveEvent(x, y, z);
 
         if (this == Minecraft.getMinecraft().thePlayer) {
-            Client.INSTANCE.getEventBus().handle(moveEvent);
+            Floyd.INSTANCE.getEventBus().handle(moveEvent);
 
             if (moveEvent.isCancelled()) {
                 return;

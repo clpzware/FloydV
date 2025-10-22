@@ -1,8 +1,8 @@
 package net.minecraft.client.gui;
 
-import com.alan.clients.Client;
-import com.alan.clients.event.impl.render.RenderHungerEvent;
-import com.alan.clients.util.font.impl.minecraft.FontRenderer;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.event.impl.render.RenderHungerEvent;
+import femcum.modernfloyd.clients.util.font.impl.minecraft.FontRenderer;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -293,7 +293,7 @@ public class GuiIngame extends Gui {
 
 //        renderTooltip(scaledResolution, partialTicks);
 
-//        Client.INSTANCE.getEventBus().handle(new LimitedRender2DEvent(scaledResolution, partialTicks));
+//        Floyd.INSTANCE.getEventBus().handle(new LimitedRender2DEvent(scaledResolution, partialTicks));
     }
 
      protected void renderTooltip(final ScaledResolution sr, final float partialTicks) {
@@ -615,7 +615,7 @@ public class GuiIngame extends Gui {
                     }
                 }
 
-                Client.INSTANCE.getEventBus().handle(new RenderHungerEvent(p_180477_1_));
+                Floyd.INSTANCE.getEventBus().handle(new RenderHungerEvent(p_180477_1_));
             } else if (entity instanceof EntityLivingBase) {
                 this.mc.mcProfiler.endStartSection("mountHealth");
                 final EntityLivingBase entitylivingbase = (EntityLivingBase) entity;

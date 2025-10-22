@@ -1,14 +1,14 @@
 package net.minecraft.entity;
 
-import com.alan.clients.Client;
-import com.alan.clients.event.impl.motion.PostStrafeEvent;
-import com.alan.clients.event.impl.motion.SafeWalkEvent;
-import com.alan.clients.event.impl.motion.StrafeEvent;
-import com.alan.clients.event.impl.motion.WaterEvent;
-import com.alan.clients.event.impl.other.StepEvent;
-import com.alan.clients.util.EvictingList;
-import com.alan.clients.util.player.MoveUtil;
-import com.alan.clients.util.vector.Vector3d;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.event.impl.motion.PostStrafeEvent;
+import femcum.modernfloyd.clients.event.impl.motion.SafeWalkEvent;
+import femcum.modernfloyd.clients.event.impl.motion.StrafeEvent;
+import femcum.modernfloyd.clients.event.impl.motion.WaterEvent;
+import femcum.modernfloyd.clients.event.impl.other.StepEvent;
+import femcum.modernfloyd.clients.util.EvictingList;
+import femcum.modernfloyd.clients.util.player.MoveUtil;
+import femcum.modernfloyd.clients.util.vector.Vector3d;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import net.minecraft.block.*;
@@ -690,7 +690,7 @@ public abstract class Entity implements ICommandSender {
             double d4 = y;
             double d5 = z;
             SafeWalkEvent safeWalkEvent = new SafeWalkEvent(-1.0D);
-            Client.INSTANCE.getEventBus().handle(safeWalkEvent);
+            Floyd.INSTANCE.getEventBus().handle(safeWalkEvent);
             double height = safeWalkEvent.getHeight();
 
             boolean flag = this.onGround && this.isSneaking() && this instanceof EntityPlayer;
@@ -846,7 +846,7 @@ public abstract class Entity implements ICommandSender {
 
                 if (this instanceof EntityPlayerSP) {
                     ticksSinceStep = 0;
-                    Client.INSTANCE.getEventBus().handle(new StepEvent(this.getEntityBoundingBox().minY - this.posY));
+                    Floyd.INSTANCE.getEventBus().handle(new StepEvent(this.getEntityBoundingBox().minY - this.posY));
                 }
             }
 
@@ -1102,7 +1102,7 @@ public abstract class Entity implements ICommandSender {
     public boolean isInWater() {
         if (this == Minecraft.getMinecraft().thePlayer && stopWatch.finished(100)) {
             final WaterEvent event = new WaterEvent(this.inWater);
-            Client.INSTANCE.getEventBus().handle(event);
+            Floyd.INSTANCE.getEventBus().handle(event);
             this.inWater = event.isWater();
             stopWatch.reset();
         }
@@ -1133,7 +1133,7 @@ public abstract class Entity implements ICommandSender {
      * sets the players height back to normal after doing things like sleeping and dieing
      */
     protected void resetHeight() {
-        /*final Jesus jesus = Client.INSTANCE.getModuleManager().get(Jesus.class);
+        /*final Jesus jesus = Floyd.INSTANCE.getModuleManager().get(Jesus.class);
 
         if (jesus != null && jesus.isEnabled() && jesus.mode.getValue().getName().equals("Gravity")) {
             return;
@@ -1221,7 +1221,7 @@ public abstract class Entity implements ICommandSender {
 
             final StrafeEvent event = new StrafeEvent(forward, strafe, friction, this.movementYaw);
 
-            Client.INSTANCE.getEventBus().handle(event);
+            Floyd.INSTANCE.getEventBus().handle(event);
 
             if (event.isCancelled()) {
                 return;
@@ -1260,7 +1260,7 @@ public abstract class Entity implements ICommandSender {
         if (player) {
             final PostStrafeEvent event = new PostStrafeEvent();
 
-            Client.INSTANCE.getEventBus().handle(event);
+            Floyd.INSTANCE.getEventBus().handle(event);
         }
     }
 

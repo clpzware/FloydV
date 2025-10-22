@@ -1,9 +1,9 @@
 package net.minecraft.client.renderer.entity;
 
-import com.alan.clients.Client;
-import com.alan.clients.event.impl.render.HurtRenderEvent;
-import com.alan.clients.event.impl.render.RenderModelEvent;
-import com.alan.clients.util.font.impl.minecraft.FontRenderer;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.event.impl.render.HurtRenderEvent;
+import femcum.modernfloyd.clients.event.impl.render.RenderModelEvent;
+import femcum.modernfloyd.clients.util.font.impl.minecraft.FontRenderer;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -325,7 +325,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
                     }
 
                     final HurtRenderEvent hurtRenderEvent = new HurtRenderEvent(false);
-                    Client.INSTANCE.getEventBus().handle(hurtRenderEvent);
+                    Floyd.INSTANCE.getEventBus().handle(hurtRenderEvent);
                     final boolean oldDamage = hurtRenderEvent.isOldDamage();
 
                     if (flag && !oldDamage) {
@@ -433,7 +433,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
 
             renderModelEvent.getModelRenderer().run();
 
-            Client.INSTANCE.getEventBus().handle(renderModelEvent);
+            Floyd.INSTANCE.getEventBus().handle(renderModelEvent);
 
             if (flag1) {
                 GlStateManager.disableBlend();

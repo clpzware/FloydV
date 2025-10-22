@@ -1,11 +1,11 @@
 package net.minecraft.client.multiplayer;
 
-import com.alan.clients.Client;
-import com.alan.clients.component.impl.player.Slot;
-import com.alan.clients.event.impl.inventory.SyncCurrentItemEvent;
-import com.alan.clients.event.impl.other.BlockBreakEvent;
-import com.alan.clients.event.impl.other.BlockDamageEvent;
-import com.alan.clients.util.Accessor;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.component.impl.player.Slot;
+import femcum.modernfloyd.clients.event.impl.inventory.SyncCurrentItemEvent;
+import femcum.modernfloyd.clients.event.impl.other.BlockBreakEvent;
+import femcum.modernfloyd.clients.event.impl.other.BlockDamageEvent;
+import femcum.modernfloyd.clients.util.Accessor;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -121,7 +121,7 @@ public class PlayerControllerMP implements Accessor {
      */
     public boolean onPlayerDestroyBlock(final BlockPos pos, final EnumFacing side) {
         final BlockBreakEvent event = new BlockBreakEvent(pos);
-        Client.INSTANCE.getEventBus().handle(event);
+        Floyd.INSTANCE.getEventBus().handle(event);
 
         if (event.isCancelled()) {
             return false;
@@ -230,7 +230,7 @@ public class PlayerControllerMP implements Accessor {
 
                 if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit.equals(MovingObjectPosition.MovingObjectType.BLOCK) && mc.objectMouseOver.getBlockPos().equals(loc)) {
                     final BlockDamageEvent bdEvent = new BlockDamageEvent(this.mc.thePlayer, this.mc.thePlayer.worldObj, loc);
-                    Client.INSTANCE.getEventBus().handle(bdEvent);
+                    Floyd.INSTANCE.getEventBus().handle(bdEvent);
                 }
 
                 if (flag && block1.getPlayerRelativeBlockHardness(mc.thePlayer, this.mc.thePlayer.worldObj, loc) >= 1.0F) {
@@ -341,7 +341,7 @@ public class PlayerControllerMP implements Accessor {
         int i = inventoryPlayer.currentItem;
 
         final SyncCurrentItemEvent event = new SyncCurrentItemEvent(i);
-        Client.INSTANCE.getEventBus().handle(event);
+        Floyd.INSTANCE.getEventBus().handle(event);
 
         i = event.getSlot();
 

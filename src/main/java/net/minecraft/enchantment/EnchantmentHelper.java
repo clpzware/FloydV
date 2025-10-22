@@ -1,8 +1,8 @@
 package net.minecraft.enchantment;
 
-import com.alan.clients.Client;
-import com.alan.clients.component.impl.player.Slot;
-import com.alan.clients.util.Accessor;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.component.impl.player.Slot;
+import femcum.modernfloyd.clients.util.Accessor;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.entity.Entity;
@@ -274,7 +274,7 @@ public class EnchantmentHelper implements Accessor {
      * @param player The player being checked.
      */
     public static int getEfficiencyModifier(final EntityLivingBase player) {
-        return getEnchantmentLevel(Enchantment.efficiency.effectId, Client.INSTANCE.getComponentManager().get(Slot.class).getItemStack());
+        return getEnchantmentLevel(Enchantment.efficiency.effectId, Floyd.INSTANCE.getComponentManager().get(Slot.class).getItemStack());
     }
 
     /**

@@ -4,7 +4,7 @@ import net.minecraft.client.renderer.WorldRenderer;
 
 public class ModelBox {
     /**
-     * The (x,y,z) vertex positions and (com.alan.clients.protection.external.u,v) texture coordinates for each of the 8 points on a cube
+     * The (x,y,z) vertex positions and (femcum.modernfloyd.clients.protection.external.u,v) texture coordinates for each of the 8 points on a cube
      */
     private final PositionTextureVertex[] vertexPositions;
 

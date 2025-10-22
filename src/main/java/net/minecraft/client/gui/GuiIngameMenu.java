@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
-import com.alan.clients.component.impl.player.LastConnectionComponent;
-import com.alan.clients.ui.menu.impl.main.MainMenu;
+import femcum.modernfloyd.clients.component.impl.player.LastConnectionComponent;
+import femcum.modernfloyd.clients.ui.menu.impl.main.MainMenu;
 import net.minecraft.client.gui.achievement.GuiAchievements;
 import net.minecraft.client.gui.achievement.GuiStats;
 import net.minecraft.client.multiplayer.GuiConnecting;

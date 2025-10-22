@@ -1,8 +1,8 @@
 package net.minecraft.client.renderer.entity;
 
-import com.alan.clients.Client;
-import com.alan.clients.event.impl.render.ModelVisibilityEvent;
-import com.alan.clients.module.impl.combat.KillAura;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.event.impl.render.ModelVisibilityEvent;
+import femcum.modernfloyd.clients.module.impl.combat.KillAura;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelPlayer;
@@ -88,10 +88,10 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
                 modelplayer.heldItemRight = 1;
 
                 boolean flag = clientPlayer instanceof EntityPlayerSP
-                        && Client.INSTANCE.getModuleManager().get(KillAura.class).isEnabled()
-                        && !Client.INSTANCE.getModuleManager().get(KillAura.class).autoBlock.getValue().getName().equals("None")
-                        && Client.INSTANCE.getModuleManager().get(KillAura.class).target != null
-                        && Client.INSTANCE.getModuleManager().get(KillAura.class).canBlock();
+                        && Floyd.INSTANCE.getModuleManager().get(KillAura.class).isEnabled()
+                        && !Floyd.INSTANCE.getModuleManager().get(KillAura.class).autoBlock.getValue().getName().equals("None")
+                        && Floyd.INSTANCE.getModuleManager().get(KillAura.class).target != null
+                        && Floyd.INSTANCE.getModuleManager().get(KillAura.class).canBlock();
 
                 if (flag || clientPlayer.getItemInUseCount() > 0) {
                     final EnumAction enumaction = itemstack.getItemUseAction();
@@ -106,7 +106,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer> {
 
             if (clientPlayer instanceof EntityPlayerSP) {
                 final ModelVisibilityEvent event = new ModelVisibilityEvent(itemstack, modelplayer.heldItemRight);
-                Client.INSTANCE.getEventBus().handle(event);
+                Floyd.INSTANCE.getEventBus().handle(event);
 
                 modelplayer.heldItemRight = event.getHeldItemRight();
 

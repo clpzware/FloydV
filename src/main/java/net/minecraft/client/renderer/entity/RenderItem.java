@@ -1,9 +1,9 @@
 package net.minecraft.client.renderer.entity;
 
-import com.alan.clients.Client;
-import com.alan.clients.event.impl.render.GlintEvent;
-import com.alan.clients.module.impl.combat.KillAura;
-import com.alan.clients.util.font.impl.minecraft.FontRenderer;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.event.impl.render.GlintEvent;
+import femcum.modernfloyd.clients.module.impl.combat.KillAura;
+import femcum.modernfloyd.clients.util.font.impl.minecraft.FontRenderer;
 import net.minecraft.block.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -165,7 +165,7 @@ public class RenderItem implements IResourceManagerReloadListener {
                 boolean hasEffect = stack.hasEffect();
 
                 GlintEvent glintEvent = new GlintEvent(hasEffect, effect, stack, model);
-                Client.INSTANCE.getEventBus().handle(glintEvent);
+                Floyd.INSTANCE.getEventBus().handle(glintEvent);
                 hasEffect = glintEvent.isEnchanted();
                 effect = glintEvent.isRender();
 
@@ -377,10 +377,10 @@ public class RenderItem implements IResourceManagerReloadListener {
                     EntityPlayerSP player = Minecraft.getMinecraft().thePlayer;
                     if (lastRender == player) {
                         if (heldStack.getItem() instanceof ItemSword && (p.getItemInUseCount() > 0
-                                || Client.INSTANCE.getModuleManager().get(KillAura.class).isEnabled()
-                                && !Client.INSTANCE.getModuleManager().get(KillAura.class).autoBlock.getValue().getName().equals("None")
-                                && Client.INSTANCE.getModuleManager().get(KillAura.class).target != null
-                                && Client.INSTANCE.getModuleManager().get(KillAura.class).canBlock() || player.isBlocking())) {
+                                || Floyd.INSTANCE.getModuleManager().get(KillAura.class).isEnabled()
+                                && !Floyd.INSTANCE.getModuleManager().get(KillAura.class).autoBlock.getValue().getName().equals("None")
+                                && Floyd.INSTANCE.getModuleManager().get(KillAura.class).target != null
+                                && Floyd.INSTANCE.getModuleManager().get(KillAura.class).canBlock() || player.isBlocking())) {
                             doThirdPersonBlockTransformations();
                         }
                     } else if (p.getItemInUseCount() > 0 && heldStack.getItemUseAction() == EnumAction.BLOCK) {

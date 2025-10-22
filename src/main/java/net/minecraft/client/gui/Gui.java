@@ -1,6 +1,6 @@
 package net.minecraft.client.gui;
 
-import com.alan.clients.util.font.impl.minecraft.FontRenderer;
+import femcum.modernfloyd.clients.util.font.impl.minecraft.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -163,7 +163,7 @@ public class Gui {
     }
 
     /**
-     * Draws a textured rectangle at the stored z-value. Args: x, y, com.alan.clients.protection.external.u, v, width, height
+     * Draws a textured rectangle at the stored z-value. Args: x, y, femcum.modernfloyd.clients.protection.external.u, v, width, height
      */
     public void drawTexturedModalRect(final float x, final int y, final int textureX, final int textureY, final int width, final int height) {
         final float f = 0.00390625F;
@@ -209,7 +209,7 @@ public class Gui {
     }
 
     /**
-     * Draws a textured rectangle at z = 0. Args: x, y, com.alan.clients.protection.external.u, v, width, height, textureWidth, textureHeight
+     * Draws a textured rectangle at z = 0. Args: x, y, femcum.modernfloyd.clients.protection.external.u, v, width, height, textureWidth, textureHeight
      */
     public static void drawModalRectWithCustomSizedTexture(final float x, final float y, final float u, final float v, final float width, final float height, final float textureWidth, final float textureHeight) {
         final float f = 1.0F / textureWidth;

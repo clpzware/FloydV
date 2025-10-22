@@ -1,8 +1,8 @@
 package net.minecraft.network;
 
-import com.alan.clients.Client;
-import com.alan.clients.event.impl.packet.PacketReceiveEvent;
-import com.alan.clients.event.impl.packet.PacketSendEvent;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.event.impl.packet.PacketReceiveEvent;
+import femcum.modernfloyd.clients.event.impl.packet.PacketSendEvent;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.viaversion.viaversion.api.connection.UserConnection;
@@ -51,17 +51,17 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
     public static final AttributeKey<EnumConnectionState> attrKeyConnectionState = AttributeKey.valueOf("protocol");
     public static final LazyLoadBase<NioEventLoopGroup> CLIENT_NIO_EVENTLOOP = new LazyLoadBase<NioEventLoopGroup>() {
         protected NioEventLoopGroup load() {
-            return new NioEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Client IO #%d").setDaemon(true).build());
+            return new NioEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Floyd IO #%d").setDaemon(true).build());
         }
     };
     public static final LazyLoadBase<EpollEventLoopGroup> field_181125_e = new LazyLoadBase<EpollEventLoopGroup>() {
         protected EpollEventLoopGroup load() {
-            return new EpollEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Epoll Client IO #%d").setDaemon(true).build());
+            return new EpollEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Epoll Floyd IO #%d").setDaemon(true).build());
         }
     };
     public static final LazyLoadBase<LocalEventLoopGroup> CLIENT_LOCAL_EVENTLOOP = new LazyLoadBase<LocalEventLoopGroup>() {
         protected LocalEventLoopGroup load() {
-            return new LocalEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Local Client IO #%d").setDaemon(true).build());
+            return new LocalEventLoopGroup(0, (new ThreadFactoryBuilder()).setNameFormat("Netty Local Floyd IO #%d").setDaemon(true).build());
         }
     };
     public final EnumPacketDirection direction;
@@ -141,7 +141,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
         if (this.channel.isOpen()) {
             try {
                 final PacketReceiveEvent event = new PacketReceiveEvent(p_channelRead0_2_, this);
-                Client.INSTANCE.getEventBus().handle(event);
+                Floyd.INSTANCE.getEventBus().handle(event);
 
                 if (event.isCancelled()) {
                     return;
@@ -156,12 +156,12 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
     public void receivePacket(final Packet packet) {
         if (this.channel.isOpen()) {
             try {
-                if (Client.INSTANCE.getSecurityManager().isInsecure(packet)) {
+                if (Floyd.INSTANCE.getSecurityManager().isInsecure(packet)) {
                     return;
                 }
 
                 final PacketReceiveEvent event = new PacketReceiveEvent(packet, this);
-                Client.INSTANCE.getEventBus().handle(event);
+                Floyd.INSTANCE.getEventBus().handle(event);
 
                 if (event.isCancelled()) {
                     return;
@@ -244,7 +244,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet> {
     private void dispatchPacket(final Packet inPacket, final GenericFutureListener<? extends Future<? super Void>>[] futureListeners) {
 
         final PacketSendEvent event = new PacketSendEvent(inPacket, this);
-        Client.INSTANCE.getEventBus().handle(event);
+        Floyd.INSTANCE.getEventBus().handle(event);
 
         if (event.isCancelled()) {
             return;

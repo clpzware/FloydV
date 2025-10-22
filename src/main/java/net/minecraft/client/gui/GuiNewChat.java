@@ -1,8 +1,8 @@
 package net.minecraft.client.gui;
 
-import com.alan.clients.Client;
-import com.alan.clients.module.Module;
-import com.alan.clients.module.impl.render.UnlimitedChat;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.module.Module;
+import femcum.modernfloyd.clients.module.impl.render.UnlimitedChat;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import net.minecraft.client.Minecraft;
@@ -192,7 +192,7 @@ public class GuiNewChat extends Gui {
             this.field_146253_i.add(0, new ChatLine(p_146237_3_, ichatcomponent, p_146237_2_));
         }
 
-        final Module unlimitedChat = Client.INSTANCE.getModuleManager().get(UnlimitedChat.class);
+        final Module unlimitedChat = Floyd.INSTANCE.getModuleManager().get(UnlimitedChat.class);
         int maxSize = unlimitedChat == null || !unlimitedChat.isEnabled() ? 200 : 10000;
 
         while (this.field_146253_i.size() > maxSize) {

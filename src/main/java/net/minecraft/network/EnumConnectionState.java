@@ -1,6 +1,6 @@
 package net.minecraft.network;
 
-import com.alan.clients.util.packet.custom.RawPacket;
+import femcum.modernfloyd.clients.util.packet.custom.RawPacket;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.Maps;

@@ -1,17 +1,14 @@
 package net.minecraft.client.network;
 
-import com.alan.clients.Client;
-import com.alan.clients.event.impl.other.TeleportEvent;
-import com.alan.clients.module.impl.exploit.Disabler;
-import com.alan.clients.module.impl.exploit.disabler.VulcanDisabler;
-import com.alan.clients.ui.menu.impl.main.MainMenu;
-import com.alan.clients.util.chat.ChatUtil;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.event.impl.other.TeleportEvent;
+import femcum.modernfloyd.clients.module.impl.exploit.Disabler;
+import femcum.modernfloyd.clients.module.impl.exploit.disabler.VulcanDisabler;
+import femcum.modernfloyd.clients.ui.menu.impl.main.MainMenu;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.mojang.authlib.GameProfile;
-import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import io.netty.buffer.Unpooled;
 import net.minecraft.block.Block;
 import net.minecraft.client.ClientBrandRetriever;
@@ -143,7 +140,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient, Cloneable {
         this.clientWorldController = null;
     }
 
-    private final Disabler disabler = Client.INSTANCE.getModuleManager().get(Disabler.class);
+    private final Disabler disabler = Floyd.INSTANCE.getModuleManager().get(Disabler.class);
 
     /**
      * Registers some server properties (gametype,hardcore-mode,terraintype,difficulty,player limit), creates a new
@@ -491,7 +488,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient, Cloneable {
                 f1
         );
 
-        Client.INSTANCE.getEventBus().handle(event);
+        Floyd.INSTANCE.getEventBus().handle(event);
 
         if (event.isCancelled()) {
             return;

@@ -1,8 +1,7 @@
-import com.alan.clients.Client;
+import femcum.modernfloyd.clients.Floyd;
 import net.minecraft.client.main.Main;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.Arrays;
 
 public class Start {
@@ -39,7 +38,7 @@ public class Start {
         setupLWJGLNatives();
 
         Main.main(concat(new String[]{
-                "--version", Client.NAME,
+                "--version", Floyd.NAME,
                 "--accessToken", "0",
                 "--assetsDir", "assets",
                 "--assetIndex", "1.8",

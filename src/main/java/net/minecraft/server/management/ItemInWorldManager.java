@@ -1,7 +1,7 @@
 package net.minecraft.server.management;
 
-import com.alan.clients.component.impl.player.Slot;
-import com.alan.clients.util.Accessor;
+import femcum.modernfloyd.clients.component.impl.player.Slot;
+import femcum.modernfloyd.clients.util.Accessor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.material.Material;

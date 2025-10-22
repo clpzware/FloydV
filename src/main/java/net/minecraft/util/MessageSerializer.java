@@ -1,6 +1,6 @@
 package net.minecraft.util;
 
-import com.alan.clients.util.packet.custom.RawPacket;
+import femcum.modernfloyd.clients.util.packet.custom.RawPacket;
 import de.florianmichael.vialoadingbase.netty.handler.VLBViaEncodeHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

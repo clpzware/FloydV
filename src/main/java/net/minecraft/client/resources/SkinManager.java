@@ -1,6 +1,6 @@
 package net.minecraft.client.resources;
 
-import com.alan.clients.util.Accessor;
+import femcum.modernfloyd.clients.util.Accessor;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;

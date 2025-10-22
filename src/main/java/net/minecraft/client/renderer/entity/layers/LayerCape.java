@@ -8,10 +8,10 @@ import net.minecraft.util.ResourceLocation;
 
 public class LayerCape implements LayerRenderer<AbstractClientPlayer> {
     private final RenderPlayer playerRenderer;
-    private final ResourceLocation riseUser = new ResourceLocation("rise/cape/RiseCapeBlue.png");
-    private final ResourceLocation riseDev = new ResourceLocation("rise/cape/RiseCapeRed.png");
-    private final ResourceLocation riseAdmin = new ResourceLocation("rise/cape/RiseCapeGreen.png");
-    private final ResourceLocation riseGato = new ResourceLocation("rise/cape/RiseCapeGato.png");
+    private final ResourceLocation riseUser = new ResourceLocation("floyd/cape/RiseCapeBlue.png");
+    private final ResourceLocation riseDev = new ResourceLocation("floyd/cape/RiseCapeRed.png");
+    private final ResourceLocation riseAdmin = new ResourceLocation("floyd/cape/RiseCapeGreen.png");
+    private final ResourceLocation riseGato = new ResourceLocation("floyd/cape/RiseCapeGato.png");
 
     public LayerCape(final RenderPlayer playerRendererIn) {
         this.playerRenderer = playerRendererIn;

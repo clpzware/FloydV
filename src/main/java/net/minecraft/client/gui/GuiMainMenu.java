@@ -1,8 +1,8 @@
 package net.minecraft.client.gui;
 
-import com.alan.clients.util.Accessor;
-import com.alan.clients.util.shader.RiseShaders;
-import com.alan.clients.util.shader.base.ShaderRenderType;
+import femcum.modernfloyd.clients.util.Accessor;
+import femcum.modernfloyd.clients.util.shader.RiseShaders;
+import femcum.modernfloyd.clients.util.shader.base.ShaderRenderType;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;

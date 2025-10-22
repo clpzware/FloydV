@@ -1,6 +1,6 @@
 package net.minecraft.client.gui;
 
-import com.alan.clients.util.font.impl.minecraft.FontRenderer;
+import femcum.modernfloyd.clients.util.font.impl.minecraft.FontRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;

@@ -43,7 +43,7 @@ public class GuiScreenRealmsProxy extends GuiScreen {
     }
 
     /**
-     * Draws a textured rectangle at the stored z-value. Args: x, y, com.alan.clients.protection.external.u, v, width, height
+     * Draws a textured rectangle at the stored z-value. Args: x, y, femcum.modernfloyd.clients.protection.external.u, v, width, height
      */
     public void drawTexturedModalRect(final float x, final int y, final int textureX, final int textureY, final int width, final int height) {
         this.field_154330_a.blit(x, y, textureX, textureY, width, height);

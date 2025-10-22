@@ -1,6 +1,6 @@
 package net.minecraft.util;
 
-import com.alan.clients.util.font.Font;
+import femcum.modernfloyd.clients.util.font.Font;
 
 import java.util.regex.Pattern;
 

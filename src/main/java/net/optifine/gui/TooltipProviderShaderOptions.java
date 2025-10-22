@@ -1,6 +1,6 @@
 package net.optifine.gui;
 
-import com.alan.clients.util.font.impl.minecraft.FontRenderer;
+import femcum.modernfloyd.clients.util.font.impl.minecraft.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.src.Config;

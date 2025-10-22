@@ -1,8 +1,8 @@
 package net.minecraft.client.entity;
 
-import com.alan.clients.Client;
-import com.alan.clients.event.impl.render.LookEvent;
-import com.alan.clients.util.vector.Vector2f;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.event.impl.render.LookEvent;
+import femcum.modernfloyd.clients.util.vector.Vector2f;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -207,7 +207,7 @@ public abstract class AbstractClientPlayer extends EntityPlayer {
         float pitch = this.rotationPitch;
 
         LookEvent lookEvent = new LookEvent(new Vector2f(yaw, pitch));
-        Client.INSTANCE.getEventBus().handle(lookEvent);
+        Floyd.INSTANCE.getEventBus().handle(lookEvent);
         yaw = lookEvent.getRotation().x;
         pitch = lookEvent.getRotation().y;
 

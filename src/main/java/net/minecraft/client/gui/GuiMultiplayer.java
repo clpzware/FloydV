@@ -1,6 +1,6 @@
 package net.minecraft.client.gui;
 
-import com.alan.clients.ui.menu.impl.serverfinder.ServerFinder;
+import femcum.modernfloyd.clients.ui.menu.impl.serverfinder.ServerFinder;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import de.florianmichael.viamcp.ViaMCP;
@@ -75,7 +75,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
         }
 
         this.createButtons();
-//        Client.INSTANCE.getRichPresence().updatePresence("In Multiplayer Menu");
+//        Floyd.INSTANCE.getRichPresence().updatePresence("In Multiplayer Menu");
     }
 
     /**

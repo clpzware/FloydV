@@ -1,7 +1,7 @@
 package net.minecraft.potion;
 
-import com.alan.clients.module.impl.movement.PotionExtender;
-import com.alan.clients.util.Accessor;
+import femcum.modernfloyd.clients.module.impl.movement.PotionExtender;
+import femcum.modernfloyd.clients.util.Accessor;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import org.apache.logging.log4j.LogManager;

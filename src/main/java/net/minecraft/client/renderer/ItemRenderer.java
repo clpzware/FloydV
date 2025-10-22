@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer;
 
-import com.alan.clients.Client;
-import com.alan.clients.event.impl.render.RenderItemEvent;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.event.impl.render.RenderItemEvent;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -322,7 +322,7 @@ public class ItemRenderer {
                 boolean useItem = itemInUseCount > 0;
 
                 final RenderItemEvent event = new RenderItemEvent(enumaction, useItem, animationProgression, partialTicks, swingProgress, itemToRender);
-                Client.INSTANCE.getEventBus().handle(event);
+                Floyd.INSTANCE.getEventBus().handle(event);
                 enumaction = event.getEnumAction();
                 useItem = event.isUseItem();
                 animationProgression = event.getAnimationProgression();

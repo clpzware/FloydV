@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
-import com.alan.clients.Client;
-import com.alan.clients.ui.menu.impl.main.MainMenu;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.ui.menu.impl.main.MainMenu;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
@@ -70,7 +70,7 @@ public class GuiDownloadTerrain extends GuiScreen {
 
         this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.downloadingTerrain"), this.width / 2, this.height / 2 - 50, 16777215);
         this.drawCenteredString(this.fontRendererObj, "Press ESC to leave this menu", this.width / 2, this.height / 2 - 25, 16777215);
-        this.drawCenteredString(this.fontRendererObj, "or press RETURN to force yourself into the server (features by " + Client.NAME + ")", this.width / 2, this.height / 2 - 12, 16777215);
+        this.drawCenteredString(this.fontRendererObj, "or press RETURN to force yourself into the server (features by " + Floyd.NAME + ")", this.width / 2, this.height / 2 - 12, 16777215);
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

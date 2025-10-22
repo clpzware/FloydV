@@ -1,6 +1,6 @@
 package net.optifine;
 
-import com.alan.clients.util.Accessor;
+import femcum.modernfloyd.clients.util.Accessor;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.src.Config;

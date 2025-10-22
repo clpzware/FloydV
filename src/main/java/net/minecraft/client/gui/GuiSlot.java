@@ -1,6 +1,6 @@
 package net.minecraft.client.gui;
 
-import com.alan.clients.util.gui.ScrollUtil;
+import femcum.modernfloyd.clients.util.gui.ScrollUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;

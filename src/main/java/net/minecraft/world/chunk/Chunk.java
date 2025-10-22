@@ -1,6 +1,6 @@
 package net.minecraft.world.chunk;
 
-import com.alan.clients.util.interfaces.ThreadAccess;
+import femcum.modernfloyd.clients.util.interfaces.ThreadAccess;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;

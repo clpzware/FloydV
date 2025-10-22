@@ -1,8 +1,8 @@
 package net.minecraft.client.renderer;
 
-import com.alan.clients.Client;
-import com.alan.clients.event.impl.other.BlockDamageEvent;
-import com.alan.clients.util.Accessor;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.event.impl.other.BlockDamageEvent;
+import femcum.modernfloyd.clients.util.Accessor;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -2783,7 +2783,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
         if (progress >= 0 && progress < 10) {
             if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit.equals(MovingObjectPosition.MovingObjectType.BLOCK) && mc.objectMouseOver.getBlockPos().equals(pos)) {
                 final BlockDamageEvent bdEvent = new BlockDamageEvent(this.mc.thePlayer, this.mc.thePlayer.worldObj, pos);
-                Client.INSTANCE.getEventBus().handle(bdEvent);
+                Floyd.INSTANCE.getEventBus().handle(bdEvent);
             }
 
             DestroyBlockProgress destroyblockprogress = this.damagedBlocks.get(Integer.valueOf(breakerId));

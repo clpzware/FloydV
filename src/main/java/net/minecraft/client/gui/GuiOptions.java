@@ -87,7 +87,7 @@ public class GuiOptions extends GuiScreen implements GuiYesNoCallback {
         this.buttonList.add(new GuiButton(105, this.width / 2 - 155, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.resourcepack")));
         this.buttonList.add(new GuiButton(104, this.width / 2 + 5, this.height / 6 + 144 - 6, 150, 20, I18n.format("options.snooper.view")));
         this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height / 6 + 168, I18n.format("gui.done")));
-//        Client.INSTANCE.getRichPresence().updatePresence("In Options");
+//        Floyd.INSTANCE.getRichPresence().updatePresence("In Options");
     }
 
     public String func_175355_a(final EnumDifficulty p_175355_1_) {

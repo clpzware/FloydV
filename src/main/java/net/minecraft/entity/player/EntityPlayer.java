@@ -1,11 +1,11 @@
 package net.minecraft.entity.player;
 
-import com.alan.clients.Client;
-import com.alan.clients.component.impl.player.Slot;
-import com.alan.clients.component.impl.render.SmoothCameraComponent;
-import com.alan.clients.event.impl.motion.HitSlowDownEvent;
-import com.alan.clients.module.impl.player.Scaffold;
-import com.alan.clients.util.Accessor;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.component.impl.player.Slot;
+import femcum.modernfloyd.clients.component.impl.render.SmoothCameraComponent;
+import femcum.modernfloyd.clients.event.impl.motion.HitSlowDownEvent;
+import femcum.modernfloyd.clients.module.impl.player.Scaffold;
+import femcum.modernfloyd.clients.util.Accessor;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
@@ -1143,7 +1143,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements java.io.S
                             targetEntity.addVelocity(-MathHelper.sin(this.movementYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F, 0.1D, MathHelper.cos(this.movementYaw * (float) Math.PI / 180.0F) * (float) i * 0.5F);
 
                             HitSlowDownEvent hitSlowDown = new HitSlowDownEvent(0.6D, false);
-                            Client.INSTANCE.getEventBus().handle(hitSlowDown);
+                            Floyd.INSTANCE.getEventBus().handle(hitSlowDown);
 
                             this.motionX *= hitSlowDown.getSlowDown();
                             this.motionZ *= hitSlowDown.getSlowDown();
@@ -1530,7 +1530,7 @@ public abstract class EntityPlayer extends EntityLivingBase implements java.io.S
      */
     public float getAIMoveSpeed() {
         if (this instanceof EntityPlayerSP) {
-            final Scaffold scaffold = Client.INSTANCE.getModuleManager().get(Scaffold.class);
+            final Scaffold scaffold = Floyd.INSTANCE.getModuleManager().get(Scaffold.class);
 
             if (scaffold != null && scaffold.isEnabled() && scaffold.ignoreSpeed.getValue()) {
                 if (Minecraft.getMinecraft().gameSettings.keyBindSprint.isKeyDown()) {

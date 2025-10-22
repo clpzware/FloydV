@@ -1,7 +1,7 @@
 package net.minecraft.util;
 
-import com.alan.clients.Client;
-import com.alan.clients.event.impl.input.MoveInputEvent;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.event.impl.input.MoveInputEvent;
 import net.minecraft.client.settings.GameSettings;
 
 public class MovementInputFromOptions extends MovementInput {
@@ -36,7 +36,7 @@ public class MovementInputFromOptions extends MovementInput {
 
         final MoveInputEvent moveInputEvent = new MoveInputEvent(moveForward, moveStrafe, jump, sneak, 0.3D);
 
-        Client.INSTANCE.getEventBus().handle(moveInputEvent);
+        Floyd.INSTANCE.getEventBus().handle(moveInputEvent);
 
         final double sneakMultiplier = moveInputEvent.getSneakSlowDownMultiplier();
         this.moveForward = moveInputEvent.getForward();

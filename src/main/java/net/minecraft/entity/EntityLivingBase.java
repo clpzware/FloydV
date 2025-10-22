@@ -1,11 +1,11 @@
 package net.minecraft.entity;
 
-import com.alan.clients.Client;
-import com.alan.clients.component.impl.player.RotationComponent;
-import com.alan.clients.event.impl.motion.JumpEvent;
-import com.alan.clients.event.impl.motion.MinimumMotionEvent;
-import com.alan.clients.event.impl.render.SwingAnimationEvent;
-import com.alan.clients.util.player.MoveUtil;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.component.impl.player.RotationComponent;
+import femcum.modernfloyd.clients.event.impl.motion.JumpEvent;
+import femcum.modernfloyd.clients.event.impl.motion.MinimumMotionEvent;
+import femcum.modernfloyd.clients.event.impl.render.SwingAnimationEvent;
+import femcum.modernfloyd.clients.util.player.MoveUtil;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Maps;
@@ -1155,7 +1155,7 @@ public abstract class EntityLivingBase extends Entity implements java.io.Seriali
                         (1 + this.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2 : 6));
 
         SwingAnimationEvent swingAnimationEvent = new SwingAnimationEvent(swingAnimationEnd);
-        Client.INSTANCE.getEventBus().handle(swingAnimationEvent);
+        Floyd.INSTANCE.getEventBus().handle(swingAnimationEvent);
         swingAnimationEnd = swingAnimationEvent.getAnimationEnd();
 
         return (int) (swingAnimationEnd * Minecraft.getMinecraft().timer.timerSpeed);
@@ -1370,7 +1370,7 @@ public abstract class EntityLivingBase extends Entity implements java.io.Seriali
 
         if (this == Minecraft.getMinecraft().thePlayer) {
             final JumpEvent event = new JumpEvent(jumpMotion, this.movementYaw);
-            Client.INSTANCE.getEventBus().handle(event);
+            Floyd.INSTANCE.getEventBus().handle(event);
             jumpMotion = event.getJumpMotion();
             this.movementYaw = event.getYaw();
             this.velocityYaw = event.getYaw();
@@ -1740,7 +1740,7 @@ public abstract class EntityLivingBase extends Entity implements java.io.Seriali
         double minimumMotion = 0.005D;
         if (this == Minecraft.getMinecraft().thePlayer) {
             final MinimumMotionEvent minimumMotionEvent = new MinimumMotionEvent(minimumMotion);
-            Client.INSTANCE.getEventBus().handle(minimumMotionEvent);
+            Floyd.INSTANCE.getEventBus().handle(minimumMotionEvent);
             minimumMotion = minimumMotionEvent.getMinimumMotion();
         }
 

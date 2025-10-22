@@ -1,11 +1,11 @@
 package net.minecraft.client.gui;
 
-import com.alan.clients.Client;
-import com.alan.clients.event.impl.input.GuiClickEvent;
-import com.alan.clients.event.impl.input.GuiKeyBoardEvent;
-import com.alan.clients.event.impl.input.GuiMouseReleaseEvent;
-import com.alan.clients.util.Accessor;
-import com.alan.clients.util.font.impl.minecraft.FontRenderer;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.event.impl.input.GuiClickEvent;
+import femcum.modernfloyd.clients.event.impl.input.GuiKeyBoardEvent;
+import femcum.modernfloyd.clients.event.impl.input.GuiMouseReleaseEvent;
+import femcum.modernfloyd.clients.util.Accessor;
+import femcum.modernfloyd.clients.util.font.impl.minecraft.FontRenderer;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -399,7 +399,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Accesso
      */
     protected void mouseClicked(final int mouseX, final int mouseY, final int mouseButton) throws IOException {
         GuiClickEvent guiClickEvent = new GuiClickEvent(mouseX, mouseY, mouseButton);
-        Client.INSTANCE.getEventBus().handle(guiClickEvent);
+        Floyd.INSTANCE.getEventBus().handle(guiClickEvent);
 
         if (mouseButton == 0) {
             for (int i = 0; i < this.buttonList.size(); ++i) {
@@ -419,7 +419,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Accesso
      */
     protected void mouseReleased(final int mouseX, final int mouseY, final int state) {
         GuiMouseReleaseEvent guiMouseReleaseEvent = new GuiMouseReleaseEvent();
-        Client.INSTANCE.getEventBus().handle(guiMouseReleaseEvent);
+        Floyd.INSTANCE.getEventBus().handle(guiMouseReleaseEvent);
 
         if (this.selectedButton != null && state == 0) {
             this.selectedButton.mouseReleased(mouseX, mouseY);
@@ -517,7 +517,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback, Accesso
     public void handleKeyboardInput() throws IOException {
         if (Keyboard.getEventKeyState()) {
             this.keyTyped(Keyboard.getEventCharacter(), Keyboard.getEventKey());
-            Client.INSTANCE.getEventBus().handle(new GuiKeyBoardEvent(Keyboard.getEventKey(), Keyboard.getEventCharacter(), this));
+            Floyd.INSTANCE.getEventBus().handle(new GuiKeyBoardEvent(Keyboard.getEventKey(), Keyboard.getEventCharacter(), this));
         }
 
         this.mc.dispatchKeypresses();

@@ -50,7 +50,7 @@ public class ModelUtils {
             final int l = vd[k + 3];
             final float f3 = Float.intBitsToFloat(vd[k + 4]);
             final float f4 = Float.intBitsToFloat(vd[k + 5]);
-            Config.dbg(prefix + j + " xyz: " + f + "," + f1 + "," + f2 + " col: " + l + " com.alan.clients.protection.external.u,v: " + f3 + "," + f4);
+            Config.dbg(prefix + j + " xyz: " + f + "," + f1 + "," + f2 + " col: " + l + " femcum.modernfloyd.clients.protection.external.u,v: " + f3 + "," + f4);
         }
     }
 

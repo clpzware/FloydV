@@ -1,13 +1,13 @@
 package net.minecraft.client.renderer;
 
-import com.alan.clients.Client;
-import com.alan.clients.event.impl.render.*;
-import com.alan.clients.module.Module;
-import com.alan.clients.module.impl.render.*;
-import com.alan.clients.util.Accessor;
-import com.alan.clients.util.render.RenderUtil;
-import com.alan.clients.util.render.StencilUtil;
-import com.alan.clients.util.shader.ShaderUtil;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.event.impl.render.*;
+import femcum.modernfloyd.clients.module.Module;
+import femcum.modernfloyd.clients.module.impl.render.*;
+import femcum.modernfloyd.clients.util.Accessor;
+import femcum.modernfloyd.clients.util.render.RenderUtil;
+import femcum.modernfloyd.clients.util.render.StencilUtil;
+import femcum.modernfloyd.clients.util.shader.ShaderUtil;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.block.Block;
@@ -457,7 +457,7 @@ public class EntityRenderer implements IResourceManagerReloadListener, Accessor 
             float expand = 0;
 
             MouseOverEvent mouseOverEvent = new MouseOverEvent(reach, expand);
-            Client.INSTANCE.getEventBus().handle(mouseOverEvent);
+            Floyd.INSTANCE.getEventBus().handle(mouseOverEvent);
             reach = mouseOverEvent.getRange();
             expand = mouseOverEvent.getExpand();
 
@@ -635,7 +635,7 @@ public class EntityRenderer implements IResourceManagerReloadListener, Accessor 
 
             f = f / (float) entitylivingbase.maxHurtTime;
             f = MathHelper.sin(f * f * f * f * (float) Math.PI);
-            final HurtCamera hurtCamera = Client.INSTANCE.getModuleManager().get(HurtCamera.class);
+            final HurtCamera hurtCamera = Floyd.INSTANCE.getModuleManager().get(HurtCamera.class);
 
             final float f2 = hurtCamera.isEnabled() ? 0 : entitylivingbase.attackedAtYaw;
             GlStateManager.rotate(-f2, 0.0F, 1.0F, 0.0F);
@@ -703,7 +703,7 @@ public class EntityRenderer implements IResourceManagerReloadListener, Accessor 
                     f2 += 180.0F;
                 }
 
-                Module noCameraClip = Client.INSTANCE.getModuleManager().get(NoCameraClip.class);
+                Module noCameraClip = Floyd.INSTANCE.getModuleManager().get(NoCameraClip.class);
 
                 if (noCameraClip == null || !noCameraClip.isEnabled()) {
                     final double d4 = (double) (-MathHelper.sin(f1 / 180.0F * (float) Math.PI) * MathHelper.cos(f2 / 180.0F * (float) Math.PI)) * d3;
@@ -1210,7 +1210,7 @@ public class EntityRenderer implements IResourceManagerReloadListener, Accessor 
 //                    GuiIngameCache.renderGameOverlay(0);
 
                     GlStateManager.pushMatrix();
-                    Client.INSTANCE.getEventBus().handle(new Render2DEvent(mc.scaledResolution, partialTicks));
+                    Floyd.INSTANCE.getEventBus().handle(new Render2DEvent(mc.scaledResolution, partialTicks));
                     GlStateManager.popMatrix();
 
                     Interface interfaceModule = getModule(Interface.class);
@@ -1260,7 +1260,7 @@ public class EntityRenderer implements IResourceManagerReloadListener, Accessor 
                         Reflector.callVoid(Reflector.ForgeHooksClient_drawScreen, this.mc.currentScreen, k1, l1, partialTicks);
                     } else {
                         this.mc.currentScreen.drawScreen(k1, l1, partialTicks);
-                        Client.INSTANCE.getEventBus().handle(new RenderGUIEvent());
+                        Floyd.INSTANCE.getEventBus().handle(new RenderGUIEvent());
                     }
                 } catch (final Throwable throwable) {
                     final CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering screen");
@@ -1697,7 +1697,7 @@ public class EntityRenderer implements IResourceManagerReloadListener, Accessor 
 
         // I need this here, else there will be bugs
         setupCameraTransform(partialTicks, 0);
-        Client.INSTANCE.getEventBus().handle(new Render3DEvent(partialTicks));
+        Floyd.INSTANCE.getEventBus().handle(new Render3DEvent(partialTicks));
 
 //        RendererLivingEntity.SHADER_RENDERING = true;
 //        InstanceAccess.render3DRunnables(partialTicks);
@@ -1727,7 +1727,7 @@ public class EntityRenderer implements IResourceManagerReloadListener, Accessor 
     private void addRainParticles() {
         float f = this.mc.theWorld.getRainStrength(1.0F);
 
-        Ambience ambience = Client.INSTANCE.getModuleManager().get(Ambience.class);
+        Ambience ambience = Floyd.INSTANCE.getModuleManager().get(Ambience.class);
         if (ambience != null && ambience.skipRainParticles()) return;
 
         if (!Config.isRainFancy()) {
@@ -1870,7 +1870,7 @@ public class EntityRenderer implements IResourceManagerReloadListener, Accessor 
                             this.random.setSeed(l1 * l1 * 3121 + l1 * 45238971 ^ k1 * k1 * 418711 + k1 * 13761);
                             blockpos$mutableblockpos.func_181079_c(l1, k2, k1);
 
-                            final Ambience ambience = Client.INSTANCE.getModuleManager().get(Ambience.class);
+                            final Ambience ambience = Floyd.INSTANCE.getModuleManager().get(Ambience.class);
 
                             final float f1 = ambience.getFloatTemperature(blockpos$mutableblockpos, biomegenbase);
 

@@ -1,6 +1,6 @@
 package net.minecraft.client.gui;
 
-import com.alan.clients.util.font.impl.minecraft.FontRenderer;
+import femcum.modernfloyd.clients.util.font.impl.minecraft.FontRenderer;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.server.CommandBlockLogic;

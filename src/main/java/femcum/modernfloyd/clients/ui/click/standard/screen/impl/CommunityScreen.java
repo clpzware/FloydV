@@ -1,0 +1,218 @@
+package femcum.modernfloyd.clients.ui.click.standard.screen.impl;
+
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.font.Fonts;
+import femcum.modernfloyd.clients.font.Weight;
+import femcum.modernfloyd.clients.module.api.Category;
+import femcum.modernfloyd.clients.ui.click.standard.RiseClickGUI;
+import femcum.modernfloyd.clients.ui.click.standard.components.ModuleComponent;
+import femcum.modernfloyd.clients.ui.click.standard.screen.Colors;
+import femcum.modernfloyd.clients.ui.click.standard.screen.Screen;
+import femcum.modernfloyd.clients.ui.click.standard.screen.impl.communityscreen.Element;
+import femcum.modernfloyd.clients.ui.click.standard.screen.impl.communityscreen.Row;
+import femcum.modernfloyd.clients.util.Accessor;
+import femcum.modernfloyd.clients.util.NetworkUtil;
+import femcum.modernfloyd.clients.util.animation.Animation;
+import femcum.modernfloyd.clients.util.animation.Easing;
+import femcum.modernfloyd.clients.util.gui.ScrollUtil;
+import femcum.modernfloyd.clients.util.render.RenderUtil;
+import femcum.modernfloyd.clients.util.tuples.Triple;
+import femcum.modernfloyd.clients.util.vector.Vector2d;
+import femcum.modernfloyd.clients.util.vector.Vector2f;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.SneakyThrows;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.ConcurrentModificationException;
+import java.util.stream.Collectors;
+
+@Getter
+@Setter
+public final class CommunityScreen implements Screen, Accessor {
+
+    public ScrollUtil scrollUtil = new ScrollUtil();
+    public static int PADDING = 10;
+    public static boolean SCROLL;
+
+    private Row featuredConfigs = new Row(Arrays.asList(
+            new Element("", "Loading"),
+            new Element("", "Loading"),
+            new Element("", "Loading")
+    ), "Featured Configs");
+
+    private Row communityConfigs = new Row(Arrays.asList(
+            new Element("", "Loading"),
+            new Element("", "Loading"),
+            new Element("", "Loading")
+    ), "Community Configs");
+
+    private Row yourConfigs = new Row(Arrays.asList(
+            new Element("", ""),
+            new Element("", ""),
+            new Element("", "")
+    ), "Your Configs");
+
+    private ArrayList<ModuleComponent> yourScripts = new ArrayList<>();
+
+    public Row[] rows = new Row[]{featuredConfigs, /*communityConfigs,*/ /*communityScripts,*/ yourConfigs};
+    private boolean registered;
+    private Animation animation = new Animation(Easing.EASE_OUT_EXPO, 400);
+
+    @Override
+    public void onRender(final int mouseX, final int mouseY, final float partialTicks) {
+        if (!registered) {
+            Floyd.INSTANCE.getEventBus().register(this);
+            registered = true;
+        }
+
+        RiseClickGUI clickGUI = this.getClickGUI();
+        Vector2f position = new Vector2f(getClickGUI().getPosition().x, getClickGUI().getPosition().y);
+        Vector2f scale = new Vector2f(getClickGUI().getScale().x, getClickGUI().getScale().y);
+
+        if (clickGUI.animationTime > 0.99) {
+//            StencilUtil.initStencil();
+//            StencilUtil.bindWriteStencilBuffer();
+//            RenderUtil.roundedRectangle(clickGUI.position.x + clickGUI.sidebar.sidebarWidth, clickGUI.position.y, clickGUI.scale.x, clickGUI.scale.y, clickGUI.getRound(), Color.BLACK, false, true, true, false);
+//            StencilUtil.bindReadStencilBuffer(1);
+//            GlStateManager.enableBlend();
+//            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+//            GlStateManager.alphaFunc(GL11.GL_GREATER, 0.0F);
+//            GlStateManager.enableTexture2D();
+        }
+
+        SCROLL = true;
+        for (Row row : rows) row.onScroll();
+        scrollUtil.onRender(SCROLL);
+
+        position.x += clickGUI.sidebar.sidebarWidth + PADDING;
+        position.y += scrollUtil.getScroll() + PADDING;
+        scale.x += -PADDING * 2 - clickGUI.sidebar.sidebarWidth;
+
+        Vector2f imageScale = new Vector2f(scale.x, 110);
+        RenderUtil.roundedRectangle(position.x, position.y, imageScale.x, imageScale.y, 10, Colors.OVERLAY.getWithAlpha(Colors.OVERLAY.get().getAlpha() * 2));
+
+        position.y += imageScale.y + PADDING * 2;
+
+        for (Row row : rows) {
+            try {
+                row.render(position);
+
+                position.y += PADDING * 2 + row.getHeight();
+            } catch (ConcurrentModificationException ignored) {
+
+            }
+        }
+
+        Fonts.MAIN.get(18, Weight.REGULAR).draw("Your Scripts", position.x, position.y, Color.WHITE.getRGB());
+        position.y += PADDING + Fonts.MAIN.get(18, Weight.REGULAR).height();
+
+        for (final ModuleComponent module : this.yourScripts) {
+            module.draw(new Vector2d(clickGUI.position.x + clickGUI.sidebar.sidebarWidth + 8, position.y), mouseX, mouseY, partialTicks);
+            position.y += module.scale.y + 7;
+        }
+
+        double padding = 7;
+        double scrollX = clickGUI.getPosition().getX() + clickGUI.getScale().getX() - 4;
+        double scrollY = clickGUI.getPosition().getY() + padding;
+
+        scrollUtil.renderScrollBar(new Vector2d(scrollX, scrollY), getClickGUI().scale.y - padding * 2);
+
+        scrollUtil.setMax(-(position.y - scrollUtil.getScroll() - clickGUI.position.y) + clickGUI.scale.y - 7);
+
+        if (clickGUI.animationTime > 0.99) {
+//            GlStateManager.disableBlend();
+//            StencilUtil.uninitStencilBuffer();
+        }
+    }
+
+    @Override
+    public void onKey(final char typedChar, final int keyCode) {
+        for (final ModuleComponent module : yourScripts) {
+            module.key(typedChar, keyCode);
+        }
+    }
+
+    @Override
+    public void onClick(int mouseX, int mouseY, int mouseButton) {
+        for (Row row : rows) {
+            try {
+                row.onClick(mouseX, mouseY, mouseButton);
+            } catch (ConcurrentModificationException concurrentModificationException) {
+                concurrentModificationException.printStackTrace();
+            }
+        }
+
+        for (final ModuleComponent moduleComponent : yourScripts) {
+            moduleComponent.click(mouseX, mouseY, mouseButton);
+        }
+    }
+
+    @Override
+    public void onMouseRelease() {
+        for (final ModuleComponent module : yourScripts) {
+            module.released();
+        }
+    }
+
+    @Override
+    public void onBloom() {
+        for (final ModuleComponent module : yourScripts) {
+            module.bloom();
+        }
+    }
+
+    @Override
+    public void onInit() {
+        if (!registered) {
+            Floyd.INSTANCE.getEventBus().register(this);
+            registered = true;
+        }
+
+        for (Row row : rows) {
+            row.init();
+        }
+
+        Floyd.INSTANCE.getConfigManager().update();
+
+        yourConfigs.clear();
+        Floyd.INSTANCE.getConfigManager().forEach(config ->
+                yourConfigs.add(new Element("Click to load", config.getName(), config::read)));
+
+        this.yourScripts = Floyd.INSTANCE.getClickGUI().getModuleList().stream()
+                .filter((module) -> module.getModule().getModuleInfo().category() == Category.SCRIPT)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        new Thread(() -> {
+            ArrayList<Triple<String, String, String>> configData = this.getAvailableConfigs();
+
+            this.featuredConfigs.clear();
+            configData.forEach(data -> this.featuredConfigs.add(new Element("Click to load", data.getFirst(), () ->
+                    Floyd.INSTANCE.getConfigManager().loadFromString(data.getFirst(), NetworkUtil.request("https://raw.githubusercontent.com/risellc/RiseOnlineConfigs/main/" + data.getFirst().toLowerCase() + ".json"), false))));
+        }).start();
+    }
+
+    @SneakyThrows
+    public ArrayList<Triple<String, String, String>> getAvailableConfigs() {
+        JsonArray jsonArray = NetworkUtil.requestAsGsonArray("https://raw.githubusercontent.com/risellc/RiseOnlineConfigs/main/index.json");
+
+        ArrayList<Triple<String, String, String>> configDataList = new ArrayList<>();
+
+        for (JsonElement element : jsonArray) {
+            JsonObject configData = element.getAsJsonObject();
+
+            String name = configData.get("name").getAsString();
+            String ip = configData.get("ip").getAsString();
+            String lastUpdated = configData.get("last updated").getAsString();
+
+            configDataList.add(new Triple<>(name, ip, lastUpdated));
+        }
+
+        return configDataList;
+    }
+}

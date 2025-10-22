@@ -1,7 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
-import com.alan.clients.Client;
-import com.alan.clients.module.impl.render.ItemPhysics;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.module.impl.render.ItemPhysics;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -90,7 +90,7 @@ public class RenderEntityItem extends Render<EntityItem> {
     ItemPhysics itemPhysics;
 
     public void doRender(final EntityItem entity, final double x, final double y, final double z, final float entityYaw, final float partialTicks) {
-        if (itemPhysics == null) itemPhysics = Client.INSTANCE.getModuleManager().get(ItemPhysics.class);
+        if (itemPhysics == null) itemPhysics = Floyd.INSTANCE.getModuleManager().get(ItemPhysics.class);
         if (itemPhysics != null && itemPhysics.isEnabled()) {
             if (!entity.onGround) {
                 rotation *= 1.005f;

@@ -1,9 +1,9 @@
 package net.minecraft.world;
 
-import com.alan.clients.util.Accessor;
-import com.alan.clients.util.RayCastUtil;
-import com.alan.clients.util.chat.ChatUtil;
-import com.alan.clients.util.interfaces.ThreadAccess;
+import femcum.modernfloyd.clients.util.Accessor;
+import femcum.modernfloyd.clients.util.RayCastUtil;
+import femcum.modernfloyd.clients.util.chat.ChatUtil;
+import femcum.modernfloyd.clients.util.interfaces.ThreadAccess;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;

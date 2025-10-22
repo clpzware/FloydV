@@ -1,0 +1,122 @@
+---- Minecraft Crash Report ----
+// Uh... Did I do that?
+
+Time: 10/22/25, 3:07 AM
+Description: Updating screen events
+
+java.lang.ClassCastException: class java.lang.String cannot be cast to class femcum.modernfloyd.clients.value.Mode (java.lang.String is in module java.base of loader 'bootstrap'; femcum.modernfloyd.clients.value.Mode is in unnamed module of loader 'app')
+	at femcum.modernfloyd.clients.module.Module.lambda$superEnable$1(Module.java:95)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:186)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1716)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:636)
+	at femcum.modernfloyd.clients.module.Module.superEnable(Module.java:95)
+	at femcum.modernfloyd.clients.module.Module.setEnabled(Module.java:79)
+	at femcum.modernfloyd.clients.module.Module.toggle(Module.java:64)
+	at femcum.modernfloyd.clients.ui.click.standard.components.ModuleComponent.click(ModuleComponent.java:173)
+	at femcum.modernfloyd.clients.ui.click.standard.screen.impl.SearchScreen.onClick(SearchScreen.java:114)
+	at femcum.modernfloyd.clients.ui.click.standard.RiseClickGUI.mouseClicked(RiseClickGUI.java:324)
+	at net.minecraft.client.gui.GuiScreen.handleMouseInput(GuiScreen.java:500)
+	at net.minecraft.client.gui.GuiScreen.handleInput(GuiScreen.java:474)
+	at net.minecraft.client.Minecraft.runTick(Minecraft.java:1587)
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:999)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:457)
+	at net.minecraft.client.main.Main.main(Main.java:102)
+	at Start.main(Start.java:40)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Stacktrace:
+	at femcum.modernfloyd.clients.module.Module.lambda$superEnable$1(Module.java:95)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:186)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1716)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:636)
+	at femcum.modernfloyd.clients.module.Module.superEnable(Module.java:95)
+	at femcum.modernfloyd.clients.module.Module.setEnabled(Module.java:79)
+	at femcum.modernfloyd.clients.module.Module.toggle(Module.java:64)
+	at femcum.modernfloyd.clients.ui.click.standard.components.ModuleComponent.click(ModuleComponent.java:173)
+	at femcum.modernfloyd.clients.ui.click.standard.screen.impl.SearchScreen.onClick(SearchScreen.java:114)
+	at femcum.modernfloyd.clients.ui.click.standard.RiseClickGUI.mouseClicked(RiseClickGUI.java:324)
+	at net.minecraft.client.gui.GuiScreen.handleMouseInput(GuiScreen.java:500)
+	at net.minecraft.client.gui.GuiScreen.handleInput(GuiScreen.java:474)
+
+-- Affected screen --
+Details:
+	Screen name: femcum.modernfloyd.clients.ui.click.standard.RiseClickGUI
+
+-- Affected level --
+Details:
+	Level name: MpServer
+	All players: 1 total; [EntityPlayerSP['Player564'/133, l='MpServer', x=-5.50, y=68.00, z=0.50]]
+	Chunk stats: MultiplayerChunkCache: 289, 289
+	Level seed: 0
+	Level generator: ID 00 - default, ver 1. Features enabled: false
+	Level generator options: 
+	Level spawn location: 0.00,64.00,0.00 - World: (0,64,0), Chunk: (at 0,4,0 in 0,0; contains blocks 0,0,0 to 15,255,15), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+	Level time: 5765 game time, 5765 day time
+	Level dimension: 0
+	Level storage version: 0x00000 - Unknown?
+	Level weather: Rain time: 0 (now: false), thunder time: 0 (now: false)
+	Level game mode: Game mode: survival (ID 0). Hardcore: false. Cheats: false
+	Forced entities: 68 total; [EntityPig['Pig'/15, l='MpServer', x=-44.88, y=71.00, z=23.22], EntityPig['Pig'/16, l='MpServer', x=-67.66, y=62.53, z=35.97], EntityPig['Pig'/17, l='MpServer', x=-56.88, y=63.00, z=38.81], EntityPig['Pig'/23, l='MpServer', x=-61.63, y=65.00, z=-2.97], EntityPig['Pig'/24, l='MpServer', x=-67.78, y=70.00, z=0.53], EntityPig['Pig'/25, l='MpServer', x=-49.91, y=64.00, z=-3.19], EntityPig['Pig'/31, l='MpServer', x=-1.03, y=65.00, z=37.50], EntityPig['Pig'/32, l='MpServer', x=-19.00, y=69.00, z=31.13], EntityPig['Pig'/33, l='MpServer', x=-23.16, y=69.00, z=28.94], EntityPig['Pig'/37, l='MpServer', x=-9.28, y=64.00, z=44.53], EntityPig['Pig'/38, l='MpServer', x=-10.03, y=66.00, z=47.13], EntityPig['Pig'/39, l='MpServer', x=6.69, y=63.00, z=-49.38], EntityPig['Pig'/40, l='MpServer', x=7.78, y=63.00, z=-47.81], EntityPig['Pig'/41, l='MpServer', x=6.22, y=63.00, z=-51.84], EntityPig['Pig'/42, l='MpServer', x=6.16, y=63.00, z=-46.19], EntityPig['Pig'/63, l='MpServer', x=33.69, y=64.00, z=19.72], EntityPig['Pig'/64, l='MpServer', x=37.97, y=62.06, z=20.50], EntityPig['Pig'/65, l='MpServer', x=28.78, y=65.00, z=21.06], EntitySheep['Sheep'/66, l='MpServer', x=10.66, y=68.00, z=40.41], EntitySheep['Sheep'/67, l='MpServer', x=21.91, y=66.00, z=20.88], EntitySheep['Sheep'/68, l='MpServer', x=31.91, y=66.00, z=26.94], EntitySheep['Sheep'/69, l='MpServer', x=26.50, y=65.00, z=19.50], EntityCreeper['Creeper'/6253, l='MpServer', x=39.53, y=58.00, z=64.00], EntitySpider['Spider'/6275, l='MpServer', x=38.97, y=61.09, z=48.69], EntityPlayerSP['Player564'/133, l='MpServer', x=17.50, y=67.00, z=44.41], EntitySquid['Squid'/6282, l='MpServer', x=-53.06, y=60.41, z=-27.81], EntitySquid['Squid'/6285, l='MpServer', x=-46.25, y=61.59, z=-27.28], EntitySquid['Squid'/6288, l='MpServer', x=58.47, y=53.19, z=6.50], EntityCreeper['Creeper'/6322, l='MpServer', x=11.50, y=16.00, z=-40.50], EntityCreeper['Creeper'/6346, l='MpServer', x=41.50, y=29.00, z=30.50], EntityPlayerSP['Player564'/133, l='MpServer', x=-5.50, y=68.00, z=0.50], EntityZombie['Zombie'/6790, l='MpServer', x=-23.50, y=31.00, z=-23.50], EntityItem['item.item.arrow'/6922, l='MpServer', x=39.69, y=58.00, z=48.13], EntityItem['item.item.bone'/6924, l='MpServer', x=37.69, y=58.00, z=50.16], EntitySkeleton['Skeleton'/6948, l='MpServer', x=6.88, y=25.00, z=-38.56], EntityEnderman['Enderman'/6949, l='MpServer', x=14.50, y=25.00, z=-28.50], EntityBat['Bat'/6952, l='MpServer', x=54.44, y=18.80, z=-55.11], EntityBat['Bat'/6969, l='MpServer', x=56.91, y=18.02, z=-53.98], EntityBat['Bat'/6970, l='MpServer', x=-7.63, y=43.10, z=-15.59], EntityZombie['Zombie'/6974, l='MpServer', x=13.50, y=19.00, z=-33.50], EntityCreeper['Creeper'/6977, l='MpServer', x=12.44, y=18.00, z=-40.00], EntityCreeper['Creeper'/6979, l='MpServer', x=74.50, y=15.00, z=63.50], EntityBat['Bat'/6988, l='MpServer', x=73.10, y=21.19, z=-78.47], EntityZombie['Zombie'/6993, l='MpServer', x=17.50, y=20.00, z=-28.50], EntityZombie['Zombie'/7000, l='MpServer', x=-17.50, y=25.00, z=-7.50], EntityCreeper['Creeper'/7003, l='MpServer', x=72.95, y=15.00, z=61.53], EntityCreeper['Creeper'/7005, l='MpServer', x=72.50, y=15.00, z=63.50], EntityCreeper['Creeper'/7006, l='MpServer', x=-29.50, y=22.00, z=-14.50], EntityCreeper['Creeper'/7008, l='MpServer', x=31.50, y=18.00, z=-78.50], EntityBat['Bat'/7029, l='MpServer', x=-61.97, y=32.53, z=-13.50], EntityCreeper['Creeper'/7041, l='MpServer', x=5.50, y=23.00, z=-62.50], EntitySkeleton['Skeleton'/7042, l='MpServer', x=14.50, y=25.00, z=-29.50], EntitySkeleton['Skeleton'/7052, l='MpServer', x=-16.50, y=40.00, z=-16.50], EntitySkeleton['Skeleton'/7064, l='MpServer', x=-13.50, y=40.00, z=-17.50], EntityItem['item.item.beefRaw'/5091, l='MpServer', x=-47.16, y=70.00, z=27.34], EntityItem['item.item.beefRaw'/5099, l='MpServer', x=-47.00, y=70.00, z=30.59], EntityItem['item.item.beefRaw'/5102, l='MpServer', x=-47.09, y=70.00, z=32.81], EntityItem['item.item.beefRaw'/5111, l='MpServer', x=-47.09, y=70.00, z=34.41], EntityEnderman['Enderman'/5334, l='MpServer', x=-45.50, y=20.00, z=-27.50], EntityItem['item.item.seeds'/3714, l='MpServer', x=27.09, y=62.00, z=-23.63], EntityZombie['Zombie'/6035, l='MpServer', x=50.50, y=23.00, z=47.50], EntityCreeper['Creeper'/6042, l='MpServer', x=40.69, y=59.00, z=56.06], EntitySpider['Spider'/6066, l='MpServer', x=-32.09, y=20.09, z=23.69], EntityCreeper['Creeper'/6112, l='MpServer', x=3.00, y=17.00, z=-19.69], EntityCreeper['Creeper'/6120, l='MpServer', x=-50.97, y=21.00, z=-19.69], EntityBat['Bat'/6139, l='MpServer', x=-26.41, y=31.10, z=-23.75], EntityBat['Bat'/6140, l='MpServer', x=-28.63, y=41.10, z=-8.72], EntityBat['Bat'/6142, l='MpServer', x=-15.25, y=33.10, z=-25.13]]
+	Retry entities: 0 total; []
+	Server brand: vanilla
+	Server type: Integrated singleplayer server
+Stacktrace:
+	at net.minecraft.client.multiplayer.WorldClient.addWorldInfoToCrashReport(WorldClient.java:342)
+	at net.minecraft.client.Minecraft.addGraphicsAndWorldToCrashReport(Minecraft.java:2332)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:471)
+	at net.minecraft.client.main.Main.main(Main.java:102)
+	at Start.main(Start.java:40)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.8.9
+	Operating System: Windows 11 (amd64) version 10.0
+	Java Version: 24.0.2, Amazon.com Inc.
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode, sharing), Amazon.com Inc.
+	Memory: 62653224 bytes (59 MB) / 458227712 bytes (437 MB) up to 1946157056 bytes (1856 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 12, tallocated: 94
+	Launched Version: Rise
+	LWJGL: 2.9.4
+	OpenGL: NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2 GL version 4.6.0 NVIDIA 581.08, NVIDIA Corporation
+	GL Caps: Using GL 1.3 multitexturing.
+Using GL 1.3 texture combiners.
+Using framebuffer objects because OpenGL 3.0 is supported and separate blending is supported.
+Shaders are available because OpenGL 2.1 is supported.
+VBOs are available because OpenGL 1.5 is supported.
+
+	Using VBOs: Yes
+	Is Modded: Very likely; Jar signature invalidated
+	Type: Floyd (map_client.txt)
+	Resource Packs: 
+	Current Language: ~~ERROR~~ NullPointerException: Cannot invoke "net.minecraft.client.resources.Language.toString()" because the return value of "net.minecraft.client.resources.LanguageManager.getCurrentLanguage()" is null
+	Profiler Position: N/A (disabled)
+	CPU: 16x AMD Ryzen 7 6800H with Radeon Graphics 
+	OptiFine Version: OptiFine_1.8.9_HD_U_L5
+	OptiFine Build: ~~NULL~~
+	Render Distance Chunks: 8
+	Mipmaps: 4
+	Anisotropic Filtering: 1
+	Antialiasing: 0
+	Multitexture: false
+	Shaders: null
+	OpenGlVersion: 4.6.0 NVIDIA 581.08
+	OpenGlRenderer: NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2
+	OpenGlVendor: NVIDIA Corporation
+	CpuCount: 16

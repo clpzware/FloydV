@@ -1,6 +1,6 @@
 package net.minecraft.client.particle;
 
-import com.alan.clients.util.Accessor;
+import femcum.modernfloyd.clients.util.Accessor;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumParticleTypes;

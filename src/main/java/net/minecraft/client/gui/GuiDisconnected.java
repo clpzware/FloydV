@@ -1,10 +1,10 @@
 package net.minecraft.client.gui;
 
-import com.alan.clients.Client;
-import com.alan.clients.component.impl.player.LastConnectionComponent;
-import com.alan.clients.event.impl.other.ServerKickEvent;
-import com.alan.clients.ui.menu.impl.main.MainMenu;
-import com.alan.clients.util.font.impl.minecraft.FontRenderer;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.component.impl.player.LastConnectionComponent;
+import femcum.modernfloyd.clients.event.impl.other.ServerKickEvent;
+import femcum.modernfloyd.clients.ui.menu.impl.main.MainMenu;
+import femcum.modernfloyd.clients.util.font.impl.minecraft.FontRenderer;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.resources.I18n;
@@ -54,7 +54,7 @@ public class GuiDisconnected extends GuiScreen {
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, this.height / 2 + this.field_175353_i / 2 + FontRenderer.FONT_HEIGHT, 100 - padding, 20, "Leave"));
         this.buttonList.add(new GuiButton(1, this.width / 2 + padding, this.height / 2 + this.field_175353_i / 2 + FontRenderer.FONT_HEIGHT, 100 - padding, 20, "Reconnect"));
 
-        Client.INSTANCE.getEventBus().handle(new ServerKickEvent(multilineMessage));
+        Floyd.INSTANCE.getEventBus().handle(new ServerKickEvent(multilineMessage));
     }
 
     /**

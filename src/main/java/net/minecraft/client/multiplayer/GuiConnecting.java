@@ -1,7 +1,7 @@
 package net.minecraft.client.multiplayer;
 
-import com.alan.clients.Client;
-import com.alan.clients.event.impl.other.ServerJoinEvent;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.event.impl.other.ServerJoinEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiDisconnected;
@@ -44,7 +44,7 @@ public class GuiConnecting extends GuiScreen {
     }
 
     private void connect(final String ip, final int port) {
-        Client.INSTANCE.getEventBus().handle(new ServerJoinEvent(ip, port));
+        Floyd.INSTANCE.getEventBus().handle(new ServerJoinEvent(ip, port));
         logger.info("Connecting to " + ip + ", " + port);
         (new Thread("Server Connector #" + CONNECTION_ID.incrementAndGet()) {
             public void run() {

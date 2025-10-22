@@ -1,0 +1,122 @@
+---- Minecraft Crash Report ----
+// My bad.
+
+Time: 10/22/25, 2:31 AM
+Description: Updating screen events
+
+java.lang.ClassCastException: class java.lang.String cannot be cast to class femcum.modernfloyd.clients.value.Mode (java.lang.String is in module java.base of loader 'bootstrap'; femcum.modernfloyd.clients.value.Mode is in unnamed module of loader 'app')
+	at femcum.modernfloyd.clients.module.Module.lambda$superDisable$1(Module.java:119)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:186)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1716)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:636)
+	at femcum.modernfloyd.clients.module.Module.superDisable(Module.java:119)
+	at femcum.modernfloyd.clients.module.Module.setEnabled(Module.java:81)
+	at femcum.modernfloyd.clients.module.Module.toggle(Module.java:64)
+	at femcum.modernfloyd.clients.ui.click.standard.components.ModuleComponent.click(ModuleComponent.java:173)
+	at femcum.modernfloyd.clients.ui.click.standard.screen.impl.CategoryScreen.onClick(CategoryScreen.java:75)
+	at femcum.modernfloyd.clients.ui.click.standard.RiseClickGUI.mouseClicked(RiseClickGUI.java:324)
+	at net.minecraft.client.gui.GuiScreen.handleMouseInput(GuiScreen.java:500)
+	at net.minecraft.client.gui.GuiScreen.handleInput(GuiScreen.java:474)
+	at net.minecraft.client.Minecraft.runTick(Minecraft.java:1587)
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:999)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:457)
+	at net.minecraft.client.main.Main.main(Main.java:102)
+	at Start.main(Start.java:40)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Stacktrace:
+	at femcum.modernfloyd.clients.module.Module.lambda$superDisable$1(Module.java:119)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:186)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1716)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:570)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:560)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:153)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:176)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:265)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:636)
+	at femcum.modernfloyd.clients.module.Module.superDisable(Module.java:119)
+	at femcum.modernfloyd.clients.module.Module.setEnabled(Module.java:81)
+	at femcum.modernfloyd.clients.module.Module.toggle(Module.java:64)
+	at femcum.modernfloyd.clients.ui.click.standard.components.ModuleComponent.click(ModuleComponent.java:173)
+	at femcum.modernfloyd.clients.ui.click.standard.screen.impl.CategoryScreen.onClick(CategoryScreen.java:75)
+	at femcum.modernfloyd.clients.ui.click.standard.RiseClickGUI.mouseClicked(RiseClickGUI.java:324)
+	at net.minecraft.client.gui.GuiScreen.handleMouseInput(GuiScreen.java:500)
+	at net.minecraft.client.gui.GuiScreen.handleInput(GuiScreen.java:474)
+
+-- Affected screen --
+Details:
+	Screen name: femcum.modernfloyd.clients.ui.click.standard.RiseClickGUI
+
+-- Affected level --
+Details:
+	Level name: MpServer
+	All players: 2 total; [EntityPlayerSP['asdadwwwaa'/2664, l='MpServer', x=86.54, y=65.50, z=-39.54], EntityOtherPlayerMP['ilove69'/2665, l='MpServer', x=41.06, y=68.00, z=-66.16]]
+	Chunk stats: MultiplayerChunkCache: 440, 440
+	Level seed: 0
+	Level generator: ID 01 - flat, ver 0. Features enabled: false
+	Level generator options: 
+	Level spawn location: 0.00,127.00,0.00 - World: (0,127,0), Chunk: (at 0,7,0 in 0,0; contains blocks 0,0,0 to 15,255,15), Region: (0,0; contains chunks 0,0 to 31,31, blocks 0,0,0 to 511,255,511)
+	Level time: 561819 game time, 24000 day time
+	Level dimension: 0
+	Level storage version: 0x00000 - Unknown?
+	Level weather: Rain time: 0 (now: false), thunder time: 0 (now: false)
+	Level game mode: Game mode: survival (ID 0). Hardcore: false. Cheats: false
+	Forced entities: 28 total; [EntityArmorStand['Armor Stand'/2758, l='MpServer', x=87.50, y=66.00, z=-39.50], EntityArmorStand['§9§lUpgrades'/2703, l='MpServer', x=45.50, y=67.38, z=-82.50], EntityOtherPlayerMP['satvikfj5'/2663, l='MpServer', x=-5.28, y=115.00, z=7.03], EntityArmorStand['§fClick to view'/2704, l='MpServer', x=45.50, y=67.09, z=-82.50], EntityArmorStand['Armor Stand'/2768, l='MpServer', x=40.50, y=65.00, z=-39.50], EntityArmorStand['§e§lTier §r§f1'/2769, l='MpServer', x=40.50, y=68.69, z=-39.50], EntityArmorStand['§r§bDiamond §l'/2770, l='MpServer', x=40.50, y=68.38, z=-39.50], EntityArmorStand['§eSpawns in §f10 §eseconds'/2771, l='MpServer', x=40.50, y=68.09, z=-39.50], EntityOtherPlayerMP['ilove69'/2665, l='MpServer', x=41.06, y=68.00, z=-66.16], EntityVillager['Villager'/2708, l='MpServer', x=83.50, y=66.00, z=-34.50], EntityArmorStand['Armor Stand'/2772, l='MpServer', x=40.50, y=69.00, z=-39.50], EntityOtherPlayerMP['ihatevbv'/2660, l='MpServer', x=9.03, y=115.00, z=-2.53], EntityArmorStand['§a§lUpgrades'/2709, l='MpServer', x=83.50, y=67.38, z=-34.50], EntityOtherPlayerMP['binjan07'/2659, l='MpServer', x=8.72, y=115.00, z=-9.19], EntityArmorStand['§fClick to view'/2710, l='MpServer', x=83.50, y=67.09, z=-34.50], EntityOtherPlayerMP['starwky'/2661, l='MpServer', x=-2.03, y=114.91, z=2.50], EntityOtherPlayerMP['mustafaamrohvi'/2669, l='MpServer', x=-1.59, y=115.00, z=0.91], EntityOtherPlayerMP['_itzNoxBot_'/2668, l='MpServer', x=-8.09, y=115.00, z=0.44], EntityOtherPlayerMP['ArushplayzOP'/2667, l='MpServer', x=3.56, y=116.22, z=-3.00], EntityOtherPlayerMP['shxsu'/2666, l='MpServer', x=-7.84, y=115.00, z=1.25], EntityPlayerSP['asdadwwwaa'/2664, l='MpServer', x=86.54, y=65.50, z=-39.54], EntityOtherPlayerMP['ilove69'/2665, l='MpServer', x=41.06, y=68.00, z=-66.16], EntityArmorStand['Armor Stand'/2731, l='MpServer', x=40.50, y=66.00, z=-86.50], EntityArmorStand['Armor Stand'/2670, l='MpServer', x=40.00, y=66.00, z=-83.00], EntityArmorStand['Armor Stand'/2674, l='MpServer', x=83.00, y=66.00, z=-40.00], EntityVillager['Villager'/2684, l='MpServer', x=83.50, y=66.00, z=-44.50], EntityArmorStand['§a§lShop'/2685, l='MpServer', x=83.50, y=66.28, z=-44.50], EntityArmorStand['§fClick to view'/2686, l='MpServer', x=83.50, y=66.03, z=-44.50]]
+	Retry entities: 0 total; []
+	Server brand: PaperSpigot (Velocity)
+	Server type: Non-integrated multiplayer server
+Stacktrace:
+	at net.minecraft.client.multiplayer.WorldClient.addWorldInfoToCrashReport(WorldClient.java:342)
+	at net.minecraft.client.Minecraft.addGraphicsAndWorldToCrashReport(Minecraft.java:2332)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:471)
+	at net.minecraft.client.main.Main.main(Main.java:102)
+	at Start.main(Start.java:40)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.8.9
+	Operating System: Windows 11 (amd64) version 10.0
+	Java Version: 24.0.2, Amazon.com Inc.
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode, sharing), Amazon.com Inc.
+	Memory: 263114552 bytes (250 MB) / 543162368 bytes (518 MB) up to 1946157056 bytes (1856 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 13, tallocated: 95
+	Launched Version: Rise
+	LWJGL: 2.9.4
+	OpenGL: NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2 GL version 4.6.0 NVIDIA 581.08, NVIDIA Corporation
+	GL Caps: Using GL 1.3 multitexturing.
+Using GL 1.3 texture combiners.
+Using framebuffer objects because OpenGL 3.0 is supported and separate blending is supported.
+Shaders are available because OpenGL 2.1 is supported.
+VBOs are available because OpenGL 1.5 is supported.
+
+	Using VBOs: Yes
+	Is Modded: Very likely; Jar signature invalidated
+	Type: Floyd (map_client.txt)
+	Resource Packs: 
+	Current Language: ~~ERROR~~ NullPointerException: Cannot invoke "net.minecraft.client.resources.Language.toString()" because the return value of "net.minecraft.client.resources.LanguageManager.getCurrentLanguage()" is null
+	Profiler Position: N/A (disabled)
+	CPU: 16x AMD Ryzen 7 6800H with Radeon Graphics 
+	OptiFine Version: OptiFine_1.8.9_HD_U_L5
+	OptiFine Build: ~~NULL~~
+	Render Distance Chunks: 8
+	Mipmaps: 4
+	Anisotropic Filtering: 1
+	Antialiasing: 0
+	Multitexture: false
+	Shaders: null
+	OpenGlVersion: 4.6.0 NVIDIA 581.08
+	OpenGlRenderer: NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2
+	OpenGlVendor: NVIDIA Corporation
+	CpuCount: 16

@@ -1,21 +1,21 @@
 package net.minecraft.client;
 
-import com.alan.clients.Client;
-import com.alan.clients.component.impl.player.Slot;
-import com.alan.clients.event.impl.input.ClickEvent;
-import com.alan.clients.event.impl.input.KeyboardInputEvent;
-import com.alan.clients.event.impl.input.RightClickEvent;
-import com.alan.clients.event.impl.other.AttackEvent;
-import com.alan.clients.event.impl.other.GameEvent;
-import com.alan.clients.event.impl.other.TickEvent;
-import com.alan.clients.event.impl.render.FramebufferUpdateEvent;
-import com.alan.clients.module.impl.render.FreeLook;
-import com.alan.clients.ui.menu.impl.intro.IntroSequence;
-import com.alan.clients.ui.menu.impl.main.MainMenu;
-import com.alan.clients.util.chat.ChatUtil;
-import com.alan.clients.util.font.impl.minecraft.FontRenderer;
-import com.alan.clients.util.interfaces.ThreadAccess;
-import com.alan.clients.util.render.RenderUtil;
+import femcum.modernfloyd.clients.Floyd;
+import femcum.modernfloyd.clients.component.impl.player.Slot;
+import femcum.modernfloyd.clients.event.impl.input.ClickEvent;
+import femcum.modernfloyd.clients.event.impl.input.KeyboardInputEvent;
+import femcum.modernfloyd.clients.event.impl.input.RightClickEvent;
+import femcum.modernfloyd.clients.event.impl.other.AttackEvent;
+import femcum.modernfloyd.clients.event.impl.other.GameEvent;
+import femcum.modernfloyd.clients.event.impl.other.TickEvent;
+import femcum.modernfloyd.clients.event.impl.render.FramebufferUpdateEvent;
+import femcum.modernfloyd.clients.module.impl.render.FreeLook;
+import femcum.modernfloyd.clients.ui.menu.impl.intro.IntroSequence;
+import femcum.modernfloyd.clients.ui.menu.impl.main.MainMenu;
+import femcum.modernfloyd.clients.util.chat.ChatUtil;
+import femcum.modernfloyd.clients.util.font.impl.minecraft.FontRenderer;
+import femcum.modernfloyd.clients.util.interfaces.ThreadAccess;
+import femcum.modernfloyd.clients.util.render.RenderUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
@@ -600,7 +600,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
             this.toggleFullscreen();
         }
 
-        Client.INSTANCE.init();
+        Floyd.INSTANCE.init();
 
         try {
             Display.setVSyncEnabled(this.gameSettings.enableVsync);
@@ -622,7 +622,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
 
     private void createDisplay() throws LWJGLException {
         Display.setResizable(true);
-        Display.setTitle("Initializing " + Client.NAME + "...");
+        Display.setTitle("Initializing " + Floyd.NAME + "...");
 
         try {
             Display.create((new PixelFormat()).withDepthBits(24));
@@ -846,7 +846,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
 
         RenderUtil.color(Color.WHITE);
         RenderUtil.rectangle(0, 0, sr.getScaledWidth(), sr.getScaledHeight(), Color.BLACK);
-        RenderUtil.image(new ResourceLocation("rise/images/splash.png"), sr.getScaledWidth() / 2D - 75, sr.getScaledHeight() / 2D - 25, 150, 50);
+        RenderUtil.image(new ResourceLocation("floyd/images/splash.png"), sr.getScaledWidth() / 2D - 75, sr.getScaledHeight() / 2D - 25, 150, 50);
 
         GlStateManager.disableLighting();
         GlStateManager.disableFog();
@@ -993,7 +993,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
             timer.timerSpeed = 1;
 
             TickEvent tickEvent = new TickEvent();
-            Client.INSTANCE.getEventBus().handle(tickEvent);
+            Floyd.INSTANCE.getEventBus().handle(tickEvent);
             if (tickEvent.isCancelled()) continue;
 
             this.runTick();
@@ -1004,7 +1004,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
         if (gameEvent.finished(50 * 20 * 5)) {
             gameEvent.reset();
 
-            Client.INSTANCE.getEventBus().handle(new GameEvent());
+            Floyd.INSTANCE.getEventBus().handle(new GameEvent());
         }
 
         this.mcProfiler.endStartSection("preRenderErrors");
@@ -1352,12 +1352,12 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
         if (this.leftClickCounter <= 0) {
             if (events) {
                 ClickEvent clickEvent = new ClickEvent();
-                Client.INSTANCE.getEventBus().handle(clickEvent);
+                Floyd.INSTANCE.getEventBus().handle(clickEvent);
                 if (clickEvent.isCancelled()) return;
 
                 if (this.objectMouseOver != null && this.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY && objectMouseOver.entityHit instanceof EntityLivingBase) {
                     final AttackEvent event = new AttackEvent((EntityLivingBase) this.objectMouseOver.entityHit);
-                    Client.INSTANCE.getEventBus().handle(event);
+                    Floyd.INSTANCE.getEventBus().handle(event);
 
                     if (event.isCancelled()) return;
                 }
@@ -1402,13 +1402,13 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
      * Called when user clicked he's mouse right button (place)
      */ public void rightClickMouse() {
         RightClickEvent rightClickEvent = new RightClickEvent();
-        Client.INSTANCE.getEventBus().handle(rightClickEvent);
+        Floyd.INSTANCE.getEventBus().handle(rightClickEvent);
         if (rightClickEvent.isCancelled()) return;
 
         if (!this.playerController.func_181040_m()) {
             this.rightClickDelayTimer = 4;
             boolean flag = true;
-            ItemStack itemstack = Client.INSTANCE.getComponentManager().get(Slot.class).getItemStack();
+            ItemStack itemstack = Floyd.INSTANCE.getComponentManager().get(Slot.class).getItemStack();
 
             if (this.objectMouseOver == null) {
                 logger.warn("Null returned as 'hitResult', this shouldn't happen!");
@@ -1439,7 +1439,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
                             }
 
                             if (itemstack.stackSize == 0) {
-                                this.thePlayer.inventory.mainInventory[Client.INSTANCE.getComponentManager().get(Slot.class).getItemIndex()] = null;
+                                this.thePlayer.inventory.mainInventory[Floyd.INSTANCE.getComponentManager().get(Slot.class).getItemIndex()] = null;
                             } else if (itemstack.stackSize != i || this.playerController.isInCreativeMode()) {
                                 this.entityRenderer.itemRenderer.resetEquippedProgress();
                             }
@@ -1448,7 +1448,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
             }
 
             if (flag) {
-                final ItemStack itemstack1 = Client.INSTANCE.getComponentManager().get(Slot.class).getItemStack();
+                final ItemStack itemstack1 = Floyd.INSTANCE.getComponentManager().get(Slot.class).getItemStack();
 
                 if (itemstack1 != null && this.playerController.sendUseItem(this.thePlayer, this.theWorld, itemstack1)) {
                     this.entityRenderer.itemRenderer.resetEquippedProgress2();
@@ -1522,7 +1522,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
             this.entityRenderer.updateShaderGroupSize(this.displayWidth, this.displayHeight);
         }
 
-        Client.INSTANCE.getEventBus().handle(new FramebufferUpdateEvent(this.displayWidth, this.displayHeight));
+        Floyd.INSTANCE.getEventBus().handle(new FramebufferUpdateEvent(this.displayWidth, this.displayHeight));
     }
 
     public MusicTicker func_181535_r() {
@@ -1706,7 +1706,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
 
                 if (Keyboard.getEventKeyState()) {
                     KeyboardInputEvent keyboardInputEvent = new KeyboardInputEvent(k, Keyboard.getEventCharacter(), currentScreen);
-                    Client.INSTANCE.getEventBus().handle(keyboardInputEvent);
+                    Floyd.INSTANCE.getEventBus().handle(keyboardInputEvent);
 
                     if (!keyboardInputEvent.isCancelled()) {
 
@@ -1783,7 +1783,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
 
                                 // Don't allow the user to change their persecuting when in Freelook
                                 // This eliminates a really awful flickering effect when you do so
-                                if (!Client.INSTANCE.getModuleManager().get(FreeLook.class).isEnabled()) {
+                                if (!Floyd.INSTANCE.getModuleManager().get(FreeLook.class).isEnabled()) {
                                     ++this.gameSettings.thirdPersonView;
 
                                     if (this.gameSettings.thirdPersonView > 2) {
@@ -2304,9 +2304,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
         theCrash.getCategory().addCrashSectionCallable("Using VBOs", () -> Minecraft.this.gameSettings.useVbo ? "Yes" : "No");
         theCrash.getCategory().addCrashSectionCallable("Is Modded", () -> {
             final String s = ClientBrandRetriever.getClientModName();
-            return !s.equals("vanilla") ? "Definitely; Client brand changed to '" + s + "'" : (Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and client brand is untouched.");
+            return !s.equals("vanilla") ? "Definitely; Floyd brand changed to '" + s + "'" : (Minecraft.class.getSigners() == null ? "Very likely; Jar signature invalidated" : "Probably not. Jar signature remains and client brand is untouched.");
         });
-        theCrash.getCategory().addCrashSectionCallable("Type", () -> "Client (map_client.txt)");
+        theCrash.getCategory().addCrashSectionCallable("Type", () -> "Floyd (map_client.txt)");
         theCrash.getCategory().addCrashSectionCallable("Resource Packs", () -> {
             final StringBuilder stringbuilder = new StringBuilder();
 

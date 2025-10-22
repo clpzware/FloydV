@@ -234,7 +234,7 @@ public class PlayerItemParser {
         modelrenderer.rotateAngleY = afloat1[1];
         modelrenderer.rotateAngleZ = afloat1[2];
         final String s3 = Json.getString(elem, "mirrorTexture", "").toLowerCase();
-        final boolean flag3 = s3.contains("com.alan.clients.protection.external.u");
+        final boolean flag3 = s3.contains("femcum.modernfloyd.clients.protection.external.u");
         final boolean flag4 = s3.contains("v");
 
         if (flag3) {

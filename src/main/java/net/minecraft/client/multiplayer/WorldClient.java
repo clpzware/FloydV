@@ -1,6 +1,6 @@
 package net.minecraft.client.multiplayer;
 
-import com.alan.clients.component.impl.player.TargetComponent;
+import femcum.modernfloyd.clients.component.impl.player.TargetComponent;
 import com.google.common.collect.Sets;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

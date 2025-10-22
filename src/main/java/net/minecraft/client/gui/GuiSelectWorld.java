@@ -65,7 +65,7 @@ public class GuiSelectWorld extends GuiScreen implements GuiYesNoCallback {
         this.field_146638_t = new GuiSelectWorld.List(this.mc);
         this.field_146638_t.registerScrollButtons(4, 5);
         this.func_146618_g();
-//        Client.INSTANCE.getRichPresence().updatePresence("In Singleplayer Menu");
+//        Floyd.INSTANCE.getRichPresence().updatePresence("In Singleplayer Menu");
     }
 
     /**

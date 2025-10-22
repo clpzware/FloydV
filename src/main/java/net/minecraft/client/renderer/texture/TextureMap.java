@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer.texture;
 
-import com.alan.clients.util.Accessor;
+import femcum.modernfloyd.clients.util.Accessor;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.minecraft.client.renderer.GlStateManager;
