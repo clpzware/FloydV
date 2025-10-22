@@ -46,7 +46,7 @@ public class MenuTextButton extends MenuButton {
         getLayer(REGULAR).add(() -> {
             RenderUtil.roundedRectangle(this.getX(), value, this.getWidth(), this.getHeight(), round,
                     ColorUtil.withAlpha(BUTTON, (int) this.getHoverAnimation().getValue() - 15));
-//            RenderUtil.roundedOutlineRectangle(this.getX(), value, this.getWidth(), this.getHeight(), 5, 0.5f, ColorUtil.withAlpha(Color.WHITE, (int) ((int) this.getHoverAnimation().getValue() / 1.7f)));
+            RenderUtil.roundedOutlineRectangle(this.getX(), value, this.getWidth(), this.getHeight(), 5, 0.5f, ColorUtil.withAlpha(Color.WHITE, (int) ((int) this.getHoverAnimation().getValue() / 1.7f)));
             RenderUtil.roundedOutlineGradientRectangle(this.getX(), value, this.getWidth(), this.getHeight(), round,
                     1, ColorUtil.withAlpha(BORDER_TWO, glowAlpha), ColorUtil.withAlpha(BORDER_ONE, glowAlpha));
             fontRenderer.drawCentered(this.name, (float) (this.getX() + this.getWidth() / 2.0F),

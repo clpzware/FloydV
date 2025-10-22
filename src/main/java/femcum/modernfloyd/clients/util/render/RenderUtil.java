@@ -6,6 +6,7 @@ import femcum.modernfloyd.clients.util.Accessor;
 import femcum.modernfloyd.clients.util.shader.RiseShaders;
 import femcum.modernfloyd.clients.util.vector.Vector3d;
 import lombok.experimental.UtilityClass;
+import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
@@ -560,5 +561,28 @@ public final class RenderUtil implements Accessor {
         glVertex3D(getRenderPos(aa.maxX, aa.maxY, aa.maxZ));
         glVertex3D(getRenderPos(aa.maxX, aa.minY, aa.maxZ));
         end();
+    }
+
+    public void renderPlayerHead(AbstractClientPlayer player, int x, int y, double scale) {
+        GL11.glPushMatrix();
+        GlStateManager.enableTexture2D();
+        GlStateManager.enableBlend();
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_NEAREST);
+        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_NEAREST);
+
+        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f);
+
+        mc.getTextureManager().bindTexture(player.getLocationSkin());
+
+        GL11.glTranslated(x, y, 0.0);
+        GL11.glScaled(scale, scale, 0.0);
+
+        Gui.drawModalRectWithCustomSizedTexture(0, 0, 24, 24, 24, 24, 192.0f, 192.0f);
+        Gui.drawModalRectWithCustomSizedTexture(0, 0, 120, 24, 24, 24, 192.0f, 192.0f);
+
+        GlStateManager.disableBlend();
+        GL11.glPopMatrix();
     }
 }

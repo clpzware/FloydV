@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.function.Supplier;
 
 public enum Fonts {
-    MAIN("SF-Pro-Rounded-%s", "otf"),
+    MAIN("productsansfuck", "ttf"),
     MINECRAFT("Minecraft", () -> Minecraft.getMinecraft().fontRendererObj),
     ICONS_1("Icon-1", "ttf"),
     ICONS_2("Icon-3", "ttf"),

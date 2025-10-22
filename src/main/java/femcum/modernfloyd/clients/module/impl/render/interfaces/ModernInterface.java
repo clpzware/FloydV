@@ -26,17 +26,17 @@ import rip.vantage.commons.util.time.StopWatch;
 
 import java.awt.*;
 import java.util.Optional;
-import java.util.function.Consumer;
 
 import static femcum.modernfloyd.clients.font.Fonts.*;
 import static femcum.modernfloyd.clients.layer.Layers.*;
 
 public class ModernInterface extends Mode<Interface> {
+
     private final Font productSansMedium36 = MAIN.get(36, Weight.MEDIUM);
     private final Font watermarkFont = MAIN.get(23, Weight.REGULAR);
     private final Font productSansMedium18 = MAIN.get(18, Weight.MEDIUM);
     private final Font productSansRegular = MAIN.get(18, Weight.REGULAR);
-    Font font = MAIN.get(18, Weight.REGULAR);
+    private Font arrayListFont = productSansRegular;
     private final StopWatch stopWatch = new StopWatch();
 
     private final ModeValue colorMode = new ModeValue("ArrayList Color Mode", this) {{
@@ -47,10 +47,10 @@ public class ModernInterface extends Mode<Interface> {
     }};
 
     private final ModeValue fontMode = new ModeValue("ArrayList Font", this) {{
-        add(new SubMode("Apple UI"));
+        add(new SubMode("Product Sans"));
         add(new SubMode("Minecraft"));
         add(new SubMode("Custom"));
-        setDefault("Apple UI");
+        setDefault("Product Sans");
     }};
 
     private final StringValue customFont = new StringValue("Custom Installed Font", this, "Arial", () -> !fontMode.getValue().getName().equals("Custom"));
@@ -58,6 +58,7 @@ public class ModernInterface extends Mode<Interface> {
     private final ModeValue shader = new ModeValue("Shader Effect", this) {{
         add(new SubMode("Glow"));
         add(new SubMode("Shadow"));
+        add(new SubMode("None"));
         setDefault("Shadow");
     }};
 
@@ -67,16 +68,17 @@ public class ModernInterface extends Mode<Interface> {
     private final ModeValue background = new ModeValue("BackGround", this) {{
         add(new SubMode("Off"));
         add(new SubMode("Normal"));
+        add(new SubMode("Blur"));
         setDefault("Normal");
     }};
+
     private final StringValue customClientName = new StringValue("Custom Floyd Name", this, "");
 
     private boolean glow, shadow;
-    private boolean normalBackGround;
-    private String coordinates;
+    private boolean normalBackGround, blurBackGround;
+    private String username, coordinates;
+    private Color logoColor;
     private float userWidth, xyzWidth;
-    private Color logoColor = new Color(0);
-    private final StopWatch update = new StopWatch();
 
     public ModernInterface(String name, Interface parent) {
         super(name, parent);
@@ -88,231 +90,231 @@ public class ModernInterface extends Mode<Interface> {
             return;
         }
 
-        boolean minecraft = font == Fonts.MINECRAFT.get();
-
-        this.getParent().setModuleSpacing(font.height() + (minecraft ? 2 : 0));
-
-        this.getParent().setWidthComparator(font);
+        boolean minecraft = arrayListFont == MINECRAFT.get();
+        this.getParent().setModuleSpacing((minecraft ? 1.5F : 0.0F) + arrayListFont.height());
+        this.getParent().setWidthComparator(arrayListFont);
         this.getParent().setEdgeOffset(10);
 
         float sx = event.getScaledResolution().getScaledWidth();
-        float sy = event.getScaledResolution().getScaledHeight() - font.height() - 1;
-        double widthOffset = minecraft ? 3.5 : 2;
+        float sy = event.getScaledResolution().getScaledHeight() - arrayListFont.height() - 1;
+        final double widthOffset = minecraft ? 3.5 : 2;
 
-        if (glow || shadow) {
-            getLayer(BLOOM).add(() -> {
-                for (final ModuleComponent moduleComponent : this.getParent().getActiveModuleComponents()) {
-                    if (moduleComponent.animationTime == 0) {
-                        continue;
-                    }
-
-                    double x = moduleComponent.getPosition().getX();
-                    double y = moduleComponent.getPosition().getY();
-
-                    Color finalColor = moduleComponent.getColor();
-
-                    // draw the module background
-                    if (this.normalBackGround) {
-                        if (!minecraft) {
-                            RenderUtil.rectangle(x - widthOffset, y - 3,
-                                    (moduleComponent.nameWidth + moduleComponent.tagWidth) + 3 + widthOffset,
-                                    this.getParent().moduleSpacing,
-                                    glow ? ColorUtil.withAlpha(finalColor, 255) : getTheme().getDropShadow());
-                        } else {
-                            RenderUtil.rectangle(x - widthOffset + .5f, y - 3,
-                                    (moduleComponent.nameWidth + moduleComponent.tagWidth) + 3f + widthOffset,
-                                    this.getParent().moduleSpacing, glow ? ColorUtil.withAlpha(finalColor, 255) : getTheme().getDropShadow());
-                        }
-                    } else {
-                        // draw the module text
-                        if (glow) {
-                            drawText(moduleComponent, x + .5f, y, finalColor.getRGB());
-                        } else if (shadow) {
-                            font.draw(moduleComponent.getDisplayName(), x, y, Color.BLACK.getRGB());
-
-                            if (moduleComponent.isHasTag()) {
-                                font.draw(moduleComponent.getDisplayTag(), x + moduleComponent.getNameWidth() + 3, y, Color.BLACK.getRGB());
-                            }
-                        }
-                    }
-
-                    // draw the sidebar
-                    if (sidebar.getValue()) {
-                        RenderUtil.roundedRectangle(x + moduleComponent.getNameWidth() + moduleComponent.getTagWidth() + 2, y - 1.5f, 2, 9, 1, finalColor);
-                    }
-                }
-
-                // Draw the logo
-                ColorUtil.drawInterpolatedText(this.productSansMedium36, Floyd.NAME, 6, 6, true);
-
-                if (!customClientName.getValue().isEmpty()) {
-                    this.productSansMedium18.draw(customClientName.getValue(), 6 + productSansMedium36.width(Floyd.NAME) + 2, 6, getTheme().getSecondColor().getRGB());
-                }
-
-                // information of user in the bottom right corner of the screen
-                watermarkFont.drawWithShadow("RiseClient.com", sx - userWidth - 5, sy, 0xFFCCCCCC);
-
-                // coordinates of user in the bottom left corner of the screen
-                productSansRegular.drawWithShadow("XYZ:", 5, sy, 0xFFCCCCCC);
-                productSansMedium18.drawWithShadow(coordinates, 5 + xyzWidth, sy, 0xFFCCCCCC);
-            });
-        }
-
-        // modules in the top right corner of the screen
+        // Render modules in the top right corner
         for (final ModuleComponent moduleComponent : this.getParent().getActiveModuleComponents()) {
             if (moduleComponent.animationTime == 0) {
                 continue;
             }
 
-            double x = moduleComponent.getPosition().getX();
-            double y = moduleComponent.getPosition().getY();
+            String name = (this.getParent().lowercase.getValue() ? moduleComponent.getTranslatedName().toLowerCase() : moduleComponent.getTranslatedName())
+                    .replace(getParent().getRemoveSpaces().getValue() ? " " : "", "");
+            String tag = (this.getParent().lowercase.getValue() ? moduleComponent.getTag().toLowerCase() : moduleComponent.getTag())
+                    .replace(getParent().getRemoveSpaces().getValue() ? " " : "", "");
+            final double x = moduleComponent.getPosition().getX();
+            final double y = moduleComponent.getPosition().getY();
+            final Color finalColor = moduleComponent.getColor();
+            final boolean hasTag = !moduleComponent.getTag().isEmpty() && this.getParent().suffix.getValue();
 
-            Color finalColor = moduleComponent.getColor();
+            if (this.normalBackGround || this.blurBackGround) {
+                Runnable backgroundRunnable = () -> RenderUtil.rectangle(
+                        x + 0.5 - widthOffset, y - 2.5,
+                        (moduleComponent.nameWidth + moduleComponent.tagWidth) + 2 + widthOffset,
+                        this.getParent().moduleSpacing, getTheme().getBackgroundShade());
 
-            if (this.normalBackGround) {
-                Consumer<Color> backgroundRunnable = color -> {
-                    if (!minecraft) {
-                        RenderUtil.rectangle(x - widthOffset, y - 3f,
-                                (moduleComponent.nameWidth + moduleComponent.tagWidth) + 3 + widthOffset,
+                if (this.normalBackGround) {
+                    getLayer(REGULAR, 1).add(backgroundRunnable);
+                }
+
+                if (this.blurBackGround) {
+                    getLayer(BLUR).add(() -> RenderUtil.rectangle(
+                            x + 0.5 - widthOffset, y - 2.5,
+                            (moduleComponent.nameWidth + moduleComponent.tagWidth) + 2 + widthOffset,
+                            this.getParent().moduleSpacing, Color.BLACK));
+                }
+
+                // Draw the glow/shadow around the module
+                getLayer(BLOOM).add(() -> {
+                    if (glow || shadow) {
+                        RenderUtil.rectangle(
+                                x + 0.5 - widthOffset, y - 2.5,
+                                (moduleComponent.nameWidth + moduleComponent.tagWidth) + 2 + widthOffset,
                                 this.getParent().moduleSpacing,
-                                color);
-                    } else {
-                        RenderUtil.rectangle(x - widthOffset + .5f, y - 3,
-                                (moduleComponent.nameWidth + moduleComponent.tagWidth) + 3f + widthOffset,
-                                this.getParent().moduleSpacing, color);
+                                glow ? ColorUtil.withAlpha(finalColor, 164) : getTheme().getDropShadow());
                     }
-                };
-
-                getLayer(BLUR).add(() -> backgroundRunnable.accept(Color.BLACK));
-                getLayer(REGULAR, 1).add(() -> backgroundRunnable.accept(getTheme().getBackgroundShade()));
+                });
             }
 
-            getLayer(REGULAR, 1).add(() -> drawText(moduleComponent, x, y - .5f, finalColor.getRGB()));
+            Runnable textRunnable = () -> {
+                if (dropShadow.getValue()) {
+                    arrayListFont.drawWithShadow(name, x, y, finalColor.getRGB());
+                    if (hasTag) {
+                        arrayListFont.drawWithShadow(tag, x + moduleComponent.getNameWidth() + 3, y, 0xFFCCCCCC);
+                    }
+                } else {
+                    arrayListFont.draw(name, x, y, finalColor.getRGB());
+                    if (hasTag) {
+                        arrayListFont.draw(tag, x + moduleComponent.getNameWidth() + 3, y, 0xFFCCCCCC);
+                    }
+                }
+            };
+
+            Runnable shadowRunnable = () -> {
+                arrayListFont.draw(name, x, y, Color.BLACK.getRGB());
+                if (hasTag) {
+                    arrayListFont.draw(tag, x + moduleComponent.getNameWidth() + 3, y, Color.BLACK.getRGB());
+                }
+            };
+
+            getLayer(REGULAR, 1).add(textRunnable);
+
+            if (glow) {
+                getLayer(BLOOM).add(textRunnable);
+            } else if (shadow) {
+                getLayer(BLOOM).add(shadowRunnable);
+            }
 
             if (this.sidebar.getValue()) {
-                RenderUtil.roundedRectangle(x + moduleComponent.getNameWidth() + moduleComponent.getTagWidth() + 2, y - 1.5f, 2, 9, 1, finalColor);
+                getLayer(REGULAR, 1).add(() -> RenderUtil.roundedRectangle(
+                        x + moduleComponent.getNameWidth() + moduleComponent.tagWidth + 2, y - 1.5f, 2, 9, 1, finalColor));
             }
         }
 
-        if (coordinates == null) return;
+        if (coordinates == null || username == null) return;
 
-        if (!stopWatch.finished(2000)) {
-            getLayer(BLOOM).add(ParticleComponent::render);
-        }
+        getLayer(BLOOM).add(() -> {
+            if (!stopWatch.finished(2000)) {
+                ParticleComponent.render();
+            }
+        });
 
-        // information of user in the bottom right corner of the screen
-        watermarkFont.drawWithShadow("RiseClient.com", sx - userWidth - 5, sy, 0xFFCCCCCC);
+        // Draw logo and player head
+        getLayer(REGULAR, 1).add(() -> {
+            RenderUtil.rectangle(
+                    7, 7,
+                    this.productSansMedium36.width(Floyd.NAME + " " + Floyd.VERSION) + 20,
+                    this.productSansMedium36.height() + 2.5,
+                    getTheme().getBackgroundShade()
+            );
 
-        // coordinates of user in the bottom left corner of the screen
-        productSansRegular.drawWithShadow("XYZ:", 5, sy, 0xFFCCCCCC);
-        productSansMedium18.drawWithShadow(coordinates, 5 + xyzWidth, sy, 0xFFCCCCCC);
+            RenderUtil.renderPlayerHead(mc.thePlayer, 9, 9, 0.5);
 
-        // title in the top left corner of the screen
-        // this.productSansMedium36.drawString(Floyd.NAME, 6, 6, logoColor.getRGB());
+            float charX = 24.0F;
+            for (char i : (Floyd.NAME + " " + Floyd.VERSION).toCharArray()) {
+                String string = String.valueOf(i);
+                this.productSansMedium36.draw(
+                        string,
+                        charX, 11.25,
+                        this.getTheme().getAccentColor(new Vector2d(charX * 32, 11.25F)).getRGB()
+                );
+                charX += this.productSansMedium36.width(string) + 0.25F;
+            }
 
-        ColorUtil.drawInterpolatedText(this.productSansMedium36, Floyd.NAME, 6, 6, true);
+            if (!customClientName.getValue().isEmpty()) {
+                this.productSansMedium18.draw(customClientName.getValue(),
+                        6 + productSansMedium36.width(Floyd.NAME) + 2, 6,
+                        getTheme().getSecondColor().getRGB());
+            }
 
-        if (!customClientName.getValue().isEmpty()) {
-            this.productSansMedium18.draw(customClientName.getValue(), 6 + productSansMedium36.width(Floyd.NAME) + 2, 6, getTheme().getSecondColor().getRGB());
-        }
+            // Draw coordinates
+            productSansRegular.drawWithShadow("XYZ:", 5, sy, 0xFFCCCCCC);
+            productSansMedium18.drawWithShadow(coordinates, 5 + xyzWidth, sy, 0xFFCCCCCC);
+        });
 
-        if (update.finished(150 * 50)) {
+        getLayer(BLOOM).add(() -> {
+            RenderUtil.rectangle(
+                    7, 7,
+                    this.productSansMedium36.width(Floyd.NAME + " " + Floyd.VERSION) + 20,
+                    this.productSansMedium36.height() + 2.5,
+                    getTheme().getDropShadow()
+            );
+        });
+
+        if (mc.thePlayer.ticksExisted % 150 == 0) {
             stopWatch.reset();
-            update.reset();
         }
     };
 
     @EventLink
     public final Listener<KillEvent> onKill = event -> {
-
         if (!stopWatch.finished(2000) && this.particles.getValue()) {
             for (int i = 0; i <= 10; i++) {
                 ParticleComponent.add(new Particle(new Vector2f(0, 0),
                         new Vector2f((float) Math.random(), (float) Math.random())));
             }
         }
-
         stopWatch.reset();
     };
 
     @EventLink
     public final Listener<TickEvent> onTick = event -> {
-        if (mc.thePlayer == null || !mc.getNetHandler().doneLoadingTerrain)
+        if (mc.thePlayer == null || !mc.getNetHandler().doneLoadingTerrain) {
             return;
-
-        try {
-            if (fontMode.getValue().getName().equals("Custom") && font != CUSTOM.get(18)) {
-                font = CUSTOM.get(18);
-            }
-        } catch (Exception exception) {
-
         }
 
         threadPool.execute(() -> {
             glow = this.shader.getValue().getName().equals("Glow");
             shadow = this.shader.getValue().getName().equals("Shadow");
-            userWidth = watermarkFont.width("RiseClient.com") + 2;
+            normalBackGround = background.getValue().getName().equals("Normal");
+            blurBackGround = normalBackGround || background.getValue().getName().equals("Blur");
+
+            username = mc.getSession() == null || mc.getSession().getUsername() == null ? "null" : mc.getSession().getUsername();
             coordinates = (int) mc.thePlayer.posX + ", " + (int) mc.thePlayer.posY + ", " + (int) mc.thePlayer.posZ;
             xyzWidth = this.productSansMedium18.width("XYZ:") + 2;
             logoColor = this.getTheme().getFirstColor();
 
-            normalBackGround = background.getValue().getName().equals("Normal");
-
+            // Update font based on mode
             switch (fontMode.getValue().getName()) {
-                case "Apple UI":
-                    Font apple = MAIN.get(18, Weight.REGULAR);
-                    if (!font.equals(apple)) font = apple;
+                case "Product Sans":
+                    Font productSans = MAIN.get(18, Weight.REGULAR);
+                    if (!arrayListFont.equals(productSans)) arrayListFont = productSans;
                     break;
-
                 case "Minecraft":
-                    Font minecraft = MINECRAFT.get();
-                    if (!font.equals(minecraft)) font = minecraft;
+                    Font minecraftFont = MINECRAFT.get();
+                    if (!arrayListFont.equals(minecraftFont)) arrayListFont = minecraftFont;
                     break;
-
                 case "Custom":
                     String name = customFont.getValue();
-
                     if (Math.random() > 0.95) {
-                        Optional<String> location = Fonts.getFontPaths().stream().filter(font -> removeNonAlphabetCharacters(font).toLowerCase()
-                                .contains(removeNonAlphabetCharacters(name).toLowerCase())).findFirst();
-
+                        Optional<String> location = Fonts.getFontPaths().stream()
+                                .filter(font -> removeNonAlphabetCharacters(font).toLowerCase()
+                                        .contains(removeNonAlphabetCharacters(name).toLowerCase()))
+                                .findFirst();
                         if (location.isPresent() && !CUSTOM.getName().equals(location.get())) {
                             CUSTOM.setName(location.get());
                             CUSTOM.getSizes().clear();
                         }
                     }
+                    Font custom = CUSTOM.get(18);
+                    if (!arrayListFont.equals(custom)) arrayListFont = custom;
                     break;
             }
 
-            // modules in the top right corner of the screen
+            // Update module components
             for (final ModuleComponent moduleComponent : this.getParent().getActiveModuleComponents()) {
                 if (moduleComponent.animationTime == 0) {
                     continue;
                 }
 
-                moduleComponent.setHasTag(!moduleComponent.getTag().isEmpty() && this.getParent().suffix.getValue());
+                final boolean hasTag = !moduleComponent.getTag().isEmpty() && this.getParent().suffix.getValue();
                 String name = (this.getParent().lowercase.getValue() ? moduleComponent.getTranslatedName().toLowerCase() : moduleComponent.getTranslatedName())
                         .replace(getParent().getRemoveSpaces().getValue() ? " " : "", "");
-
                 String tag = (this.getParent().lowercase.getValue() ? moduleComponent.getTag().toLowerCase() : moduleComponent.getTag())
                         .replace(getParent().getRemoveSpaces().getValue() ? " " : "", "");
 
                 Color color = this.getTheme().getFirstColor();
                 switch (this.colorMode.getValue().getName()) {
-                    case "Breathe": {
+                    case "Breathe":
                         double factor = this.getTheme().getBlendFactor(new Vector2d(0, 0));
-                        color = ColorUtil.mixColors(color, this.getTheme().getSecondColor(), factor);
+                        color = ColorUtil.mixColors(this.getTheme().getFirstColor(), this.getTheme().getSecondColor(), factor);
                         break;
-                    }
-                    case "Fade": {
+                    case "Fade":
                         color = this.getTheme().getAccentColor(new Vector2d(0, moduleComponent.getPosition().getY()));
                         break;
-                    }
                 }
 
                 moduleComponent.setColor(color);
-                moduleComponent.setNameWidth(font.width(name));
-                moduleComponent.setTagWidth(moduleComponent.isHasTag() ? (font.width(tag) + 3) : 0);
+                moduleComponent.setNameWidth(arrayListFont.width(name));
+                moduleComponent.setTagWidth(hasTag ? (arrayListFont.width(tag) + 4) : 0);
+                moduleComponent.setHasTag(hasTag);
                 moduleComponent.setDisplayName(name);
                 moduleComponent.setDisplayTag(tag);
             }
@@ -321,21 +323,5 @@ public class ModernInterface extends Mode<Interface> {
 
     public static String removeNonAlphabetCharacters(String input) {
         return input.replaceAll("[^a-zA-Z]", "");
-    }
-
-    private void drawText(ModuleComponent component, double x, double y, int hex) {
-        if (dropShadow.getValue()) {
-            font.drawWithShadow(component.getDisplayName(), x, y, hex);
-
-            if (component.isHasTag()) {
-                font.drawWithShadow(component.getDisplayTag(), x + component.getNameWidth() + 3, y, 0xFFCCCCCC);
-            }
-        } else {
-            font.draw(component.getDisplayName(), x, y, hex);
-
-            if (component.isHasTag()) {
-                font.draw(component.getDisplayTag(), x + component.getNameWidth() + 3, y, 0xFFCCCCCC);
-            }
-        }
     }
 }

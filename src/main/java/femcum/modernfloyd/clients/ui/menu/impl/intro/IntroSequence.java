@@ -132,12 +132,11 @@ public class IntroSequence extends GuiScreen {
         logoAnimation.run(0);
         handleAuthenticationFlow();
 
-        // Draw authentication status text
-       // String displayText = getDisplayText();
-       // int color = getDisplayColor();
-       // mc.fontRendererObj.drawString(displayText,
-       //         (int)((sr.getScaledWidth() - mc.fontRendererObj.getStringWidth(displayText)) / 2f),
-         //       (int)(sr.getScaledHeight() / 2f + 40), color, true);
+        String displayText = getDisplayText();
+        int color = getDisplayColor();
+        mc.fontRendererObj.draw(displayText,
+                (int)((sr.getScaledWidth() - mc.fontRendererObj.width(displayText)) / 2f),
+                (int)(sr.getScaledHeight() / 2f + 40), color, true);
 
         if (shouldContinueAuthLoop()) {
             return;

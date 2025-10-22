@@ -61,7 +61,7 @@ public enum Floyd {
     public static final String CREDITS = """
             FloydCEO and Clpz
             """;
-
+    public static final String THAGANG = "";
     public static boolean DEVELOPMENT_SWITCH = true;
 
     // Authentication-related fields for IntroSequence
