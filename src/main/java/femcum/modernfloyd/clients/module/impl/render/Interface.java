@@ -68,9 +68,9 @@ public final class Interface extends Module {
             activeModuleComponents = new ArrayList<>();
 
     private ModeValue informationType = new ModeValue("Information Type", this) {{
-        add(new SubMode("Rise"));
+        add(new SubMode("Floyd"));
         add(new SubMode("Traditional"));
-        setDefault("Rise");
+        setDefault("Floyd");
     }};
 
     private final StopWatch stopwatch = new StopWatch();

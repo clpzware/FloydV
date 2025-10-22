@@ -65,7 +65,7 @@ public final class MainMenu extends Menu {
         this.animation.run(destination);
 
         // String name
-        String name = rice ? "Rice" : Floyd.NAME;
+        String name = rice ? "FloydV" : Floyd.NAME;
 
         // Render the floyd "logo"
         final double value = this.animation.getValue();

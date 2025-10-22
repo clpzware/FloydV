@@ -39,32 +39,45 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The main class where the client is loaded up.
- * Anything related to the client will start from here and managers etc instances will be stored in this class.
+ * Anything related to the client will start from here, and managers and instances will be stored in this class.
  */
 @Getter
 public enum Floyd {
-
     /**
-     * Simple enum instance for our client as enum instances
-     * are immutable and are very easy to create and use.
+     * Singleton enum instance for the client, ensuring immutability and ease of use.
      */
     INSTANCE;
 
-    public static String NAME = "Rise";
-    public static final String VERSION = "6";
-    public static final String VERSION_FULL = "6.1.30"; // Used to give more detailed build info on beta builds
-    public static final String COPYRIGHT = "© Rise Floyd 2024. All Rights Reserved";
-    public static final String CREDITS = "Made with <3 by Alan, Creida, Rue and Billionaire <3333";
+    public static String NAME = "Floyd";
+    public static final String VERSION = "5";
+    public static final String VERSION_FULL = "5.0.0";
+    public static final String COPYRIGHT = """
+            © Floyd 2025. All Rights Reserved
+            """;
+    public static final String CREDITS = """
+            FloydCEO and Clpz
+            """;
 
     public static boolean DEVELOPMENT_SWITCH = true;
 
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    // Authentication-related fields for IntroSequence
+    @Setter
+    public static String DISCUSER = "Processing"; // Stores the authenticated Discord username
+    @Setter
+    public static String UID = "Processing"; // Stores the authenticated user ID
+
+    private final ExecutorService executor = Executors.newSingleThreadExecutor(r -> {
+        Thread t = new Thread(r, "Floyd-Main-Thread");
+        t.setDaemon(true);
+        return t;
+    });
 
     @Setter
-    private Locale locale = Locale.EN_US; // The language of the client
+    private Locale locale = Locale.EN_US;
 
     private EventBus<Event> eventBus;
     @Setter
@@ -75,51 +88,43 @@ public enum Floyd {
     private CommandManager commandManager;
     @Setter
     private SecurityFeatureManager securityManager;
-    @Getter
     private BotManager botManager;
     private ThemeManager themeManager;
     @Setter
     private ScriptManager scriptManager;
     private DataManager dataManager;
-
     private FileManager fileManager;
-
     private ConfigManager configManager;
     private AltManager altManager;
     private InsultManager insultManager;
     private PacketLogManager packetLogManager;
     private BindableManager bindableManager;
-
     private LayerManager layerManager;
-
     @Setter
     private RiseClickGUI clickGUI;
-
     private RiseTab creativeTab;
 
-    @Getter
-    private Gson GSON = new GsonBuilder()
+    private final Gson GSON = new GsonBuilder()
             .setPrettyPrinting()
             .create();
 
     /**
-     * The main method when the Minecraft#startGame method is about
-     * finish executing our client gets called and that's where we
-     * can start loading our own classes and modules.
+     * Initializes the client when Minecraft's startGame method is nearly complete.
+     * Loads all managers, modules, and configurations.
      */
     public void init() {
-        // Init
         Minecraft mc = Minecraft.getMinecraft();
 
-        // Compatibility
+        // Compatibility settings
         mc.gameSettings.guiScale = 2;
         mc.gameSettings.ofFastRender = false;
         mc.gameSettings.ofShowGlErrors = DEVELOPMENT_SWITCH;
 
-        // Performance
+        // Performance settings
         mc.gameSettings.ofSmartAnimations = true;
         mc.gameSettings.ofSmoothFps = false;
 
+        // Initialize managers
         this.moduleManager = new ModuleManager();
         this.componentManager = new ComponentManager();
         this.commandManager = new CommandManager();
@@ -140,9 +145,10 @@ public enum Floyd {
 
         this.fileManager.init();
 
+        // Determine development mode
         DEVELOPMENT_SWITCH = !ReflectionUtil.dirExist("hackclient.") && ReflectionUtil.dirExist("femcum.modernfloyd.clients");
 
-        // Init Managers
+        // Initialize managers
         this.dataManager.init();
         this.moduleManager.init();
         this.securityManager.init();
@@ -162,12 +168,18 @@ public enum Floyd {
 
         this.creativeTab = new RiseTab();
 
-        new Thread(() -> {
-            ViaMCP.create();
-            ViaMCP.INSTANCE.initAsyncSlider();
-
-            ViaMCP.INSTANCE.getAsyncVersionSlider().setVersion(ViaMCP.NATIVE_VERSION);
-        }).start();
+        // Initialize ViaMCP asynchronously
+        executor.submit(() -> {
+            try {
+                ViaMCP.create();
+                ViaMCP.INSTANCE.initAsyncSlider();
+                ViaMCP.INSTANCE.getAsyncVersionSlider().setVersion(ViaMCP.NATIVE_VERSION);
+            } catch (Exception e) {
+                System.err.println("""
+                        [Floyd] Failed to initialize ViaMCP: %s
+                        """.formatted(e.getMessage()));
+            }
+        });
 
         this.configManager.init();
         this.bindableManager.init();
@@ -175,15 +187,11 @@ public enum Floyd {
         Display.setTitle(NAME + " " + VERSION_FULL.replace(".0", ""));
     }
 
+    /**
+     * Registers components, modules, commands, and packet checks using reflection.
+     */
     public void register() {
-        // Register
         String[] paths = {
-                /**
-                 * You have to do this in reverse order,
-                 * since some things in femcum.modernfloyd.clients are exempted when obfuscated,
-                 * the path exists, but that's not where floyd is stored.
-                */
-
                 "hackclient.",
                 "femcum.modernfloyd.clients."
         };
@@ -193,17 +201,18 @@ public enum Floyd {
                 continue;
             }
 
-            if (path.equals("hackclient.")) {
+            if ("hackclient.".equals(path)) {
                 DEVELOPMENT_SWITCH = false;
             }
 
             Class<?>[] classes = ReflectionUtil.getClassesInPackage(path);
 
             for (Class<?> clazz : classes) {
-                try {
-                    if (Modifier.isAbstract(clazz.getModifiers()))
-                        continue;
+                if (Modifier.isAbstract(clazz.getModifiers())) {
+                    continue;
+                }
 
+                try {
                     if (Component.class.isAssignableFrom(clazz)) {
                         this.componentManager.add((Component) clazz.getConstructor().newInstance());
                     } else if (Module.class.isAssignableFrom(clazz)) {
@@ -214,8 +223,10 @@ public enum Floyd {
                         this.packetLogManager.add((Check) clazz.getConstructor().newInstance());
                     }
                 } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                         NoSuchMethodException exception) {
-                    exception.printStackTrace();
+                         NoSuchMethodException e) {
+                    System.err.println("""
+                            [Floyd] Failed to register class %s: %s
+                            """.formatted(clazz.getName(), e.getMessage()));
                 }
             }
 
@@ -224,18 +235,31 @@ public enum Floyd {
     }
 
     /**
-     * The terminate method is called when the Minecraft client is shutting
-     * down, so we can cleanup our stuff and ready ourselves for the client quitting.
+     * Cleans up resources when the Minecraft client shuts down.
      */
     public void terminate() {
-        if (this.getConfigManager() != null && this.getConfigManager().getLatestConfig() != null) {
-            this.getConfigManager().getLatestConfig().write();
+        if (this.configManager != null && this.configManager.getLatestConfig() != null) {
+            this.configManager.getLatestConfig().write();
+        }
+        if (!executor.isShutdown()) {
+            executor.shutdown();
+            try {
+                if (!executor.awaitTermination(2, TimeUnit.SECONDS)) {
+                    executor.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                executor.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
+    /**
+     * Reloads the client by terminating and reinitializing.
+     */
     public void reload() {
         terminate();
         init();
-        Floyd.INSTANCE.getConfigManager().setupLatestConfig();
+        this.configManager.setupLatestConfig();
     }
 }

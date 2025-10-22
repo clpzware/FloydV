@@ -622,7 +622,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage, ThreadAccess {
 
     private void createDisplay() throws LWJGLException {
         Display.setResizable(true);
-        Display.setTitle("Initializing " + Floyd.NAME + "...");
+        Display.setTitle("Authorizing " + Floyd.NAME + " Backend...");
 
         try {
             Display.create((new PixelFormat()).withDepthBits(24));
