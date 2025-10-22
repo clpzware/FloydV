@@ -1,12 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.MathHelper;
+
+import java.io.IOException;
 
 public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient> {
     private int entityId;
@@ -24,11 +24,11 @@ public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient> {
     public S0EPacketSpawnObject() {
     }
 
-    public S0EPacketSpawnObject(Entity entityIn, int typeIn) {
+    public S0EPacketSpawnObject(final Entity entityIn, final int typeIn) {
         this(entityIn, typeIn, 0);
     }
 
-    public S0EPacketSpawnObject(Entity entityIn, int typeIn, int p_i45166_3_) {
+    public S0EPacketSpawnObject(final Entity entityIn, final int typeIn, final int p_i45166_3_) {
         this.entityId = entityIn.getEntityId();
         this.x = MathHelper.floor_double(entityIn.posX * 32.0D);
         this.y = MathHelper.floor_double(entityIn.posY * 32.0D);
@@ -42,7 +42,7 @@ public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient> {
             double d0 = entityIn.motionX;
             double d1 = entityIn.motionY;
             double d2 = entityIn.motionZ;
-            double d3 = 3.9D;
+            final double d3 = 3.9D;
 
             if (d0 < -d3) {
                 d0 = -d3;
@@ -74,7 +74,10 @@ public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient> {
         }
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.entityId = buf.readVarIntFromBuffer();
         this.type = buf.readByte();
         this.x = buf.readInt();
@@ -91,7 +94,10 @@ public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient> {
         }
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeVarIntToBuffer(this.entityId);
         buf.writeByte(this.type);
         buf.writeInt(this.x);
@@ -108,7 +114,10 @@ public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient> {
         }
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleSpawnObject(this);
     }
 
@@ -156,31 +165,31 @@ public class S0EPacketSpawnObject implements Packet<INetHandlerPlayClient> {
         return this.field_149020_k;
     }
 
-    public void setX(int newX) {
+    public void setX(final int newX) {
         this.x = newX;
     }
 
-    public void setY(int newY) {
+    public void setY(final int newY) {
         this.y = newY;
     }
 
-    public void setZ(int newZ) {
+    public void setZ(final int newZ) {
         this.z = newZ;
     }
 
-    public void setSpeedX(int newSpeedX) {
+    public void setSpeedX(final int newSpeedX) {
         this.speedX = newSpeedX;
     }
 
-    public void setSpeedY(int newSpeedY) {
+    public void setSpeedY(final int newSpeedY) {
         this.speedY = newSpeedY;
     }
 
-    public void setSpeedZ(int newSpeedZ) {
+    public void setSpeedZ(final int newSpeedZ) {
         this.speedZ = newSpeedZ;
     }
 
-    public void func_149002_g(int p_149002_1_) {
+    public void func_149002_g(final int p_149002_1_) {
         this.field_149020_k = p_149002_1_;
     }
 }

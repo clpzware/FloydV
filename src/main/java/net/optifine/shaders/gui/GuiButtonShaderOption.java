@@ -6,7 +6,7 @@ import net.optifine.shaders.config.ShaderOption;
 public class GuiButtonShaderOption extends GuiButton {
     private ShaderOption shaderOption = null;
 
-    public GuiButtonShaderOption(int buttonId, int x, int y, int widthIn, int heightIn, ShaderOption shaderOption, String text) {
+    public GuiButtonShaderOption(final int buttonId, final int x, final int y, final int widthIn, final int heightIn, final ShaderOption shaderOption, final String text) {
         super(buttonId, x, y, widthIn, heightIn, text);
         this.shaderOption = shaderOption;
     }

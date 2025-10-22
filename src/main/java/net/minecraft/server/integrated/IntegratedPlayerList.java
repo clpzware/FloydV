@@ -8,15 +8,21 @@ import net.minecraft.server.management.ServerConfigurationManager;
 import java.net.SocketAddress;
 
 public class IntegratedPlayerList extends ServerConfigurationManager {
+    /**
+     * Holds the NBT data for the host player's save file, so this can be written to level.dat.
+     */
     private NBTTagCompound hostPlayerData;
 
-    public IntegratedPlayerList(IntegratedServer server) {
-        super(server);
+    public IntegratedPlayerList(final IntegratedServer p_i1314_1_) {
+        super(p_i1314_1_);
         this.setViewDistance(10);
     }
 
-    protected void writePlayerData(EntityPlayerMP playerIn) {
-        if (playerIn.getName().equals(this.getServerInstance().getServerOwner())) {
+    /**
+     * also stores the NBTTags if this is an intergratedPlayerList
+     */
+    protected void writePlayerData(final EntityPlayerMP playerIn) {
+        if (playerIn.getCommandSenderName().equals(this.getServerInstance().getServerOwner())) {
             this.hostPlayerData = new NBTTagCompound();
             playerIn.writeToNBT(this.hostPlayerData);
         }
@@ -24,7 +30,10 @@ public class IntegratedPlayerList extends ServerConfigurationManager {
         super.writePlayerData(playerIn);
     }
 
-    public String allowUserToConnect(SocketAddress address, GameProfile profile) {
+    /**
+     * checks ban-lists, then white-lists, then space for the server. Returns null on success, or an error message
+     */
+    public String allowUserToConnect(final SocketAddress address, final GameProfile profile) {
         return profile.getName().equalsIgnoreCase(this.getServerInstance().getServerOwner()) && this.getPlayerByUsername(profile.getName()) != null ? "That name is already taken." : super.allowUserToConnect(address, profile);
     }
 
@@ -32,6 +41,9 @@ public class IntegratedPlayerList extends ServerConfigurationManager {
         return (IntegratedServer) super.getServerInstance();
     }
 
+    /**
+     * On integrated servers, returns the host's player data to be written to level.dat.
+     */
     public NBTTagCompound getHostPlayerData() {
         return this.hostPlayerData;
     }

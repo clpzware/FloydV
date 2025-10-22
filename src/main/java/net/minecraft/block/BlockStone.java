@@ -24,33 +24,57 @@ public class BlockStone extends Block {
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
+    /**
+     * Gets the localized name of this block. Used for the statistics page.
+     */
     public String getLocalizedName() {
         return StatCollector.translateToLocal(this.getUnlocalizedName() + "." + BlockStone.EnumType.STONE.getUnlocalizedName() + ".name");
     }
 
-    public MapColor getMapColor(IBlockState state) {
+    /**
+     * Get the MapColor for this Block and the given BlockState
+     */
+    public MapColor getMapColor(final IBlockState state) {
         return state.getValue(VARIANT).func_181072_c();
     }
 
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    /**
+     * Get the Item that this Block should drop when harvested.
+     *
+     * @param fortune the level of the Fortune enchantment on the player's tool
+     */
+    public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
         return state.getValue(VARIANT) == BlockStone.EnumType.STONE ? Item.getItemFromBlock(Blocks.cobblestone) : Item.getItemFromBlock(Blocks.stone);
     }
 
-    public int damageDropped(IBlockState state) {
+    /**
+     * Gets the metadata of the item this Block can drop. This method is called when the block gets destroyed. It
+     * returns the metadata of the dropped item based on the old metadata of the block.
+     */
+    public int damageDropped(final IBlockState state) {
         return state.getValue(VARIANT).getMetadata();
     }
 
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
-        for (BlockStone.EnumType blockstone$enumtype : BlockStone.EnumType.values()) {
+    /**
+     * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
+     */
+    public void getSubBlocks(final Item itemIn, final CreativeTabs tab, final List<ItemStack> list) {
+        for (final BlockStone.EnumType blockstone$enumtype : BlockStone.EnumType.values()) {
             list.add(new ItemStack(itemIn, 1, blockstone$enumtype.getMetadata()));
         }
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
         return this.getDefaultState().withProperty(VARIANT, BlockStone.EnumType.byMetadata(meta));
     }
 
-    public int getMetaFromState(IBlockState state) {
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
         return state.getValue(VARIANT).getMetadata();
     }
 
@@ -73,11 +97,11 @@ public class BlockStone extends Block {
         private final String unlocalizedName;
         private final MapColor field_181073_l;
 
-        EnumType(int p_i46383_3_, MapColor p_i46383_4_, String p_i46383_5_) {
+        EnumType(final int p_i46383_3_, final MapColor p_i46383_4_, final String p_i46383_5_) {
             this(p_i46383_3_, p_i46383_4_, p_i46383_5_, p_i46383_5_);
         }
 
-        EnumType(int p_i46384_3_, MapColor p_i46384_4_, String p_i46384_5_, String p_i46384_6_) {
+        EnumType(final int p_i46384_3_, final MapColor p_i46384_4_, final String p_i46384_5_, final String p_i46384_6_) {
             this.meta = p_i46384_3_;
             this.name = p_i46384_5_;
             this.unlocalizedName = p_i46384_6_;
@@ -113,7 +137,7 @@ public class BlockStone extends Block {
         }
 
         static {
-            for (BlockStone.EnumType blockstone$enumtype : values()) {
+            for (final BlockStone.EnumType blockstone$enumtype : values()) {
                 META_LOOKUP[blockstone$enumtype.getMetadata()] = blockstone$enumtype;
             }
         }

@@ -5,7 +5,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class EntitySuspendFX extends EntityFX {
-    protected EntitySuspendFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
+    protected EntitySuspendFX(final World worldIn, final double xCoordIn, final double yCoordIn, final double zCoordIn, final double xSpeedIn, final double ySpeedIn, final double zSpeedIn) {
         super(worldIn, xCoordIn, yCoordIn - 0.125D, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
         this.particleRed = 0.4F;
         this.particleGreen = 0.4F;
@@ -19,6 +19,9 @@ public class EntitySuspendFX extends EntityFX {
         this.particleMaxAge = (int) (16.0D / (Math.random() * 0.8D + 0.2D));
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate() {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
@@ -35,7 +38,7 @@ public class EntitySuspendFX extends EntityFX {
     }
 
     public static class Factory implements IParticleFactory {
-        public EntityFX getEntityFX(int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... p_178902_15_) {
+        public EntityFX getEntityFX(final int particleID, final World worldIn, final double xCoordIn, final double yCoordIn, final double zCoordIn, final double xSpeedIn, final double ySpeedIn, final double zSpeedIn, final int... p_178902_15_) {
             return new EntitySuspendFX(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
         }
     }

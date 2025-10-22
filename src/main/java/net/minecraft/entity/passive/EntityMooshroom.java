@@ -10,14 +10,17 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
 public class EntityMooshroom extends EntityCow {
-    public EntityMooshroom(World worldIn) {
+    public EntityMooshroom(final World worldIn) {
         super(worldIn);
         this.setSize(0.9F, 1.3F);
         this.spawnableBlock = Blocks.mycelium;
     }
 
-    public boolean interact(EntityPlayer player) {
-        ItemStack itemstack = player.inventory.getCurrentItem();
+    /**
+     * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
+     */
+    public boolean interact(final EntityPlayer player) {
+        final ItemStack itemstack = player.inventory.getCurrentItem();
 
         if (itemstack != null && itemstack.getItem() == Items.bowl && this.getGrowingAge() >= 0) {
             if (itemstack.stackSize == 1) {
@@ -36,7 +39,7 @@ public class EntityMooshroom extends EntityCow {
             this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_LARGE, this.posX, this.posY + (double) (this.height / 2.0F), this.posZ, 0.0D, 0.0D, 0.0D);
 
             if (!this.worldObj.isRemote) {
-                EntityCow entitycow = new EntityCow(this.worldObj);
+                final EntityCow entitycow = new EntityCow(this.worldObj);
                 entitycow.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, this.rotationPitch);
                 entitycow.setHealth(this.getHealth());
                 entitycow.renderYawOffset = this.renderYawOffset;
@@ -61,7 +64,7 @@ public class EntityMooshroom extends EntityCow {
         }
     }
 
-    public EntityMooshroom createChild(EntityAgeable ageable) {
+    public EntityMooshroom createChild(final EntityAgeable ageable) {
         return new EntityMooshroom(this.worldObj);
     }
 }

@@ -18,33 +18,31 @@ public class SmartAnimations {
         active = Config.getGameSettings().ofSmartAnimations;
     }
 
-    public static void spriteRendered(int animationIndex) {
-        if (animationIndex >= 0) {
-            spritesRendered.set(animationIndex);
-        }
+    public static void spriteRendered(final int animationIndex) {
+        spritesRendered.set(animationIndex);
     }
 
-    public static void spritesRendered(BitSet animationIndexes) {
+    public static void spritesRendered(final BitSet animationIndexes) {
         if (animationIndexes != null) {
             spritesRendered.or(animationIndexes);
         }
     }
 
-    public static boolean isSpriteRendered(int animationIndex) {
-        return animationIndex >= 0 && spritesRendered.get(animationIndex);
+    public static boolean isSpriteRendered(final int animationIndex) {
+        return spritesRendered.get(animationIndex);
     }
 
     public static void resetSpritesRendered() {
         spritesRendered.clear();
     }
 
-    public static void textureRendered(int textureId) {
+    public static void textureRendered(final int textureId) {
         if (textureId >= 0) {
             texturesRendered.set(textureId);
         }
     }
 
-    public static boolean isTextureRendered(int texId) {
+    public static boolean isTextureRendered(final int texId) {
         return texId >= 0 && texturesRendered.get(texId);
     }
 

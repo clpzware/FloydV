@@ -5,14 +5,21 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.util.MathHelper;
 
 public class EntityMoveHelper {
+    /**
+     * The EntityLiving that is being moved
+     */
     protected EntityLiving entity;
     protected double posX;
     protected double posY;
     protected double posZ;
+
+    /**
+     * The speed at which the entity should move
+     */
     protected double speed;
     protected boolean update;
 
-    public EntityMoveHelper(EntityLiving entitylivingIn) {
+    public EntityMoveHelper(final EntityLiving entitylivingIn) {
         this.entity = entitylivingIn;
         this.posX = entitylivingIn.posX;
         this.posY = entitylivingIn.posY;
@@ -27,7 +34,10 @@ public class EntityMoveHelper {
         return this.speed;
     }
 
-    public void setMoveTo(double x, double y, double z, double speedIn) {
+    /**
+     * Sets the speed and location to move to
+     */
+    public void setMoveTo(final double x, final double y, final double z, final double speedIn) {
         this.posX = x;
         this.posY = y;
         this.posZ = z;
@@ -40,14 +50,14 @@ public class EntityMoveHelper {
 
         if (this.update) {
             this.update = false;
-            int i = MathHelper.floor_double(this.entity.getEntityBoundingBox().minY + 0.5D);
-            double d0 = this.posX - this.entity.posX;
-            double d1 = this.posZ - this.entity.posZ;
-            double d2 = this.posY - (double) i;
-            double d3 = d0 * d0 + d2 * d2 + d1 * d1;
+            final int i = MathHelper.floor_double(this.entity.getEntityBoundingBox().minY + 0.5D);
+            final double d0 = this.posX - this.entity.posX;
+            final double d1 = this.posZ - this.entity.posZ;
+            final double d2 = this.posY - (double) i;
+            final double d3 = d0 * d0 + d2 * d2 + d1 * d1;
 
             if (d3 >= 2.500000277905201E-7D) {
-                float f = (float) (MathHelper.atan2(d1, d0) * 180.0D / Math.PI) - 90.0F;
+                final float f = (float) (MathHelper.atan2(d1, d0) * 180.0D / Math.PI) - 90.0F;
                 this.entity.rotationYaw = this.limitAngle(this.entity.rotationYaw, f, 30.0F);
                 this.entity.setAIMoveSpeed((float) (this.speed * this.entity.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue()));
 
@@ -58,7 +68,10 @@ public class EntityMoveHelper {
         }
     }
 
-    protected float limitAngle(float p_75639_1_, float p_75639_2_, float p_75639_3_) {
+    /**
+     * Limits the given angle to a upper and lower limit.
+     */
+    protected float limitAngle(final float p_75639_1_, final float p_75639_2_, final float p_75639_3_) {
         float f = MathHelper.wrapAngleTo180_float(p_75639_2_ - p_75639_1_);
 
         if (f > p_75639_3_) {

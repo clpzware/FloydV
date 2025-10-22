@@ -1,12 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
 import net.minecraft.scoreboard.ScoreObjective;
+
+import java.io.IOException;
 
 public class S3BPacketScoreboardObjective implements Packet<INetHandlerPlayClient> {
     private String objectiveName;
@@ -17,14 +17,17 @@ public class S3BPacketScoreboardObjective implements Packet<INetHandlerPlayClien
     public S3BPacketScoreboardObjective() {
     }
 
-    public S3BPacketScoreboardObjective(ScoreObjective p_i45224_1_, int p_i45224_2_) {
+    public S3BPacketScoreboardObjective(final ScoreObjective p_i45224_1_, final int p_i45224_2_) {
         this.objectiveName = p_i45224_1_.getName();
         this.objectiveValue = p_i45224_1_.getDisplayName();
         this.type = p_i45224_1_.getCriteria().getRenderType();
         this.field_149342_c = p_i45224_2_;
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.objectiveName = buf.readStringFromBuffer(16);
         this.field_149342_c = buf.readByte();
 
@@ -34,7 +37,10 @@ public class S3BPacketScoreboardObjective implements Packet<INetHandlerPlayClien
         }
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeString(this.objectiveName);
         buf.writeByte(this.field_149342_c);
 
@@ -44,15 +50,18 @@ public class S3BPacketScoreboardObjective implements Packet<INetHandlerPlayClien
         }
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleScoreboardObjective(this);
     }
 
-    public String func_149339_c() {
+    public String getObjectiveName() {
         return this.objectiveName;
     }
 
-    public String func_149337_d() {
+    public String getObjectiveValue() {
         return this.objectiveValue;
     }
 

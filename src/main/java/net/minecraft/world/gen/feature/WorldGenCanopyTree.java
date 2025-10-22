@@ -12,21 +12,21 @@ import java.util.Random;
 
 public class WorldGenCanopyTree extends WorldGenAbstractTree {
     private static final IBlockState field_181640_a = Blocks.log2.getDefaultState().withProperty(BlockNewLog.VARIANT, BlockPlanks.EnumType.DARK_OAK);
-    private static final IBlockState field_181641_b = Blocks.leaves2.getDefaultState().withProperty(BlockNewLeaf.VARIANT, BlockPlanks.EnumType.DARK_OAK).withProperty(BlockLeaves.CHECK_DECAY, Boolean.FALSE);
+    private static final IBlockState field_181641_b = Blocks.leaves2.getDefaultState().withProperty(BlockNewLeaf.VARIANT, BlockPlanks.EnumType.DARK_OAK).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
 
-    public WorldGenCanopyTree(boolean p_i45461_1_) {
+    public WorldGenCanopyTree(final boolean p_i45461_1_) {
         super(p_i45461_1_);
     }
 
-    public boolean generate(World worldIn, Random rand, BlockPos position) {
-        int i = rand.nextInt(3) + rand.nextInt(2) + 6;
-        int j = position.getX();
-        int k = position.getY();
-        int l = position.getZ();
+    public boolean generate(final World worldIn, final Random rand, final BlockPos position) {
+        final int i = rand.nextInt(3) + rand.nextInt(2) + 6;
+        final int j = position.getX();
+        final int k = position.getY();
+        final int l = position.getZ();
 
         if (k >= 1 && k + i + 1 < 256) {
-            BlockPos blockpos = position.down();
-            Block block = worldIn.getBlockState(blockpos).getBlock();
+            final BlockPos blockpos = position.down();
+            final Block block = worldIn.getBlockState(blockpos).getBlock();
 
             if (block != Blocks.grass && block != Blocks.dirt) {
                 return false;
@@ -37,12 +37,12 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree {
                 this.func_175921_a(worldIn, blockpos.east());
                 this.func_175921_a(worldIn, blockpos.south());
                 this.func_175921_a(worldIn, blockpos.south().east());
-                EnumFacing enumfacing = EnumFacing.Plane.HORIZONTAL.random(rand);
-                int i1 = i - rand.nextInt(4);
+                final EnumFacing enumfacing = EnumFacing.Plane.HORIZONTAL.random(rand);
+                final int i1 = i - rand.nextInt(4);
                 int j1 = 2 - rand.nextInt(3);
                 int k1 = j;
                 int l1 = l;
-                int i2 = k + i - 1;
+                final int i2 = k + i - 1;
 
                 for (int j2 = 0; j2 < i; ++j2) {
                     if (j2 >= i1 && j1 > 0) {
@@ -51,9 +51,9 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree {
                         --j1;
                     }
 
-                    int k2 = k + j2;
-                    BlockPos blockpos1 = new BlockPos(k1, k2, l1);
-                    Material material = worldIn.getBlockState(blockpos1).getBlock().getMaterial();
+                    final int k2 = k + j2;
+                    final BlockPos blockpos1 = new BlockPos(k1, k2, l1);
+                    final Material material = worldIn.getBlockState(blockpos1).getBlock().getMaterial();
 
                     if (material == Material.air || material == Material.leaves) {
                         this.func_181639_b(worldIn, blockpos1);
@@ -99,7 +99,7 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree {
                 for (int k3 = -1; k3 <= 2; ++k3) {
                     for (int j4 = -1; j4 <= 2; ++j4) {
                         if ((k3 < 0 || k3 > 1 || j4 < 0 || j4 > 1) && rand.nextInt(3) <= 0) {
-                            int l4 = rand.nextInt(3) + 2;
+                            final int l4 = rand.nextInt(3) + 2;
 
                             for (int i5 = 0; i5 < l4; ++i5) {
                                 this.func_181639_b(worldIn, new BlockPos(j + k3, i2 - i5 - 1, l + j4));
@@ -129,11 +129,11 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree {
         }
     }
 
-    private boolean func_181638_a(World p_181638_1_, BlockPos p_181638_2_, int p_181638_3_) {
-        int i = p_181638_2_.getX();
-        int j = p_181638_2_.getY();
-        int k = p_181638_2_.getZ();
-        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+    private boolean func_181638_a(final World p_181638_1_, final BlockPos p_181638_2_, final int p_181638_3_) {
+        final int i = p_181638_2_.getX();
+        final int j = p_181638_2_.getY();
+        final int k = p_181638_2_.getZ();
+        final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
         for (int l = 0; l <= p_181638_3_ + 1; ++l) {
             int i1 = 1;
@@ -148,7 +148,7 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree {
 
             for (int j1 = -i1; j1 <= i1; ++j1) {
                 for (int k1 = -i1; k1 <= i1; ++k1) {
-                    if (!this.func_150523_a(p_181638_1_.getBlockState(blockpos$mutableblockpos.set(i + j1, j + l, k + k1)).getBlock())) {
+                    if (!this.func_150523_a(p_181638_1_.getBlockState(blockpos$mutableblockpos.func_181079_c(i + j1, j + l, k + k1)).getBlock())) {
                         return false;
                     }
                 }
@@ -158,15 +158,15 @@ public class WorldGenCanopyTree extends WorldGenAbstractTree {
         return true;
     }
 
-    private void func_181639_b(World p_181639_1_, BlockPos p_181639_2_) {
+    private void func_181639_b(final World p_181639_1_, final BlockPos p_181639_2_) {
         if (this.func_150523_a(p_181639_1_.getBlockState(p_181639_2_).getBlock())) {
             this.setBlockAndNotifyAdequately(p_181639_1_, p_181639_2_, field_181640_a);
         }
     }
 
-    private void func_150526_a(World worldIn, int p_150526_2_, int p_150526_3_, int p_150526_4_) {
-        BlockPos blockpos = new BlockPos(p_150526_2_, p_150526_3_, p_150526_4_);
-        Block block = worldIn.getBlockState(blockpos).getBlock();
+    private void func_150526_a(final World worldIn, final int p_150526_2_, final int p_150526_3_, final int p_150526_4_) {
+        final BlockPos blockpos = new BlockPos(p_150526_2_, p_150526_3_, p_150526_4_);
+        final Block block = worldIn.getBlockState(blockpos).getBlock();
 
         if (block.getMaterial() == Material.air) {
             this.setBlockAndNotifyAdequately(worldIn, blockpos, field_181641_b);

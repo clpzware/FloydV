@@ -15,12 +15,12 @@ public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends Prope
     private final ImmutableSet<T> allowedValues;
     private final Map<String, T> nameToValue = Maps.newHashMap();
 
-    protected PropertyEnum(String name, Class<T> valueClass, Collection<T> allowedValues) {
+    protected PropertyEnum(final String name, final Class<T> valueClass, final Collection<T> allowedValues) {
         super(name, valueClass);
         this.allowedValues = ImmutableSet.copyOf(allowedValues);
 
-        for (T t : allowedValues) {
-            String s = t.getName();
+        for (final T t : allowedValues) {
+            final String s = t.getName();
 
             if (this.nameToValue.containsKey(s)) {
                 throw new IllegalArgumentException("Multiple values have the same name '" + s + "'");
@@ -34,23 +34,26 @@ public class PropertyEnum<T extends Enum<T> & IStringSerializable> extends Prope
         return this.allowedValues;
     }
 
-    public String getName(T value) {
+    /**
+     * Get the name for the given value.
+     */
+    public String getName(final T value) {
         return value.getName();
     }
 
-    public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz) {
+    public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(final String name, final Class<T> clazz) {
         return create(name, clazz, Predicates.alwaysTrue());
     }
 
-    public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz, Predicate<T> filter) {
+    public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(final String name, final Class<T> clazz, final Predicate<T> filter) {
         return create(name, clazz, Collections2.filter(Lists.newArrayList(clazz.getEnumConstants()), filter));
     }
 
-    public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz, T... values) {
+    public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(final String name, final Class<T> clazz, final T... values) {
         return create(name, clazz, Lists.newArrayList(values));
     }
 
-    public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(String name, Class<T> clazz, Collection<T> values) {
+    public static <T extends Enum<T> & IStringSerializable> PropertyEnum<T> create(final String name, final Class<T> clazz, final Collection<T> values) {
         return new PropertyEnum(name, clazz, values);
     }
 }

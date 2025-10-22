@@ -4,7 +4,7 @@ public class FunctionBool implements IExpressionBool {
     private final FunctionType type;
     private final IExpression[] arguments;
 
-    public FunctionBool(FunctionType type, IExpression[] arguments) {
+    public FunctionBool(final FunctionType type, final IExpression[] arguments) {
         this.type = type;
         this.arguments = arguments;
     }
@@ -18,6 +18,6 @@ public class FunctionBool implements IExpressionBool {
     }
 
     public String toString() {
-        return this.type + "()";
+        return "" + this.type + "()";
     }
 }

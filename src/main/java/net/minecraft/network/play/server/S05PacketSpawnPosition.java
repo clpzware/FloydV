@@ -1,11 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.BlockPos;
+
+import java.io.IOException;
 
 public class S05PacketSpawnPosition implements Packet<INetHandlerPlayClient> {
     private BlockPos spawnBlockPos;
@@ -13,19 +13,28 @@ public class S05PacketSpawnPosition implements Packet<INetHandlerPlayClient> {
     public S05PacketSpawnPosition() {
     }
 
-    public S05PacketSpawnPosition(BlockPos spawnBlockPosIn) {
+    public S05PacketSpawnPosition(final BlockPos spawnBlockPosIn) {
         this.spawnBlockPos = spawnBlockPosIn;
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.spawnBlockPos = buf.readBlockPos();
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeBlockPos(this.spawnBlockPos);
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleSpawnPosition(this);
     }
 

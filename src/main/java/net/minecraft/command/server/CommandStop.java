@@ -6,15 +6,29 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.server.MinecraftServer;
 
 public class CommandStop extends CommandBase {
+    /**
+     * Gets the name of the command
+     */
     public String getCommandName() {
         return "stop";
     }
 
-    public String getCommandUsage(ICommandSender sender) {
+    /**
+     * Gets the usage string for the command.
+     *
+     * @param sender The {@link ICommandSender} who is requesting usage details.
+     */
+    public String getCommandUsage(final ICommandSender sender) {
         return "commands.stop.usage";
     }
 
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    /**
+     * Callback when the command is invoked
+     *
+     * @param sender The {@link ICommandSender sender} who executed the command
+     * @param args   The arguments that were passed with the command
+     */
+    public void processCommand(final ICommandSender sender, final String[] args) throws CommandException {
         if (MinecraftServer.getServer().worldServers != null) {
             notifyOperators(sender, this, "commands.stop.start");
         }

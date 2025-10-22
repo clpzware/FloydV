@@ -1,5 +1,6 @@
 package net.minecraft.util;
 
+import com.google.common.base.Function;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 
@@ -10,7 +11,10 @@ public abstract class ChatComponentStyle implements IChatComponent {
     protected List<IChatComponent> siblings = Lists.newArrayList();
     private ChatStyle style;
 
-    public IChatComponent appendSibling(IChatComponent component) {
+    /**
+     * Appends the given component to the end of this one.
+     */
+    public IChatComponent appendSibling(final IChatComponent component) {
         component.getChatStyle().setParentStyle(this.getChatStyle());
         this.siblings.add(component);
         return this;
@@ -20,14 +24,17 @@ public abstract class ChatComponentStyle implements IChatComponent {
         return this.siblings;
     }
 
-    public IChatComponent appendText(String text) {
+    /**
+     * Appends the given text to the end of this component.
+     */
+    public IChatComponent appendText(final String text) {
         return this.appendSibling(new ChatComponentText(text));
     }
 
-    public IChatComponent setChatStyle(ChatStyle style) {
+    public IChatComponent setChatStyle(final ChatStyle style) {
         this.style = style;
 
-        for (IChatComponent ichatcomponent : this.siblings) {
+        for (final IChatComponent ichatcomponent : this.siblings) {
             ichatcomponent.getChatStyle().setParentStyle(this.getChatStyle());
         }
 
@@ -38,7 +45,7 @@ public abstract class ChatComponentStyle implements IChatComponent {
         if (this.style == null) {
             this.style = new ChatStyle();
 
-            for (IChatComponent ichatcomponent : this.siblings) {
+            for (final IChatComponent ichatcomponent : this.siblings) {
                 ichatcomponent.getChatStyle().setParentStyle(this.style);
             }
         }
@@ -50,20 +57,26 @@ public abstract class ChatComponentStyle implements IChatComponent {
         return Iterators.concat(Iterators.<IChatComponent>forArray(new ChatComponentStyle[]{this}), createDeepCopyIterator(this.siblings));
     }
 
+    /**
+     * Get the text of this component, <em>and all child components</em>, with all special formatting codes removed.
+     */
     public final String getUnformattedText() {
-        StringBuilder stringbuilder = new StringBuilder();
+        final StringBuilder stringbuilder = new StringBuilder();
 
-        for (IChatComponent ichatcomponent : this) {
+        for (final IChatComponent ichatcomponent : this) {
             stringbuilder.append(ichatcomponent.getUnformattedTextForChat());
         }
 
         return stringbuilder.toString();
     }
 
+    /**
+     * Gets the text of this component, with formatting codes added for rendering.
+     */
     public final String getFormattedText() {
-        StringBuilder stringbuilder = new StringBuilder();
+        final StringBuilder stringbuilder = new StringBuilder();
 
-        for (IChatComponent ichatcomponent : this) {
+        for (final IChatComponent ichatcomponent : this) {
             stringbuilder.append(ichatcomponent.getChatStyle().getFormattingCode());
             stringbuilder.append(ichatcomponent.getUnformattedTextForChat());
             stringbuilder.append(EnumChatFormatting.RESET);
@@ -72,22 +85,29 @@ public abstract class ChatComponentStyle implements IChatComponent {
         return stringbuilder.toString();
     }
 
-    public static Iterator<IChatComponent> createDeepCopyIterator(Iterable<IChatComponent> components) {
-        Iterator<IChatComponent> iterator = Iterators.concat(Iterators.transform(components.iterator(), Iterable::iterator));
-        iterator = Iterators.transform(iterator, p_apply_1_ -> {
-            IChatComponent ichatcomponent = p_apply_1_.createCopy();
-            ichatcomponent.setChatStyle(ichatcomponent.getChatStyle().createDeepCopy());
-            return ichatcomponent;
+    public static Iterator<IChatComponent> createDeepCopyIterator(final Iterable<IChatComponent> components) {
+        Iterator<IChatComponent> iterator = Iterators.concat(Iterators.transform(components.iterator(), new Function<IChatComponent, Iterator<IChatComponent>>() {
+            public Iterator<IChatComponent> apply(final IChatComponent p_apply_1_) {
+                return p_apply_1_.iterator();
+            }
+        }));
+        iterator = Iterators.transform(iterator, new Function<IChatComponent, IChatComponent>() {
+            public IChatComponent apply(final IChatComponent p_apply_1_) {
+                final IChatComponent ichatcomponent = p_apply_1_.createCopy();
+                ichatcomponent.setChatStyle(ichatcomponent.getChatStyle().createDeepCopy());
+                return ichatcomponent;
+            }
         });
         return iterator;
     }
 
-    public boolean equals(Object p_equals_1_) {
+    public boolean equals(final Object p_equals_1_) {
         if (this == p_equals_1_) {
             return true;
-        } else if (!(p_equals_1_ instanceof ChatComponentStyle chatcomponentstyle)) {
+        } else if (!(p_equals_1_ instanceof ChatComponentStyle)) {
             return false;
         } else {
+            final ChatComponentStyle chatcomponentstyle = (ChatComponentStyle) p_equals_1_;
             return this.siblings.equals(chatcomponentstyle.siblings) && this.getChatStyle().equals(chatcomponentstyle.getChatStyle());
         }
     }

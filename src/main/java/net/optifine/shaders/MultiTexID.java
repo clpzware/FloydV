@@ -5,7 +5,7 @@ public class MultiTexID {
     public int norm;
     public int spec;
 
-    public MultiTexID(int baseTex, int normTex, int specTex) {
+    public MultiTexID(final int baseTex, final int normTex, final int specTex) {
         this.base = baseTex;
         this.norm = normTex;
         this.spec = specTex;

@@ -12,13 +12,21 @@ public class RenderSnowball<T extends Entity> extends Render<T> {
     protected final Item field_177084_a;
     private final RenderItem field_177083_e;
 
-    public RenderSnowball(RenderManager renderManagerIn, Item p_i46137_2_, RenderItem p_i46137_3_) {
+    public RenderSnowball(final RenderManager renderManagerIn, final Item p_i46137_2_, final RenderItem p_i46137_3_) {
         super(renderManagerIn);
         this.field_177084_a = p_i46137_2_;
         this.field_177083_e = p_i46137_3_;
     }
 
-    public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks) {
+    /**
+     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
+     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
+     * (Render<T extends Entity>) and this method has signature public void doRender(T entity, double d, double d1,
+     * double d2, float f, float f1). But JAD is pre 1.5 so doe
+     *
+     * @param entityYaw The yaw rotation of the passed entity
+     */
+    public void doRender(final T entity, final double x, final double y, final double z, final float entityYaw, final float partialTicks) {
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x, (float) y, (float) z);
         GlStateManager.enableRescaleNormal();
@@ -26,17 +34,20 @@ public class RenderSnowball<T extends Entity> extends Render<T> {
         GlStateManager.rotate(-this.renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(this.renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
         this.bindTexture(TextureMap.locationBlocksTexture);
-        this.field_177083_e.renderItem(this.func_177082_d(entity), ItemCameraTransforms.TransformType.GROUND);
+        this.field_177083_e.func_181564_a(this.func_177082_d(entity), ItemCameraTransforms.TransformType.GROUND);
         GlStateManager.disableRescaleNormal();
         GlStateManager.popMatrix();
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 
-    public ItemStack func_177082_d(T entityIn) {
+    public ItemStack func_177082_d(final T entityIn) {
         return new ItemStack(this.field_177084_a, 1, 0);
     }
 
-    protected ResourceLocation getEntityTexture(Entity entity) {
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(final Entity entity) {
         return TextureMap.locationBlocksTexture;
     }
 }

@@ -9,12 +9,19 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class ContainerWorkbench extends Container {
+    /**
+     * The crafting matrix inventory (3x3).
+     */
     public InventoryCrafting craftMatrix = new InventoryCrafting(this, 3, 3);
     public IInventory craftResult = new InventoryCraftResult();
     private final World worldObj;
+
+    /**
+     * Position of the workbench
+     */
     private final BlockPos pos;
 
-    public ContainerWorkbench(InventoryPlayer playerInventory, World worldIn, BlockPos posIn) {
+    public ContainerWorkbench(final InventoryPlayer playerInventory, final World worldIn, final BlockPos posIn) {
         this.worldObj = worldIn;
         this.pos = posIn;
         this.addSlotToContainer(new SlotCrafting(playerInventory.player, this.craftMatrix, this.craftResult, 0, 124, 35));
@@ -38,16 +45,22 @@ public class ContainerWorkbench extends Container {
         this.onCraftMatrixChanged(this.craftMatrix);
     }
 
-    public void onCraftMatrixChanged(IInventory inventoryIn) {
+    /**
+     * Callback for when the crafting matrix is changed.
+     */
+    public void onCraftMatrixChanged(final IInventory inventoryIn) {
         this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
     }
 
-    public void onContainerClosed(EntityPlayer playerIn) {
+    /**
+     * Called when the container is closed.
+     */
+    public void onContainerClosed(final EntityPlayer playerIn) {
         super.onContainerClosed(playerIn);
 
         if (!this.worldObj.isRemote) {
             for (int i = 0; i < 9; ++i) {
-                ItemStack itemstack = this.craftMatrix.removeStackFromSlot(i);
+                final ItemStack itemstack = this.craftMatrix.getStackInSlotOnClosing(i);
 
                 if (itemstack != null) {
                     playerIn.dropPlayerItemWithRandomChoice(itemstack, false);
@@ -56,16 +69,19 @@ public class ContainerWorkbench extends Container {
         }
     }
 
-    public boolean canInteractWith(EntityPlayer playerIn) {
+    public boolean canInteractWith(final EntityPlayer playerIn) {
         return this.worldObj.getBlockState(this.pos).getBlock() == Blocks.crafting_table && playerIn.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+    /**
+     * Take a stack from the specified inventory slot.
+     */
+    public ItemStack transferStackInSlot(final EntityPlayer playerIn, final int index) {
         ItemStack itemstack = null;
-        Slot slot = this.inventorySlots.get(index);
+        final Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+            final ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
             if (index == 0) {
@@ -102,7 +118,11 @@ public class ContainerWorkbench extends Container {
         return itemstack;
     }
 
-    public boolean canMergeSlot(ItemStack stack, Slot slotIn) {
-        return slotIn.inventory != this.craftResult && super.canMergeSlot(stack, slotIn);
+    /**
+     * Called to determine if the current slot is valid for the stack merging (double-click) code. The stack passed in
+     * is null for the initial slot that was double-clicked.
+     */
+    public boolean canMergeSlot(final ItemStack stack, final Slot p_94530_2_) {
+        return p_94530_2_.inventory != this.craftResult && super.canMergeSlot(stack, p_94530_2_);
     }
 }

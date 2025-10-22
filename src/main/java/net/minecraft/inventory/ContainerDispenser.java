@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 public class ContainerDispenser extends Container {
     private final IInventory dispenserInventory;
 
-    public ContainerDispenser(IInventory playerInventory, IInventory dispenserInventoryIn) {
+    public ContainerDispenser(final IInventory playerInventory, final IInventory dispenserInventoryIn) {
         this.dispenserInventory = dispenserInventoryIn;
 
         for (int i = 0; i < 3; ++i) {
@@ -26,16 +26,19 @@ public class ContainerDispenser extends Container {
         }
     }
 
-    public boolean canInteractWith(EntityPlayer playerIn) {
+    public boolean canInteractWith(final EntityPlayer playerIn) {
         return this.dispenserInventory.isUseableByPlayer(playerIn);
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+    /**
+     * Take a stack from the specified inventory slot.
+     */
+    public ItemStack transferStackInSlot(final EntityPlayer playerIn, final int index) {
         ItemStack itemstack = null;
-        Slot slot = this.inventorySlots.get(index);
+        final Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+            final ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
             if (index < 9) {

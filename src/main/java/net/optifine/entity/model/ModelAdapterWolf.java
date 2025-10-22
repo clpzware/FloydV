@@ -18,10 +18,11 @@ public class ModelAdapterWolf extends ModelAdapter {
         return new ModelWolf();
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelWolf modelwolf)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelWolf)) {
             return null;
         } else {
+            final ModelWolf modelwolf = (ModelWolf) model;
             return modelPart.equals("head") ? modelwolf.wolfHeadMain : (modelPart.equals("body") ? modelwolf.wolfBody : (modelPart.equals("leg1") ? modelwolf.wolfLeg1 : (modelPart.equals("leg2") ? modelwolf.wolfLeg2 : (modelPart.equals("leg3") ? modelwolf.wolfLeg3 : (modelPart.equals("leg4") ? modelwolf.wolfLeg4 : (modelPart.equals("tail") ? (ModelRenderer) Reflector.getFieldValue(modelwolf, Reflector.ModelWolf_tail) : (modelPart.equals("mane") ? (ModelRenderer) Reflector.getFieldValue(modelwolf, Reflector.ModelWolf_mane) : null)))))));
         }
     }
@@ -30,9 +31,9 @@ public class ModelAdapterWolf extends ModelAdapter {
         return new String[]{"head", "body", "leg1", "leg2", "leg3", "leg4", "tail", "mane"};
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderWolf renderwolf = new RenderWolf(rendermanager, modelBase, shadowSize);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderWolf renderwolf = new RenderWolf(rendermanager, modelBase, shadowSize);
         return renderwolf;
     }
 }

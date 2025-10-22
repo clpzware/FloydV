@@ -1,81 +1,83 @@
 package net.optifine.shaders;
 
-import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Programs {
-    private final List<Program> programs = new ArrayList<>();
-    @Getter
-    private final Program programNone = this.make("");
+    private final List<Program> programs = new ArrayList();
+    private final Program programNone = this.make("", ProgramStage.NONE, true);
 
-    public Program make(String name, ProgramStage programStage, Program backupProgram) {
-        int i = this.programs.size();
-        Program program = new Program(i, name, programStage, backupProgram);
+    public Program make(final String name, final ProgramStage programStage, final Program backupProgram) {
+        final int i = this.programs.size();
+        final Program program = new Program(i, name, programStage, backupProgram);
         this.programs.add(program);
         return program;
     }
 
-    private Program make(String name) {
-        int i = this.programs.size();
-        Program program = new Program(i, name, ProgramStage.NONE, true);
+    private Program make(final String name, final ProgramStage programStage, final boolean ownBackup) {
+        final int i = this.programs.size();
+        final Program program = new Program(i, name, programStage, ownBackup);
         this.programs.add(program);
         return program;
     }
 
-    public Program makeGbuffers(String name, Program backupProgram) {
+    public Program makeGbuffers(final String name, final Program backupProgram) {
         return this.make(name, ProgramStage.GBUFFERS, backupProgram);
     }
 
-    public Program makeComposite(String name) {
+    public Program makeComposite(final String name) {
         return this.make(name, ProgramStage.COMPOSITE, this.programNone);
     }
 
-    public Program makeDeferred(String name) {
+    public Program makeDeferred(final String name) {
         return this.make(name, ProgramStage.DEFERRED, this.programNone);
     }
 
-    public Program makeShadow(String name, Program backupProgram) {
+    public Program makeShadow(final String name, final Program backupProgram) {
         return this.make(name, ProgramStage.SHADOW, backupProgram);
     }
 
-    public Program makeVirtual(String name) {
-        return this.make(name);
+    public Program makeVirtual(final String name) {
+        return this.make(name, ProgramStage.NONE, true);
     }
 
-    public Program[] makeComposites(String prefix, int count) {
-        Program[] aprogram = new Program[count];
+    public Program[] makeComposites(final String prefix, final int count) {
+        final Program[] aprogram = new Program[count];
 
         for (int i = 0; i < count; ++i) {
-            String s = i == 0 ? prefix : prefix + i;
+            final String s = i == 0 ? prefix : prefix + i;
             aprogram[i] = this.makeComposite(s);
         }
 
         return aprogram;
     }
 
-    public Program[] makeDeferreds(String prefix, int count) {
-        Program[] aprogram = new Program[count];
+    public Program[] makeDeferreds(final String prefix, final int count) {
+        final Program[] aprogram = new Program[count];
 
         for (int i = 0; i < count; ++i) {
-            String s = i == 0 ? prefix : prefix + i;
+            final String s = i == 0 ? prefix : prefix + i;
             aprogram[i] = this.makeDeferred(s);
         }
 
         return aprogram;
     }
 
+    public Program getProgramNone() {
+        return this.programNone;
+    }
+
     public int getCount() {
         return this.programs.size();
     }
 
-    public Program getProgram(String name) {
+    public Program getProgram(final String name) {
         if (name == null) {
             return null;
         } else {
-            for (Program program : this.programs) {
-                String s = program.getName();
+            for (int i = 0; i < this.programs.size(); ++i) {
+                final Program program = this.programs.get(i);
+                final String s = program.getName();
 
                 if (s.equals(name)) {
                     return program;
@@ -87,7 +89,7 @@ public class Programs {
     }
 
     public String[] getProgramNames() {
-        String[] astring = new String[this.programs.size()];
+        final String[] astring = new String[this.programs.size()];
 
         for (int i = 0; i < astring.length; ++i) {
             astring[i] = this.programs.get(i).getName();
@@ -97,7 +99,27 @@ public class Programs {
     }
 
     public Program[] getPrograms() {
-        return this.programs.toArray(new Program[this.programs.size()]);
+        final Program[] aprogram = this.programs.toArray(new Program[this.programs.size()]);
+        return aprogram;
+    }
+
+    public Program[] getPrograms(final Program programFrom, final Program programTo) {
+        int i = programFrom.getIndex();
+        int j = programTo.getIndex();
+
+        if (i > j) {
+            final int k = i;
+            i = j;
+            j = k;
+        }
+
+        final Program[] aprogram = new Program[j - i + 1];
+
+        for (int l = 0; l < aprogram.length; ++l) {
+            aprogram[l] = this.programs.get(i + l);
+        }
+
+        return aprogram;
     }
 
     public String toString() {

@@ -16,23 +16,23 @@ public class ChunkUtils {
     private static final ReflectorField fieldHasEntities = findFieldHasEntities();
     private static final ReflectorField fieldPrecipitationHeightMap = new ReflectorField(chunkClass, int[].class, 0);
 
-    public static boolean hasEntities(Chunk chunk) {
+    public static boolean hasEntities(final Chunk chunk) {
         return Reflector.getFieldValueBoolean(chunk, fieldHasEntities, true);
     }
 
-    public static int getPrecipitationHeight(Chunk chunk, BlockPos pos) {
-        int[] aint = (int[]) Reflector.getFieldValue(chunk, fieldPrecipitationHeightMap);
+    public static int getPrecipitationHeight(final Chunk chunk, final BlockPos pos) {
+        final int[] aint = (int[]) Reflector.getFieldValue(chunk, fieldPrecipitationHeightMap);
 
         if (aint != null && aint.length == 256) {
-            int i = pos.getX() & 15;
-            int j = pos.getZ() & 15;
-            int k = i | j << 4;
-            int l = aint[k];
+            final int i = pos.getX() & 15;
+            final int j = pos.getZ() & 15;
+            final int k = i | j << 4;
+            final int l = aint[k];
 
             if (l >= 0) {
                 return l;
             } else {
-                BlockPos blockpos = chunk.getPrecipitationHeight(pos);
+                final BlockPos blockpos = chunk.getPrecipitationHeight(pos);
                 return blockpos.getY();
             }
         } else {
@@ -42,12 +42,14 @@ public class ChunkUtils {
 
     private static ReflectorField findFieldHasEntities() {
         try {
-            Chunk chunk = new Chunk(null, 0, 0);
-            List list = new ArrayList();
-            List list1 = new ArrayList();
-            Field[] afield = Chunk.class.getDeclaredFields();
+            final Chunk chunk = new Chunk(null, 0, 0);
+            final List list = new ArrayList();
+            final List list1 = new ArrayList();
+            final Field[] afield = Chunk.class.getDeclaredFields();
 
-            for (Field field : afield) {
+            for (int i = 0; i < afield.length; ++i) {
+                final Field field = afield[i];
+
                 if (field.getType() == Boolean.TYPE) {
                     field.setAccessible(true);
                     list.add(field);
@@ -56,40 +58,40 @@ public class ChunkUtils {
             }
 
             chunk.setHasEntities(false);
-            List list2 = new ArrayList();
+            final List list2 = new ArrayList();
 
-            for (Object o : list) {
-                Field field1 = (Field) o;
+            for (final Object e : list) {
+                final Field field1 = (Field) e;
                 list2.add(field1.get(chunk));
             }
 
             chunk.setHasEntities(true);
-            List list3 = new ArrayList();
+            final List list3 = new ArrayList();
 
-            for (Object o : list) {
-                Field field2 = (Field) o;
+            for (final Object e : list) {
+                final Field field2 = (Field) e;
                 list3.add(field2.get(chunk));
             }
 
-            List list4 = new ArrayList();
+            final List list4 = new ArrayList();
 
             for (int j = 0; j < list.size(); ++j) {
-                Field field3 = (Field) list.get(j);
-                Boolean obool = (Boolean) list2.get(j);
-                Boolean obool1 = (Boolean) list3.get(j);
+                final Field field3 = (Field) list.get(j);
+                final Boolean obool = (Boolean) list2.get(j);
+                final Boolean obool1 = (Boolean) list3.get(j);
 
-                if (!obool && obool1) {
+                if (!obool.booleanValue() && obool1.booleanValue()) {
                     list4.add(field3);
-                    Boolean obool2 = (Boolean) list1.get(j);
+                    final Boolean obool2 = (Boolean) list1.get(j);
                     field3.set(chunk, obool2);
                 }
             }
 
             if (list4.size() == 1) {
-                Field field4 = (Field) list4.get(0);
+                final Field field4 = (Field) list4.get(0);
                 return new ReflectorField(field4);
             }
-        } catch (Exception exception) {
+        } catch (final Exception exception) {
             Config.warn(exception.getClass().getName() + " " + exception.getMessage());
         }
 

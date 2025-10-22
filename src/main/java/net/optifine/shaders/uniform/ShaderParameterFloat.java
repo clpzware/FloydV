@@ -62,11 +62,11 @@ public enum ShaderParameterFloat {
     private String[] indexNames1;
     private String[] indexNames2;
 
-    ShaderParameterFloat(String name) {
+    ShaderParameterFloat(final String name) {
         this.name = name;
     }
 
-    ShaderParameterFloat(ShaderUniformBase uniform) {
+    ShaderParameterFloat(final ShaderUniformBase uniform) {
         this.name = uniform.getName();
         this.uniform = uniform;
 
@@ -75,7 +75,7 @@ public enum ShaderParameterFloat {
         }
     }
 
-    ShaderParameterFloat(ShaderUniformBase uniform, String[] indexNames1) {
+    ShaderParameterFloat(final ShaderUniformBase uniform, final String[] indexNames1) {
         this.name = uniform.getName();
         this.uniform = uniform;
         this.indexNames1 = indexNames1;
@@ -85,7 +85,7 @@ public enum ShaderParameterFloat {
         }
     }
 
-    ShaderParameterFloat(ShaderUniformBase uniform, String[] indexNames1, String[] indexNames2) {
+    ShaderParameterFloat(final ShaderUniformBase uniform, final String[] indexNames1, final String[] indexNames2) {
         this.name = uniform.getName();
         this.uniform = uniform;
         this.indexNames1 = indexNames1;
@@ -112,23 +112,23 @@ public enum ShaderParameterFloat {
         return this.indexNames2;
     }
 
-    public float eval(int index1, int index2) {
+    public float eval(final int index1, final int index2) {
         if (this.indexNames1 == null || index1 >= 0 && index1 <= this.indexNames1.length) {
             if (this.indexNames2 == null || index2 >= 0 && index2 <= this.indexNames2.length) {
                 switch (this) {
                     case BIOME:
-                        BlockPos blockpos2 = Shaders.getCameraPosition();
-                        BiomeGenBase biomegenbase2 = Shaders.getCurrentWorld().getBiomeGenForCoords(blockpos2);
+                        final BlockPos blockpos2 = Shaders.getCameraPosition();
+                        final BiomeGenBase biomegenbase2 = Shaders.getCurrentWorld().getBiomeGenForCoords(blockpos2);
                         return (float) biomegenbase2.biomeID;
 
                     case TEMPERATURE:
-                        BlockPos blockpos1 = Shaders.getCameraPosition();
-                        BiomeGenBase biomegenbase1 = Shaders.getCurrentWorld().getBiomeGenForCoords(blockpos1);
+                        final BlockPos blockpos1 = Shaders.getCameraPosition();
+                        final BiomeGenBase biomegenbase1 = Shaders.getCurrentWorld().getBiomeGenForCoords(blockpos1);
                         return biomegenbase1 != null ? biomegenbase1.getFloatTemperature(blockpos1) : 0.0F;
 
                     case RAINFALL:
-                        BlockPos pos = Shaders.getCameraPosition();
-                        BiomeGenBase biome = Shaders.getCurrentWorld().getBiomeGenForCoords(pos);
+                        final BlockPos pos = Shaders.getCameraPosition();
+                        final BiomeGenBase biome = Shaders.getCurrentWorld().getBiomeGenForCoords(pos);
                         return biome != null ? biome.getFloatRainfall() : 0.0F;
 
                     default:
@@ -160,13 +160,15 @@ public enum ShaderParameterFloat {
         }
     }
 
-    private static boolean instanceOf(Object obj, Class... classes) {
+    private static boolean instanceOf(final Object obj, final Class... classes) {
         if (obj == null) {
             return false;
         } else {
-            Class oclass = obj.getClass();
+            final Class oclass = obj.getClass();
 
-            for (Class oclass1 : classes) {
+            for (int i = 0; i < classes.length; ++i) {
+                final Class oclass1 = classes[i];
+
                 if (oclass1.isAssignableFrom(oclass)) {
                     return true;
                 }

@@ -12,13 +12,13 @@ public abstract class ModelAdapter {
     private final float shadowSize;
     private String[] aliases;
 
-    public ModelAdapter(Class entityClass, String name, float shadowSize) {
+    public ModelAdapter(final Class entityClass, final String name, final float shadowSize) {
         this.entityClass = entityClass;
         this.name = name;
         this.shadowSize = shadowSize;
     }
 
-    public ModelAdapter(Class entityClass, String name, float shadowSize, String[] aliases) {
+    public ModelAdapter(final Class entityClass, final String name, final float shadowSize, final String[] aliases) {
         this.entityClass = entityClass;
         this.name = name;
         this.shadowSize = shadowSize;
@@ -49,19 +49,20 @@ public abstract class ModelAdapter {
 
     public abstract IEntityRenderer makeEntityRender(ModelBase var1, float var2);
 
-    public ModelRenderer[] getModelRenderers(ModelBase model) {
-        String[] astring = this.getModelRendererNames();
-        List<ModelRenderer> list = new ArrayList();
+    public ModelRenderer[] getModelRenderers(final ModelBase model) {
+        final String[] astring = this.getModelRendererNames();
+        final List<ModelRenderer> list = new ArrayList();
 
-        for (String s : astring) {
-            ModelRenderer modelrenderer = this.getModelRenderer(model, s);
+        for (int i = 0; i < astring.length; ++i) {
+            final String s = astring[i];
+            final ModelRenderer modelrenderer = this.getModelRenderer(model, s);
 
             if (modelrenderer != null) {
                 list.add(modelrenderer);
             }
         }
 
-        ModelRenderer[] amodelrenderer = list.toArray(new ModelRenderer[list.size()]);
+        final ModelRenderer[] amodelrenderer = list.toArray(new ModelRenderer[list.size()]);
         return amodelrenderer;
     }
 }

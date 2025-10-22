@@ -16,23 +16,23 @@ public class BlockPressurePlate extends BlockBasePressurePlate {
     public static final PropertyBool POWERED = PropertyBool.create("powered");
     private final BlockPressurePlate.Sensitivity sensitivity;
 
-    protected BlockPressurePlate(Material materialIn, BlockPressurePlate.Sensitivity sensitivityIn) {
+    protected BlockPressurePlate(final Material materialIn, final BlockPressurePlate.Sensitivity sensitivityIn) {
         super(materialIn);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(POWERED, Boolean.FALSE));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(POWERED, Boolean.valueOf(false)));
         this.sensitivity = sensitivityIn;
     }
 
-    protected int getRedstoneStrength(IBlockState state) {
-        return state.getValue(POWERED) ? 15 : 0;
+    protected int getRedstoneStrength(final IBlockState state) {
+        return state.getValue(POWERED).booleanValue() ? 15 : 0;
     }
 
-    protected IBlockState setRedstoneStrength(IBlockState state, int strength) {
-        return state.withProperty(POWERED, strength > 0);
+    protected IBlockState setRedstoneStrength(final IBlockState state, final int strength) {
+        return state.withProperty(POWERED, Boolean.valueOf(strength > 0));
     }
 
-    protected int computeRedstoneStrength(World worldIn, BlockPos pos) {
-        AxisAlignedBB axisalignedbb = this.getSensitiveAABB(pos);
-        List<? extends Entity> list;
+    protected int computeRedstoneStrength(final World worldIn, final BlockPos pos) {
+        final AxisAlignedBB axisalignedbb = this.getSensitiveAABB(pos);
+        final List<? extends Entity> list;
 
         switch (this.sensitivity) {
             case EVERYTHING:
@@ -48,7 +48,7 @@ public class BlockPressurePlate extends BlockBasePressurePlate {
         }
 
         if (!list.isEmpty()) {
-            for (Entity entity : list) {
+            for (final Entity entity : list) {
                 if (!entity.doesEntityNotTriggerPressurePlate()) {
                     return 15;
                 }
@@ -58,12 +58,18 @@ public class BlockPressurePlate extends BlockBasePressurePlate {
         return 0;
     }
 
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(POWERED, meta == 1);
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
+        return this.getDefaultState().withProperty(POWERED, Boolean.valueOf(meta == 1));
     }
 
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(POWERED) ? 1 : 0;
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
+        return state.getValue(POWERED).booleanValue() ? 1 : 0;
     }
 
     protected BlockState createBlockState() {

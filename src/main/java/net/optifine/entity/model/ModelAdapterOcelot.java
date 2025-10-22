@@ -23,14 +23,15 @@ public class ModelAdapterOcelot extends ModelAdapter {
         return new ModelOcelot();
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelOcelot modelocelot)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelOcelot)) {
             return null;
         } else {
-            Map<String, Integer> map = getMapPartFields();
+            final ModelOcelot modelocelot = (ModelOcelot) model;
+            final Map<String, Integer> map = getMapPartFields();
 
             if (map.containsKey(modelPart)) {
-                int i = map.get(modelPart);
+                final int i = map.get(modelPart).intValue();
                 return (ModelRenderer) Reflector.getFieldValue(modelocelot, Reflector.ModelOcelot_ModelRenderers, i);
             } else {
                 return null;
@@ -47,21 +48,21 @@ public class ModelAdapterOcelot extends ModelAdapter {
             return mapPartFields;
         } else {
             mapPartFields = new HashMap();
-            mapPartFields.put("back_left_leg", 0);
-            mapPartFields.put("back_right_leg", 1);
-            mapPartFields.put("front_left_leg", 2);
-            mapPartFields.put("front_right_leg", 3);
-            mapPartFields.put("tail", 4);
-            mapPartFields.put("tail2", 5);
-            mapPartFields.put("head", 6);
-            mapPartFields.put("body", 7);
+            mapPartFields.put("back_left_leg", Integer.valueOf(0));
+            mapPartFields.put("back_right_leg", Integer.valueOf(1));
+            mapPartFields.put("front_left_leg", Integer.valueOf(2));
+            mapPartFields.put("front_right_leg", Integer.valueOf(3));
+            mapPartFields.put("tail", Integer.valueOf(4));
+            mapPartFields.put("tail2", Integer.valueOf(5));
+            mapPartFields.put("head", Integer.valueOf(6));
+            mapPartFields.put("body", Integer.valueOf(7));
             return mapPartFields;
         }
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderOcelot renderocelot = new RenderOcelot(rendermanager, modelBase, shadowSize);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderOcelot renderocelot = new RenderOcelot(rendermanager, modelBase, shadowSize);
         return renderocelot;
     }
 }

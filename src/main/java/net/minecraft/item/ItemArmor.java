@@ -19,22 +19,25 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class ItemArmor extends Item {
+    /**
+     * Holds the 'base' maxDamage that each armorType have.
+     */
     private static final int[] maxDamageArray = new int[]{11, 16, 15, 13};
     public static final String[] EMPTY_SLOT_NAMES = new String[]{"minecraft:items/empty_armor_slot_helmet", "minecraft:items/empty_armor_slot_chestplate", "minecraft:items/empty_armor_slot_leggings", "minecraft:items/empty_armor_slot_boots"};
     private static final IBehaviorDispenseItem dispenserBehavior = new BehaviorDefaultDispenseItem() {
-        protected ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
-            BlockPos blockpos = source.getBlockPos().offset(BlockDispenser.getFacing(source.getBlockMetadata()));
-            int i = blockpos.getX();
-            int j = blockpos.getY();
-            int k = blockpos.getZ();
-            AxisAlignedBB axisalignedbb = new AxisAlignedBB(i, j, k, i + 1, j + 1, k + 1);
-            List<EntityLivingBase> list = source.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb, Predicates.and(EntitySelectors.NOT_SPECTATING, new EntitySelectors.ArmoredMob(stack)));
+        protected ItemStack dispenseStack(final IBlockSource source, final ItemStack stack) {
+            final BlockPos blockpos = source.getBlockPos().offset(BlockDispenser.getFacing(source.getBlockMetadata()));
+            final int i = blockpos.getX();
+            final int j = blockpos.getY();
+            final int k = blockpos.getZ();
+            final AxisAlignedBB axisalignedbb = new AxisAlignedBB(i, j, k, i + 1, j + 1, k + 1);
+            final List<EntityLivingBase> list = source.getWorld().getEntitiesWithinAABB(EntityLivingBase.class, axisalignedbb, Predicates.and(EntitySelectors.NOT_SPECTATING, new EntitySelectors.ArmoredMob(stack)));
 
-            if (!list.isEmpty()) {
-                EntityLivingBase entitylivingbase = list.get(0);
-                int l = entitylivingbase instanceof EntityPlayer ? 1 : 0;
-                int i1 = EntityLiving.getArmorPosition(stack);
-                ItemStack itemstack = stack.copy();
+            if (list.size() > 0) {
+                final EntityLivingBase entitylivingbase = list.get(0);
+                final int l = entitylivingbase instanceof EntityPlayer ? 1 : 0;
+                final int i1 = EntityLiving.getArmorPosition(stack);
+                final ItemStack itemstack = stack.copy();
                 itemstack.stackSize = 1;
                 entitylivingbase.setCurrentItemOrArmor(i1 - l, itemstack);
 
@@ -49,12 +52,29 @@ public class ItemArmor extends Item {
             }
         }
     };
+
+    /**
+     * Stores the armor type: 0 is helmet, 1 is plate, 2 is legs and 3 is boots
+     */
     public final int armorType;
+
+    /**
+     * Holds the amount of damage that the armor reduces at full durability.
+     */
     public final int damageReduceAmount;
+
+    /**
+     * Used on RenderPlayer to select the correspondent armor to be rendered on the player: 0 is cloth, 1 is chain, 2 is
+     * iron, 3 is diamond and 4 is gold.
+     */
     public final int renderIndex;
+
+    /**
+     * The EnumArmorMaterial used for this ItemArmor
+     */
     private final ItemArmor.ArmorMaterial material;
 
-    public ItemArmor(ItemArmor.ArmorMaterial material, int renderIndex, int armorType) {
+    public ItemArmor(final ItemArmor.ArmorMaterial material, final int renderIndex, final int armorType) {
         this.material = material;
         this.armorType = armorType;
         this.renderIndex = renderIndex;
@@ -65,7 +85,7 @@ public class ItemArmor extends Item {
         BlockDispenser.dispenseBehaviorRegistry.putObject(this, dispenserBehavior);
     }
 
-    public int getColorFromItemStack(ItemStack stack, int renderPass) {
+    public int getColorFromItemStack(final ItemStack stack, final int renderPass) {
         if (renderPass > 0) {
             return 16777215;
         } else {
@@ -79,26 +99,38 @@ public class ItemArmor extends Item {
         }
     }
 
+    /**
+     * Return the enchantability factor of the item, most of the time is based on material.
+     */
     public int getItemEnchantability() {
         return this.material.getEnchantability();
     }
 
+    /**
+     * Return the armor material for this armor item.
+     */
     public ItemArmor.ArmorMaterial getArmorMaterial() {
         return this.material;
     }
 
-    public boolean hasColor(ItemStack stack) {
+    /**
+     * Return whether the specified armor ItemStack has a color.
+     */
+    public boolean hasColor(final ItemStack stack) {
         return this.material == ArmorMaterial.LEATHER && (stack.hasTagCompound() && (stack.getTagCompound().hasKey("display", 10) && stack.getTagCompound().getCompoundTag("display").hasKey("color", 3)));
     }
 
-    public int getColor(ItemStack stack) {
+    /**
+     * Return the color for the specified armor ItemStack.
+     */
+    public int getColor(final ItemStack stack) {
         if (this.material != ItemArmor.ArmorMaterial.LEATHER) {
             return -1;
         } else {
-            NBTTagCompound nbttagcompound = stack.getTagCompound();
+            final NBTTagCompound nbttagcompound = stack.getTagCompound();
 
             if (nbttagcompound != null) {
-                NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
+                final NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
 
                 if (nbttagcompound1 != null && nbttagcompound1.hasKey("color", 3)) {
                     return nbttagcompound1.getInteger("color");
@@ -109,12 +141,15 @@ public class ItemArmor extends Item {
         }
     }
 
-    public void removeColor(ItemStack stack) {
+    /**
+     * Remove the color from the specified armor ItemStack.
+     */
+    public void removeColor(final ItemStack stack) {
         if (this.material == ItemArmor.ArmorMaterial.LEATHER) {
-            NBTTagCompound nbttagcompound = stack.getTagCompound();
+            final NBTTagCompound nbttagcompound = stack.getTagCompound();
 
             if (nbttagcompound != null) {
-                NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
+                final NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
 
                 if (nbttagcompound1.hasKey("color")) {
                     nbttagcompound1.removeTag("color");
@@ -123,7 +158,10 @@ public class ItemArmor extends Item {
         }
     }
 
-    public void setColor(ItemStack stack, int color) {
+    /**
+     * Sets the color of the specified armor ItemStack
+     */
+    public void setColor(final ItemStack stack, final int color) {
         if (this.material != ItemArmor.ArmorMaterial.LEATHER) {
             throw new UnsupportedOperationException("Can't dye non-leather!");
         } else {
@@ -134,7 +172,7 @@ public class ItemArmor extends Item {
                 stack.setTagCompound(nbttagcompound);
             }
 
-            NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
+            final NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("display");
 
             if (!nbttagcompound.hasKey("display", 10)) {
                 nbttagcompound.setTag("display", nbttagcompound1);
@@ -144,13 +182,22 @@ public class ItemArmor extends Item {
         }
     }
 
-    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+    /**
+     * Return whether this item is repairable in an anvil.
+     *
+     * @param toRepair The ItemStack to be repaired
+     * @param repair   The ItemStack that should repair this Item (leather for leather armor, etc.)
+     */
+    public boolean getIsRepairable(final ItemStack toRepair, final ItemStack repair) {
         return this.material.getRepairItem() == repair.getItem() || super.getIsRepairable(toRepair, repair);
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-        int i = EntityLiving.getArmorPosition(itemStackIn) - 1;
-        ItemStack itemstack = playerIn.getCurrentArmor(i);
+    /**
+     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+     */
+    public ItemStack onItemRightClick(final ItemStack itemStackIn, final World worldIn, final EntityPlayer playerIn) {
+        final int i = EntityLiving.getArmorPosition(itemStackIn) - 1;
+        final ItemStack itemstack = playerIn.getCurrentArmor(i);
 
         if (itemstack == null) {
             playerIn.setCurrentItemOrArmor(i, itemStackIn.copy());
@@ -172,18 +219,18 @@ public class ItemArmor extends Item {
         private final int[] damageReductionAmountArray;
         private final int enchantability;
 
-        ArmorMaterial(String name, int maxDamage, int[] reductionAmounts, int enchantability) {
+        ArmorMaterial(final String name, final int maxDamage, final int[] reductionAmounts, final int enchantability) {
             this.name = name;
             this.maxDamageFactor = maxDamage;
             this.damageReductionAmountArray = reductionAmounts;
             this.enchantability = enchantability;
         }
 
-        public int getDurability(int armorType) {
+        public int getDurability(final int armorType) {
             return ItemArmor.maxDamageArray[armorType] * this.maxDamageFactor;
         }
 
-        public int getDamageReductionAmount(int armorType) {
+        public int getDamageReductionAmount(final int armorType) {
             return this.damageReductionAmountArray[armorType];
         }
 

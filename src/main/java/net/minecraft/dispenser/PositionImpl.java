@@ -5,7 +5,7 @@ public class PositionImpl implements IPosition {
     protected final double y;
     protected final double z;
 
-    public PositionImpl(double xCoord, double yCoord, double zCoord) {
+    public PositionImpl(final double xCoord, final double yCoord, final double zCoord) {
         this.x = xCoord;
         this.y = yCoord;
         this.z = zCoord;

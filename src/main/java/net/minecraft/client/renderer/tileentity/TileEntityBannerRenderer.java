@@ -22,17 +22,17 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
     private static final ResourceLocation BANNERTEXTURES = new ResourceLocation("textures/entity/banner_base.png");
     private final ModelBanner bannerModel = new ModelBanner();
 
-    public void renderTileEntityAt(TileEntityBanner te, double x, double y, double z, float partialTicks, int destroyStage) {
-        boolean flag = te.getWorld() != null;
-        boolean flag1 = !flag || te.getBlockType() == Blocks.standing_banner;
-        int i = flag ? te.getBlockMetadata() : 0;
-        long j = flag ? te.getWorld().getTotalWorldTime() : 0L;
+    public void renderTileEntityAt(final TileEntityBanner te, final double x, final double y, final double z, final float partialTicks, final int destroyStage) {
+        final boolean flag = te.getWorld() != null;
+        final boolean flag1 = !flag || te.getBlockType() == Blocks.standing_banner;
+        final int i = flag ? te.getBlockMetadata() : 0;
+        final long j = flag ? te.getWorld().getTotalWorldTime() : 0L;
         GlStateManager.pushMatrix();
-        float f = 0.6666667F;
+        final float f = 0.6666667F;
 
         if (flag1) {
             GlStateManager.translate((float) x + 0.5F, (float) y + 0.75F * f, (float) z + 0.5F);
-            float f1 = (float) (i * 360) / 16.0F;
+            final float f1 = (float) (i * 360) / 16.0F;
             GlStateManager.rotate(-f1, 0.0F, 1.0F, 0.0F);
             this.bannerModel.bannerStand.showModel = true;
         } else {
@@ -56,11 +56,11 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
             this.bannerModel.bannerStand.showModel = false;
         }
 
-        BlockPos blockpos = te.getPos();
-        float f3 = (float) (blockpos.getX() * 7 + blockpos.getY() * 9 + blockpos.getZ() * 13) + (float) j + partialTicks;
+        final BlockPos blockpos = te.getPos();
+        final float f3 = (float) (blockpos.getX() * 7 + blockpos.getY() * 9 + blockpos.getZ() * 13) + (float) j + partialTicks;
         this.bannerModel.bannerSlate.rotateAngleX = (-0.0125F + 0.01F * MathHelper.cos(f3 * (float) Math.PI * 0.02F)) * (float) Math.PI;
         GlStateManager.enableRescaleNormal();
-        ResourceLocation resourcelocation = this.func_178463_a(te);
+        final ResourceLocation resourcelocation = this.func_178463_a(te);
 
         if (resourcelocation != null) {
             this.bindTexture(resourcelocation);
@@ -74,8 +74,13 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
         GlStateManager.popMatrix();
     }
 
-    private ResourceLocation func_178463_a(TileEntityBanner bannerObj) {
-        String s = bannerObj.getPatternResourceLocation();
+    @Override
+    public void renderBasicTileEntityAt(TileEntityBanner te, double x, double y, double z, float partialTicks, int destroyStage) {
+
+    }
+
+    private ResourceLocation func_178463_a(final TileEntityBanner bannerObj) {
+        final String s = bannerObj.func_175116_e();
 
         if (s.isEmpty()) {
             return null;
@@ -84,12 +89,12 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
 
             if (tileentitybannerrenderer$timedbannertexture == null) {
                 if (DESIGNS.size() >= 256) {
-                    long i = System.currentTimeMillis();
-                    Iterator<String> iterator = DESIGNS.keySet().iterator();
+                    final long i = System.currentTimeMillis();
+                    final Iterator<String> iterator = DESIGNS.keySet().iterator();
 
                     while (iterator.hasNext()) {
-                        String s1 = iterator.next();
-                        TileEntityBannerRenderer.TimedBannerTexture tileentitybannerrenderer$timedbannertexture1 = DESIGNS.get(s1);
+                        final String s1 = iterator.next();
+                        final TileEntityBannerRenderer.TimedBannerTexture tileentitybannerrenderer$timedbannertexture1 = DESIGNS.get(s1);
 
                         if (i - tileentitybannerrenderer$timedbannertexture1.systemTime > 60000L) {
                             Minecraft.getMinecraft().getTextureManager().deleteTexture(tileentitybannerrenderer$timedbannertexture1.bannerTexture);
@@ -102,11 +107,11 @@ public class TileEntityBannerRenderer extends TileEntitySpecialRenderer<TileEnti
                     }
                 }
 
-                List<TileEntityBanner.EnumBannerPattern> list1 = bannerObj.getPatternList();
-                List<EnumDyeColor> list = bannerObj.getColorList();
-                List<String> list2 = Lists.newArrayList();
+                final List<TileEntityBanner.EnumBannerPattern> list1 = bannerObj.getPatternList();
+                final List<EnumDyeColor> list = bannerObj.getColorList();
+                final List<String> list2 = Lists.newArrayList();
 
-                for (TileEntityBanner.EnumBannerPattern tileentitybanner$enumbannerpattern : list1) {
+                for (final TileEntityBanner.EnumBannerPattern tileentitybanner$enumbannerpattern : list1) {
                     list2.add("textures/entity/banner/" + tileentitybanner$enumbannerpattern.getPatternName() + ".png");
                 }
 

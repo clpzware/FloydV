@@ -1,11 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.world.border.WorldBorder;
+
+import java.io.IOException;
 
 public class S44PacketWorldBorder implements Packet<INetHandlerPlayClient> {
     private S44PacketWorldBorder.Action action;
@@ -21,7 +21,7 @@ public class S44PacketWorldBorder implements Packet<INetHandlerPlayClient> {
     public S44PacketWorldBorder() {
     }
 
-    public S44PacketWorldBorder(WorldBorder border, S44PacketWorldBorder.Action actionIn) {
+    public S44PacketWorldBorder(final WorldBorder border, final S44PacketWorldBorder.Action actionIn) {
         this.action = actionIn;
         this.centerX = border.getCenterX();
         this.centerZ = border.getCenterZ();
@@ -33,7 +33,10 @@ public class S44PacketWorldBorder implements Packet<INetHandlerPlayClient> {
         this.warningTime = border.getWarningTime();
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.action = buf.readEnumValue(Action.class);
 
         switch (this.action) {
@@ -72,7 +75,10 @@ public class S44PacketWorldBorder implements Packet<INetHandlerPlayClient> {
         }
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeEnumValue(this.action);
 
         switch (this.action) {
@@ -111,11 +117,14 @@ public class S44PacketWorldBorder implements Packet<INetHandlerPlayClient> {
         }
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleWorldBorder(this);
     }
 
-    public void func_179788_a(WorldBorder border) {
+    public void func_179788_a(final WorldBorder border) {
         switch (this.action) {
             case SET_SIZE:
                 border.setTransition(this.targetSize);

@@ -23,7 +23,7 @@ public class EntityAIFollowOwner extends EntityAIBase {
     float minDist;
     private boolean field_75344_i;
 
-    public EntityAIFollowOwner(EntityTameable thePetIn, double followSpeedIn, float minDistIn, float maxDistIn) {
+    public EntityAIFollowOwner(final EntityTameable thePetIn, final double followSpeedIn, final float minDistIn, final float maxDistIn) {
         this.thePet = thePetIn;
         this.theWorld = thePetIn.worldObj;
         this.followSpeed = followSpeedIn;
@@ -37,8 +37,11 @@ public class EntityAIFollowOwner extends EntityAIBase {
         }
     }
 
+    /**
+     * Returns whether the EntityAIBase should begin execution.
+     */
     public boolean shouldExecute() {
-        EntityLivingBase entitylivingbase = this.thePet.getOwner();
+        final EntityLivingBase entitylivingbase = this.thePet.getOwner();
 
         if (entitylivingbase == null) {
             return false;
@@ -54,28 +57,40 @@ public class EntityAIFollowOwner extends EntityAIBase {
         }
     }
 
+    /**
+     * Returns whether an in-progress EntityAIBase should continue executing
+     */
     public boolean continueExecuting() {
         return !this.petPathfinder.noPath() && this.thePet.getDistanceSqToEntity(this.theOwner) > (double) (this.maxDist * this.maxDist) && !this.thePet.isSitting();
     }
 
+    /**
+     * Execute a one shot task or start executing a continuous task
+     */
     public void startExecuting() {
         this.field_75343_h = 0;
         this.field_75344_i = ((PathNavigateGround) this.thePet.getNavigator()).getAvoidsWater();
         ((PathNavigateGround) this.thePet.getNavigator()).setAvoidsWater(false);
     }
 
+    /**
+     * Resets the task
+     */
     public void resetTask() {
         this.theOwner = null;
         this.petPathfinder.clearPathEntity();
         ((PathNavigateGround) this.thePet.getNavigator()).setAvoidsWater(true);
     }
 
-    private boolean func_181065_a(BlockPos p_181065_1_) {
-        IBlockState iblockstate = this.theWorld.getBlockState(p_181065_1_);
-        Block block = iblockstate.getBlock();
+    private boolean func_181065_a(final BlockPos p_181065_1_) {
+        final IBlockState iblockstate = this.theWorld.getBlockState(p_181065_1_);
+        final Block block = iblockstate.getBlock();
         return block == Blocks.air || !block.isFullCube();
     }
 
+    /**
+     * Updates the task
+     */
     public void updateTask() {
         this.thePet.getLookHelper().setLookPositionWithEntity(this.theOwner, 10.0F, (float) this.thePet.getVerticalFaceSpeed());
 
@@ -86,9 +101,9 @@ public class EntityAIFollowOwner extends EntityAIBase {
                 if (!this.petPathfinder.tryMoveToEntityLiving(this.theOwner, this.followSpeed)) {
                     if (!this.thePet.getLeashed()) {
                         if (this.thePet.getDistanceSqToEntity(this.theOwner) >= 144.0D) {
-                            int i = MathHelper.floor_double(this.theOwner.posX) - 2;
-                            int j = MathHelper.floor_double(this.theOwner.posZ) - 2;
-                            int k = MathHelper.floor_double(this.theOwner.getEntityBoundingBox().minY);
+                            final int i = MathHelper.floor_double(this.theOwner.posX) - 2;
+                            final int j = MathHelper.floor_double(this.theOwner.posZ) - 2;
+                            final int k = MathHelper.floor_double(this.theOwner.getEntityBoundingBox().minY);
 
                             for (int l = 0; l <= 4; ++l) {
                                 for (int i1 = 0; i1 <= 4; ++i1) {

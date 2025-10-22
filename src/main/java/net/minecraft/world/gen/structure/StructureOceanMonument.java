@@ -2,14 +2,6 @@ package net.minecraft.world.gen.structure;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.Map.Entry;
-
 import net.minecraft.entity.monster.EntityGuardian;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -19,6 +11,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class StructureOceanMonument extends MapGenStructure {
     private int field_175800_f;
@@ -31,10 +26,10 @@ public class StructureOceanMonument extends MapGenStructure {
         this.field_175801_g = 5;
     }
 
-    public StructureOceanMonument(Map<String, String> p_i45608_1_) {
+    public StructureOceanMonument(final Map<String, String> p_i45608_1_) {
         this();
 
-        for (Entry<String, String> entry : p_i45608_1_.entrySet()) {
+        for (final Entry<String, String> entry : p_i45608_1_.entrySet()) {
             if (entry.getKey().equals("spacing")) {
                 this.field_175800_f = MathHelper.parseIntWithDefaultAndMax(entry.getValue(), this.field_175800_f, 1);
             } else if (entry.getKey().equals("separation")) {
@@ -48,8 +43,8 @@ public class StructureOceanMonument extends MapGenStructure {
     }
 
     protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ) {
-        int i = chunkX;
-        int j = chunkZ;
+        final int i = chunkX;
+        final int j = chunkZ;
 
         if (chunkX < 0) {
             chunkX -= this.field_175800_f - 1;
@@ -61,7 +56,7 @@ public class StructureOceanMonument extends MapGenStructure {
 
         int k = chunkX / this.field_175800_f;
         int l = chunkZ / this.field_175800_f;
-        Random random = this.worldObj.setRandomSeed(k, l, 10387313);
+        final Random random = this.worldObj.setRandomSeed(k, l, 10387313);
         k = k * this.field_175800_f;
         l = l * this.field_175800_f;
         k = k + (random.nextInt(this.field_175800_f - this.field_175801_g) + random.nextInt(this.field_175800_f - this.field_175801_g)) / 2;
@@ -72,7 +67,7 @@ public class StructureOceanMonument extends MapGenStructure {
                 return false;
             }
 
-            boolean flag = this.worldObj.getWorldChunkManager().areBiomesViable(i * 16 + 8, j * 16 + 8, 29, field_175802_d);
+            final boolean flag = this.worldObj.getWorldChunkManager().areBiomesViable(i * 16 + 8, j * 16 + 8, 29, field_175802_d);
 
             return flag;
         }
@@ -80,11 +75,11 @@ public class StructureOceanMonument extends MapGenStructure {
         return false;
     }
 
-    protected StructureStart getStructureStart(int chunkX, int chunkZ) {
+    protected StructureStart getStructureStart(final int chunkX, final int chunkZ) {
         return new StructureOceanMonument.StartMonument(this.worldObj, this.rand, chunkX, chunkZ);
     }
 
-    public List<BiomeGenBase.SpawnListEntry> getScatteredFeatureSpawnList() {
+    public List<BiomeGenBase.SpawnListEntry> func_175799_b() {
         return field_175803_h;
     }
 
@@ -99,27 +94,27 @@ public class StructureOceanMonument extends MapGenStructure {
         public StartMonument() {
         }
 
-        public StartMonument(World worldIn, Random p_i45607_2_, int p_i45607_3_, int p_i45607_4_) {
+        public StartMonument(final World worldIn, final Random p_i45607_2_, final int p_i45607_3_, final int p_i45607_4_) {
             super(p_i45607_3_, p_i45607_4_);
             this.func_175789_b(worldIn, p_i45607_2_, p_i45607_3_, p_i45607_4_);
         }
 
-        private void func_175789_b(World worldIn, Random p_175789_2_, int p_175789_3_, int p_175789_4_) {
+        private void func_175789_b(final World worldIn, final Random p_175789_2_, final int p_175789_3_, final int p_175789_4_) {
             p_175789_2_.setSeed(worldIn.getSeed());
-            long i = p_175789_2_.nextLong();
-            long j = p_175789_2_.nextLong();
-            long k = (long) p_175789_3_ * i;
-            long l = (long) p_175789_4_ * j;
+            final long i = p_175789_2_.nextLong();
+            final long j = p_175789_2_.nextLong();
+            final long k = (long) p_175789_3_ * i;
+            final long l = (long) p_175789_4_ * j;
             p_175789_2_.setSeed(k ^ l ^ worldIn.getSeed());
-            int i1 = p_175789_3_ * 16 + 8 - 29;
-            int j1 = p_175789_4_ * 16 + 8 - 29;
-            EnumFacing enumfacing = EnumFacing.Plane.HORIZONTAL.random(p_175789_2_);
+            final int i1 = p_175789_3_ * 16 + 8 - 29;
+            final int j1 = p_175789_4_ * 16 + 8 - 29;
+            final EnumFacing enumfacing = EnumFacing.Plane.HORIZONTAL.random(p_175789_2_);
             this.components.add(new StructureOceanMonumentPieces.MonumentBuilding(p_175789_2_, i1, j1, enumfacing));
             this.updateBoundingBox();
             this.field_175790_d = true;
         }
 
-        public void generateStructure(World worldIn, Random rand, StructureBoundingBox structurebb) {
+        public void generateStructure(final World worldIn, final Random rand, final StructureBoundingBox structurebb) {
             if (!this.field_175790_d) {
                 this.components.clear();
                 this.func_175789_b(worldIn, rand, this.getChunkPosX(), this.getChunkPosZ());
@@ -128,21 +123,21 @@ public class StructureOceanMonument extends MapGenStructure {
             super.generateStructure(worldIn, rand, structurebb);
         }
 
-        public boolean func_175788_a(ChunkCoordIntPair pair) {
+        public boolean func_175788_a(final ChunkCoordIntPair pair) {
             return !this.field_175791_c.contains(pair) && super.func_175788_a(pair);
         }
 
-        public void func_175787_b(ChunkCoordIntPair pair) {
+        public void func_175787_b(final ChunkCoordIntPair pair) {
             super.func_175787_b(pair);
             this.field_175791_c.add(pair);
         }
 
-        public void writeToNBT(NBTTagCompound tagCompound) {
+        public void writeToNBT(final NBTTagCompound tagCompound) {
             super.writeToNBT(tagCompound);
-            NBTTagList nbttaglist = new NBTTagList();
+            final NBTTagList nbttaglist = new NBTTagList();
 
-            for (ChunkCoordIntPair chunkcoordintpair : this.field_175791_c) {
-                NBTTagCompound nbttagcompound = new NBTTagCompound();
+            for (final ChunkCoordIntPair chunkcoordintpair : this.field_175791_c) {
+                final NBTTagCompound nbttagcompound = new NBTTagCompound();
                 nbttagcompound.setInteger("X", chunkcoordintpair.chunkXPos);
                 nbttagcompound.setInteger("Z", chunkcoordintpair.chunkZPos);
                 nbttaglist.appendTag(nbttagcompound);
@@ -151,14 +146,14 @@ public class StructureOceanMonument extends MapGenStructure {
             tagCompound.setTag("Processed", nbttaglist);
         }
 
-        public void readFromNBT(NBTTagCompound tagCompound) {
+        public void readFromNBT(final NBTTagCompound tagCompound) {
             super.readFromNBT(tagCompound);
 
             if (tagCompound.hasKey("Processed", 9)) {
-                NBTTagList nbttaglist = tagCompound.getTagList("Processed", 10);
+                final NBTTagList nbttaglist = tagCompound.getTagList("Processed", 10);
 
                 for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                    NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
+                    final NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
                     this.field_175791_c.add(new ChunkCoordIntPair(nbttagcompound.getInteger("X"), nbttagcompound.getInteger("Z")));
                 }
             }

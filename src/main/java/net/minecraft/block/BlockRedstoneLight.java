@@ -13,7 +13,7 @@ import java.util.Random;
 public class BlockRedstoneLight extends Block {
     private final boolean isOn;
 
-    public BlockRedstoneLight(boolean isOn) {
+    public BlockRedstoneLight(final boolean isOn) {
         super(Material.redstoneLight);
         this.isOn = isOn;
 
@@ -22,7 +22,7 @@ public class BlockRedstoneLight extends Block {
         }
     }
 
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+    public void onBlockAdded(final World worldIn, final BlockPos pos, final IBlockState state) {
         if (!worldIn.isRemote) {
             if (this.isOn && !worldIn.isBlockPowered(pos)) {
                 worldIn.setBlockState(pos, Blocks.redstone_lamp.getDefaultState(), 2);
@@ -32,7 +32,10 @@ public class BlockRedstoneLight extends Block {
         }
     }
 
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+    /**
+     * Called when a neighboring block changes.
+     */
+    public void onNeighborBlockChange(final World worldIn, final BlockPos pos, final IBlockState state, final Block neighborBlock) {
         if (!worldIn.isRemote) {
             if (this.isOn && !worldIn.isBlockPowered(pos)) {
                 worldIn.scheduleUpdate(pos, this, 4);
@@ -42,7 +45,7 @@ public class BlockRedstoneLight extends Block {
         }
     }
 
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(final World worldIn, final BlockPos pos, final IBlockState state, final Random rand) {
         if (!worldIn.isRemote) {
             if (this.isOn && !worldIn.isBlockPowered(pos)) {
                 worldIn.setBlockState(pos, Blocks.redstone_lamp.getDefaultState(), 2);
@@ -50,15 +53,23 @@ public class BlockRedstoneLight extends Block {
         }
     }
 
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    /**
+     * Get the Item that this Block should drop when harvested.
+     *
+     * @param fortune the level of the Fortune enchantment on the player's tool
+     */
+    public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
         return Item.getItemFromBlock(Blocks.redstone_lamp);
     }
 
-    public Item getItem(World worldIn, BlockPos pos) {
+    /**
+     * Used by pick block on the client to get a block's item form, if it exists.
+     */
+    public Item getItem(final World worldIn, final BlockPos pos) {
         return Item.getItemFromBlock(Blocks.redstone_lamp);
     }
 
-    protected ItemStack createStackedBlock(IBlockState state) {
+    protected ItemStack createStackedBlock(final IBlockState state) {
         return new ItemStack(Blocks.redstone_lamp);
     }
 }

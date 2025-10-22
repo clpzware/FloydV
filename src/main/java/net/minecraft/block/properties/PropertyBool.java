@@ -5,9 +5,9 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Collection;
 
 public class PropertyBool extends PropertyHelper<Boolean> {
-    private final ImmutableSet<Boolean> allowedValues = ImmutableSet.of(Boolean.TRUE, Boolean.FALSE);
+    private final ImmutableSet<Boolean> allowedValues = ImmutableSet.of(true, false);
 
-    protected PropertyBool(String name) {
+    protected PropertyBool(final String name) {
         super(name, Boolean.class);
     }
 
@@ -15,11 +15,14 @@ public class PropertyBool extends PropertyHelper<Boolean> {
         return this.allowedValues;
     }
 
-    public static PropertyBool create(String name) {
+    public static PropertyBool create(final String name) {
         return new PropertyBool(name);
     }
 
-    public String getName(Boolean value) {
+    /**
+     * Get the name for the given value.
+     */
+    public String getName(final Boolean value) {
         return value.toString();
     }
 }

@@ -36,14 +36,14 @@ public class ItemPotion extends Item {
         this.setCreativeTab(CreativeTabs.tabBrewing);
     }
 
-    public List<PotionEffect> getEffects(ItemStack stack) {
+    public List<PotionEffect> getEffects(final ItemStack stack) {
         if (stack.hasTagCompound() && stack.getTagCompound().hasKey("CustomPotionEffects", 9)) {
-            List<PotionEffect> list1 = Lists.newArrayList();
-            NBTTagList nbttaglist = stack.getTagCompound().getTagList("CustomPotionEffects", 10);
+            final List<PotionEffect> list1 = Lists.newArrayList();
+            final NBTTagList nbttaglist = stack.getTagCompound().getTagList("CustomPotionEffects", 10);
 
             for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
-                PotionEffect potioneffect = PotionEffect.readCustomPotionEffectFromNBT(nbttagcompound);
+                final NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
+                final PotionEffect potioneffect = PotionEffect.readCustomPotionEffectFromNBT(nbttagcompound);
 
                 if (potioneffect != null) {
                     list1.add(potioneffect);
@@ -52,38 +52,42 @@ public class ItemPotion extends Item {
 
             return list1;
         } else {
-            List<PotionEffect> list = this.effectCache.get(stack.getMetadata());
+            List<PotionEffect> list = this.effectCache.get(Integer.valueOf(stack.getMetadata()));
 
             if (list == null) {
                 list = PotionHelper.getPotionEffects(stack.getMetadata(), false);
-                this.effectCache.put(stack.getMetadata(), list);
+                this.effectCache.put(Integer.valueOf(stack.getMetadata()), list);
             }
 
             return list;
         }
     }
 
-    public List<PotionEffect> getEffects(int meta) {
-        List<PotionEffect> list = this.effectCache.get(meta);
+    public List<PotionEffect> getEffects(final int meta) {
+        List<PotionEffect> list = this.effectCache.get(Integer.valueOf(meta));
 
         if (list == null) {
             list = PotionHelper.getPotionEffects(meta, false);
-            this.effectCache.put(meta, list);
+            this.effectCache.put(Integer.valueOf(meta), list);
         }
 
         return list;
     }
 
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+    /**
+     * Called when the player finishes using this Item (E.g. finishes eating.). Not called when the player stops using
+     * the Item before the action is complete.
+     */
+    public ItemStack onItemUseFinish(final ItemStack stack, final World worldIn, final EntityPlayer playerIn) {
         if (!playerIn.capabilities.isCreativeMode) {
             --stack.stackSize;
         }
 
         if (!worldIn.isRemote) {
-            List<PotionEffect> list = this.getEffects(stack);
+            final List<PotionEffect> list = this.getEffects(stack);
 
             if (list != null) {
-                for (PotionEffect potioneffect : list) {
+                for (final PotionEffect potioneffect : list) {
                     playerIn.addPotionEffect(new PotionEffect(potioneffect));
                 }
             }
@@ -102,15 +106,24 @@ public class ItemPotion extends Item {
         return stack;
     }
 
-    public int getMaxItemUseDuration(ItemStack stack) {
+    /**
+     * How long it takes to use or consume an item
+     */
+    public int getMaxItemUseDuration(final ItemStack stack) {
         return 32;
     }
 
-    public EnumAction getItemUseAction(ItemStack stack) {
+    /**
+     * returns the action that specifies what animation to play when the items is being used
+     */
+    public EnumAction getItemUseAction(final ItemStack stack) {
         return EnumAction.DRINK;
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+    /**
+     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+     */
+    public ItemStack onItemRightClick(final ItemStack itemStackIn, final World worldIn, final EntityPlayer playerIn) {
         if (isSplash(itemStackIn.getMetadata())) {
             if (!playerIn.capabilities.isCreativeMode) {
                 --itemStackIn.stackSize;
@@ -130,23 +143,26 @@ public class ItemPotion extends Item {
         }
     }
 
-    public static boolean isSplash(int meta) {
+    /**
+     * returns wether or not a potion is a throwable splash potion based on damage value
+     */
+    public static boolean isSplash(final int meta) {
         return (meta & 16384) != 0;
     }
 
-    public int getColorFromDamage(int meta) {
+    public int getColorFromDamage(final int meta) {
         return PotionHelper.getLiquidColor(meta, false);
     }
 
-    public int getColorFromItemStack(ItemStack stack, int renderPass) {
+    public int getColorFromItemStack(final ItemStack stack, final int renderPass) {
         return renderPass > 0 ? 16777215 : this.getColorFromDamage(stack.getMetadata());
     }
 
-    public boolean isEffectInstant(int meta) {
-        List<PotionEffect> list = this.getEffects(meta);
+    public boolean isEffectInstant(final int meta) {
+        final List<PotionEffect> list = this.getEffects(meta);
 
         if (list != null && !list.isEmpty()) {
-            for (PotionEffect potioneffect : list) {
+            for (final PotionEffect potioneffect : list) {
                 if (Potion.potionTypes[potioneffect.getPotionID()].isInstant()) {
                     return true;
                 }
@@ -158,7 +174,7 @@ public class ItemPotion extends Item {
         }
     }
 
-    public String getItemStackDisplayName(ItemStack stack) {
+    public String getItemStackDisplayName(final ItemStack stack) {
         if (stack.getMetadata() == 0) {
             return StatCollector.translateToLocal("item.emptyPotion.name").trim();
         } else {
@@ -168,34 +184,40 @@ public class ItemPotion extends Item {
                 s = StatCollector.translateToLocal("potion.prefix.grenade").trim() + " ";
             }
 
-            List<PotionEffect> list = Items.potionitem.getEffects(stack);
+            final List<PotionEffect> list = Items.potionitem.getEffects(stack);
 
             if (list != null && !list.isEmpty()) {
                 String s2 = list.get(0).getEffectName();
                 s2 = s2 + ".postfix";
                 return s + StatCollector.translateToLocal(s2).trim();
             } else {
-                String s1 = PotionHelper.getPotionPrefix(stack.getMetadata());
+                final String s1 = PotionHelper.getPotionPrefix(stack.getMetadata());
                 return StatCollector.translateToLocal(s1).trim() + " " + super.getItemStackDisplayName(stack);
             }
         }
     }
 
-    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+    /**
+     * allows items to add custom lines of information to the mouseover description
+     *
+     * @param tooltip  All lines to display in the Item's tooltip. This is a List of Strings.
+     * @param advanced Whether the setting "Advanced tooltips" is enabled
+     */
+    public void addInformation(final ItemStack stack, final EntityPlayer playerIn, final List<String> tooltip, final boolean advanced) {
         if (stack.getMetadata() != 0) {
-            List<PotionEffect> list = Items.potionitem.getEffects(stack);
-            Multimap<String, AttributeModifier> multimap = HashMultimap.create();
+            final List<PotionEffect> list = Items.potionitem.getEffects(stack);
+            final Multimap<String, AttributeModifier> multimap = HashMultimap.create();
 
             if (list != null && !list.isEmpty()) {
-                for (PotionEffect potioneffect : list) {
+                for (final PotionEffect potioneffect : list) {
                     String s1 = StatCollector.translateToLocal(potioneffect.getEffectName()).trim();
-                    Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
-                    Map<IAttribute, AttributeModifier> map = potion.getAttributeModifierMap();
+                    final Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
+                    final Map<IAttribute, AttributeModifier> map = potion.getAttributeModifierMap();
 
-                    if (map != null && !map.isEmpty()) {
-                        for (Entry<IAttribute, AttributeModifier> entry : map.entrySet()) {
-                            AttributeModifier attributemodifier = entry.getValue();
-                            AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(), potion.getAttributeModifierAmount(potioneffect.getAmplifier(), attributemodifier), attributemodifier.getOperation());
+                    if (map != null && map.size() > 0) {
+                        for (final Entry<IAttribute, AttributeModifier> entry : map.entrySet()) {
+                            final AttributeModifier attributemodifier = entry.getValue();
+                            final AttributeModifier attributemodifier1 = new AttributeModifier(attributemodifier.getName(), potion.getAttributeModifierAmount(potioneffect.getAmplifier(), attributemodifier), attributemodifier.getOperation());
                             multimap.put(entry.getKey().getAttributeUnlocalizedName(), attributemodifier1);
                         }
                     }
@@ -215,7 +237,7 @@ public class ItemPotion extends Item {
                     }
                 }
             } else {
-                String s = StatCollector.translateToLocal("potion.empty").trim();
+                final String s = StatCollector.translateToLocal("potion.empty").trim();
                 tooltip.add(EnumChatFormatting.GRAY + s);
             }
 
@@ -223,9 +245,9 @@ public class ItemPotion extends Item {
                 tooltip.add("");
                 tooltip.add(EnumChatFormatting.DARK_PURPLE + StatCollector.translateToLocal("potion.effects.whenDrank"));
 
-                for (Entry<String, AttributeModifier> entry1 : multimap.entries()) {
-                    AttributeModifier attributemodifier2 = entry1.getValue();
-                    double d0 = attributemodifier2.getAmount();
+                for (final Entry<String, AttributeModifier> entry1 : multimap.entries()) {
+                    final AttributeModifier attributemodifier2 = entry1.getValue();
+                    final double d0 = attributemodifier2.getAmount();
                     double d1;
 
                     if (attributemodifier2.getOperation() != 1 && attributemodifier2.getOperation() != 2) {
@@ -245,18 +267,23 @@ public class ItemPotion extends Item {
         }
     }
 
-    public boolean hasEffect(ItemStack stack) {
-        List<PotionEffect> list = this.getEffects(stack);
+    public boolean hasEffect(final ItemStack stack) {
+        final List<PotionEffect> list = this.getEffects(stack);
         return list != null && !list.isEmpty();
     }
 
-    public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+    /**
+     * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
+     *
+     * @param subItems The List of sub-items. This is a List of ItemStacks.
+     */
+    public void getSubItems(final Item itemIn, final CreativeTabs tab, final List<ItemStack> subItems) {
         super.getSubItems(itemIn, tab, subItems);
 
         if (SUB_ITEMS_CACHE.isEmpty()) {
             for (int i = 0; i <= 15; ++i) {
                 for (int j = 0; j <= 1; ++j) {
-                    int lvt_6_1_;
+                    final int lvt_6_1_;
 
                     if (j == 0) {
                         lvt_6_1_ = i | 8192;
@@ -270,25 +297,25 @@ public class ItemPotion extends Item {
                         if (l != 0) {
                             if (l == 1) {
                                 i1 = lvt_6_1_ | 32;
-                            } else {
+                            } else if (l == 2) {
                                 i1 = lvt_6_1_ | 64;
                             }
                         }
 
-                        List<PotionEffect> list = PotionHelper.getPotionEffects(i1, false);
+                        final List<PotionEffect> list = PotionHelper.getPotionEffects(i1, false);
 
                         if (list != null && !list.isEmpty()) {
-                            SUB_ITEMS_CACHE.put(list, i1);
+                            SUB_ITEMS_CACHE.put(list, Integer.valueOf(i1));
                         }
                     }
                 }
             }
         }
 
-        Iterator iterator = SUB_ITEMS_CACHE.values().iterator();
+        final Iterator iterator = SUB_ITEMS_CACHE.values().iterator();
 
         while (iterator.hasNext()) {
-            int j1 = (Integer) iterator.next();
+            final int j1 = ((Integer) iterator.next()).intValue();
             subItems.add(new ItemStack(itemIn, 1, j1));
         }
     }

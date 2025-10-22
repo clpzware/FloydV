@@ -8,13 +8,16 @@ public class MovingSoundMinecart extends MovingSound {
     private final EntityMinecart minecart;
     private float distance = 0.0F;
 
-    public MovingSoundMinecart(EntityMinecart minecartIn) {
+    public MovingSoundMinecart(final EntityMinecart minecartIn) {
         super(new ResourceLocation("minecraft:minecart.base"));
         this.minecart = minecartIn;
         this.repeat = true;
         this.repeatDelay = 0;
     }
 
+    /**
+     * Like the old updateEntity(), except more generic.
+     */
     public void update() {
         if (this.minecart.isDead) {
             this.donePlaying = true;
@@ -22,7 +25,7 @@ public class MovingSoundMinecart extends MovingSound {
             this.xPosF = (float) this.minecart.posX;
             this.yPosF = (float) this.minecart.posY;
             this.zPosF = (float) this.minecart.posZ;
-            float f = MathHelper.sqrt_double(this.minecart.motionX * this.minecart.motionX + this.minecart.motionZ * this.minecart.motionZ);
+            final float f = MathHelper.sqrt_double(this.minecart.motionX * this.minecart.motionX + this.minecart.motionZ * this.minecart.motionZ);
 
             if ((double) f >= 0.01D) {
                 this.distance = MathHelper.clamp_float(this.distance + 0.0025F, 0.0F, 1.0F);

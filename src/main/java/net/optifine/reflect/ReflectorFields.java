@@ -6,7 +6,7 @@ public class ReflectorFields {
     private int fieldCount;
     private ReflectorField[] reflectorFields;
 
-    public ReflectorFields(ReflectorClass reflectorClass, Class fieldType, int fieldCount) {
+    public ReflectorFields(final ReflectorClass reflectorClass, final Class fieldType, final int fieldCount) {
         this.reflectorClass = reflectorClass;
         this.fieldType = fieldType;
 
@@ -33,7 +33,7 @@ public class ReflectorFields {
         return this.fieldCount;
     }
 
-    public ReflectorField getReflectorField(int index) {
+    public ReflectorField getReflectorField(final int index) {
         return index >= 0 && index < this.reflectorFields.length ? this.reflectorFields[index] : null;
     }
 }

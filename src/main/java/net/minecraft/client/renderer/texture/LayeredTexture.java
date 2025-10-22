@@ -14,11 +14,11 @@ import java.io.InputStream;
 import java.util.List;
 
 public class LayeredTexture extends AbstractTexture {
-    private static final Logger logger = LogManager.getLogger("MinecraftLogger");
+    private static final Logger logger = LogManager.getLogger();
     public final List<String> layeredTextureNames;
     private ResourceLocation textureLocation;
 
-    public LayeredTexture(String... textureNames) {
+    public LayeredTexture(final String... textureNames) {
         this.layeredTextureNames = Lists.newArrayList(textureNames);
 
         if (textureNames.length > 0 && textureNames[0] != null) {
@@ -26,15 +26,15 @@ public class LayeredTexture extends AbstractTexture {
         }
     }
 
-    public void loadTexture(IResourceManager resourceManager) throws IOException {
+    public void loadTexture(final IResourceManager resourceManager) throws IOException {
         this.deleteGlTexture();
         BufferedImage bufferedimage = null;
 
         try {
-            for (String s : this.layeredTextureNames) {
+            for (final String s : this.layeredTextureNames) {
                 if (s != null) {
-                    InputStream inputstream = resourceManager.getResource(new ResourceLocation(s)).getInputStream();
-                    BufferedImage bufferedimage1 = TextureUtil.readBufferedImage(inputstream);
+                    final InputStream inputstream = resourceManager.getResource(new ResourceLocation(s)).getInputStream();
+                    final BufferedImage bufferedimage1 = TextureUtil.readBufferedImage(inputstream);
 
                     if (bufferedimage == null) {
                         bufferedimage = new BufferedImage(bufferedimage1.getWidth(), bufferedimage1.getHeight(), 2);
@@ -43,7 +43,7 @@ public class LayeredTexture extends AbstractTexture {
                     bufferedimage.getGraphics().drawImage(bufferedimage1, 0, 0, null);
                 }
             }
-        } catch (IOException ioexception) {
+        } catch (final IOException ioexception) {
             logger.error("Couldn't load layered image", ioexception);
             return;
         }

@@ -29,14 +29,14 @@ public class PlayerItemModel {
     public static final int ATTACH_RIGHT_LEG = 5;
     public static final int ATTACH_CAPE = 6;
 
-    public PlayerItemModel(Dimension textureSize, boolean usePlayerTexture, PlayerItemRenderer[] modelRenderers) {
+    public PlayerItemModel(final Dimension textureSize, final boolean usePlayerTexture, final PlayerItemRenderer[] modelRenderers) {
         this.textureSize = textureSize;
         this.usePlayerTexture = usePlayerTexture;
         this.modelRenderers = modelRenderers;
     }
 
-    public void render(ModelBiped modelBiped, AbstractClientPlayer player, float scale, float partialTicks) {
-        TextureManager texturemanager = Config.getTextureManager();
+    public void render(final ModelBiped modelBiped, final AbstractClientPlayer player, final float scale, final float partialTicks) {
+        final TextureManager texturemanager = Config.getTextureManager();
 
         if (this.usePlayerTexture) {
             texturemanager.bindTexture(player.getLocationSkin());
@@ -51,7 +51,8 @@ public class PlayerItemModel {
             texturemanager.bindTexture(this.locationMissing);
         }
 
-        for (PlayerItemRenderer playeritemrenderer : this.modelRenderers) {
+        for (int i = 0; i < this.modelRenderers.length; ++i) {
+            final PlayerItemRenderer playeritemrenderer = this.modelRenderers[i];
             GlStateManager.pushMatrix();
 
             if (player.isSneaking()) {
@@ -63,23 +64,36 @@ public class PlayerItemModel {
         }
     }
 
-    public static ModelRenderer getAttachModel(ModelBiped modelBiped, int attachTo) {
-        return switch (attachTo) {
-            case 0 -> modelBiped.bipedBody;
-            case 1 -> modelBiped.bipedHead;
-            case 2 -> modelBiped.bipedLeftArm;
-            case 3 -> modelBiped.bipedRightArm;
-            case 4 -> modelBiped.bipedLeftLeg;
-            case 5 -> modelBiped.bipedRightLeg;
-            default -> null;
-        };
+    public static ModelRenderer getAttachModel(final ModelBiped modelBiped, final int attachTo) {
+        switch (attachTo) {
+            case 0:
+                return modelBiped.bipedBody;
+
+            case 1:
+                return modelBiped.bipedHead;
+
+            case 2:
+                return modelBiped.bipedLeftArm;
+
+            case 3:
+                return modelBiped.bipedRightArm;
+
+            case 4:
+                return modelBiped.bipedLeftLeg;
+
+            case 5:
+                return modelBiped.bipedRightLeg;
+
+            default:
+                return null;
+        }
     }
 
     public BufferedImage getTextureImage() {
         return this.textureImage;
     }
 
-    public void setTextureImage(BufferedImage textureImage) {
+    public void setTextureImage(final BufferedImage textureImage) {
         this.textureImage = textureImage;
     }
 
@@ -91,7 +105,7 @@ public class PlayerItemModel {
         return this.textureLocation;
     }
 
-    public void setTextureLocation(ResourceLocation textureLocation) {
+    public void setTextureLocation(final ResourceLocation textureLocation) {
         this.textureLocation = textureLocation;
     }
 

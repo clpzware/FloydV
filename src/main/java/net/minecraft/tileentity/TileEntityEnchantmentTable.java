@@ -1,18 +1,14 @@
 package net.minecraft.tileentity;
 
-import java.util.Random;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerEnchantment;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.ITickable;
-import net.minecraft.util.MathHelper;
+import net.minecraft.util.*;
 import net.minecraft.world.IInteractionObject;
+
+import java.util.Random;
 
 public class TileEntityEnchantmentTable extends TileEntity implements ITickable, IInteractionObject {
     public int tickCount;
@@ -28,7 +24,7 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
     private static final Random rand = new Random();
     private String customName;
 
-    public void writeToNBT(NBTTagCompound compound) {
+    public void writeToNBT(final NBTTagCompound compound) {
         super.writeToNBT(compound);
 
         if (this.hasCustomName()) {
@@ -36,7 +32,7 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
         }
     }
 
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(final NBTTagCompound compound) {
         super.readFromNBT(compound);
 
         if (compound.hasKey("CustomName", 8)) {
@@ -44,24 +40,30 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
         }
     }
 
+    /**
+     * Like the old updateEntity(), except more generic.
+     */
     public void update() {
         this.bookSpreadPrev = this.bookSpread;
         this.bookRotationPrev = this.bookRotation;
-        EntityPlayer entityplayer = this.worldObj.getClosestPlayer((float) this.pos.getX() + 0.5F, (float) this.pos.getY() + 0.5F, (float) this.pos.getZ() + 0.5F, 3.0D);
+        final EntityPlayer entityplayer = this.worldObj.getClosestPlayer((float) this.pos.getX() + 0.5F, (float) this.pos.getY() + 0.5F, (float) this.pos.getZ() + 0.5F, 3.0D);
 
         if (entityplayer != null) {
-            double d0 = entityplayer.posX - (double) ((float) this.pos.getX() + 0.5F);
-            double d1 = entityplayer.posZ - (double) ((float) this.pos.getZ() + 0.5F);
+            final double d0 = entityplayer.posX - (double) ((float) this.pos.getX() + 0.5F);
+            final double d1 = entityplayer.posZ - (double) ((float) this.pos.getZ() + 0.5F);
             this.field_145924_q = (float) MathHelper.atan2(d1, d0);
             this.bookSpread += 0.1F;
 
             if (this.bookSpread < 0.5F || rand.nextInt(40) == 0) {
-                float f1 = this.field_145932_k;
+                final float f1 = this.field_145932_k;
 
-                do {
+                while (true) {
                     this.field_145932_k += (float) (rand.nextInt(4) - rand.nextInt(4));
 
-                } while (f1 == this.field_145932_k);
+                    if (f1 != this.field_145932_k) {
+                        break;
+                    }
+                }
             }
         } else {
             this.field_145924_q += 0.02F;
@@ -98,29 +100,38 @@ public class TileEntityEnchantmentTable extends TileEntity implements ITickable,
         ++this.tickCount;
         this.pageFlipPrev = this.pageFlip;
         float f = (this.field_145932_k - this.pageFlip) * 0.4F;
-        float f3 = 0.2F;
+        final float f3 = 0.2F;
         f = MathHelper.clamp_float(f, -f3, f3);
         this.field_145929_l += (f - this.field_145929_l) * 0.9F;
         this.pageFlip += this.field_145929_l;
     }
 
-    public String getName() {
+    /**
+     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     */
+    public String getCommandSenderName() {
         return this.hasCustomName() ? this.customName : "container.enchant";
     }
 
+    /**
+     * Returns true if this thing is named
+     */
     public boolean hasCustomName() {
-        return this.customName != null && !this.customName.isEmpty();
+        return this.customName != null && this.customName.length() > 0;
     }
 
-    public void setCustomName(String customNameIn) {
+    public void setCustomName(final String customNameIn) {
         this.customName = customNameIn;
     }
 
+    /**
+     * Get the formatted ChatComponent that will be used for the sender's username in chat
+     */
     public IChatComponent getDisplayName() {
-        return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]);
+        return this.hasCustomName() ? new ChatComponentText(this.getCommandSenderName()) : new ChatComponentTranslation(this.getCommandSenderName(), new Object[0]);
     }
 
-    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+    public Container createContainer(final InventoryPlayer playerInventory, final EntityPlayer playerIn) {
         return new ContainerEnchantment(playerInventory, this.worldObj, this.pos);
     }
 

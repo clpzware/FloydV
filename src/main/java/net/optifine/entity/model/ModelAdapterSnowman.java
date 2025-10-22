@@ -17,10 +17,11 @@ public class ModelAdapterSnowman extends ModelAdapter {
         return new ModelSnowMan();
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelSnowMan modelsnowman)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelSnowMan)) {
             return null;
         } else {
+            final ModelSnowMan modelsnowman = (ModelSnowMan) model;
             return modelPart.equals("body") ? modelsnowman.body : (modelPart.equals("body_bottom") ? modelsnowman.bottomBody : (modelPart.equals("head") ? modelsnowman.head : (modelPart.equals("left_hand") ? modelsnowman.leftHand : (modelPart.equals("right_hand") ? modelsnowman.rightHand : null))));
         }
     }
@@ -29,9 +30,9 @@ public class ModelAdapterSnowman extends ModelAdapter {
         return new String[]{"body", "body_bottom", "head", "right_hand", "left_hand"};
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderSnowMan rendersnowman = new RenderSnowMan(rendermanager);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderSnowMan rendersnowman = new RenderSnowMan(rendermanager);
         rendersnowman.mainModel = modelBase;
         rendersnowman.shadowSize = shadowSize;
         return rendersnowman;

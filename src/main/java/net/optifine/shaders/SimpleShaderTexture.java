@@ -16,20 +16,20 @@ public class SimpleShaderTexture extends AbstractTexture {
     private final String texturePath;
     private static final IMetadataSerializer METADATA_SERIALIZER = makeMetadataSerializer();
 
-    public SimpleShaderTexture(String texturePath) {
+    public SimpleShaderTexture(final String texturePath) {
         this.texturePath = texturePath;
     }
 
-    public void loadTexture(IResourceManager resourceManager) throws IOException {
+    public void loadTexture(final IResourceManager resourceManager) throws IOException {
         this.deleteGlTexture();
-        InputStream inputstream = Shaders.getShaderPackResourceStream(this.texturePath);
+        final InputStream inputstream = Shaders.getShaderPackResourceStream(this.texturePath);
 
         if (inputstream == null) {
             throw new FileNotFoundException("Shader texture not found: " + this.texturePath);
         } else {
             try {
-                BufferedImage bufferedimage = TextureUtil.readBufferedImage(inputstream);
-                TextureMetadataSection texturemetadatasection = loadTextureMetadataSection(this.texturePath, new TextureMetadataSection(false, false, new ArrayList()));
+                final BufferedImage bufferedimage = TextureUtil.readBufferedImage(inputstream);
+                final TextureMetadataSection texturemetadatasection = this.loadTextureMetadataSection();
                 TextureUtil.uploadTextureImageAllocate(this.getGlTextureId(), bufferedimage, texturemetadatasection.getTextureBlur(), texturemetadatasection.getTextureClamp());
             } finally {
                 IOUtils.closeQuietly(inputstream);
@@ -37,29 +37,29 @@ public class SimpleShaderTexture extends AbstractTexture {
         }
     }
 
-    public static TextureMetadataSection loadTextureMetadataSection(String texturePath, TextureMetadataSection def) {
-        String s = texturePath + ".mcmeta";
-        String s1 = "texture";
-        InputStream inputstream = Shaders.getShaderPackResourceStream(s);
+    private TextureMetadataSection loadTextureMetadataSection() {
+        final String s = this.texturePath + ".mcmeta";
+        final String s1 = "texture";
+        final InputStream inputstream = Shaders.getShaderPackResourceStream(s);
 
         if (inputstream != null) {
-            IMetadataSerializer imetadataserializer = METADATA_SERIALIZER;
-            BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(inputstream));
+            final IMetadataSerializer imetadataserializer = METADATA_SERIALIZER;
+            final BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(inputstream));
             TextureMetadataSection texturemetadatasection1;
 
             try {
-                JsonObject jsonobject = (new JsonParser()).parse(bufferedreader).getAsJsonObject();
-                TextureMetadataSection texturemetadatasection = imetadataserializer.parseMetadataSection(s1, jsonobject);
+                final JsonObject jsonobject = (new JsonParser()).parse(bufferedreader).getAsJsonObject();
+                final TextureMetadataSection texturemetadatasection = imetadataserializer.parseMetadataSection(s1, jsonobject);
 
                 if (texturemetadatasection == null) {
-                    return def;
+                    return new TextureMetadataSection(false, false, new ArrayList());
                 }
 
                 texturemetadatasection1 = texturemetadatasection;
-            } catch (RuntimeException runtimeexception) {
+            } catch (final RuntimeException runtimeexception) {
                 SMCLog.warning("Error reading metadata: " + s);
-                SMCLog.warning(runtimeexception.getClass().getName() + ": " + runtimeexception.getMessage());
-                return def;
+                SMCLog.warning("" + runtimeexception.getClass().getName() + ": " + runtimeexception.getMessage());
+                return new TextureMetadataSection(false, false, new ArrayList());
             } finally {
                 IOUtils.closeQuietly(bufferedreader);
                 IOUtils.closeQuietly(inputstream);
@@ -67,12 +67,12 @@ public class SimpleShaderTexture extends AbstractTexture {
 
             return texturemetadatasection1;
         } else {
-            return def;
+            return new TextureMetadataSection(false, false, new ArrayList());
         }
     }
 
     private static IMetadataSerializer makeMetadataSerializer() {
-        IMetadataSerializer imetadataserializer = new IMetadataSerializer();
+        final IMetadataSerializer imetadataserializer = new IMetadataSerializer();
         imetadataserializer.registerMetadataSectionType(new TextureMetadataSectionSerializer(), TextureMetadataSection.class);
         imetadataserializer.registerMetadataSectionType(new FontMetadataSectionSerializer(), FontMetadataSection.class);
         imetadataserializer.registerMetadataSectionType(new AnimationMetadataSectionSerializer(), AnimationMetadataSection.class);

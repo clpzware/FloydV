@@ -1,7 +1,5 @@
 package net.minecraft.tileentity;
 
-import java.util.Random;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -11,28 +9,44 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
+import java.util.Random;
+
 public class TileEntityDispenser extends TileEntityLockable implements IInventory {
     private static final Random RNG = new Random();
     private ItemStack[] stacks = new ItemStack[9];
     protected String customName;
 
+    /**
+     * Returns the number of slots in the inventory.
+     */
     public int getSizeInventory() {
         return 9;
     }
 
-    public ItemStack getStackInSlot(int index) {
+    /**
+     * Returns the stack in the given slot.
+     *
+     * @param index The slot to retrieve from.
+     */
+    public ItemStack getStackInSlot(final int index) {
         return this.stacks[index];
     }
 
-    public ItemStack decrStackSize(int index, int count) {
+    /**
+     * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
+     *
+     * @param index The slot to remove from.
+     * @param count The maximum amount of items to remove.
+     */
+    public ItemStack decrStackSize(final int index, final int count) {
         if (this.stacks[index] != null) {
             if (this.stacks[index].stackSize <= count) {
-                ItemStack itemstack1 = this.stacks[index];
+                final ItemStack itemstack1 = this.stacks[index];
                 this.stacks[index] = null;
                 this.markDirty();
                 return itemstack1;
             } else {
-                ItemStack itemstack = this.stacks[index].splitStack(count);
+                final ItemStack itemstack = this.stacks[index].splitStack(count);
 
                 if (this.stacks[index].stackSize == 0) {
                     this.stacks[index] = null;
@@ -46,9 +60,14 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
         }
     }
 
-    public ItemStack removeStackFromSlot(int index) {
+    /**
+     * Removes a stack from the given slot and returns it.
+     *
+     * @param index The slot to remove a stack from.
+     */
+    public ItemStack getStackInSlotOnClosing(final int index) {
         if (this.stacks[index] != null) {
-            ItemStack itemstack = this.stacks[index];
+            final ItemStack itemstack = this.stacks[index];
             this.stacks[index] = null;
             return itemstack;
         } else {
@@ -69,7 +88,10 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
         return i;
     }
 
-    public void setInventorySlotContents(int index, ItemStack stack) {
+    /**
+     * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
+     */
+    public void setInventorySlotContents(final int index, final ItemStack stack) {
         this.stacks[index] = stack;
 
         if (stack != null && stack.stackSize > this.getInventoryStackLimit()) {
@@ -79,7 +101,11 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
         this.markDirty();
     }
 
-    public int addItemStack(ItemStack stack) {
+    /**
+     * Add the given ItemStack to this Dispenser. Return the Slot the Item was placed in or -1 if no free slot is
+     * available.
+     */
+    public int addItemStack(final ItemStack stack) {
         for (int i = 0; i < this.stacks.length; ++i) {
             if (this.stacks[i] == null || this.stacks[i].getItem() == null) {
                 this.setInventorySlotContents(i, stack);
@@ -90,28 +116,34 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
         return -1;
     }
 
-    public String getName() {
+    /**
+     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     */
+    public String getCommandSenderName() {
         return this.hasCustomName() ? this.customName : "container.dispenser";
     }
 
-    public void setCustomName(String customName) {
+    public void setCustomName(final String customName) {
         this.customName = customName;
     }
 
+    /**
+     * Returns true if this thing is named
+     */
     public boolean hasCustomName() {
         return this.customName != null;
     }
 
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(final NBTTagCompound compound) {
         super.readFromNBT(compound);
-        NBTTagList nbttaglist = compound.getTagList("Items", 10);
+        final NBTTagList nbttaglist = compound.getTagList("Items", 10);
         this.stacks = new ItemStack[this.getSizeInventory()];
 
         for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-            NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
-            int j = nbttagcompound.getByte("Slot") & 255;
+            final NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
+            final int j = nbttagcompound.getByte("Slot") & 255;
 
-            if (j < this.stacks.length) {
+            if (j >= 0 && j < this.stacks.length) {
                 this.stacks[j] = ItemStack.loadItemStackFromNBT(nbttagcompound);
             }
         }
@@ -121,13 +153,13 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
         }
     }
 
-    public void writeToNBT(NBTTagCompound compound) {
+    public void writeToNBT(final NBTTagCompound compound) {
         super.writeToNBT(compound);
-        NBTTagList nbttaglist = new NBTTagList();
+        final NBTTagList nbttaglist = new NBTTagList();
 
         for (int i = 0; i < this.stacks.length; ++i) {
             if (this.stacks[i] != null) {
-                NBTTagCompound nbttagcompound = new NBTTagCompound();
+                final NBTTagCompound nbttagcompound = new NBTTagCompound();
                 nbttagcompound.setByte("Slot", (byte) i);
                 this.stacks[i].writeToNBT(nbttagcompound);
                 nbttaglist.appendTag(nbttagcompound);
@@ -141,21 +173,30 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
         }
     }
 
+    /**
+     * Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be extended.
+     */
     public int getInventoryStackLimit() {
         return 64;
     }
 
-    public boolean isUseableByPlayer(EntityPlayer player) {
+    /**
+     * Do not make give this method the name canInteractWith because it clashes with Container
+     */
+    public boolean isUseableByPlayer(final EntityPlayer player) {
         return this.worldObj.getTileEntity(this.pos) == this && player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
     }
 
-    public void openInventory(EntityPlayer player) {
+    public void openInventory(final EntityPlayer player) {
     }
 
-    public void closeInventory(EntityPlayer player) {
+    public void closeInventory(final EntityPlayer player) {
     }
 
-    public boolean isItemValidForSlot(int index, ItemStack stack) {
+    /**
+     * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot.
+     */
+    public boolean isItemValidForSlot(final int index, final ItemStack stack) {
         return true;
     }
 
@@ -163,15 +204,15 @@ public class TileEntityDispenser extends TileEntityLockable implements IInventor
         return "minecraft:dispenser";
     }
 
-    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+    public Container createContainer(final InventoryPlayer playerInventory, final EntityPlayer playerIn) {
         return new ContainerDispenser(playerInventory, this);
     }
 
-    public int getField(int id) {
+    public int getField(final int id) {
         return 0;
     }
 
-    public void setField(int id, int value) {
+    public void setField(final int id, final int value) {
     }
 
     public int getFieldCount() {

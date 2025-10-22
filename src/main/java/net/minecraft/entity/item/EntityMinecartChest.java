@@ -13,22 +13,25 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class EntityMinecartChest extends EntityMinecartContainer {
-    public EntityMinecartChest(World worldIn) {
+    public EntityMinecartChest(final World worldIn) {
         super(worldIn);
     }
 
-    public EntityMinecartChest(World worldIn, double x, double y, double z) {
-        super(worldIn, x, y, z);
+    public EntityMinecartChest(final World worldIn, final double p_i1715_2_, final double p_i1715_4_, final double p_i1715_6_) {
+        super(worldIn, p_i1715_2_, p_i1715_4_, p_i1715_6_);
     }
 
-    public void killMinecart(DamageSource source) {
-        super.killMinecart(source);
+    public void killMinecart(final DamageSource p_94095_1_) {
+        super.killMinecart(p_94095_1_);
 
-        if (this.worldObj.getGameRules().getBoolean("doEntityDrops")) {
+        if (this.worldObj.getGameRules().getGameRuleBooleanValue("doEntityDrops")) {
             this.dropItemWithOffset(Item.getItemFromBlock(Blocks.chest), 1, 0.0F);
         }
     }
 
+    /**
+     * Returns the number of slots in the inventory.
+     */
     public int getSizeInventory() {
         return 27;
     }
@@ -49,7 +52,7 @@ public class EntityMinecartChest extends EntityMinecartContainer {
         return "minecraft:chest";
     }
 
-    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+    public Container createContainer(final InventoryPlayer playerInventory, final EntityPlayer playerIn) {
         return new ContainerChest(playerInventory, this, playerIn);
     }
 }

@@ -12,30 +12,30 @@ import java.util.Map.Entry;
 public abstract class StateMapperBase implements IStateMapper {
     protected Map<IBlockState, ModelResourceLocation> mapStateModelLocations = Maps.newLinkedHashMap();
 
-    public String getPropertyString(Map<IProperty, Comparable> p_178131_1_) {
-        StringBuilder stringbuilder = new StringBuilder();
+    public String getPropertyString(final Map<IProperty, Comparable> p_178131_1_) {
+        final StringBuilder stringbuilder = new StringBuilder();
 
-        for (Entry<IProperty, Comparable> entry : p_178131_1_.entrySet()) {
-            if (!stringbuilder.isEmpty()) {
+        for (final Entry<IProperty, Comparable> entry : p_178131_1_.entrySet()) {
+            if (stringbuilder.length() != 0) {
                 stringbuilder.append(",");
             }
 
-            IProperty iproperty = entry.getKey();
-            Comparable comparable = entry.getValue();
+            final IProperty iproperty = entry.getKey();
+            final Comparable comparable = entry.getValue();
             stringbuilder.append(iproperty.getName());
             stringbuilder.append("=");
             stringbuilder.append(iproperty.getName(comparable));
         }
 
-        if (stringbuilder.isEmpty()) {
+        if (stringbuilder.length() == 0) {
             stringbuilder.append("normal");
         }
 
         return stringbuilder.toString();
     }
 
-    public Map<IBlockState, ModelResourceLocation> putStateModelLocations(Block blockIn) {
-        for (IBlockState iblockstate : blockIn.getBlockState().getValidStates()) {
+    public Map<IBlockState, ModelResourceLocation> putStateModelLocations(final Block blockIn) {
+        for (final IBlockState iblockstate : blockIn.getBlockState().getValidStates()) {
             this.mapStateModelLocations.put(iblockstate, this.getModelResourceLocation(iblockstate));
         }
 

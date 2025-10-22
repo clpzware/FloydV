@@ -26,11 +26,11 @@ public class ChunkVisibility {
     private static int pcxLast = Integer.MIN_VALUE;
     private static int pczLast = Integer.MIN_VALUE;
 
-    public static int getMaxChunkY(World world, Entity viewEntity, int renderDistanceChunks) {
-        int i = MathHelper.floor_double(viewEntity.posX) >> 4;
-        int j = MathHelper.floor_double(viewEntity.posY) >> 4;
-        int k = MathHelper.floor_double(viewEntity.posZ) >> 4;
-        Chunk chunk = world.getChunkFromChunkCoords(i, k);
+    public static int getMaxChunkY(final World world, final Entity viewEntity, final int renderDistanceChunks) {
+        final int i = MathHelper.floor_double(viewEntity.posX) >> 4;
+        final int j = MathHelper.floor_double(viewEntity.posY) >> 4;
+        final int k = MathHelper.floor_double(viewEntity.posZ) >> 4;
+        final Chunk chunk = world.getChunkFromChunkCoords(i, k);
         int l = i - renderDistanceChunks;
         int i1 = i + renderDistanceChunks;
         int j1 = k - renderDistanceChunks;
@@ -73,43 +73,47 @@ public class ChunkVisibility {
 
         for (int i2 = l; i2 < i1; ++i2) {
             for (int j2 = j1; j2 < k1; ++j2) {
-                Chunk chunk1 = world.getChunkFromChunkCoords(i2, j2);
+                final Chunk chunk1 = world.getChunkFromChunkCoords(i2, j2);
 
                 if (!chunk1.isEmpty()) {
-                    ExtendedBlockStorage[] aextendedblockstorage = chunk1.getBlockStorageArray();
+                    final ExtendedBlockStorage[] aextendedblockstorage = chunk1.getBlockStorageArray();
 
                     for (int k2 = aextendedblockstorage.length - 1; k2 > l1; --k2) {
-                        ExtendedBlockStorage extendedblockstorage = aextendedblockstorage[k2];
+                        final ExtendedBlockStorage extendedblockstorage = aextendedblockstorage[k2];
 
                         if (extendedblockstorage != null && !extendedblockstorage.isEmpty()) {
-                            l1 = k2;
+                            if (k2 > l1) {
+                                l1 = k2;
+                            }
 
                             break;
                         }
                     }
 
                     try {
-                        Map<BlockPos, TileEntity> map = chunk1.getTileEntityMap();
+                        final Map<BlockPos, TileEntity> map = chunk1.getTileEntityMap();
 
                         if (!map.isEmpty()) {
-                            for (BlockPos blockpos : map.keySet()) {
-                                int l2 = blockpos.getY() >> 4;
+                            for (final BlockPos blockpos : map.keySet()) {
+                                final int l2 = blockpos.getY() >> 4;
 
                                 if (l2 > l1) {
                                     l1 = l2;
                                 }
                             }
                         }
-                    } catch (ConcurrentModificationException ignored) {
+                    } catch (final ConcurrentModificationException var21) {
                     }
 
-                    ClassInheritanceMultiMap<Entity>[] classinheritancemultimap = chunk1.getEntityLists();
+                    final ClassInheritanceMultiMap<Entity>[] classinheritancemultimap = chunk1.getEntityLists();
 
                     for (int i3 = classinheritancemultimap.length - 1; i3 > l1; --i3) {
-                        ClassInheritanceMultiMap<Entity> classinheritancemultimap1 = classinheritancemultimap[i3];
+                        final ClassInheritanceMultiMap<Entity> classinheritancemultimap1 = classinheritancemultimap[i3];
 
                         if (!classinheritancemultimap1.isEmpty() && (chunk1 != chunk || i3 != j || classinheritancemultimap1.size() != 1)) {
-                            l1 = i3;
+                            if (i3 > l1) {
+                                l1 = i3;
+                            }
 
                             break;
                         }
@@ -134,32 +138,32 @@ public class ChunkVisibility {
         return counter == 0;
     }
 
-    private static EnumFacing[][] makeEnumFacingArrays(boolean opposite) {
-        int i = 64;
-        EnumFacing[][] aenumfacing = new EnumFacing[i][];
+    private static EnumFacing[][] makeEnumFacingArrays(final boolean opposite) {
+        final int i = 64;
+        final EnumFacing[][] aenumfacing = new EnumFacing[i][];
 
         for (int j = 0; j < i; ++j) {
-            List<EnumFacing> list = new ArrayList();
+            final List<EnumFacing> list = new ArrayList();
 
             for (int k = 0; k < EnumFacing.VALUES.length; ++k) {
-                EnumFacing enumfacing = EnumFacing.VALUES[k];
-                EnumFacing enumfacing1 = opposite ? enumfacing.getOpposite() : enumfacing;
-                int l = 1 << enumfacing1.ordinal();
+                final EnumFacing enumfacing = EnumFacing.VALUES[k];
+                final EnumFacing enumfacing1 = opposite ? enumfacing.getOpposite() : enumfacing;
+                final int l = 1 << enumfacing1.ordinal();
 
                 if ((j & l) != 0) {
                     list.add(enumfacing);
                 }
             }
 
-            EnumFacing[] aenumfacing1 = list.toArray(new EnumFacing[list.size()]);
+            final EnumFacing[] aenumfacing1 = list.toArray(new EnumFacing[list.size()]);
             aenumfacing[j] = aenumfacing1;
         }
 
         return aenumfacing;
     }
 
-    public static EnumFacing[] getFacingsNotOpposite(int setDisabled) {
-        int i = ~setDisabled & 63;
+    public static EnumFacing[] getFacingsNotOpposite(final int setDisabled) {
+        final int i = ~setDisabled & 63;
         return enumFacingOppositeArrays[i];
     }
 

@@ -6,7 +6,7 @@ public class PropertyDefaultFastFancyOff extends Property {
     public static final String[] PROPERTY_VALUES = new String[]{"default", "fast", "fancy", "off"};
     public static final String[] USER_VALUES = new String[]{"Default", "Fast", "Fancy", "OFF"};
 
-    public PropertyDefaultFastFancyOff(String propertyName, String userName, int defaultValue) {
+    public PropertyDefaultFastFancyOff(final String propertyName, final String userName, final int defaultValue) {
         super(propertyName, PROPERTY_VALUES, userName, USER_VALUES, defaultValue);
     }
 

@@ -6,15 +6,15 @@ import com.mojang.authlib.GameProfile;
 import java.util.UUID;
 
 public class UserListWhitelistEntry extends UserListEntry<GameProfile> {
-    public UserListWhitelistEntry(GameProfile profile) {
+    public UserListWhitelistEntry(final GameProfile profile) {
         super(profile);
     }
 
-    public UserListWhitelistEntry(JsonObject json) {
-        super(gameProfileFromJsonObject(json), json);
+    public UserListWhitelistEntry(final JsonObject p_i1130_1_) {
+        super(gameProfileFromJsonObject(p_i1130_1_), p_i1130_1_);
     }
 
-    protected void onSerialization(JsonObject data) {
+    protected void onSerialization(final JsonObject data) {
         if (this.getValue() != null) {
             data.addProperty("uuid", this.getValue().getId() == null ? "" : this.getValue().getId().toString());
             data.addProperty("name", this.getValue().getName());
@@ -22,18 +22,18 @@ public class UserListWhitelistEntry extends UserListEntry<GameProfile> {
         }
     }
 
-    private static GameProfile gameProfileFromJsonObject(JsonObject json) {
-        if (json.has("uuid") && json.has("name")) {
-            String s = json.get("uuid").getAsString();
-            UUID uuid;
+    private static GameProfile gameProfileFromJsonObject(final JsonObject p_152646_0_) {
+        if (p_152646_0_.has("uuid") && p_152646_0_.has("name")) {
+            final String s = p_152646_0_.get("uuid").getAsString();
+            final UUID uuid;
 
             try {
                 uuid = UUID.fromString(s);
-            } catch (Throwable var4) {
+            } catch (final Throwable var4) {
                 return null;
             }
 
-            return new GameProfile(uuid, json.get("name").getAsString());
+            return new GameProfile(uuid, p_152646_0_.get("name").getAsString());
         } else {
             return null;
         }

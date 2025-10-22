@@ -10,10 +10,13 @@ public class BlockStandingSign extends BlockSign {
     public static final PropertyInteger ROTATION = PropertyInteger.create("rotation", 0, 15);
 
     public BlockStandingSign() {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, 0));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(ROTATION, Integer.valueOf(0)));
     }
 
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+    /**
+     * Called when a neighboring block changes.
+     */
+    public void onNeighborBlockChange(final World worldIn, final BlockPos pos, final IBlockState state, final Block neighborBlock) {
         if (!worldIn.getBlockState(pos.down()).getBlock().getMaterial().isSolid()) {
             this.dropBlockAsItem(worldIn, pos, state, 0);
             worldIn.setBlockToAir(pos);
@@ -22,12 +25,18 @@ public class BlockStandingSign extends BlockSign {
         super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
     }
 
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(ROTATION, meta);
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
+        return this.getDefaultState().withProperty(ROTATION, Integer.valueOf(meta));
     }
 
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(ROTATION);
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
+        return state.getValue(ROTATION).intValue();
     }
 
     protected BlockState createBlockState() {

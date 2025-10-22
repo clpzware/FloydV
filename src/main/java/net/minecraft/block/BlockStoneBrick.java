@@ -24,21 +24,34 @@ public class BlockStoneBrick extends Block {
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    public int damageDropped(IBlockState state) {
+    /**
+     * Gets the metadata of the item this Block can drop. This method is called when the block gets destroyed. It
+     * returns the metadata of the dropped item based on the old metadata of the block.
+     */
+    public int damageDropped(final IBlockState state) {
         return state.getValue(VARIANT).getMetadata();
     }
 
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
-        for (BlockStoneBrick.EnumType blockstonebrick$enumtype : BlockStoneBrick.EnumType.values()) {
+    /**
+     * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
+     */
+    public void getSubBlocks(final Item itemIn, final CreativeTabs tab, final List<ItemStack> list) {
+        for (final BlockStoneBrick.EnumType blockstonebrick$enumtype : BlockStoneBrick.EnumType.values()) {
             list.add(new ItemStack(itemIn, 1, blockstonebrick$enumtype.getMetadata()));
         }
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
         return this.getDefaultState().withProperty(VARIANT, BlockStoneBrick.EnumType.byMetadata(meta));
     }
 
-    public int getMetaFromState(IBlockState state) {
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
         return state.getValue(VARIANT).getMetadata();
     }
 
@@ -57,7 +70,7 @@ public class BlockStoneBrick extends Block {
         private final String name;
         private final String unlocalizedName;
 
-        EnumType(int meta, String name, String unlocalizedName) {
+        EnumType(final int meta, final String name, final String unlocalizedName) {
             this.meta = meta;
             this.name = name;
             this.unlocalizedName = unlocalizedName;
@@ -88,7 +101,7 @@ public class BlockStoneBrick extends Block {
         }
 
         static {
-            for (BlockStoneBrick.EnumType blockstonebrick$enumtype : values()) {
+            for (final BlockStoneBrick.EnumType blockstonebrick$enumtype : values()) {
                 META_LOOKUP[blockstonebrick$enumtype.getMetadata()] = blockstonebrick$enumtype;
             }
         }

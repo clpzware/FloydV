@@ -8,14 +8,14 @@ public class SoundPoolEntry {
     private double pitch;
     private double volume;
 
-    public SoundPoolEntry(ResourceLocation locationIn, double pitchIn, double volumeIn, boolean streamingSoundIn) {
+    public SoundPoolEntry(final ResourceLocation locationIn, final double pitchIn, final double volumeIn, final boolean streamingSoundIn) {
         this.location = locationIn;
         this.pitch = pitchIn;
         this.volume = volumeIn;
         this.streamingSound = streamingSoundIn;
     }
 
-    public SoundPoolEntry(SoundPoolEntry locationIn) {
+    public SoundPoolEntry(final SoundPoolEntry locationIn) {
         this.location = locationIn.location;
         this.pitch = locationIn.pitch;
         this.volume = locationIn.volume;
@@ -30,7 +30,7 @@ public class SoundPoolEntry {
         return this.pitch;
     }
 
-    public void setPitch(double pitchIn) {
+    public void setPitch(final double pitchIn) {
         this.pitch = pitchIn;
     }
 
@@ -38,7 +38,7 @@ public class SoundPoolEntry {
         return this.volume;
     }
 
-    public void setVolume(double volumeIn) {
+    public void setVolume(final double volumeIn) {
         this.volume = volumeIn;
     }
 

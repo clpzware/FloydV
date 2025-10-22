@@ -6,19 +6,19 @@ public class ShaderUniform2i extends ShaderUniformBase {
     private int[][] programValues;
     private static final int VALUE_UNKNOWN = Integer.MIN_VALUE;
 
-    public ShaderUniform2i(String name) {
+    public ShaderUniform2i(final String name) {
         super(name);
         this.resetValue();
     }
 
-    public void setValue(int v0, int v1) {
-        int i = this.getProgram();
-        int[] aint = this.programValues[i];
+    public void setValue(final int v0, final int v1) {
+        final int i = this.getProgram();
+        final int[] aint = this.programValues[i];
 
         if (aint[0] != v0 || aint[1] != v1) {
             aint[0] = v0;
             aint[1] = v1;
-            int j = this.getLocation();
+            final int j = this.getLocation();
 
             if (j >= 0) {
                 ARBShaderObjects.glUniform2iARB(j, v0, v1);
@@ -28,15 +28,15 @@ public class ShaderUniform2i extends ShaderUniformBase {
     }
 
     public int[] getValue() {
-        int i = this.getProgram();
-        int[] aint = this.programValues[i];
+        final int i = this.getProgram();
+        final int[] aint = this.programValues[i];
         return aint;
     }
 
-    protected void onProgramSet(int program) {
+    protected void onProgramSet(final int program) {
         if (program >= this.programValues.length) {
-            int[][] aint = this.programValues;
-            int[][] aint1 = new int[program + 10][];
+            final int[][] aint = this.programValues;
+            final int[][] aint1 = new int[program + 10][];
             System.arraycopy(aint, 0, aint1, 0, aint.length);
             this.programValues = aint1;
         }

@@ -48,15 +48,15 @@ public class ViaMCP {
 
         // Add this line if you implement the transaction fixes into the game code
         fixTransactions();
-
-        Via.getManager().debugHandler().setEnabled(true);
     }
 
     private void fixTransactions() {
         // We handle the differences between those versions in the net code, so we can make the Via handlers pass through
         final Protocol1_17To1_16_4 protocol = Via.getManager().getProtocolManager().getProtocol(Protocol1_17To1_16_4.class);
-        protocol.registerClientbound(ClientboundPackets1_17.PING, ClientboundPackets1_16_2.CONTAINER_ACK, wrapper -> {}, true);
-        protocol.registerServerbound(ServerboundPackets1_16_2.CONTAINER_ACK, ServerboundPackets1_17.PONG, wrapper -> {}, true);
+        protocol.registerClientbound(ClientboundPackets1_17.PING, ClientboundPackets1_16_2.CONTAINER_ACK, wrapper -> {
+        }, true);
+        protocol.registerServerbound(ServerboundPackets1_16_2.CONTAINER_ACK, ServerboundPackets1_17.PONG, wrapper -> {
+        }, true);
     }
 
     public void initAsyncSlider() {

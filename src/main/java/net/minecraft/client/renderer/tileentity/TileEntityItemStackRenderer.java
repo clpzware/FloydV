@@ -22,7 +22,7 @@ public class TileEntityItemStackRenderer {
     private final TileEntityBanner banner = new TileEntityBanner();
     private final TileEntitySkull skull = new TileEntitySkull();
 
-    public void renderByItem(ItemStack itemStackIn) {
+    public void renderByItem(final ItemStack itemStackIn) {
         if (itemStackIn.getItem() == Items.banner) {
             this.banner.setItemValues(itemStackIn);
             TileEntityRendererDispatcher.instance.renderTileEntityAt(this.banner, 0.0D, 0.0D, 0.0D, 0.0F);
@@ -30,11 +30,11 @@ public class TileEntityItemStackRenderer {
             GameProfile gameprofile = null;
 
             if (itemStackIn.hasTagCompound()) {
-                NBTTagCompound nbttagcompound = itemStackIn.getTagCompound();
+                final NBTTagCompound nbttagcompound = itemStackIn.getTagCompound();
 
                 if (nbttagcompound.hasKey("SkullOwner", 10)) {
                     gameprofile = NBTUtil.readGameProfileFromNBT(nbttagcompound.getCompoundTag("SkullOwner"));
-                } else if (nbttagcompound.hasKey("SkullOwner", 8) && !nbttagcompound.getString("SkullOwner").isEmpty()) {
+                } else if (nbttagcompound.hasKey("SkullOwner", 8) && nbttagcompound.getString("SkullOwner").length() > 0) {
                     gameprofile = new GameProfile(null, nbttagcompound.getString("SkullOwner"));
                     gameprofile = TileEntitySkull.updateGameprofile(gameprofile);
                     nbttagcompound.removeTag("SkullOwner");
@@ -52,7 +52,7 @@ public class TileEntityItemStackRenderer {
                 GlStateManager.popMatrix();
             }
         } else {
-            Block block = Block.getBlockFromItem(itemStackIn.getItem());
+            final Block block = Block.getBlockFromItem(itemStackIn.getItem());
 
             if (block == Blocks.ender_chest) {
                 TileEntityRendererDispatcher.instance.renderTileEntityAt(this.enderChest, 0.0D, 0.0D, 0.0D, 0.0F);

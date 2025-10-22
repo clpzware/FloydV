@@ -3,30 +3,44 @@ package net.minecraft.inventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemHoe;
-import net.minecraft.item.ItemPickaxe;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.stats.AchievementList;
 
 public class SlotCrafting extends Slot {
+    /**
+     * The craft matrix inventory linked to this result slot.
+     */
     private final InventoryCrafting craftMatrix;
+
+    /**
+     * The player that is using the GUI where this slot resides.
+     */
     private final EntityPlayer thePlayer;
+
+    /**
+     * The number of items that have been crafted so far. Gets passed to ItemStack.onCrafting before being reset.
+     */
     private int amountCrafted;
 
-    public SlotCrafting(EntityPlayer player, InventoryCrafting craftingInventory, IInventory p_i45790_3_, int slotIndex, int xPosition, int yPosition) {
+    public SlotCrafting(final EntityPlayer player, final InventoryCrafting craftingInventory, final IInventory p_i45790_3_, final int slotIndex, final int xPosition, final int yPosition) {
         super(p_i45790_3_, slotIndex, xPosition, yPosition);
         this.thePlayer = player;
         this.craftMatrix = craftingInventory;
     }
 
-    public boolean isItemValid(ItemStack stack) {
+    /**
+     * Check if the stack is a valid item for this slot. Always true beside for the armor slots.
+     */
+    public boolean isItemValid(final ItemStack stack) {
         return false;
     }
 
-    public ItemStack decrStackSize(int amount) {
+    /**
+     * Decrease the size of the stack in slot (first int arg) by the amount of the second int arg. Returns the new
+     * stack.
+     */
+    public ItemStack decrStackSize(final int amount) {
         if (this.getHasStack()) {
             this.amountCrafted += Math.min(amount, this.getStack().stackSize);
         }
@@ -34,12 +48,19 @@ public class SlotCrafting extends Slot {
         return super.decrStackSize(amount);
     }
 
-    protected void onCrafting(ItemStack stack, int amount) {
+    /**
+     * the itemStack passed in is the output - ie, iron ingots, and pickaxes, not ore and wood. Typically increases an
+     * internal count then calls onCrafting(item).
+     */
+    protected void onCrafting(final ItemStack stack, final int amount) {
         this.amountCrafted += amount;
         this.onCrafting(stack);
     }
 
-    protected void onCrafting(ItemStack stack) {
+    /**
+     * the itemStack passed in is the output - ie, iron ingots, and pickaxes, not ore and wood.
+     */
+    protected void onCrafting(final ItemStack stack) {
         if (this.amountCrafted > 0) {
             stack.onCrafting(this.thePlayer.worldObj, this.thePlayer, this.amountCrafted);
         }
@@ -91,13 +112,13 @@ public class SlotCrafting extends Slot {
         }
     }
 
-    public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
+    public void onPickupFromSlot(final EntityPlayer playerIn, final ItemStack stack) {
         this.onCrafting(stack);
-        ItemStack[] aitemstack = CraftingManager.getInstance().func_180303_b(this.craftMatrix, playerIn.worldObj);
+        final ItemStack[] aitemstack = CraftingManager.getInstance().func_180303_b(this.craftMatrix, playerIn.worldObj);
 
         for (int i = 0; i < aitemstack.length; ++i) {
-            ItemStack itemstack = this.craftMatrix.getStackInSlot(i);
-            ItemStack itemstack1 = aitemstack[i];
+            final ItemStack itemstack = this.craftMatrix.getStackInSlot(i);
+            final ItemStack itemstack1 = aitemstack[i];
 
             if (itemstack != null) {
                 this.craftMatrix.decrStackSize(i, 1);

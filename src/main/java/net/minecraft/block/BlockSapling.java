@@ -21,17 +21,20 @@ public class BlockSapling extends BlockBush implements IGrowable {
     public static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 1);
 
     protected BlockSapling() {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, BlockPlanks.EnumType.OAK).withProperty(STAGE, 0));
-        float f = 0.4F;
+        this.setDefaultState(this.blockState.getBaseState().withProperty(TYPE, BlockPlanks.EnumType.OAK).withProperty(STAGE, Integer.valueOf(0)));
+        final float f = 0.4F;
         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 
+    /**
+     * Gets the localized name of this block. Used for the statistics page.
+     */
     public String getLocalizedName() {
         return StatCollector.translateToLocal(this.getUnlocalizedName() + "." + BlockPlanks.EnumType.OAK.getUnlocalizedName() + ".name");
     }
 
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(final World worldIn, final BlockPos pos, final IBlockState state, final Random rand) {
         if (!worldIn.isRemote) {
             super.updateTick(worldIn, pos, state, rand);
 
@@ -41,15 +44,15 @@ public class BlockSapling extends BlockBush implements IGrowable {
         }
     }
 
-    public void grow(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-        if (state.getValue(STAGE) == 0) {
+    public void grow(final World worldIn, final BlockPos pos, final IBlockState state, final Random rand) {
+        if (state.getValue(STAGE).intValue() == 0) {
             worldIn.setBlockState(pos, state.cycleProperty(STAGE), 4);
         } else {
             this.generateTree(worldIn, pos, state, rand);
         }
     }
 
-    public void generateTree(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void generateTree(final World worldIn, final BlockPos pos, final IBlockState state, final Random rand) {
         WorldGenerator worldgenerator = rand.nextInt(10) == 0 ? new WorldGenBigTree(true) : new WorldGenTrees(true);
         int i = 0;
         int j = 0;
@@ -81,8 +84,8 @@ public class BlockSapling extends BlockBush implements IGrowable {
                 break;
 
             case JUNGLE:
-                IBlockState iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
-                IBlockState iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.FALSE);
+                final IBlockState iblockstate = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.JUNGLE);
+                final IBlockState iblockstate1 = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.JUNGLE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
                 label269:
 
                 for (i = 0; i >= -1; --i) {
@@ -126,7 +129,7 @@ public class BlockSapling extends BlockBush implements IGrowable {
             case OAK:
         }
 
-        IBlockState iblockstate2 = Blocks.air.getDefaultState();
+        final IBlockState iblockstate2 = Blocks.air.getDefaultState();
 
         if (flag) {
             worldIn.setBlockState(pos.add(i, 0, j), iblockstate2, 4);
@@ -149,45 +152,64 @@ public class BlockSapling extends BlockBush implements IGrowable {
         }
     }
 
-    private boolean func_181624_a(World p_181624_1_, BlockPos p_181624_2_, int p_181624_3_, int p_181624_4_, BlockPlanks.EnumType p_181624_5_) {
+    private boolean func_181624_a(final World p_181624_1_, final BlockPos p_181624_2_, final int p_181624_3_, final int p_181624_4_, final BlockPlanks.EnumType p_181624_5_) {
         return this.isTypeAt(p_181624_1_, p_181624_2_.add(p_181624_3_, 0, p_181624_4_), p_181624_5_) && this.isTypeAt(p_181624_1_, p_181624_2_.add(p_181624_3_ + 1, 0, p_181624_4_), p_181624_5_) && this.isTypeAt(p_181624_1_, p_181624_2_.add(p_181624_3_, 0, p_181624_4_ + 1), p_181624_5_) && this.isTypeAt(p_181624_1_, p_181624_2_.add(p_181624_3_ + 1, 0, p_181624_4_ + 1), p_181624_5_);
     }
 
-    public boolean isTypeAt(World worldIn, BlockPos pos, BlockPlanks.EnumType type) {
-        IBlockState iblockstate = worldIn.getBlockState(pos);
+    /**
+     * Check whether the given BlockPos has a Sapling of the given type
+     */
+    public boolean isTypeAt(final World worldIn, final BlockPos pos, final BlockPlanks.EnumType type) {
+        final IBlockState iblockstate = worldIn.getBlockState(pos);
         return iblockstate.getBlock() == this && iblockstate.getValue(TYPE) == type;
     }
 
-    public int damageDropped(IBlockState state) {
+    /**
+     * Gets the metadata of the item this Block can drop. This method is called when the block gets destroyed. It
+     * returns the metadata of the dropped item based on the old metadata of the block.
+     */
+    public int damageDropped(final IBlockState state) {
         return state.getValue(TYPE).getMetadata();
     }
 
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
-        for (BlockPlanks.EnumType blockplanks$enumtype : BlockPlanks.EnumType.values()) {
+    /**
+     * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
+     */
+    public void getSubBlocks(final Item itemIn, final CreativeTabs tab, final List<ItemStack> list) {
+        for (final BlockPlanks.EnumType blockplanks$enumtype : BlockPlanks.EnumType.values()) {
             list.add(new ItemStack(itemIn, 1, blockplanks$enumtype.getMetadata()));
         }
     }
 
-    public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
+    /**
+     * Whether this IGrowable can grow
+     */
+    public boolean canGrow(final World worldIn, final BlockPos pos, final IBlockState state, final boolean isClient) {
         return true;
     }
 
-    public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+    public boolean canUseBonemeal(final World worldIn, final Random rand, final BlockPos pos, final IBlockState state) {
         return (double) worldIn.rand.nextFloat() < 0.45D;
     }
 
-    public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+    public void grow(final World worldIn, final Random rand, final BlockPos pos, final IBlockState state) {
         this.grow(worldIn, pos, state, rand);
     }
 
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(TYPE, BlockPlanks.EnumType.byMetadata(meta & 7)).withProperty(STAGE, (meta & 8) >> 3);
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
+        return this.getDefaultState().withProperty(TYPE, BlockPlanks.EnumType.byMetadata(meta & 7)).withProperty(STAGE, Integer.valueOf((meta & 8) >> 3));
     }
 
-    public int getMetaFromState(IBlockState state) {
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
         int i = 0;
         i = i | state.getValue(TYPE).getMetadata();
-        i = i | state.getValue(STAGE) << 3;
+        i = i | state.getValue(STAGE).intValue() << 3;
         return i;
     }
 

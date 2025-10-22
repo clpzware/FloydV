@@ -12,18 +12,21 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class ItemLilyPad extends ItemColored {
-    public ItemLilyPad(Block block) {
+    public ItemLilyPad(final Block block) {
         super(block, false);
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-        MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, true);
+    /**
+     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+     */
+    public ItemStack onItemRightClick(final ItemStack itemStackIn, final World worldIn, final EntityPlayer playerIn) {
+        final MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(worldIn, playerIn, true);
 
         if (movingobjectposition == null) {
             return itemStackIn;
         } else {
             if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                BlockPos blockpos = movingobjectposition.getBlockPos();
+                final BlockPos blockpos = movingobjectposition.getBlockPos();
 
                 if (!worldIn.isBlockModifiable(playerIn, blockpos)) {
                     return itemStackIn;
@@ -33,10 +36,10 @@ public class ItemLilyPad extends ItemColored {
                     return itemStackIn;
                 }
 
-                BlockPos blockpos1 = blockpos.up();
-                IBlockState iblockstate = worldIn.getBlockState(blockpos);
+                final BlockPos blockpos1 = blockpos.up();
+                final IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-                if (iblockstate.getBlock().getMaterial() == Material.water && iblockstate.getValue(BlockLiquid.LEVEL) == 0 && worldIn.isAirBlock(blockpos1)) {
+                if (iblockstate.getBlock().getMaterial() == Material.water && iblockstate.getValue(BlockLiquid.LEVEL).intValue() == 0 && worldIn.isAirBlock(blockpos1)) {
                     worldIn.setBlockState(blockpos1, Blocks.waterlily.getDefaultState());
 
                     if (!playerIn.capabilities.isCreativeMode) {
@@ -51,7 +54,7 @@ public class ItemLilyPad extends ItemColored {
         }
     }
 
-    public int getColorFromItemStack(ItemStack stack, int renderPass) {
+    public int getColorFromItemStack(final ItemStack stack, final int renderPass) {
         return Blocks.waterlily.getRenderColor(Blocks.waterlily.getStateFromMeta(stack.getMetadata()));
     }
 }

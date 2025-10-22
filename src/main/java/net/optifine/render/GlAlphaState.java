@@ -9,34 +9,34 @@ public class GlAlphaState {
         this(false, 519, 0.0F);
     }
 
-    public GlAlphaState(boolean enabled) {
+    public GlAlphaState(final boolean enabled) {
         this(enabled, 519, 0.0F);
     }
 
-    public GlAlphaState(boolean enabled, int func, float ref) {
+    public GlAlphaState(final boolean enabled, final int func, final float ref) {
         this.enabled = enabled;
         this.func = func;
         this.ref = ref;
     }
 
-    public void setState(boolean enabled, int func, float ref) {
+    public void setState(final boolean enabled, final int func, final float ref) {
         this.enabled = enabled;
         this.func = func;
         this.ref = ref;
     }
 
-    public void setState(GlAlphaState state) {
+    public void setState(final GlAlphaState state) {
         this.enabled = state.enabled;
         this.func = state.func;
         this.ref = state.ref;
     }
 
-    public void setFuncRef(int func, float ref) {
+    public void setFuncRef(final int func, final float ref) {
         this.func = func;
         this.ref = ref;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(final boolean enabled) {
         this.enabled = enabled;
     }
 

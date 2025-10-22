@@ -7,11 +7,11 @@ public class ContainerChest extends Container {
     private final IInventory lowerChestInventory;
     private final int numRows;
 
-    public ContainerChest(IInventory playerInventory, IInventory chestInventory, EntityPlayer player) {
+    public ContainerChest(final IInventory playerInventory, final IInventory chestInventory, final EntityPlayer player) {
         this.lowerChestInventory = chestInventory;
         this.numRows = chestInventory.getSizeInventory() / 9;
         chestInventory.openInventory(player);
-        int i = (this.numRows - 4) * 18;
+        final int i = (this.numRows - 4) * 18;
 
         for (int j = 0; j < this.numRows; ++j) {
             for (int k = 0; k < 9; ++k) {
@@ -30,16 +30,19 @@ public class ContainerChest extends Container {
         }
     }
 
-    public boolean canInteractWith(EntityPlayer playerIn) {
+    public boolean canInteractWith(final EntityPlayer playerIn) {
         return this.lowerChestInventory.isUseableByPlayer(playerIn);
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+    /**
+     * Take a stack from the specified inventory slot.
+     */
+    public ItemStack transferStackInSlot(final EntityPlayer playerIn, final int index) {
         ItemStack itemstack = null;
-        Slot slot = this.inventorySlots.get(index);
+        final Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+            final ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
             if (index < this.numRows * 9) {
@@ -60,11 +63,17 @@ public class ContainerChest extends Container {
         return itemstack;
     }
 
-    public void onContainerClosed(EntityPlayer playerIn) {
+    /**
+     * Called when the container is closed.
+     */
+    public void onContainerClosed(final EntityPlayer playerIn) {
         super.onContainerClosed(playerIn);
         this.lowerChestInventory.closeInventory(playerIn);
     }
 
+    /**
+     * Return this chest container's lower chest inventory.
+     */
     public IInventory getLowerChestInventory() {
         return this.lowerChestInventory;
     }

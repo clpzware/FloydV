@@ -10,9 +10,9 @@ public class Smoother {
     private static final Map<Integer, SmoothFloat> mapSmoothValues = new HashMap();
     private static final CounterInt counterIds = new CounterInt(1);
 
-    public static float getSmoothValue(int id, float value, float timeFadeUpSec, float timeFadeDownSec) {
+    public static float getSmoothValue(final int id, final float value, final float timeFadeUpSec, final float timeFadeDownSec) {
         synchronized (mapSmoothValues) {
-            Integer integer = id;
+            final Integer integer = Integer.valueOf(id);
             SmoothFloat smoothfloat = mapSmoothValues.get(integer);
 
             if (smoothfloat == null) {
@@ -20,7 +20,7 @@ public class Smoother {
                 mapSmoothValues.put(integer, smoothfloat);
             }
 
-            float f = smoothfloat.getSmoothValue(value, timeFadeUpSec, timeFadeDownSec);
+            final float f = smoothfloat.getSmoothValue(value, timeFadeUpSec, timeFadeDownSec);
             return f;
         }
     }

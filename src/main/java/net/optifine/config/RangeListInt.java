@@ -8,16 +8,18 @@ public class RangeListInt {
     public RangeListInt() {
     }
 
-    public RangeListInt(RangeInt ri) {
+    public RangeListInt(final RangeInt ri) {
         this.addRange(ri);
     }
 
-    public void addRange(RangeInt ri) {
+    public void addRange(final RangeInt ri) {
         this.ranges = (RangeInt[]) Config.addObjectToArray(this.ranges, ri);
     }
 
-    public boolean isInRange(int val) {
-        for (RangeInt rangeint : this.ranges) {
+    public boolean isInRange(final int val) {
+        for (int i = 0; i < this.ranges.length; ++i) {
+            final RangeInt rangeint = this.ranges[i];
+
             if (rangeint.isInRange(val)) {
                 return true;
             }
@@ -30,16 +32,16 @@ public class RangeListInt {
         return this.ranges.length;
     }
 
-    public RangeInt getRange(int i) {
+    public RangeInt getRange(final int i) {
         return this.ranges[i];
     }
 
     public String toString() {
-        StringBuffer stringbuffer = new StringBuffer();
+        final StringBuffer stringbuffer = new StringBuffer();
         stringbuffer.append("[");
 
         for (int i = 0; i < this.ranges.length; ++i) {
-            RangeInt rangeint = this.ranges[i];
+            final RangeInt rangeint = this.ranges[i];
 
             if (i > 0) {
                 stringbuffer.append(", ");

@@ -15,7 +15,10 @@ public class ItemShears extends Item {
         this.setCreativeTab(CreativeTabs.tabTools);
     }
 
-    public boolean onBlockDestroyed(ItemStack stack, World worldIn, Block blockIn, BlockPos pos, EntityLivingBase playerIn) {
+    /**
+     * Called when a Block is destroyed using this Item. Return true to trigger the "Use Item" statistic.
+     */
+    public boolean onBlockDestroyed(final ItemStack stack, final World worldIn, final Block blockIn, final BlockPos pos, final EntityLivingBase playerIn) {
         if (blockIn.getMaterial() != Material.leaves && blockIn != Blocks.web && blockIn != Blocks.tallgrass && blockIn != Blocks.vine && blockIn != Blocks.tripwire && blockIn != Blocks.wool) {
             return super.onBlockDestroyed(stack, worldIn, blockIn, pos, playerIn);
         } else {
@@ -24,11 +27,14 @@ public class ItemShears extends Item {
         }
     }
 
-    public boolean canHarvestBlock(Block blockIn) {
+    /**
+     * Check whether this Item can harvest the given Block
+     */
+    public boolean canHarvestBlock(final Block blockIn) {
         return blockIn == Blocks.web || blockIn == Blocks.redstone_wire || blockIn == Blocks.tripwire;
     }
 
-    public float getStrVsBlock(ItemStack stack, Block state) {
-        return state != Blocks.web && state.getMaterial() != Material.leaves ? (state == Blocks.wool ? 5.0F : super.getStrVsBlock(stack, state)) : 15.0F;
+    public float getStrVsBlock(final ItemStack stack, final Block block) {
+        return block != Blocks.web && block.getMaterial() != Material.leaves ? (block == Blocks.wool ? 5.0F : super.getStrVsBlock(stack, block)) : 15.0F;
     }
 }

@@ -2,27 +2,32 @@ package net.minecraft.world.gen;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.biome.BiomeGenBase;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class FlatGeneratorInfo {
     private final List<FlatLayerInfo> flatLayers = Lists.newArrayList();
     private final Map<String, Map<String, String>> worldFeatures = Maps.newHashMap();
     private int biomeToUse;
 
+    /**
+     * Return the biome used on this preset.
+     */
     public int getBiome() {
         return this.biomeToUse;
     }
 
-    public void setBiome(int biome) {
-        this.biomeToUse = biome;
+    /**
+     * Set the biome used on this preset.
+     */
+    public void setBiome(final int p_82647_1_) {
+        this.biomeToUse = p_82647_1_;
     }
 
     public Map<String, Map<String, String>> getWorldFeatures() {
@@ -36,14 +41,14 @@ public class FlatGeneratorInfo {
     public void func_82645_d() {
         int i = 0;
 
-        for (FlatLayerInfo flatlayerinfo : this.flatLayers) {
+        for (final FlatLayerInfo flatlayerinfo : this.flatLayers) {
             flatlayerinfo.setMinY(i);
             i += flatlayerinfo.getLayerCount();
         }
     }
 
     public String toString() {
-        StringBuilder stringbuilder = new StringBuilder();
+        final StringBuilder stringbuilder = new StringBuilder();
         stringbuilder.append(3);
         stringbuilder.append(";");
 
@@ -62,19 +67,19 @@ public class FlatGeneratorInfo {
             stringbuilder.append(";");
             int k = 0;
 
-            for (Entry<String, Map<String, String>> entry : this.worldFeatures.entrySet()) {
+            for (final Entry<String, Map<String, String>> entry : this.worldFeatures.entrySet()) {
                 if (k++ > 0) {
                     stringbuilder.append(",");
                 }
 
                 stringbuilder.append(entry.getKey().toLowerCase());
-                Map<String, String> map = entry.getValue();
+                final Map<String, String> map = entry.getValue();
 
                 if (!map.isEmpty()) {
                     stringbuilder.append("(");
                     int j = 0;
 
-                    for (Entry<String, String> entry1 : map.entrySet()) {
+                    for (final Entry<String, String> entry1 : map.entrySet()) {
                         if (j++ > 0) {
                             stringbuilder.append(" ");
                         }
@@ -94,7 +99,7 @@ public class FlatGeneratorInfo {
         return stringbuilder.toString();
     }
 
-    private static FlatLayerInfo func_180715_a(int p_180715_0_, String p_180715_1_, int p_180715_2_) {
+    private static FlatLayerInfo func_180715_a(final int p_180715_0_, final String p_180715_1_, final int p_180715_2_) {
         String[] astring = p_180715_0_ >= 3 ? p_180715_1_.split("\\*", 2) : p_180715_1_.split("x", 2);
         int i = 1;
         int j = 0;
@@ -110,7 +115,7 @@ public class FlatGeneratorInfo {
                 if (i < 0) {
                     i = 0;
                 }
-            } catch (Throwable var8) {
+            } catch (final Throwable var8) {
                 return null;
             }
         }
@@ -118,7 +123,7 @@ public class FlatGeneratorInfo {
         Block block = null;
 
         try {
-            String s = astring[astring.length - 1];
+            final String s = astring[astring.length - 1];
 
             if (p_180715_0_ < 3) {
                 astring = s.split(":", 2);
@@ -154,23 +159,23 @@ public class FlatGeneratorInfo {
             if (j < 0 || j > 15) {
                 j = 0;
             }
-        } catch (Throwable var9) {
+        } catch (final Throwable var9) {
             return null;
         }
 
-        FlatLayerInfo flatlayerinfo = new FlatLayerInfo(p_180715_0_, i, block, j);
+        final FlatLayerInfo flatlayerinfo = new FlatLayerInfo(p_180715_0_, i, block, j);
         flatlayerinfo.setMinY(p_180715_2_);
         return flatlayerinfo;
     }
 
-    private static List<FlatLayerInfo> func_180716_a(int p_180716_0_, String p_180716_1_) {
-        if (p_180716_1_ != null && !p_180716_1_.isEmpty()) {
-            List<FlatLayerInfo> list = Lists.newArrayList();
-            String[] astring = p_180716_1_.split(",");
+    private static List<FlatLayerInfo> func_180716_a(final int p_180716_0_, final String p_180716_1_) {
+        if (p_180716_1_ != null && p_180716_1_.length() >= 1) {
+            final List<FlatLayerInfo> list = Lists.newArrayList();
+            final String[] astring = p_180716_1_.split(",");
             int i = 0;
 
-            for (String s : astring) {
-                FlatLayerInfo flatlayerinfo = func_180715_a(p_180716_0_, s, i);
+            for (final String s : astring) {
+                final FlatLayerInfo flatlayerinfo = func_180715_a(p_180716_0_, s, i);
 
                 if (flatlayerinfo == null) {
                     return null;
@@ -186,17 +191,17 @@ public class FlatGeneratorInfo {
         }
     }
 
-    public static FlatGeneratorInfo createFlatGeneratorFromString(String flatGeneratorSettings) {
-        if (flatGeneratorSettings == null) {
+    public static FlatGeneratorInfo createFlatGeneratorFromString(final String p_82651_0_) {
+        if (p_82651_0_ == null) {
             return getDefaultFlatGenerator();
         } else {
-            String[] astring = flatGeneratorSettings.split(";", -1);
-            int i = astring.length == 1 ? 0 : MathHelper.parseIntWithDefault(astring[0], 0);
+            final String[] astring = p_82651_0_.split(";", -1);
+            final int i = astring.length == 1 ? 0 : MathHelper.parseIntWithDefault(astring[0], 0);
 
             if (i >= 0 && i <= 3) {
-                FlatGeneratorInfo flatgeneratorinfo = new FlatGeneratorInfo();
+                final FlatGeneratorInfo flatgeneratorinfo = new FlatGeneratorInfo();
                 int j = astring.length == 1 ? 0 : 1;
-                List<FlatLayerInfo> list = func_180716_a(i, astring[j++]);
+                final List<FlatLayerInfo> list = func_180716_a(i, astring[j++]);
 
                 if (list != null && !list.isEmpty()) {
                     flatgeneratorinfo.getFlatLayers().addAll(list);
@@ -210,20 +215,20 @@ public class FlatGeneratorInfo {
                     flatgeneratorinfo.setBiome(k);
 
                     if (i > 0 && astring.length > j) {
-                        String[] astring1 = astring[j++].toLowerCase().split(",");
+                        final String[] astring1 = astring[j++].toLowerCase().split(",");
 
-                        for (String s : astring1) {
-                            String[] astring2 = s.split("\\(", 2);
-                            Map<String, String> map = Maps.newHashMap();
+                        for (final String s : astring1) {
+                            final String[] astring2 = s.split("\\(", 2);
+                            final Map<String, String> map = Maps.newHashMap();
 
-                            if (!astring2[0].isEmpty()) {
+                            if (astring2[0].length() > 0) {
                                 flatgeneratorinfo.getWorldFeatures().put(astring2[0], map);
 
                                 if (astring2.length > 1 && astring2[1].endsWith(")") && astring2[1].length() > 1) {
-                                    String[] astring3 = astring2[1].substring(0, astring2[1].length() - 1).split(" ");
+                                    final String[] astring3 = astring2[1].substring(0, astring2[1].length() - 1).split(" ");
 
-                                    for (String string : astring3) {
-                                        String[] astring4 = string.split("=", 2);
+                                    for (int l = 0; l < astring3.length; ++l) {
+                                        final String[] astring4 = astring3[l].split("=", 2);
 
                                         if (astring4.length == 2) {
                                             map.put(astring4[0], astring4[1]);
@@ -247,7 +252,7 @@ public class FlatGeneratorInfo {
     }
 
     public static FlatGeneratorInfo getDefaultFlatGenerator() {
-        FlatGeneratorInfo flatgeneratorinfo = new FlatGeneratorInfo();
+        final FlatGeneratorInfo flatgeneratorinfo = new FlatGeneratorInfo();
         flatgeneratorinfo.setBiome(BiomeGenBase.plains.biomeID);
         flatgeneratorinfo.getFlatLayers().add(new FlatLayerInfo(1, Blocks.bedrock));
         flatgeneratorinfo.getFlatLayers().add(new FlatLayerInfo(2, Blocks.dirt));

@@ -2,11 +2,6 @@ package net.minecraft.client.gui;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
@@ -21,10 +16,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.FlatGeneratorInfo;
 import net.minecraft.world.gen.FlatLayerInfo;
-import org.lwjglx.input.Keyboard;
+import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class GuiFlatPresets extends GuiScreen {
     private static final List<GuiFlatPresets.LayerItem> FLAT_WORLD_PRESETS = Lists.newArrayList();
+
+    /**
+     * The parent GUI
+     */
     private final GuiCreateFlatWorld parentScreen;
     private String presetsTitle;
     private String presetsShare;
@@ -33,10 +37,14 @@ public class GuiFlatPresets extends GuiScreen {
     private GuiButton field_146434_t;
     private GuiTextField field_146433_u;
 
-    public GuiFlatPresets(GuiCreateFlatWorld p_i46318_1_) {
+    public GuiFlatPresets(final GuiCreateFlatWorld p_i46318_1_) {
         this.parentScreen = p_i46318_1_;
     }
 
+    /**
+     * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
+     * window resizes, the buttonList is cleared beforehand.
+     */
     public void initGui() {
         this.buttonList.clear();
         Keyboard.enableRepeatEvents(true);
@@ -52,27 +60,43 @@ public class GuiFlatPresets extends GuiScreen {
         this.func_146426_g();
     }
 
+    /**
+     * Handles mouse input.
+     */
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         this.field_146435_s.handleMouseInput();
     }
 
+    /**
+     * Called when the screen is unloaded. Used to disable keyboard repeat events
+     */
     public void onGuiClosed() {
         Keyboard.enableRepeatEvents(false);
     }
 
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    /**
+     * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
+     */
+    protected void mouseClicked(final int mouseX, final int mouseY, final int mouseButton) throws IOException {
         this.field_146433_u.mouseClicked(mouseX, mouseY, mouseButton);
         super.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    /**
+     * Fired when a key is typed (except F11 which toggles full screen). This is the equivalent of
+     * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
+     */
+    protected void keyTyped(final char typedChar, final int keyCode) throws IOException {
         if (!this.field_146433_u.textboxKeyTyped(typedChar, keyCode)) {
             super.keyTyped(typedChar, keyCode);
         }
     }
 
-    protected void actionPerformed(GuiButton button) throws IOException {
+    /**
+     * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
+     */
+    protected void actionPerformed(final GuiButton button) throws IOException {
         if (button.id == 0 && this.func_146430_p()) {
             this.parentScreen.func_146383_a(this.field_146433_u.getText());
             this.mc.displayGuiScreen(this.parentScreen);
@@ -81,7 +105,10 @@ public class GuiFlatPresets extends GuiScreen {
         }
     }
 
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    /**
+     * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
+     */
+    public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
         this.drawDefaultBackground();
         this.field_146435_s.drawScreen(mouseX, mouseY, partialTicks);
         this.drawCenteredString(this.fontRendererObj, this.presetsTitle, this.width / 2, 8, 16777215);
@@ -91,30 +118,32 @@ public class GuiFlatPresets extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
+    /**
+     * Called from the main game loop to update the screen.
+     */
     public void updateScreen() {
         this.field_146433_u.updateCursorCounter();
         super.updateScreen();
     }
 
     public void func_146426_g() {
-        boolean flag = this.func_146430_p();
-        this.field_146434_t.enabled = flag;
+        this.field_146434_t.enabled = this.func_146430_p();
     }
 
     private boolean func_146430_p() {
         return this.field_146435_s.field_148175_k > -1 && this.field_146435_s.field_148175_k < FLAT_WORLD_PRESETS.size() || this.field_146433_u.getText().length() > 1;
     }
 
-    private static void func_146425_a(String p_146425_0_, Item p_146425_1_, BiomeGenBase p_146425_2_, FlatLayerInfo... p_146425_3_) {
+    private static void func_146425_a(final String p_146425_0_, final Item p_146425_1_, final BiomeGenBase p_146425_2_, final FlatLayerInfo... p_146425_3_) {
         func_175354_a(p_146425_0_, p_146425_1_, 0, p_146425_2_, null, p_146425_3_);
     }
 
-    private static void func_146421_a(String p_146421_0_, Item p_146421_1_, BiomeGenBase p_146421_2_, List<String> p_146421_3_, FlatLayerInfo... p_146421_4_) {
+    private static void func_146421_a(final String p_146421_0_, final Item p_146421_1_, final BiomeGenBase p_146421_2_, final List<String> p_146421_3_, final FlatLayerInfo... p_146421_4_) {
         func_175354_a(p_146421_0_, p_146421_1_, 0, p_146421_2_, p_146421_3_, p_146421_4_);
     }
 
-    private static void func_175354_a(String p_175354_0_, Item p_175354_1_, int p_175354_2_, BiomeGenBase p_175354_3_, List<String> p_175354_4_, FlatLayerInfo... p_175354_5_) {
-        FlatGeneratorInfo flatgeneratorinfo = new FlatGeneratorInfo();
+    private static void func_175354_a(final String p_175354_0_, final Item p_175354_1_, final int p_175354_2_, final BiomeGenBase p_175354_3_, final List<String> p_175354_4_, final FlatLayerInfo... p_175354_5_) {
+        final FlatGeneratorInfo flatgeneratorinfo = new FlatGeneratorInfo();
 
         for (int i = p_175354_5_.length - 1; i >= 0; --i) {
             flatgeneratorinfo.getFlatLayers().add(p_175354_5_[i]);
@@ -124,7 +153,7 @@ public class GuiFlatPresets extends GuiScreen {
         flatgeneratorinfo.func_82645_d();
 
         if (p_175354_4_ != null) {
-            for (String s : p_175354_4_) {
+            for (final String s : p_175354_4_) {
                 flatgeneratorinfo.getWorldFeatures().put(s, Maps.newHashMap());
             }
         }
@@ -133,7 +162,7 @@ public class GuiFlatPresets extends GuiScreen {
     }
 
     static {
-        func_146421_a("Classic Flat", Item.getItemFromBlock(Blocks.grass), BiomeGenBase.plains, List.<String>of("village"), new FlatLayerInfo(1, Blocks.grass), new FlatLayerInfo(2, Blocks.dirt), new FlatLayerInfo(1, Blocks.bedrock));
+        func_146421_a("Classic Flat", Item.getItemFromBlock(Blocks.grass), BiomeGenBase.plains, Collections.singletonList("village"), new FlatLayerInfo(1, Blocks.grass), new FlatLayerInfo(2, Blocks.dirt), new FlatLayerInfo(1, Blocks.bedrock));
         func_146421_a("Tunnelers' Dream", Item.getItemFromBlock(Blocks.stone), BiomeGenBase.extremeHills, Arrays.asList("biome_1", "dungeon", "decoration", "stronghold", "mineshaft"), new FlatLayerInfo(1, Blocks.grass), new FlatLayerInfo(5, Blocks.dirt), new FlatLayerInfo(230, Blocks.stone), new FlatLayerInfo(1, Blocks.bedrock));
         func_146421_a("Water World", Items.water_bucket, BiomeGenBase.deepOcean, Arrays.asList("biome_1", "oceanmonument"), new FlatLayerInfo(90, Blocks.water), new FlatLayerInfo(5, Blocks.sand), new FlatLayerInfo(5, Blocks.dirt), new FlatLayerInfo(5, Blocks.stone), new FlatLayerInfo(1, Blocks.bedrock));
         func_175354_a("Overworld", Item.getItemFromBlock(Blocks.tallgrass), BlockTallGrass.EnumType.GRASS.getMeta(), BiomeGenBase.plains, Arrays.asList("village", "biome_1", "decoration", "stronghold", "mineshaft", "dungeon", "lake", "lava_lake"), new FlatLayerInfo(1, Blocks.grass), new FlatLayerInfo(3, Blocks.dirt), new FlatLayerInfo(59, Blocks.stone), new FlatLayerInfo(1, Blocks.bedrock));
@@ -149,7 +178,7 @@ public class GuiFlatPresets extends GuiScreen {
         public String field_148232_b;
         public String field_148233_c;
 
-        public LayerItem(Item p_i45518_1_, int p_i45518_2_, String p_i45518_3_, String p_i45518_4_) {
+        public LayerItem(final Item p_i45518_1_, final int p_i45518_2_, final String p_i45518_3_, final String p_i45518_4_) {
             this.field_148234_a = p_i45518_1_;
             this.field_179037_b = p_i45518_2_;
             this.field_148232_b = p_i45518_3_;
@@ -164,7 +193,7 @@ public class GuiFlatPresets extends GuiScreen {
             super(GuiFlatPresets.this.mc, GuiFlatPresets.this.width, GuiFlatPresets.this.height, 80, GuiFlatPresets.this.height - 37, 24);
         }
 
-        private void func_178054_a(int p_178054_1_, int p_178054_2_, Item p_178054_3_, int p_178054_4_) {
+        private void func_178054_a(final int p_178054_1_, final int p_178054_2_, final Item p_178054_3_, final int p_178054_4_) {
             this.func_148173_e(p_178054_1_ + 1, p_178054_2_ + 1);
             GlStateManager.enableRescaleNormal();
             RenderHelper.enableGUIStandardItemLighting();
@@ -173,24 +202,22 @@ public class GuiFlatPresets extends GuiScreen {
             GlStateManager.disableRescaleNormal();
         }
 
-        private void func_148173_e(int p_148173_1_, int p_148173_2_) {
+        private void func_148173_e(final int p_148173_1_, final int p_148173_2_) {
             this.func_148171_c(p_148173_1_, p_148173_2_, 0, 0);
         }
 
-        private void func_148171_c(int p_148171_1_, int p_148171_2_, int p_148171_3_, int p_148171_4_) {
+        private void func_148171_c(final int p_148171_1_, final int p_148171_2_, final int p_148171_3_, final int p_148171_4_) {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.mc.getTextureManager().bindTexture(Gui.statIcons);
-            float f = 0.0078125F;
-            float f1 = 0.0078125F;
-            int i = 18;
-            int j = 18;
-            Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+            final float f = 0.0078125F;
+            final int i = 18;
+            final Tessellator tessellator = Tessellator.getInstance();
+            final WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-            worldrenderer.pos(p_148171_1_, p_148171_2_ + 18, GuiFlatPresets.this.zLevel).tex((float) (p_148171_3_) * 0.0078125F, (float) (p_148171_4_ + 18) * 0.0078125F).endVertex();
-            worldrenderer.pos(p_148171_1_ + 18, p_148171_2_ + 18, GuiFlatPresets.this.zLevel).tex((float) (p_148171_3_ + 18) * 0.0078125F, (float) (p_148171_4_ + 18) * 0.0078125F).endVertex();
-            worldrenderer.pos(p_148171_1_ + 18, p_148171_2_, GuiFlatPresets.this.zLevel).tex((float) (p_148171_3_ + 18) * 0.0078125F, (float) (p_148171_4_) * 0.0078125F).endVertex();
-            worldrenderer.pos(p_148171_1_, p_148171_2_, GuiFlatPresets.this.zLevel).tex((float) (p_148171_3_) * 0.0078125F, (float) (p_148171_4_) * 0.0078125F).endVertex();
+            worldrenderer.pos(p_148171_1_, p_148171_2_ + i, zLevel).tex((float) (p_148171_3_) * f, (float) (p_148171_4_ + i) * f).endVertex();
+            worldrenderer.pos(p_148171_1_ + i, p_148171_2_ + i, zLevel).tex((float) (p_148171_3_ + i) * f, (float) (p_148171_4_ + i) * f).endVertex();
+            worldrenderer.pos(p_148171_1_ + i, p_148171_2_, zLevel).tex((float) (p_148171_3_ + i) * f, (float) (p_148171_4_) * f).endVertex();
+            worldrenderer.pos(p_148171_1_, p_148171_2_, zLevel).tex((float) (p_148171_3_) * f, (float) (p_148171_4_) * f).endVertex();
             tessellator.draw();
         }
 
@@ -198,23 +225,23 @@ public class GuiFlatPresets extends GuiScreen {
             return GuiFlatPresets.FLAT_WORLD_PRESETS.size();
         }
 
-        protected void elementClicked(int slotIndex, boolean isDoubleClick, int mouseX, int mouseY) {
+        protected void elementClicked(final int slotIndex, final boolean isDoubleClick, final int mouseX, final int mouseY) {
             this.field_148175_k = slotIndex;
             GuiFlatPresets.this.func_146426_g();
             GuiFlatPresets.this.field_146433_u.setText(GuiFlatPresets.FLAT_WORLD_PRESETS.get(GuiFlatPresets.this.field_146435_s.field_148175_k).field_148233_c);
         }
 
-        protected boolean isSelected(int slotIndex) {
+        protected boolean isSelected(final int slotIndex) {
             return slotIndex == this.field_148175_k;
         }
 
         protected void drawBackground() {
         }
 
-        protected void drawSlot(int entryID, int p_180791_2_, int p_180791_3_, int p_180791_4_, int mouseXIn, int mouseYIn) {
-            GuiFlatPresets.LayerItem guiflatpresets$layeritem = GuiFlatPresets.FLAT_WORLD_PRESETS.get(entryID);
+        protected void drawSlot(final int entryID, final int p_180791_2_, final int p_180791_3_, final int p_180791_4_, final int mouseXIn, final int mouseYIn) {
+            final GuiFlatPresets.LayerItem guiflatpresets$layeritem = GuiFlatPresets.FLAT_WORLD_PRESETS.get(entryID);
             this.func_178054_a(p_180791_2_, p_180791_3_, guiflatpresets$layeritem.field_148234_a, guiflatpresets$layeritem.field_179037_b);
-            GuiFlatPresets.this.fontRendererObj.drawString(guiflatpresets$layeritem.field_148232_b, p_180791_2_ + 18 + 5, p_180791_3_ + 6, 16777215);
+            GuiFlatPresets.this.fontRendererObj.draw(guiflatpresets$layeritem.field_148232_b, p_180791_2_ + 18 + 5, p_180791_3_ + 6, 16777215);
         }
     }
 }

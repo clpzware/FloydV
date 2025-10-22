@@ -19,10 +19,11 @@ public class ModelAdapterBoat extends ModelAdapter {
         return new ModelBoat();
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelBoat modelboat)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelBoat)) {
             return null;
         } else {
+            final ModelBoat modelboat = (ModelBoat) model;
             return modelPart.equals("bottom") ? modelboat.boatSides[0] : (modelPart.equals("back") ? modelboat.boatSides[1] : (modelPart.equals("front") ? modelboat.boatSides[2] : (modelPart.equals("right") ? modelboat.boatSides[3] : (modelPart.equals("left") ? modelboat.boatSides[4] : null))));
         }
     }
@@ -31,9 +32,9 @@ public class ModelAdapterBoat extends ModelAdapter {
         return new String[]{"bottom", "back", "front", "right", "left"};
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderBoat renderboat = new RenderBoat(rendermanager);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderBoat renderboat = new RenderBoat(rendermanager);
 
         if (!Reflector.RenderBoat_modelBoat.exists()) {
             Config.warn("Field not found: RenderBoat.modelBoat");

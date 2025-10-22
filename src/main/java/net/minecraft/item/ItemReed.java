@@ -12,15 +12,21 @@ import net.minecraft.world.World;
 public class ItemReed extends Item {
     private final Block block;
 
-    public ItemReed(Block block) {
+    public ItemReed(final Block block) {
         this.block = block;
     }
 
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-        IBlockState iblockstate = worldIn.getBlockState(pos);
-        Block block = iblockstate.getBlock();
+    /**
+     * Called when a Block is right-clicked with this Item
+     *
+     * @param pos  The block being right-clicked
+     * @param side The side being right-clicked
+     */
+    public boolean onItemUse(final ItemStack stack, final EntityPlayer playerIn, final World worldIn, BlockPos pos, EnumFacing side, final float hitX, final float hitY, final float hitZ) {
+        final IBlockState iblockstate = worldIn.getBlockState(pos);
+        final Block block = iblockstate.getBlock();
 
-        if (block == Blocks.snow_layer && iblockstate.getValue(BlockSnow.LAYERS) < 1) {
+        if (block == Blocks.snow_layer && iblockstate.getValue(BlockSnow.LAYERS).intValue() < 1) {
             side = EnumFacing.UP;
         } else if (!block.isReplaceable(worldIn, pos)) {
             pos = pos.offset(side);

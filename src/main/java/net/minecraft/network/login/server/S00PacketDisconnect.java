@@ -1,11 +1,11 @@
 package net.minecraft.network.login.server;
 
-import java.io.IOException;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.login.INetHandlerLoginClient;
 import net.minecraft.util.IChatComponent;
+
+import java.io.IOException;
 
 public class S00PacketDisconnect implements Packet<INetHandlerLoginClient> {
     private IChatComponent reason;
@@ -13,19 +13,28 @@ public class S00PacketDisconnect implements Packet<INetHandlerLoginClient> {
     public S00PacketDisconnect() {
     }
 
-    public S00PacketDisconnect(IChatComponent reasonIn) {
+    public S00PacketDisconnect(final IChatComponent reasonIn) {
         this.reason = reasonIn;
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.reason = buf.readChatComponent();
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeChatComponent(this.reason);
     }
 
-    public void processPacket(INetHandlerLoginClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerLoginClient handler) {
         handler.handleDisconnect(this);
     }
 

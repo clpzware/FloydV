@@ -1,10 +1,10 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S0DPacketCollectItem implements Packet<INetHandlerPlayClient> {
     private int collectedItemEntityId;
@@ -13,22 +13,31 @@ public class S0DPacketCollectItem implements Packet<INetHandlerPlayClient> {
     public S0DPacketCollectItem() {
     }
 
-    public S0DPacketCollectItem(int collectedItemEntityIdIn, int entityIdIn) {
+    public S0DPacketCollectItem(final int collectedItemEntityIdIn, final int entityIdIn) {
         this.collectedItemEntityId = collectedItemEntityIdIn;
         this.entityId = entityIdIn;
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.collectedItemEntityId = buf.readVarIntFromBuffer();
         this.entityId = buf.readVarIntFromBuffer();
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeVarIntToBuffer(this.collectedItemEntityId);
         buf.writeVarIntToBuffer(this.entityId);
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleCollectItem(this);
     }
 

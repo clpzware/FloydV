@@ -10,13 +10,19 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 public class ItemSnow extends ItemBlock {
-    public ItemSnow(Block block) {
+    public ItemSnow(final Block block) {
         super(block);
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
     }
 
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    /**
+     * Called when a Block is right-clicked with this Item
+     *
+     * @param pos  The block being right-clicked
+     * @param side The side being right-clicked
+     */
+    public boolean onItemUse(final ItemStack stack, final EntityPlayer playerIn, final World worldIn, final BlockPos pos, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         if (stack.stackSize == 0) {
             return false;
         } else if (!playerIn.canPlayerEdit(pos, side, stack)) {
@@ -33,11 +39,11 @@ public class ItemSnow extends ItemBlock {
             }
 
             if (block == this.block) {
-                int i = iblockstate.getValue(BlockSnow.LAYERS);
+                final int i = iblockstate.getValue(BlockSnow.LAYERS).intValue();
 
                 if (i <= 7) {
-                    IBlockState iblockstate1 = iblockstate.withProperty(BlockSnow.LAYERS, i + 1);
-                    AxisAlignedBB axisalignedbb = this.block.getCollisionBoundingBox(worldIn, blockpos, iblockstate1);
+                    final IBlockState iblockstate1 = iblockstate.withProperty(BlockSnow.LAYERS, Integer.valueOf(i + 1));
+                    final AxisAlignedBB axisalignedbb = this.block.getCollisionBoundingBox(worldIn, blockpos, iblockstate1);
 
                     if (axisalignedbb != null && worldIn.checkNoEntityCollision(axisalignedbb) && worldIn.setBlockState(blockpos, iblockstate1, 2)) {
                         worldIn.playSoundEffect((float) blockpos.getX() + 0.5F, (float) blockpos.getY() + 0.5F, (float) blockpos.getZ() + 0.5F, this.block.stepSound.getPlaceSound(), (this.block.stepSound.getVolume() + 1.0F) / 2.0F, this.block.stepSound.getFrequency() * 0.8F);
@@ -51,7 +57,11 @@ public class ItemSnow extends ItemBlock {
         }
     }
 
-    public int getMetadata(int damage) {
+    /**
+     * Converts the given ItemStack damage value into a metadata value to be placed in the world when this Item is
+     * placed as a Block (mostly used with ItemBlocks).
+     */
+    public int getMetadata(final int damage) {
         return damage;
     }
 }

@@ -20,7 +20,7 @@ public class HttpRequest {
     public static final String HTTP_1_0 = "HTTP/1.0";
     public static final String HTTP_1_1 = "HTTP/1.1";
 
-    public HttpRequest(String host, int port, Proxy proxy, String method, String file, String http, Map<String, String> headers, byte[] body) {
+    public HttpRequest(final String host, final int port, final Proxy proxy, final String method, final String file, final String http, final Map<String, String> headers, final byte[] body) {
         this.host = host;
         this.port = port;
         this.proxy = proxy;
@@ -63,7 +63,7 @@ public class HttpRequest {
         return this.redirects;
     }
 
-    public void setRedirects(int redirects) {
+    public void setRedirects(final int redirects) {
         this.redirects = redirects;
     }
 

@@ -2,33 +2,44 @@ package net.optifine.reflect;
 
 import java.lang.reflect.Field;
 
-public class ReflectorField implements IResolvable {
+public class ReflectorField {
     private IFieldLocator fieldLocator;
     private boolean checked;
     private Field targetField;
 
-    public ReflectorField(ReflectorClass reflectorClass, String targetFieldName) {
+    public ReflectorField(final ReflectorClass reflectorClass, final String targetFieldName) {
         this(new FieldLocatorName(reflectorClass, targetFieldName));
     }
 
-    public ReflectorField(ReflectorClass reflectorClass, Class targetFieldType) {
+    public ReflectorField(final ReflectorClass reflectorClass, final String targetFieldName, final boolean lazyResolve) {
+        this(new FieldLocatorName(reflectorClass, targetFieldName), lazyResolve);
+    }
+
+    public ReflectorField(final ReflectorClass reflectorClass, final Class targetFieldType) {
         this(reflectorClass, targetFieldType, 0);
     }
 
-    public ReflectorField(ReflectorClass reflectorClass, Class targetFieldType, int targetFieldIndex) {
+    public ReflectorField(final ReflectorClass reflectorClass, final Class targetFieldType, final int targetFieldIndex) {
         this(new FieldLocatorType(reflectorClass, targetFieldType, targetFieldIndex));
     }
 
-    public ReflectorField(Field field) {
+    public ReflectorField(final Field field) {
         this(new FieldLocatorFixed(field));
     }
 
-    public ReflectorField(IFieldLocator fieldLocator) {
+    public ReflectorField(final IFieldLocator fieldLocator) {
+        this(fieldLocator, false);
+    }
+
+    public ReflectorField(final IFieldLocator fieldLocator, final boolean lazyResolve) {
         this.fieldLocator = null;
         this.checked = false;
         this.targetField = null;
         this.fieldLocator = fieldLocator;
-        ReflectorResolver.register(this);
+
+        if (!lazyResolve) {
+            this.getTargetField();
+        }
     }
 
     public Field getTargetField() {
@@ -50,19 +61,15 @@ public class ReflectorField implements IResolvable {
         return Reflector.getFieldValue(null, this);
     }
 
-    public void setValue(Object value) {
+    public void setValue(final Object value) {
         Reflector.setFieldValue(null, this, value);
     }
 
-    public void setValue(Object obj, Object value) {
+    public void setValue(final Object obj, final Object value) {
         Reflector.setFieldValue(obj, this, value);
     }
 
     public boolean exists() {
         return this.getTargetField() != null;
-    }
-
-    public void resolve() {
-        Field field = this.getTargetField();
     }
 }

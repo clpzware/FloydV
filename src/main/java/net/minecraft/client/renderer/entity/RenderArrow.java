@@ -12,34 +12,42 @@ import org.lwjgl.opengl.GL11;
 public class RenderArrow extends Render<EntityArrow> {
     private static final ResourceLocation arrowTextures = new ResourceLocation("textures/entity/arrow.png");
 
-    public RenderArrow(RenderManager renderManagerIn) {
+    public RenderArrow(final RenderManager renderManagerIn) {
         super(renderManagerIn);
     }
 
-    public void doRender(EntityArrow entity, double x, double y, double z, float entityYaw, float partialTicks) {
+    /**
+     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
+     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
+     * (Render<T extends Entity>) and this method has signature public void doRender(T entity, double d, double d1,
+     * double d2, float f, float f1). But JAD is pre 1.5 so doe
+     *
+     * @param entityYaw The yaw rotation of the passed entity
+     */
+    public void doRender(final EntityArrow entity, final double x, final double y, final double z, final float entityYaw, final float partialTicks) {
         this.bindEntityTexture(entity);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x, (float) y, (float) z);
         GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-        int i = 0;
-        float f = 0.0F;
-        float f1 = 0.5F;
-        float f2 = (float) (0) / 32.0F;
-        float f3 = (float) (5 + 0) / 32.0F;
-        float f4 = 0.0F;
-        float f5 = 0.15625F;
-        float f6 = (float) (5 + 0) / 32.0F;
-        float f7 = (float) (10 + 0) / 32.0F;
-        float f8 = 0.05625F;
+        final Tessellator tessellator = Tessellator.getInstance();
+        final WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        final int i = 0;
+        final float f = 0.0F;
+        final float f1 = 0.5F;
+        final float f2 = (float) (0 + i * 10) / 32.0F;
+        final float f3 = (float) (5 + i * 10) / 32.0F;
+        final float f4 = 0.0F;
+        final float f5 = 0.15625F;
+        final float f6 = (float) (5 + i * 10) / 32.0F;
+        final float f7 = (float) (10 + i * 10) / 32.0F;
+        final float f8 = 0.05625F;
         GlStateManager.enableRescaleNormal();
-        float f9 = (float) entity.arrowShake - partialTicks;
+        final float f9 = (float) entity.arrowShake - partialTicks;
 
         if (f9 > 0.0F) {
-            float f10 = -MathHelper.sin(f9 * 3.0F) * f9;
+            final float f10 = -MathHelper.sin(f9 * 3.0F) * f9;
             GlStateManager.rotate(f10, 0.0F, 0.0F, 1.0F);
         }
 
@@ -77,7 +85,10 @@ public class RenderArrow extends Render<EntityArrow> {
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 
-    protected ResourceLocation getEntityTexture(EntityArrow entity) {
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(final EntityArrow entity) {
         return arrowTextures;
     }
 }

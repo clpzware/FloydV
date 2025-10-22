@@ -15,17 +15,17 @@ public class ContainerLocalMenu extends InventoryBasic implements ILockableConta
     private final String guiID;
     private final Map<Integer, Integer> field_174895_b = Maps.newHashMap();
 
-    public ContainerLocalMenu(String id, IChatComponent title, int slotCount) {
+    public ContainerLocalMenu(final String id, final IChatComponent title, final int slotCount) {
         super(title, slotCount);
         this.guiID = id;
     }
 
-    public int getField(int id) {
-        return this.field_174895_b.containsKey(id) ? this.field_174895_b.get(id) : 0;
+    public int getField(final int id) {
+        return this.field_174895_b.containsKey(Integer.valueOf(id)) ? this.field_174895_b.get(Integer.valueOf(id)).intValue() : 0;
     }
 
-    public void setField(int id, int value) {
-        this.field_174895_b.put(id, value);
+    public void setField(final int id, final int value) {
+        this.field_174895_b.put(Integer.valueOf(id), Integer.valueOf(value));
     }
 
     public int getFieldCount() {
@@ -36,7 +36,7 @@ public class ContainerLocalMenu extends InventoryBasic implements ILockableConta
         return false;
     }
 
-    public void setLockCode(LockCode code) {
+    public void setLockCode(final LockCode code) {
     }
 
     public LockCode getLockCode() {
@@ -47,7 +47,7 @@ public class ContainerLocalMenu extends InventoryBasic implements ILockableConta
         return this.guiID;
     }
 
-    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+    public Container createContainer(final InventoryPlayer playerInventory, final EntityPlayer playerIn) {
         throw new UnsupportedOperationException();
     }
 }

@@ -1,5 +1,6 @@
 package net.minecraft.client.resources;
 
+import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -17,19 +18,19 @@ import java.util.Map;
 import java.util.Set;
 
 public class SimpleReloadableResourceManager implements IReloadableResourceManager {
-    private static final Logger logger = LogManager.getLogger("MinecraftLogger");
+    private static final Logger logger = LogManager.getLogger();
     private static final Joiner joinerResourcePacks = Joiner.on(", ");
     private final Map<String, FallbackResourceManager> domainResourceManagers = Maps.newHashMap();
     private final List<IResourceManagerReloadListener> reloadListeners = Lists.newArrayList();
     private final Set<String> setResourceDomains = Sets.newLinkedHashSet();
     private final IMetadataSerializer rmMetadataSerializer;
 
-    public SimpleReloadableResourceManager(IMetadataSerializer rmMetadataSerializerIn) {
+    public SimpleReloadableResourceManager(final IMetadataSerializer rmMetadataSerializerIn) {
         this.rmMetadataSerializer = rmMetadataSerializerIn;
     }
 
-    public void reloadResourcePack(IResourcePack resourcePack) {
-        for (String s : resourcePack.getResourceDomains()) {
+    public void reloadResourcePack(final IResourcePack resourcePack) {
+        for (final String s : resourcePack.getResourceDomains()) {
             this.setResourceDomains.add(s);
             FallbackResourceManager fallbackresourcemanager = this.domainResourceManagers.get(s);
 
@@ -46,8 +47,8 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
         return this.setResourceDomains;
     }
 
-    public IResource getResource(ResourceLocation location) throws IOException {
-        IResourceManager iresourcemanager = this.domainResourceManagers.get(location.getResourceDomain());
+    public IResource getResource(final ResourceLocation location) throws IOException {
+        final IResourceManager iresourcemanager = this.domainResourceManagers.get(location.getResourceDomain());
 
         if (iresourcemanager != null) {
             return iresourcemanager.getResource(location);
@@ -56,8 +57,8 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
         }
     }
 
-    public List<IResource> getAllResources(ResourceLocation location) throws IOException {
-        IResourceManager iresourcemanager = this.domainResourceManagers.get(location.getResourceDomain());
+    public List<IResource> getAllResources(final ResourceLocation location) throws IOException {
+        final IResourceManager iresourcemanager = this.domainResourceManagers.get(location.getResourceDomain());
 
         if (iresourcemanager != null) {
             return iresourcemanager.getAllResources(location);
@@ -71,24 +72,28 @@ public class SimpleReloadableResourceManager implements IReloadableResourceManag
         this.setResourceDomains.clear();
     }
 
-    public void reloadResources(List<IResourcePack> resourcesPacksList) {
+    public void reloadResources(final List<IResourcePack> p_110541_1_) {
         this.clearResources();
-        logger.info("Reloading ResourceManager: " + joinerResourcePacks.join(Iterables.transform(resourcesPacksList, IResourcePack::getPackName)));
+        logger.info("Reloading ResourceManager: " + joinerResourcePacks.join(Iterables.transform(p_110541_1_, new Function<IResourcePack, String>() {
+            public String apply(final IResourcePack p_apply_1_) {
+                return p_apply_1_.getPackName();
+            }
+        })));
 
-        for (IResourcePack iresourcepack : resourcesPacksList) {
+        for (final IResourcePack iresourcepack : p_110541_1_) {
             this.reloadResourcePack(iresourcepack);
         }
 
         this.notifyReloadListeners();
     }
 
-    public void registerReloadListener(IResourceManagerReloadListener reloadListener) {
+    public void registerReloadListener(final IResourceManagerReloadListener reloadListener) {
         this.reloadListeners.add(reloadListener);
         reloadListener.onResourceManagerReload(this);
     }
 
     private void notifyReloadListeners() {
-        for (IResourceManagerReloadListener iresourcemanagerreloadlistener : this.reloadListeners) {
+        for (final IResourceManagerReloadListener iresourcemanagerreloadlistener : this.reloadListeners) {
             iresourcemanagerreloadlistener.onResourceManagerReload(this);
         }
     }

@@ -11,7 +11,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 public class EntityCaveSpider extends EntitySpider {
-    public EntityCaveSpider(World worldIn) {
+    public EntityCaveSpider(final World worldIn) {
         super(worldIn);
         this.setSize(0.7F, 0.5F);
     }
@@ -21,7 +21,7 @@ public class EntityCaveSpider extends EntitySpider {
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(12.0D);
     }
 
-    public boolean attackEntityAsMob(Entity entityIn) {
+    public boolean attackEntityAsMob(final Entity entityIn) {
         if (super.attackEntityAsMob(entityIn)) {
             if (entityIn instanceof EntityLivingBase) {
                 int i = 0;
@@ -43,7 +43,11 @@ public class EntityCaveSpider extends EntitySpider {
         }
     }
 
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
+    /**
+     * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
+     * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
+     */
+    public IEntityLivingData onInitialSpawn(final DifficultyInstance difficulty, final IEntityLivingData livingdata) {
         return livingdata;
     }
 

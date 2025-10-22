@@ -14,10 +14,17 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityBlaze extends EntityMob {
+    /**
+     * Random offset used in floating behaviour
+     */
     private float heightOffset = 0.5F;
+
+    /**
+     * ticks until heightOffset is randomized
+     */
     private int heightOffsetUpdateTime;
 
-    public EntityBlaze(World worldIn) {
+    public EntityBlaze(final World worldIn) {
         super(worldIn);
         this.isImmuneToFire = true;
         this.experienceValue = 10;
@@ -39,29 +46,45 @@ public class EntityBlaze extends EntityMob {
 
     protected void entityInit() {
         super.entityInit();
-        this.dataWatcher.addObject(16, (byte) 0);
+        this.dataWatcher.addObject(16, new Byte((byte) 0));
     }
 
+    /**
+     * Returns the sound this mob makes while it's alive.
+     */
     protected String getLivingSound() {
         return "mob.blaze.breathe";
     }
 
+    /**
+     * Returns the sound this mob makes when it is hurt.
+     */
     protected String getHurtSound() {
         return "mob.blaze.hit";
     }
 
+    /**
+     * Returns the sound this mob makes on death.
+     */
     protected String getDeathSound() {
         return "mob.blaze.death";
     }
 
-    public int getBrightnessForRender(float partialTicks) {
+    public int getBrightnessForRender(final float partialTicks) {
         return 15728880;
     }
 
-    public float getBrightness(float partialTicks) {
+    /**
+     * Gets how bright this entity is.
+     */
+    public float getBrightness(final float partialTicks) {
         return 1.0F;
     }
 
+    /**
+     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
+     * use this to react to sunlight and start to burn.
+     */
     public void onLivingUpdate() {
         if (!this.onGround && this.motionY < 0.0D) {
             this.motionY *= 0.6D;
@@ -92,7 +115,7 @@ public class EntityBlaze extends EntityMob {
             this.heightOffset = 0.5F + (float) this.rand.nextGaussian() * 3.0F;
         }
 
-        EntityLivingBase entitylivingbase = this.getAttackTarget();
+        final EntityLivingBase entitylivingbase = this.getAttackTarget();
 
         if (entitylivingbase != null && entitylivingbase.posY + (double) entitylivingbase.getEyeHeight() > this.posY + (double) this.getEyeHeight() + (double) this.heightOffset) {
             this.motionY += (0.30000001192092896D - this.motionY) * 0.30000001192092896D;
@@ -102,20 +125,26 @@ public class EntityBlaze extends EntityMob {
         super.updateAITasks();
     }
 
-    public void fall(float distance, float damageMultiplier) {
+    public void fall(final float distance, final float damageMultiplier) {
     }
 
     protected Item getDropItem() {
         return Items.blaze_rod;
     }
 
+    /**
+     * Returns true if the entity is on fire. Used by render to add the fire effect on rendering.
+     */
     public boolean isBurning() {
         return this.func_70845_n();
     }
 
-    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
-        if (wasRecentlyHit) {
-            int i = this.rand.nextInt(2 + lootingModifier);
+    /**
+     * Drop 0-2 items of this living's type
+     */
+    protected void dropFewItems(final boolean p_70628_1_, final int p_70628_2_) {
+        if (p_70628_1_) {
+            final int i = this.rand.nextInt(2 + p_70628_2_);
 
             for (int j = 0; j < i; ++j) {
                 this.dropItem(Items.blaze_rod, 1);
@@ -127,7 +156,7 @@ public class EntityBlaze extends EntityMob {
         return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
     }
 
-    public void setOnFire(boolean onFire) {
+    public void setOnFire(final boolean onFire) {
         byte b0 = this.dataWatcher.getWatchableObjectByte(16);
 
         if (onFire) {
@@ -136,9 +165,12 @@ public class EntityBlaze extends EntityMob {
             b0 = (byte) (b0 & -2);
         }
 
-        this.dataWatcher.updateObject(16, b0);
+        this.dataWatcher.updateObject(16, Byte.valueOf(b0));
     }
 
+    /**
+     * Checks to make sure the light is not too bright where the mob is spawning
+     */
     protected boolean isValidLightLevel() {
         return true;
     }
@@ -148,13 +180,13 @@ public class EntityBlaze extends EntityMob {
         private int field_179467_b;
         private int field_179468_c;
 
-        public AIFireballAttack(EntityBlaze p_i45846_1_) {
+        public AIFireballAttack(final EntityBlaze p_i45846_1_) {
             this.blaze = p_i45846_1_;
             this.setMutexBits(3);
         }
 
         public boolean shouldExecute() {
-            EntityLivingBase entitylivingbase = this.blaze.getAttackTarget();
+            final EntityLivingBase entitylivingbase = this.blaze.getAttackTarget();
             return entitylivingbase != null && entitylivingbase.isEntityAlive();
         }
 
@@ -168,8 +200,8 @@ public class EntityBlaze extends EntityMob {
 
         public void updateTask() {
             --this.field_179468_c;
-            EntityLivingBase entitylivingbase = this.blaze.getAttackTarget();
-            double d0 = this.blaze.getDistanceSqToEntity(entitylivingbase);
+            final EntityLivingBase entitylivingbase = this.blaze.getAttackTarget();
+            final double d0 = this.blaze.getDistanceSqToEntity(entitylivingbase);
 
             if (d0 < 4.0D) {
                 if (this.field_179468_c <= 0) {
@@ -179,9 +211,9 @@ public class EntityBlaze extends EntityMob {
 
                 this.blaze.getMoveHelper().setMoveTo(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, 1.0D);
             } else if (d0 < 256.0D) {
-                double d1 = entitylivingbase.posX - this.blaze.posX;
-                double d2 = entitylivingbase.getEntityBoundingBox().minY + (double) (entitylivingbase.height / 2.0F) - (this.blaze.posY + (double) (this.blaze.height / 2.0F));
-                double d3 = entitylivingbase.posZ - this.blaze.posZ;
+                final double d1 = entitylivingbase.posX - this.blaze.posX;
+                final double d2 = entitylivingbase.getEntityBoundingBox().minY + (double) (entitylivingbase.height / 2.0F) - (this.blaze.posY + (double) (this.blaze.height / 2.0F));
+                final double d3 = entitylivingbase.posZ - this.blaze.posZ;
 
                 if (this.field_179468_c <= 0) {
                     ++this.field_179467_b;
@@ -198,11 +230,11 @@ public class EntityBlaze extends EntityMob {
                     }
 
                     if (this.field_179467_b > 1) {
-                        float f = MathHelper.sqrt_float(MathHelper.sqrt_double(d0)) * 0.5F;
+                        final float f = MathHelper.sqrt_float(MathHelper.sqrt_double(d0)) * 0.5F;
                         this.blaze.worldObj.playAuxSFXAtEntity(null, 1009, new BlockPos((int) this.blaze.posX, (int) this.blaze.posY, (int) this.blaze.posZ), 0);
 
                         for (int i = 0; i < 1; ++i) {
-                            EntitySmallFireball entitysmallfireball = new EntitySmallFireball(this.blaze.worldObj, this.blaze, d1 + this.blaze.getRNG().nextGaussian() * (double) f, d2, d3 + this.blaze.getRNG().nextGaussian() * (double) f);
+                            final EntitySmallFireball entitysmallfireball = new EntitySmallFireball(this.blaze.worldObj, this.blaze, d1 + this.blaze.getRNG().nextGaussian() * (double) f, d2, d3 + this.blaze.getRNG().nextGaussian() * (double) f);
                             entitysmallfireball.posY = this.blaze.posY + (double) (this.blaze.height / 2.0F) + 0.5D;
                             this.blaze.worldObj.spawnEntityInWorld(entitysmallfireball);
                         }

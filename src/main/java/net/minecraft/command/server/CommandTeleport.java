@@ -1,9 +1,5 @@
 package net.minecraft.command.server;
 
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
-
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -15,44 +11,67 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
+
 public class CommandTeleport extends CommandBase {
+    /**
+     * Gets the name of the command
+     */
     public String getCommandName() {
         return "tp";
     }
 
+    /**
+     * Return the required permission level for this command.
+     */
     public int getRequiredPermissionLevel() {
         return 2;
     }
 
-    public String getCommandUsage(ICommandSender sender) {
+    /**
+     * Gets the usage string for the command.
+     *
+     * @param sender The {@link ICommandSender} who is requesting usage details.
+     */
+    public String getCommandUsage(final ICommandSender sender) {
         return "commands.tp.usage";
     }
 
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    /**
+     * Callback when the command is invoked
+     *
+     * @param sender The {@link ICommandSender sender} who executed the command
+     * @param args   The arguments that were passed with the command
+     */
+    public void processCommand(final ICommandSender sender, final String[] args) throws CommandException {
         if (args.length < 1) {
             throw new WrongUsageException("commands.tp.usage");
         } else {
             int i = 0;
-            Entity entity;
+            final Entity entity;
 
             if (args.length != 2 && args.length != 4 && args.length != 6) {
                 entity = getCommandSenderAsPlayer(sender);
             } else {
-                entity = getEntity(sender, args[0]);
+                entity = func_175768_b(sender, args[0]);
                 i = 1;
             }
 
             if (args.length != 1 && args.length != 2) {
-                if (entity.worldObj != null) {
+                if (args.length < i + 3) {
+                    throw new WrongUsageException("commands.tp.usage");
+                } else if (entity.worldObj != null) {
                     int lvt_5_2_ = i + 1;
-                    CoordinateArg commandbase$coordinatearg = parseCoordinate(entity.posX, args[i], true);
-                    CoordinateArg commandbase$coordinatearg1 = parseCoordinate(entity.posY, args[lvt_5_2_++], 0, 0, false);
-                    CoordinateArg commandbase$coordinatearg2 = parseCoordinate(entity.posZ, args[lvt_5_2_++], true);
-                    CoordinateArg commandbase$coordinatearg3 = parseCoordinate(entity.rotationYaw, args.length > lvt_5_2_ ? args[lvt_5_2_++] : "~", false);
-                    CoordinateArg commandbase$coordinatearg4 = parseCoordinate(entity.rotationPitch, args.length > lvt_5_2_ ? args[lvt_5_2_] : "~", false);
+                    final CommandBase.CoordinateArg commandbase$coordinatearg = parseCoordinate(entity.posX, args[i], true);
+                    final CommandBase.CoordinateArg commandbase$coordinatearg1 = parseCoordinate(entity.posY, args[lvt_5_2_++], 0, 0, false);
+                    final CommandBase.CoordinateArg commandbase$coordinatearg2 = parseCoordinate(entity.posZ, args[lvt_5_2_++], true);
+                    final CommandBase.CoordinateArg commandbase$coordinatearg3 = parseCoordinate(entity.rotationYaw, args.length > lvt_5_2_ ? args[lvt_5_2_++] : "~", false);
+                    final CommandBase.CoordinateArg commandbase$coordinatearg4 = parseCoordinate(entity.rotationPitch, args.length > lvt_5_2_ ? args[lvt_5_2_] : "~", false);
 
                     if (entity instanceof EntityPlayerMP) {
-                        Set<S08PacketPlayerPosLook.EnumFlags> set = EnumSet.noneOf(S08PacketPlayerPosLook.EnumFlags.class);
+                        final Set<S08PacketPlayerPosLook.EnumFlags> set = EnumSet.noneOf(S08PacketPlayerPosLook.EnumFlags.class);
 
                         if (commandbase$coordinatearg.func_179630_c()) {
                             set.add(S08PacketPlayerPosLook.EnumFlags.X);
@@ -107,10 +126,10 @@ public class CommandTeleport extends CommandBase {
                         entity.setRotationYawHead(f2);
                     }
 
-                    notifyOperators(sender, this, "commands.tp.success.coordinates", entity.getName(), commandbase$coordinatearg.func_179628_a(), commandbase$coordinatearg1.func_179628_a(), commandbase$coordinatearg2.func_179628_a());
+                    notifyOperators(sender, this, "commands.tp.success.coordinates", entity.getCommandSenderName(), Double.valueOf(commandbase$coordinatearg.func_179628_a()), Double.valueOf(commandbase$coordinatearg1.func_179628_a()), Double.valueOf(commandbase$coordinatearg2.func_179628_a()));
                 }
             } else {
-                Entity entity1 = getEntity(sender, args[args.length - 1]);
+                final Entity entity1 = func_175768_b(sender, args[args.length - 1]);
 
                 if (entity1.worldObj != entity.worldObj) {
                     throw new CommandException("commands.tp.notSameDimension");
@@ -123,17 +142,23 @@ public class CommandTeleport extends CommandBase {
                         entity.setLocationAndAngles(entity1.posX, entity1.posY, entity1.posZ, entity1.rotationYaw, entity1.rotationPitch);
                     }
 
-                    notifyOperators(sender, this, "commands.tp.success", entity.getName(), entity1.getName());
+                    notifyOperators(sender, this, "commands.tp.success", entity.getCommandSenderName(), entity1.getCommandSenderName());
                 }
             }
         }
     }
 
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+    public List<String> addTabCompletionOptions(final ICommandSender sender, final String[] args, final BlockPos pos) {
         return args.length != 1 && args.length != 2 ? null : getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames());
     }
 
-    public boolean isUsernameIndex(String[] args, int index) {
+    /**
+     * Return whether the specified command parameter index is a username parameter.
+     *
+     * @param args  The arguments that were given
+     * @param index The argument index that we are checking
+     */
+    public boolean isUsernameIndex(final String[] args, final int index) {
         return index == 0;
     }
 }

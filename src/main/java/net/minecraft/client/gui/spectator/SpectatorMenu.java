@@ -2,9 +2,6 @@ package net.minecraft.client.gui.spectator;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
-
-import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiSpectator;
@@ -12,20 +9,22 @@ import net.minecraft.client.gui.spectator.categories.SpectatorDetails;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 
+import java.util.List;
+
 public class SpectatorMenu {
     private static final ISpectatorMenuObject field_178655_b = new SpectatorMenu.EndSpectatorObject();
     private static final ISpectatorMenuObject field_178656_c = new SpectatorMenu.MoveMenuObject(-1, true);
     private static final ISpectatorMenuObject field_178653_d = new SpectatorMenu.MoveMenuObject(1, true);
     private static final ISpectatorMenuObject field_178654_e = new SpectatorMenu.MoveMenuObject(1, false);
     public static final ISpectatorMenuObject field_178657_a = new ISpectatorMenuObject() {
-        public void func_178661_a(SpectatorMenu menu) {
+        public void func_178661_a(final SpectatorMenu menu) {
         }
 
         public IChatComponent getSpectatorName() {
             return new ChatComponentText("");
         }
 
-        public void func_178663_a(float p_178663_1_, int alpha) {
+        public void func_178663_a(final float p_178663_1_, final int alpha) {
         }
 
         public boolean func_178662_A_() {
@@ -38,17 +37,17 @@ public class SpectatorMenu {
     private int field_178660_i = -1;
     private int field_178658_j;
 
-    public SpectatorMenu(ISpectatorMenuRecipient p_i45497_1_) {
+    public SpectatorMenu(final ISpectatorMenuRecipient p_i45497_1_) {
         this.field_178651_f = p_i45497_1_;
     }
 
-    public ISpectatorMenuObject func_178643_a(int p_178643_1_) {
-        int i = p_178643_1_ + this.field_178658_j * 6;
+    public ISpectatorMenuObject func_178643_a(final int p_178643_1_) {
+        final int i = p_178643_1_ + this.field_178658_j * 6;
         return this.field_178658_j > 0 && p_178643_1_ == 0 ? field_178656_c : (p_178643_1_ == 7 ? (i < this.field_178659_h.func_178669_a().size() ? field_178653_d : field_178654_e) : (p_178643_1_ == 8 ? field_178655_b : (i >= 0 && i < this.field_178659_h.func_178669_a().size() ? Objects.firstNonNull(this.field_178659_h.func_178669_a().get(i), field_178657_a) : field_178657_a)));
     }
 
     public List<ISpectatorMenuObject> func_178642_a() {
-        List<ISpectatorMenuObject> list = Lists.newArrayList();
+        final List<ISpectatorMenuObject> list = Lists.newArrayList();
 
         for (int i = 0; i <= 8; ++i) {
             list.add(this.func_178643_a(i));
@@ -65,8 +64,8 @@ public class SpectatorMenu {
         return this.field_178659_h;
     }
 
-    public void func_178644_b(int p_178644_1_) {
-        ISpectatorMenuObject ispectatormenuobject = this.func_178643_a(p_178644_1_);
+    public void func_178644_b(final int p_178644_1_) {
+        final ISpectatorMenuObject ispectatormenuobject = this.func_178643_a(p_178644_1_);
 
         if (ispectatormenuobject != field_178657_a) {
             if (this.field_178660_i == p_178644_1_ && ispectatormenuobject.func_178662_A_()) {
@@ -85,7 +84,7 @@ public class SpectatorMenu {
         return this.field_178660_i;
     }
 
-    public void func_178647_a(ISpectatorMenuView p_178647_1_) {
+    public void func_178647_a(final ISpectatorMenuView p_178647_1_) {
         this.field_178652_g.add(this.func_178646_f());
         this.field_178659_h = p_178647_1_;
         this.field_178660_i = -1;
@@ -100,7 +99,7 @@ public class SpectatorMenu {
         private EndSpectatorObject() {
         }
 
-        public void func_178661_a(SpectatorMenu menu) {
+        public void func_178661_a(final SpectatorMenu menu) {
             menu.func_178641_d();
         }
 
@@ -108,7 +107,7 @@ public class SpectatorMenu {
             return new ChatComponentText("Close menu");
         }
 
-        public void func_178663_a(float p_178663_1_, int alpha) {
+        public void func_178663_a(final float p_178663_1_, final int alpha) {
             Minecraft.getMinecraft().getTextureManager().bindTexture(GuiSpectator.field_175269_a);
             Gui.drawModalRectWithCustomSizedTexture(0, 0, 128.0F, 0.0F, 16, 16, 256.0F, 256.0F);
         }
@@ -122,12 +121,12 @@ public class SpectatorMenu {
         private final int field_178666_a;
         private final boolean field_178665_b;
 
-        public MoveMenuObject(int p_i45495_1_, boolean p_i45495_2_) {
+        public MoveMenuObject(final int p_i45495_1_, final boolean p_i45495_2_) {
             this.field_178666_a = p_i45495_1_;
             this.field_178665_b = p_i45495_2_;
         }
 
-        public void func_178661_a(SpectatorMenu menu) {
+        public void func_178661_a(final SpectatorMenu menu) {
             menu.field_178658_j = this.field_178666_a;
         }
 
@@ -135,7 +134,7 @@ public class SpectatorMenu {
             return this.field_178666_a < 0 ? new ChatComponentText("Previous Page") : new ChatComponentText("Next Page");
         }
 
-        public void func_178663_a(float p_178663_1_, int alpha) {
+        public void func_178663_a(final float p_178663_1_, final int alpha) {
             Minecraft.getMinecraft().getTextureManager().bindTexture(GuiSpectator.field_175269_a);
 
             if (this.field_178666_a < 0) {

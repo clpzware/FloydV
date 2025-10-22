@@ -8,7 +8,7 @@ public class SVertexAttrib {
     public VertexFormatElement.EnumType type;
     public int offset;
 
-    public SVertexAttrib(int index, int count, VertexFormatElement.EnumType type) {
+    public SVertexAttrib(final int index, final int count, final VertexFormatElement.EnumType type) {
         this.index = index;
         this.count = count;
         this.type = type;

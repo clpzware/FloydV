@@ -41,7 +41,7 @@ public enum InternalFormat {
 
     private final int id;
 
-    InternalFormat(int id) {
+    InternalFormat(final int id) {
         this.id = id;
     }
 

@@ -11,24 +11,30 @@ import net.minecraft.world.World;
 public class GuiCrafting extends GuiContainer {
     private static final ResourceLocation craftingTableGuiTextures = new ResourceLocation("textures/gui/container/crafting_table.png");
 
-    public GuiCrafting(InventoryPlayer playerInv, World worldIn) {
+    public GuiCrafting(final InventoryPlayer playerInv, final World worldIn) {
         this(playerInv, worldIn, BlockPos.ORIGIN);
     }
 
-    public GuiCrafting(InventoryPlayer playerInv, World worldIn, BlockPos blockPosition) {
+    public GuiCrafting(final InventoryPlayer playerInv, final World worldIn, final BlockPos blockPosition) {
         super(new ContainerWorkbench(playerInv, worldIn, blockPosition));
     }
 
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        this.fontRendererObj.drawString(I18n.format("container.crafting"), 28, 6, 4210752);
-        this.fontRendererObj.drawString(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+    /**
+     * Draw the foreground layer for the GuiContainer (everything in front of the items). Args : mouseX, mouseY
+     */
+    protected void drawGuiContainerForegroundLayer(final int mouseX, final int mouseY) {
+        this.fontRendererObj.draw(I18n.format("container.crafting"), 28, 6, 4210752);
+        this.fontRendererObj.draw(I18n.format("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
     }
 
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+    /**
+     * Args : renderPartialTicks, mouseX, mouseY
+     */
+    protected void drawGuiContainerBackgroundLayer(final float partialTicks, final int mouseX, final int mouseY) {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(craftingTableGuiTextures);
-        int i = (this.width - this.xSize) / 2;
-        int j = (this.height - this.ySize) / 2;
+        final int i = (this.width - this.xSize) / 2;
+        final int j = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(i, j, 0, 0, this.xSize, this.ySize);
     }
 }

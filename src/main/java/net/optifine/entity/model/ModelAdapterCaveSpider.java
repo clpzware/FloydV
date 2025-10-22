@@ -11,9 +11,9 @@ public class ModelAdapterCaveSpider extends ModelAdapterSpider {
         super(EntityCaveSpider.class, "cave_spider", 0.7F);
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderCaveSpider rendercavespider = new RenderCaveSpider(rendermanager);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderCaveSpider rendercavespider = new RenderCaveSpider(rendermanager);
         rendercavespider.mainModel = modelBase;
         rendercavespider.shadowSize = shadowSize;
         return rendercavespider;

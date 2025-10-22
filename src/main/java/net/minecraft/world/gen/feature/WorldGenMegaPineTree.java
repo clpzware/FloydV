@@ -12,17 +12,17 @@ import java.util.Random;
 
 public class WorldGenMegaPineTree extends WorldGenHugeTrees {
     private static final IBlockState field_181633_e = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.SPRUCE);
-    private static final IBlockState field_181634_f = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.SPRUCE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.FALSE);
+    private static final IBlockState field_181634_f = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.SPRUCE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
     private static final IBlockState field_181635_g = Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.PODZOL);
     private final boolean useBaseHeight;
 
-    public WorldGenMegaPineTree(boolean p_i45457_1_, boolean p_i45457_2_) {
+    public WorldGenMegaPineTree(final boolean p_i45457_1_, final boolean p_i45457_2_) {
         super(p_i45457_1_, 13, 15, field_181633_e, field_181634_f);
         this.useBaseHeight = p_i45457_2_;
     }
 
-    public boolean generate(World worldIn, Random rand, BlockPos position) {
-        int i = this.func_150533_a(rand);
+    public boolean generate(final World worldIn, final Random rand, final BlockPos position) {
+        final int i = this.func_150533_a(rand);
 
         if (!this.func_175929_a(worldIn, rand, position, i)) {
             return false;
@@ -61,28 +61,28 @@ public class WorldGenMegaPineTree extends WorldGenHugeTrees {
         }
     }
 
-    private void func_150541_c(World worldIn, int p_150541_2_, int p_150541_3_, int p_150541_4_, int p_150541_5_, Random p_150541_6_) {
-        int i = p_150541_6_.nextInt(5) + (this.useBaseHeight ? this.baseHeight : 3);
+    private void func_150541_c(final World worldIn, final int p_150541_2_, final int p_150541_3_, final int p_150541_4_, final int p_150541_5_, final Random p_150541_6_) {
+        final int i = p_150541_6_.nextInt(5) + (this.useBaseHeight ? this.baseHeight : 3);
         int j = 0;
 
         for (int k = p_150541_4_ - i; k <= p_150541_4_; ++k) {
-            int l = p_150541_4_ - k;
-            int i1 = p_150541_5_ + MathHelper.floor_float((float) l / (float) i * 3.5F);
+            final int l = p_150541_4_ - k;
+            final int i1 = p_150541_5_ + MathHelper.floor_float((float) l / (float) i * 3.5F);
             this.func_175925_a(worldIn, new BlockPos(p_150541_2_, k, p_150541_3_), i1 + (l > 0 && i1 == j && (k & 1) == 0 ? 1 : 0));
             j = i1;
         }
     }
 
-    public void func_180711_a(World worldIn, Random p_180711_2_, BlockPos p_180711_3_) {
+    public void func_180711_a(final World worldIn, final Random p_180711_2_, final BlockPos p_180711_3_) {
         this.func_175933_b(worldIn, p_180711_3_.west().north());
         this.func_175933_b(worldIn, p_180711_3_.east(2).north());
         this.func_175933_b(worldIn, p_180711_3_.west().south(2));
         this.func_175933_b(worldIn, p_180711_3_.east(2).south(2));
 
         for (int i = 0; i < 5; ++i) {
-            int j = p_180711_2_.nextInt(64);
-            int k = j % 8;
-            int l = j / 8;
+            final int j = p_180711_2_.nextInt(64);
+            final int k = j % 8;
+            final int l = j / 8;
 
             if (k == 0 || k == 7 || l == 0 || l == 7) {
                 this.func_175933_b(worldIn, p_180711_3_.add(-3 + k, 0, -3 + l));
@@ -90,7 +90,7 @@ public class WorldGenMegaPineTree extends WorldGenHugeTrees {
         }
     }
 
-    private void func_175933_b(World worldIn, BlockPos p_175933_2_) {
+    private void func_175933_b(final World worldIn, final BlockPos p_175933_2_) {
         for (int i = -2; i <= 2; ++i) {
             for (int j = -2; j <= 2; ++j) {
                 if (Math.abs(i) != 2 || Math.abs(j) != 2) {
@@ -100,10 +100,10 @@ public class WorldGenMegaPineTree extends WorldGenHugeTrees {
         }
     }
 
-    private void func_175934_c(World worldIn, BlockPos p_175934_2_) {
+    private void func_175934_c(final World worldIn, final BlockPos p_175934_2_) {
         for (int i = 2; i >= -3; --i) {
-            BlockPos blockpos = p_175934_2_.up(i);
-            Block block = worldIn.getBlockState(blockpos).getBlock();
+            final BlockPos blockpos = p_175934_2_.up(i);
+            final Block block = worldIn.getBlockState(blockpos).getBlock();
 
             if (block == Blocks.grass || block == Blocks.dirt) {
                 this.setBlockAndNotifyAdequately(worldIn, blockpos, field_181635_g);

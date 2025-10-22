@@ -1,7 +1,5 @@
 package net.minecraft.world.biome;
 
-import java.util.Random;
-
 import net.minecraft.block.BlockFlower;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.monster.EntitySlime;
@@ -11,9 +9,11 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
+import java.util.Random;
+
 public class BiomeGenSwamp extends BiomeGenBase {
-    protected BiomeGenSwamp(int id) {
-        super(id);
+    protected BiomeGenSwamp(final int p_i1988_1_) {
+        super(p_i1988_1_);
         this.theBiomeDecorator.treesPerChunk = 2;
         this.theBiomeDecorator.flowersPerChunk = 1;
         this.theBiomeDecorator.deadBushPerChunk = 1;
@@ -28,29 +28,29 @@ public class BiomeGenSwamp extends BiomeGenBase {
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySlime.class, 1, 1, 1));
     }
 
-    public WorldGenAbstractTree genBigTreeChance(Random rand) {
+    public WorldGenAbstractTree genBigTreeChance(final Random rand) {
         return this.worldGeneratorSwamp;
     }
 
-    public int getGrassColorAtPos(BlockPos pos) {
-        double d0 = GRASS_COLOR_NOISE.func_151601_a((double) pos.getX() * 0.0225D, (double) pos.getZ() * 0.0225D);
+    public int getGrassColorAtPos(final BlockPos pos) {
+        final double d0 = GRASS_COLOR_NOISE.func_151601_a((double) pos.getX() * 0.0225D, (double) pos.getZ() * 0.0225D);
         return d0 < -0.1D ? 5011004 : 6975545;
     }
 
-    public int getFoliageColorAtPos(BlockPos pos) {
+    public int getFoliageColorAtPos(final BlockPos pos) {
         return 6975545;
     }
 
-    public BlockFlower.EnumFlowerType pickRandomFlower(Random rand, BlockPos pos) {
+    public BlockFlower.EnumFlowerType pickRandomFlower(final Random rand, final BlockPos pos) {
         return BlockFlower.EnumFlowerType.BLUE_ORCHID;
     }
 
-    public void genTerrainBlocks(World worldIn, Random rand, ChunkPrimer chunkPrimerIn, int x, int z, double noiseVal) {
-        double d0 = GRASS_COLOR_NOISE.func_151601_a((double) x * 0.25D, (double) z * 0.25D);
+    public void genTerrainBlocks(final World worldIn, final Random rand, final ChunkPrimer chunkPrimerIn, final int p_180622_4_, final int p_180622_5_, final double p_180622_6_) {
+        final double d0 = GRASS_COLOR_NOISE.func_151601_a((double) p_180622_4_ * 0.25D, (double) p_180622_5_ * 0.25D);
 
         if (d0 > 0.0D) {
-            int i = x & 15;
-            int j = z & 15;
+            final int i = p_180622_4_ & 15;
+            final int j = p_180622_5_ & 15;
 
             for (int k = 255; k >= 0; --k) {
                 if (chunkPrimerIn.getBlockState(j, k, i).getBlock().getMaterial() != Material.air) {
@@ -67,6 +67,6 @@ public class BiomeGenSwamp extends BiomeGenBase {
             }
         }
 
-        this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, x, z, noiseVal);
+        this.generateBiomeTerrain(worldIn, rand, chunkPrimerIn, p_180622_4_, p_180622_5_, p_180622_6_);
     }
 }

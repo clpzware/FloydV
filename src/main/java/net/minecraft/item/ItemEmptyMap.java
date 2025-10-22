@@ -12,10 +12,13 @@ public class ItemEmptyMap extends ItemMapBase {
         this.setCreativeTab(CreativeTabs.tabMisc);
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-        ItemStack itemstack = new ItemStack(Items.filled_map, 1, worldIn.getUniqueDataId("map"));
-        String s = "map_" + itemstack.getMetadata();
-        MapData mapdata = new MapData(s);
+    /**
+     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+     */
+    public ItemStack onItemRightClick(final ItemStack itemStackIn, final World worldIn, final EntityPlayer playerIn) {
+        final ItemStack itemstack = new ItemStack(Items.filled_map, 1, worldIn.getUniqueDataId("map"));
+        final String s = "map_" + itemstack.getMetadata();
+        final MapData mapdata = new MapData(s);
         worldIn.setItemData(s, mapdata);
         mapdata.scale = 0;
         mapdata.calculateMapCenter(playerIn.posX, playerIn.posZ, mapdata.scale);

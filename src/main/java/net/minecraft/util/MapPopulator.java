@@ -7,14 +7,14 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class MapPopulator {
-    public static <K, V> Map<K, V> createMap(Iterable<K> keys, Iterable<V> values) {
+    public static <K, V> Map<K, V> createMap(final Iterable<K> keys, final Iterable<V> values) {
         return populateMap(keys, values, Maps.newLinkedHashMap());
     }
 
-    public static <K, V> Map<K, V> populateMap(Iterable<K> keys, Iterable<V> values, Map<K, V> map) {
-        Iterator<V> iterator = values.iterator();
+    public static <K, V> Map<K, V> populateMap(final Iterable<K> keys, final Iterable<V> values, final Map<K, V> map) {
+        final Iterator<V> iterator = values.iterator();
 
-        for (K k : keys) {
+        for (final K k : keys) {
             map.put(k, iterator.next());
         }
 

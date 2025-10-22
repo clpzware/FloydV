@@ -15,11 +15,11 @@ public class ParametersVariable implements IParameters {
         this(null, null, null);
     }
 
-    public ParametersVariable(ExpressionType[] first, ExpressionType[] repeat, ExpressionType[] last) {
+    public ParametersVariable(final ExpressionType[] first, final ExpressionType[] repeat, final ExpressionType[] last) {
         this(first, repeat, last, Integer.MAX_VALUE);
     }
 
-    public ParametersVariable(ExpressionType[] first, ExpressionType[] repeat, ExpressionType[] last, int maxCount) {
+    public ParametersVariable(final ExpressionType[] first, final ExpressionType[] repeat, final ExpressionType[] last, final int maxCount) {
         this.maxCount = Integer.MAX_VALUE;
         this.first = normalize(first);
         this.repeat = normalize(repeat);
@@ -27,7 +27,7 @@ public class ParametersVariable implements IParameters {
         this.maxCount = maxCount;
     }
 
-    private static ExpressionType[] normalize(ExpressionType[] exprs) {
+    private static ExpressionType[] normalize(final ExpressionType[] exprs) {
         return exprs == null ? EMPTY : exprs;
     }
 
@@ -47,40 +47,39 @@ public class ParametersVariable implements IParameters {
         return this.first == null ? 0 : this.first.length;
     }
 
-    public ExpressionType[] getParameterTypes(IExpression[] arguments) {
-        int i = this.first.length + this.last.length;
-        int j = arguments.length - i;
+    public ExpressionType[] getParameterTypes(final IExpression[] arguments) {
+        final int i = this.first.length + this.last.length;
+        final int j = arguments.length - i;
         int k = 0;
 
         for (int l = 0; l + this.repeat.length <= j && i + l + this.repeat.length <= this.maxCount; l += this.repeat.length) {
             ++k;
         }
 
-        List<ExpressionType> list = new ArrayList();
-        list.addAll(Arrays.asList(this.first));
+        final List<ExpressionType> list = new ArrayList(Arrays.asList(this.first));
 
         for (int i1 = 0; i1 < k; ++i1) {
             list.addAll(Arrays.asList(this.repeat));
         }
 
         list.addAll(Arrays.asList(this.last));
-        ExpressionType[] aexpressiontype = list.toArray(new ExpressionType[list.size()]);
+        final ExpressionType[] aexpressiontype = list.toArray(new ExpressionType[list.size()]);
         return aexpressiontype;
     }
 
-    public ParametersVariable first(ExpressionType... first) {
+    public ParametersVariable first(final ExpressionType... first) {
         return new ParametersVariable(first, this.repeat, this.last);
     }
 
-    public ParametersVariable repeat(ExpressionType... repeat) {
+    public ParametersVariable repeat(final ExpressionType... repeat) {
         return new ParametersVariable(this.first, repeat, this.last);
     }
 
-    public ParametersVariable last(ExpressionType... last) {
+    public ParametersVariable last(final ExpressionType... last) {
         return new ParametersVariable(this.first, this.repeat, last);
     }
 
-    public ParametersVariable maxCount(int maxCount) {
+    public ParametersVariable maxCount(final int maxCount) {
         return new ParametersVariable(this.first, this.repeat, this.last, maxCount);
     }
 }

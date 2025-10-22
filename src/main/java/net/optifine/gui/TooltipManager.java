@@ -1,7 +1,7 @@
 package net.optifine.gui;
 
+import com.alan.clients.util.font.impl.minecraft.FontRenderer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -17,20 +17,20 @@ public class TooltipManager {
     private int lastMouseY = 0;
     private long mouseStillTime = 0L;
 
-    public TooltipManager(GuiScreen guiScreen, TooltipProvider tooltipProvider) {
+    public TooltipManager(final GuiScreen guiScreen, final TooltipProvider tooltipProvider) {
         this.guiScreen = guiScreen;
         this.tooltipProvider = tooltipProvider;
     }
 
-    public void drawTooltips(int x, int y, List buttonList) {
+    public void drawTooltips(final int x, final int y, final List buttonList) {
         if (Math.abs(x - this.lastMouseX) <= 5 && Math.abs(y - this.lastMouseY) <= 5) {
-            int i = 700;
+            final int i = 700;
 
             if (System.currentTimeMillis() >= this.mouseStillTime + (long) i) {
-                GuiButton guibutton = GuiScreenOF.getSelectedButton(x, y, buttonList);
+                final GuiButton guibutton = GuiScreenOF.getSelectedButton(x, y, buttonList);
 
                 if (guibutton != null) {
-                    Rectangle rectangle = this.tooltipProvider.getTooltipBounds(this.guiScreen, x, y);
+                    final Rectangle rectangle = this.tooltipProvider.getTooltipBounds(this.guiScreen, x, y);
                     String[] astring = this.tooltipProvider.getTooltipLines(guibutton, rectangle.width);
 
                     if (astring != null) {
@@ -40,22 +40,22 @@ public class TooltipManager {
                         }
 
                         if (this.tooltipProvider.isRenderBorder()) {
-                            int j = -528449408;
+                            final int j = -528449408;
                             this.drawRectBorder(rectangle.x, rectangle.y, rectangle.x + rectangle.width, rectangle.y + rectangle.height, j);
                         }
 
                         Gui.drawRect(rectangle.x, rectangle.y, rectangle.x + rectangle.width, rectangle.y + rectangle.height, -536870912);
 
                         for (int l = 0; l < astring.length; ++l) {
-                            String s = astring[l];
+                            final String s = astring[l];
                             int k = 14540253;
 
                             if (s.endsWith("!")) {
                                 k = 16719904;
                             }
 
-                            FontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
-                            fontrenderer.drawStringWithShadow(s, (float) (rectangle.x + 5), (float) (rectangle.y + 5 + l * 11), k);
+                            final FontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
+                            fontrenderer.drawWithShadow(s, (float) (rectangle.x + 5), (float) (rectangle.y + 6 + l * 11), k);
                         }
                     }
                 }
@@ -67,7 +67,7 @@ public class TooltipManager {
         }
     }
 
-    private void drawRectBorder(int x1, int y1, int x2, int y2, int col) {
+    private void drawRectBorder(final int x1, final int y1, final int x2, final int y2, final int col) {
         Gui.drawRect(x1, y1 - 1, x2, y1, col);
         Gui.drawRect(x1, y2, x2, y2 + 1, col);
         Gui.drawRect(x1 - 1, y1, x1, y2, col);

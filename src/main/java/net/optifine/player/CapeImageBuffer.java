@@ -11,13 +11,13 @@ public class CapeImageBuffer extends ImageBufferDownload {
     private final ResourceLocation resourceLocation;
     private boolean elytraOfCape;
 
-    public CapeImageBuffer(AbstractClientPlayer player, ResourceLocation resourceLocation) {
+    public CapeImageBuffer(final AbstractClientPlayer player, final ResourceLocation resourceLocation) {
         this.player = player;
         this.resourceLocation = resourceLocation;
     }
 
-    public BufferedImage parseUserSkin(BufferedImage imageRaw) {
-        BufferedImage bufferedimage = CapeUtils.parseCape(imageRaw);
+    public BufferedImage parseUserSkin(final BufferedImage imageRaw) {
+        final BufferedImage bufferedimage = CapeUtils.parseCape(imageRaw);
         this.elytraOfCape = CapeUtils.isElytraCape(imageRaw, bufferedimage);
         return bufferedimage;
     }

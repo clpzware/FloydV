@@ -1,6 +1,5 @@
 package net.optifine.shaders;
 
-import lombok.Getter;
 import net.minecraft.src.Config;
 import net.optifine.config.MatchBlock;
 
@@ -10,17 +9,22 @@ import java.util.List;
 import java.util.Set;
 
 public class BlockAlias {
-    @Getter
     private final int blockAliasId;
     private final MatchBlock[] matchBlocks;
 
-    public BlockAlias(int blockAliasId, MatchBlock[] matchBlocks) {
+    public BlockAlias(final int blockAliasId, final MatchBlock[] matchBlocks) {
         this.blockAliasId = blockAliasId;
         this.matchBlocks = matchBlocks;
     }
 
-    public boolean matches(int id, int metadata) {
-        for (MatchBlock matchblock : this.matchBlocks) {
+    public int getBlockAliasId() {
+        return this.blockAliasId;
+    }
+
+    public boolean matches(final int id, final int metadata) {
+        for (int i = 0; i < this.matchBlocks.length; ++i) {
+            final MatchBlock matchblock = this.matchBlocks[i];
+
             if (matchblock.matches(id, metadata)) {
                 return true;
             }
@@ -30,27 +34,32 @@ public class BlockAlias {
     }
 
     public int[] getMatchBlockIds() {
-        Set<Integer> set = new HashSet<>();
+        final Set<Integer> set = new HashSet();
 
-        for (MatchBlock matchblock : this.matchBlocks) {
-            int j = matchblock.getBlockId();
-            set.add(j);
+        for (int i = 0; i < this.matchBlocks.length; ++i) {
+            final MatchBlock matchblock = this.matchBlocks[i];
+            final int j = matchblock.getBlockId();
+            set.add(Integer.valueOf(j));
         }
 
-        Integer[] ainteger = set.toArray(new Integer[0]);
-        return Config.toPrimitive(ainteger);
+        final Integer[] ainteger = set.toArray(new Integer[set.size()]);
+        final int[] aint = Config.toPrimitive(ainteger);
+        return aint;
     }
 
-    public MatchBlock[] getMatchBlocks(int matchBlockId) {
-        List<MatchBlock> list = new ArrayList<>();
+    public MatchBlock[] getMatchBlocks(final int matchBlockId) {
+        final List<MatchBlock> list = new ArrayList();
 
-        for (MatchBlock matchblock : this.matchBlocks) {
+        for (int i = 0; i < this.matchBlocks.length; ++i) {
+            final MatchBlock matchblock = this.matchBlocks[i];
+
             if (matchblock.getBlockId() == matchBlockId) {
                 list.add(matchblock);
             }
         }
 
-        return list.toArray(new MatchBlock[0]);
+        final MatchBlock[] amatchblock = list.toArray(new MatchBlock[list.size()]);
+        return amatchblock;
     }
 
     public String toString() {

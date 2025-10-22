@@ -12,6 +12,7 @@ import net.minecraft.src.Config;
 import net.minecraft.tileentity.TileEntityEndPortal;
 import net.minecraft.util.EnumWorldBlockLayer;
 import net.minecraft.util.ResourceLocation;
+import net.optifine.reflect.Reflector;
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -22,11 +23,11 @@ import java.nio.IntBuffer;
 public class ShadersRender {
     private static final ResourceLocation END_PORTAL_TEXTURE = new ResourceLocation("textures/entity/end_portal.png");
 
-    public static void setFrustrumPosition(ICamera frustum, double x, double y, double z) {
+    public static void setFrustrumPosition(final ICamera frustum, final double x, final double y, final double z) {
         frustum.setPosition(x, y, z);
     }
 
-    public static void setupTerrain(RenderGlobal renderGlobal, Entity viewEntity, double partialTicks, ICamera camera, int frameCount, boolean playerSpectator) {
+    public static void setupTerrain(final RenderGlobal renderGlobal, final Entity viewEntity, final double partialTicks, final ICamera camera, final int frameCount, final boolean playerSpectator) {
         renderGlobal.setupTerrain(viewEntity, partialTicks, camera, frameCount, playerSpectator);
     }
 
@@ -55,10 +56,30 @@ public class ShadersRender {
         }
     }
 
-    public static void renderHand0(EntityRenderer er, float par1, int par2) {
+    public static void beginTranslucent() {
+        if (Shaders.isRenderingWorld) {
+            if (Shaders.usedDepthBuffers >= 2) {
+                GlStateManager.setActiveTexture(33995);
+                Shaders.checkGLError("pre copy depth");
+                GL11.glCopyTexSubImage2D(GL11.GL_TEXTURE_2D, 0, 0, 0, 0, 0, Shaders.renderWidth, Shaders.renderHeight);
+                Shaders.checkGLError("copy depth");
+                GlStateManager.setActiveTexture(33984);
+            }
+
+            Shaders.useProgram(Shaders.ProgramWater);
+        }
+    }
+
+    public static void endTranslucent() {
+        if (Shaders.isRenderingWorld) {
+            Shaders.useProgram(Shaders.ProgramTexturedLit);
+        }
+    }
+
+    public static void renderHand0(final EntityRenderer er, final float par1, final int par2) {
         if (!Shaders.isShadowPass) {
-            boolean flag = Shaders.isItemToRenderMainTranslucent();
-            boolean flag1 = Shaders.isItemToRenderOffTranslucent();
+            final boolean flag = Shaders.isItemToRenderMainTranslucent();
+            final boolean flag1 = Shaders.isItemToRenderOffTranslucent();
 
             if (!flag || !flag1) {
                 Shaders.readCenterDepth();
@@ -73,7 +94,7 @@ public class ShadersRender {
         }
     }
 
-    public static void renderHand1(EntityRenderer er, float par1, int par2) {
+    public static void renderHand1(final EntityRenderer er, final float par1, final int par2) {
         if (!Shaders.isShadowPass && !Shaders.isBothHandsRendered()) {
             Shaders.readCenterDepth();
             GlStateManager.enableBlend();
@@ -87,14 +108,14 @@ public class ShadersRender {
         }
     }
 
-    public static void renderItemFP(ItemRenderer itemRenderer, float par1, boolean renderTranslucent) {
+    public static void renderItemFP(final ItemRenderer itemRenderer, final float par1, final boolean renderTranslucent) {
         Shaders.setRenderingFirstPersonHand(true);
         GlStateManager.depthMask(true);
 
         if (renderTranslucent) {
             GlStateManager.depthFunc(519);
             GL11.glPushMatrix();
-            IntBuffer intbuffer = Shaders.activeDrawBuffers;
+            final IntBuffer intbuffer = Shaders.activeDrawBuffers;
             Shaders.setDrawBuffers(Shaders.drawBuffersNone);
             Shaders.renderItemKeepDepthMask = true;
             itemRenderer.renderItemInFirstPerson(par1);
@@ -109,7 +130,7 @@ public class ShadersRender {
         Shaders.setRenderingFirstPersonHand(false);
     }
 
-    public static void renderFPOverlay(EntityRenderer er, float par1, int par2) {
+    public static void renderFPOverlay(final EntityRenderer er, final float par1, final int par2) {
         if (!Shaders.isShadowPass) {
             Shaders.beginFPOverlay();
             er.renderHand(par1, par2, false, true, false);
@@ -135,10 +156,11 @@ public class ShadersRender {
         }
     }
 
-    public static void renderShadowMap(EntityRenderer entityRenderer, float partialTicks, long finishTimeNano) {
+    public static void renderShadowMap(final EntityRenderer entityRenderer, final int pass, final float partialTicks, final long finishTimeNano) {
         if (Shaders.usedShadowDepthBuffers > 0 && --Shaders.shadowPassCounter <= 0) {
-            Minecraft minecraft = Minecraft.getMinecraft();
-            RenderGlobal renderglobal = minecraft.renderGlobal;
+            final Minecraft minecraft = Minecraft.getMinecraft();
+            minecraft.mcProfiler.endStartSection("shadow pass");
+            final RenderGlobal renderglobal = minecraft.renderGlobal;
             Shaders.isShadowPass = true;
             Shaders.shadowPassCounter = Shaders.shadowPassInterval;
             Shaders.preShadowPassThirdPersonView = minecraft.gameSettings.thirdPersonView;
@@ -148,8 +170,10 @@ public class ShadersRender {
             GL11.glPushMatrix();
             GL11.glMatrixMode(GL11.GL_MODELVIEW);
             GL11.glPushMatrix();
+            minecraft.mcProfiler.endStartSection("shadow clear");
             EXTFramebufferObject.glBindFramebufferEXT(36160, Shaders.sfb);
             Shaders.checkGLError("shadow bind sfb");
+            minecraft.mcProfiler.endStartSection("shadow camera");
             entityRenderer.setupCameraTransform(partialTicks, 2);
             Shaders.setCameraShadow(partialTicks);
             Shaders.checkGLError("shadow camera");
@@ -168,12 +192,14 @@ public class ShadersRender {
             GL11.glClearColor(1.0F, 1.0F, 1.0F, 1.0F);
             GL11.glClear(Shaders.usedShadowColorBuffers != 0 ? GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT : GL11.GL_DEPTH_BUFFER_BIT);
             Shaders.checkGLError("shadow clear");
-            ClippingHelper clippinghelper = ClippingHelperShadow.getInstance();
-            Frustum frustum = new Frustum(clippinghelper);
-            Entity entity = minecraft.getRenderViewEntity();
-            double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double) partialTicks;
-            double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) partialTicks;
-            double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) partialTicks;
+            minecraft.mcProfiler.endStartSection("shadow frustum");
+            final ClippingHelper clippinghelper = ClippingHelperShadow.getInstance();
+            minecraft.mcProfiler.endStartSection("shadow culling");
+            final Frustum frustum = new Frustum(clippinghelper);
+            final Entity entity = minecraft.getRenderViewEntity();
+            final double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double) partialTicks;
+            final double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) partialTicks;
+            final double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) partialTicks;
             frustum.setPosition(d0, d1, d2);
             GlStateManager.shadeModel(7425);
             GlStateManager.enableDepth();
@@ -181,11 +207,15 @@ public class ShadersRender {
             GlStateManager.depthMask(true);
             GlStateManager.colorMask(true, true, true, true);
             GlStateManager.disableCull();
+            minecraft.mcProfiler.endStartSection("shadow prepareterrain");
             minecraft.getTextureManager().bindTexture(TextureMap.locationBlocksTexture);
+            minecraft.mcProfiler.endStartSection("shadow setupterrain");
             int i = 0;
             i = entityRenderer.frameCount;
             entityRenderer.frameCount = i + 1;
             renderglobal.setupTerrain(entity, partialTicks, frustum, i, minecraft.thePlayer.isSpectator());
+            minecraft.mcProfiler.endStartSection("shadow updatechunks");
+            minecraft.mcProfiler.endStartSection("shadow terrain");
             GlStateManager.matrixMode(5888);
             GlStateManager.pushMatrix();
             GlStateManager.disableAlpha();
@@ -203,6 +233,11 @@ public class ShadersRender {
             GlStateManager.matrixMode(5888);
             GlStateManager.popMatrix();
             GlStateManager.pushMatrix();
+            minecraft.mcProfiler.endStartSection("shadow entities");
+
+            if (Reflector.ForgeHooksClient_setRenderPass.exists()) {
+                Reflector.callVoid(Reflector.ForgeHooksClient_setRenderPass, Integer.valueOf(0));
+            }
 
             renderglobal.renderEntities(entity, frustum, partialTicks);
             Shaders.checkGLError("shadow entities");
@@ -232,8 +267,18 @@ public class ShadersRender {
             Shaders.checkFramebufferStatus("shadow pre-translucent");
 
             if (Shaders.isRenderShadowTranslucent()) {
+                minecraft.mcProfiler.endStartSection("shadow translucent");
                 renderglobal.renderBlockLayer(EnumWorldBlockLayer.TRANSLUCENT, partialTicks, 2, entity);
                 Shaders.checkGLError("shadow translucent");
+            }
+
+            if (Reflector.ForgeHooksClient_setRenderPass.exists()) {
+                RenderHelper.enableStandardItemLighting();
+                Reflector.call(Reflector.ForgeHooksClient_setRenderPass, Integer.valueOf(1));
+                renderglobal.renderEntities(entity, frustum, partialTicks);
+                Reflector.call(Reflector.ForgeHooksClient_setRenderPass, Integer.valueOf(-1));
+                RenderHelper.disableStandardItemLighting();
+                Shaders.checkGLError("shadow entities 1");
             }
 
             GlStateManager.shadeModel(7424);
@@ -244,6 +289,7 @@ public class ShadersRender {
             Shaders.checkGLError("shadow flush");
             Shaders.isShadowPass = false;
             minecraft.gameSettings.thirdPersonView = Shaders.preShadowPassThirdPersonView;
+            minecraft.mcProfiler.endStartSection("shadow postprocess");
 
             if (Shaders.hasGlGenMipmap) {
                 if (Shaders.usedShadowDepthBuffers >= 1) {
@@ -298,7 +344,7 @@ public class ShadersRender {
         }
     }
 
-    public static void preRenderChunkLayer(EnumWorldBlockLayer blockLayerIn) {
+    public static void preRenderChunkLayer(final EnumWorldBlockLayer blockLayerIn) {
         if (Shaders.isRenderBackFace(blockLayerIn)) {
             GlStateManager.disableCull();
         }
@@ -311,7 +357,7 @@ public class ShadersRender {
         }
     }
 
-    public static void postRenderChunkLayer(EnumWorldBlockLayer blockLayerIn) {
+    public static void postRenderChunkLayer(final EnumWorldBlockLayer blockLayerIn) {
         if (OpenGlHelper.useVbo()) {
             GL11.glDisableClientState(GL11.GL_NORMAL_ARRAY);
             GL20.glDisableVertexAttribArray(Shaders.midTexCoordAttrib);
@@ -325,7 +371,7 @@ public class ShadersRender {
     }
 
     public static void setupArrayPointersVbo() {
-        int i = 14;
+        final int i = 14;
         GL11.glVertexPointer(3, GL11.GL_FLOAT, 56, 0L);
         GL11.glColorPointer(4, GL11.GL_UNSIGNED_BYTE, 56, 12L);
         GL11.glTexCoordPointer(2, GL11.GL_FLOAT, 56, 16L);
@@ -336,6 +382,23 @@ public class ShadersRender {
         GL20.glVertexAttribPointer(Shaders.midTexCoordAttrib, 2, GL11.GL_FLOAT, false, 56, 32L);
         GL20.glVertexAttribPointer(Shaders.tangentAttrib, 4, GL11.GL_SHORT, false, 56, 40L);
         GL20.glVertexAttribPointer(Shaders.entityAttrib, 3, GL11.GL_SHORT, false, 56, 48L);
+    }
+
+    public static void beaconBeamBegin() {
+        Shaders.useProgram(Shaders.ProgramBeaconBeam);
+    }
+
+    public static void beaconBeamStartQuad1() {
+    }
+
+    public static void beaconBeamStartQuad2() {
+    }
+
+    public static void beaconBeamDraw1() {
+    }
+
+    public static void beaconBeamDraw2() {
+        GlStateManager.disableBlend();
     }
 
     public static void renderEnchantedGlintBegin() {
@@ -354,27 +417,27 @@ public class ShadersRender {
         }
     }
 
-    public static boolean renderEndPortal(TileEntityEndPortal te, double x, double y, double z, float partialTicks, int destroyStage, float offset) {
+    public static boolean renderEndPortal(final TileEntityEndPortal te, final double x, final double y, final double z, final float partialTicks, final int destroyStage, final float offset) {
         if (!Shaders.isShadowPass && Shaders.activeProgram.getId() == 0) {
             return false;
         } else {
             GlStateManager.disableLighting();
             Config.getTextureManager().bindTexture(END_PORTAL_TEXTURE);
-            Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+            final Tessellator tessellator = Tessellator.getInstance();
+            final WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             worldrenderer.begin(7, DefaultVertexFormats.BLOCK);
-            float f = 0.5F;
-            float f1 = f * 0.15F;
-            float f2 = f * 0.3F;
-            float f3 = f * 0.4F;
-            float f4 = 0.0F;
-            float f5 = 0.2F;
-            float f6 = (float) (System.currentTimeMillis() % 100000L) / 100000.0F;
-            int i = 240;
-            worldrenderer.pos(x, y + (double) offset, z + 1.0D).color(f1, f2, f3, 1.0F).tex(f4 + f6, f4 + f6).lightmap(i, i).endVertex();
-            worldrenderer.pos(x + 1.0D, y + (double) offset, z + 1.0D).color(f1, f2, f3, 1.0F).tex(f4 + f6, f5 + f6).lightmap(i, i).endVertex();
-            worldrenderer.pos(x + 1.0D, y + (double) offset, z).color(f1, f2, f3, 1.0F).tex(f5 + f6, f5 + f6).lightmap(i, i).endVertex();
-            worldrenderer.pos(x, y + (double) offset, z).color(f1, f2, f3, 1.0F).tex(f5 + f6, f4 + f6).lightmap(i, i).endVertex();
+            final float f = 0.5F;
+            final float f1 = f * 0.15F;
+            final float f2 = f * 0.3F;
+            final float f3 = f * 0.4F;
+            final float f4 = 0.0F;
+            final float f5 = 0.2F;
+            final float f6 = (float) (System.currentTimeMillis() % 100000L) / 100000.0F;
+            final int i = 240;
+            worldrenderer.pos(x, y + (double) offset, z + 1.0D).func_181666_a(f1, f2, f3, 1.0F).tex(f4 + f6, f4 + f6).func_181671_a(i, i).endVertex();
+            worldrenderer.pos(x + 1.0D, y + (double) offset, z + 1.0D).func_181666_a(f1, f2, f3, 1.0F).tex(f4 + f6, f5 + f6).func_181671_a(i, i).endVertex();
+            worldrenderer.pos(x + 1.0D, y + (double) offset, z).func_181666_a(f1, f2, f3, 1.0F).tex(f5 + f6, f5 + f6).func_181671_a(i, i).endVertex();
+            worldrenderer.pos(x, y + (double) offset, z).func_181666_a(f1, f2, f3, 1.0F).tex(f5 + f6, f4 + f6).func_181671_a(i, i).endVertex();
             tessellator.draw();
             GlStateManager.enableLighting();
             return true;

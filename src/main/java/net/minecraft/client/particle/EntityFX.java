@@ -17,16 +17,36 @@ public class EntityFX extends Entity {
     protected int particleMaxAge;
     protected float particleScale;
     protected float particleGravity;
+
+    /**
+     * The red amount of color. Used as a percentage, 1.0 = 255 and 0.0 = 0.
+     */
     protected float particleRed;
+
+    /**
+     * The green amount of color. Used as a percentage, 1.0 = 255 and 0.0 = 0.
+     */
     protected float particleGreen;
+
+    /**
+     * The blue amount of color. Used as a percentage, 1.0 = 255 and 0.0 = 0.
+     */
     protected float particleBlue;
+
+    /**
+     * Particle alpha
+     */
     protected float particleAlpha;
+
+    /**
+     * The icon field from which the given particle pulls its texture.
+     */
     protected TextureAtlasSprite particleIcon;
     public static double interpPosX;
     public static double interpPosY;
     public static double interpPosZ;
 
-    protected EntityFX(World worldIn, double posXIn, double posYIn, double posZIn) {
+    protected EntityFX(final World worldIn, final double posXIn, final double posYIn, final double posZIn) {
         super(worldIn);
         this.particleAlpha = 1.0F;
         this.setSize(0.2F, 0.2F);
@@ -42,38 +62,41 @@ public class EntityFX extends Entity {
         this.particleAge = 0;
     }
 
-    public EntityFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
+    public EntityFX(final World worldIn, final double xCoordIn, final double yCoordIn, final double zCoordIn, final double xSpeedIn, final double ySpeedIn, final double zSpeedIn) {
         this(worldIn, xCoordIn, yCoordIn, zCoordIn);
         this.motionX = xSpeedIn + (Math.random() * 2.0D - 1.0D) * 0.4000000059604645D;
         this.motionY = ySpeedIn + (Math.random() * 2.0D - 1.0D) * 0.4000000059604645D;
         this.motionZ = zSpeedIn + (Math.random() * 2.0D - 1.0D) * 0.4000000059604645D;
-        float f = (float) (Math.random() + Math.random() + 1.0D) * 0.15F;
-        float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
+        final float f = (float) (Math.random() + Math.random() + 1.0D) * 0.15F;
+        final float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
         this.motionX = this.motionX / (double) f1 * (double) f * 0.4000000059604645D;
         this.motionY = this.motionY / (double) f1 * (double) f * 0.4000000059604645D + 0.10000000149011612D;
         this.motionZ = this.motionZ / (double) f1 * (double) f * 0.4000000059604645D;
     }
 
-    public EntityFX multiplyVelocity(float multiplier) {
+    public EntityFX multiplyVelocity(final float multiplier) {
         this.motionX *= multiplier;
         this.motionY = (this.motionY - 0.10000000149011612D) * (double) multiplier + 0.10000000149011612D;
         this.motionZ *= multiplier;
         return this;
     }
 
-    public EntityFX multipleParticleScaleBy(float scale) {
-        this.setSize(0.2F * scale, 0.2F * scale);
-        this.particleScale *= scale;
+    public EntityFX multipleParticleScaleBy(final float p_70541_1_) {
+        this.setSize(0.2F * p_70541_1_, 0.2F * p_70541_1_);
+        this.particleScale *= p_70541_1_;
         return this;
     }
 
-    public void setRBGColorF(float particleRedIn, float particleGreenIn, float particleBlueIn) {
+    public void setRBGColorF(final float particleRedIn, final float particleGreenIn, final float particleBlueIn) {
         this.particleRed = particleRedIn;
         this.particleGreen = particleGreenIn;
         this.particleBlue = particleBlueIn;
     }
 
-    public void setAlphaF(float alpha) {
+    /**
+     * Sets the particle alpha (float)
+     */
+    public void setAlphaF(final float alpha) {
         if (this.particleAlpha == 1.0F && alpha < 1.0F) {
             Minecraft.getMinecraft().effectRenderer.moveToAlphaLayer(this);
         } else if (this.particleAlpha < 1.0F && alpha == 1.0F) {
@@ -99,6 +122,10 @@ public class EntityFX extends Entity {
         return this.particleAlpha;
     }
 
+    /**
+     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
+     * prevent them from trampling crops
+     */
     protected boolean canTriggerWalking() {
         return false;
     }
@@ -106,6 +133,9 @@ public class EntityFX extends Entity {
     protected void entityInit() {
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate() {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
@@ -127,12 +157,17 @@ public class EntityFX extends Entity {
         }
     }
 
-    public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+    /**
+     * Renders the particle
+     *
+     * @param worldRendererIn The WorldRenderer instance
+     */
+    public void renderParticle(final WorldRenderer worldRendererIn, final Entity entityIn, final float partialTicks, final float p_180434_4_, final float p_180434_5_, final float p_180434_6_, final float p_180434_7_, final float p_180434_8_) {
         float f = (float) this.particleTextureIndexX / 16.0F;
         float f1 = f + 0.0624375F;
         float f2 = (float) this.particleTextureIndexY / 16.0F;
         float f3 = f2 + 0.0624375F;
-        float f4 = 0.1F * this.particleScale;
+        final float f4 = 0.1F * this.particleScale;
 
         if (this.particleIcon != null) {
             f = this.particleIcon.getMinU();
@@ -141,30 +176,41 @@ public class EntityFX extends Entity {
             f3 = this.particleIcon.getMaxV();
         }
 
-        float f5 = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) partialTicks - interpPosX);
-        float f6 = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) partialTicks - interpPosY);
-        float f7 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) partialTicks - interpPosZ);
-        int i = this.getBrightnessForRender(partialTicks);
-        int j = i >> 16 & 65535;
-        int k = i & 65535;
-        worldRendererIn.pos(f5 - rotationX * f4 - rotationXY * f4, f6 - rotationZ * f4, f7 - rotationYZ * f4 - rotationXZ * f4).tex(f1, f3).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-        worldRendererIn.pos(f5 - rotationX * f4 + rotationXY * f4, f6 + rotationZ * f4, f7 - rotationYZ * f4 + rotationXZ * f4).tex(f1, f2).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-        worldRendererIn.pos(f5 + rotationX * f4 + rotationXY * f4, f6 + rotationZ * f4, f7 + rotationYZ * f4 + rotationXZ * f4).tex(f, f2).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-        worldRendererIn.pos(f5 + rotationX * f4 - rotationXY * f4, f6 - rotationZ * f4, f7 + rotationYZ * f4 - rotationXZ * f4).tex(f, f3).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
+        final float f5 = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) partialTicks - interpPosX);
+        final float f6 = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) partialTicks - interpPosY);
+        final float f7 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) partialTicks - interpPosZ);
+        final int i = this.getBrightnessForRender(partialTicks);
+        final int j = i >> 16 & 65535;
+        final int k = i & 65535;
+        worldRendererIn.pos(f5 - p_180434_4_ * f4 - p_180434_7_ * f4, f6 - p_180434_5_ * f4, f7 - p_180434_6_ * f4 - p_180434_8_ * f4).tex(f1, f3).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
+        worldRendererIn.pos(f5 - p_180434_4_ * f4 + p_180434_7_ * f4, f6 + p_180434_5_ * f4, f7 - p_180434_6_ * f4 + p_180434_8_ * f4).tex(f1, f2).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
+        worldRendererIn.pos(f5 + p_180434_4_ * f4 + p_180434_7_ * f4, f6 + p_180434_5_ * f4, f7 + p_180434_6_ * f4 + p_180434_8_ * f4).tex(f, f2).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
+        worldRendererIn.pos(f5 + p_180434_4_ * f4 - p_180434_7_ * f4, f6 - p_180434_5_ * f4, f7 + p_180434_6_ * f4 - p_180434_8_ * f4).tex(f, f3).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
     }
 
     public int getFXLayer() {
         return 0;
     }
 
-    public void writeEntityToNBT(NBTTagCompound tagCompound) {
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
+    public void writeEntityToNBT(final NBTTagCompound tagCompound) {
     }
 
-    public void readEntityFromNBT(NBTTagCompound tagCompund) {
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
+    public void readEntityFromNBT(final NBTTagCompound tagCompund) {
     }
 
-    public void setParticleIcon(TextureAtlasSprite icon) {
-        int i = this.getFXLayer();
+    /**
+     * Sets the particle's icon.
+     *
+     * @param icon The icon to set for this particle
+     */
+    public void setParticleIcon(final TextureAtlasSprite icon) {
+        final int i = this.getFXLayer();
 
         if (i == 1) {
             this.particleIcon = icon;
@@ -173,7 +219,10 @@ public class EntityFX extends Entity {
         }
     }
 
-    public void setParticleTextureIndex(int particleTextureIndex) {
+    /**
+     * Public method to set private field particleTextureIndex.
+     */
+    public void setParticleTextureIndex(final int particleTextureIndex) {
         if (this.getFXLayer() != 0) {
             throw new RuntimeException("Invalid call to Particle.setMiscTex");
         } else {
@@ -186,6 +235,9 @@ public class EntityFX extends Entity {
         ++this.particleTextureIndexX;
     }
 
+    /**
+     * If returns false, the item will not inflict any damage against entities.
+     */
     public boolean canAttackWithItem() {
         return false;
     }

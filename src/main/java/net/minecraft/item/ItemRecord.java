@@ -17,19 +17,29 @@ import java.util.Map;
 
 public class ItemRecord extends Item {
     private static final Map<String, ItemRecord> RECORDS = Maps.newHashMap();
+
+    /**
+     * The name of the record.
+     */
     public final String recordName;
 
-    protected ItemRecord(String name) {
+    protected ItemRecord(final String name) {
         this.recordName = name;
         this.maxStackSize = 1;
         this.setCreativeTab(CreativeTabs.tabMisc);
         RECORDS.put("records." + name, this);
     }
 
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-        IBlockState iblockstate = worldIn.getBlockState(pos);
+    /**
+     * Called when a Block is right-clicked with this Item
+     *
+     * @param pos  The block being right-clicked
+     * @param side The side being right-clicked
+     */
+    public boolean onItemUse(final ItemStack stack, final EntityPlayer playerIn, final World worldIn, final BlockPos pos, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
+        final IBlockState iblockstate = worldIn.getBlockState(pos);
 
-        if (iblockstate.getBlock() == Blocks.jukebox && !iblockstate.getValue(BlockJukebox.HAS_RECORD)) {
+        if (iblockstate.getBlock() == Blocks.jukebox && !iblockstate.getValue(BlockJukebox.HAS_RECORD).booleanValue()) {
             if (worldIn.isRemote) {
                 return true;
             } else {
@@ -44,7 +54,13 @@ public class ItemRecord extends Item {
         }
     }
 
-    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+    /**
+     * allows items to add custom lines of information to the mouseover description
+     *
+     * @param tooltip  All lines to display in the Item's tooltip. This is a List of Strings.
+     * @param advanced Whether the setting "Advanced tooltips" is enabled
+     */
+    public void addInformation(final ItemStack stack, final EntityPlayer playerIn, final List<String> tooltip, final boolean advanced) {
         tooltip.add(this.getRecordNameLocal());
     }
 
@@ -52,11 +68,17 @@ public class ItemRecord extends Item {
         return StatCollector.translateToLocal("item.record." + this.recordName + ".desc");
     }
 
-    public EnumRarity getRarity(ItemStack stack) {
+    /**
+     * Return an item rarity from EnumRarity
+     */
+    public EnumRarity getRarity(final ItemStack stack) {
         return EnumRarity.RARE;
     }
 
-    public static ItemRecord getRecord(String name) {
+    /**
+     * Return the record item corresponding to the given name.
+     */
+    public static ItemRecord getRecord(final String name) {
         return RECORDS.get(name);
     }
 }

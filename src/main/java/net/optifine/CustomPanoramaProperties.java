@@ -17,8 +17,8 @@ public class CustomPanoramaProperties {
     private int overlay2Top = 0;
     private int overlay2Bottom = Integer.MIN_VALUE;
 
-    public CustomPanoramaProperties(String path, Properties props) {
-        ConnectedParser connectedparser = new ConnectedParser("CustomPanorama");
+    public CustomPanoramaProperties(final String path, final Properties props) {
+        final ConnectedParser connectedparser = new ConnectedParser("CustomPanorama");
         this.path = path;
         this.panoramaLocations = new ResourceLocation[6];
 
@@ -73,6 +73,6 @@ public class CustomPanoramaProperties {
     }
 
     public String toString() {
-        return this.path + ", weight: " + this.weight + ", blur: " + this.blur1 + " " + this.blur2 + " " + this.blur3 + ", overlay: " + this.overlay1Top + " " + this.overlay1Bottom + " " + this.overlay2Top + " " + this.overlay2Bottom;
+        return "" + this.path + ", weight: " + this.weight + ", blur: " + this.blur1 + " " + this.blur2 + " " + this.blur3 + ", overlay: " + this.overlay1Top + " " + this.overlay1Bottom + " " + this.overlay2Top + " " + this.overlay2Bottom;
     }
 }

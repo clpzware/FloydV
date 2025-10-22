@@ -27,7 +27,7 @@ public interface ISound {
 
         private final int type;
 
-        AttenuationType(int typeIn) {
+        AttenuationType(final int typeIn) {
             this.type = typeIn;
         }
 

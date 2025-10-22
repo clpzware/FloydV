@@ -14,14 +14,18 @@ import org.apache.commons.lang3.Validate;
 public abstract class EntityHanging extends Entity {
     private int tickCounter1;
     protected BlockPos hangingPosition;
+
+    /**
+     * The direction the entity is facing
+     */
     public EnumFacing facingDirection;
 
-    public EntityHanging(World worldIn) {
+    public EntityHanging(final World worldIn) {
         super(worldIn);
         this.setSize(0.5F, 0.5F);
     }
 
-    public EntityHanging(World worldIn, BlockPos hangingPositionIn) {
+    public EntityHanging(final World worldIn, final BlockPos hangingPositionIn) {
         this(worldIn);
         this.hangingPosition = hangingPositionIn;
     }
@@ -29,7 +33,12 @@ public abstract class EntityHanging extends Entity {
     protected void entityInit() {
     }
 
-    protected void updateFacingWithBoundingBox(EnumFacing facingDirectionIn) {
+    /**
+     * Updates facing and bounding box based on it
+     *
+     * @param facingDirectionIn The direction this hanging entity faces
+     */
+    protected void updateFacingWithBoundingBox(final EnumFacing facingDirectionIn) {
         Validate.notNull(facingDirectionIn);
         Validate.isTrue(facingDirectionIn.getAxis().isHorizontal());
         this.facingDirection = facingDirectionIn;
@@ -37,18 +46,21 @@ public abstract class EntityHanging extends Entity {
         this.updateBoundingBox();
     }
 
+    /**
+     * Updates the entity bounding box based on current facing
+     */
     private void updateBoundingBox() {
         if (this.facingDirection != null) {
             double d0 = (double) this.hangingPosition.getX() + 0.5D;
             double d1 = (double) this.hangingPosition.getY() + 0.5D;
             double d2 = (double) this.hangingPosition.getZ() + 0.5D;
-            double d3 = 0.46875D;
-            double d4 = this.func_174858_a(this.getWidthPixels());
-            double d5 = this.func_174858_a(this.getHeightPixels());
+            final double d3 = 0.46875D;
+            final double d4 = this.func_174858_a(this.getWidthPixels());
+            final double d5 = this.func_174858_a(this.getHeightPixels());
             d0 = d0 - (double) this.facingDirection.getFrontOffsetX() * 0.46875D;
             d2 = d2 - (double) this.facingDirection.getFrontOffsetZ() * 0.46875D;
             d1 = d1 + d5;
-            EnumFacing enumfacing = this.facingDirection.rotateYCCW();
+            final EnumFacing enumfacing = this.facingDirection.rotateYCCW();
             d0 = d0 + d4 * (double) enumfacing.getFrontOffsetX();
             d2 = d2 + d4 * (double) enumfacing.getFrontOffsetZ();
             this.posX = d0;
@@ -71,10 +83,13 @@ public abstract class EntityHanging extends Entity {
         }
     }
 
-    private double func_174858_a(int p_174858_1_) {
+    private double func_174858_a(final int p_174858_1_) {
         return p_174858_1_ % 32 == 0 ? 0.5D : 0.0D;
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate() {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
@@ -90,19 +105,22 @@ public abstract class EntityHanging extends Entity {
         }
     }
 
+    /**
+     * checks to make sure painting can be placed there
+     */
     public boolean onValidSurface() {
         if (!this.worldObj.getCollidingBoundingBoxes(this, this.getEntityBoundingBox()).isEmpty()) {
             return false;
         } else {
-            int i = Math.max(1, this.getWidthPixels() / 16);
-            int j = Math.max(1, this.getHeightPixels() / 16);
-            BlockPos blockpos = this.hangingPosition.offset(this.facingDirection.getOpposite());
-            EnumFacing enumfacing = this.facingDirection.rotateYCCW();
+            final int i = Math.max(1, this.getWidthPixels() / 16);
+            final int j = Math.max(1, this.getHeightPixels() / 16);
+            final BlockPos blockpos = this.hangingPosition.offset(this.facingDirection.getOpposite());
+            final EnumFacing enumfacing = this.facingDirection.rotateYCCW();
 
             for (int k = 0; k < i; ++k) {
                 for (int l = 0; l < j; ++l) {
-                    BlockPos blockpos1 = blockpos.offset(enumfacing, k).up(l);
-                    Block block = this.worldObj.getBlockState(blockpos1).getBlock();
+                    final BlockPos blockpos1 = blockpos.offset(enumfacing, k).up(l);
+                    final Block block = this.worldObj.getBlockState(blockpos1).getBlock();
 
                     if (!block.getMaterial().isSolid() && !BlockRedstoneDiode.isRedstoneRepeaterBlockID(block)) {
                         return false;
@@ -110,7 +128,7 @@ public abstract class EntityHanging extends Entity {
                 }
             }
 
-            for (Entity entity : this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox())) {
+            for (final Entity entity : this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox())) {
                 if (entity instanceof EntityHanging) {
                     return false;
                 }
@@ -120,11 +138,17 @@ public abstract class EntityHanging extends Entity {
         }
     }
 
+    /**
+     * Returns true if other Entities should be prevented from moving through this Entity.
+     */
     public boolean canBeCollidedWith() {
         return true;
     }
 
-    public boolean hitByEntity(Entity entityIn) {
+    /**
+     * Called when a player attacks an entity. If this returns true the attack will not happen.
+     */
+    public boolean hitByEntity(final Entity entityIn) {
         return entityIn instanceof EntityPlayer && this.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) entityIn), 0.0F);
     }
 
@@ -132,7 +156,10 @@ public abstract class EntityHanging extends Entity {
         return this.facingDirection;
     }
 
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    /**
+     * Called when the entity is attacked.
+     */
+    public boolean attackEntityFrom(final DamageSource source, final float amount) {
         if (this.isEntityInvulnerable(source)) {
             return false;
         } else {
@@ -146,30 +173,42 @@ public abstract class EntityHanging extends Entity {
         }
     }
 
-    public void moveEntity(double x, double y, double z) {
+    /**
+     * Tries to moves the entity by the passed in displacement. Args: x, y, z
+     */
+    public void moveEntity(final double x, final double y, final double z) {
         if (!this.worldObj.isRemote && !this.isDead && x * x + y * y + z * z > 0.0D) {
             this.setDead();
             this.onBroken(null);
         }
     }
 
-    public void addVelocity(double x, double y, double z) {
+    /**
+     * Adds to the current velocity of the entity. Args: x, y, z
+     */
+    public void addVelocity(final double x, final double y, final double z) {
         if (!this.worldObj.isRemote && !this.isDead && x * x + y * y + z * z > 0.0D) {
             this.setDead();
             this.onBroken(null);
         }
     }
 
-    public void writeEntityToNBT(NBTTagCompound tagCompound) {
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
+    public void writeEntityToNBT(final NBTTagCompound tagCompound) {
         tagCompound.setByte("Facing", (byte) this.facingDirection.getHorizontalIndex());
         tagCompound.setInteger("TileX", this.getHangingPosition().getX());
         tagCompound.setInteger("TileY", this.getHangingPosition().getY());
         tagCompound.setInteger("TileZ", this.getHangingPosition().getZ());
     }
 
-    public void readEntityFromNBT(NBTTagCompound tagCompund) {
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
+    public void readEntityFromNBT(final NBTTagCompound tagCompund) {
         this.hangingPosition = new BlockPos(tagCompund.getInteger("TileX"), tagCompund.getInteger("TileY"), tagCompund.getInteger("TileZ"));
-        EnumFacing enumfacing;
+        final EnumFacing enumfacing;
 
         if (tagCompund.hasKey("Direction", 99)) {
             enumfacing = EnumFacing.getHorizontal(tagCompund.getByte("Direction"));
@@ -187,17 +226,23 @@ public abstract class EntityHanging extends Entity {
 
     public abstract int getHeightPixels();
 
+    /**
+     * Called when this entity is broken. Entity parameter may be null.
+     */
     public abstract void onBroken(Entity brokenEntity);
 
     protected boolean shouldSetPosAfterLoading() {
         return false;
     }
 
-    public void setPosition(double x, double y, double z) {
+    /**
+     * Sets the x,y,z of the entity from the given parameters. Also seems to set up a bounding box.
+     */
+    public void setPosition(final double x, final double y, final double z) {
         this.posX = x;
         this.posY = y;
         this.posZ = z;
-        BlockPos blockpos = this.hangingPosition;
+        final BlockPos blockpos = this.hangingPosition;
         this.hangingPosition = new BlockPos(x, y, z);
 
         if (!this.hangingPosition.equals(blockpos)) {

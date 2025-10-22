@@ -11,19 +11,19 @@ import java.util.List;
 
 public class CompiledChunk {
     public static final CompiledChunk DUMMY = new CompiledChunk() {
-        protected void setLayerUsed(EnumWorldBlockLayer layer) {
+        protected void setLayerUsed(final EnumWorldBlockLayer layer) {
             throw new UnsupportedOperationException();
         }
 
-        public void setLayerStarted(EnumWorldBlockLayer layer) {
+        public void setLayerStarted(final EnumWorldBlockLayer layer) {
             throw new UnsupportedOperationException();
         }
 
-        public boolean isVisible(EnumFacing facing, EnumFacing facing2) {
+        public boolean isVisible(final EnumFacing facing, final EnumFacing facing2) {
             return false;
         }
 
-        public void setAnimatedSprites(EnumWorldBlockLayer p_setAnimatedSprites_1_, BitSet p_setAnimatedSprites_2_) {
+        public void setAnimatedSprites(final EnumWorldBlockLayer p_setAnimatedSprites_1_, final BitSet p_setAnimatedSprites_2_) {
             throw new UnsupportedOperationException();
         }
     };
@@ -39,20 +39,20 @@ public class CompiledChunk {
         return this.empty;
     }
 
-    protected void setLayerUsed(EnumWorldBlockLayer layer) {
+    protected void setLayerUsed(final EnumWorldBlockLayer layer) {
         this.empty = false;
         this.layersUsed[layer.ordinal()] = true;
     }
 
-    public boolean isLayerEmpty(EnumWorldBlockLayer layer) {
+    public boolean isLayerEmpty(final EnumWorldBlockLayer layer) {
         return !this.layersUsed[layer.ordinal()];
     }
 
-    public void setLayerStarted(EnumWorldBlockLayer layer) {
+    public void setLayerStarted(final EnumWorldBlockLayer layer) {
         this.layersStarted[layer.ordinal()] = true;
     }
 
-    public boolean isLayerStarted(EnumWorldBlockLayer layer) {
+    public boolean isLayerStarted(final EnumWorldBlockLayer layer) {
         return this.layersStarted[layer.ordinal()];
     }
 
@@ -60,15 +60,15 @@ public class CompiledChunk {
         return this.tileEntities;
     }
 
-    public void addTileEntity(TileEntity tileEntityIn) {
+    public void addTileEntity(final TileEntity tileEntityIn) {
         this.tileEntities.add(tileEntityIn);
     }
 
-    public boolean isVisible(EnumFacing facing, EnumFacing facing2) {
+    public boolean isVisible(final EnumFacing facing, final EnumFacing facing2) {
         return this.setVisibility.isVisible(facing, facing2);
     }
 
-    public void setVisibility(SetVisibility visibility) {
+    public void setVisibility(final SetVisibility visibility) {
         this.setVisibility = visibility;
     }
 
@@ -76,15 +76,15 @@ public class CompiledChunk {
         return this.state;
     }
 
-    public void setState(WorldRenderer.State stateIn) {
+    public void setState(final WorldRenderer.State stateIn) {
         this.state = stateIn;
     }
 
-    public BitSet getAnimatedSprites(EnumWorldBlockLayer p_getAnimatedSprites_1_) {
+    public BitSet getAnimatedSprites(final EnumWorldBlockLayer p_getAnimatedSprites_1_) {
         return this.animatedSprites[p_getAnimatedSprites_1_.ordinal()];
     }
 
-    public void setAnimatedSprites(EnumWorldBlockLayer p_setAnimatedSprites_1_, BitSet p_setAnimatedSprites_2_) {
+    public void setAnimatedSprites(final EnumWorldBlockLayer p_setAnimatedSprites_1_, final BitSet p_setAnimatedSprites_2_) {
         this.animatedSprites[p_setAnimatedSprites_1_.ordinal()] = p_setAnimatedSprites_2_;
     }
 }

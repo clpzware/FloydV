@@ -31,7 +31,7 @@ public class BlockAnvil extends BlockFalling {
 
     protected BlockAnvil() {
         super(Material.anvil);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(DAMAGE, 0));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(DAMAGE, Integer.valueOf(0)));
         this.setLightOpacity(0);
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
@@ -40,16 +40,23 @@ public class BlockAnvil extends BlockFalling {
         return false;
     }
 
+    /**
+     * Used to determine ambient occlusion and culling when rebuilding chunks for render
+     */
     public boolean isOpaqueCube() {
         return false;
     }
 
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-        EnumFacing enumfacing = placer.getHorizontalFacing().rotateY();
-        return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, enumfacing).withProperty(DAMAGE, meta >> 2);
+    /**
+     * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
+     * IBlockstate
+     */
+    public IBlockState onBlockPlaced(final World worldIn, final BlockPos pos, final EnumFacing facing, final float hitX, final float hitY, final float hitZ, final int meta, final EntityLivingBase placer) {
+        final EnumFacing enumfacing = placer.getHorizontalFacing().rotateY();
+        return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, enumfacing).withProperty(DAMAGE, Integer.valueOf(meta >> 2));
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos, final IBlockState state, final EntityPlayer playerIn, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         if (!worldIn.isRemote) {
             playerIn.displayGui(new BlockAnvil.Anvil(worldIn, pos));
         }
@@ -57,12 +64,16 @@ public class BlockAnvil extends BlockFalling {
         return true;
     }
 
-    public int damageDropped(IBlockState state) {
-        return state.getValue(DAMAGE);
+    /**
+     * Gets the metadata of the item this Block can drop. This method is called when the block gets destroyed. It
+     * returns the metadata of the dropped item based on the old metadata of the block.
+     */
+    public int damageDropped(final IBlockState state) {
+        return state.getValue(DAMAGE).intValue();
     }
 
-    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-        EnumFacing enumfacing = worldIn.getBlockState(pos).getValue(FACING);
+    public void setBlockBoundsBasedOnState(final IBlockAccess worldIn, final BlockPos pos) {
+        final EnumFacing enumfacing = worldIn.getBlockState(pos).getValue(FACING);
 
         if (enumfacing.getAxis() == EnumFacing.Axis.X) {
             this.setBlockBounds(0.0F, 0.0F, 0.125F, 1.0F, 1.0F, 0.875F);
@@ -71,36 +82,48 @@ public class BlockAnvil extends BlockFalling {
         }
     }
 
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+    /**
+     * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
+     */
+    public void getSubBlocks(final Item itemIn, final CreativeTabs tab, final List<ItemStack> list) {
         list.add(new ItemStack(itemIn, 1, 0));
         list.add(new ItemStack(itemIn, 1, 1));
         list.add(new ItemStack(itemIn, 1, 2));
     }
 
-    protected void onStartFalling(EntityFallingBlock fallingEntity) {
+    protected void onStartFalling(final EntityFallingBlock fallingEntity) {
         fallingEntity.setHurtEntities(true);
     }
 
-    public void onEndFalling(World worldIn, BlockPos pos) {
+    public void onEndFalling(final World worldIn, final BlockPos pos) {
         worldIn.playAuxSFX(1022, pos, 0);
     }
 
-    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(final IBlockAccess worldIn, final BlockPos pos, final EnumFacing side) {
         return true;
     }
 
-    public IBlockState getStateForEntityRender(IBlockState state) {
+    /**
+     * Possibly modify the given BlockState before rendering it on an Entity (Minecarts, Endermen, ...)
+     */
+    public IBlockState getStateForEntityRender(final IBlockState state) {
         return this.getDefaultState().withProperty(FACING, EnumFacing.SOUTH);
     }
 
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta & 3)).withProperty(DAMAGE, (meta & 15) >> 2);
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
+        return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta & 3)).withProperty(DAMAGE, Integer.valueOf((meta & 15) >> 2));
     }
 
-    public int getMetaFromState(IBlockState state) {
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
         int i = 0;
         i = i | state.getValue(FACING).getHorizontalIndex();
-        i = i | state.getValue(DAMAGE) << 2;
+        i = i | state.getValue(DAMAGE).intValue() << 2;
         return i;
     }
 
@@ -112,12 +135,12 @@ public class BlockAnvil extends BlockFalling {
         private final World world;
         private final BlockPos position;
 
-        public Anvil(World worldIn, BlockPos pos) {
+        public Anvil(final World worldIn, final BlockPos pos) {
             this.world = worldIn;
             this.position = pos;
         }
 
-        public String getName() {
+        public String getCommandSenderName() {
             return "anvil";
         }
 
@@ -129,7 +152,7 @@ public class BlockAnvil extends BlockFalling {
             return new ChatComponentTranslation(Blocks.anvil.getUnlocalizedName() + ".name");
         }
 
-        public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+        public Container createContainer(final InventoryPlayer playerInventory, final EntityPlayer playerIn) {
             return new ContainerRepair(playerInventory, this.world, this.position, playerIn);
         }
 

@@ -21,8 +21,9 @@ public class Framebuffer {
     public int depthBuffer;
     public float[] framebufferColor;
     public int framebufferFilter;
+    private int size = 1;
 
-    public Framebuffer(int p_i45078_1_, int p_i45078_2_, boolean p_i45078_3_) {
+    public Framebuffer(final int p_i45078_1_, final int p_i45078_2_, final boolean p_i45078_3_) {
         this.useDepth = p_i45078_3_;
         this.framebufferObject = -1;
         this.framebufferTexture = -1;
@@ -35,7 +36,16 @@ public class Framebuffer {
         this.createBindFramebuffer(p_i45078_1_, p_i45078_2_);
     }
 
-    public void createBindFramebuffer(int width, int height) {
+    public Framebuffer(final int p_i45078_1_, final int p_i45078_2_, final boolean p_i45078_3_, int size) {
+        this(p_i45078_1_ / size, p_i45078_2_ / size, p_i45078_3_);
+        this.size = size;
+    }
+
+    public boolean shouldResize(int width, int height) {
+        return width / size != this.framebufferWidth || height / size != this.framebufferHeight;
+    }
+
+    public void createBindFramebuffer(final int width, final int height) {
         if (!OpenGlHelper.isFramebufferEnabled()) {
             this.framebufferWidth = width;
             this.framebufferHeight = height;
@@ -75,7 +85,7 @@ public class Framebuffer {
         }
     }
 
-    public void createFramebuffer(int width, int height) {
+    public void createFramebuffer(final int width, final int height) {
         this.framebufferWidth = width;
         this.framebufferHeight = height;
         this.framebufferTextureWidth = width;
@@ -108,7 +118,7 @@ public class Framebuffer {
         }
     }
 
-    public void setFramebufferFilter(int p_147607_1_) {
+    public void setFramebufferFilter(final int p_147607_1_) {
         if (OpenGlHelper.isFramebufferEnabled()) {
             this.framebufferFilter = p_147607_1_;
             GlStateManager.bindTexture(this.framebufferTexture);
@@ -121,7 +131,7 @@ public class Framebuffer {
     }
 
     public void checkFramebufferComplete() {
-        int i = OpenGlHelper.glCheckFramebufferStatus(OpenGlHelper.GL_FRAMEBUFFER);
+        final int i = OpenGlHelper.glCheckFramebufferStatus(OpenGlHelper.GL_FRAMEBUFFER);
 
         if (i != OpenGlHelper.GL_FRAMEBUFFER_COMPLETE) {
             if (i == OpenGlHelper.GL_FB_INCOMPLETE_ATTACHMENT) {
@@ -150,7 +160,7 @@ public class Framebuffer {
         }
     }
 
-    public void bindFramebuffer(boolean p_147610_1_) {
+    public void bindFramebuffer(final boolean p_147610_1_) {
         if (OpenGlHelper.isFramebufferEnabled()) {
             OpenGlHelper.glBindFramebuffer(OpenGlHelper.GL_FRAMEBUFFER, this.framebufferObject);
 
@@ -166,18 +176,18 @@ public class Framebuffer {
         }
     }
 
-    public void setFramebufferColor(float p_147604_1_, float p_147604_2_, float p_147604_3_, float p_147604_4_) {
+    public void setFramebufferColor(final float p_147604_1_, final float p_147604_2_, final float p_147604_3_, final float p_147604_4_) {
         this.framebufferColor[0] = p_147604_1_;
         this.framebufferColor[1] = p_147604_2_;
         this.framebufferColor[2] = p_147604_3_;
         this.framebufferColor[3] = p_147604_4_;
     }
 
-    public void framebufferRender(int p_147615_1_, int p_147615_2_) {
+    public void framebufferRender(final int p_147615_1_, final int p_147615_2_) {
         this.framebufferRenderExt(p_147615_1_, p_147615_2_, true);
     }
 
-    public void framebufferRenderExt(int p_178038_1_, int p_178038_2_, boolean p_178038_3_) {
+    public void framebufferRenderExt(final int p_178038_1_, final int p_178038_2_, final boolean p_178038_3_) {
         if (OpenGlHelper.isFramebufferEnabled()) {
             GlStateManager.colorMask(true, true, true, false);
             GlStateManager.disableDepth();
@@ -200,17 +210,17 @@ public class Framebuffer {
 
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.bindFramebufferTexture();
-            float f = (float) p_178038_1_;
-            float f1 = (float) p_178038_2_;
-            float f2 = (float) this.framebufferWidth / (float) this.framebufferTextureWidth;
-            float f3 = (float) this.framebufferHeight / (float) this.framebufferTextureHeight;
-            Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
-            worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-            worldrenderer.pos(0.0D, f1, 0.0D).tex(0.0D, 0.0D).color(255, 255, 255, 255).endVertex();
-            worldrenderer.pos(f, f1, 0.0D).tex(f2, 0.0D).color(255, 255, 255, 255).endVertex();
-            worldrenderer.pos(f, 0.0D, 0.0D).tex(f2, f3).color(255, 255, 255, 255).endVertex();
-            worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, f3).color(255, 255, 255, 255).endVertex();
+            final float f = (float) p_178038_1_;
+            final float f1 = (float) p_178038_2_;
+            final float f2 = (float) this.framebufferWidth / (float) this.framebufferTextureWidth;
+            final float f3 = (float) this.framebufferHeight / (float) this.framebufferTextureHeight;
+            final Tessellator tessellator = Tessellator.getInstance();
+            final WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+            worldrenderer.begin(7, DefaultVertexFormats.field_181709_i);
+            worldrenderer.pos(0.0D, f1, 0.0D).tex(0.0D, 0.0D).func_181669_b(255, 255, 255, 255).endVertex();
+            worldrenderer.pos(f, f1, 0.0D).tex(f2, 0.0D).func_181669_b(255, 255, 255, 255).endVertex();
+            worldrenderer.pos(f, 0.0D, 0.0D).tex(f2, f3).func_181669_b(255, 255, 255, 255).endVertex();
+            worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(0.0D, f3).func_181669_b(255, 255, 255, 255).endVertex();
             tessellator.draw();
             this.unbindFramebufferTexture();
             GlStateManager.depthMask(true);
@@ -230,5 +240,9 @@ public class Framebuffer {
 
         GlStateManager.clear(i);
         this.unbindFramebuffer();
+    }
+
+    public int getSize() {
+        return size;
     }
 }

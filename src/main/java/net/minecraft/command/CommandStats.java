@@ -1,10 +1,6 @@
 package net.minecraft.command;
 
 import com.google.common.collect.Lists;
-
-import java.util.Collection;
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.server.MinecraftServer;
@@ -14,24 +10,44 @@ import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.Collection;
+import java.util.List;
+
 public class CommandStats extends CommandBase {
+    /**
+     * Gets the name of the command
+     */
     public String getCommandName() {
         return "stats";
     }
 
+    /**
+     * Return the required permission level for this command.
+     */
     public int getRequiredPermissionLevel() {
         return 2;
     }
 
-    public String getCommandUsage(ICommandSender sender) {
+    /**
+     * Gets the usage string for the command.
+     *
+     * @param sender The {@link ICommandSender} who is requesting usage details.
+     */
+    public String getCommandUsage(final ICommandSender sender) {
         return "commands.stats.usage";
     }
 
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    /**
+     * Callback when the command is invoked
+     *
+     * @param sender The {@link ICommandSender sender} who executed the command
+     * @param args   The arguments that were passed with the command
+     */
+    public void processCommand(final ICommandSender sender, final String[] args) throws CommandException {
         if (args.length < 1) {
             throw new WrongUsageException("commands.stats.usage");
         } else {
-            boolean flag;
+            final boolean flag;
 
             if (args[0].equals("entity")) {
                 flag = false;
@@ -59,7 +75,7 @@ public class CommandStats extends CommandBase {
                 i = 2;
             }
 
-            String s = args[i++];
+            final String s = args[i++];
 
             if ("set".equals(s)) {
                 if (args.length < i + 3) {
@@ -83,61 +99,61 @@ public class CommandStats extends CommandBase {
                 }
             }
 
-            CommandResultStats.Type commandresultstats$type = CommandResultStats.Type.getTypeByName(args[i++]);
+            final CommandResultStats.Type commandresultstats$type = CommandResultStats.Type.getTypeByName(args[i++]);
 
             if (commandresultstats$type == null) {
                 throw new CommandException("commands.stats.failed");
             } else {
-                World world = sender.getEntityWorld();
-                CommandResultStats commandresultstats;
+                final World world = sender.getEntityWorld();
+                final CommandResultStats commandresultstats;
 
                 if (flag) {
-                    BlockPos blockpos = parseBlockPos(sender, args, 1, false);
-                    TileEntity tileentity = world.getTileEntity(blockpos);
+                    final BlockPos blockpos = parseBlockPos(sender, args, 1, false);
+                    final TileEntity tileentity = world.getTileEntity(blockpos);
 
                     if (tileentity == null) {
-                        throw new CommandException("commands.stats.noCompatibleBlock", blockpos.getX(), blockpos.getY(), blockpos.getZ());
+                        throw new CommandException("commands.stats.noCompatibleBlock", Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ()));
                     }
 
                     if (tileentity instanceof TileEntityCommandBlock) {
                         commandresultstats = ((TileEntityCommandBlock) tileentity).getCommandResultStats();
                     } else {
                         if (!(tileentity instanceof TileEntitySign)) {
-                            throw new CommandException("commands.stats.noCompatibleBlock", blockpos.getX(), blockpos.getY(), blockpos.getZ());
+                            throw new CommandException("commands.stats.noCompatibleBlock", Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ()));
                         }
 
                         commandresultstats = ((TileEntitySign) tileentity).getStats();
                     }
                 } else {
-                    Entity entity = getEntity(sender, args[1]);
+                    final Entity entity = func_175768_b(sender, args[1]);
                     commandresultstats = entity.getCommandStats();
                 }
 
                 if ("set".equals(s)) {
-                    String s1 = args[i++];
-                    String s2 = args[i];
+                    final String s1 = args[i++];
+                    final String s2 = args[i];
 
-                    if (s1.isEmpty() || s2.isEmpty()) {
+                    if (s1.length() == 0 || s2.length() == 0) {
                         throw new CommandException("commands.stats.failed");
                     }
 
-                    CommandResultStats.setScoreBoardStat(commandresultstats, commandresultstats$type, s1, s2);
+                    CommandResultStats.func_179667_a(commandresultstats, commandresultstats$type, s1, s2);
                     notifyOperators(sender, this, "commands.stats.success", commandresultstats$type.getTypeName(), s2, s1);
-                } else {
-                    CommandResultStats.setScoreBoardStat(commandresultstats, commandresultstats$type, null, null);
+                } else if ("clear".equals(s)) {
+                    CommandResultStats.func_179667_a(commandresultstats, commandresultstats$type, null, null);
                     notifyOperators(sender, this, "commands.stats.cleared", commandresultstats$type.getTypeName());
                 }
 
                 if (flag) {
-                    BlockPos blockpos1 = parseBlockPos(sender, args, 1, false);
-                    TileEntity tileentity1 = world.getTileEntity(blockpos1);
+                    final BlockPos blockpos1 = parseBlockPos(sender, args, 1, false);
+                    final TileEntity tileentity1 = world.getTileEntity(blockpos1);
                     tileentity1.markDirty();
                 }
             }
         }
     }
 
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+    public List<String> addTabCompletionOptions(final ICommandSender sender, final String[] args, final BlockPos pos) {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, "entity", "block") : (args.length == 2 && args[0].equals("entity") ? getListOfStringsMatchingLastWord(args, this.func_175776_d()) : (args.length >= 2 && args.length <= 4 && args[0].equals("block") ? func_175771_a(args, 1, pos) : ((args.length != 3 || !args[0].equals("entity")) && (args.length != 5 || !args[0].equals("block")) ? ((args.length != 4 || !args[0].equals("entity")) && (args.length != 6 || !args[0].equals("block")) ? ((args.length != 6 || !args[0].equals("entity")) && (args.length != 8 || !args[0].equals("block")) ? null : getListOfStringsMatchingLastWord(args, this.func_175777_e())) : getListOfStringsMatchingLastWord(args, CommandResultStats.Type.getTypeNames())) : getListOfStringsMatchingLastWord(args, "set", "clear"))));
     }
 
@@ -146,10 +162,10 @@ public class CommandStats extends CommandBase {
     }
 
     protected List<String> func_175777_e() {
-        Collection<ScoreObjective> collection = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard().getScoreObjectives();
-        List<String> list = Lists.newArrayList();
+        final Collection<ScoreObjective> collection = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard().getScoreObjectives();
+        final List<String> list = Lists.newArrayList();
 
-        for (ScoreObjective scoreobjective : collection) {
+        for (final ScoreObjective scoreobjective : collection) {
             if (!scoreobjective.getCriteria().isReadOnly()) {
                 list.add(scoreobjective.getName());
             }
@@ -158,7 +174,13 @@ public class CommandStats extends CommandBase {
         return list;
     }
 
-    public boolean isUsernameIndex(String[] args, int index) {
+    /**
+     * Return whether the specified command parameter index is a username parameter.
+     *
+     * @param args  The arguments that were given
+     * @param index The argument index that we are checking
+     */
+    public boolean isUsernameIndex(final String[] args, final int index) {
         return args.length > 0 && args[0].equals("entity") && index == 1;
     }
 }

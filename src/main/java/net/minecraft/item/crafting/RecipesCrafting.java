@@ -7,7 +7,10 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 
 public class RecipesCrafting {
-    public void addRecipes(CraftingManager p_77589_1_) {
+    /**
+     * Adds the crafting recipes to the CraftingManager.
+     */
+    public void addRecipes(final CraftingManager p_77589_1_) {
         p_77589_1_.addRecipe(new ItemStack(Blocks.chest), "###", "# #", "###", '#', Blocks.planks);
         p_77589_1_.addRecipe(new ItemStack(Blocks.trapped_chest), "#-", '#', Blocks.chest, '-', Blocks.tripwire_hook);
         p_77589_1_.addRecipe(new ItemStack(Blocks.ender_chest), "###", "#E#", "###", '#', Blocks.obsidian, 'E', Items.ender_eye);

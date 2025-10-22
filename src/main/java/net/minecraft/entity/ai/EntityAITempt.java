@@ -7,21 +7,61 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathNavigateGround;
 
 public class EntityAITempt extends EntityAIBase {
+    /**
+     * The entity using this AI that is tempted by the player.
+     */
     private final EntityCreature temptedEntity;
     private final double speed;
+
+    /**
+     * X position of player tempting this mob
+     */
     private double targetX;
+
+    /**
+     * Y position of player tempting this mob
+     */
     private double targetY;
+
+    /**
+     * Z position of player tempting this mob
+     */
     private double targetZ;
+
+    /**
+     * Tempting player's pitch
+     */
     private double pitch;
+
+    /**
+     * Tempting player's yaw
+     */
     private double yaw;
+
+    /**
+     * The player that is tempting the entity that is using this AI.
+     */
     private EntityPlayer temptingPlayer;
+
+    /**
+     * A counter that is decremented each time the shouldExecute method is called. The shouldExecute method will always
+     * return false if delayTemptCounter is greater than 0.
+     */
     private int delayTemptCounter;
+
+    /**
+     * True if this EntityAITempt task is running
+     */
     private boolean isRunning;
     private final Item temptItem;
+
+    /**
+     * Whether the entity using this AI will be scared by the tempter's sudden movement.
+     */
     private final boolean scaredByPlayerMovement;
     private boolean avoidWater;
 
-    public EntityAITempt(EntityCreature temptedEntityIn, double speedIn, Item temptItemIn, boolean scaredByPlayerMovementIn) {
+    public EntityAITempt(final EntityCreature temptedEntityIn, final double speedIn, final Item temptItemIn, final boolean scaredByPlayerMovementIn) {
         this.temptedEntity = temptedEntityIn;
         this.speed = speedIn;
         this.temptItem = temptItemIn;
@@ -33,6 +73,9 @@ public class EntityAITempt extends EntityAIBase {
         }
     }
 
+    /**
+     * Returns whether the EntityAIBase should begin execution.
+     */
     public boolean shouldExecute() {
         if (this.delayTemptCounter > 0) {
             --this.delayTemptCounter;
@@ -43,12 +86,15 @@ public class EntityAITempt extends EntityAIBase {
             if (this.temptingPlayer == null) {
                 return false;
             } else {
-                ItemStack itemstack = this.temptingPlayer.getCurrentEquippedItem();
+                final ItemStack itemstack = this.temptingPlayer.getCurrentEquippedItem();
                 return itemstack != null && itemstack.getItem() == this.temptItem;
             }
         }
     }
 
+    /**
+     * Returns whether an in-progress EntityAIBase should continue executing
+     */
     public boolean continueExecuting() {
         if (this.scaredByPlayerMovement) {
             if (this.temptedEntity.getDistanceSqToEntity(this.temptingPlayer) < 36.0D) {
@@ -72,6 +118,9 @@ public class EntityAITempt extends EntityAIBase {
         return this.shouldExecute();
     }
 
+    /**
+     * Execute a one shot task or start executing a continuous task
+     */
     public void startExecuting() {
         this.targetX = this.temptingPlayer.posX;
         this.targetY = this.temptingPlayer.posY;
@@ -81,6 +130,9 @@ public class EntityAITempt extends EntityAIBase {
         ((PathNavigateGround) this.temptedEntity.getNavigator()).setAvoidsWater(false);
     }
 
+    /**
+     * Resets the task
+     */
     public void resetTask() {
         this.temptingPlayer = null;
         this.temptedEntity.getNavigator().clearPathEntity();
@@ -89,6 +141,9 @@ public class EntityAITempt extends EntityAIBase {
         ((PathNavigateGround) this.temptedEntity.getNavigator()).setAvoidsWater(this.avoidWater);
     }
 
+    /**
+     * Updates the task
+     */
     public void updateTask() {
         this.temptedEntity.getLookHelper().setLookPositionWithEntity(this.temptingPlayer, 30.0F, (float) this.temptedEntity.getVerticalFaceSpeed());
 
@@ -99,6 +154,9 @@ public class EntityAITempt extends EntityAIBase {
         }
     }
 
+    /**
+     * @see #isRunning
+     */
     public boolean isRunning() {
         return this.isRunning;
     }

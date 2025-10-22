@@ -13,7 +13,7 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityCow extends EntityAnimal {
-    public EntityCow(World worldIn) {
+    public EntityCow(final World worldIn) {
         super(worldIn);
         this.setSize(0.9F, 1.3F);
         ((PathNavigateGround) this.getNavigator()).setAvoidsWater(true);
@@ -33,22 +33,34 @@ public class EntityCow extends EntityAnimal {
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.20000000298023224D);
     }
 
+    /**
+     * Returns the sound this mob makes while it's alive.
+     */
     protected String getLivingSound() {
         return "mob.cow.say";
     }
 
+    /**
+     * Returns the sound this mob makes when it is hurt.
+     */
     protected String getHurtSound() {
         return "mob.cow.hurt";
     }
 
+    /**
+     * Returns the sound this mob makes on death.
+     */
     protected String getDeathSound() {
         return "mob.cow.hurt";
     }
 
-    protected void playStepSound(BlockPos pos, Block blockIn) {
+    protected void playStepSound(final BlockPos pos, final Block blockIn) {
         this.playSound("mob.cow.step", 0.15F, 1.0F);
     }
 
+    /**
+     * Returns the volume for the sounds this mob makes.
+     */
     protected float getSoundVolume() {
         return 0.4F;
     }
@@ -57,14 +69,17 @@ public class EntityCow extends EntityAnimal {
         return Items.leather;
     }
 
-    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
-        int i = this.rand.nextInt(3) + this.rand.nextInt(1 + lootingModifier);
+    /**
+     * Drop 0-2 items of this living's type
+     */
+    protected void dropFewItems(final boolean p_70628_1_, final int p_70628_2_) {
+        int i = this.rand.nextInt(3) + this.rand.nextInt(1 + p_70628_2_);
 
         for (int j = 0; j < i; ++j) {
             this.dropItem(Items.leather, 1);
         }
 
-        i = this.rand.nextInt(3) + 1 + this.rand.nextInt(1 + lootingModifier);
+        i = this.rand.nextInt(3) + 1 + this.rand.nextInt(1 + p_70628_2_);
 
         for (int k = 0; k < i; ++k) {
             if (this.isBurning()) {
@@ -75,8 +90,11 @@ public class EntityCow extends EntityAnimal {
         }
     }
 
-    public boolean interact(EntityPlayer player) {
-        ItemStack itemstack = player.inventory.getCurrentItem();
+    /**
+     * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
+     */
+    public boolean interact(final EntityPlayer player) {
+        final ItemStack itemstack = player.inventory.getCurrentItem();
 
         if (itemstack != null && itemstack.getItem() == Items.bucket && !player.capabilities.isCreativeMode && !this.isChild()) {
             if (itemstack.stackSize-- == 1) {
@@ -91,7 +109,7 @@ public class EntityCow extends EntityAnimal {
         }
     }
 
-    public EntityCow createChild(EntityAgeable ageable) {
+    public EntityCow createChild(final EntityAgeable ageable) {
         return new EntityCow(this.worldObj);
     }
 

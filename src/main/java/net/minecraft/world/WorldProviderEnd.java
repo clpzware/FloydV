@@ -9,26 +9,41 @@ import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.ChunkProviderEnd;
 
 public class WorldProviderEnd extends WorldProvider {
+    /**
+     * creates a new world chunk bus for WorldProvider
+     */
     public void registerWorldChunkManager() {
         this.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.sky, 0.0F);
         this.dimensionId = 1;
         this.hasNoSky = true;
     }
 
+    /**
+     * Returns a new chunk provider which generates chunks for this world
+     */
     public IChunkProvider createChunkGenerator() {
         return new ChunkProviderEnd(this.worldObj, this.worldObj.getSeed());
     }
 
-    public float calculateCelestialAngle(long worldTime, float partialTicks) {
+    /**
+     * Calculates the angle of sun and moon in the sky relative to a specified time (usually worldTime)
+     */
+    public float calculateCelestialAngle(final long p_76563_1_, final float p_76563_3_) {
         return 0.0F;
     }
 
-    public float[] calcSunriseSunsetColors(float celestialAngle, float partialTicks) {
+    /**
+     * Returns array with sunrise/sunset colors
+     */
+    public float[] calcSunriseSunsetColors(final float celestialAngle, final float partialTicks) {
         return null;
     }
 
-    public Vec3 getFogColor(float p_76562_1_, float p_76562_2_) {
-        int i = 10518688;
+    /**
+     * Return Vec3D with biome specific fog color
+     */
+    public Vec3 getFogColor(final float p_76562_1_, final float p_76562_2_) {
+        final int i = 10518688;
         float f = MathHelper.cos(p_76562_1_ * (float) Math.PI * 2.0F) * 2.0F + 0.5F;
         f = MathHelper.clamp_float(f, 0.0F, 1.0F);
         float f1 = (float) (i >> 16 & 255) / 255.0F;
@@ -44,19 +59,31 @@ public class WorldProviderEnd extends WorldProvider {
         return false;
     }
 
+    /**
+     * True if the player can respawn in this dimension (true = overworld, false = nether).
+     */
     public boolean canRespawnHere() {
         return false;
     }
 
+    /**
+     * Returns 'true' if in the "main surface world", but 'false' if in the Nether or End dimensions.
+     */
     public boolean isSurfaceWorld() {
         return false;
     }
 
+    /**
+     * the y level at which clouds are rendered.
+     */
     public float getCloudHeight() {
         return 8.0F;
     }
 
-    public boolean canCoordinateBeSpawn(int x, int z) {
+    /**
+     * Will check if the x, z position specified is alright to be set as the map spawn point
+     */
+    public boolean canCoordinateBeSpawn(final int x, final int z) {
         return this.worldObj.getGroundAboveSeaLevel(new BlockPos(x, 0, z)).getMaterial().blocksMovement();
     }
 
@@ -68,10 +95,16 @@ public class WorldProviderEnd extends WorldProvider {
         return 50;
     }
 
-    public boolean doesXZShowFog(int x, int z) {
+    /**
+     * Returns true if the given X,Z coordinate should show environmental fog.
+     */
+    public boolean doesXZShowFog(final int x, final int z) {
         return true;
     }
 
+    /**
+     * Returns the dimension's name, e.g. "The End", "Nether", or "Overworld".
+     */
     public String getDimensionName() {
         return "The End";
     }

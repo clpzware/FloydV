@@ -8,12 +8,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 
 public class RecipeBookCloning implements IRecipe {
-    public boolean matches(InventoryCrafting inv, World worldIn) {
+    /**
+     * Used to check if a recipe matches current crafting inventory
+     */
+    public boolean matches(final InventoryCrafting inv, final World worldIn) {
         int i = 0;
         ItemStack itemstack = null;
 
         for (int j = 0; j < inv.getSizeInventory(); ++j) {
-            ItemStack itemstack1 = inv.getStackInSlot(j);
+            final ItemStack itemstack1 = inv.getStackInSlot(j);
 
             if (itemstack1 != null) {
                 if (itemstack1.getItem() == Items.written_book) {
@@ -35,12 +38,15 @@ public class RecipeBookCloning implements IRecipe {
         return itemstack != null && i > 0;
     }
 
-    public ItemStack getCraftingResult(InventoryCrafting inv) {
+    /**
+     * Returns an Item that is the result of this recipe
+     */
+    public ItemStack getCraftingResult(final InventoryCrafting inv) {
         int i = 0;
         ItemStack itemstack = null;
 
         for (int j = 0; j < inv.getSizeInventory(); ++j) {
-            ItemStack itemstack1 = inv.getStackInSlot(j);
+            final ItemStack itemstack1 = inv.getStackInSlot(j);
 
             if (itemstack1 != null) {
                 if (itemstack1.getItem() == Items.written_book) {
@@ -60,7 +66,7 @@ public class RecipeBookCloning implements IRecipe {
         }
 
         if (itemstack != null && i >= 1 && ItemEditableBook.getGeneration(itemstack) < 2) {
-            ItemStack itemstack2 = new ItemStack(Items.written_book, i);
+            final ItemStack itemstack2 = new ItemStack(Items.written_book, i);
             itemstack2.setTagCompound((NBTTagCompound) itemstack.getTagCompound().copy());
             itemstack2.getTagCompound().setInteger("generation", ItemEditableBook.getGeneration(itemstack) + 1);
 
@@ -74,6 +80,9 @@ public class RecipeBookCloning implements IRecipe {
         }
     }
 
+    /**
+     * Returns the size of the recipe area
+     */
     public int getRecipeSize() {
         return 9;
     }
@@ -82,11 +91,11 @@ public class RecipeBookCloning implements IRecipe {
         return null;
     }
 
-    public ItemStack[] getRemainingItems(InventoryCrafting inv) {
-        ItemStack[] aitemstack = new ItemStack[inv.getSizeInventory()];
+    public ItemStack[] getRemainingItems(final InventoryCrafting inv) {
+        final ItemStack[] aitemstack = new ItemStack[inv.getSizeInventory()];
 
         for (int i = 0; i < aitemstack.length; ++i) {
-            ItemStack itemstack = inv.getStackInSlot(i);
+            final ItemStack itemstack = inv.getStackInSlot(i);
 
             if (itemstack != null && itemstack.getItem() instanceof ItemEditableBook) {
                 aitemstack[i] = itemstack;

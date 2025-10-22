@@ -7,24 +7,36 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class PathNavigateClimber extends PathNavigateGround {
+    /**
+     * Current path navigation target
+     */
     private BlockPos targetPosition;
 
-    public PathNavigateClimber(EntityLiving entityLivingIn, World worldIn) {
+    public PathNavigateClimber(final EntityLiving entityLivingIn, final World worldIn) {
         super(entityLivingIn, worldIn);
     }
 
-    public PathEntity getPathToPos(BlockPos pos) {
+    /**
+     * Returns path to given BlockPos
+     */
+    public PathEntity getPathToPos(final BlockPos pos) {
         this.targetPosition = pos;
         return super.getPathToPos(pos);
     }
 
-    public PathEntity getPathToEntityLiving(Entity entityIn) {
+    /**
+     * Returns the path to the given EntityLiving. Args : entity
+     */
+    public PathEntity getPathToEntityLiving(final Entity entityIn) {
         this.targetPosition = new BlockPos(entityIn);
         return super.getPathToEntityLiving(entityIn);
     }
 
-    public boolean tryMoveToEntityLiving(Entity entityIn, double speedIn) {
-        PathEntity pathentity = this.getPathToEntityLiving(entityIn);
+    /**
+     * Try to find and set a path to EntityLiving. Returns true if successful. Args : entity, speed
+     */
+    public boolean tryMoveToEntityLiving(final Entity entityIn, final double speedIn) {
+        final PathEntity pathentity = this.getPathToEntityLiving(entityIn);
 
         if (pathentity != null) {
             return this.setPath(pathentity, speedIn);
@@ -40,7 +52,7 @@ public class PathNavigateClimber extends PathNavigateGround {
             super.onUpdateNavigation();
         } else {
             if (this.targetPosition != null) {
-                double d0 = this.theEntity.width * this.theEntity.width;
+                final double d0 = this.theEntity.width * this.theEntity.width;
 
                 if (this.theEntity.getDistanceSqToCenter(this.targetPosition) >= d0 && (this.theEntity.posY <= (double) this.targetPosition.getY() || this.theEntity.getDistanceSqToCenter(new BlockPos(this.targetPosition.getX(), MathHelper.floor_double(this.theEntity.posY), this.targetPosition.getZ())) >= d0)) {
                     this.theEntity.getMoveHelper().setMoveTo(this.targetPosition.getX(), this.targetPosition.getY(), this.targetPosition.getZ(), this.speed);

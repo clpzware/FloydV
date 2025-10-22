@@ -1,27 +1,29 @@
 package net.minecraft.scoreboard;
 
+import lombok.Setter;
+import net.minecraft.entity.player.EntityPlayer;
+
 import java.util.Comparator;
 import java.util.List;
 
-import net.minecraft.entity.player.EntityPlayer;
-
 public class Score {
-    public static final Comparator<Score> scoreComparator = (p_compare_1_, p_compare_2_) -> p_compare_1_.getScorePoints() > p_compare_2_.getScorePoints() ? 1 : (p_compare_1_.getScorePoints() < p_compare_2_.getScorePoints() ? -1 : p_compare_2_.getPlayerName().compareToIgnoreCase(p_compare_1_.getPlayerName()));
+    public static final Comparator<Score> scoreComparator = (p_compare_1_, p_compare_2_) -> -(p_compare_1_.getScorePoints() > p_compare_2_.getScorePoints() ? 1 : (p_compare_1_.getScorePoints() < p_compare_2_.getScorePoints() ? -1 : p_compare_2_.getPlayerName().compareToIgnoreCase(p_compare_1_.getPlayerName())));
     private final Scoreboard theScoreboard;
     private final ScoreObjective theScoreObjective;
-    private final String scorePlayerName;
+    @Setter
+    private String scorePlayerName;
     private int scorePoints;
     private boolean locked;
-    private boolean forceUpdate;
+    private boolean field_178818_g;
 
-    public Score(Scoreboard theScoreboardIn, ScoreObjective theScoreObjectiveIn, String scorePlayerNameIn) {
+    public Score(final Scoreboard theScoreboardIn, final ScoreObjective theScoreObjectiveIn, final String scorePlayerNameIn) {
         this.theScoreboard = theScoreboardIn;
         this.theScoreObjective = theScoreObjectiveIn;
         this.scorePlayerName = scorePlayerNameIn;
-        this.forceUpdate = true;
+        this.field_178818_g = true;
     }
 
-    public void increseScore(int amount) {
+    public void increseScore(final int amount) {
         if (this.theScoreObjective.getCriteria().isReadOnly()) {
             throw new IllegalStateException("Cannot modify read-only score");
         } else {
@@ -29,7 +31,7 @@ public class Score {
         }
     }
 
-    public void decreaseScore(int amount) {
+    public void decreaseScore(final int amount) {
         if (this.theScoreObjective.getCriteria().isReadOnly()) {
             throw new IllegalStateException("Cannot modify read-only score");
         } else {
@@ -49,12 +51,12 @@ public class Score {
         return this.scorePoints;
     }
 
-    public void setScorePoints(int points) {
-        int i = this.scorePoints;
+    public void setScorePoints(final int points) {
+        final int i = this.scorePoints;
         this.scorePoints = points;
 
-        if (i != points || this.forceUpdate) {
-            this.forceUpdate = false;
+        if (i != points || this.field_178818_g) {
+            this.field_178818_g = false;
             this.getScoreScoreboard().func_96536_a(this);
         }
     }
@@ -63,6 +65,9 @@ public class Score {
         return this.theScoreObjective;
     }
 
+    /**
+     * Returns the name of the player this score belongs to
+     */
     public String getPlayerName() {
         return this.scorePlayerName;
     }
@@ -75,11 +80,11 @@ public class Score {
         return this.locked;
     }
 
-    public void setLocked(boolean locked) {
+    public void setLocked(final boolean locked) {
         this.locked = locked;
     }
 
-    public void func_96651_a(List<EntityPlayer> p_96651_1_) {
-        this.setScorePoints(this.theScoreObjective.getCriteria().setScore(p_96651_1_));
+    public void func_96651_a(final List<EntityPlayer> p_96651_1_) {
+        this.setScorePoints(this.theScoreObjective.getCriteria().func_96635_a(p_96651_1_));
     }
 }

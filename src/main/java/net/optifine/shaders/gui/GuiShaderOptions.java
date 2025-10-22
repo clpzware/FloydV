@@ -1,6 +1,7 @@
 package net.optifine.shaders.gui;
 
-import net.minecraft.client.gui.FontRenderer;
+import com.alan.clients.util.font.impl.minecraft.FontRenderer;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
@@ -27,8 +28,9 @@ public class GuiShaderOptions extends GuiScreenOF {
     public static final String OPTION_PROFILE = "<profile>";
     public static final String OPTION_EMPTY = "<empty>";
     public static final String OPTION_REST = "*";
+    private static final Minecraft mc = Minecraft.getMinecraft();
 
-    public GuiShaderOptions(GuiScreen guiscreen, GameSettings gamesettings) {
+    public GuiShaderOptions(final GuiScreen guiscreen, final GameSettings gamesettings) {
         this.tooltipManager = new TooltipManager(this, new TooltipProviderShaderOptions());
         this.screenName = null;
         this.screenText = null;
@@ -38,7 +40,7 @@ public class GuiShaderOptions extends GuiScreenOF {
         this.settings = gamesettings;
     }
 
-    public GuiShaderOptions(GuiScreen guiscreen, GameSettings gamesettings, String screenName) {
+    public GuiShaderOptions(final GuiScreen guiscreen, final GameSettings gamesettings, final String screenName) {
         this(guiscreen, gamesettings);
         this.screenName = screenName;
 
@@ -47,37 +49,41 @@ public class GuiShaderOptions extends GuiScreenOF {
         }
     }
 
+    /**
+     * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
+     * window resizes, the buttonList is cleared beforehand.
+     */
     public void initGui() {
         this.title = I18n.format("of.options.shaderOptionsTitle");
-        int i = 100;
+        final int i = 100;
         int j = 0;
-        int k = 30;
-        int l = 20;
-        int i1 = 120;
-        int j1 = 20;
+        final int k = 30;
+        final int l = 20;
+        final int i1 = 120;
+        final int j1 = 20;
         int k1 = Shaders.getShaderPackColumns(this.screenName, 2);
-        ShaderOption[] ashaderoption = Shaders.getShaderPackOptions(this.screenName);
+        final ShaderOption[] ashaderoption = Shaders.getShaderPackOptions(this.screenName);
 
         if (ashaderoption != null) {
-            int l1 = MathHelper.ceiling_double_int((double) ashaderoption.length / 9.0D);
+            final int l1 = MathHelper.ceiling_double_int((double) ashaderoption.length / 9.0D);
 
             if (k1 < l1) {
                 k1 = l1;
             }
 
             for (int i2 = 0; i2 < ashaderoption.length; ++i2) {
-                ShaderOption shaderoption = ashaderoption[i2];
+                final ShaderOption shaderoption = ashaderoption[i2];
 
                 if (shaderoption != null && shaderoption.isVisible()) {
-                    int j2 = i2 % k1;
-                    int k2 = i2 / k1;
-                    int l2 = Math.min(this.width / k1, 200);
+                    final int j2 = i2 % k1;
+                    final int k2 = i2 / k1;
+                    final int l2 = Math.min(this.width / k1, 200);
                     j = (this.width - l2 * k1) / 2;
-                    int i3 = j2 * l2 + 5 + j;
-                    int j3 = k + k2 * l;
-                    int k3 = l2 - 10;
-                    String s = getButtonText(shaderoption, k3);
-                    GuiButtonShaderOption guibuttonshaderoption;
+                    final int i3 = j2 * l2 + 5 + j;
+                    final int j3 = k + k2 * l;
+                    final int k3 = l2 - 10;
+                    final String s = getButtonText(shaderoption, k3);
+                    final GuiButtonShaderOption guibuttonshaderoption;
 
                     if (Shaders.isShaderPackOptionSlider(shaderoption.getName())) {
                         guibuttonshaderoption = new GuiSliderShaderOption(i + i2, i3, j3, k3, j1, shaderoption, s);
@@ -95,31 +101,36 @@ public class GuiShaderOptions extends GuiScreenOF {
         this.buttonList.add(new GuiButton(200, this.width / 2 + 20, this.height / 6 + 168 + 11, i1, j1, I18n.format("gui.done")));
     }
 
-    public static String getButtonText(ShaderOption so, int btnWidth) {
+    public static String getButtonText(final ShaderOption so, final int btnWidth) {
         String s = so.getNameText();
 
-        if (so instanceof ShaderOptionScreen shaderoptionscreen) {
+        if (so instanceof ShaderOptionScreen) {
+            final ShaderOptionScreen shaderoptionscreen = (ShaderOptionScreen) so;
             return s + "...";
         } else {
-            FontRenderer fontrenderer = Config.getMinecraft().fontRendererObj;
+            final FontRenderer fontrenderer = Config.getMinecraft().fontRendererObj;
 
-            for (int i = fontrenderer.getStringWidth(": " + Lang.getOff()) + 5; fontrenderer.getStringWidth(s) + i >= btnWidth && !s.isEmpty(); s = s.substring(0, s.length() - 1)) {
+            for (final int i = fontrenderer.width(": " + Lang.getOff()) + 5; fontrenderer.width(s) + i >= btnWidth && s.length() > 0; s = s.substring(0, s.length() - 1)) {
             }
 
-            String s1 = so.isChanged() ? so.getValueColor(so.getValue()) : "";
-            String s2 = so.getValueText(so.getValue());
+            final String s1 = so.isChanged() ? so.getValueColor(so.getValue()) : "";
+            final String s2 = so.getValueText(so.getValue());
             return s + ": " + s1 + s2;
         }
     }
 
-    protected void actionPerformed(GuiButton guibutton) {
+    /**
+     * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
+     */
+    protected void actionPerformed(final GuiButton guibutton) {
         if (guibutton.enabled) {
-            if (guibutton.id < 200 && guibutton instanceof GuiButtonShaderOption guibuttonshaderoption) {
-                ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
+            if (guibutton.id < 200 && guibutton instanceof GuiButtonShaderOption) {
+                final GuiButtonShaderOption guibuttonshaderoption = (GuiButtonShaderOption) guibutton;
+                final ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
 
                 if (shaderoption instanceof ShaderOptionScreen) {
-                    String s = shaderoption.getName();
-                    GuiShaderOptions guishaderoptions = new GuiShaderOptions(this, this.settings, s);
+                    final String s = shaderoption.getName();
+                    final GuiShaderOptions guishaderoptions = new GuiShaderOptions(this, this.settings, s);
                     this.mc.displayGuiScreen(guishaderoptions);
                     return;
                 }
@@ -135,9 +146,10 @@ public class GuiShaderOptions extends GuiScreenOF {
             }
 
             if (guibutton.id == 201) {
-                ShaderOption[] ashaderoption = Shaders.getChangedOptions(Shaders.getShaderPackOptions());
+                final ShaderOption[] ashaderoption = Shaders.getChangedOptions(Shaders.getShaderPackOptions());
 
-                for (ShaderOption shaderoption1 : ashaderoption) {
+                for (int i = 0; i < ashaderoption.length; ++i) {
+                    final ShaderOption shaderoption1 = ashaderoption[i];
                     shaderoption1.resetValue();
                     this.changed = true;
                 }
@@ -157,9 +169,10 @@ public class GuiShaderOptions extends GuiScreenOF {
         }
     }
 
-    protected void actionPerformedRightClick(GuiButton btn) {
-        if (btn instanceof GuiButtonShaderOption guibuttonshaderoption) {
-            ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
+    protected void actionPerformedRightClick(final GuiButton btn) {
+        if (btn instanceof GuiButtonShaderOption) {
+            final GuiButtonShaderOption guibuttonshaderoption = (GuiButtonShaderOption) btn;
+            final ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
 
             if (isShiftKeyDown()) {
                 shaderoption.resetValue();
@@ -172,6 +185,9 @@ public class GuiShaderOptions extends GuiScreenOF {
         }
     }
 
+    /**
+     * Called when the screen is unloaded. Used to disable keyboard repeat events
+     */
     public void onGuiClosed() {
         super.onGuiClosed();
 
@@ -183,11 +199,13 @@ public class GuiShaderOptions extends GuiScreenOF {
     }
 
     private void updateAllButtons() {
-        for (GuiButton guibutton : this.buttonList) {
-            if (guibutton instanceof GuiButtonShaderOption guibuttonshaderoption) {
-                ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
+        for (final GuiButton guibutton : this.buttonList) {
+            if (guibutton instanceof GuiButtonShaderOption) {
+                final GuiButtonShaderOption guibuttonshaderoption = (GuiButtonShaderOption) guibutton;
+                final ShaderOption shaderoption = guibuttonshaderoption.getShaderOption();
 
-                if (shaderoption instanceof ShaderOptionProfile shaderoptionprofile) {
+                if (shaderoption instanceof ShaderOptionProfile) {
+                    final ShaderOptionProfile shaderoptionprofile = (ShaderOptionProfile) shaderoption;
                     shaderoptionprofile.updateProfile();
                 }
 
@@ -197,7 +215,10 @@ public class GuiShaderOptions extends GuiScreenOF {
         }
     }
 
-    public void drawScreen(int x, int y, float f) {
+    /**
+     * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
+     */
+    public void drawScreen(final int x, final int y, final float f) {
         this.drawDefaultBackground();
 
         if (this.screenText != null) {

@@ -14,41 +14,53 @@ import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 public class EntityWitherSkull extends EntityFireball {
-    public EntityWitherSkull(World worldIn) {
+    public EntityWitherSkull(final World worldIn) {
         super(worldIn);
         this.setSize(0.3125F, 0.3125F);
     }
 
-    public EntityWitherSkull(World worldIn, EntityLivingBase shooter, double accelX, double accelY, double accelZ) {
+    public EntityWitherSkull(final World worldIn, final EntityLivingBase shooter, final double accelX, final double accelY, final double accelZ) {
         super(worldIn, shooter, accelX, accelY, accelZ);
         this.setSize(0.3125F, 0.3125F);
     }
 
+    /**
+     * Return the motion factor for this projectile. The factor is multiplied by the original motion.
+     */
     protected float getMotionFactor() {
         return this.isInvulnerable() ? 0.73F : super.getMotionFactor();
     }
 
-    public EntityWitherSkull(World worldIn, double x, double y, double z, double accelX, double accelY, double accelZ) {
+    public EntityWitherSkull(final World worldIn, final double x, final double y, final double z, final double accelX, final double accelY, final double accelZ) {
         super(worldIn, x, y, z, accelX, accelY, accelZ);
         this.setSize(0.3125F, 0.3125F);
     }
 
+    /**
+     * Returns true if the entity is on fire. Used by render to add the fire effect on rendering.
+     */
     public boolean isBurning() {
         return false;
     }
 
-    public float getExplosionResistance(Explosion explosionIn, World worldIn, BlockPos pos, IBlockState blockStateIn) {
+    /**
+     * Explosion resistance of a block relative to this entity
+     */
+    public float getExplosionResistance(final Explosion explosionIn, final World worldIn, final BlockPos pos, final IBlockState blockStateIn) {
         float f = super.getExplosionResistance(explosionIn, worldIn, pos, blockStateIn);
-        Block block = blockStateIn.getBlock();
+        final Block block = blockStateIn.getBlock();
 
-        if (this.isInvulnerable() && EntityWither.canDestroyBlock(block)) {
+        if (this.isInvulnerable() && EntityWither.func_181033_a(block)) {
             f = Math.min(0.8F, f);
         }
 
         return f;
     }
 
-    protected void onImpact(MovingObjectPosition movingObject) {
+    /**
+     * Called when this EntityFireball hits a block or entity.
+     */
+    protected void onImpact(final MovingObjectPosition movingObject) {
         if (!this.worldObj.isRemote) {
             if (movingObject.entityHit != null) {
                 if (this.shootingEntity != null) {
@@ -78,28 +90,40 @@ public class EntityWitherSkull extends EntityFireball {
                 }
             }
 
-            this.worldObj.newExplosion(this, this.posX, this.posY, this.posZ, 1.0F, false, this.worldObj.getGameRules().getBoolean("mobGriefing"));
+            this.worldObj.newExplosion(this, this.posX, this.posY, this.posZ, 1.0F, false, this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing"));
             this.setDead();
         }
     }
 
+    /**
+     * Returns true if other Entities should be prevented from moving through this Entity.
+     */
     public boolean canBeCollidedWith() {
         return false;
     }
 
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    /**
+     * Called when the entity is attacked.
+     */
+    public boolean attackEntityFrom(final DamageSource source, final float amount) {
         return false;
     }
 
     protected void entityInit() {
-        this.dataWatcher.addObject(10, (byte) 0);
+        this.dataWatcher.addObject(10, Byte.valueOf((byte) 0));
     }
 
+    /**
+     * Return whether this skull comes from an invulnerable (aura) wither boss.
+     */
     public boolean isInvulnerable() {
         return this.dataWatcher.getWatchableObjectByte(10) == 1;
     }
 
-    public void setInvulnerable(boolean invulnerable) {
-        this.dataWatcher.updateObject(10, (byte) (invulnerable ? 1 : 0));
+    /**
+     * Set whether this skull comes from an invulnerable (aura) wither boss.
+     */
+    public void setInvulnerable(final boolean invulnerable) {
+        this.dataWatcher.updateObject(10, Byte.valueOf((byte) (invulnerable ? 1 : 0)));
     }
 }

@@ -14,23 +14,23 @@ public class LayerSheepWool implements LayerRenderer<EntitySheep> {
     private final RenderSheep sheepRenderer;
     public ModelSheep1 sheepModel = new ModelSheep1();
 
-    public LayerSheepWool(RenderSheep sheepRendererIn) {
+    public LayerSheepWool(final RenderSheep sheepRendererIn) {
         this.sheepRenderer = sheepRendererIn;
     }
 
-    public void doRenderLayer(EntitySheep entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale) {
+    public void doRenderLayer(final EntitySheep entitylivingbaseIn, final float p_177141_2_, final float p_177141_3_, final float partialTicks, final float p_177141_5_, final float p_177141_6_, final float p_177141_7_, final float scale) {
         if (!entitylivingbaseIn.getSheared() && !entitylivingbaseIn.isInvisible()) {
             this.sheepRenderer.bindTexture(TEXTURE);
 
             if (entitylivingbaseIn.hasCustomName() && "jeb_".equals(entitylivingbaseIn.getCustomNameTag())) {
-                int i1 = 25;
-                int i = entitylivingbaseIn.ticksExisted / 25 + entitylivingbaseIn.getEntityId();
-                int j = EnumDyeColor.values().length;
-                int k = i % j;
-                int l = (i + 1) % j;
-                float f = ((float) (entitylivingbaseIn.ticksExisted % 25) + partialTicks) / 25.0F;
-                float[] afloat1 = EntitySheep.getDyeRgb(EnumDyeColor.byMetadata(k));
-                float[] afloat2 = EntitySheep.getDyeRgb(EnumDyeColor.byMetadata(l));
+                final int i1 = 25;
+                final int i = entitylivingbaseIn.ticksExisted / 25 + entitylivingbaseIn.getEntityId();
+                final int j = EnumDyeColor.values().length;
+                final int k = i % j;
+                final int l = (i + 1) % j;
+                final float f = ((float) (entitylivingbaseIn.ticksExisted % 25) + partialTicks) / 25.0F;
+                float[] afloat1 = EntitySheep.func_175513_a(EnumDyeColor.byMetadata(k));
+                float[] afloat2 = EntitySheep.func_175513_a(EnumDyeColor.byMetadata(l));
 
                 if (Config.isCustomColors()) {
                     afloat1 = CustomColors.getSheepColors(EnumDyeColor.byMetadata(k), afloat1);
@@ -39,7 +39,7 @@ public class LayerSheepWool implements LayerRenderer<EntitySheep> {
 
                 GlStateManager.color(afloat1[0] * (1.0F - f) + afloat2[0] * f, afloat1[1] * (1.0F - f) + afloat2[1] * f, afloat1[2] * (1.0F - f) + afloat2[2] * f);
             } else {
-                float[] afloat = EntitySheep.getDyeRgb(entitylivingbaseIn.getFleeceColor());
+                float[] afloat = EntitySheep.func_175513_a(entitylivingbaseIn.getFleeceColor());
 
                 if (Config.isCustomColors()) {
                     afloat = CustomColors.getSheepColors(entitylivingbaseIn.getFleeceColor(), afloat);

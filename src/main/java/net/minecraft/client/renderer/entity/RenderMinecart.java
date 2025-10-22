@@ -13,27 +13,39 @@ import net.minecraft.util.Vec3;
 
 public class RenderMinecart<T extends EntityMinecart> extends Render<T> {
     private static final ResourceLocation minecartTextures = new ResourceLocation("textures/entity/minecart.png");
+
+    /**
+     * instance of ModelMinecart for rendering
+     */
     protected ModelBase modelMinecart = new ModelMinecart();
 
-    public RenderMinecart(RenderManager renderManagerIn) {
+    public RenderMinecart(final RenderManager renderManagerIn) {
         super(renderManagerIn);
         this.shadowSize = 0.5F;
     }
 
-    public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks) {
+    /**
+     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
+     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
+     * (Render<T extends Entity>) and this method has signature public void doRender(T entity, double d, double d1,
+     * double d2, float f, float f1). But JAD is pre 1.5 so doe
+     *
+     * @param entityYaw The yaw rotation of the passed entity
+     */
+    public void doRender(final T entity, double x, double y, double z, float entityYaw, final float partialTicks) {
         GlStateManager.pushMatrix();
         this.bindEntityTexture(entity);
         long i = (long) entity.getEntityId() * 493286711L;
         i = i * i * 4392167121L + i * 98761L;
-        float f = (((float) (i >> 16 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
-        float f1 = (((float) (i >> 20 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
-        float f2 = (((float) (i >> 24 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
+        final float f = (((float) (i >> 16 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
+        final float f1 = (((float) (i >> 20 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
+        final float f2 = (((float) (i >> 24 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
         GlStateManager.translate(f, f1, f2);
-        double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double) partialTicks;
-        double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) partialTicks;
-        double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) partialTicks;
-        double d3 = 0.30000001192092896D;
-        Vec3 vec3 = entity.func_70489_a(d0, d1, d2);
+        final double d0 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double) partialTicks;
+        final double d1 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) partialTicks;
+        final double d2 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) partialTicks;
+        final double d3 = 0.30000001192092896D;
+        final Vec3 vec3 = entity.func_70489_a(d0, d1, d2);
         float f3 = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
 
         if (vec3 != null) {
@@ -63,7 +75,7 @@ public class RenderMinecart<T extends EntityMinecart> extends Render<T> {
         GlStateManager.translate((float) x, (float) y + 0.375F, (float) z);
         GlStateManager.rotate(180.0F - entityYaw, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(-f3, 0.0F, 0.0F, 1.0F);
-        float f5 = (float) entity.getRollingAmplitude() - partialTicks;
+        final float f5 = (float) entity.getRollingAmplitude() - partialTicks;
         float f6 = entity.getDamage() - partialTicks;
 
         if (f6 < 0.0F) {
@@ -74,13 +86,13 @@ public class RenderMinecart<T extends EntityMinecart> extends Render<T> {
             GlStateManager.rotate(MathHelper.sin(f5) * f5 * f6 / 10.0F * (float) entity.getRollingDirection(), 1.0F, 0.0F, 0.0F);
         }
 
-        int j = entity.getDisplayTileOffset();
-        IBlockState iblockstate = entity.getDisplayTile();
+        final int j = entity.getDisplayTileOffset();
+        final IBlockState iblockstate = entity.getDisplayTile();
 
         if (iblockstate.getBlock().getRenderType() != -1) {
             GlStateManager.pushMatrix();
             this.bindTexture(TextureMap.locationBlocksTexture);
-            float f4 = 0.75F;
+            final float f4 = 0.75F;
             GlStateManager.scale(f4, f4, f4);
             GlStateManager.translate(-0.5F, (float) (j - 8) / 16.0F, 0.5F);
             this.func_180560_a(entity, partialTicks, iblockstate);
@@ -95,11 +107,14 @@ public class RenderMinecart<T extends EntityMinecart> extends Render<T> {
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 
-    protected ResourceLocation getEntityTexture(T entity) {
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(final T entity) {
         return minecartTextures;
     }
 
-    protected void func_180560_a(T minecart, float partialTicks, IBlockState state) {
+    protected void func_180560_a(final T minecart, final float partialTicks, final IBlockState state) {
         GlStateManager.pushMatrix();
         Minecraft.getMinecraft().getBlockRendererDispatcher().renderBlockBrightness(state, minecart.getBrightness(partialTicks));
         GlStateManager.popMatrix();

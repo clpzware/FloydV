@@ -22,7 +22,7 @@ public class BlockWorkbench extends Block {
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos, final IBlockState state, final EntityPlayer playerIn, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         if (worldIn.isRemote) {
             return true;
         } else {
@@ -36,12 +36,12 @@ public class BlockWorkbench extends Block {
         private final World world;
         private final BlockPos position;
 
-        public InterfaceCraftingTable(World worldIn, BlockPos pos) {
+        public InterfaceCraftingTable(final World worldIn, final BlockPos pos) {
             this.world = worldIn;
             this.position = pos;
         }
 
-        public String getName() {
+        public String getCommandSenderName() {
             return null;
         }
 
@@ -53,7 +53,7 @@ public class BlockWorkbench extends Block {
             return new ChatComponentTranslation(Blocks.crafting_table.getUnlocalizedName() + ".name");
         }
 
-        public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+        public Container createContainer(final InventoryPlayer playerInventory, final EntityPlayer playerIn) {
             return new ContainerWorkbench(playerInventory, this.world, this.position);
         }
 

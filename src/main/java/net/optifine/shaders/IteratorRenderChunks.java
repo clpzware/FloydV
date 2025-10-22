@@ -12,7 +12,7 @@ public class IteratorRenderChunks implements Iterator<RenderChunk> {
     private final Iterator3d Iterator3d;
     private final BlockPosM posBlock = new BlockPosM(0, 0, 0);
 
-    public IteratorRenderChunks(ViewFrustum viewFrustum, BlockPos posStart, BlockPos posEnd, int width, int height) {
+    public IteratorRenderChunks(final ViewFrustum viewFrustum, final BlockPos posStart, final BlockPos posEnd, final int width, final int height) {
         this.viewFrustum = viewFrustum;
         this.Iterator3d = new Iterator3d(posStart, posEnd, width, height);
     }
@@ -22,9 +22,10 @@ public class IteratorRenderChunks implements Iterator<RenderChunk> {
     }
 
     public RenderChunk next() {
-        BlockPos blockpos = this.Iterator3d.next();
+        final BlockPos blockpos = this.Iterator3d.next();
         this.posBlock.setXyz(blockpos.getX() << 4, blockpos.getY() << 4, blockpos.getZ() << 4);
-        return this.viewFrustum.getRenderChunk(this.posBlock);
+        final RenderChunk renderchunk = this.viewFrustum.getRenderChunk(this.posBlock);
+        return renderchunk;
     }
 
     public void remove() {

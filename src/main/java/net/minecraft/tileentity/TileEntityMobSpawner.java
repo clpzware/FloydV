@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 
 public class TileEntityMobSpawner extends TileEntity implements ITickable {
     private final MobSpawnerBaseLogic spawnerLogic = new MobSpawnerBaseLogic() {
-        public void func_98267_a(int id) {
+        public void func_98267_a(final int id) {
             TileEntityMobSpawner.this.worldObj.addBlockEvent(TileEntityMobSpawner.this.pos, Blocks.mob_spawner, id, 0);
         }
 
@@ -22,7 +22,7 @@ public class TileEntityMobSpawner extends TileEntity implements ITickable {
             return TileEntityMobSpawner.this.pos;
         }
 
-        public void setRandomEntity(MobSpawnerBaseLogic.WeightedRandomMinecart p_98277_1_) {
+        public void setRandomEntity(final MobSpawnerBaseLogic.WeightedRandomMinecart p_98277_1_) {
             super.setRandomEntity(p_98277_1_);
 
             if (this.getSpawnerWorld() != null) {
@@ -31,28 +31,35 @@ public class TileEntityMobSpawner extends TileEntity implements ITickable {
         }
     };
 
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(final NBTTagCompound compound) {
         super.readFromNBT(compound);
         this.spawnerLogic.readFromNBT(compound);
     }
 
-    public void writeToNBT(NBTTagCompound compound) {
+    public void writeToNBT(final NBTTagCompound compound) {
         super.writeToNBT(compound);
         this.spawnerLogic.writeToNBT(compound);
     }
 
+    /**
+     * Like the old updateEntity(), except more generic.
+     */
     public void update() {
         this.spawnerLogic.updateSpawner();
     }
 
+    /**
+     * Allows for a specialized description packet to be created. This is often used to sync tile entity data from the
+     * server to the client easily. For example this is used by signs to synchronise the text to be displayed.
+     */
     public Packet getDescriptionPacket() {
-        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        final NBTTagCompound nbttagcompound = new NBTTagCompound();
         this.writeToNBT(nbttagcompound);
         nbttagcompound.removeTag("SpawnPotentials");
         return new S35PacketUpdateTileEntity(this.pos, 1, nbttagcompound);
     }
 
-    public boolean receiveClientEvent(int id, int type) {
+    public boolean receiveClientEvent(final int id, final int type) {
         return this.spawnerLogic.setDelayToMin(id) || super.receiveClientEvent(id, type);
     }
 

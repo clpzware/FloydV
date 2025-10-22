@@ -12,11 +12,11 @@ public class CompactArrayList {
         this(10, 0.75F);
     }
 
-    public CompactArrayList(int initialCapacity) {
+    public CompactArrayList(final int initialCapacity) {
         this(initialCapacity, 0.75F);
     }
 
-    public CompactArrayList(int initialCapacity, float loadFactor) {
+    public CompactArrayList(final int initialCapacity, final float loadFactor) {
         this.list = null;
         this.initialCapacity = 0;
         this.loadFactor = 1.0F;
@@ -26,7 +26,7 @@ public class CompactArrayList {
         this.loadFactor = loadFactor;
     }
 
-    public void add(int index, Object element) {
+    public void add(final int index, final Object element) {
         if (element != null) {
             ++this.countValid;
         }
@@ -34,7 +34,7 @@ public class CompactArrayList {
         this.list.add(index, element);
     }
 
-    public boolean add(Object element) {
+    public boolean add(final Object element) {
         if (element != null) {
             ++this.countValid;
         }
@@ -42,8 +42,8 @@ public class CompactArrayList {
         return this.list.add(element);
     }
 
-    public Object set(int index, Object element) {
-        Object object = this.list.set(index, element);
+    public Object set(final int index, final Object element) {
+        final Object object = this.list.set(index, element);
 
         if (element != object) {
             if (object == null) {
@@ -58,8 +58,8 @@ public class CompactArrayList {
         return object;
     }
 
-    public Object remove(int index) {
-        Object object = this.list.remove(index);
+    public Object remove(final int index) {
+        final Object object = this.list.remove(index);
 
         if (object != null) {
             --this.countValid;
@@ -77,13 +77,13 @@ public class CompactArrayList {
         if (this.countValid <= 0 && this.list.size() <= 0) {
             this.clear();
         } else if (this.list.size() > this.initialCapacity) {
-            float f = (float) this.countValid / (float) this.list.size();
+            final float f = (float) this.countValid * 1.0F / (float) this.list.size();
 
             if (f <= this.loadFactor) {
                 int i = 0;
 
                 for (int j = 0; j < this.list.size(); ++j) {
-                    Object object = this.list.get(j);
+                    final Object object = this.list.get(j);
 
                     if (object != null) {
                         if (j != i) {
@@ -94,18 +94,18 @@ public class CompactArrayList {
                     }
                 }
 
-                for (int k = this.list.size() - 1; k >= i; --k) {
-                    this.list.remove(k);
+                if (this.list.size() > i) {
+                    this.list.subList(i, this.list.size()).clear();
                 }
             }
         }
     }
 
-    public boolean contains(Object elem) {
+    public boolean contains(final Object elem) {
         return this.list.contains(elem);
     }
 
-    public Object get(int index) {
+    public Object get(final int index) {
         return this.list.get(index);
     }
 

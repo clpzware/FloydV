@@ -1,27 +1,44 @@
 package net.minecraft.command;
 
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldInfo;
 
+import java.util.List;
+import java.util.Random;
+
 public class CommandWeather extends CommandBase {
+    /**
+     * Gets the name of the command
+     */
     public String getCommandName() {
         return "weather";
     }
 
+    /**
+     * Return the required permission level for this command.
+     */
     public int getRequiredPermissionLevel() {
         return 2;
     }
 
-    public String getCommandUsage(ICommandSender sender) {
+    /**
+     * Gets the usage string for the command.
+     *
+     * @param sender The {@link ICommandSender} who is requesting usage details.
+     */
+    public String getCommandUsage(final ICommandSender sender) {
         return "commands.weather.usage";
     }
 
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    /**
+     * Callback when the command is invoked
+     *
+     * @param sender The {@link ICommandSender sender} who executed the command
+     * @param args   The arguments that were passed with the command
+     */
+    public void processCommand(final ICommandSender sender, final String[] args) throws CommandException {
         if (args.length >= 1 && args.length <= 2) {
             int i = (300 + (new Random()).nextInt(600)) * 20;
 
@@ -29,8 +46,8 @@ public class CommandWeather extends CommandBase {
                 i = parseInt(args[1], 1, 1000000) * 20;
             }
 
-            World world = MinecraftServer.getServer().worldServers[0];
-            WorldInfo worldinfo = world.getWorldInfo();
+            final World world = MinecraftServer.getServer().worldServers[0];
+            final WorldInfo worldinfo = world.getWorldInfo();
 
             if ("clear".equalsIgnoreCase(args[0])) {
                 worldinfo.setCleanWeatherTime(i);
@@ -63,7 +80,7 @@ public class CommandWeather extends CommandBase {
         }
     }
 
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+    public List<String> addTabCompletionOptions(final ICommandSender sender, final String[] args, final BlockPos pos) {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, "clear", "rain", "thunder") : null;
     }
 }

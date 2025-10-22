@@ -1,7 +1,5 @@
 package net.minecraft.client.gui.inventory;
 
-import java.io.IOException;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -14,18 +12,39 @@ import net.minecraft.network.play.client.C12PacketUpdateSign;
 import net.minecraft.tileentity.TileEntitySign;
 import net.minecraft.util.ChatAllowedCharacters;
 import net.minecraft.util.ChatComponentText;
-import org.lwjglx.input.Keyboard;
+import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
 
 public class GuiEditSign extends GuiScreen {
+    /**
+     * Reference to the sign object.
+     */
     private final TileEntitySign tileSign;
+
+    /**
+     * Counts the number of screen updates.
+     */
     private int updateCounter;
+
+    /**
+     * The index of the line that is being edited.
+     */
     private int editLine;
+
+    /**
+     * "Done" button for the GUI.
+     */
     private GuiButton doneBtn;
 
-    public GuiEditSign(TileEntitySign teSign) {
+    public GuiEditSign(final TileEntitySign teSign) {
         this.tileSign = teSign;
     }
 
+    /**
+     * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
+     * window resizes, the buttonList is cleared beforehand.
+     */
     public void initGui() {
         this.buttonList.clear();
         Keyboard.enableRepeatEvents(true);
@@ -33,9 +52,12 @@ public class GuiEditSign extends GuiScreen {
         this.tileSign.setEditable(false);
     }
 
+    /**
+     * Called when the screen is unloaded. Used to disable keyboard repeat events
+     */
     public void onGuiClosed() {
         Keyboard.enableRepeatEvents(false);
-        NetHandlerPlayClient nethandlerplayclient = this.mc.getNetHandler();
+        final NetHandlerPlayClient nethandlerplayclient = this.mc.getNetHandler();
 
         if (nethandlerplayclient != null) {
             nethandlerplayclient.addToSendQueue(new C12PacketUpdateSign(this.tileSign.getPos(), this.tileSign.signText));
@@ -44,11 +66,17 @@ public class GuiEditSign extends GuiScreen {
         this.tileSign.setEditable(true);
     }
 
+    /**
+     * Called from the main game loop to update the screen.
+     */
     public void updateScreen() {
         ++this.updateCounter;
     }
 
-    protected void actionPerformed(GuiButton button) throws IOException {
+    /**
+     * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
+     */
+    protected void actionPerformed(final GuiButton button) throws IOException {
         if (button.enabled) {
             if (button.id == 0) {
                 this.tileSign.markDirty();
@@ -57,7 +85,11 @@ public class GuiEditSign extends GuiScreen {
         }
     }
 
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    /**
+     * Fired when a key is typed (except F11 which toggles full screen). This is the equivalent of
+     * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
+     */
+    protected void keyTyped(final char typedChar, final int keyCode) throws IOException {
         if (keyCode == 200) {
             this.editLine = this.editLine - 1 & 3;
         }
@@ -68,11 +100,11 @@ public class GuiEditSign extends GuiScreen {
 
         String s = this.tileSign.signText[this.editLine].getUnformattedText();
 
-        if (keyCode == 14 && !s.isEmpty()) {
+        if (keyCode == 14 && s.length() > 0) {
             s = s.substring(0, s.length() - 1);
         }
 
-        if (ChatAllowedCharacters.isAllowedCharacter(typedChar) && this.fontRendererObj.getStringWidth(s + typedChar) <= 90) {
+        if (ChatAllowedCharacters.isAllowedCharacter(typedChar) && this.fontRendererObj.width(s + typedChar) <= 90) {
             s = s + typedChar;
         }
 
@@ -83,23 +115,26 @@ public class GuiEditSign extends GuiScreen {
         }
     }
 
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    /**
+     * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
+     */
+    public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj, I18n.format("sign.edit"), this.width / 2, 40, 16777215);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) (this.width / 2), 0.0F, 50.0F);
-        float f = 93.75F;
+        final float f = 93.75F;
         GlStateManager.scale(-f, -f, -f);
         GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
-        Block block = this.tileSign.getBlockType();
+        final Block block = this.tileSign.getBlockType();
 
         if (block == Blocks.standing_sign) {
-            float f1 = (float) (this.tileSign.getBlockMetadata() * 360) / 16.0F;
+            final float f1 = (float) (this.tileSign.getBlockMetadata() * 360) / 16.0F;
             GlStateManager.rotate(f1, 0.0F, 1.0F, 0.0F);
             GlStateManager.translate(0.0F, -1.0625F, 0.0F);
         } else {
-            int i = this.tileSign.getBlockMetadata();
+            final int i = this.tileSign.getBlockMetadata();
             float f2 = 0.0F;
 
             if (i == 2) {

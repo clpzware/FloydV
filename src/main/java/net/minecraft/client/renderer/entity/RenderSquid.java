@@ -8,17 +8,20 @@ import net.minecraft.util.ResourceLocation;
 public class RenderSquid extends RenderLiving<EntitySquid> {
     private static final ResourceLocation squidTextures = new ResourceLocation("textures/entity/squid.png");
 
-    public RenderSquid(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
+    public RenderSquid(final RenderManager renderManagerIn, final ModelBase modelBaseIn, final float shadowSizeIn) {
         super(renderManagerIn, modelBaseIn, shadowSizeIn);
     }
 
-    protected ResourceLocation getEntityTexture(EntitySquid entity) {
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(final EntitySquid entity) {
         return squidTextures;
     }
 
-    protected void rotateCorpse(EntitySquid bat, float p_77043_2_, float p_77043_3_, float partialTicks) {
-        float f = bat.prevSquidPitch + (bat.squidPitch - bat.prevSquidPitch) * partialTicks;
-        float f1 = bat.prevSquidYaw + (bat.squidYaw - bat.prevSquidYaw) * partialTicks;
+    protected void rotateCorpse(final EntitySquid bat, final float p_77043_2_, final float p_77043_3_, final float partialTicks) {
+        final float f = bat.prevSquidPitch + (bat.squidPitch - bat.prevSquidPitch) * partialTicks;
+        final float f1 = bat.prevSquidYaw + (bat.squidYaw - bat.prevSquidYaw) * partialTicks;
         GlStateManager.translate(0.0F, 0.5F, 0.0F);
         GlStateManager.rotate(180.0F - p_77043_3_, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(f, 1.0F, 0.0F, 0.0F);
@@ -26,7 +29,10 @@ public class RenderSquid extends RenderLiving<EntitySquid> {
         GlStateManager.translate(0.0F, -1.2F, 0.0F);
     }
 
-    protected float handleRotationFloat(EntitySquid livingBase, float partialTicks) {
+    /**
+     * Defines what float the third param in setRotationAngles of ModelBase is
+     */
+    protected float handleRotationFloat(final EntitySquid livingBase, final float partialTicks) {
         return livingBase.lastTentacleAngle + (livingBase.tentacleAngle - livingBase.lastTentacleAngle) * partialTicks;
     }
 }

@@ -7,18 +7,33 @@ import net.minecraft.util.MathHelper;
 
 public class EntityLookHelper {
     private final EntityLiving entity;
+
+    /**
+     * The amount of change that is made each update for an entity facing a direction.
+     */
     private float deltaLookYaw;
+
+    /**
+     * The amount of change that is made each update for an entity facing a direction.
+     */
     private float deltaLookPitch;
+
+    /**
+     * Whether or not the entity is trying to look at something.
+     */
     private boolean isLooking;
     private double posX;
     private double posY;
     private double posZ;
 
-    public EntityLookHelper(EntityLiving entitylivingIn) {
+    public EntityLookHelper(final EntityLiving entitylivingIn) {
         this.entity = entitylivingIn;
     }
 
-    public void setLookPositionWithEntity(Entity entityIn, float deltaYaw, float deltaPitch) {
+    /**
+     * Sets position to look at using entity
+     */
+    public void setLookPositionWithEntity(final Entity entityIn, final float deltaYaw, final float deltaPitch) {
         this.posX = entityIn.posX;
 
         if (entityIn instanceof EntityLivingBase) {
@@ -33,7 +48,10 @@ public class EntityLookHelper {
         this.isLooking = true;
     }
 
-    public void setLookPosition(double x, double y, double z, float deltaYaw, float deltaPitch) {
+    /**
+     * Sets position to look at
+     */
+    public void setLookPosition(final double x, final double y, final double z, final float deltaYaw, final float deltaPitch) {
         this.posX = x;
         this.posY = y;
         this.posZ = z;
@@ -42,24 +60,27 @@ public class EntityLookHelper {
         this.isLooking = true;
     }
 
+    /**
+     * Updates look
+     */
     public void onUpdateLook() {
         this.entity.rotationPitch = 0.0F;
 
         if (this.isLooking) {
             this.isLooking = false;
-            double d0 = this.posX - this.entity.posX;
-            double d1 = this.posY - (this.entity.posY + (double) this.entity.getEyeHeight());
-            double d2 = this.posZ - this.entity.posZ;
-            double d3 = MathHelper.sqrt_double(d0 * d0 + d2 * d2);
-            float f = (float) (MathHelper.atan2(d2, d0) * 180.0D / Math.PI) - 90.0F;
-            float f1 = (float) (-(MathHelper.atan2(d1, d3) * 180.0D / Math.PI));
+            final double d0 = this.posX - this.entity.posX;
+            final double d1 = this.posY - (this.entity.posY + (double) this.entity.getEyeHeight());
+            final double d2 = this.posZ - this.entity.posZ;
+            final double d3 = MathHelper.sqrt_double(d0 * d0 + d2 * d2);
+            final float f = (float) (MathHelper.atan2(d2, d0) * 180.0D / Math.PI) - 90.0F;
+            final float f1 = (float) (-(MathHelper.atan2(d1, d3) * 180.0D / Math.PI));
             this.entity.rotationPitch = this.updateRotation(this.entity.rotationPitch, f1, this.deltaLookPitch);
             this.entity.rotationYawHead = this.updateRotation(this.entity.rotationYawHead, f, this.deltaLookYaw);
         } else {
             this.entity.rotationYawHead = this.updateRotation(this.entity.rotationYawHead, this.entity.renderYawOffset, 10.0F);
         }
 
-        float f2 = MathHelper.wrapAngleTo180_float(this.entity.rotationYawHead - this.entity.renderYawOffset);
+        final float f2 = MathHelper.wrapAngleTo180_float(this.entity.rotationYawHead - this.entity.renderYawOffset);
 
         if (!this.entity.getNavigator().noPath()) {
             if (f2 < -75.0F) {
@@ -72,7 +93,7 @@ public class EntityLookHelper {
         }
     }
 
-    private float updateRotation(float p_75652_1_, float p_75652_2_, float p_75652_3_) {
+    private float updateRotation(final float p_75652_1_, final float p_75652_2_, final float p_75652_3_) {
         float f = MathHelper.wrapAngleTo180_float(p_75652_2_ - p_75652_1_);
 
         if (f > p_75652_3_) {

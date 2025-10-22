@@ -8,12 +8,15 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.util.ResourceLocation;
 
 public class CustomTextureLocation implements ICustomTexture {
-    private final int textureUnit;
+    private int textureUnit = -1;
     private final ResourceLocation location;
-    private final int variant;
+    private int variant = 0;
     private ITextureObject texture;
+    public static final int VARIANT_BASE = 0;
+    public static final int VARIANT_NORMAL = 1;
+    public static final int VARIANT_SPECULAR = 2;
 
-    public CustomTextureLocation(int textureUnit, ResourceLocation location, int variant) {
+    public CustomTextureLocation(final int textureUnit, final ResourceLocation location, final int variant) {
         this.textureUnit = textureUnit;
         this.location = location;
         this.variant = variant;
@@ -21,7 +24,7 @@ public class CustomTextureLocation implements ICustomTexture {
 
     public ITextureObject getTexture() {
         if (this.texture == null) {
-            TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
+            final TextureManager texturemanager = Minecraft.getMinecraft().getTextureManager();
             this.texture = texturemanager.getTexture(this.location);
 
             if (this.texture == null) {
@@ -35,10 +38,11 @@ public class CustomTextureLocation implements ICustomTexture {
     }
 
     public int getTextureId() {
-        ITextureObject itextureobject = this.getTexture();
+        final ITextureObject itextureobject = this.getTexture();
 
-        if (this.variant != 0 && itextureobject instanceof AbstractTexture abstracttexture) {
-            MultiTexID multitexid = abstracttexture.multiTex;
+        if (this.variant != 0 && itextureobject instanceof AbstractTexture) {
+            final AbstractTexture abstracttexture = (AbstractTexture) itextureobject;
+            final MultiTexID multitexid = abstracttexture.multiTex;
 
             if (multitexid != null) {
                 if (this.variant == 1) {

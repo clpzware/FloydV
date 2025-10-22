@@ -6,17 +6,20 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public abstract class EntityFlying extends EntityLiving {
-    public EntityFlying(World worldIn) {
+    public EntityFlying(final World worldIn) {
         super(worldIn);
     }
 
-    public void fall(float distance, float damageMultiplier) {
+    public void fall(final float distance, final float damageMultiplier) {
     }
 
-    protected void updateFallState(double y, boolean onGroundIn, Block blockIn, BlockPos pos) {
+    protected void updateFallState(final double y, final boolean onGroundIn, final Block blockIn, final BlockPos pos) {
     }
 
-    public void moveEntityWithHeading(float strafe, float forward) {
+    /**
+     * Moves the entity based on the specified heading.  Args: strafe, forward
+     */
+    public void moveEntityWithHeading(final float strafe, final float forward) {
         if (this.isInWater()) {
             this.moveFlying(strafe, forward, 0.02F);
             this.moveEntity(this.motionX, this.motionY, this.motionZ);
@@ -36,7 +39,7 @@ public abstract class EntityFlying extends EntityLiving {
                 f = this.worldObj.getBlockState(new BlockPos(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.getEntityBoundingBox().minY) - 1, MathHelper.floor_double(this.posZ))).getBlock().slipperiness * 0.91F;
             }
 
-            float f1 = 0.16277136F / (f * f * f);
+            final float f1 = 0.16277136F / (f * f * f);
             this.moveFlying(strafe, forward, this.onGround ? 0.1F * f1 : 0.02F);
             f = 0.91F;
 
@@ -51,8 +54,8 @@ public abstract class EntityFlying extends EntityLiving {
         }
 
         this.prevLimbSwingAmount = this.limbSwingAmount;
-        double d1 = this.posX - this.prevPosX;
-        double d0 = this.posZ - this.prevPosZ;
+        final double d1 = this.posX - this.prevPosX;
+        final double d0 = this.posZ - this.prevPosZ;
         float f2 = MathHelper.sqrt_double(d1 * d1 + d0 * d0) * 4.0F;
 
         if (f2 > 1.0F) {
@@ -63,6 +66,9 @@ public abstract class EntityFlying extends EntityLiving {
         this.limbSwing += this.limbSwingAmount;
     }
 
+    /**
+     * returns true if this entity is by a ladder, false otherwise
+     */
     public boolean isOnLadder() {
         return false;
     }

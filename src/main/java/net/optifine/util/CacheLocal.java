@@ -11,7 +11,7 @@ public class CacheLocal {
     private int[] lastZs = null;
     private int lastDz = 0;
 
-    public CacheLocal(int maxX, int maxY, int maxZ) {
+    public CacheLocal(final int maxX, final int maxY, final int maxZ) {
         this.maxX = maxX;
         this.maxY = maxY;
         this.maxZ = maxZ;
@@ -21,10 +21,10 @@ public class CacheLocal {
 
     public void resetCache() {
         for (int i = 0; i < this.maxX; ++i) {
-            int[][] aint = this.cache[i];
+            final int[][] aint = this.cache[i];
 
             for (int j = 0; j < this.maxY; ++j) {
-                int[] aint1 = aint[j];
+                final int[] aint1 = aint[j];
 
                 for (int k = 0; k < this.maxZ; ++k) {
                     aint1[k] = -1;
@@ -33,28 +33,28 @@ public class CacheLocal {
         }
     }
 
-    public void setOffset(int x, int y, int z) {
+    public void setOffset(final int x, final int y, final int z) {
         this.offsetX = x;
         this.offsetY = y;
         this.offsetZ = z;
         this.resetCache();
     }
 
-    public int get(int x, int y, int z) {
+    public int get(final int x, final int y, final int z) {
         try {
             this.lastZs = this.cache[x - this.offsetX][y - this.offsetY];
             this.lastDz = z - this.offsetZ;
             return this.lastZs[this.lastDz];
-        } catch (ArrayIndexOutOfBoundsException arrayindexoutofboundsexception) {
+        } catch (final ArrayIndexOutOfBoundsException arrayindexoutofboundsexception) {
             arrayindexoutofboundsexception.printStackTrace();
             return -1;
         }
     }
 
-    public void setLast(int val) {
+    public void setLast(final int val) {
         try {
             this.lastZs[this.lastDz] = val;
-        } catch (Exception exception) {
+        } catch (final Exception exception) {
             exception.printStackTrace();
         }
     }

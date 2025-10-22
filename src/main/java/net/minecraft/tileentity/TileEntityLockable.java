@@ -11,12 +11,12 @@ import net.minecraft.world.LockCode;
 public abstract class TileEntityLockable extends TileEntity implements IInteractionObject, ILockableContainer {
     private LockCode code = LockCode.EMPTY_CODE;
 
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(final NBTTagCompound compound) {
         super.readFromNBT(compound);
         this.code = LockCode.fromNBT(compound);
     }
 
-    public void writeToNBT(NBTTagCompound compound) {
+    public void writeToNBT(final NBTTagCompound compound) {
         super.writeToNBT(compound);
 
         if (this.code != null) {
@@ -32,11 +32,14 @@ public abstract class TileEntityLockable extends TileEntity implements IInteract
         return this.code;
     }
 
-    public void setLockCode(LockCode code) {
+    public void setLockCode(final LockCode code) {
         this.code = code;
     }
 
+    /**
+     * Get the formatted ChatComponent that will be used for the sender's username in chat
+     */
     public IChatComponent getDisplayName() {
-        return this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]);
+        return this.hasCustomName() ? new ChatComponentText(this.getCommandSenderName()) : new ChatComponentTranslation(this.getCommandSenderName(), new Object[0]);
     }
 }

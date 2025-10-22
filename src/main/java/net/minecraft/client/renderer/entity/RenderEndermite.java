@@ -7,15 +7,18 @@ import net.minecraft.util.ResourceLocation;
 public class RenderEndermite extends RenderLiving<EntityEndermite> {
     private static final ResourceLocation ENDERMITE_TEXTURES = new ResourceLocation("textures/entity/endermite.png");
 
-    public RenderEndermite(RenderManager renderManagerIn) {
+    public RenderEndermite(final RenderManager renderManagerIn) {
         super(renderManagerIn, new ModelEnderMite(), 0.3F);
     }
 
-    protected float getDeathMaxRotation(EntityEndermite entityLivingBaseIn) {
+    protected float getDeathMaxRotation(final EntityEndermite entityLivingBaseIn) {
         return 180.0F;
     }
 
-    protected ResourceLocation getEntityTexture(EntityEndermite entity) {
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(final EntityEndermite entity) {
         return ENDERMITE_TEXTURES;
     }
 }

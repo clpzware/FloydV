@@ -1,15 +1,15 @@
 package net.minecraft.util;
 
 public class ChatComponentTranslationFormatException extends IllegalArgumentException {
-    public ChatComponentTranslationFormatException(ChatComponentTranslation component, String message) {
+    public ChatComponentTranslationFormatException(final ChatComponentTranslation component, final String message) {
         super(String.format("Error parsing: %s: %s", component, message));
     }
 
-    public ChatComponentTranslationFormatException(ChatComponentTranslation component, int index) {
-        super(String.format("Invalid index %d requested for %s", index, component));
+    public ChatComponentTranslationFormatException(final ChatComponentTranslation component, final int index) {
+        super(String.format("Invalid index %d requested for %s", Integer.valueOf(index), component));
     }
 
-    public ChatComponentTranslationFormatException(ChatComponentTranslation component, Throwable cause) {
+    public ChatComponentTranslationFormatException(final ChatComponentTranslation component, final Throwable cause) {
         super(String.format("Error while parsing: %s", component), cause);
     }
 }

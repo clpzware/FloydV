@@ -1,14 +1,12 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
-
-import lombok.Setter;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
 
+import java.io.IOException;
+
 public class C01PacketChatMessage implements Packet<INetHandlerPlayServer> {
-    @Setter
     private String message;
 
     public C01PacketChatMessage() {
@@ -22,15 +20,24 @@ public class C01PacketChatMessage implements Packet<INetHandlerPlayServer> {
         this.message = messageIn;
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.message = buf.readStringFromBuffer(100);
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeString(this.message);
     }
 
-    public void processPacket(INetHandlerPlayServer handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayServer handler) {
         handler.processChatMessage(this);
     }
 

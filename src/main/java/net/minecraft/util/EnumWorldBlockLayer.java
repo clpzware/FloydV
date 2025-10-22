@@ -8,7 +8,7 @@ public enum EnumWorldBlockLayer {
 
     private final String layerName;
 
-    EnumWorldBlockLayer(String layerNameIn) {
+    EnumWorldBlockLayer(final String layerNameIn) {
         this.layerName = layerNameIn;
     }
 

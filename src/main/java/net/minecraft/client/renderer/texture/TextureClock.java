@@ -4,16 +4,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.MathHelper;
 
 public class TextureClock extends TextureAtlasSprite {
-    private double currentAngle;
-    private double angleDelta;
+    private double field_94239_h;
+    private double field_94240_i;
 
-    public TextureClock(String iconName) {
+    public TextureClock(final String iconName) {
         super(iconName);
     }
 
     public void updateAnimation() {
         if (!this.framesTextureData.isEmpty()) {
-            Minecraft minecraft = Minecraft.getMinecraft();
+            final Minecraft minecraft = Minecraft.getMinecraft();
             double d0 = 0.0D;
 
             if (minecraft.theWorld != null && minecraft.thePlayer != null) {
@@ -26,7 +26,7 @@ public class TextureClock extends TextureAtlasSprite {
 
             double d1;
 
-            for (d1 = d0 - this.currentAngle; d1 < -0.5D; ++d1) {
+            for (d1 = d0 - this.field_94239_h; d1 < -0.5D; ++d1) {
             }
 
             while (d1 >= 0.5D) {
@@ -34,12 +34,12 @@ public class TextureClock extends TextureAtlasSprite {
             }
 
             d1 = MathHelper.clamp_double(d1, -1.0D, 1.0D);
-            this.angleDelta += d1 * 0.1D;
-            this.angleDelta *= 0.8D;
-            this.currentAngle += this.angleDelta;
+            this.field_94240_i += d1 * 0.1D;
+            this.field_94240_i *= 0.8D;
+            this.field_94239_h += this.field_94240_i;
             int i;
 
-            for (i = (int) ((this.currentAngle + 1.0D) * (double) this.framesTextureData.size()) % this.framesTextureData.size(); i < 0; i = (i + this.framesTextureData.size()) % this.framesTextureData.size()) {
+            for (i = (int) ((this.field_94239_h + 1.0D) * (double) this.framesTextureData.size()) % this.framesTextureData.size(); i < 0; i = (i + this.framesTextureData.size()) % this.framesTextureData.size()) {
             }
 
             if (i != this.frameCounter) {

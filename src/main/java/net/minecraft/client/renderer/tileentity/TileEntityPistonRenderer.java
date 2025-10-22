@@ -17,14 +17,14 @@ import net.minecraft.world.World;
 public class TileEntityPistonRenderer extends TileEntitySpecialRenderer<TileEntityPiston> {
     private final BlockRendererDispatcher blockRenderer = Minecraft.getMinecraft().getBlockRendererDispatcher();
 
-    public void renderTileEntityAt(TileEntityPiston te, double x, double y, double z, float partialTicks, int destroyStage) {
-        BlockPos blockpos = te.getPos();
+    public void renderTileEntityAt(final TileEntityPiston te, final double x, final double y, final double z, final float partialTicks, final int destroyStage) {
+        final BlockPos blockpos = te.getPos();
         IBlockState iblockstate = te.getPistonState();
-        Block block = iblockstate.getBlock();
+        final Block block = iblockstate.getBlock();
 
         if (block.getMaterial() != Material.air && te.getProgress(partialTicks) < 1.0F) {
-            Tessellator tessellator = Tessellator.getInstance();
-            WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+            final Tessellator tessellator = Tessellator.getInstance();
+            final WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             this.bindTexture(TextureMap.locationBlocksTexture);
             RenderHelper.disableStandardItemLighting();
             GlStateManager.blendFunc(770, 771);
@@ -39,18 +39,18 @@ public class TileEntityPistonRenderer extends TileEntitySpecialRenderer<TileEnti
 
             worldrenderer.begin(7, DefaultVertexFormats.BLOCK);
             worldrenderer.setTranslation((float) x - (float) blockpos.getX() + te.getOffsetX(partialTicks), (float) y - (float) blockpos.getY() + te.getOffsetY(partialTicks), (float) z - (float) blockpos.getZ() + te.getOffsetZ(partialTicks));
-            World world = this.getWorld();
+            final World world = this.getWorld();
 
             if (block == Blocks.piston_head && te.getProgress(partialTicks) < 0.5F) {
-                iblockstate = iblockstate.withProperty(BlockPistonExtension.SHORT, Boolean.TRUE);
+                iblockstate = iblockstate.withProperty(BlockPistonExtension.SHORT, Boolean.valueOf(true));
                 this.blockRenderer.getBlockModelRenderer().renderModel(world, this.blockRenderer.getModelFromBlockState(iblockstate, world, blockpos), iblockstate, blockpos, worldrenderer, true);
             } else if (te.shouldPistonHeadBeRendered() && !te.isExtending()) {
-                BlockPistonExtension.EnumPistonType blockpistonextension$enumpistontype = block == Blocks.sticky_piston ? BlockPistonExtension.EnumPistonType.STICKY : BlockPistonExtension.EnumPistonType.DEFAULT;
+                final BlockPistonExtension.EnumPistonType blockpistonextension$enumpistontype = block == Blocks.sticky_piston ? BlockPistonExtension.EnumPistonType.STICKY : BlockPistonExtension.EnumPistonType.DEFAULT;
                 IBlockState iblockstate1 = Blocks.piston_head.getDefaultState().withProperty(BlockPistonExtension.TYPE, blockpistonextension$enumpistontype).withProperty(BlockPistonExtension.FACING, iblockstate.getValue(BlockPistonBase.FACING));
-                iblockstate1 = iblockstate1.withProperty(BlockPistonExtension.SHORT, te.getProgress(partialTicks) >= 0.5F);
+                iblockstate1 = iblockstate1.withProperty(BlockPistonExtension.SHORT, Boolean.valueOf(te.getProgress(partialTicks) >= 0.5F));
                 this.blockRenderer.getBlockModelRenderer().renderModel(world, this.blockRenderer.getModelFromBlockState(iblockstate1, world, blockpos), iblockstate1, blockpos, worldrenderer, true);
                 worldrenderer.setTranslation((float) x - (float) blockpos.getX(), (float) y - (float) blockpos.getY(), (float) z - (float) blockpos.getZ());
-                iblockstate.withProperty(BlockPistonBase.EXTENDED, Boolean.TRUE);
+                iblockstate.withProperty(BlockPistonBase.EXTENDED, Boolean.valueOf(true));
                 this.blockRenderer.getBlockModelRenderer().renderModel(world, this.blockRenderer.getModelFromBlockState(iblockstate, world, blockpos), iblockstate, blockpos, worldrenderer, true);
             } else {
                 this.blockRenderer.getBlockModelRenderer().renderModel(world, this.blockRenderer.getModelFromBlockState(iblockstate, world, blockpos), iblockstate, blockpos, worldrenderer, false);
@@ -60,5 +60,10 @@ public class TileEntityPistonRenderer extends TileEntitySpecialRenderer<TileEnti
             tessellator.draw();
             RenderHelper.enableStandardItemLighting();
         }
+    }
+
+    @Override
+    public void renderBasicTileEntityAt(TileEntityPiston te, double x, double y, double z, float partialTicks, int destroyStage) {
+
     }
 }

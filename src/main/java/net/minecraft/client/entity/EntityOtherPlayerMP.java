@@ -18,7 +18,7 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
     private double otherPlayerMPYaw;
     private double otherPlayerMPPitch;
 
-    public EntityOtherPlayerMP(World worldIn, GameProfile gameProfileIn) {
+    public EntityOtherPlayerMP(final World worldIn, final GameProfile gameProfileIn) {
         super(worldIn, gameProfileIn);
         this.stepHeight = 0.0F;
         this.noClip = true;
@@ -26,11 +26,14 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
         this.renderDistanceWeight = 10.0D;
     }
 
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    /**
+     * Called when the entity is attacked.
+     */
+    public boolean attackEntityFrom(final DamageSource source, final float amount) {
         return true;
     }
 
-    public void setPositionAndRotation2(double x, double y, double z, float yaw, float pitch, int posRotationIncrements, boolean p_180426_10_) {
+    public void setPositionAndRotation2(final double x, final double y, final double z, final float yaw, final float pitch, final int posRotationIncrements, final boolean p_180426_10_) {
         this.otherPlayerMPX = x;
         this.otherPlayerMPY = y;
         this.otherPlayerMPZ = z;
@@ -39,12 +42,15 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
         this.otherPlayerMPPosRotationIncrements = posRotationIncrements;
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate() {
         this.renderOffsetY = 0.0F;
         super.onUpdate();
         this.prevLimbSwingAmount = this.limbSwingAmount;
-        double d0 = this.posX - this.prevPosX;
-        double d1 = this.posZ - this.prevPosZ;
+        final double d0 = this.posX - this.prevPosX;
+        final double d1 = this.posZ - this.prevPosZ;
         float f = MathHelper.sqrt_double(d0 * d0 + d1 * d1) * 4.0F;
 
         if (f > 1.0F) {
@@ -55,7 +61,7 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
         this.limbSwing += this.limbSwingAmount;
 
         if (!this.isItemInUse && this.isEating() && this.inventory.mainInventory[this.inventory.currentItem] != null) {
-            ItemStack itemstack = this.inventory.mainInventory[this.inventory.currentItem];
+            final ItemStack itemstack = this.inventory.mainInventory[this.inventory.currentItem];
             this.setItemInUse(this.inventory.mainInventory[this.inventory.currentItem], itemstack.getItem().getMaxItemUseDuration(itemstack));
             this.isItemInUse = true;
         } else if (this.isItemInUse && !this.isEating()) {
@@ -64,11 +70,15 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
         }
     }
 
+    /**
+     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
+     * use this to react to sunlight and start to burn.
+     */
     public void onLivingUpdate() {
         if (this.otherPlayerMPPosRotationIncrements > 0) {
-            double d0 = this.posX + (this.otherPlayerMPX - this.posX) / (double) this.otherPlayerMPPosRotationIncrements;
-            double d1 = this.posY + (this.otherPlayerMPY - this.posY) / (double) this.otherPlayerMPPosRotationIncrements;
-            double d2 = this.posZ + (this.otherPlayerMPZ - this.posZ) / (double) this.otherPlayerMPPosRotationIncrements;
+            final double d0 = this.posX + (this.otherPlayerMPX - this.posX) / (double) this.otherPlayerMPPosRotationIncrements;
+            final double d1 = this.posY + (this.otherPlayerMPY - this.posY) / (double) this.otherPlayerMPPosRotationIncrements;
+            final double d2 = this.posZ + (this.otherPlayerMPZ - this.posZ) / (double) this.otherPlayerMPPosRotationIncrements;
             double d3;
 
             for (d3 = this.otherPlayerMPYaw - (double) this.rotationYaw; d3 < -180.0D; d3 += 360.0D) {
@@ -106,7 +116,10 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
         this.cameraPitch += (f - this.cameraPitch) * 0.8F;
     }
 
-    public void setCurrentItemOrArmor(int slotIn, ItemStack stack) {
+    /**
+     * Sets the held item, or an armor slot. Slot 0 is held item. Slot 1-4 is armor. Params: Item, slot
+     */
+    public void setCurrentItemOrArmor(final int slotIn, final ItemStack stack) {
         if (slotIn == 0) {
             this.inventory.mainInventory[this.inventory.currentItem] = stack;
         } else {
@@ -114,14 +127,29 @@ public class EntityOtherPlayerMP extends AbstractClientPlayer {
         }
     }
 
-    public void addChatMessage(IChatComponent component) {
+    /**
+     * Send a chat message to the CommandSender
+     *
+     * @param component The ChatComponent to send
+     */
+    public void addChatMessage(final IChatComponent component) {
         Minecraft.getMinecraft().ingameGUI.getChatGUI().printChatMessage(component);
     }
 
-    public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
+    /**
+     * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
+     *
+     * @param permLevel   The permission level required to execute the command
+     * @param commandName The name of the command
+     */
+    public boolean canCommandSenderUseCommand(final int permLevel, final String commandName) {
         return false;
     }
 
+    /**
+     * Get the position in the world. <b>{@code null} is not allowed!</b> If you are not an entity in the world, return
+     * the coordinates 0, 0, 0
+     */
     public BlockPos getPosition() {
         return new BlockPos(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D);
     }

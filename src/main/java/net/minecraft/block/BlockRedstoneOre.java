@@ -18,7 +18,7 @@ import java.util.Random;
 public class BlockRedstoneOre extends Block {
     private final boolean isOn;
 
-    public BlockRedstoneOre(boolean isOn) {
+    public BlockRedstoneOre(final boolean isOn) {
         super(Material.rock);
 
         if (isOn) {
@@ -28,26 +28,32 @@ public class BlockRedstoneOre extends Block {
         this.isOn = isOn;
     }
 
-    public int tickRate(World worldIn) {
+    /**
+     * How many world ticks before ticking
+     */
+    public int tickRate(final World worldIn) {
         return 30;
     }
 
-    public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+    public void onBlockClicked(final World worldIn, final BlockPos pos, final EntityPlayer playerIn) {
         this.activate(worldIn, pos);
         super.onBlockClicked(worldIn, pos, playerIn);
     }
 
-    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, Entity entityIn) {
+    /**
+     * Triggered whenever an entity collides with this block (enters into the block)
+     */
+    public void onEntityCollidedWithBlock(final World worldIn, final BlockPos pos, final Entity entityIn) {
         this.activate(worldIn, pos);
         super.onEntityCollidedWithBlock(worldIn, pos, entityIn);
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos, final IBlockState state, final EntityPlayer playerIn, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         this.activate(worldIn, pos);
         return super.onBlockActivated(worldIn, pos, state, playerIn, side, hitX, hitY, hitZ);
     }
 
-    private void activate(World worldIn, BlockPos pos) {
+    private void activate(final World worldIn, final BlockPos pos) {
         this.spawnParticles(worldIn, pos);
 
         if (this == Blocks.redstone_ore) {
@@ -55,42 +61,59 @@ public class BlockRedstoneOre extends Block {
         }
     }
 
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(final World worldIn, final BlockPos pos, final IBlockState state, final Random rand) {
         if (this == Blocks.lit_redstone_ore) {
             worldIn.setBlockState(pos, Blocks.redstone_ore.getDefaultState());
         }
     }
 
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    /**
+     * Get the Item that this Block should drop when harvested.
+     *
+     * @param fortune the level of the Fortune enchantment on the player's tool
+     */
+    public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
         return Items.redstone;
     }
 
-    public int quantityDroppedWithBonus(int fortune, Random random) {
+    /**
+     * Get the quantity dropped based on the given fortune level
+     */
+    public int quantityDroppedWithBonus(final int fortune, final Random random) {
         return this.quantityDropped(random) + random.nextInt(fortune + 1);
     }
 
-    public int quantityDropped(Random random) {
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
+    public int quantityDropped(final Random random) {
         return 4 + random.nextInt(2);
     }
 
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+    /**
+     * Spawns this Block's drops into the World as EntityItems.
+     *
+     * @param chance  The chance that each Item is actually spawned (1.0 = always, 0.0 = never)
+     * @param fortune The player's fortune level
+     */
+    public void dropBlockAsItemWithChance(final World worldIn, final BlockPos pos, final IBlockState state, final float chance, final int fortune) {
         super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
 
         if (this.getItemDropped(state, worldIn.rand, fortune) != Item.getItemFromBlock(this)) {
-            int i = 1 + worldIn.rand.nextInt(5);
+            final int i = 1 + worldIn.rand.nextInt(5);
             this.dropXpOnBlockBreak(worldIn, pos, i);
         }
     }
 
-    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void randomDisplayTick(final World worldIn, final BlockPos pos, final IBlockState state, final Random rand) {
         if (this.isOn) {
             this.spawnParticles(worldIn, pos);
         }
     }
 
-    private void spawnParticles(World worldIn, BlockPos pos) {
-        Random random = worldIn.rand;
-        double d0 = 0.0625D;
+    private void spawnParticles(final World worldIn, final BlockPos pos) {
+        final Random random = worldIn.rand;
+        final double d0 = 0.0625D;
 
         for (int i = 0; i < 6; ++i) {
             double d1 = (float) pos.getX() + random.nextFloat();
@@ -127,7 +150,7 @@ public class BlockRedstoneOre extends Block {
         }
     }
 
-    protected ItemStack createStackedBlock(IBlockState state) {
+    protected ItemStack createStackedBlock(final IBlockState state) {
         return new ItemStack(Blocks.redstone_ore);
     }
 }

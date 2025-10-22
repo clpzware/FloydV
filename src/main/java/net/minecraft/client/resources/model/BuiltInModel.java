@@ -1,20 +1,20 @@
 package net.minecraft.client.resources.model;
 
-import java.util.List;
-
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
 
+import java.util.List;
+
 public class BuiltInModel implements IBakedModel {
     private final ItemCameraTransforms cameraTransforms;
 
-    public BuiltInModel(ItemCameraTransforms p_i46086_1_) {
+    public BuiltInModel(final ItemCameraTransforms p_i46086_1_) {
         this.cameraTransforms = p_i46086_1_;
     }
 
-    public List<BakedQuad> getFaceQuads(EnumFacing facing) {
+    public List<BakedQuad> getFaceQuads(final EnumFacing p_177551_1_) {
         return null;
     }
 
@@ -34,7 +34,7 @@ public class BuiltInModel implements IBakedModel {
         return true;
     }
 
-    public TextureAtlasSprite getParticleTexture() {
+    public TextureAtlasSprite getTexture() {
         return null;
     }
 

@@ -12,11 +12,11 @@ public abstract class ShaderUniformBase {
     private static final int LOCATION_UNDEFINED = -1;
     private static final int LOCATION_UNKNOWN = Integer.MIN_VALUE;
 
-    public ShaderUniformBase(String name) {
+    public ShaderUniformBase(final String name) {
         this.name = name;
     }
 
-    public void setProgram(int program) {
+    public void setProgram(final int program) {
         if (this.program != program) {
             this.program = program;
             this.expandLocations();
@@ -26,7 +26,7 @@ public abstract class ShaderUniformBase {
 
     private void expandLocations() {
         if (this.program >= this.locations.length) {
-            int[] aint = new int[this.program * 2];
+            final int[] aint = new int[this.program * 2];
             Arrays.fill(aint, Integer.MIN_VALUE);
             System.arraycopy(this.locations, 0, aint, 0, this.locations.length);
             this.locations = aint;

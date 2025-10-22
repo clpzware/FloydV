@@ -8,23 +8,24 @@ import net.minecraft.world.IWorldNameable;
 import net.optifine.reflect.Reflector;
 
 public class TileEntityUtils {
-    public static String getTileEntityName(IBlockAccess blockAccess, BlockPos blockPos) {
-        TileEntity tileentity = blockAccess.getTileEntity(blockPos);
+    public static String getTileEntityName(final IBlockAccess blockAccess, final BlockPos blockPos) {
+        final TileEntity tileentity = blockAccess.getTileEntity(blockPos);
         return getTileEntityName(tileentity);
     }
 
-    public static String getTileEntityName(TileEntity te) {
-        if (!(te instanceof IWorldNameable iworldnameable)) {
+    public static String getTileEntityName(final TileEntity te) {
+        if (!(te instanceof IWorldNameable)) {
             return null;
         } else {
+            final IWorldNameable iworldnameable = (IWorldNameable) te;
             updateTileEntityName(te);
-            return !iworldnameable.hasCustomName() ? null : iworldnameable.getName();
+            return !iworldnameable.hasCustomName() ? null : iworldnameable.getCommandSenderName();
         }
     }
 
-    public static void updateTileEntityName(TileEntity te) {
-        BlockPos blockpos = te.getPos();
-        String s = getTileEntityRawName(te);
+    public static void updateTileEntityName(final TileEntity te) {
+        final BlockPos blockpos = te.getPos();
+        final String s = getTileEntityRawName(te);
 
         if (s == null) {
             String s1 = getServerTileEntityRawName(blockpos);
@@ -33,12 +34,12 @@ public class TileEntityUtils {
         }
     }
 
-    public static String getServerTileEntityRawName(BlockPos blockPos) {
-        TileEntity tileentity = IntegratedServerUtils.getTileEntity(blockPos);
+    public static String getServerTileEntityRawName(final BlockPos blockPos) {
+        final TileEntity tileentity = IntegratedServerUtils.getTileEntity(blockPos);
         return tileentity == null ? null : getTileEntityRawName(tileentity);
     }
 
-    public static String getTileEntityRawName(TileEntity te) {
+    public static String getTileEntityRawName(final TileEntity te) {
         if (te instanceof TileEntityBeacon) {
             return (String) Reflector.getFieldValue(te, Reflector.TileEntityBeacon_customName);
         } else if (te instanceof TileEntityBrewingStand) {
@@ -48,10 +49,11 @@ public class TileEntityUtils {
         } else if (te instanceof TileEntityFurnace) {
             return (String) Reflector.getFieldValue(te, Reflector.TileEntityFurnace_customName);
         } else {
-            if (te instanceof IWorldNameable iworldnameable) {
+            if (te instanceof IWorldNameable) {
+                final IWorldNameable iworldnameable = (IWorldNameable) te;
 
                 if (iworldnameable.hasCustomName()) {
-                    return iworldnameable.getName();
+                    return iworldnameable.getCommandSenderName();
                 }
             }
 
@@ -59,7 +61,7 @@ public class TileEntityUtils {
         }
     }
 
-    public static boolean setTileEntityRawName(TileEntity te, String name) {
+    public static boolean setTileEntityRawName(final TileEntity te, final String name) {
         if (te instanceof TileEntityBeacon) {
             return Reflector.setFieldValue(te, Reflector.TileEntityBeacon_customName, name);
         } else if (te instanceof TileEntityBrewingStand) {

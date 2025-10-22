@@ -10,13 +10,21 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class RenderTNTPrimed extends Render<EntityTNTPrimed> {
-    public RenderTNTPrimed(RenderManager renderManagerIn) {
+    public RenderTNTPrimed(final RenderManager renderManagerIn) {
         super(renderManagerIn);
         this.shadowSize = 0.5F;
     }
 
-    public void doRender(EntityTNTPrimed entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+    /**
+     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
+     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
+     * (Render<T extends Entity>) and this method has signature public void doRender(T entity, double d, double d1,
+     * double d2, float f, float f1). But JAD is pre 1.5 so doe
+     *
+     * @param entityYaw The yaw rotation of the passed entity
+     */
+    public void doRender(final EntityTNTPrimed entity, final double x, final double y, final double z, final float entityYaw, final float partialTicks) {
+        final BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x, (float) y + 0.5F, (float) z);
 
@@ -25,11 +33,11 @@ public class RenderTNTPrimed extends Render<EntityTNTPrimed> {
             f = MathHelper.clamp_float(f, 0.0F, 1.0F);
             f = f * f;
             f = f * f;
-            float f1 = 1.0F + f * 0.3F;
+            final float f1 = 1.0F + f * 0.3F;
             GlStateManager.scale(f1, f1, f1);
         }
 
-        float f2 = (1.0F - ((float) entity.fuse - partialTicks + 1.0F) / 100.0F) * 0.8F;
+        final float f2 = (1.0F - ((float) entity.fuse - partialTicks + 1.0F) / 100.0F) * 0.8F;
         this.bindEntityTexture(entity);
         GlStateManager.translate(-0.5F, -0.5F, 0.5F);
         blockrendererdispatcher.renderBlockBrightness(Blocks.tnt.getDefaultState(), entity.getBrightness(partialTicks));
@@ -56,7 +64,10 @@ public class RenderTNTPrimed extends Render<EntityTNTPrimed> {
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 
-    protected ResourceLocation getEntityTexture(EntityTNTPrimed entity) {
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(final EntityTNTPrimed entity) {
         return TextureMap.locationBlocksTexture;
     }
 }

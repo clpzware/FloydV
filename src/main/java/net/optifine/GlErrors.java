@@ -1,7 +1,5 @@
 package net.optifine;
 
-import net.minecraft.src.Config;
-
 public class GlErrors {
     private static boolean frameStarted = false;
     private static long timeCheckStartMs = -1L;
@@ -19,20 +17,20 @@ public class GlErrors {
             timeCheckStartMs = System.currentTimeMillis();
         }
 
-        if (System.currentTimeMillis() > timeCheckStartMs + 3000L) {
-            if (countErrorsSuppressed > 0) {
-                Config.error("Suppressed " + countErrors + " OpenGL errors");
-            }
-
-            suppressed = countErrors > 10;
-            timeCheckStartMs = System.currentTimeMillis();
-            countErrors = 0;
-            countErrorsSuppressed = 0;
-            oneErrorEnabled = true;
-        }
+//        if (System.currentTimeMillis() > timeCheckStartMs + 3000L) {
+//            if (countErrorsSuppressed > 0) {
+//                Config.error("Suppressed " + countErrors + " OpenGL errors");
+//            }
+//
+//            suppressed = countErrors > 10;
+//            timeCheckStartMs = System.currentTimeMillis();
+//            countErrors = 0;
+//            countErrorsSuppressed = 0;
+//            oneErrorEnabled = true;
+//        }
     }
 
-    public static boolean isEnabled(int error) {
+    public static boolean isEnabled(final int error) {
         if (!frameStarted) {
             return true;
         } else {

@@ -1,5 +1,7 @@
 package net.optifine;
 
+import com.alan.clients.Client;
+import com.alan.clients.event.impl.other.WorldChangeEvent;
 import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.DataWatcher;
@@ -21,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class RandomEntities {
     private static final Map<String, RandomEntityProperties> mapProperties = new HashMap();
@@ -39,15 +42,15 @@ public class RandomEntities {
     public static final String PREFIX_MCPATCHER_MOB = "mcpatcher/mob/";
     private static final String[] DEPENDANT_SUFFIXES = new String[]{"_armor", "_eyes", "_exploding", "_shooting", "_fur", "_eyes", "_invulnerable", "_angry", "_tame", "_collar"};
     private static final String PREFIX_DYNAMIC_TEXTURE_HORSE = "horse/";
-    private static final String[] HORSE_TEXTURES = (String[]) ReflectorRaw.getFieldValue(null, EntityHorse.class, String[].class, 2);
-    private static final String[] HORSE_TEXTURES_ABBR = (String[]) ReflectorRaw.getFieldValue(null, EntityHorse.class, String[].class, 3);
+    private static final String[] HORSE_TEXTURES = (String[]) ReflectorRaw.getFieldValue(null, EntityHorse.class, String[].class, 0);
+    private static final String[] HORSE_TEXTURES_ABBR = (String[]) ReflectorRaw.getFieldValue(null, EntityHorse.class, String[].class, 1);
 
-    public static void entityLoaded(Entity entity, World world) {
+    public static void entityLoaded(final Entity entity, final World world) {
         if (world != null) {
-            DataWatcher datawatcher = entity.getDataWatcher();
+            final DataWatcher datawatcher = entity.getDataWatcher();
             datawatcher.spawnPosition = entity.getPosition();
             datawatcher.spawnBiome = world.getBiomeGenForCoords(datawatcher.spawnPosition);
-            UUID uuid = entity.getUniqueID();
+            final UUID uuid = entity.getUniqueID();
 
             if (entity instanceof EntityVillager) {
                 updateEntityVillager(uuid, (EntityVillager) entity);
@@ -55,28 +58,31 @@ public class RandomEntities {
         }
     }
 
-    public static void entityUnloaded(Entity entity, World world) {
+    public static void entityUnloaded(final Entity entity, final World world) {
     }
 
-    private static void updateEntityVillager(UUID uuid, EntityVillager ev) {
-        Entity entity = IntegratedServerUtils.getEntity(uuid);
+    private static void updateEntityVillager(final UUID uuid, final EntityVillager ev) {
+        final Entity entity = IntegratedServerUtils.getEntity(uuid);
 
-        if (entity instanceof EntityVillager entityvillager) {
-            int i = entityvillager.getProfession();
+        if (entity instanceof EntityVillager) {
+            final EntityVillager entityvillager = (EntityVillager) entity;
+            final int i = entityvillager.getProfession();
             ev.setProfession(i);
-            int j = Reflector.getFieldValueInt(entityvillager, Reflector.EntityVillager_careerId, 0);
+            final int j = Reflector.getFieldValueInt(entityvillager, Reflector.EntityVillager_careerId, 0);
             Reflector.setFieldValueInt(ev, Reflector.EntityVillager_careerId, j);
-            int k = Reflector.getFieldValueInt(entityvillager, Reflector.EntityVillager_careerLevel, 0);
+            final int k = Reflector.getFieldValueInt(entityvillager, Reflector.EntityVillager_careerLevel, 0);
             Reflector.setFieldValueInt(ev, Reflector.EntityVillager_careerLevel, k);
         }
     }
 
-    public static void worldChanged(World oldWorld, World newWorld) {
-        if (newWorld != null) {
-            List list = newWorld.getLoadedEntityList();
+    public static void worldChanged(final World oldWorld, final World newWorld) {
+        Client.INSTANCE.getEventBus().handle(new WorldChangeEvent());
 
-            for (Object o : list) {
-                Entity entity = (Entity) o;
+        if (newWorld != null) {
+            final ConcurrentLinkedQueue list = newWorld.getLoadedEntityList();
+
+            for (final Object o : list) {
+                final Entity entity = (Entity) o;
                 entityLoaded(entity, newWorld);
             }
         }
@@ -85,7 +91,7 @@ public class RandomEntities {
         randomTileEntity.setTileEntity(null);
     }
 
-    public static ResourceLocation getTextureLocation(ResourceLocation loc) {
+    public static ResourceLocation getTextureLocation(final ResourceLocation loc) {
         if (!active) {
             return loc;
         } else if (working) {
@@ -95,7 +101,7 @@ public class RandomEntities {
 
             try {
                 working = true;
-                IRandomEntity irandomentity = getRandomEntityRendered();
+                final IRandomEntity irandomentity = getRandomEntityRendered();
 
                 if (irandomentity != null) {
                     String s = loc.getResourcePath();
@@ -105,22 +111,24 @@ public class RandomEntities {
                     }
 
                     if (!s.startsWith("textures/entity/") && !s.startsWith("textures/painting/")) {
-                        ResourceLocation resourcelocation2 = loc;
+                        final ResourceLocation resourcelocation2 = loc;
                         return resourcelocation2;
                     }
 
-                    RandomEntityProperties randomentityproperties = mapProperties.get(s);
+                    final RandomEntityProperties randomentityproperties = mapProperties.get(s);
 
                     if (randomentityproperties == null) {
-                        ResourceLocation resourcelocation3 = loc;
+                        final ResourceLocation resourcelocation3 = loc;
                         return resourcelocation3;
                     }
 
-                    ResourceLocation resourcelocation1 = randomentityproperties.getTextureLocation(loc, irandomentity);
+                    final ResourceLocation resourcelocation1 = randomentityproperties.getTextureLocation(loc, irandomentity);
                     return resourcelocation1;
                 }
 
                 name = loc;
+            } catch (final Exception ignored) {
+                return name = loc;
             } finally {
                 working = false;
             }
@@ -129,10 +137,10 @@ public class RandomEntities {
         }
     }
 
-    private static String getHorseTexturePath(String path, int pos) {
+    private static String getHorseTexturePath(final String path, final int pos) {
         if (HORSE_TEXTURES != null && HORSE_TEXTURES_ABBR != null) {
             for (int i = 0; i < HORSE_TEXTURES_ABBR.length; ++i) {
-                String s = HORSE_TEXTURES_ABBR[i];
+                final String s = HORSE_TEXTURES_ABBR[i];
 
                 if (path.startsWith(s, pos)) {
                     return HORSE_TEXTURES[i];
@@ -151,7 +159,7 @@ public class RandomEntities {
             return randomEntity;
         } else {
             if (tileEntityRendererDispatcher.tileEntityRendered != null) {
-                TileEntity tileentity = tileEntityRendererDispatcher.tileEntityRendered;
+                final TileEntity tileentity = tileEntityRendererDispatcher.tileEntityRendered;
 
                 if (tileentity.getWorld() != null) {
                     randomTileEntity.setTileEntity(tileentity);
@@ -163,77 +171,77 @@ public class RandomEntities {
         }
     }
 
-    private static RandomEntityProperties makeProperties(ResourceLocation loc, boolean mcpatcher) {
-        String s = loc.getResourcePath();
-        ResourceLocation resourcelocation = getLocationProperties(loc, mcpatcher);
+    private static RandomEntityProperties makeProperties(final ResourceLocation loc, final boolean mcpatcher) {
+        final String s = loc.getResourcePath();
+        final ResourceLocation resourcelocation = getLocationProperties(loc, mcpatcher);
 
         if (resourcelocation != null) {
-            RandomEntityProperties randomentityproperties = parseProperties(resourcelocation, loc);
+            final RandomEntityProperties randomentityproperties = parseProperties(resourcelocation, loc);
 
             if (randomentityproperties != null) {
                 return randomentityproperties;
             }
         }
 
-        ResourceLocation[] aresourcelocation = getLocationsVariants(loc, mcpatcher);
+        final ResourceLocation[] aresourcelocation = getLocationsVariants(loc, mcpatcher);
         return aresourcelocation == null ? null : new RandomEntityProperties(s, aresourcelocation);
     }
 
-    private static RandomEntityProperties parseProperties(ResourceLocation propLoc, ResourceLocation resLoc) {
+    private static RandomEntityProperties parseProperties(final ResourceLocation propLoc, final ResourceLocation resLoc) {
         try {
-            String s = propLoc.getResourcePath();
+            final String s = propLoc.getResourcePath();
             dbg(resLoc.getResourcePath() + ", properties: " + s);
-            InputStream inputstream = Config.getResourceStream(propLoc);
+            final InputStream inputstream = Config.getResourceStream(propLoc);
 
             if (inputstream == null) {
                 warn("Properties not found: " + s);
                 return null;
             } else {
-                Properties properties = new PropertiesOrdered();
+                final Properties properties = new PropertiesOrdered();
                 properties.load(inputstream);
                 inputstream.close();
-                RandomEntityProperties randomentityproperties = new RandomEntityProperties(properties, s, resLoc);
+                final RandomEntityProperties randomentityproperties = new RandomEntityProperties(properties, s, resLoc);
                 return !randomentityproperties.isValid(s) ? null : randomentityproperties;
             }
-        } catch (FileNotFoundException var6) {
+        } catch (final FileNotFoundException var6) {
             warn("File not found: " + resLoc.getResourcePath());
             return null;
-        } catch (IOException ioexception) {
+        } catch (final IOException ioexception) {
             ioexception.printStackTrace();
             return null;
         }
     }
 
-    private static ResourceLocation getLocationProperties(ResourceLocation loc, boolean mcpatcher) {
-        ResourceLocation resourcelocation = getLocationRandom(loc, mcpatcher);
+    private static ResourceLocation getLocationProperties(final ResourceLocation loc, final boolean mcpatcher) {
+        final ResourceLocation resourcelocation = getLocationRandom(loc, mcpatcher);
 
         if (resourcelocation == null) {
             return null;
         } else {
-            String s = resourcelocation.getResourceDomain();
-            String s1 = resourcelocation.getResourcePath();
-            String s2 = StrUtils.removeSuffix(s1, ".png");
-            String s3 = s2 + ".properties";
-            ResourceLocation resourcelocation1 = new ResourceLocation(s, s3);
+            final String s = resourcelocation.getResourceDomain();
+            final String s1 = resourcelocation.getResourcePath();
+            final String s2 = StrUtils.removeSuffix(s1, ".png");
+            final String s3 = s2 + ".properties";
+            final ResourceLocation resourcelocation1 = new ResourceLocation(s, s3);
 
             if (Config.hasResource(resourcelocation1)) {
                 return resourcelocation1;
             } else {
-                String s4 = getParentTexturePath(s2);
+                final String s4 = getParentTexturePath(s2);
 
                 if (s4 == null) {
                     return null;
                 } else {
-                    ResourceLocation resourcelocation2 = new ResourceLocation(s, s4 + ".properties");
+                    final ResourceLocation resourcelocation2 = new ResourceLocation(s, s4 + ".properties");
                     return Config.hasResource(resourcelocation2) ? resourcelocation2 : null;
                 }
             }
         }
     }
 
-    protected static ResourceLocation getLocationRandom(ResourceLocation loc, boolean mcpatcher) {
-        String s = loc.getResourceDomain();
-        String s1 = loc.getResourcePath();
+    protected static ResourceLocation getLocationRandom(final ResourceLocation loc, final boolean mcpatcher) {
+        final String s = loc.getResourceDomain();
+        final String s1 = loc.getResourcePath();
         String s2 = "textures/";
         String s3 = "optifine/random/";
 
@@ -245,38 +253,40 @@ public class RandomEntities {
         if (!s1.startsWith(s2)) {
             return null;
         } else {
-            String s4 = StrUtils.replacePrefix(s1, s2, s3);
+            final String s4 = StrUtils.replacePrefix(s1, s2, s3);
             return new ResourceLocation(s, s4);
         }
     }
 
-    private static String getPathBase(String pathRandom) {
+    private static String getPathBase(final String pathRandom) {
         return pathRandom.startsWith("optifine/random/") ? StrUtils.replacePrefix(pathRandom, "optifine/random/", "textures/") : (pathRandom.startsWith("mcpatcher/mob/") ? StrUtils.replacePrefix(pathRandom, "mcpatcher/mob/", "textures/entity/") : null);
     }
 
-    protected static ResourceLocation getLocationIndexed(ResourceLocation loc, int index) {
+    protected static ResourceLocation getLocationIndexed(final ResourceLocation loc, final int index) {
         if (loc == null) {
             return null;
         } else {
-            String s = loc.getResourcePath();
-            int i = s.lastIndexOf(46);
+            final String s = loc.getResourcePath();
+            final int i = s.lastIndexOf(46);
 
             if (i < 0) {
                 return null;
             } else {
-                String s1 = s.substring(0, i);
-                String s2 = s.substring(i);
-                String s3 = s1 + index + s2;
-                ResourceLocation resourcelocation = new ResourceLocation(loc.getResourceDomain(), s3);
+                final String s1 = s.substring(0, i);
+                final String s2 = s.substring(i);
+                final String s3 = s1 + index + s2;
+                final ResourceLocation resourcelocation = new ResourceLocation(loc.getResourceDomain(), s3);
                 return resourcelocation;
             }
         }
     }
 
-    private static String getParentTexturePath(String path) {
-        for (String s : DEPENDANT_SUFFIXES) {
+    private static String getParentTexturePath(final String path) {
+        for (int i = 0; i < DEPENDANT_SUFFIXES.length; ++i) {
+            final String s = DEPENDANT_SUFFIXES[i];
+
             if (path.endsWith(s)) {
-                String s1 = StrUtils.removeSuffix(path, s);
+                final String s1 = StrUtils.removeSuffix(path, s);
                 return s1;
             }
         }
@@ -284,17 +294,17 @@ public class RandomEntities {
         return null;
     }
 
-    private static ResourceLocation[] getLocationsVariants(ResourceLocation loc, boolean mcpatcher) {
-        List list = new ArrayList();
+    private static ResourceLocation[] getLocationsVariants(final ResourceLocation loc, final boolean mcpatcher) {
+        final List list = new ArrayList();
         list.add(loc);
-        ResourceLocation resourcelocation = getLocationRandom(loc, mcpatcher);
+        final ResourceLocation resourcelocation = getLocationRandom(loc, mcpatcher);
 
         if (resourcelocation == null) {
             return null;
         } else {
             for (int i = 1; i < list.size() + 10; ++i) {
-                int j = i + 1;
-                ResourceLocation resourcelocation1 = getLocationIndexed(resourcelocation, j);
+                final int j = i + 1;
+                final ResourceLocation resourcelocation1 = getLocationIndexed(resourcelocation, j);
 
                 if (Config.hasResource(resourcelocation1)) {
                     list.add(resourcelocation1);
@@ -304,7 +314,7 @@ public class RandomEntities {
             if (list.size() <= 1) {
                 return null;
             } else {
-                ResourceLocation[] aresourcelocation = (ResourceLocation[]) list.toArray(new ResourceLocation[list.size()]);
+                final ResourceLocation[] aresourcelocation = (ResourceLocation[]) list.toArray(new ResourceLocation[list.size()]);
                 dbg(loc.getResourcePath() + ", variants: " + aresourcelocation.length);
                 return aresourcelocation;
             }
@@ -323,21 +333,21 @@ public class RandomEntities {
     private static void initialize() {
         renderGlobal = Config.getRenderGlobal();
         tileEntityRendererDispatcher = TileEntityRendererDispatcher.instance;
-        String[] astring = new String[]{"optifine/random/", "mcpatcher/mob/"};
-        String[] astring1 = new String[]{".png", ".properties"};
-        String[] astring2 = ResUtils.collectFiles(astring, astring1);
-        Set set = new HashSet();
+        final String[] astring = new String[]{"optifine/random/", "mcpatcher/mob/"};
+        final String[] astring1 = new String[]{".png", ".properties"};
+        final String[] astring2 = ResUtils.collectFiles(astring, astring1);
+        final Set set = new HashSet();
 
-        for (String string : astring2) {
-            String s = string;
+        for (int i = 0; i < astring2.length; ++i) {
+            String s = astring2[i];
             s = StrUtils.removeSuffix(s, astring1);
             s = StrUtils.trimTrailing(s, "0123456789");
             s = s + ".png";
-            String s1 = getPathBase(s);
+            final String s1 = getPathBase(s);
 
             if (!set.contains(s1)) {
                 set.add(s1);
-                ResourceLocation resourcelocation = new ResourceLocation(s1);
+                final ResourceLocation resourcelocation = new ResourceLocation(s1);
 
                 if (Config.hasResource(resourcelocation)) {
                     RandomEntityProperties randomentityproperties = mapProperties.get(s1);
@@ -360,11 +370,11 @@ public class RandomEntities {
         active = !mapProperties.isEmpty();
     }
 
-    public static void dbg(String str) {
+    public static void dbg(final String str) {
         Config.dbg("RandomEntities: " + str);
     }
 
-    public static void warn(String str) {
+    public static void warn(final String str) {
         Config.warn("RandomEntities: " + str);
     }
 }

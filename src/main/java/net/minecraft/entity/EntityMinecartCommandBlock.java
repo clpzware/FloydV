@@ -23,7 +23,7 @@ public class EntityMinecartCommandBlock extends EntityMinecart {
             return 1;
         }
 
-        public void func_145757_a(ByteBuf p_145757_1_) {
+        public void func_145757_a(final ByteBuf p_145757_1_) {
             p_145757_1_.writeInt(EntityMinecartCommandBlock.this.getEntityId());
         }
 
@@ -43,13 +43,17 @@ public class EntityMinecartCommandBlock extends EntityMinecart {
             return EntityMinecartCommandBlock.this;
         }
     };
+
+    /**
+     * Cooldown before command block logic runs again in ticks
+     */
     private int activatorRailCooldown = 0;
 
-    public EntityMinecartCommandBlock(World worldIn) {
+    public EntityMinecartCommandBlock(final World worldIn) {
         super(worldIn);
     }
 
-    public EntityMinecartCommandBlock(World worldIn, double x, double y, double z) {
+    public EntityMinecartCommandBlock(final World worldIn, final double x, final double y, final double z) {
         super(worldIn, x, y, z);
     }
 
@@ -59,14 +63,20 @@ public class EntityMinecartCommandBlock extends EntityMinecart {
         this.getDataWatcher().addObject(24, "");
     }
 
-    protected void readEntityFromNBT(NBTTagCompound tagCompund) {
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
+    protected void readEntityFromNBT(final NBTTagCompound tagCompund) {
         super.readEntityFromNBT(tagCompund);
         this.commandBlockLogic.readDataFromNBT(tagCompund);
         this.getDataWatcher().updateObject(23, this.getCommandBlockLogic().getCommand());
         this.getDataWatcher().updateObject(24, IChatComponent.Serializer.componentToJson(this.getCommandBlockLogic().getLastOutput()));
     }
 
-    protected void writeEntityToNBT(NBTTagCompound tagCompound) {
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
+    protected void writeEntityToNBT(final NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
         this.commandBlockLogic.writeDataToNBT(tagCompound);
     }
@@ -83,25 +93,31 @@ public class EntityMinecartCommandBlock extends EntityMinecart {
         return this.commandBlockLogic;
     }
 
-    public void onActivatorRailPass(int x, int y, int z, boolean receivingPower) {
+    /**
+     * Called every tick the minecart is on an activator rail. Args: x, y, z, is the rail receiving power
+     */
+    public void onActivatorRailPass(final int x, final int y, final int z, final boolean receivingPower) {
         if (receivingPower && this.ticksExisted - this.activatorRailCooldown >= 4) {
             this.getCommandBlockLogic().trigger(this.worldObj);
             this.activatorRailCooldown = this.ticksExisted;
         }
     }
 
-    public boolean interactFirst(EntityPlayer playerIn) {
+    /**
+     * First layer of player interaction
+     */
+    public boolean interactFirst(final EntityPlayer playerIn) {
         this.commandBlockLogic.tryOpenEditCommandBlock(playerIn);
         return false;
     }
 
-    public void onDataWatcherUpdate(int dataID) {
+    public void onDataWatcherUpdate(final int dataID) {
         super.onDataWatcherUpdate(dataID);
 
         if (dataID == 24) {
             try {
                 this.commandBlockLogic.setLastOutput(IChatComponent.Serializer.jsonToComponent(this.getDataWatcher().getWatchableObjectString(24)));
-            } catch (Throwable ignored) {
+            } catch (final Throwable var3) {
             }
         } else if (dataID == 23) {
             this.commandBlockLogic.setCommand(this.getDataWatcher().getWatchableObjectString(23));

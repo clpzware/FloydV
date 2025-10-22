@@ -10,78 +10,80 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModelUtils {
-    public static void dbgModel(IBakedModel model) {
+    public static void dbgModel(final IBakedModel model) {
         if (model != null) {
-            Config.dbg("Model: " + model + ", ao: " + model.isAmbientOcclusion() + ", gui3d: " + model.isGui3d() + ", builtIn: " + model.isBuiltInRenderer() + ", particle: " + model.getParticleTexture());
-            EnumFacing[] aenumfacing = EnumFacing.VALUES;
+            Config.dbg("Model: " + model + ", ao: " + model.isAmbientOcclusion() + ", gui3d: " + model.isGui3d() + ", builtIn: " + model.isBuiltInRenderer() + ", particle: " + model.getTexture());
+            final EnumFacing[] aenumfacing = EnumFacing.VALUES;
 
-            for (EnumFacing enumfacing : aenumfacing) {
-                List list = model.getFaceQuads(enumfacing);
+            for (int i = 0; i < aenumfacing.length; ++i) {
+                final EnumFacing enumfacing = aenumfacing[i];
+                final List list = model.getFaceQuads(enumfacing);
                 dbgQuads(enumfacing.getName(), list, "  ");
             }
 
-            List list1 = model.getGeneralQuads();
+            final List list1 = model.getGeneralQuads();
             dbgQuads("General", list1, "  ");
         }
     }
 
-    private static void dbgQuads(String name, List quads, String prefix) {
-        for (Object o : quads) {
-            BakedQuad bakedquad = (BakedQuad) o;
+    private static void dbgQuads(final String name, final List quads, final String prefix) {
+        for (final Object e : quads) {
+            final BakedQuad bakedquad = (BakedQuad) e;
             dbgQuad(name, bakedquad, prefix);
         }
     }
 
-    public static void dbgQuad(String name, BakedQuad quad, String prefix) {
+    public static void dbgQuad(final String name, final BakedQuad quad, final String prefix) {
         Config.dbg(prefix + "Quad: " + quad.getClass().getName() + ", type: " + name + ", face: " + quad.getFace() + ", tint: " + quad.getTintIndex() + ", sprite: " + quad.getSprite());
         dbgVertexData(quad.getVertexData(), "  " + prefix);
     }
 
-    public static void dbgVertexData(int[] vd, String prefix) {
-        int i = vd.length / 4;
+    public static void dbgVertexData(final int[] vd, final String prefix) {
+        final int i = vd.length / 4;
         Config.dbg(prefix + "Length: " + vd.length + ", step: " + i);
 
         for (int j = 0; j < 4; ++j) {
-            int k = j * i;
-            float f = Float.intBitsToFloat(vd[k]);
-            float f1 = Float.intBitsToFloat(vd[k + 1]);
-            float f2 = Float.intBitsToFloat(vd[k + 2]);
-            int l = vd[k + 3];
-            float f3 = Float.intBitsToFloat(vd[k + 4]);
-            float f4 = Float.intBitsToFloat(vd[k + 5]);
-            Config.dbg(prefix + j + " xyz: " + f + "," + f1 + "," + f2 + " col: " + l + " u,v: " + f3 + "," + f4);
+            final int k = j * i;
+            final float f = Float.intBitsToFloat(vd[k + 0]);
+            final float f1 = Float.intBitsToFloat(vd[k + 1]);
+            final float f2 = Float.intBitsToFloat(vd[k + 2]);
+            final int l = vd[k + 3];
+            final float f3 = Float.intBitsToFloat(vd[k + 4]);
+            final float f4 = Float.intBitsToFloat(vd[k + 5]);
+            Config.dbg(prefix + j + " xyz: " + f + "," + f1 + "," + f2 + " col: " + l + " com.alan.clients.protection.external.u,v: " + f3 + "," + f4);
         }
     }
 
-    public static IBakedModel duplicateModel(IBakedModel model) {
-        List list = duplicateQuadList(model.getGeneralQuads());
-        EnumFacing[] aenumfacing = EnumFacing.VALUES;
-        List list1 = new ArrayList();
+    public static IBakedModel duplicateModel(final IBakedModel model) {
+        final List list = duplicateQuadList(model.getGeneralQuads());
+        final EnumFacing[] aenumfacing = EnumFacing.VALUES;
+        final List list1 = new ArrayList();
 
-        for (EnumFacing enumfacing : aenumfacing) {
-            List list2 = model.getFaceQuads(enumfacing);
-            List list3 = duplicateQuadList(list2);
+        for (int i = 0; i < aenumfacing.length; ++i) {
+            final EnumFacing enumfacing = aenumfacing[i];
+            final List list2 = model.getFaceQuads(enumfacing);
+            final List list3 = duplicateQuadList(list2);
             list1.add(list3);
         }
 
-        SimpleBakedModel simplebakedmodel = new SimpleBakedModel(list, list1, model.isAmbientOcclusion(), model.isGui3d(), model.getParticleTexture(), model.getItemCameraTransforms());
+        final SimpleBakedModel simplebakedmodel = new SimpleBakedModel(list, list1, model.isAmbientOcclusion(), model.isGui3d(), model.getTexture(), model.getItemCameraTransforms());
         return simplebakedmodel;
     }
 
-    public static List duplicateQuadList(List lists) {
-        List list = new ArrayList();
+    public static List duplicateQuadList(final List lists) {
+        final List list = new ArrayList();
 
-        for (Object o : lists) {
-            BakedQuad bakedquad = (BakedQuad) o;
-            BakedQuad bakedquad1 = duplicateQuad(bakedquad);
+        for (final Object e : lists) {
+            final BakedQuad bakedquad = (BakedQuad) e;
+            final BakedQuad bakedquad1 = duplicateQuad(bakedquad);
             list.add(bakedquad1);
         }
 
         return list;
     }
 
-    public static BakedQuad duplicateQuad(BakedQuad quad) {
-        BakedQuad bakedquad = new BakedQuad(quad.getVertexData().clone(), quad.getTintIndex(), quad.getFace(), quad.getSprite());
+    public static BakedQuad duplicateQuad(final BakedQuad quad) {
+        final BakedQuad bakedquad = new BakedQuad(quad.getVertexData().clone(), quad.getTintIndex(), quad.getFace(), quad.getSprite());
         return bakedquad;
     }
 }

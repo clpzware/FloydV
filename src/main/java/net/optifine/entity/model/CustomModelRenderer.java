@@ -9,7 +9,7 @@ public class CustomModelRenderer {
     private final ModelRenderer modelRenderer;
     private final ModelUpdater modelUpdater;
 
-    public CustomModelRenderer(String modelPart, boolean attach, ModelRenderer modelRenderer, ModelUpdater modelUpdater) {
+    public CustomModelRenderer(final String modelPart, final boolean attach, final ModelRenderer modelRenderer, final ModelUpdater modelUpdater) {
         this.modelPart = modelPart;
         this.attach = attach;
         this.modelRenderer = modelRenderer;

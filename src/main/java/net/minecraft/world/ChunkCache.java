@@ -13,15 +13,23 @@ public class ChunkCache implements IBlockAccess {
     protected int chunkX;
     protected int chunkZ;
     protected Chunk[][] chunkArray;
+
+    /**
+     * set by !chunk.getAreLevelsEmpty
+     */
     protected boolean hasExtendedLevels;
+
+    /**
+     * Reference to the World object.
+     */
     protected World worldObj;
 
-    public ChunkCache(World worldIn, BlockPos posFromIn, BlockPos posToIn, int subIn) {
+    public ChunkCache(final World worldIn, final BlockPos posFromIn, final BlockPos posToIn, final int subIn) {
         this.worldObj = worldIn;
         this.chunkX = posFromIn.getX() - subIn >> 4;
         this.chunkZ = posFromIn.getZ() - subIn >> 4;
-        int i = posToIn.getX() + subIn >> 4;
-        int j = posToIn.getZ() + subIn >> 4;
+        final int i = posToIn.getX() + subIn >> 4;
+        final int j = posToIn.getZ() + subIn >> 4;
         this.chunkArray = new Chunk[i - this.chunkX + 1][j - this.chunkZ + 1];
         this.hasExtendedLevels = true;
 
@@ -33,7 +41,7 @@ public class ChunkCache implements IBlockAccess {
 
         for (int i1 = posFromIn.getX() >> 4; i1 <= posToIn.getX() >> 4; ++i1) {
             for (int j1 = posFromIn.getZ() >> 4; j1 <= posToIn.getZ() >> 4; ++j1) {
-                Chunk chunk = this.chunkArray[i1 - this.chunkX][j1 - this.chunkZ];
+                final Chunk chunk = this.chunkArray[i1 - this.chunkX][j1 - this.chunkZ];
 
                 if (chunk != null && !chunk.getAreLevelsEmpty(posFromIn.getY(), posToIn.getY())) {
                     this.hasExtendedLevels = false;
@@ -42,18 +50,21 @@ public class ChunkCache implements IBlockAccess {
         }
     }
 
+    /**
+     * set by !chunk.getAreLevelsEmpty
+     */
     public boolean extendedLevelsInChunkCache() {
         return this.hasExtendedLevels;
     }
 
-    public TileEntity getTileEntity(BlockPos pos) {
-        int i = (pos.getX() >> 4) - this.chunkX;
-        int j = (pos.getZ() >> 4) - this.chunkZ;
+    public TileEntity getTileEntity(final BlockPos pos) {
+        final int i = (pos.getX() >> 4) - this.chunkX;
+        final int j = (pos.getZ() >> 4) - this.chunkZ;
         return this.chunkArray[i][j].getTileEntity(pos, Chunk.EnumCreateEntityType.IMMEDIATE);
     }
 
-    public int getCombinedLight(BlockPos pos, int lightValue) {
-        int i = this.getLightForExt(EnumSkyBlock.SKY, pos);
+    public int getCombinedLight(final BlockPos pos, final int lightValue) {
+        final int i = this.getLightForExt(EnumSkyBlock.SKY, pos);
         int j = this.getLightForExt(EnumSkyBlock.BLOCK, pos);
 
         if (j < lightValue) {
@@ -63,13 +74,13 @@ public class ChunkCache implements IBlockAccess {
         return i << 20 | j << 4;
     }
 
-    public IBlockState getBlockState(BlockPos pos) {
+    public IBlockState getBlockState(final BlockPos pos) {
         if (pos.getY() >= 0 && pos.getY() < 256) {
-            int i = (pos.getX() >> 4) - this.chunkX;
-            int j = (pos.getZ() >> 4) - this.chunkZ;
+            final int i = (pos.getX() >> 4) - this.chunkX;
+            final int j = (pos.getZ() >> 4) - this.chunkZ;
 
             if (i >= 0 && i < this.chunkArray.length && j >= 0 && j < this.chunkArray[i].length) {
-                Chunk chunk = this.chunkArray[i][j];
+                final Chunk chunk = this.chunkArray[i][j];
 
                 if (chunk != null) {
                     return chunk.getBlockState(pos);
@@ -80,19 +91,19 @@ public class ChunkCache implements IBlockAccess {
         return Blocks.air.getDefaultState();
     }
 
-    public BiomeGenBase getBiomeGenForCoords(BlockPos pos) {
+    public BiomeGenBase getBiomeGenForCoords(final BlockPos pos) {
         return this.worldObj.getBiomeGenForCoords(pos);
     }
 
-    private int getLightForExt(EnumSkyBlock p_175629_1_, BlockPos pos) {
+    private int getLightForExt(final EnumSkyBlock p_175629_1_, final BlockPos pos) {
         if (p_175629_1_ == EnumSkyBlock.SKY && this.worldObj.provider.getHasNoSky()) {
             return 0;
         } else if (pos.getY() >= 0 && pos.getY() < 256) {
             if (this.getBlockState(pos).getBlock().getUseNeighborBrightness()) {
                 int l = 0;
 
-                for (EnumFacing enumfacing : EnumFacing.values()) {
-                    int k = this.getLightFor(p_175629_1_, pos.offset(enumfacing));
+                for (final EnumFacing enumfacing : EnumFacing.values()) {
+                    final int k = this.getLightFor(p_175629_1_, pos.offset(enumfacing));
 
                     if (k > l) {
                         l = k;
@@ -105,8 +116,8 @@ public class ChunkCache implements IBlockAccess {
 
                 return l;
             } else {
-                int i = (pos.getX() >> 4) - this.chunkX;
-                int j = (pos.getZ() >> 4) - this.chunkZ;
+                final int i = (pos.getX() >> 4) - this.chunkX;
+                final int j = (pos.getZ() >> 4) - this.chunkZ;
                 return this.chunkArray[i][j].getLightFor(p_175629_1_, pos);
             }
         } else {
@@ -114,23 +125,29 @@ public class ChunkCache implements IBlockAccess {
         }
     }
 
-    public boolean isAirBlock(BlockPos pos) {
+    /**
+     * Checks to see if an air block exists at the provided location. Note that this only checks to see if the blocks
+     * material is set to air, meaning it is possible for non-vanilla blocks to still pass this check.
+     *
+     * @param pos The position of the block being checked.
+     */
+    public boolean isAirBlock(final BlockPos pos) {
         return this.getBlockState(pos).getBlock().getMaterial() == Material.air;
     }
 
-    public int getLightFor(EnumSkyBlock p_175628_1_, BlockPos pos) {
+    public int getLightFor(final EnumSkyBlock p_175628_1_, final BlockPos pos) {
         if (pos.getY() >= 0 && pos.getY() < 256) {
-            int i = (pos.getX() >> 4) - this.chunkX;
-            int j = (pos.getZ() >> 4) - this.chunkZ;
+            final int i = (pos.getX() >> 4) - this.chunkX;
+            final int j = (pos.getZ() >> 4) - this.chunkZ;
             return this.chunkArray[i][j].getLightFor(p_175628_1_, pos);
         } else {
             return p_175628_1_.defaultLightValue;
         }
     }
 
-    public int getStrongPower(BlockPos pos, EnumFacing direction) {
-        IBlockState iblockstate = this.getBlockState(pos);
-        return iblockstate.getBlock().getStrongPower(this, pos, iblockstate, direction);
+    public int getStrongPower(final BlockPos pos, final EnumFacing direction) {
+        final IBlockState iblockstate = this.getBlockState(pos);
+        return iblockstate.getBlock().isProvidingStrongPower(this, pos, iblockstate, direction);
     }
 
     public WorldType getWorldType() {

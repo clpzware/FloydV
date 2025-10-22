@@ -12,11 +12,11 @@ public class RegionRenderCacheBuilder {
         this.worldRenderers[EnumWorldBlockLayer.TRANSLUCENT.ordinal()] = new WorldRenderer(262144);
     }
 
-    public WorldRenderer getWorldRendererByLayer(EnumWorldBlockLayer layer) {
+    public WorldRenderer getWorldRendererByLayer(final EnumWorldBlockLayer layer) {
         return this.worldRenderers[layer.ordinal()];
     }
 
-    public WorldRenderer getWorldRendererByLayerId(int id) {
+    public WorldRenderer getWorldRendererByLayerId(final int id) {
         return this.worldRenderers[id];
     }
 }

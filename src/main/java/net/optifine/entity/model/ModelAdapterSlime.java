@@ -18,10 +18,11 @@ public class ModelAdapterSlime extends ModelAdapter {
         return new ModelSlime(16);
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelSlime modelslime)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelSlime)) {
             return null;
         } else {
+            final ModelSlime modelslime = (ModelSlime) model;
             return modelPart.equals("body") ? (ModelRenderer) Reflector.getFieldValue(modelslime, Reflector.ModelSlime_ModelRenderers, 0) : (modelPart.equals("left_eye") ? (ModelRenderer) Reflector.getFieldValue(modelslime, Reflector.ModelSlime_ModelRenderers, 1) : (modelPart.equals("right_eye") ? (ModelRenderer) Reflector.getFieldValue(modelslime, Reflector.ModelSlime_ModelRenderers, 2) : (modelPart.equals("mouth") ? (ModelRenderer) Reflector.getFieldValue(modelslime, Reflector.ModelSlime_ModelRenderers, 3) : null)));
         }
     }
@@ -30,9 +31,9 @@ public class ModelAdapterSlime extends ModelAdapter {
         return new String[]{"body", "left_eye", "right_eye", "mouth"};
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderSlime renderslime = new RenderSlime(rendermanager, modelBase, shadowSize);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderSlime renderslime = new RenderSlime(rendermanager, modelBase, shadowSize);
         return renderslime;
     }
 }

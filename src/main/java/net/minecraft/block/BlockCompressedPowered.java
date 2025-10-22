@@ -8,15 +8,18 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.world.IBlockAccess;
 
 public class BlockCompressedPowered extends Block {
-    public BlockCompressedPowered(Material p_i46386_1_, MapColor p_i46386_2_) {
+    public BlockCompressedPowered(final Material p_i46386_1_, final MapColor p_i46386_2_) {
         super(p_i46386_1_, p_i46386_2_);
     }
 
+    /**
+     * Can this block provide power. Only wire currently seems to have this change based on its state.
+     */
     public boolean canProvidePower() {
         return true;
     }
 
-    public int getWeakPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side) {
+    public int isProvidingWeakPower(final IBlockAccess worldIn, final BlockPos pos, final IBlockState state, final EnumFacing side) {
         return 15;
     }
 }

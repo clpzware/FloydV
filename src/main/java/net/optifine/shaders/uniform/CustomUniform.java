@@ -9,14 +9,14 @@ public class CustomUniform {
     private final IExpression expression;
     private final ShaderUniformBase shaderUniform;
 
-    public CustomUniform(String name, UniformType type, IExpression expression) {
+    public CustomUniform(final String name, final UniformType type, final IExpression expression) {
         this.name = name;
         this.type = type;
         this.expression = expression;
         this.shaderUniform = type.makeShaderUniform(name);
     }
 
-    public void setProgram(int program) {
+    public void setProgram(final int program) {
         this.shaderUniform.setProgram(program);
     }
 
@@ -24,7 +24,7 @@ public class CustomUniform {
         if (this.shaderUniform.isDefined()) {
             try {
                 this.type.updateUniform(this.expression, this.shaderUniform);
-            } catch (RuntimeException runtimeexception) {
+            } catch (final RuntimeException runtimeexception) {
                 SMCLog.severe("Error updating custom uniform: " + this.shaderUniform.getName());
                 SMCLog.severe(runtimeexception.getClass().getName() + ": " + runtimeexception.getMessage());
                 this.shaderUniform.disable();

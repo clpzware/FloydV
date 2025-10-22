@@ -18,15 +18,16 @@ public class CustomBlockLayers {
     private static EnumWorldBlockLayer[] renderLayers = null;
     public static boolean active = false;
 
-    public static EnumWorldBlockLayer getRenderLayer(IBlockState blockState) {
+    public static EnumWorldBlockLayer getRenderLayer(final IBlockState blockState) {
         if (renderLayers == null) {
             return null;
         } else if (blockState.getBlock().isOpaqueCube()) {
             return null;
-        } else if (!(blockState instanceof BlockStateBase blockstatebase)) {
+        } else if (!(blockState instanceof BlockStateBase)) {
             return null;
         } else {
-            int i = blockstatebase.getBlockId();
+            final BlockStateBase blockstatebase = (BlockStateBase) blockState;
+            final int i = blockstatebase.getBlockId();
             return i > 0 && i < renderLayers.length ? renderLayers[i] : null;
         }
     }
@@ -34,19 +35,19 @@ public class CustomBlockLayers {
     public static void update() {
         renderLayers = null;
         active = false;
-        List<EnumWorldBlockLayer> list = new ArrayList();
-        String s = "optifine/block.properties";
-        Properties properties = ResUtils.readProperties(s, "CustomBlockLayers");
+        final List<EnumWorldBlockLayer> list = new ArrayList();
+        final String s = "optifine/block.properties";
+        final Properties properties = ResUtils.readProperties(s, "CustomBlockLayers");
 
         if (properties != null) {
             readLayers(s, properties, list);
         }
 
         if (Config.isShaders()) {
-            PropertiesOrdered propertiesordered = BlockAliases.getBlockLayerPropertes();
+            final PropertiesOrdered propertiesordered = BlockAliases.getBlockLayerPropertes();
 
             if (propertiesordered != null) {
-                String s1 = "shaders/block.properties";
+                final String s1 = "shaders/block.properties";
                 readLayers(s1, propertiesordered, list);
             }
         }
@@ -57,7 +58,7 @@ public class CustomBlockLayers {
         }
     }
 
-    private static void readLayers(String pathProps, Properties props, List<EnumWorldBlockLayer> list) {
+    private static void readLayers(final String pathProps, final Properties props, final List<EnumWorldBlockLayer> list) {
         Config.dbg("CustomBlockLayers: " + pathProps);
         readLayer("solid", EnumWorldBlockLayer.SOLID, props, list);
         readLayer("cutout", EnumWorldBlockLayer.CUTOUT, props, list);
@@ -65,17 +66,18 @@ public class CustomBlockLayers {
         readLayer("translucent", EnumWorldBlockLayer.TRANSLUCENT, props, list);
     }
 
-    private static void readLayer(String name, EnumWorldBlockLayer layer, Properties props, List<EnumWorldBlockLayer> listLayers) {
-        String s = "layer." + name;
-        String s1 = props.getProperty(s);
+    private static void readLayer(final String name, final EnumWorldBlockLayer layer, final Properties props, final List<EnumWorldBlockLayer> listLayers) {
+        final String s = "layer." + name;
+        final String s1 = props.getProperty(s);
 
         if (s1 != null) {
-            ConnectedParser connectedparser = new ConnectedParser("CustomBlockLayers");
-            MatchBlock[] amatchblock = connectedparser.parseMatchBlocks(s1);
+            final ConnectedParser connectedparser = new ConnectedParser("CustomBlockLayers");
+            final MatchBlock[] amatchblock = connectedparser.parseMatchBlocks(s1);
 
             if (amatchblock != null) {
-                for (MatchBlock matchblock : amatchblock) {
-                    int j = matchblock.getBlockId();
+                for (int i = 0; i < amatchblock.length; ++i) {
+                    final MatchBlock matchblock = amatchblock[i];
+                    final int j = matchblock.getBlockId();
 
                     if (j > 0) {
                         while (listLayers.size() < j + 1) {

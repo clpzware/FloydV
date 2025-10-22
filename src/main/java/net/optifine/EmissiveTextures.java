@@ -39,12 +39,13 @@ public class EmissiveTextures {
         hasEmissive = false;
     }
 
-    public static ITextureObject getEmissiveTexture(ITextureObject texture, Map<ResourceLocation, ITextureObject> mapTextures) {
+    public static ITextureObject getEmissiveTexture(final ITextureObject texture, final Map<ResourceLocation, ITextureObject> mapTextures) {
         if (!render) {
             return texture;
-        } else if (!(texture instanceof SimpleTexture simpletexture)) {
+        } else if (!(texture instanceof SimpleTexture)) {
             return texture;
         } else {
+            final SimpleTexture simpletexture = (SimpleTexture) texture;
             ResourceLocation resourcelocation = simpletexture.locationEmissive;
 
             if (!renderEmissive) {
@@ -62,7 +63,7 @@ public class EmissiveTextures {
 
                 if (itextureobject == null) {
                     itextureobject = new SimpleTexture(resourcelocation);
-                    TextureManager texturemanager = Config.getTextureManager();
+                    final TextureManager texturemanager = Config.getTextureManager();
                     texturemanager.loadTexture(resourcelocation, itextureobject);
                 }
 
@@ -99,16 +100,16 @@ public class EmissiveTextures {
 
         if (Config.isEmissiveTextures()) {
             try {
-                String s = "optifine/emissive.properties";
-                ResourceLocation resourcelocation = new ResourceLocation(s);
-                InputStream inputstream = Config.getResourceStream(resourcelocation);
+                final String s = "optifine/emissive.properties";
+                final ResourceLocation resourcelocation = new ResourceLocation(s);
+                final InputStream inputstream = Config.getResourceStream(resourcelocation);
 
                 if (inputstream == null) {
                     return;
                 }
 
                 dbg("Loading " + s);
-                Properties properties = new PropertiesOrdered();
+                final Properties properties = new PropertiesOrdered();
                 properties.load(inputstream);
                 inputstream.close();
                 suffixEmissive = properties.getProperty("suffix.emissive");
@@ -118,39 +119,40 @@ public class EmissiveTextures {
                 }
 
                 active = suffixEmissive != null;
-            } catch (FileNotFoundException ignored) {
-            } catch (IOException ioexception) {
+            } catch (final FileNotFoundException var4) {
+                return;
+            } catch (final IOException ioexception) {
                 ioexception.printStackTrace();
             }
         }
     }
 
-    private static void dbg(String str) {
+    private static void dbg(final String str) {
         Config.dbg("EmissiveTextures: " + str);
     }
 
-    private static void warn(String str) {
+    private static void warn(final String str) {
         Config.warn("EmissiveTextures: " + str);
     }
 
-    public static boolean isEmissive(ResourceLocation loc) {
+    public static boolean isEmissive(final ResourceLocation loc) {
         return suffixEmissivePng != null && loc.getResourcePath().endsWith(suffixEmissivePng);
     }
 
-    public static void loadTexture(ResourceLocation loc, SimpleTexture tex) {
+    public static void loadTexture(final ResourceLocation loc, final SimpleTexture tex) {
         if (loc != null && tex != null) {
             tex.isEmissive = false;
             tex.locationEmissive = null;
 
             if (suffixEmissivePng != null) {
-                String s = loc.getResourcePath();
+                final String s = loc.getResourcePath();
 
                 if (s.endsWith(".png")) {
                     if (s.endsWith(suffixEmissivePng)) {
                         tex.isEmissive = true;
                     } else {
-                        String s1 = s.substring(0, s.length() - ".png".length()) + suffixEmissivePng;
-                        ResourceLocation resourcelocation = new ResourceLocation(loc.getResourceDomain(), s1);
+                        final String s1 = s.substring(0, s.length() - ".png".length()) + suffixEmissivePng;
+                        final ResourceLocation resourcelocation = new ResourceLocation(loc.getResourceDomain(), s1);
 
                         if (Config.hasResource(resourcelocation)) {
                             tex.locationEmissive = resourcelocation;

@@ -1,12 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.MathHelper;
 import org.apache.commons.lang3.Validate;
+
+import java.io.IOException;
 
 public class S29PacketSoundEffect implements Packet<INetHandlerPlayClient> {
     private String soundName;
@@ -19,7 +19,7 @@ public class S29PacketSoundEffect implements Packet<INetHandlerPlayClient> {
     public S29PacketSoundEffect() {
     }
 
-    public S29PacketSoundEffect(String soundNameIn, double soundX, double soundY, double soundZ, float volume, float pitch) {
+    public S29PacketSoundEffect(final String soundNameIn, final double soundX, final double soundY, final double soundZ, final float volume, float pitch) {
         Validate.notNull(soundNameIn, "name");
         this.soundName = soundNameIn;
         this.posX = (int) (soundX * 8.0D);
@@ -30,7 +30,10 @@ public class S29PacketSoundEffect implements Packet<INetHandlerPlayClient> {
         pitch = MathHelper.clamp_float(pitch, 0.0F, 255.0F);
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.soundName = buf.readStringFromBuffer(256);
         this.posX = buf.readInt();
         this.posY = buf.readInt();
@@ -39,7 +42,10 @@ public class S29PacketSoundEffect implements Packet<INetHandlerPlayClient> {
         this.soundPitch = buf.readUnsignedByte();
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeString(this.soundName);
         buf.writeInt(this.posX);
         buf.writeInt(this.posY);
@@ -72,7 +78,10 @@ public class S29PacketSoundEffect implements Packet<INetHandlerPlayClient> {
         return (float) this.soundPitch / 63.0F;
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleSoundEffect(this);
     }
 }

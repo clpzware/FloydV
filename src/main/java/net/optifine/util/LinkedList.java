@@ -3,18 +3,19 @@ package net.optifine.util;
 import java.util.Iterator;
 
 public class LinkedList<T> {
+
     private LinkedList.Node<T> first;
     private LinkedList.Node<T> last;
     private int size;
 
-    public void addFirst(LinkedList.Node<T> tNode) {
+    public void addFirst(final LinkedList.Node<T> tNode) {
         this.checkNoParent(tNode);
 
         if (this.isEmpty()) {
             this.first = tNode;
             this.last = tNode;
         } else {
-            LinkedList.Node<T> node = this.first;
+            final LinkedList.Node<T> node = this.first;
             tNode.setNext(node);
             node.setPrev(tNode);
             this.first = tNode;
@@ -24,14 +25,14 @@ public class LinkedList<T> {
         ++this.size;
     }
 
-    public void addLast(LinkedList.Node<T> tNode) {
+    public void addLast(final LinkedList.Node<T> tNode) {
         this.checkNoParent(tNode);
 
         if (this.isEmpty()) {
             this.first = tNode;
             this.last = tNode;
         } else {
-            LinkedList.Node<T> node = this.last;
+            final LinkedList.Node<T> node = this.last;
             tNode.setPrev(node);
             node.setNext(tNode);
             this.last = tNode;
@@ -41,7 +42,7 @@ public class LinkedList<T> {
         ++this.size;
     }
 
-    public void addAfter(LinkedList.Node<T> nodePrev, LinkedList.Node<T> tNode) {
+    public void addAfter(final LinkedList.Node<T> nodePrev, final LinkedList.Node<T> tNode) {
         if (nodePrev == null) {
             this.addFirst(tNode);
         } else if (nodePrev == this.last) {
@@ -49,7 +50,7 @@ public class LinkedList<T> {
         } else {
             this.checkParent(nodePrev);
             this.checkNoParent(tNode);
-            LinkedList.Node<T> nodeNext = nodePrev.getNext();
+            final LinkedList.Node<T> nodeNext = nodePrev.getNext();
             nodePrev.setNext(tNode);
             tNode.setPrev(nodePrev);
             nodeNext.setPrev(tNode);
@@ -59,10 +60,10 @@ public class LinkedList<T> {
         }
     }
 
-    public LinkedList.Node<T> remove(LinkedList.Node<T> tNode) {
+    public LinkedList.Node<T> remove(final LinkedList.Node<T> tNode) {
         this.checkParent(tNode);
-        LinkedList.Node<T> prev = tNode.getPrev();
-        LinkedList.Node<T> next = tNode.getNext();
+        final LinkedList.Node<T> prev = tNode.getPrev();
+        final LinkedList.Node<T> next = tNode.getNext();
 
         if (prev != null) {
             prev.setNext(next);
@@ -83,12 +84,12 @@ public class LinkedList<T> {
         return tNode;
     }
 
-    public void moveAfter(LinkedList.Node<T> nodePrev, LinkedList.Node<T> node) {
+    public void moveAfter(final LinkedList.Node<T> nodePrev, final LinkedList.Node<T> node) {
         this.remove(node);
         this.addAfter(nodePrev, node);
     }
 
-    public boolean find(LinkedList.Node<T> nodeFind, LinkedList.Node<T> nodeFrom, LinkedList.Node<T> nodeTo) {
+    public boolean find(final LinkedList.Node<T> nodeFind, final LinkedList.Node<T> nodeFrom, final LinkedList.Node<T> nodeTo) {
         this.checkParent(nodeFrom);
 
         if (nodeTo != null) {
@@ -110,24 +111,24 @@ public class LinkedList<T> {
         }
     }
 
-    private void checkParent(LinkedList.Node<T> node) {
+    private void checkParent(final LinkedList.Node<T> node) {
         if (node.parent != this) {
             throw new IllegalArgumentException("Node has different parent, node: " + node + ", parent: " + node.parent + ", this: " + this);
         }
     }
 
-    private void checkNoParent(LinkedList.Node<T> node) {
+    private void checkNoParent(final LinkedList.Node<T> node) {
         if (node.parent != null) {
             throw new IllegalArgumentException("Node has different parent, node: " + node + ", parent: " + node.parent + ", this: " + this);
         }
     }
 
-    public boolean contains(LinkedList.Node<T> node) {
+    public boolean contains(final LinkedList.Node<T> node) {
         return node.parent == this;
     }
 
     public Iterator<LinkedList.Node<T>> iterator() {
-        Iterator<LinkedList.Node<T>> iterator = new Iterator<LinkedList.Node<T>>() {
+        final Iterator<LinkedList.Node<T>> iterator = new Iterator<LinkedList.Node<T>>() {
             LinkedList.Node<T> node = LinkedList.this.getFirst();
 
             public boolean hasNext() {
@@ -135,7 +136,7 @@ public class LinkedList<T> {
             }
 
             public LinkedList.Node<T> next() {
-                LinkedList.Node<T> node = this.node;
+                final LinkedList.Node<T> node = this.node;
 
                 if (this.node != null) {
                     this.node = this.node.next;
@@ -168,27 +169,27 @@ public class LinkedList<T> {
     }
 
     public String toString() {
-        StringBuffer stringbuffer = new StringBuffer();
+        final StringBuffer stringbuffer = new StringBuffer();
 
-        for (Iterator<Node<T>> it = iterator(); it.hasNext(); ) {
-            Node<T> node = it.next();
-            if (!stringbuffer.isEmpty()) {
+        for (final Iterator<Node<T>> it = iterator(); it.hasNext(); ) {
+            final Node<T> node = it.next();
+            if (stringbuffer.length() > 0) {
                 stringbuffer.append(", ");
             }
-
             stringbuffer.append(node.getItem());
         }
 
-        return this.size + " [" + stringbuffer + "]";
+        return "" + this.size + " [" + stringbuffer + "]";
     }
 
     public static class Node<T> {
+
         private final T item;
         private LinkedList.Node<T> prev;
         private LinkedList.Node<T> next;
         private LinkedList<T> parent;
 
-        public Node(T item) {
+        public Node(final T item) {
             this.item = item;
         }
 
@@ -204,15 +205,15 @@ public class LinkedList<T> {
             return this.next;
         }
 
-        private void setPrev(LinkedList.Node<T> prev) {
+        private void setPrev(final LinkedList.Node<T> prev) {
             this.prev = prev;
         }
 
-        private void setNext(LinkedList.Node<T> next) {
+        private void setNext(final LinkedList.Node<T> next) {
             this.next = next;
         }
 
-        private void setParent(LinkedList<T> parent) {
+        private void setParent(final LinkedList<T> parent) {
             this.parent = parent;
         }
 

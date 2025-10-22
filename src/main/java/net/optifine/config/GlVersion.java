@@ -6,15 +6,15 @@ public class GlVersion {
     private final int release;
     private final String suffix;
 
-    public GlVersion(int major, int minor) {
+    public GlVersion(final int major, final int minor) {
         this(major, minor, 0);
     }
 
-    public GlVersion(int major, int minor, int release) {
+    public GlVersion(final int major, final int minor, final int release) {
         this(major, minor, release, null);
     }
 
-    public GlVersion(int major, int minor, int release, String suffix) {
+    public GlVersion(final int major, final int minor, final int release, final String suffix) {
         this.major = major;
         this.minor = minor;
         this.release = release;
@@ -38,6 +38,6 @@ public class GlVersion {
     }
 
     public String toString() {
-        return this.suffix == null ? this.major + "." + this.minor + "." + this.release : this.major + "." + this.minor + "." + this.release + this.suffix;
+        return this.suffix == null ? "" + this.major + "." + this.minor + "." + this.release : "" + this.major + "." + this.minor + "." + this.release + this.suffix;
     }
 }

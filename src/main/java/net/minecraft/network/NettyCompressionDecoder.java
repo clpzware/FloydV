@@ -7,22 +7,21 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.DecoderException;
 
 import java.util.List;
-import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 
 public class NettyCompressionDecoder extends ByteToMessageDecoder {
     private final Inflater inflater;
     private int treshold;
 
-    public NettyCompressionDecoder(int treshold) {
+    public NettyCompressionDecoder(final int treshold) {
         this.treshold = treshold;
         this.inflater = new Inflater();
     }
 
-    protected void decode(ChannelHandlerContext p_decode_1_, ByteBuf p_decode_2_, List<Object> p_decode_3_) throws Exception {
+    protected void decode(final ChannelHandlerContext p_decode_1_, final ByteBuf p_decode_2_, final List<Object> p_decode_3_) throws Exception {
         if (p_decode_2_.readableBytes() != 0) {
-            PacketBuffer packetbuffer = new PacketBuffer(p_decode_2_);
-            int i = packetbuffer.readVarIntFromBuffer();
+            final PacketBuffer packetbuffer = new PacketBuffer(p_decode_2_);
+            final int i = packetbuffer.readVarIntFromBuffer();
 
             if (i == 0) {
                 p_decode_3_.add(packetbuffer.readBytes(packetbuffer.readableBytes()));
@@ -35,10 +34,10 @@ public class NettyCompressionDecoder extends ByteToMessageDecoder {
                     throw new DecoderException("Badly compressed packet - size of " + i + " is larger than protocol maximum of " + 2097152);
                 }
 
-                byte[] abyte = new byte[packetbuffer.readableBytes()];
+                final byte[] abyte = new byte[packetbuffer.readableBytes()];
                 packetbuffer.readBytes(abyte);
                 this.inflater.setInput(abyte);
-                byte[] abyte1 = new byte[i];
+                final byte[] abyte1 = new byte[i];
                 this.inflater.inflate(abyte1);
                 p_decode_3_.add(Unpooled.wrappedBuffer(abyte1));
                 this.inflater.reset();
@@ -46,7 +45,7 @@ public class NettyCompressionDecoder extends ByteToMessageDecoder {
         }
     }
 
-    public void setCompressionTreshold(int treshold) {
+    public void setCompressionTreshold(final int treshold) {
         this.treshold = treshold;
     }
 }

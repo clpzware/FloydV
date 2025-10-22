@@ -10,14 +10,14 @@ public class QuadBounds {
     private float maxY = -3.4028235E38F;
     private float maxZ = -3.4028235E38F;
 
-    public QuadBounds(int[] vertexData) {
-        int i = vertexData.length / 4;
+    public QuadBounds(final int[] vertexData) {
+        final int i = vertexData.length / 4;
 
         for (int j = 0; j < 4; ++j) {
-            int k = j * i;
-            float f = Float.intBitsToFloat(vertexData[k]);
-            float f1 = Float.intBitsToFloat(vertexData[k + 1]);
-            float f2 = Float.intBitsToFloat(vertexData[k + 2]);
+            final int k = j * i;
+            final float f = Float.intBitsToFloat(vertexData[k + 0]);
+            final float f1 = Float.intBitsToFloat(vertexData[k + 1]);
+            final float f2 = Float.intBitsToFloat(vertexData[k + 2]);
 
             if (this.minX > f) {
                 this.minX = f;
@@ -69,10 +69,10 @@ public class QuadBounds {
         return this.maxZ;
     }
 
-    public boolean isFaceQuad(EnumFacing face) {
-        float f;
-        float f1;
-        float f2;
+    public boolean isFaceQuad(final EnumFacing face) {
+        final float f;
+        final float f1;
+        final float f2;
 
         switch (face) {
             case DOWN:
@@ -118,11 +118,11 @@ public class QuadBounds {
         return f == f2 && f1 == f2;
     }
 
-    public boolean isFullQuad(EnumFacing face) {
-        float f;
-        float f1;
-        float f2;
-        float f3;
+    public boolean isFullQuad(final EnumFacing face) {
+        final float f;
+        final float f1;
+        final float f2;
+        final float f3;
 
         switch (face) {
             case DOWN:

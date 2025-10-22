@@ -16,13 +16,13 @@ public class BlockWallSign extends BlockSign {
     }
 
     @SuppressWarnings("incomplete-switch")
-    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-        EnumFacing enumfacing = worldIn.getBlockState(pos).getValue(FACING);
-        float f = 0.28125F;
-        float f1 = 0.78125F;
-        float f2 = 0.0F;
-        float f3 = 1.0F;
-        float f4 = 0.125F;
+    public void setBlockBoundsBasedOnState(final IBlockAccess worldIn, final BlockPos pos) {
+        final EnumFacing enumfacing = worldIn.getBlockState(pos).getValue(FACING);
+        final float f = 0.28125F;
+        final float f1 = 0.78125F;
+        final float f2 = 0.0F;
+        final float f3 = 1.0F;
+        final float f4 = 0.125F;
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
 
         switch (enumfacing) {
@@ -43,8 +43,11 @@ public class BlockWallSign extends BlockSign {
         }
     }
 
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
-        EnumFacing enumfacing = state.getValue(FACING);
+    /**
+     * Called when a neighboring block changes.
+     */
+    public void onNeighborBlockChange(final World worldIn, final BlockPos pos, final IBlockState state, final Block neighborBlock) {
+        final EnumFacing enumfacing = state.getValue(FACING);
 
         if (!worldIn.getBlockState(pos.offset(enumfacing.getOpposite())).getBlock().getMaterial().isSolid()) {
             this.dropBlockAsItem(worldIn, pos, state, 0);
@@ -54,7 +57,10 @@ public class BlockWallSign extends BlockSign {
         super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
         EnumFacing enumfacing = EnumFacing.getFront(meta);
 
         if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
@@ -64,7 +70,10 @@ public class BlockWallSign extends BlockSign {
         return this.getDefaultState().withProperty(FACING, enumfacing);
     }
 
-    public int getMetaFromState(IBlockState state) {
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
         return state.getValue(FACING).getIndex();
     }
 

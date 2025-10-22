@@ -14,7 +14,10 @@ import java.util.List;
 public class RecipeFireworks implements IRecipe {
     private ItemStack field_92102_a;
 
-    public boolean matches(InventoryCrafting inv, World worldIn) {
+    /**
+     * Used to check if a recipe matches current crafting inventory
+     */
+    public boolean matches(final InventoryCrafting inv, final World worldIn) {
         this.field_92102_a = null;
         int i = 0;
         int j = 0;
@@ -24,7 +27,7 @@ public class RecipeFireworks implements IRecipe {
         int j1 = 0;
 
         for (int k1 = 0; k1 < inv.getSizeInventory(); ++k1) {
-            ItemStack itemstack = inv.getStackInSlot(k1);
+            final ItemStack itemstack = inv.getStackInSlot(k1);
 
             if (itemstack != null) {
                 if (itemstack.getItem() == Items.gunpowder) {
@@ -62,12 +65,12 @@ public class RecipeFireworks implements IRecipe {
                 this.field_92102_a = new ItemStack(Items.fireworks);
 
                 if (l > 0) {
-                    NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                    NBTTagCompound nbttagcompound3 = new NBTTagCompound();
-                    NBTTagList nbttaglist = new NBTTagList();
+                    final NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+                    final NBTTagCompound nbttagcompound3 = new NBTTagCompound();
+                    final NBTTagList nbttaglist = new NBTTagList();
 
                     for (int k2 = 0; k2 < inv.getSizeInventory(); ++k2) {
-                        ItemStack itemstack3 = inv.getStackInSlot(k2);
+                        final ItemStack itemstack3 = inv.getStackInSlot(k2);
 
                         if (itemstack3 != null && itemstack3.getItem() == Items.firework_charge && itemstack3.hasTagCompound() && itemstack3.getTagCompound().hasKey("Explosion", 10)) {
                             nbttaglist.appendTag(itemstack3.getTagCompound().getCompoundTag("Explosion"));
@@ -83,17 +86,17 @@ public class RecipeFireworks implements IRecipe {
                 return true;
             } else if (j == 1 && i == 0 && l == 0 && k > 0 && j1 <= 1) {
                 this.field_92102_a = new ItemStack(Items.firework_charge);
-                NBTTagCompound nbttagcompound = new NBTTagCompound();
-                NBTTagCompound nbttagcompound2 = new NBTTagCompound();
+                final NBTTagCompound nbttagcompound = new NBTTagCompound();
+                final NBTTagCompound nbttagcompound2 = new NBTTagCompound();
                 byte b0 = 0;
-                List<Integer> list = Lists.newArrayList();
+                final List<Integer> list = Lists.newArrayList();
 
                 for (int l1 = 0; l1 < inv.getSizeInventory(); ++l1) {
-                    ItemStack itemstack2 = inv.getStackInSlot(l1);
+                    final ItemStack itemstack2 = inv.getStackInSlot(l1);
 
                     if (itemstack2 != null) {
                         if (itemstack2.getItem() == Items.dye) {
-                            list.add(ItemDye.dyeColors[itemstack2.getMetadata() & 15]);
+                            list.add(Integer.valueOf(ItemDye.dyeColors[itemstack2.getMetadata() & 15]));
                         } else if (itemstack2.getItem() == Items.glowstone_dust) {
                             nbttagcompound2.setBoolean("Flicker", true);
                         } else if (itemstack2.getItem() == Items.diamond) {
@@ -110,10 +113,10 @@ public class RecipeFireworks implements IRecipe {
                     }
                 }
 
-                int[] aint1 = new int[list.size()];
+                final int[] aint1 = new int[list.size()];
 
                 for (int l2 = 0; l2 < aint1.length; ++l2) {
-                    aint1[l2] = list.get(l2);
+                    aint1[l2] = list.get(l2).intValue();
                 }
 
                 nbttagcompound2.setIntArray("Colors", aint1);
@@ -122,14 +125,14 @@ public class RecipeFireworks implements IRecipe {
                 this.field_92102_a.setTagCompound(nbttagcompound);
                 return true;
             } else if (j == 0 && i == 0 && l == 1 && k > 0 && k == i1) {
-                List<Integer> list1 = Lists.newArrayList();
+                final List<Integer> list1 = Lists.newArrayList();
 
                 for (int i2 = 0; i2 < inv.getSizeInventory(); ++i2) {
-                    ItemStack itemstack1 = inv.getStackInSlot(i2);
+                    final ItemStack itemstack1 = inv.getStackInSlot(i2);
 
                     if (itemstack1 != null) {
                         if (itemstack1.getItem() == Items.dye) {
-                            list1.add(ItemDye.dyeColors[itemstack1.getMetadata() & 15]);
+                            list1.add(Integer.valueOf(ItemDye.dyeColors[itemstack1.getMetadata() & 15]));
                         } else if (itemstack1.getItem() == Items.firework_charge) {
                             this.field_92102_a = itemstack1.copy();
                             this.field_92102_a.stackSize = 1;
@@ -137,14 +140,14 @@ public class RecipeFireworks implements IRecipe {
                     }
                 }
 
-                int[] aint = new int[list1.size()];
+                final int[] aint = new int[list1.size()];
 
                 for (int j2 = 0; j2 < aint.length; ++j2) {
-                    aint[j2] = list1.get(j2);
+                    aint[j2] = list1.get(j2).intValue();
                 }
 
                 if (this.field_92102_a != null && this.field_92102_a.hasTagCompound()) {
-                    NBTTagCompound nbttagcompound4 = this.field_92102_a.getTagCompound().getCompoundTag("Explosion");
+                    final NBTTagCompound nbttagcompound4 = this.field_92102_a.getTagCompound().getCompoundTag("Explosion");
 
                     if (nbttagcompound4 == null) {
                         return false;
@@ -163,10 +166,16 @@ public class RecipeFireworks implements IRecipe {
         }
     }
 
-    public ItemStack getCraftingResult(InventoryCrafting inv) {
+    /**
+     * Returns an Item that is the result of this recipe
+     */
+    public ItemStack getCraftingResult(final InventoryCrafting inv) {
         return this.field_92102_a.copy();
     }
 
+    /**
+     * Returns the size of the recipe area
+     */
     public int getRecipeSize() {
         return 10;
     }
@@ -175,11 +184,11 @@ public class RecipeFireworks implements IRecipe {
         return this.field_92102_a;
     }
 
-    public ItemStack[] getRemainingItems(InventoryCrafting inv) {
-        ItemStack[] aitemstack = new ItemStack[inv.getSizeInventory()];
+    public ItemStack[] getRemainingItems(final InventoryCrafting inv) {
+        final ItemStack[] aitemstack = new ItemStack[inv.getSizeInventory()];
 
         for (int i = 0; i < aitemstack.length; ++i) {
-            ItemStack itemstack = inv.getStackInSlot(i);
+            final ItemStack itemstack = inv.getStackInSlot(i);
 
             if (itemstack != null && itemstack.getItem().hasContainerItem()) {
                 aitemstack[i] = new ItemStack(itemstack.getItem().getContainerItem());

@@ -10,16 +10,20 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderGiantZombie extends RenderLiving<EntityGiantZombie> {
     private static final ResourceLocation zombieTextures = new ResourceLocation("textures/entity/zombie/zombie.png");
+
+    /**
+     * Scale of the model to use
+     */
     private final float scale;
 
-    public RenderGiantZombie(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn, float scaleIn) {
+    public RenderGiantZombie(final RenderManager renderManagerIn, final ModelBase modelBaseIn, final float shadowSizeIn, final float scaleIn) {
         super(renderManagerIn, modelBaseIn, shadowSizeIn * scaleIn);
         this.scale = scaleIn;
         this.addLayer(new LayerHeldItem(this));
         this.addLayer(new LayerBipedArmor(this) {
             protected void initArmor() {
-                this.modelLeggings = new ModelZombie(0.5F, true);
-                this.modelArmor = new ModelZombie(1.0F, true);
+                this.field_177189_c = new ModelZombie(0.5F, true);
+                this.field_177186_d = new ModelZombie(1.0F, true);
             }
         });
     }
@@ -28,11 +32,18 @@ public class RenderGiantZombie extends RenderLiving<EntityGiantZombie> {
         GlStateManager.translate(0.0F, 0.1875F, 0.0F);
     }
 
-    protected void preRenderCallback(EntityGiantZombie entitylivingbaseIn, float partialTickTime) {
+    /**
+     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
+     * entityLiving, partialTickTime
+     */
+    protected void preRenderCallback(final EntityGiantZombie entitylivingbaseIn, final float partialTickTime) {
         GlStateManager.scale(this.scale, this.scale, this.scale);
     }
 
-    protected ResourceLocation getEntityTexture(EntityGiantZombie entity) {
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(final EntityGiantZombie entity) {
         return zombieTextures;
     }
 }

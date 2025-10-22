@@ -8,9 +8,10 @@ public class PlayerConfiguration {
     private PlayerItemModel[] playerItemModels = new PlayerItemModel[0];
     private boolean initialized = false;
 
-    public void renderPlayerItems(ModelBiped modelBiped, AbstractClientPlayer player, float scale, float partialTicks) {
+    public void renderPlayerItems(final ModelBiped modelBiped, final AbstractClientPlayer player, final float scale, final float partialTicks) {
         if (this.initialized) {
-            for (PlayerItemModel playeritemmodel : this.playerItemModels) {
+            for (int i = 0; i < this.playerItemModels.length; ++i) {
+                final PlayerItemModel playeritemmodel = this.playerItemModels[i];
                 playeritemmodel.render(modelBiped, player, scale, partialTicks);
             }
         }
@@ -20,7 +21,7 @@ public class PlayerConfiguration {
         return this.initialized;
     }
 
-    public void setInitialized(boolean initialized) {
+    public void setInitialized(final boolean initialized) {
         this.initialized = initialized;
     }
 
@@ -28,7 +29,7 @@ public class PlayerConfiguration {
         return this.playerItemModels;
     }
 
-    public void addPlayerItemModel(PlayerItemModel playerItemModel) {
+    public void addPlayerItemModel(final PlayerItemModel playerItemModel) {
         this.playerItemModels = (PlayerItemModel[]) Config.addObjectToArray(this.playerItemModels, playerItemModel);
     }
 }

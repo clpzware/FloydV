@@ -24,7 +24,11 @@ public class BlockPumpkin extends BlockDirectional {
     private BlockPattern snowmanPattern;
     private BlockPattern golemBasePattern;
     private BlockPattern golemPattern;
-    private static final Predicate<IBlockState> field_181085_Q = p_apply_1_ -> p_apply_1_ != null && (p_apply_1_.getBlock() == Blocks.pumpkin || p_apply_1_.getBlock() == Blocks.lit_pumpkin);
+    private static final Predicate<IBlockState> field_181085_Q = new Predicate<IBlockState>() {
+        public boolean apply(final IBlockState p_apply_1_) {
+            return p_apply_1_ != null && (p_apply_1_.getBlock() == Blocks.pumpkin || p_apply_1_.getBlock() == Blocks.lit_pumpkin);
+        }
+    };
 
     protected BlockPumpkin() {
         super(Material.gourd, MapColor.adobeColor);
@@ -33,26 +37,26 @@ public class BlockPumpkin extends BlockDirectional {
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+    public void onBlockAdded(final World worldIn, final BlockPos pos, final IBlockState state) {
         super.onBlockAdded(worldIn, pos, state);
         this.trySpawnGolem(worldIn, pos);
     }
 
-    public boolean canDispenserPlace(World worldIn, BlockPos pos) {
+    public boolean canDispenserPlace(final World worldIn, final BlockPos pos) {
         return this.getSnowmanBasePattern().match(worldIn, pos) != null || this.getGolemBasePattern().match(worldIn, pos) != null;
     }
 
-    private void trySpawnGolem(World worldIn, BlockPos pos) {
+    private void trySpawnGolem(final World worldIn, final BlockPos pos) {
         BlockPattern.PatternHelper blockpattern$patternhelper;
 
         if ((blockpattern$patternhelper = this.getSnowmanPattern().match(worldIn, pos)) != null) {
             for (int i = 0; i < this.getSnowmanPattern().getThumbLength(); ++i) {
-                BlockWorldState blockworldstate = blockpattern$patternhelper.translateOffset(0, i, 0);
+                final BlockWorldState blockworldstate = blockpattern$patternhelper.translateOffset(0, i, 0);
                 worldIn.setBlockState(blockworldstate.getPos(), Blocks.air.getDefaultState(), 2);
             }
 
-            EntitySnowman entitysnowman = new EntitySnowman(worldIn);
-            BlockPos blockpos1 = blockpattern$patternhelper.translateOffset(0, 2, 0).getPos();
+            final EntitySnowman entitysnowman = new EntitySnowman(worldIn);
+            final BlockPos blockpos1 = blockpattern$patternhelper.translateOffset(0, 2, 0).getPos();
             entitysnowman.setLocationAndAngles((double) blockpos1.getX() + 0.5D, (double) blockpos1.getY() + 0.05D, (double) blockpos1.getZ() + 0.5D, 0.0F, 0.0F);
             worldIn.spawnEntityInWorld(entitysnowman);
 
@@ -61,7 +65,7 @@ public class BlockPumpkin extends BlockDirectional {
             }
 
             for (int i1 = 0; i1 < this.getSnowmanPattern().getThumbLength(); ++i1) {
-                BlockWorldState blockworldstate1 = blockpattern$patternhelper.translateOffset(0, i1, 0);
+                final BlockWorldState blockworldstate1 = blockpattern$patternhelper.translateOffset(0, i1, 0);
                 worldIn.notifyNeighborsRespectDebug(blockworldstate1.getPos(), Blocks.air);
             }
         } else if ((blockpattern$patternhelper = this.getGolemPattern().match(worldIn, pos)) != null) {
@@ -71,8 +75,8 @@ public class BlockPumpkin extends BlockDirectional {
                 }
             }
 
-            BlockPos blockpos = blockpattern$patternhelper.translateOffset(1, 2, 0).getPos();
-            EntityIronGolem entityirongolem = new EntityIronGolem(worldIn);
+            final BlockPos blockpos = blockpattern$patternhelper.translateOffset(1, 2, 0).getPos();
+            final EntityIronGolem entityirongolem = new EntityIronGolem(worldIn);
             entityirongolem.setPlayerCreated(true);
             entityirongolem.setLocationAndAngles((double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.05D, (double) blockpos.getZ() + 0.5D, 0.0F, 0.0F);
             worldIn.spawnEntityInWorld(entityirongolem);
@@ -83,26 +87,36 @@ public class BlockPumpkin extends BlockDirectional {
 
             for (int k1 = 0; k1 < this.getGolemPattern().getPalmLength(); ++k1) {
                 for (int l1 = 0; l1 < this.getGolemPattern().getThumbLength(); ++l1) {
-                    BlockWorldState blockworldstate2 = blockpattern$patternhelper.translateOffset(k1, l1, 0);
+                    final BlockWorldState blockworldstate2 = blockpattern$patternhelper.translateOffset(k1, l1, 0);
                     worldIn.notifyNeighborsRespectDebug(blockworldstate2.getPos(), Blocks.air);
                 }
             }
         }
     }
 
-    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+    public boolean canPlaceBlockAt(final World worldIn, final BlockPos pos) {
         return worldIn.getBlockState(pos).getBlock().blockMaterial.isReplaceable() && World.doesBlockHaveSolidTopSurface(worldIn, pos.down());
     }
 
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+    /**
+     * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
+     * IBlockstate
+     */
+    public IBlockState onBlockPlaced(final World worldIn, final BlockPos pos, final EnumFacing facing, final float hitX, final float hitY, final float hitZ, final int meta, final EntityLivingBase placer) {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
         return this.getDefaultState().withProperty(FACING, EnumFacing.getHorizontal(meta));
     }
 
-    public int getMetaFromState(IBlockState state) {
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
         return state.getValue(FACING).getHorizontalIndex();
     }
 

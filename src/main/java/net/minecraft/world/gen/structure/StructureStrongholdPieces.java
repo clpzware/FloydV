@@ -1,10 +1,6 @@
 package net.minecraft.world.gen.structure;
 
 import com.google.common.collect.Lists;
-
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.BlockEndPortalFrame;
 import net.minecraft.block.BlockSilverfish;
 import net.minecraft.block.BlockStoneBrick;
@@ -19,14 +15,17 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
+import java.util.List;
+import java.util.Random;
+
 @SuppressWarnings("incomplete-switch")
 public class StructureStrongholdPieces {
     private static final StructureStrongholdPieces.PieceWeight[] pieceWeightArray = new StructureStrongholdPieces.PieceWeight[]{new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Straight.class, 40, 0), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Prison.class, 5, 5), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.LeftTurn.class, 20, 0), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.RightTurn.class, 20, 0), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.RoomCrossing.class, 10, 6), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.StairsStraight.class, 5, 5), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Stairs.class, 5, 5), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Crossing.class, 5, 4), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.ChestCorridor.class, 5, 4), new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.Library.class, 10, 2) {
-        public boolean canSpawnMoreStructuresOfType(int p_75189_1_) {
+        public boolean canSpawnMoreStructuresOfType(final int p_75189_1_) {
             return super.canSpawnMoreStructuresOfType(p_75189_1_) && p_75189_1_ > 4;
         }
     }, new StructureStrongholdPieces.PieceWeight(StructureStrongholdPieces.PortalRoom.class, 20, 1) {
-        public boolean canSpawnMoreStructuresOfType(int p_75189_1_) {
+        public boolean canSpawnMoreStructuresOfType(final int p_75189_1_) {
             return super.canSpawnMoreStructuresOfType(p_75189_1_) && p_75189_1_ > 5;
         }
     }
@@ -52,10 +51,13 @@ public class StructureStrongholdPieces {
         MapGenStructureIO.registerStructureComponent(StructureStrongholdPieces.StairsStraight.class, "SHSSD");
     }
 
+    /**
+     * sets up Arrays with the Structure pieces and their weights
+     */
     public static void prepareStructurePieces() {
         structurePieceList = Lists.newArrayList();
 
-        for (StructureStrongholdPieces.PieceWeight structurestrongholdpieces$pieceweight : pieceWeightArray) {
+        for (final StructureStrongholdPieces.PieceWeight structurestrongholdpieces$pieceweight : pieceWeightArray) {
             structurestrongholdpieces$pieceweight.instancesSpawned = 0;
             structurePieceList.add(structurestrongholdpieces$pieceweight);
         }
@@ -67,7 +69,7 @@ public class StructureStrongholdPieces {
         boolean flag = false;
         totalWeight = 0;
 
-        for (StructureStrongholdPieces.PieceWeight structurestrongholdpieces$pieceweight : structurePieceList) {
+        for (final StructureStrongholdPieces.PieceWeight structurestrongholdpieces$pieceweight : structurePieceList) {
             if (structurestrongholdpieces$pieceweight.instancesLimit > 0 && structurestrongholdpieces$pieceweight.instancesSpawned < structurestrongholdpieces$pieceweight.instancesLimit) {
                 flag = true;
             }
@@ -78,7 +80,7 @@ public class StructureStrongholdPieces {
         return flag;
     }
 
-    private static StructureStrongholdPieces.Stronghold func_175954_a(Class<? extends StructureStrongholdPieces.Stronghold> p_175954_0_, List<StructureComponent> p_175954_1_, Random p_175954_2_, int p_175954_3_, int p_175954_4_, int p_175954_5_, EnumFacing p_175954_6_, int p_175954_7_) {
+    private static StructureStrongholdPieces.Stronghold func_175954_a(final Class<? extends StructureStrongholdPieces.Stronghold> p_175954_0_, final List<StructureComponent> p_175954_1_, final Random p_175954_2_, final int p_175954_3_, final int p_175954_4_, final int p_175954_5_, final EnumFacing p_175954_6_, final int p_175954_7_) {
         StructureStrongholdPieces.Stronghold structurestrongholdpieces$stronghold = null;
 
         if (p_175954_0_ == StructureStrongholdPieces.Straight.class) {
@@ -108,12 +110,12 @@ public class StructureStrongholdPieces {
         return structurestrongholdpieces$stronghold;
     }
 
-    private static StructureStrongholdPieces.Stronghold func_175955_b(StructureStrongholdPieces.Stairs2 p_175955_0_, List<StructureComponent> p_175955_1_, Random p_175955_2_, int p_175955_3_, int p_175955_4_, int p_175955_5_, EnumFacing p_175955_6_, int p_175955_7_) {
+    private static StructureStrongholdPieces.Stronghold func_175955_b(final StructureStrongholdPieces.Stairs2 p_175955_0_, final List<StructureComponent> p_175955_1_, final Random p_175955_2_, final int p_175955_3_, final int p_175955_4_, final int p_175955_5_, final EnumFacing p_175955_6_, final int p_175955_7_) {
         if (!canAddStructurePieces()) {
             return null;
         } else {
             if (strongComponentType != null) {
-                StructureStrongholdPieces.Stronghold structurestrongholdpieces$stronghold = func_175954_a(strongComponentType, p_175955_1_, p_175955_2_, p_175955_3_, p_175955_4_, p_175955_5_, p_175955_6_, p_175955_7_);
+                final StructureStrongholdPieces.Stronghold structurestrongholdpieces$stronghold = func_175954_a(strongComponentType, p_175955_1_, p_175955_2_, p_175955_3_, p_175955_4_, p_175955_5_, p_175955_6_, p_175955_7_);
                 strongComponentType = null;
 
                 if (structurestrongholdpieces$stronghold != null) {
@@ -127,7 +129,7 @@ public class StructureStrongholdPieces {
                 ++j;
                 int i = p_175955_2_.nextInt(totalWeight);
 
-                for (StructureStrongholdPieces.PieceWeight structurestrongholdpieces$pieceweight : structurePieceList) {
+                for (final StructureStrongholdPieces.PieceWeight structurestrongholdpieces$pieceweight : structurePieceList) {
                     i -= structurestrongholdpieces$pieceweight.pieceWeight;
 
                     if (i < 0) {
@@ -135,7 +137,7 @@ public class StructureStrongholdPieces {
                             break;
                         }
 
-                        StructureStrongholdPieces.Stronghold structurestrongholdpieces$stronghold1 = func_175954_a(structurestrongholdpieces$pieceweight.pieceClass, p_175955_1_, p_175955_2_, p_175955_3_, p_175955_4_, p_175955_5_, p_175955_6_, p_175955_7_);
+                        final StructureStrongholdPieces.Stronghold structurestrongholdpieces$stronghold1 = func_175954_a(structurestrongholdpieces$pieceweight.pieceClass, p_175955_1_, p_175955_2_, p_175955_3_, p_175955_4_, p_175955_5_, p_175955_6_, p_175955_7_);
 
                         if (structurestrongholdpieces$stronghold1 != null) {
                             ++structurestrongholdpieces$pieceweight.instancesSpawned;
@@ -151,7 +153,7 @@ public class StructureStrongholdPieces {
                 }
             }
 
-            StructureBoundingBox structureboundingbox = StructureStrongholdPieces.Corridor.func_175869_a(p_175955_1_, p_175955_2_, p_175955_3_, p_175955_4_, p_175955_5_, p_175955_6_);
+            final StructureBoundingBox structureboundingbox = StructureStrongholdPieces.Corridor.func_175869_a(p_175955_1_, p_175955_2_, p_175955_3_, p_175955_4_, p_175955_5_, p_175955_6_);
 
             if (structureboundingbox != null && structureboundingbox.minY > 1) {
                 return new StructureStrongholdPieces.Corridor(p_175955_7_, p_175955_2_, structureboundingbox, p_175955_6_);
@@ -161,11 +163,11 @@ public class StructureStrongholdPieces {
         }
     }
 
-    private static StructureComponent func_175953_c(StructureStrongholdPieces.Stairs2 p_175953_0_, List<StructureComponent> p_175953_1_, Random p_175953_2_, int p_175953_3_, int p_175953_4_, int p_175953_5_, EnumFacing p_175953_6_, int p_175953_7_) {
+    private static StructureComponent func_175953_c(final StructureStrongholdPieces.Stairs2 p_175953_0_, final List<StructureComponent> p_175953_1_, final Random p_175953_2_, final int p_175953_3_, final int p_175953_4_, final int p_175953_5_, final EnumFacing p_175953_6_, final int p_175953_7_) {
         if (p_175953_7_ > 50) {
             return null;
         } else if (Math.abs(p_175953_3_ - p_175953_0_.getBoundingBox().minX) <= 112 && Math.abs(p_175953_5_ - p_175953_0_.getBoundingBox().minZ) <= 112) {
-            StructureComponent structurecomponent = func_175955_b(p_175953_0_, p_175953_1_, p_175953_2_, p_175953_3_, p_175953_4_, p_175953_5_, p_175953_6_, p_175953_7_ + 1);
+            final StructureComponent structurecomponent = func_175955_b(p_175953_0_, p_175953_1_, p_175953_2_, p_175953_3_, p_175953_4_, p_175953_5_, p_175953_6_, p_175953_7_ + 1);
 
             if (structurecomponent != null) {
                 p_175953_1_.add(structurecomponent);
@@ -185,33 +187,33 @@ public class StructureStrongholdPieces {
         public ChestCorridor() {
         }
 
-        public ChestCorridor(int p_i45582_1_, Random p_i45582_2_, StructureBoundingBox p_i45582_3_, EnumFacing p_i45582_4_) {
+        public ChestCorridor(final int p_i45582_1_, final Random p_i45582_2_, final StructureBoundingBox p_i45582_3_, final EnumFacing p_i45582_4_) {
             super(p_i45582_1_);
             this.coordBaseMode = p_i45582_4_;
             this.field_143013_d = this.getRandomDoor(p_i45582_2_);
             this.boundingBox = p_i45582_3_;
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             super.writeStructureToNBT(tagCompound);
             tagCompound.setBoolean("Chest", this.hasMadeChest);
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             super.readStructureFromNBT(tagCompound);
             this.hasMadeChest = tagCompound.getBoolean("Chest");
         }
 
-        public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
+        public void buildComponent(final StructureComponent componentIn, final List<StructureComponent> listIn, final Random rand) {
             this.getNextComponentNormal((StructureStrongholdPieces.Stairs2) componentIn, listIn, rand, 1, 1);
         }
 
-        public static StructureStrongholdPieces.ChestCorridor func_175868_a(List<StructureComponent> p_175868_0_, Random p_175868_1_, int p_175868_2_, int p_175868_3_, int p_175868_4_, EnumFacing p_175868_5_, int p_175868_6_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175868_2_, p_175868_3_, p_175868_4_, -1, -1, 0, 5, 5, 7, p_175868_5_);
+        public static StructureStrongholdPieces.ChestCorridor func_175868_a(final List<StructureComponent> p_175868_0_, final Random p_175868_1_, final int p_175868_2_, final int p_175868_3_, final int p_175868_4_, final EnumFacing p_175868_5_, final int p_175868_6_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175868_2_, p_175868_3_, p_175868_4_, -1, -1, 0, 5, 5, 7, p_175868_5_);
             return canStrongholdGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175868_0_, structureboundingbox) == null ? new StructureStrongholdPieces.ChestCorridor(p_175868_6_, p_175868_1_, structureboundingbox, p_175868_5_) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn)) {
                 return false;
             } else {
@@ -244,27 +246,27 @@ public class StructureStrongholdPieces {
         public Corridor() {
         }
 
-        public Corridor(int p_i45581_1_, Random p_i45581_2_, StructureBoundingBox p_i45581_3_, EnumFacing p_i45581_4_) {
+        public Corridor(final int p_i45581_1_, final Random p_i45581_2_, final StructureBoundingBox p_i45581_3_, final EnumFacing p_i45581_4_) {
             super(p_i45581_1_);
             this.coordBaseMode = p_i45581_4_;
             this.boundingBox = p_i45581_3_;
             this.field_74993_a = p_i45581_4_ != EnumFacing.NORTH && p_i45581_4_ != EnumFacing.SOUTH ? p_i45581_3_.getXSize() : p_i45581_3_.getZSize();
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             super.writeStructureToNBT(tagCompound);
             tagCompound.setInteger("Steps", this.field_74993_a);
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             super.readStructureFromNBT(tagCompound);
             this.field_74993_a = tagCompound.getInteger("Steps");
         }
 
-        public static StructureBoundingBox func_175869_a(List<StructureComponent> p_175869_0_, Random p_175869_1_, int p_175869_2_, int p_175869_3_, int p_175869_4_, EnumFacing p_175869_5_) {
-            int i = 3;
+        public static StructureBoundingBox func_175869_a(final List<StructureComponent> p_175869_0_, final Random p_175869_1_, final int p_175869_2_, final int p_175869_3_, final int p_175869_4_, final EnumFacing p_175869_5_) {
+            final int i = 3;
             StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175869_2_, p_175869_3_, p_175869_4_, -1, -1, 0, 5, 5, 4, p_175869_5_);
-            StructureComponent structurecomponent = StructureComponent.findIntersecting(p_175869_0_, structureboundingbox);
+            final StructureComponent structurecomponent = StructureComponent.findIntersecting(p_175869_0_, structureboundingbox);
 
             if (structurecomponent == null) {
                 return null;
@@ -283,7 +285,7 @@ public class StructureStrongholdPieces {
             }
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn)) {
                 return false;
             } else {
@@ -323,7 +325,7 @@ public class StructureStrongholdPieces {
         public Crossing() {
         }
 
-        public Crossing(int p_i45580_1_, Random p_i45580_2_, StructureBoundingBox p_i45580_3_, EnumFacing p_i45580_4_) {
+        public Crossing(final int p_i45580_1_, final Random p_i45580_2_, final StructureBoundingBox p_i45580_3_, final EnumFacing p_i45580_4_) {
             super(p_i45580_1_);
             this.coordBaseMode = p_i45580_4_;
             this.field_143013_d = this.getRandomDoor(p_i45580_2_);
@@ -334,7 +336,7 @@ public class StructureStrongholdPieces {
             this.field_74999_h = p_i45580_2_.nextInt(3) > 0;
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             super.writeStructureToNBT(tagCompound);
             tagCompound.setBoolean("leftLow", this.field_74996_b);
             tagCompound.setBoolean("leftHigh", this.field_74997_c);
@@ -342,7 +344,7 @@ public class StructureStrongholdPieces {
             tagCompound.setBoolean("rightHigh", this.field_74999_h);
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             super.readStructureFromNBT(tagCompound);
             this.field_74996_b = tagCompound.getBoolean("leftLow");
             this.field_74997_c = tagCompound.getBoolean("leftHigh");
@@ -350,7 +352,7 @@ public class StructureStrongholdPieces {
             this.field_74999_h = tagCompound.getBoolean("rightHigh");
         }
 
-        public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
+        public void buildComponent(final StructureComponent componentIn, final List<StructureComponent> listIn, final Random rand) {
             int i = 3;
             int j = 5;
 
@@ -378,12 +380,12 @@ public class StructureStrongholdPieces {
             }
         }
 
-        public static StructureStrongholdPieces.Crossing func_175866_a(List<StructureComponent> p_175866_0_, Random p_175866_1_, int p_175866_2_, int p_175866_3_, int p_175866_4_, EnumFacing p_175866_5_, int p_175866_6_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175866_2_, p_175866_3_, p_175866_4_, -4, -3, 0, 10, 9, 11, p_175866_5_);
+        public static StructureStrongholdPieces.Crossing func_175866_a(final List<StructureComponent> p_175866_0_, final Random p_175866_1_, final int p_175866_2_, final int p_175866_3_, final int p_175866_4_, final EnumFacing p_175866_5_, final int p_175866_6_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175866_2_, p_175866_3_, p_175866_4_, -4, -3, 0, 10, 9, 11, p_175866_5_);
             return canStrongholdGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175866_0_, structureboundingbox) == null ? new StructureStrongholdPieces.Crossing(p_175866_6_, p_175866_1_, structureboundingbox, p_175866_5_) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn)) {
                 return false;
             } else {
@@ -430,14 +432,14 @@ public class StructureStrongholdPieces {
         public LeftTurn() {
         }
 
-        public LeftTurn(int p_i45579_1_, Random p_i45579_2_, StructureBoundingBox p_i45579_3_, EnumFacing p_i45579_4_) {
+        public LeftTurn(final int p_i45579_1_, final Random p_i45579_2_, final StructureBoundingBox p_i45579_3_, final EnumFacing p_i45579_4_) {
             super(p_i45579_1_);
             this.coordBaseMode = p_i45579_4_;
             this.field_143013_d = this.getRandomDoor(p_i45579_2_);
             this.boundingBox = p_i45579_3_;
         }
 
-        public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
+        public void buildComponent(final StructureComponent componentIn, final List<StructureComponent> listIn, final Random rand) {
             if (this.coordBaseMode != EnumFacing.NORTH && this.coordBaseMode != EnumFacing.EAST) {
                 this.getNextComponentZ((StructureStrongholdPieces.Stairs2) componentIn, listIn, rand, 1, 1);
             } else {
@@ -445,12 +447,12 @@ public class StructureStrongholdPieces {
             }
         }
 
-        public static StructureStrongholdPieces.LeftTurn func_175867_a(List<StructureComponent> p_175867_0_, Random p_175867_1_, int p_175867_2_, int p_175867_3_, int p_175867_4_, EnumFacing p_175867_5_, int p_175867_6_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175867_2_, p_175867_3_, p_175867_4_, -1, -1, 0, 5, 5, 5, p_175867_5_);
+        public static StructureStrongholdPieces.LeftTurn func_175867_a(final List<StructureComponent> p_175867_0_, final Random p_175867_1_, final int p_175867_2_, final int p_175867_3_, final int p_175867_4_, final EnumFacing p_175867_5_, final int p_175867_6_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175867_2_, p_175867_3_, p_175867_4_, -1, -1, 0, 5, 5, 5, p_175867_5_);
             return canStrongholdGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175867_0_, structureboundingbox) == null ? new StructureStrongholdPieces.LeftTurn(p_175867_6_, p_175867_1_, structureboundingbox, p_175867_5_) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn)) {
                 return false;
             } else {
@@ -475,7 +477,7 @@ public class StructureStrongholdPieces {
         public Library() {
         }
 
-        public Library(int p_i45578_1_, Random p_i45578_2_, StructureBoundingBox p_i45578_3_, EnumFacing p_i45578_4_) {
+        public Library(final int p_i45578_1_, final Random p_i45578_2_, final StructureBoundingBox p_i45578_3_, final EnumFacing p_i45578_4_) {
             super(p_i45578_1_);
             this.coordBaseMode = p_i45578_4_;
             this.field_143013_d = this.getRandomDoor(p_i45578_2_);
@@ -483,17 +485,17 @@ public class StructureStrongholdPieces {
             this.isLargeRoom = p_i45578_3_.getYSize() > 6;
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             super.writeStructureToNBT(tagCompound);
             tagCompound.setBoolean("Tall", this.isLargeRoom);
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             super.readStructureFromNBT(tagCompound);
             this.isLargeRoom = tagCompound.getBoolean("Tall");
         }
 
-        public static StructureStrongholdPieces.Library func_175864_a(List<StructureComponent> p_175864_0_, Random p_175864_1_, int p_175864_2_, int p_175864_3_, int p_175864_4_, EnumFacing p_175864_5_, int p_175864_6_) {
+        public static StructureStrongholdPieces.Library func_175864_a(final List<StructureComponent> p_175864_0_, final Random p_175864_1_, final int p_175864_2_, final int p_175864_3_, final int p_175864_4_, final EnumFacing p_175864_5_, final int p_175864_6_) {
             StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175864_2_, p_175864_3_, p_175864_4_, -4, -1, 0, 14, 11, 15, p_175864_5_);
 
             if (!canStrongholdGoDeeper(structureboundingbox) || StructureComponent.findIntersecting(p_175864_0_, structureboundingbox) != null) {
@@ -507,7 +509,7 @@ public class StructureStrongholdPieces {
             return new StructureStrongholdPieces.Library(p_175864_6_, p_175864_1_, structureboundingbox, p_175864_5_);
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn)) {
                 return false;
             } else {
@@ -520,8 +522,8 @@ public class StructureStrongholdPieces {
                 this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 13, i - 1, 14, true, randomIn, StructureStrongholdPieces.strongholdStones);
                 this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, this.field_143013_d, 4, 1, 0);
                 this.func_175805_a(worldIn, structureBoundingBoxIn, randomIn, 0.07F, 2, 1, 1, 11, 4, 13, Blocks.web.getDefaultState(), Blocks.web.getDefaultState(), false);
-                int j = 1;
-                int k = 12;
+                final int j = 1;
+                final int k = 12;
 
                 for (int l = 1; l <= 13; ++l) {
                     if ((l - 1) % 4 == 0) {
@@ -566,7 +568,7 @@ public class StructureStrongholdPieces {
                     this.setBlockState(worldIn, Blocks.oak_fence.getDefaultState(), 9, 6, 11, structureBoundingBoxIn);
                     this.setBlockState(worldIn, Blocks.oak_fence.getDefaultState(), 8, 6, 11, structureBoundingBoxIn);
                     this.setBlockState(worldIn, Blocks.oak_fence.getDefaultState(), 9, 6, 10, structureBoundingBoxIn);
-                    int l1 = this.getMetadataWithOffset(Blocks.ladder, 3);
+                    final int l1 = this.getMetadataWithOffset(Blocks.ladder, 3);
                     this.setBlockState(worldIn, Blocks.ladder.getStateFromMeta(l1), 10, 1, 13, structureBoundingBoxIn);
                     this.setBlockState(worldIn, Blocks.ladder.getStateFromMeta(l1), 10, 2, 13, structureBoundingBoxIn);
                     this.setBlockState(worldIn, Blocks.ladder.getStateFromMeta(l1), 10, 3, 13, structureBoundingBoxIn);
@@ -574,8 +576,8 @@ public class StructureStrongholdPieces {
                     this.setBlockState(worldIn, Blocks.ladder.getStateFromMeta(l1), 10, 5, 13, structureBoundingBoxIn);
                     this.setBlockState(worldIn, Blocks.ladder.getStateFromMeta(l1), 10, 6, 13, structureBoundingBoxIn);
                     this.setBlockState(worldIn, Blocks.ladder.getStateFromMeta(l1), 10, 7, 13, structureBoundingBoxIn);
-                    int i1 = 7;
-                    int j1 = 7;
+                    final int i1 = 7;
+                    final int j1 = 7;
                     this.setBlockState(worldIn, Blocks.oak_fence.getDefaultState(), i1 - 1, 9, j1, structureBoundingBoxIn);
                     this.setBlockState(worldIn, Blocks.oak_fence.getDefaultState(), i1, 9, j1, structureBoundingBoxIn);
                     this.setBlockState(worldIn, Blocks.oak_fence.getDefaultState(), i1 - 1, 8, j1, structureBoundingBoxIn);
@@ -614,13 +616,13 @@ public class StructureStrongholdPieces {
         public int instancesSpawned;
         public int instancesLimit;
 
-        public PieceWeight(Class<? extends StructureStrongholdPieces.Stronghold> p_i2076_1_, int p_i2076_2_, int p_i2076_3_) {
+        public PieceWeight(final Class<? extends StructureStrongholdPieces.Stronghold> p_i2076_1_, final int p_i2076_2_, final int p_i2076_3_) {
             this.pieceClass = p_i2076_1_;
             this.pieceWeight = p_i2076_2_;
             this.instancesLimit = p_i2076_3_;
         }
 
-        public boolean canSpawnMoreStructuresOfType(int p_75189_1_) {
+        public boolean canSpawnMoreStructuresOfType(final int p_75189_1_) {
             return this.instancesLimit == 0 || this.instancesSpawned < this.instancesLimit;
         }
 
@@ -635,34 +637,34 @@ public class StructureStrongholdPieces {
         public PortalRoom() {
         }
 
-        public PortalRoom(int p_i45577_1_, Random p_i45577_2_, StructureBoundingBox p_i45577_3_, EnumFacing p_i45577_4_) {
+        public PortalRoom(final int p_i45577_1_, final Random p_i45577_2_, final StructureBoundingBox p_i45577_3_, final EnumFacing p_i45577_4_) {
             super(p_i45577_1_);
             this.coordBaseMode = p_i45577_4_;
             this.boundingBox = p_i45577_3_;
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             super.writeStructureToNBT(tagCompound);
             tagCompound.setBoolean("Mob", this.hasSpawner);
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             super.readStructureFromNBT(tagCompound);
             this.hasSpawner = tagCompound.getBoolean("Mob");
         }
 
-        public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
+        public void buildComponent(final StructureComponent componentIn, final List<StructureComponent> listIn, final Random rand) {
             if (componentIn != null) {
                 ((StructureStrongholdPieces.Stairs2) componentIn).strongholdPortalRoom = this;
             }
         }
 
-        public static StructureStrongholdPieces.PortalRoom func_175865_a(List<StructureComponent> p_175865_0_, Random p_175865_1_, int p_175865_2_, int p_175865_3_, int p_175865_4_, EnumFacing p_175865_5_, int p_175865_6_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175865_2_, p_175865_3_, p_175865_4_, -4, -1, 0, 11, 8, 16, p_175865_5_);
+        public static StructureStrongholdPieces.PortalRoom func_175865_a(final List<StructureComponent> p_175865_0_, final Random p_175865_1_, final int p_175865_2_, final int p_175865_3_, final int p_175865_4_, final EnumFacing p_175865_5_, final int p_175865_6_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175865_2_, p_175865_3_, p_175865_4_, -4, -1, 0, 11, 8, 16, p_175865_5_);
             return canStrongholdGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175865_0_, structureboundingbox) == null ? new StructureStrongholdPieces.PortalRoom(p_175865_6_, p_175865_1_, structureboundingbox, p_175865_5_) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 10, 7, 15, false, randomIn, StructureStrongholdPieces.strongholdStones);
             this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, StructureStrongholdPieces.Stronghold.Door.GRATES, 4, 1, 0);
             int i = 6;
@@ -686,7 +688,7 @@ public class StructureStrongholdPieces {
                 this.fillWithBlocks(worldIn, structureBoundingBoxIn, k1, 3, 15, k1, 4, 15, Blocks.iron_bars.getDefaultState(), Blocks.iron_bars.getDefaultState(), false);
             }
 
-            int l1 = this.getMetadataWithOffset(Blocks.stone_brick_stairs, 3);
+            final int l1 = this.getMetadataWithOffset(Blocks.stone_brick_stairs, 3);
             this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 4, 1, 5, 6, 1, 7, false, randomIn, StructureStrongholdPieces.strongholdStones);
             this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 4, 2, 6, 6, 2, 7, false, randomIn, StructureStrongholdPieces.strongholdStones);
             this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 4, 3, 7, 6, 3, 7, false, randomIn, StructureStrongholdPieces.strongholdStones);
@@ -724,27 +726,27 @@ public class StructureStrongholdPieces {
                 }
             }
 
-            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(i2).withProperty(BlockEndPortalFrame.EYE, randomIn.nextFloat() > 0.9F), 4, 3, 8, structureBoundingBoxIn);
-            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(i2).withProperty(BlockEndPortalFrame.EYE, randomIn.nextFloat() > 0.9F), 5, 3, 8, structureBoundingBoxIn);
-            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(i2).withProperty(BlockEndPortalFrame.EYE, randomIn.nextFloat() > 0.9F), 6, 3, 8, structureBoundingBoxIn);
-            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(l).withProperty(BlockEndPortalFrame.EYE, randomIn.nextFloat() > 0.9F), 4, 3, 12, structureBoundingBoxIn);
-            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(l).withProperty(BlockEndPortalFrame.EYE, randomIn.nextFloat() > 0.9F), 5, 3, 12, structureBoundingBoxIn);
-            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(l).withProperty(BlockEndPortalFrame.EYE, randomIn.nextFloat() > 0.9F), 6, 3, 12, structureBoundingBoxIn);
-            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(i1).withProperty(BlockEndPortalFrame.EYE, randomIn.nextFloat() > 0.9F), 3, 3, 9, structureBoundingBoxIn);
-            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(i1).withProperty(BlockEndPortalFrame.EYE, randomIn.nextFloat() > 0.9F), 3, 3, 10, structureBoundingBoxIn);
-            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(i1).withProperty(BlockEndPortalFrame.EYE, randomIn.nextFloat() > 0.9F), 3, 3, 11, structureBoundingBoxIn);
-            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(j1).withProperty(BlockEndPortalFrame.EYE, randomIn.nextFloat() > 0.9F), 7, 3, 9, structureBoundingBoxIn);
-            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(j1).withProperty(BlockEndPortalFrame.EYE, randomIn.nextFloat() > 0.9F), 7, 3, 10, structureBoundingBoxIn);
-            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(j1).withProperty(BlockEndPortalFrame.EYE, randomIn.nextFloat() > 0.9F), 7, 3, 11, structureBoundingBoxIn);
+            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(i2).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(randomIn.nextFloat() > 0.9F)), 4, 3, 8, structureBoundingBoxIn);
+            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(i2).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(randomIn.nextFloat() > 0.9F)), 5, 3, 8, structureBoundingBoxIn);
+            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(i2).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(randomIn.nextFloat() > 0.9F)), 6, 3, 8, structureBoundingBoxIn);
+            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(l).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(randomIn.nextFloat() > 0.9F)), 4, 3, 12, structureBoundingBoxIn);
+            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(l).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(randomIn.nextFloat() > 0.9F)), 5, 3, 12, structureBoundingBoxIn);
+            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(l).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(randomIn.nextFloat() > 0.9F)), 6, 3, 12, structureBoundingBoxIn);
+            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(i1).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(randomIn.nextFloat() > 0.9F)), 3, 3, 9, structureBoundingBoxIn);
+            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(i1).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(randomIn.nextFloat() > 0.9F)), 3, 3, 10, structureBoundingBoxIn);
+            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(i1).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(randomIn.nextFloat() > 0.9F)), 3, 3, 11, structureBoundingBoxIn);
+            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(j1).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(randomIn.nextFloat() > 0.9F)), 7, 3, 9, structureBoundingBoxIn);
+            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(j1).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(randomIn.nextFloat() > 0.9F)), 7, 3, 10, structureBoundingBoxIn);
+            this.setBlockState(worldIn, Blocks.end_portal_frame.getStateFromMeta(j1).withProperty(BlockEndPortalFrame.EYE, Boolean.valueOf(randomIn.nextFloat() > 0.9F)), 7, 3, 11, structureBoundingBoxIn);
 
             if (!this.hasSpawner) {
                 i = this.getYWithOffset(3);
-                BlockPos blockpos = new BlockPos(this.getXWithOffset(5, 6), i, this.getZWithOffset(5, 6));
+                final BlockPos blockpos = new BlockPos(this.getXWithOffset(5, 6), i, this.getZWithOffset(5, 6));
 
                 if (structureBoundingBoxIn.isVecInside(blockpos)) {
                     this.hasSpawner = true;
                     worldIn.setBlockState(blockpos, Blocks.mob_spawner.getDefaultState(), 2);
-                    TileEntity tileentity = worldIn.getTileEntity(blockpos);
+                    final TileEntity tileentity = worldIn.getTileEntity(blockpos);
 
                     if (tileentity instanceof TileEntityMobSpawner) {
                         ((TileEntityMobSpawner) tileentity).getSpawnerBaseLogic().setEntityName("Silverfish");
@@ -760,23 +762,23 @@ public class StructureStrongholdPieces {
         public Prison() {
         }
 
-        public Prison(int p_i45576_1_, Random p_i45576_2_, StructureBoundingBox p_i45576_3_, EnumFacing p_i45576_4_) {
+        public Prison(final int p_i45576_1_, final Random p_i45576_2_, final StructureBoundingBox p_i45576_3_, final EnumFacing p_i45576_4_) {
             super(p_i45576_1_);
             this.coordBaseMode = p_i45576_4_;
             this.field_143013_d = this.getRandomDoor(p_i45576_2_);
             this.boundingBox = p_i45576_3_;
         }
 
-        public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
+        public void buildComponent(final StructureComponent componentIn, final List<StructureComponent> listIn, final Random rand) {
             this.getNextComponentNormal((StructureStrongholdPieces.Stairs2) componentIn, listIn, rand, 1, 1);
         }
 
-        public static StructureStrongholdPieces.Prison func_175860_a(List<StructureComponent> p_175860_0_, Random p_175860_1_, int p_175860_2_, int p_175860_3_, int p_175860_4_, EnumFacing p_175860_5_, int p_175860_6_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175860_2_, p_175860_3_, p_175860_4_, -1, -1, 0, 9, 5, 11, p_175860_5_);
+        public static StructureStrongholdPieces.Prison func_175860_a(final List<StructureComponent> p_175860_0_, final Random p_175860_1_, final int p_175860_2_, final int p_175860_3_, final int p_175860_4_, final EnumFacing p_175860_5_, final int p_175860_6_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175860_2_, p_175860_3_, p_175860_4_, -1, -1, 0, 9, 5, 11, p_175860_5_);
             return canStrongholdGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175860_0_, structureboundingbox) == null ? new StructureStrongholdPieces.Prison(p_175860_6_, p_175860_1_, structureboundingbox, p_175860_5_) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn)) {
                 return false;
             } else {
@@ -801,7 +803,7 @@ public class StructureStrongholdPieces {
     }
 
     public static class RightTurn extends StructureStrongholdPieces.LeftTurn {
-        public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
+        public void buildComponent(final StructureComponent componentIn, final List<StructureComponent> listIn, final Random rand) {
             if (this.coordBaseMode != EnumFacing.NORTH && this.coordBaseMode != EnumFacing.EAST) {
                 this.getNextComponentX((StructureStrongholdPieces.Stairs2) componentIn, listIn, rand, 1, 1);
             } else {
@@ -809,7 +811,7 @@ public class StructureStrongholdPieces {
             }
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn)) {
                 return false;
             } else {
@@ -834,7 +836,7 @@ public class StructureStrongholdPieces {
         public RoomCrossing() {
         }
 
-        public RoomCrossing(int p_i45575_1_, Random p_i45575_2_, StructureBoundingBox p_i45575_3_, EnumFacing p_i45575_4_) {
+        public RoomCrossing(final int p_i45575_1_, final Random p_i45575_2_, final StructureBoundingBox p_i45575_3_, final EnumFacing p_i45575_4_) {
             super(p_i45575_1_);
             this.coordBaseMode = p_i45575_4_;
             this.field_143013_d = this.getRandomDoor(p_i45575_2_);
@@ -842,28 +844,28 @@ public class StructureStrongholdPieces {
             this.roomType = p_i45575_2_.nextInt(5);
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             super.writeStructureToNBT(tagCompound);
             tagCompound.setInteger("Type", this.roomType);
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             super.readStructureFromNBT(tagCompound);
             this.roomType = tagCompound.getInteger("Type");
         }
 
-        public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
+        public void buildComponent(final StructureComponent componentIn, final List<StructureComponent> listIn, final Random rand) {
             this.getNextComponentNormal((StructureStrongholdPieces.Stairs2) componentIn, listIn, rand, 4, 1);
             this.getNextComponentX((StructureStrongholdPieces.Stairs2) componentIn, listIn, rand, 1, 4);
             this.getNextComponentZ((StructureStrongholdPieces.Stairs2) componentIn, listIn, rand, 1, 4);
         }
 
-        public static StructureStrongholdPieces.RoomCrossing func_175859_a(List<StructureComponent> p_175859_0_, Random p_175859_1_, int p_175859_2_, int p_175859_3_, int p_175859_4_, EnumFacing p_175859_5_, int p_175859_6_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175859_2_, p_175859_3_, p_175859_4_, -4, -1, 0, 11, 7, 11, p_175859_5_);
+        public static StructureStrongholdPieces.RoomCrossing func_175859_a(final List<StructureComponent> p_175859_0_, final Random p_175859_1_, final int p_175859_2_, final int p_175859_3_, final int p_175859_4_, final EnumFacing p_175859_5_, final int p_175859_6_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175859_2_, p_175859_3_, p_175859_4_, -4, -1, 0, 11, 7, 11, p_175859_5_);
             return canStrongholdGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175859_0_, structureboundingbox) == null ? new StructureStrongholdPieces.RoomCrossing(p_175859_6_, p_175859_1_, structureboundingbox, p_175859_5_) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn)) {
                 return false;
             } else {
@@ -966,7 +968,7 @@ public class StructureStrongholdPieces {
         public Stairs() {
         }
 
-        public Stairs(int p_i2081_1_, Random p_i2081_2_, int p_i2081_3_, int p_i2081_4_) {
+        public Stairs(final int p_i2081_1_, final Random p_i2081_2_, final int p_i2081_3_, final int p_i2081_4_) {
             super(p_i2081_1_);
             this.field_75024_a = true;
             this.coordBaseMode = EnumFacing.Plane.HORIZONTAL.random(p_i2081_2_);
@@ -983,7 +985,7 @@ public class StructureStrongholdPieces {
             }
         }
 
-        public Stairs(int p_i45574_1_, Random p_i45574_2_, StructureBoundingBox p_i45574_3_, EnumFacing p_i45574_4_) {
+        public Stairs(final int p_i45574_1_, final Random p_i45574_2_, final StructureBoundingBox p_i45574_3_, final EnumFacing p_i45574_4_) {
             super(p_i45574_1_);
             this.field_75024_a = false;
             this.coordBaseMode = p_i45574_4_;
@@ -991,17 +993,17 @@ public class StructureStrongholdPieces {
             this.boundingBox = p_i45574_3_;
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             super.writeStructureToNBT(tagCompound);
             tagCompound.setBoolean("Source", this.field_75024_a);
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             super.readStructureFromNBT(tagCompound);
             this.field_75024_a = tagCompound.getBoolean("Source");
         }
 
-        public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
+        public void buildComponent(final StructureComponent componentIn, final List<StructureComponent> listIn, final Random rand) {
             if (this.field_75024_a) {
                 StructureStrongholdPieces.strongComponentType = StructureStrongholdPieces.Crossing.class;
             }
@@ -1009,12 +1011,12 @@ public class StructureStrongholdPieces {
             this.getNextComponentNormal((StructureStrongholdPieces.Stairs2) componentIn, listIn, rand, 1, 1);
         }
 
-        public static StructureStrongholdPieces.Stairs func_175863_a(List<StructureComponent> p_175863_0_, Random p_175863_1_, int p_175863_2_, int p_175863_3_, int p_175863_4_, EnumFacing p_175863_5_, int p_175863_6_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175863_2_, p_175863_3_, p_175863_4_, -1, -7, 0, 5, 11, 5, p_175863_5_);
+        public static StructureStrongholdPieces.Stairs func_175863_a(final List<StructureComponent> p_175863_0_, final Random p_175863_1_, final int p_175863_2_, final int p_175863_3_, final int p_175863_4_, final EnumFacing p_175863_5_, final int p_175863_6_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175863_2_, p_175863_3_, p_175863_4_, -1, -7, 0, 5, 11, 5, p_175863_5_);
             return canStrongholdGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175863_0_, structureboundingbox) == null ? new StructureStrongholdPieces.Stairs(p_175863_6_, p_175863_1_, structureboundingbox, p_175863_5_) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn)) {
                 return false;
             } else {
@@ -1051,7 +1053,7 @@ public class StructureStrongholdPieces {
         public Stairs2() {
         }
 
-        public Stairs2(int p_i2083_1_, Random p_i2083_2_, int p_i2083_3_, int p_i2083_4_) {
+        public Stairs2(final int p_i2083_1_, final Random p_i2083_2_, final int p_i2083_3_, final int p_i2083_4_) {
             super(0, p_i2083_2_, p_i2083_3_, p_i2083_4_);
         }
 
@@ -1064,30 +1066,30 @@ public class StructureStrongholdPieces {
         public StairsStraight() {
         }
 
-        public StairsStraight(int p_i45572_1_, Random p_i45572_2_, StructureBoundingBox p_i45572_3_, EnumFacing p_i45572_4_) {
+        public StairsStraight(final int p_i45572_1_, final Random p_i45572_2_, final StructureBoundingBox p_i45572_3_, final EnumFacing p_i45572_4_) {
             super(p_i45572_1_);
             this.coordBaseMode = p_i45572_4_;
             this.field_143013_d = this.getRandomDoor(p_i45572_2_);
             this.boundingBox = p_i45572_3_;
         }
 
-        public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
+        public void buildComponent(final StructureComponent componentIn, final List<StructureComponent> listIn, final Random rand) {
             this.getNextComponentNormal((StructureStrongholdPieces.Stairs2) componentIn, listIn, rand, 1, 1);
         }
 
-        public static StructureStrongholdPieces.StairsStraight func_175861_a(List<StructureComponent> p_175861_0_, Random p_175861_1_, int p_175861_2_, int p_175861_3_, int p_175861_4_, EnumFacing p_175861_5_, int p_175861_6_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175861_2_, p_175861_3_, p_175861_4_, -1, -7, 0, 5, 11, 8, p_175861_5_);
+        public static StructureStrongholdPieces.StairsStraight func_175861_a(final List<StructureComponent> p_175861_0_, final Random p_175861_1_, final int p_175861_2_, final int p_175861_3_, final int p_175861_4_, final EnumFacing p_175861_5_, final int p_175861_6_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175861_2_, p_175861_3_, p_175861_4_, -1, -7, 0, 5, 11, 8, p_175861_5_);
             return canStrongholdGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175861_0_, structureboundingbox) == null ? new StructureStrongholdPieces.StairsStraight(p_175861_6_, p_175861_1_, structureboundingbox, p_175861_5_) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn)) {
                 return false;
             } else {
                 this.fillWithRandomizedBlocks(worldIn, structureBoundingBoxIn, 0, 0, 0, 4, 10, 7, true, randomIn, StructureStrongholdPieces.strongholdStones);
                 this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, this.field_143013_d, 1, 7, 0);
                 this.placeDoor(worldIn, randomIn, structureBoundingBoxIn, StructureStrongholdPieces.Stronghold.Door.OPENING, 1, 1, 7);
-                int i = this.getMetadataWithOffset(Blocks.stone_stairs, 2);
+                final int i = this.getMetadataWithOffset(Blocks.stone_stairs, 2);
 
                 for (int j = 0; j < 6; ++j) {
                     this.setBlockState(worldIn, Blocks.stone_stairs.getStateFromMeta(i), 1, 6 - j, 1 + j, structureBoundingBoxIn);
@@ -1110,9 +1112,9 @@ public class StructureStrongholdPieces {
         private Stones() {
         }
 
-        public void selectBlocks(Random rand, int x, int y, int z, boolean p_75062_5_) {
+        public void selectBlocks(final Random rand, final int x, final int y, final int z, final boolean p_75062_5_) {
             if (p_75062_5_) {
-                float f = rand.nextFloat();
+                final float f = rand.nextFloat();
 
                 if (f < 0.2F) {
                     this.blockstate = Blocks.stonebrick.getStateFromMeta(BlockStoneBrick.CRACKED_META);
@@ -1136,7 +1138,7 @@ public class StructureStrongholdPieces {
         public Straight() {
         }
 
-        public Straight(int p_i45573_1_, Random p_i45573_2_, StructureBoundingBox p_i45573_3_, EnumFacing p_i45573_4_) {
+        public Straight(final int p_i45573_1_, final Random p_i45573_2_, final StructureBoundingBox p_i45573_3_, final EnumFacing p_i45573_4_) {
             super(p_i45573_1_);
             this.coordBaseMode = p_i45573_4_;
             this.field_143013_d = this.getRandomDoor(p_i45573_2_);
@@ -1145,19 +1147,19 @@ public class StructureStrongholdPieces {
             this.expandsZ = p_i45573_2_.nextInt(2) == 0;
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             super.writeStructureToNBT(tagCompound);
             tagCompound.setBoolean("Left", this.expandsX);
             tagCompound.setBoolean("Right", this.expandsZ);
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             super.readStructureFromNBT(tagCompound);
             this.expandsX = tagCompound.getBoolean("Left");
             this.expandsZ = tagCompound.getBoolean("Right");
         }
 
-        public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
+        public void buildComponent(final StructureComponent componentIn, final List<StructureComponent> listIn, final Random rand) {
             this.getNextComponentNormal((StructureStrongholdPieces.Stairs2) componentIn, listIn, rand, 1, 1);
 
             if (this.expandsX) {
@@ -1169,12 +1171,12 @@ public class StructureStrongholdPieces {
             }
         }
 
-        public static StructureStrongholdPieces.Straight func_175862_a(List<StructureComponent> p_175862_0_, Random p_175862_1_, int p_175862_2_, int p_175862_3_, int p_175862_4_, EnumFacing p_175862_5_, int p_175862_6_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175862_2_, p_175862_3_, p_175862_4_, -1, -1, 0, 5, 5, 7, p_175862_5_);
+        public static StructureStrongholdPieces.Straight func_175862_a(final List<StructureComponent> p_175862_0_, final Random p_175862_1_, final int p_175862_2_, final int p_175862_3_, final int p_175862_4_, final EnumFacing p_175862_5_, final int p_175862_6_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175862_2_, p_175862_3_, p_175862_4_, -1, -1, 0, 5, 5, 7, p_175862_5_);
             return canStrongholdGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175862_0_, structureboundingbox) == null ? new StructureStrongholdPieces.Straight(p_175862_6_, p_175862_1_, structureboundingbox, p_175862_5_) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.isLiquidInStructureBoundingBox(worldIn, structureBoundingBoxIn)) {
                 return false;
             } else {
@@ -1205,19 +1207,19 @@ public class StructureStrongholdPieces {
         public Stronghold() {
         }
 
-        protected Stronghold(int p_i2087_1_) {
+        protected Stronghold(final int p_i2087_1_) {
             super(p_i2087_1_);
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             tagCompound.setString("EntryDoor", this.field_143013_d.name());
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             this.field_143013_d = StructureStrongholdPieces.Stronghold.Door.valueOf(tagCompound.getString("EntryDoor"));
         }
 
-        protected void placeDoor(World worldIn, Random p_74990_2_, StructureBoundingBox p_74990_3_, StructureStrongholdPieces.Stronghold.Door p_74990_4_, int p_74990_5_, int p_74990_6_, int p_74990_7_) {
+        protected void placeDoor(final World worldIn, final Random p_74990_2_, final StructureBoundingBox p_74990_3_, final StructureStrongholdPieces.Stronghold.Door p_74990_4_, final int p_74990_5_, final int p_74990_6_, final int p_74990_7_) {
             switch (p_74990_4_) {
                 case OPENING:
                 default:
@@ -1263,18 +1265,27 @@ public class StructureStrongholdPieces {
             }
         }
 
-        protected StructureStrongholdPieces.Stronghold.Door getRandomDoor(Random p_74988_1_) {
-            int i = p_74988_1_.nextInt(5);
+        protected StructureStrongholdPieces.Stronghold.Door getRandomDoor(final Random p_74988_1_) {
+            final int i = p_74988_1_.nextInt(5);
 
-            return switch (i) {
-                default -> Door.OPENING;
-                case 2 -> Door.WOOD_DOOR;
-                case 3 -> Door.GRATES;
-                case 4 -> Door.IRON_DOOR;
-            };
+            switch (i) {
+                case 0:
+                case 1:
+                default:
+                    return StructureStrongholdPieces.Stronghold.Door.OPENING;
+
+                case 2:
+                    return StructureStrongholdPieces.Stronghold.Door.WOOD_DOOR;
+
+                case 3:
+                    return StructureStrongholdPieces.Stronghold.Door.GRATES;
+
+                case 4:
+                    return StructureStrongholdPieces.Stronghold.Door.IRON_DOOR;
+            }
         }
 
-        protected StructureComponent getNextComponentNormal(StructureStrongholdPieces.Stairs2 p_74986_1_, List<StructureComponent> p_74986_2_, Random p_74986_3_, int p_74986_4_, int p_74986_5_) {
+        protected StructureComponent getNextComponentNormal(final StructureStrongholdPieces.Stairs2 p_74986_1_, final List<StructureComponent> p_74986_2_, final Random p_74986_3_, final int p_74986_4_, final int p_74986_5_) {
             if (this.coordBaseMode != null) {
                 switch (this.coordBaseMode) {
                     case NORTH:
@@ -1294,7 +1305,7 @@ public class StructureStrongholdPieces {
             return null;
         }
 
-        protected StructureComponent getNextComponentX(StructureStrongholdPieces.Stairs2 p_74989_1_, List<StructureComponent> p_74989_2_, Random p_74989_3_, int p_74989_4_, int p_74989_5_) {
+        protected StructureComponent getNextComponentX(final StructureStrongholdPieces.Stairs2 p_74989_1_, final List<StructureComponent> p_74989_2_, final Random p_74989_3_, final int p_74989_4_, final int p_74989_5_) {
             if (this.coordBaseMode != null) {
                 switch (this.coordBaseMode) {
                     case NORTH:
@@ -1314,7 +1325,7 @@ public class StructureStrongholdPieces {
             return null;
         }
 
-        protected StructureComponent getNextComponentZ(StructureStrongholdPieces.Stairs2 p_74987_1_, List<StructureComponent> p_74987_2_, Random p_74987_3_, int p_74987_4_, int p_74987_5_) {
+        protected StructureComponent getNextComponentZ(final StructureStrongholdPieces.Stairs2 p_74987_1_, final List<StructureComponent> p_74987_2_, final Random p_74987_3_, final int p_74987_4_, final int p_74987_5_) {
             if (this.coordBaseMode != null) {
                 switch (this.coordBaseMode) {
                     case NORTH:
@@ -1334,7 +1345,7 @@ public class StructureStrongholdPieces {
             return null;
         }
 
-        protected static boolean canStrongholdGoDeeper(StructureBoundingBox p_74991_0_) {
+        protected static boolean canStrongholdGoDeeper(final StructureBoundingBox p_74991_0_) {
             return p_74991_0_ != null && p_74991_0_.minY > 10;
         }
 

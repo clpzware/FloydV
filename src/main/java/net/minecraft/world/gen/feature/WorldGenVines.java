@@ -10,12 +10,12 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class WorldGenVines extends WorldGenerator {
-    public boolean generate(World worldIn, Random rand, BlockPos position) {
+    public boolean generate(final World worldIn, final Random rand, BlockPos position) {
         for (; position.getY() < 128; position = position.up()) {
             if (worldIn.isAirBlock(position)) {
-                for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL.facings()) {
+                for (final EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL.facings()) {
                     if (Blocks.vine.canPlaceBlockOnSide(worldIn, position, enumfacing)) {
-                        IBlockState iblockstate = Blocks.vine.getDefaultState().withProperty(BlockVine.NORTH, enumfacing == EnumFacing.NORTH).withProperty(BlockVine.EAST, enumfacing == EnumFacing.EAST).withProperty(BlockVine.SOUTH, enumfacing == EnumFacing.SOUTH).withProperty(BlockVine.WEST, enumfacing == EnumFacing.WEST);
+                        final IBlockState iblockstate = Blocks.vine.getDefaultState().withProperty(BlockVine.NORTH, Boolean.valueOf(enumfacing == EnumFacing.NORTH)).withProperty(BlockVine.EAST, Boolean.valueOf(enumfacing == EnumFacing.EAST)).withProperty(BlockVine.SOUTH, Boolean.valueOf(enumfacing == EnumFacing.SOUTH)).withProperty(BlockVine.WEST, Boolean.valueOf(enumfacing == EnumFacing.WEST));
                         worldIn.setBlockState(position, iblockstate, 2);
                         break;
                     }

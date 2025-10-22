@@ -14,25 +14,24 @@ import java.util.Set;
 public class PlayerItemsLayer implements LayerRenderer {
     private RenderPlayer renderPlayer = null;
 
-    public PlayerItemsLayer(RenderPlayer renderPlayer) {
+    public PlayerItemsLayer(final RenderPlayer renderPlayer) {
         this.renderPlayer = renderPlayer;
     }
 
-    public void doRenderLayer(EntityLivingBase entityLiving, float limbSwing, float limbSwingAmount, float partialTicks, float ticksExisted, float headYaw, float rotationPitch, float scale) {
+    public void doRenderLayer(final EntityLivingBase entityLiving, final float limbSwing, final float limbSwingAmount, final float partialTicks, final float ticksExisted, final float headYaw, final float rotationPitch, final float scale) {
         this.renderEquippedItems(entityLiving, scale, partialTicks);
     }
 
-    protected void renderEquippedItems(EntityLivingBase entityLiving, float scale, float partialTicks) {
+    protected void renderEquippedItems(final EntityLivingBase entityLiving, final float scale, final float partialTicks) {
         if (Config.isShowCapes()) {
-            if (!entityLiving.isInvisible()) {
-                if (entityLiving instanceof AbstractClientPlayer abstractclientplayer) {
-                    GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-                    GlStateManager.disableRescaleNormal();
-                    GlStateManager.enableCull();
-                    ModelBiped modelbiped = this.renderPlayer.getMainModel();
-                    PlayerConfigurations.renderPlayerItems(modelbiped, abstractclientplayer, scale, partialTicks);
-                    GlStateManager.disableCull();
-                }
+            if (entityLiving instanceof AbstractClientPlayer) {
+                final AbstractClientPlayer abstractclientplayer = (AbstractClientPlayer) entityLiving;
+                GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                GlStateManager.disableRescaleNormal();
+                GlStateManager.enableCull();
+                final ModelBiped modelbiped = this.renderPlayer.getMainModel();
+                PlayerConfigurations.renderPlayerItems(modelbiped, abstractclientplayer, scale, partialTicks);
+                GlStateManager.disableCull();
             }
         }
     }
@@ -41,14 +40,15 @@ public class PlayerItemsLayer implements LayerRenderer {
         return false;
     }
 
-    public static void register(Map renderPlayerMap) {
-        Set set = renderPlayerMap.keySet();
+    public static void register(final Map renderPlayerMap) {
+        final Set set = renderPlayerMap.keySet();
         boolean flag = false;
 
-        for (Object object : set) {
-            Object object1 = renderPlayerMap.get(object);
+        for (final Object object : set) {
+            final Object object1 = renderPlayerMap.get(object);
 
-            if (object1 instanceof RenderPlayer renderplayer) {
+            if (object1 instanceof RenderPlayer) {
+                final RenderPlayer renderplayer = (RenderPlayer) object1;
                 renderplayer.addLayer(new PlayerItemsLayer(renderplayer));
                 flag = true;
             }

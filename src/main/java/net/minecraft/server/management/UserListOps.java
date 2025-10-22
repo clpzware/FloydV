@@ -6,36 +6,44 @@ import com.mojang.authlib.GameProfile;
 import java.io.File;
 
 public class UserListOps extends UserList<GameProfile, UserListOpsEntry> {
-    public UserListOps(File saveFile) {
+    public UserListOps(final File saveFile) {
         super(saveFile);
     }
 
-    protected UserListEntry<GameProfile> createEntry(JsonObject entryData) {
+    protected UserListEntry<GameProfile> createEntry(final JsonObject entryData) {
         return new UserListOpsEntry(entryData);
     }
 
     public String[] getKeys() {
-        String[] astring = new String[this.getValues().size()];
+        final String[] astring = new String[this.getValues().size()];
         int i = 0;
 
-        for (UserListOpsEntry userlistopsentry : this.getValues().values()) {
+        for (final UserListOpsEntry userlistopsentry : this.getValues().values()) {
             astring[i++] = userlistopsentry.getValue().getName();
         }
 
         return astring;
     }
 
-    public boolean bypassesPlayerLimit(GameProfile profile) {
-        UserListOpsEntry userlistopsentry = this.getEntry(profile);
-        return userlistopsentry != null && userlistopsentry.bypassesPlayerLimit();
+    public boolean func_183026_b(final GameProfile p_183026_1_) {
+        final UserListOpsEntry userlistopsentry = this.getEntry(p_183026_1_);
+        return userlistopsentry != null && userlistopsentry.func_183024_b();
     }
 
-    protected String getObjectKey(GameProfile obj) {
+    /**
+     * Gets the key value for the given object
+     */
+    protected String getObjectKey(final GameProfile obj) {
         return obj.getId().toString();
     }
 
-    public GameProfile getGameProfileFromName(String username) {
-        for (UserListOpsEntry userlistopsentry : this.getValues().values()) {
+    /**
+     * Gets the GameProfile of based on the provided username.
+     *
+     * @param username The username to match to a GameProfile
+     */
+    public GameProfile getGameProfileFromName(final String username) {
+        for (final UserListOpsEntry userlistopsentry : this.getValues().values()) {
             if (username.equalsIgnoreCase(userlistopsentry.getValue().getName())) {
                 return userlistopsentry.getValue();
             }

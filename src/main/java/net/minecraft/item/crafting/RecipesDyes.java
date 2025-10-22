@@ -9,7 +9,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class RecipesDyes {
-    public void addRecipes(CraftingManager p_77607_1_) {
+    /**
+     * Adds the dye recipes to the CraftingManager.
+     */
+    public void addRecipes(final CraftingManager p_77607_1_) {
         for (int i = 0; i < 16; ++i) {
             p_77607_1_.addShapelessRecipe(new ItemStack(Blocks.wool, 1, i), new ItemStack(Items.dye, 1, 15 - i), new ItemStack(Item.getItemFromBlock(Blocks.wool), 1, 0));
             p_77607_1_.addRecipe(new ItemStack(Blocks.stained_hardened_clay, 8, 15 - i), "###", "#X#", "###", '#', new ItemStack(Blocks.hardened_clay), 'X', new ItemStack(Items.dye, 1, i));

@@ -18,24 +18,24 @@ public class ModelBlockDefinition {
     static final Gson GSON = (new GsonBuilder()).registerTypeAdapter(ModelBlockDefinition.class, new ModelBlockDefinition.Deserializer()).registerTypeAdapter(ModelBlockDefinition.Variant.class, new ModelBlockDefinition.Variant.Deserializer()).create();
     private final Map<String, ModelBlockDefinition.Variants> mapVariants = Maps.newHashMap();
 
-    public static ModelBlockDefinition parseFromReader(Reader p_178331_0_) {
+    public static ModelBlockDefinition parseFromReader(final Reader p_178331_0_) {
         return GSON.fromJson(p_178331_0_, ModelBlockDefinition.class);
     }
 
-    public ModelBlockDefinition(Collection<ModelBlockDefinition.Variants> p_i46221_1_) {
-        for (ModelBlockDefinition.Variants modelblockdefinition$variants : p_i46221_1_) {
+    public ModelBlockDefinition(final Collection<ModelBlockDefinition.Variants> p_i46221_1_) {
+        for (final ModelBlockDefinition.Variants modelblockdefinition$variants : p_i46221_1_) {
             this.mapVariants.put(modelblockdefinition$variants.name, modelblockdefinition$variants);
         }
     }
 
-    public ModelBlockDefinition(List<ModelBlockDefinition> p_i46222_1_) {
-        for (ModelBlockDefinition modelblockdefinition : p_i46222_1_) {
+    public ModelBlockDefinition(final List<ModelBlockDefinition> p_i46222_1_) {
+        for (final ModelBlockDefinition modelblockdefinition : p_i46222_1_) {
             this.mapVariants.putAll(modelblockdefinition.mapVariants);
         }
     }
 
-    public ModelBlockDefinition.Variants getVariants(String p_178330_1_) {
-        ModelBlockDefinition.Variants modelblockdefinition$variants = this.mapVariants.get(p_178330_1_);
+    public ModelBlockDefinition.Variants getVariants(final String p_178330_1_) {
+        final ModelBlockDefinition.Variants modelblockdefinition$variants = this.mapVariants.get(p_178330_1_);
 
         if (modelblockdefinition$variants == null) {
             throw new ModelBlockDefinition.MissingVariantException();
@@ -44,10 +44,11 @@ public class ModelBlockDefinition {
         }
     }
 
-    public boolean equals(Object p_equals_1_) {
+    public boolean equals(final Object p_equals_1_) {
         if (this == p_equals_1_) {
             return true;
-        } else if (p_equals_1_ instanceof ModelBlockDefinition modelblockdefinition) {
+        } else if (p_equals_1_ instanceof ModelBlockDefinition) {
+            final ModelBlockDefinition modelblockdefinition = (ModelBlockDefinition) p_equals_1_;
             return this.mapVariants.equals(modelblockdefinition.mapVariants);
         } else {
             return false;
@@ -59,30 +60,30 @@ public class ModelBlockDefinition {
     }
 
     public static class Deserializer implements JsonDeserializer<ModelBlockDefinition> {
-        public ModelBlockDefinition deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
-            JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
-            List<ModelBlockDefinition.Variants> list = this.parseVariantsList(p_deserialize_3_, jsonobject);
+        public ModelBlockDefinition deserialize(final JsonElement p_deserialize_1_, final Type p_deserialize_2_, final JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
+            final JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
+            final List<ModelBlockDefinition.Variants> list = this.parseVariantsList(p_deserialize_3_, jsonobject);
             return new ModelBlockDefinition(list);
         }
 
-        protected List<ModelBlockDefinition.Variants> parseVariantsList(JsonDeserializationContext p_178334_1_, JsonObject p_178334_2_) {
-            JsonObject jsonobject = JsonUtils.getJsonObject(p_178334_2_, "variants");
-            List<ModelBlockDefinition.Variants> list = Lists.newArrayList();
+        protected List<ModelBlockDefinition.Variants> parseVariantsList(final JsonDeserializationContext p_178334_1_, final JsonObject p_178334_2_) {
+            final JsonObject jsonobject = JsonUtils.getJsonObject(p_178334_2_, "variants");
+            final List<ModelBlockDefinition.Variants> list = Lists.newArrayList();
 
-            for (Entry<String, JsonElement> entry : jsonobject.entrySet()) {
+            for (final Entry<String, JsonElement> entry : jsonobject.entrySet()) {
                 list.add(this.parseVariants(p_178334_1_, entry));
             }
 
             return list;
         }
 
-        protected ModelBlockDefinition.Variants parseVariants(JsonDeserializationContext p_178335_1_, Entry<String, JsonElement> p_178335_2_) {
-            String s = p_178335_2_.getKey();
-            List<ModelBlockDefinition.Variant> list = Lists.newArrayList();
-            JsonElement jsonelement = p_178335_2_.getValue();
+        protected ModelBlockDefinition.Variants parseVariants(final JsonDeserializationContext p_178335_1_, final Entry<String, JsonElement> p_178335_2_) {
+            final String s = p_178335_2_.getKey();
+            final List<ModelBlockDefinition.Variant> list = Lists.newArrayList();
+            final JsonElement jsonelement = p_178335_2_.getValue();
 
             if (jsonelement.isJsonArray()) {
-                for (JsonElement jsonelement1 : jsonelement.getAsJsonArray()) {
+                for (final JsonElement jsonelement1 : jsonelement.getAsJsonArray()) {
                     list.add(p_178335_1_.deserialize(jsonelement1, Variant.class));
                 }
             } else {
@@ -102,7 +103,7 @@ public class ModelBlockDefinition {
         private final boolean uvLock;
         private final int weight;
 
-        public Variant(ResourceLocation modelLocationIn, ModelRotation modelRotationIn, boolean uvLockIn, int weightIn) {
+        public Variant(final ResourceLocation modelLocationIn, final ModelRotation modelRotationIn, final boolean uvLockIn, final int weightIn) {
             this.modelLocation = modelLocationIn;
             this.modelRotation = modelRotationIn;
             this.uvLock = uvLockIn;
@@ -125,12 +126,13 @@ public class ModelBlockDefinition {
             return this.weight;
         }
 
-        public boolean equals(Object p_equals_1_) {
+        public boolean equals(final Object p_equals_1_) {
             if (this == p_equals_1_) {
                 return true;
-            } else if (!(p_equals_1_ instanceof Variant modelblockdefinition$variant)) {
+            } else if (!(p_equals_1_ instanceof ModelBlockDefinition.Variant)) {
                 return false;
             } else {
+                final ModelBlockDefinition.Variant modelblockdefinition$variant = (ModelBlockDefinition.Variant) p_equals_1_;
                 return this.modelLocation.equals(modelblockdefinition$variant.modelLocation) && this.modelRotation == modelblockdefinition$variant.modelRotation && this.uvLock == modelblockdefinition$variant.uvLock;
             }
         }
@@ -143,29 +145,29 @@ public class ModelBlockDefinition {
         }
 
         public static class Deserializer implements JsonDeserializer<ModelBlockDefinition.Variant> {
-            public ModelBlockDefinition.Variant deserialize(JsonElement p_deserialize_1_, Type p_deserialize_2_, JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
-                JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
-                String s = this.parseModel(jsonobject);
-                ModelRotation modelrotation = this.parseRotation(jsonobject);
-                boolean flag = this.parseUvLock(jsonobject);
-                int i = this.parseWeight(jsonobject);
+            public ModelBlockDefinition.Variant deserialize(final JsonElement p_deserialize_1_, final Type p_deserialize_2_, final JsonDeserializationContext p_deserialize_3_) throws JsonParseException {
+                final JsonObject jsonobject = p_deserialize_1_.getAsJsonObject();
+                final String s = this.parseModel(jsonobject);
+                final ModelRotation modelrotation = this.parseRotation(jsonobject);
+                final boolean flag = this.parseUvLock(jsonobject);
+                final int i = this.parseWeight(jsonobject);
                 return new ModelBlockDefinition.Variant(this.makeModelLocation(s), modelrotation, flag, i);
             }
 
-            private ResourceLocation makeModelLocation(String p_178426_1_) {
+            private ResourceLocation makeModelLocation(final String p_178426_1_) {
                 ResourceLocation resourcelocation = new ResourceLocation(p_178426_1_);
                 resourcelocation = new ResourceLocation(resourcelocation.getResourceDomain(), "block/" + resourcelocation.getResourcePath());
                 return resourcelocation;
             }
 
-            private boolean parseUvLock(JsonObject p_178429_1_) {
+            private boolean parseUvLock(final JsonObject p_178429_1_) {
                 return JsonUtils.getBoolean(p_178429_1_, "uvlock", false);
             }
 
-            protected ModelRotation parseRotation(JsonObject p_178428_1_) {
-                int i = JsonUtils.getInt(p_178428_1_, "x", 0);
-                int j = JsonUtils.getInt(p_178428_1_, "y", 0);
-                ModelRotation modelrotation = ModelRotation.getModelRotation(i, j);
+            protected ModelRotation parseRotation(final JsonObject p_178428_1_) {
+                final int i = JsonUtils.getInt(p_178428_1_, "x", 0);
+                final int j = JsonUtils.getInt(p_178428_1_, "y", 0);
+                final ModelRotation modelrotation = ModelRotation.getModelRotation(i, j);
 
                 if (modelrotation == null) {
                     throw new JsonParseException("Invalid BlockModelRotation x: " + i + ", y: " + j);
@@ -174,11 +176,11 @@ public class ModelBlockDefinition {
                 }
             }
 
-            protected String parseModel(JsonObject p_178424_1_) {
+            protected String parseModel(final JsonObject p_178424_1_) {
                 return JsonUtils.getString(p_178424_1_, "model");
             }
 
-            protected int parseWeight(JsonObject p_178427_1_) {
+            protected int parseWeight(final JsonObject p_178427_1_) {
                 return JsonUtils.getInt(p_178427_1_, "weight", 1);
             }
         }
@@ -188,7 +190,7 @@ public class ModelBlockDefinition {
         private final String name;
         private final List<ModelBlockDefinition.Variant> listVariants;
 
-        public Variants(String nameIn, List<ModelBlockDefinition.Variant> listVariantsIn) {
+        public Variants(final String nameIn, final List<ModelBlockDefinition.Variant> listVariantsIn) {
             this.name = nameIn;
             this.listVariants = listVariantsIn;
         }
@@ -197,12 +199,13 @@ public class ModelBlockDefinition {
             return this.listVariants;
         }
 
-        public boolean equals(Object p_equals_1_) {
+        public boolean equals(final Object p_equals_1_) {
             if (this == p_equals_1_) {
                 return true;
-            } else if (!(p_equals_1_ instanceof Variants modelblockdefinition$variants)) {
+            } else if (!(p_equals_1_ instanceof ModelBlockDefinition.Variants)) {
                 return false;
             } else {
+                final ModelBlockDefinition.Variants modelblockdefinition$variants = (ModelBlockDefinition.Variants) p_equals_1_;
                 return this.name.equals(modelblockdefinition$variants.name) && this.listVariants.equals(modelblockdefinition$variants.listVariants);
             }
         }

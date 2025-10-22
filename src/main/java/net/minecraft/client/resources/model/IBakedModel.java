@@ -1,14 +1,14 @@
 package net.minecraft.client.resources.model;
 
-import java.util.List;
-
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.EnumFacing;
 
+import java.util.List;
+
 public interface IBakedModel {
-    List<BakedQuad> getFaceQuads(EnumFacing facing);
+    List<BakedQuad> getFaceQuads(EnumFacing p_177551_1_);
 
     List<BakedQuad> getGeneralQuads();
 
@@ -18,7 +18,7 @@ public interface IBakedModel {
 
     boolean isBuiltInRenderer();
 
-    TextureAtlasSprite getParticleTexture();
+    TextureAtlasSprite getTexture();
 
     ItemCameraTransforms getItemCameraTransforms();
 }

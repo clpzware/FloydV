@@ -20,22 +20,26 @@ public abstract class BlockLog extends BlockRotatedPillar {
         this.setStepSound(soundTypeWood);
     }
 
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        int i = 4;
-        int j = i + 1;
+    public void breakBlock(final World worldIn, final BlockPos pos, final IBlockState state) {
+        final int i = 4;
+        final int j = i + 1;
 
         if (worldIn.isAreaLoaded(pos.add(-j, -j, -j), pos.add(j, j, j))) {
-            for (BlockPos blockpos : BlockPos.getAllInBox(pos.add(-i, -i, -i), pos.add(i, i, i))) {
-                IBlockState iblockstate = worldIn.getBlockState(blockpos);
+            for (final BlockPos blockpos : BlockPos.getAllInBox(pos.add(-i, -i, -i), pos.add(i, i, i))) {
+                final IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-                if (iblockstate.getBlock().getMaterial() == Material.leaves && !iblockstate.getValue(BlockLeaves.CHECK_DECAY)) {
-                    worldIn.setBlockState(blockpos, iblockstate.withProperty(BlockLeaves.CHECK_DECAY, Boolean.TRUE), 4);
+                if (iblockstate.getBlock().getMaterial() == Material.leaves && !iblockstate.getValue(BlockLeaves.CHECK_DECAY).booleanValue()) {
+                    worldIn.setBlockState(blockpos, iblockstate.withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(true)), 4);
                 }
             }
         }
     }
 
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+    /**
+     * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
+     * IBlockstate
+     */
+    public IBlockState onBlockPlaced(final World worldIn, final BlockPos pos, final EnumFacing facing, final float hitX, final float hitY, final float hitZ, final int meta, final EntityLivingBase placer) {
         return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(LOG_AXIS, BlockLog.EnumAxis.fromFacingAxis(facing.getAxis()));
     }
 
@@ -47,7 +51,7 @@ public abstract class BlockLog extends BlockRotatedPillar {
 
         private final String name;
 
-        EnumAxis(String name) {
+        EnumAxis(final String name) {
             this.name = name;
         }
 
@@ -55,13 +59,20 @@ public abstract class BlockLog extends BlockRotatedPillar {
             return this.name;
         }
 
-        public static BlockLog.EnumAxis fromFacingAxis(EnumFacing.Axis axis) {
-            return switch (axis) {
-                case X -> X;
-                case Y -> Y;
-                case Z -> Z;
-                default -> NONE;
-            };
+        public static BlockLog.EnumAxis fromFacingAxis(final EnumFacing.Axis axis) {
+            switch (axis) {
+                case X:
+                    return X;
+
+                case Y:
+                    return Y;
+
+                case Z:
+                    return Z;
+
+                default:
+                    return NONE;
+            }
         }
 
         public String getName() {

@@ -11,8 +11,8 @@ public class ModelSnowMan extends ModelBase {
     public ModelRenderer leftHand;
 
     public ModelSnowMan() {
-        float f = 4.0F;
-        float f1 = 0.0F;
+        final float f = 4.0F;
+        final float f1 = 0.0F;
         this.head = (new ModelRenderer(this, 0, 0)).setTextureSize(64, 64);
         this.head.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, f1 - 0.5F);
         this.head.setRotationPoint(0.0F, 0.0F + f, 0.0F);
@@ -30,13 +30,18 @@ public class ModelSnowMan extends ModelBase {
         this.bottomBody.setRotationPoint(0.0F, 0.0F + f + 20.0F, 0.0F);
     }
 
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
-        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entityIn);
-        this.head.rotateAngleY = netHeadYaw / (180F / (float) Math.PI);
-        this.head.rotateAngleX = headPitch / (180F / (float) Math.PI);
-        this.body.rotateAngleY = netHeadYaw / (180F / (float) Math.PI) * 0.25F;
-        float f = MathHelper.sin(this.body.rotateAngleY);
-        float f1 = MathHelper.cos(this.body.rotateAngleY);
+    /**
+     * Sets the model's various rotation angles. For bipeds, par1 and par2 are used for animating the movement of arms
+     * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
+     * "far" arms and legs can swing at most.
+     */
+    public void setRotationAngles(final float p_78087_1_, final float p_78087_2_, final float p_78087_3_, final float p_78087_4_, final float p_78087_5_, final float p_78087_6_, final Entity entityIn) {
+        super.setRotationAngles(p_78087_1_, p_78087_2_, p_78087_3_, p_78087_4_, p_78087_5_, p_78087_6_, entityIn);
+        this.head.rotateAngleY = p_78087_4_ / (180F / (float) Math.PI);
+        this.head.rotateAngleX = p_78087_5_ / (180F / (float) Math.PI);
+        this.body.rotateAngleY = p_78087_4_ / (180F / (float) Math.PI) * 0.25F;
+        final float f = MathHelper.sin(this.body.rotateAngleY);
+        final float f1 = MathHelper.cos(this.body.rotateAngleY);
         this.rightHand.rotateAngleZ = 1.0F;
         this.leftHand.rotateAngleZ = -1.0F;
         this.rightHand.rotateAngleY = 0.0F + this.body.rotateAngleY;
@@ -47,7 +52,10 @@ public class ModelSnowMan extends ModelBase {
         this.leftHand.rotationPointZ = f * 5.0F;
     }
 
-    public void render(Entity entityIn, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float scale) {
+    /**
+     * Sets the models various rotation angles then renders the model.
+     */
+    public void render(final Entity entityIn, final float p_78088_2_, final float p_78088_3_, final float p_78088_4_, final float p_78088_5_, final float p_78088_6_, final float scale) {
         this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, scale, entityIn);
         this.body.render(scale);
         this.bottomBody.render(scale);

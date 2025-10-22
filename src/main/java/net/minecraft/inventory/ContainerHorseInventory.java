@@ -9,19 +9,19 @@ public class ContainerHorseInventory extends Container {
     private final IInventory horseInventory;
     private final EntityHorse theHorse;
 
-    public ContainerHorseInventory(IInventory playerInventory, final IInventory horseInventoryIn, final EntityHorse horse, EntityPlayer player) {
+    public ContainerHorseInventory(final IInventory playerInventory, final IInventory horseInventoryIn, final EntityHorse horse, final EntityPlayer player) {
         this.horseInventory = horseInventoryIn;
         this.theHorse = horse;
-        int i = 3;
+        final int i = 3;
         horseInventoryIn.openInventory(player);
-        int j = (i - 4) * 18;
+        final int j = (i - 4) * 18;
         this.addSlotToContainer(new Slot(horseInventoryIn, 0, 8, 18) {
-            public boolean isItemValid(ItemStack stack) {
+            public boolean isItemValid(final ItemStack stack) {
                 return super.isItemValid(stack) && stack.getItem() == Items.saddle && !this.getHasStack();
             }
         });
         this.addSlotToContainer(new Slot(horseInventoryIn, 1, 8, 36) {
-            public boolean isItemValid(ItemStack stack) {
+            public boolean isItemValid(final ItemStack stack) {
                 return super.isItemValid(stack) && horse.canWearArmor() && EntityHorse.isArmorItem(stack.getItem());
             }
 
@@ -49,16 +49,19 @@ public class ContainerHorseInventory extends Container {
         }
     }
 
-    public boolean canInteractWith(EntityPlayer playerIn) {
+    public boolean canInteractWith(final EntityPlayer playerIn) {
         return this.horseInventory.isUseableByPlayer(playerIn) && this.theHorse.isEntityAlive() && this.theHorse.getDistanceToEntity(playerIn) < 8.0F;
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+    /**
+     * Take a stack from the specified inventory slot.
+     */
+    public ItemStack transferStackInSlot(final EntityPlayer playerIn, final int index) {
         ItemStack itemstack = null;
-        Slot slot = this.inventorySlots.get(index);
+        final Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+            final ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
             if (index < this.horseInventory.getSizeInventory()) {
@@ -87,7 +90,10 @@ public class ContainerHorseInventory extends Container {
         return itemstack;
     }
 
-    public void onContainerClosed(EntityPlayer playerIn) {
+    /**
+     * Called when the container is closed.
+     */
+    public void onContainerClosed(final EntityPlayer playerIn) {
         super.onContainerClosed(playerIn);
         this.horseInventory.closeInventory(playerIn);
     }

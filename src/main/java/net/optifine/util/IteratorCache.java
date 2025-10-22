@@ -8,7 +8,7 @@ import java.util.List;
 public class IteratorCache {
     private static final Deque<IteratorCache.IteratorReusable<Object>> dequeIterators = new ArrayDeque();
 
-    public static Iterator<Object> getReadOnly(List list) {
+    public static Iterator<Object> getReadOnly(final List list) {
         synchronized (dequeIterators) {
             IteratorCache.IteratorReusable<Object> iteratorreusable = dequeIterators.pollFirst();
 
@@ -21,7 +21,7 @@ public class IteratorCache {
         }
     }
 
-    private static void finished(IteratorCache.IteratorReusable<Object> iterator) {
+    private static void finished(final IteratorCache.IteratorReusable<Object> iterator) {
         synchronized (dequeIterators) {
             if (dequeIterators.size() <= 1000) {
                 iterator.setList(null);
@@ -32,7 +32,7 @@ public class IteratorCache {
 
     static {
         for (int i = 0; i < 1000; ++i) {
-            IteratorCache.IteratorReadOnly iteratorcache$iteratorreadonly = new IteratorCache.IteratorReadOnly();
+            final IteratorCache.IteratorReadOnly iteratorcache$iteratorreadonly = new IteratorCache.IteratorReadOnly();
             dequeIterators.add(iteratorcache$iteratorreadonly);
         }
     }
@@ -42,7 +42,7 @@ public class IteratorCache {
         private int index;
         private boolean hasNext;
 
-        public void setList(List<Object> list) {
+        public void setList(final List<Object> list) {
             if (this.hasNext) {
                 throw new RuntimeException("Iterator still used, oldList: " + this.list + ", newList: " + list);
             } else {
@@ -55,11 +55,21 @@ public class IteratorCache {
         public Object next() {
             if (!this.hasNext) {
                 return null;
+            } else if (this.index <= this.list.size()) {
+                try {
+                    final Object object = this.list.get(this.index);
+                    ++this.index;
+                    this.hasNext = this.index < this.list.size();
+                    return object;
+                } catch (Exception exception) {
+                    ++this.index;
+                    this.hasNext = this.index < this.list.size();
+                    System.out.println("IteratorChache: 65");
+                    exception.printStackTrace();
+                    return null;
+                }
             } else {
-                Object object = this.list.get(this.index);
-                ++this.index;
-                this.hasNext = this.index < this.list.size();
-                return object;
+                return null;
             }
         }
 
@@ -68,7 +78,7 @@ public class IteratorCache {
                 IteratorCache.finished(this);
                 return false;
             } else {
-                return true;
+                return this.hasNext;
             }
         }
 

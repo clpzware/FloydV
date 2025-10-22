@@ -13,13 +13,21 @@ public class RenderEnderCrystal extends Render<EntityEnderCrystal> {
     private static final ResourceLocation enderCrystalTextures = new ResourceLocation("textures/entity/endercrystal/endercrystal.png");
     private final ModelBase modelEnderCrystal = new ModelEnderCrystal(0.0F, true);
 
-    public RenderEnderCrystal(RenderManager renderManagerIn) {
+    public RenderEnderCrystal(final RenderManager renderManagerIn) {
         super(renderManagerIn);
         this.shadowSize = 0.5F;
     }
 
-    public void doRender(EntityEnderCrystal entity, double x, double y, double z, float entityYaw, float partialTicks) {
-        float f = (float) entity.innerRotation + partialTicks;
+    /**
+     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
+     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
+     * (Render<T extends Entity>) and this method has signature public void doRender(T entity, double d, double d1,
+     * double d2, float f, float f1). But JAD is pre 1.5 so doe
+     *
+     * @param entityYaw The yaw rotation of the passed entity
+     */
+    public void doRender(final EntityEnderCrystal entity, final double x, final double y, final double z, final float entityYaw, final float partialTicks) {
+        final float f = (float) entity.innerRotation + partialTicks;
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x, (float) y, (float) z);
         this.bindTexture(enderCrystalTextures);
@@ -30,7 +38,10 @@ public class RenderEnderCrystal extends Render<EntityEnderCrystal> {
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 
-    protected ResourceLocation getEntityTexture(EntityEnderCrystal entity) {
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(final EntityEnderCrystal entity) {
         return enderCrystalTextures;
     }
 }

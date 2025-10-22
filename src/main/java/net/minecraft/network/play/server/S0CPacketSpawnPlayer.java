@@ -1,9 +1,5 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
-
 import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -12,6 +8,10 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.MathHelper;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.UUID;
 
 public class S0CPacketSpawnPlayer implements Packet<INetHandlerPlayClient> {
     private int entityId;
@@ -28,7 +28,7 @@ public class S0CPacketSpawnPlayer implements Packet<INetHandlerPlayClient> {
     public S0CPacketSpawnPlayer() {
     }
 
-    public S0CPacketSpawnPlayer(EntityPlayer player) {
+    public S0CPacketSpawnPlayer(final EntityPlayer player) {
         this.entityId = player.getEntityId();
         this.playerId = player.getGameProfile().getId();
         this.x = MathHelper.floor_double(player.posX * 32.0D);
@@ -36,12 +36,15 @@ public class S0CPacketSpawnPlayer implements Packet<INetHandlerPlayClient> {
         this.z = MathHelper.floor_double(player.posZ * 32.0D);
         this.yaw = (byte) ((int) (player.rotationYaw * 256.0F / 360.0F));
         this.pitch = (byte) ((int) (player.rotationPitch * 256.0F / 360.0F));
-        ItemStack itemstack = player.inventory.getCurrentItem();
+        final ItemStack itemstack = player.inventory.getCurrentItem();
         this.currentItem = itemstack == null ? 0 : Item.getIdFromItem(itemstack.getItem());
         this.watcher = player.getDataWatcher();
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.entityId = buf.readVarIntFromBuffer();
         this.playerId = buf.readUuid();
         this.x = buf.readInt();
@@ -53,7 +56,10 @@ public class S0CPacketSpawnPlayer implements Packet<INetHandlerPlayClient> {
         this.field_148958_j = DataWatcher.readWatchedListFromPacketBuffer(buf);
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeVarIntToBuffer(this.entityId);
         buf.writeUuid(this.playerId);
         buf.writeInt(this.x);
@@ -65,7 +71,10 @@ public class S0CPacketSpawnPlayer implements Packet<INetHandlerPlayClient> {
         this.watcher.writeTo(buf);
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleSpawnPlayer(this);
     }
 

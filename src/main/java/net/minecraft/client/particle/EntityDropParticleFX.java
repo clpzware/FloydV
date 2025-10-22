@@ -9,10 +9,17 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityDropParticleFX extends EntityFX {
+    /**
+     * the material type for dropped items/blocks
+     */
     private final Material materialType;
+
+    /**
+     * The height of the current bob
+     */
     private int bobTimer;
 
-    protected EntityDropParticleFX(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, Material p_i1203_8_) {
+    protected EntityDropParticleFX(final World worldIn, final double xCoordIn, final double yCoordIn, final double zCoordIn, final Material p_i1203_8_) {
         super(worldIn, xCoordIn, yCoordIn, zCoordIn, 0.0D, 0.0D, 0.0D);
         this.motionX = this.motionY = this.motionZ = 0.0D;
 
@@ -35,14 +42,20 @@ public class EntityDropParticleFX extends EntityFX {
         this.motionX = this.motionY = this.motionZ = 0.0D;
     }
 
-    public int getBrightnessForRender(float partialTicks) {
+    public int getBrightnessForRender(final float partialTicks) {
         return this.materialType == Material.water ? super.getBrightnessForRender(partialTicks) : 257;
     }
 
-    public float getBrightness(float partialTicks) {
+    /**
+     * Gets how bright this entity is.
+     */
+    public float getBrightness(final float partialTicks) {
         return this.materialType == Material.water ? super.getBrightness(partialTicks) : 1.0F;
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate() {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
@@ -90,18 +103,18 @@ public class EntityDropParticleFX extends EntityFX {
             this.motionZ *= 0.699999988079071D;
         }
 
-        BlockPos blockpos = new BlockPos(this);
-        IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
-        Material material = iblockstate.getBlock().getMaterial();
+        final BlockPos blockpos = new BlockPos(this);
+        final IBlockState iblockstate = this.worldObj.getBlockState(blockpos);
+        final Material material = iblockstate.getBlock().getMaterial();
 
         if (material.isLiquid() || material.isSolid()) {
             double d0 = 0.0D;
 
             if (iblockstate.getBlock() instanceof BlockLiquid) {
-                d0 = BlockLiquid.getLiquidHeightPercent(iblockstate.getValue(BlockLiquid.LEVEL));
+                d0 = BlockLiquid.getLiquidHeightPercent(iblockstate.getValue(BlockLiquid.LEVEL).intValue());
             }
 
-            double d1 = (double) (MathHelper.floor_double(this.posY) + 1) - d0;
+            final double d1 = (double) (MathHelper.floor_double(this.posY) + 1) - d0;
 
             if (this.posY < d1) {
                 this.setDead();
@@ -110,13 +123,13 @@ public class EntityDropParticleFX extends EntityFX {
     }
 
     public static class LavaFactory implements IParticleFactory {
-        public EntityFX getEntityFX(int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... p_178902_15_) {
+        public EntityFX getEntityFX(final int particleID, final World worldIn, final double xCoordIn, final double yCoordIn, final double zCoordIn, final double xSpeedIn, final double ySpeedIn, final double zSpeedIn, final int... p_178902_15_) {
             return new EntityDropParticleFX(worldIn, xCoordIn, yCoordIn, zCoordIn, Material.lava);
         }
     }
 
     public static class WaterFactory implements IParticleFactory {
-        public EntityFX getEntityFX(int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... p_178902_15_) {
+        public EntityFX getEntityFX(final int particleID, final World worldIn, final double xCoordIn, final double yCoordIn, final double zCoordIn, final double xSpeedIn, final double ySpeedIn, final double zSpeedIn, final int... p_178902_15_) {
             return new EntityDropParticleFX(worldIn, xCoordIn, yCoordIn, zCoordIn, Material.water);
         }
     }

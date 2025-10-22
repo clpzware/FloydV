@@ -1,10 +1,6 @@
 package net.minecraft.village;
 
 import com.google.common.collect.Lists;
-
-import java.util.Iterator;
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.material.Material;
@@ -16,6 +12,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldSavedData;
 
+import java.util.Iterator;
+import java.util.List;
+
 public class VillageCollection extends WorldSavedData {
     private World worldObj;
     private final List<BlockPos> villagerPositionsList = Lists.newArrayList();
@@ -23,25 +22,25 @@ public class VillageCollection extends WorldSavedData {
     private final List<Village> villageList = Lists.newArrayList();
     private int tickCounter;
 
-    public VillageCollection(String name) {
+    public VillageCollection(final String name) {
         super(name);
     }
 
-    public VillageCollection(World worldIn) {
+    public VillageCollection(final World worldIn) {
         super(fileNameForProvider(worldIn.provider));
         this.worldObj = worldIn;
         this.markDirty();
     }
 
-    public void setWorldsForAll(World worldIn) {
+    public void setWorldsForAll(final World worldIn) {
         this.worldObj = worldIn;
 
-        for (Village village : this.villageList) {
+        for (final Village village : this.villageList) {
             village.setWorld(worldIn);
         }
     }
 
-    public void addToVillagerPositionList(BlockPos pos) {
+    public void addToVillagerPositionList(final BlockPos pos) {
         if (this.villagerPositionsList.size() <= 64) {
             if (!this.positionInList(pos)) {
                 this.villagerPositionsList.add(pos);
@@ -49,10 +48,13 @@ public class VillageCollection extends WorldSavedData {
         }
     }
 
+    /**
+     * Runs a single tick for the village collection
+     */
     public void tick() {
         ++this.tickCounter;
 
-        for (Village village : this.villageList) {
+        for (final Village village : this.villageList) {
             village.tick(this.tickCounter);
         }
 
@@ -66,10 +68,10 @@ public class VillageCollection extends WorldSavedData {
     }
 
     private void removeAnnihilatedVillages() {
-        Iterator<Village> iterator = this.villageList.iterator();
+        final Iterator<Village> iterator = this.villageList.iterator();
 
         while (iterator.hasNext()) {
-            Village village = iterator.next();
+            final Village village = iterator.next();
 
             if (village.isAnnihilated()) {
                 iterator.remove();
@@ -82,15 +84,15 @@ public class VillageCollection extends WorldSavedData {
         return this.villageList;
     }
 
-    public Village getNearestVillage(BlockPos doorBlock, int radius) {
+    public Village getNearestVillage(final BlockPos doorBlock, final int radius) {
         Village village = null;
         double d0 = 3.4028234663852886E38D;
 
-        for (Village village1 : this.villageList) {
-            double d1 = village1.getCenter().distanceSq(doorBlock);
+        for (final Village village1 : this.villageList) {
+            final double d1 = village1.getCenter().distanceSq(doorBlock);
 
             if (d1 < d0) {
-                float f = (float) (radius + village1.getVillageRadius());
+                final float f = (float) (radius + village1.getVillageRadius());
 
                 if (d1 <= (double) (f * f)) {
                     village = village1;
@@ -109,7 +111,8 @@ public class VillageCollection extends WorldSavedData {
     }
 
     private void addNewDoorsToVillageOrCreateVillage() {
-        for (VillageDoorInfo villagedoorinfo : this.newDoors) {
+        for (int i = 0; i < this.newDoors.size(); ++i) {
+            final VillageDoorInfo villagedoorinfo = this.newDoors.get(i);
             Village village = this.getNearestVillage(villagedoorinfo.getDoorBlockPos(), 32);
 
             if (village == null) {
@@ -124,18 +127,18 @@ public class VillageCollection extends WorldSavedData {
         this.newDoors.clear();
     }
 
-    private void addDoorsAround(BlockPos central) {
-        int i = 16;
-        int j = 4;
-        int k = 16;
+    private void addDoorsAround(final BlockPos central) {
+        final int i = 16;
+        final int j = 4;
+        final int k = 16;
 
         for (int l = -i; l < i; ++l) {
             for (int i1 = -j; i1 < j; ++i1) {
                 for (int j1 = -k; j1 < k; ++j1) {
-                    BlockPos blockpos = central.add(l, i1, j1);
+                    final BlockPos blockpos = central.add(l, i1, j1);
 
                     if (this.isWoodDoor(blockpos)) {
-                        VillageDoorInfo villagedoorinfo = this.checkDoorExistence(blockpos);
+                        final VillageDoorInfo villagedoorinfo = this.checkDoorExistence(blockpos);
 
                         if (villagedoorinfo == null) {
                             this.addToNewDoorsList(blockpos);
@@ -148,15 +151,18 @@ public class VillageCollection extends WorldSavedData {
         }
     }
 
-    private VillageDoorInfo checkDoorExistence(BlockPos doorBlock) {
-        for (VillageDoorInfo villagedoorinfo : this.newDoors) {
+    /**
+     * returns the VillageDoorInfo if it exists in any village or in the newDoor list, otherwise returns null
+     */
+    private VillageDoorInfo checkDoorExistence(final BlockPos doorBlock) {
+        for (final VillageDoorInfo villagedoorinfo : this.newDoors) {
             if (villagedoorinfo.getDoorBlockPos().getX() == doorBlock.getX() && villagedoorinfo.getDoorBlockPos().getZ() == doorBlock.getZ() && Math.abs(villagedoorinfo.getDoorBlockPos().getY() - doorBlock.getY()) <= 1) {
                 return villagedoorinfo;
             }
         }
 
-        for (Village village : this.villageList) {
-            VillageDoorInfo villagedoorinfo1 = village.getExistedDoor(doorBlock);
+        for (final Village village : this.villageList) {
+            final VillageDoorInfo villagedoorinfo1 = village.getExistedDoor(doorBlock);
 
             if (villagedoorinfo1 != null) {
                 return villagedoorinfo1;
@@ -166,18 +172,21 @@ public class VillageCollection extends WorldSavedData {
         return null;
     }
 
-    private void addToNewDoorsList(BlockPos doorBlock) {
-        EnumFacing enumfacing = BlockDoor.getFacing(this.worldObj, doorBlock);
-        EnumFacing enumfacing1 = enumfacing.getOpposite();
-        int i = this.countBlocksCanSeeSky(doorBlock, enumfacing, 5);
-        int j = this.countBlocksCanSeeSky(doorBlock, enumfacing1, i + 1);
+    private void addToNewDoorsList(final BlockPos doorBlock) {
+        final EnumFacing enumfacing = BlockDoor.getFacing(this.worldObj, doorBlock);
+        final EnumFacing enumfacing1 = enumfacing.getOpposite();
+        final int i = this.countBlocksCanSeeSky(doorBlock, enumfacing, 5);
+        final int j = this.countBlocksCanSeeSky(doorBlock, enumfacing1, i + 1);
 
         if (i != j) {
             this.newDoors.add(new VillageDoorInfo(doorBlock, i < j ? enumfacing : enumfacing1, this.tickCounter));
         }
     }
 
-    private int countBlocksCanSeeSky(BlockPos centerPos, EnumFacing direction, int limitation) {
+    /**
+     * Check five blocks in the direction. The centerPos will not be checked.
+     */
+    private int countBlocksCanSeeSky(final BlockPos centerPos, final EnumFacing direction, final int limitation) {
         int i = 0;
 
         for (int j = 1; j <= 5; ++j) {
@@ -193,8 +202,8 @@ public class VillageCollection extends WorldSavedData {
         return i;
     }
 
-    private boolean positionInList(BlockPos pos) {
-        for (BlockPos blockpos : this.villagerPositionsList) {
+    private boolean positionInList(final BlockPos pos) {
+        for (final BlockPos blockpos : this.villagerPositionsList) {
             if (blockpos.equals(pos)) {
                 return true;
             }
@@ -203,29 +212,35 @@ public class VillageCollection extends WorldSavedData {
         return false;
     }
 
-    private boolean isWoodDoor(BlockPos doorPos) {
-        Block block = this.worldObj.getBlockState(doorPos).getBlock();
+    private boolean isWoodDoor(final BlockPos doorPos) {
+        final Block block = this.worldObj.getBlockState(doorPos).getBlock();
         return block instanceof BlockDoor && block.getMaterial() == Material.wood;
     }
 
-    public void readFromNBT(NBTTagCompound nbt) {
+    /**
+     * reads in data from the NBTTagCompound into this MapDataBase
+     */
+    public void readFromNBT(final NBTTagCompound nbt) {
         this.tickCounter = nbt.getInteger("Tick");
-        NBTTagList nbttaglist = nbt.getTagList("Villages", 10);
+        final NBTTagList nbttaglist = nbt.getTagList("Villages", 10);
 
         for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-            NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
-            Village village = new Village();
+            final NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
+            final Village village = new Village();
             village.readVillageDataFromNBT(nbttagcompound);
             this.villageList.add(village);
         }
     }
 
-    public void writeToNBT(NBTTagCompound nbt) {
+    /**
+     * write data to NBTTagCompound from this MapDataBase, similar to Entities and TileEntities
+     */
+    public void writeToNBT(final NBTTagCompound nbt) {
         nbt.setInteger("Tick", this.tickCounter);
-        NBTTagList nbttaglist = new NBTTagList();
+        final NBTTagList nbttaglist = new NBTTagList();
 
-        for (Village village : this.villageList) {
-            NBTTagCompound nbttagcompound = new NBTTagCompound();
+        for (final Village village : this.villageList) {
+            final NBTTagCompound nbttagcompound = new NBTTagCompound();
             village.writeVillageDataToNBT(nbttagcompound);
             nbttaglist.appendTag(nbttagcompound);
         }
@@ -233,7 +248,7 @@ public class VillageCollection extends WorldSavedData {
         nbt.setTag("Villages", nbttaglist);
     }
 
-    public static String fileNameForProvider(WorldProvider provider) {
+    public static String fileNameForProvider(final WorldProvider provider) {
         return "villages" + provider.getInternalNameSuffix();
     }
 }

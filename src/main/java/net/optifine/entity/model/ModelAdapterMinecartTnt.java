@@ -13,9 +13,9 @@ public class ModelAdapterMinecartTnt extends ModelAdapterMinecart {
         super(EntityMinecartTNT.class, "tnt_minecart", 0.5F);
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderTntMinecart rendertntminecart = new RenderTntMinecart(rendermanager);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderTntMinecart rendertntminecart = new RenderTntMinecart(rendermanager);
 
         if (!Reflector.RenderMinecart_modelMinecart.exists()) {
             Config.warn("Field not found: RenderMinecart.modelMinecart");

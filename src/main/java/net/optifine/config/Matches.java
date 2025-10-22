@@ -5,11 +5,13 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.biome.BiomeGenBase;
 
 public class Matches {
-    public static boolean block(BlockStateBase blockStateBase, MatchBlock[] matchBlocks) {
+    public static boolean block(final BlockStateBase blockStateBase, final MatchBlock[] matchBlocks) {
         if (matchBlocks == null) {
             return true;
         } else {
-            for (MatchBlock matchblock : matchBlocks) {
+            for (int i = 0; i < matchBlocks.length; ++i) {
+                final MatchBlock matchblock = matchBlocks[i];
+
                 if (matchblock.matches(blockStateBase)) {
                     return true;
                 }
@@ -19,11 +21,13 @@ public class Matches {
         }
     }
 
-    public static boolean block(int blockId, int metadata, MatchBlock[] matchBlocks) {
+    public static boolean block(final int blockId, final int metadata, final MatchBlock[] matchBlocks) {
         if (matchBlocks == null) {
             return true;
         } else {
-            for (MatchBlock matchblock : matchBlocks) {
+            for (int i = 0; i < matchBlocks.length; ++i) {
+                final MatchBlock matchblock = matchBlocks[i];
+
                 if (matchblock.matches(blockId, metadata)) {
                     return true;
                 }
@@ -33,11 +37,13 @@ public class Matches {
         }
     }
 
-    public static boolean blockId(int blockId, MatchBlock[] matchBlocks) {
+    public static boolean blockId(final int blockId, final MatchBlock[] matchBlocks) {
         if (matchBlocks == null) {
             return true;
         } else {
-            for (MatchBlock matchblock : matchBlocks) {
+            for (int i = 0; i < matchBlocks.length; ++i) {
+                final MatchBlock matchblock = matchBlocks[i];
+
                 if (matchblock.getBlockId() == blockId) {
                     return true;
                 }
@@ -47,12 +53,12 @@ public class Matches {
         }
     }
 
-    public static boolean metadata(int metadata, int[] metadatas) {
+    public static boolean metadata(final int metadata, final int[] metadatas) {
         if (metadatas == null) {
             return true;
         } else {
-            for (int j : metadatas) {
-                if (j == metadata) {
+            for (int i = 0; i < metadatas.length; ++i) {
+                if (metadatas[i] == metadata) {
                     return true;
                 }
             }
@@ -61,12 +67,12 @@ public class Matches {
         }
     }
 
-    public static boolean sprite(TextureAtlasSprite sprite, TextureAtlasSprite[] sprites) {
+    public static boolean sprite(final TextureAtlasSprite sprite, final TextureAtlasSprite[] sprites) {
         if (sprites == null) {
             return true;
         } else {
-            for (TextureAtlasSprite textureAtlasSprite : sprites) {
-                if (textureAtlasSprite == sprite) {
+            for (int i = 0; i < sprites.length; ++i) {
+                if (sprites[i] == sprite) {
                     return true;
                 }
             }
@@ -75,12 +81,12 @@ public class Matches {
         }
     }
 
-    public static boolean biome(BiomeGenBase biome, BiomeGenBase[] biomes) {
+    public static boolean biome(final BiomeGenBase biome, final BiomeGenBase[] biomes) {
         if (biomes == null) {
             return true;
         } else {
-            for (BiomeGenBase biomeGenBase : biomes) {
-                if (biomeGenBase == biome) {
+            for (int i = 0; i < biomes.length; ++i) {
+                if (biomes[i] == biome) {
                     return true;
                 }
             }

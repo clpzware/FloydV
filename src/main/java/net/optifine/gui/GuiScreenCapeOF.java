@@ -1,7 +1,7 @@
 package net.optifine.gui;
 
+import com.alan.clients.util.font.impl.minecraft.FontRenderer;
 import com.mojang.authlib.exceptions.InvalidCredentialsException;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
@@ -21,11 +21,15 @@ public class GuiScreenCapeOF extends GuiScreenOF {
     private GuiButtonOF buttonCopyLink;
     private final FontRenderer fontRenderer;
 
-    public GuiScreenCapeOF(GuiScreen parentScreenIn) {
+    public GuiScreenCapeOF(final GuiScreen parentScreenIn) {
         this.fontRenderer = Config.getMinecraft().fontRendererObj;
         this.parentScreen = parentScreenIn;
     }
 
+    /**
+     * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
+     * window resizes, the buttonList is cleared beforehand.
+     */
     public void initGui() {
         int i = 0;
         this.title = I18n.format("of.options.capeOF.title");
@@ -40,7 +44,10 @@ public class GuiScreenCapeOF extends GuiScreenOF {
         this.buttonList.add(new GuiButtonOF(200, this.width / 2 - 100, this.height / 6 + 24 * (i >> 1), I18n.format("gui.done")));
     }
 
-    protected void actionPerformed(GuiButton button) {
+    /**
+     * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
+     */
+    protected void actionPerformed(final GuiButton button) {
         if (button.enabled) {
             if (button.id == 200) {
                 this.mc.displayGuiScreen(this.parentScreen);
@@ -48,18 +55,18 @@ public class GuiScreenCapeOF extends GuiScreenOF {
 
             if (button.id == 210) {
                 try {
-                    String s = this.mc.getSession().getProfile().getName();
-                    String s1 = this.mc.getSession().getProfile().getId().toString().replace("-", "");
-                    String s2 = this.mc.getSession().getToken();
-                    Random random = new Random();
-                    Random random1 = new Random(System.identityHashCode(new Object()));
-                    BigInteger biginteger = new BigInteger(128, random);
-                    BigInteger biginteger1 = new BigInteger(128, random1);
-                    BigInteger biginteger2 = biginteger.xor(biginteger1);
-                    String s3 = biginteger2.toString(16);
+                    final String s = this.mc.getSession().getProfile().getName();
+                    final String s1 = this.mc.getSession().getProfile().getId().toString().replace("-", "");
+                    final String s2 = this.mc.getSession().getToken();
+                    final Random random = new Random();
+                    final Random random1 = new Random(System.identityHashCode(new Object()));
+                    final BigInteger biginteger = new BigInteger(128, random);
+                    final BigInteger biginteger1 = new BigInteger(128, random1);
+                    final BigInteger biginteger2 = biginteger.xor(biginteger1);
+                    final String s3 = biginteger2.toString(16);
                     this.mc.getSessionService().joinServer(this.mc.getSession().getProfile(), s2, s3);
-                    String s4 = "https://optifine.net/capeChange?u=" + s1 + "&n=" + s + "&s=" + s3;
-                    boolean flag = Config.openWebLink(new URI(s4));
+                    final String s4 = "https://optifine.net/capeChange?u=" + s1 + "&n=" + s + "&s=" + s3;
+                    final boolean flag = Config.openWebLink(new URI(s4));
 
                     if (flag) {
                         this.showMessage(Lang.get("of.message.capeOF.openEditor"), 10000L);
@@ -67,11 +74,11 @@ public class GuiScreenCapeOF extends GuiScreenOF {
                         this.showMessage(Lang.get("of.message.capeOF.openEditorError"), 10000L);
                         this.setLinkUrl(s4);
                     }
-                } catch (InvalidCredentialsException invalidcredentialsexception) {
+                } catch (final InvalidCredentialsException invalidcredentialsexception) {
                     Config.showGuiMessage(I18n.format("of.message.capeOF.error1"), I18n.format("of.message.capeOF.error2", invalidcredentialsexception.getMessage()));
                     Config.warn("Mojang authentication failed");
                     Config.warn(invalidcredentialsexception.getClass().getName() + ": " + invalidcredentialsexception.getMessage());
-                } catch (Exception exception) {
+                } catch (final Exception exception) {
                     Config.warn("Error opening OptiFine cape link");
                     Config.warn(exception.getClass().getName() + ": " + exception.getMessage());
                 }
@@ -81,8 +88,8 @@ public class GuiScreenCapeOF extends GuiScreenOF {
                 this.showMessage(Lang.get("of.message.capeOF.reloadCape"), 15000L);
 
                 if (this.mc.thePlayer != null) {
-                    long i = 15000L;
-                    long j = System.currentTimeMillis() + i;
+                    final long i = 15000L;
+                    final long j = System.currentTimeMillis() + i;
                     this.mc.thePlayer.setReloadCapeTimeMs(j);
                 }
             }
@@ -93,13 +100,16 @@ public class GuiScreenCapeOF extends GuiScreenOF {
         }
     }
 
-    private void showMessage(String msg, long timeMs) {
+    private void showMessage(final String msg, final long timeMs) {
         this.message = msg;
         this.messageHideTimeMs = System.currentTimeMillis() + timeMs;
         this.setLinkUrl(null);
     }
 
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    /**
+     * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
+     */
+    public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRenderer, this.title, this.width / 2, 20, 16777215);
 
@@ -115,7 +125,7 @@ public class GuiScreenCapeOF extends GuiScreenOF {
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 
-    public void setLinkUrl(String linkUrl) {
+    public void setLinkUrl(final String linkUrl) {
         this.linkUrl = linkUrl;
         this.buttonCopyLink.visible = linkUrl != null;
     }

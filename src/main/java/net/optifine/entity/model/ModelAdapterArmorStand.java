@@ -18,10 +18,11 @@ public class ModelAdapterArmorStand extends ModelAdapterBiped {
         return new ModelArmorStand();
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelArmorStand modelarmorstand)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelArmorStand)) {
             return null;
         } else {
+            final ModelArmorStand modelarmorstand = (ModelArmorStand) model;
             return modelPart.equals("right") ? modelarmorstand.standRightSide : (modelPart.equals("left") ? modelarmorstand.standLeftSide : (modelPart.equals("waist") ? modelarmorstand.standWaist : (modelPart.equals("base") ? modelarmorstand.standBase : super.getModelRenderer(modelarmorstand, modelPart))));
         }
     }
@@ -32,9 +33,9 @@ public class ModelAdapterArmorStand extends ModelAdapterBiped {
         return astring;
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        ArmorStandRenderer armorstandrenderer = new ArmorStandRenderer(rendermanager);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final ArmorStandRenderer armorstandrenderer = new ArmorStandRenderer(rendermanager);
         armorstandrenderer.mainModel = modelBase;
         armorstandrenderer.shadowSize = shadowSize;
         return armorstandrenderer;

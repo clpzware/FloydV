@@ -15,7 +15,7 @@ public class EntityEndermite extends EntityMob {
     private int lifetime = 0;
     private boolean playerSpawned = false;
 
-    public EntityEndermite(World worldIn) {
+    public EntityEndermite(final World worldIn) {
         super(worldIn);
         this.experienceValue = 3;
         this.setSize(0.4F, 0.3F);
@@ -39,23 +39,36 @@ public class EntityEndermite extends EntityMob {
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(2.0D);
     }
 
+    /**
+     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
+     * prevent them from trampling crops
+     */
     protected boolean canTriggerWalking() {
         return false;
     }
 
+    /**
+     * Returns the sound this mob makes while it's alive.
+     */
     protected String getLivingSound() {
         return "mob.silverfish.say";
     }
 
+    /**
+     * Returns the sound this mob makes when it is hurt.
+     */
     protected String getHurtSound() {
         return "mob.silverfish.hit";
     }
 
+    /**
+     * Returns the sound this mob makes on death.
+     */
     protected String getDeathSound() {
         return "mob.silverfish.kill";
     }
 
-    protected void playStepSound(BlockPos pos, Block blockIn) {
+    protected void playStepSound(final BlockPos pos, final Block blockIn) {
         this.playSound("mob.silverfish.step", 0.15F, 1.0F);
     }
 
@@ -63,18 +76,27 @@ public class EntityEndermite extends EntityMob {
         return null;
     }
 
-    public void readEntityFromNBT(NBTTagCompound tagCompund) {
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
+    public void readEntityFromNBT(final NBTTagCompound tagCompund) {
         super.readEntityFromNBT(tagCompund);
         this.lifetime = tagCompund.getInteger("Lifetime");
         this.playerSpawned = tagCompund.getBoolean("PlayerSpawned");
     }
 
-    public void writeEntityToNBT(NBTTagCompound tagCompound) {
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
+    public void writeEntityToNBT(final NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
         tagCompound.setInteger("Lifetime", this.lifetime);
         tagCompound.setBoolean("PlayerSpawned", this.playerSpawned);
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate() {
         this.renderYawOffset = this.rotationYaw;
         super.onUpdate();
@@ -84,10 +106,19 @@ public class EntityEndermite extends EntityMob {
         return this.playerSpawned;
     }
 
-    public void setSpawnedByPlayer(boolean spawnedByPlayer) {
+    /**
+     * Sets if this mob was spawned by a player or not.
+     *
+     * @param spawnedByPlayer If the mob was spawned by a player or not.
+     */
+    public void setSpawnedByPlayer(final boolean spawnedByPlayer) {
         this.playerSpawned = spawnedByPlayer;
     }
 
+    /**
+     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
+     * use this to react to sunlight and start to burn.
+     */
     public void onLivingUpdate() {
         super.onLivingUpdate();
 
@@ -106,19 +137,28 @@ public class EntityEndermite extends EntityMob {
         }
     }
 
+    /**
+     * Checks to make sure the light is not too bright where the mob is spawning
+     */
     protected boolean isValidLightLevel() {
         return true;
     }
 
+    /**
+     * Checks if the entity's current position is a valid location to spawn this entity.
+     */
     public boolean getCanSpawnHere() {
         if (super.getCanSpawnHere()) {
-            EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 5.0D);
+            final EntityPlayer entityplayer = this.worldObj.getClosestPlayerToEntity(this, 5.0D);
             return entityplayer == null;
         } else {
             return false;
         }
     }
 
+    /**
+     * Get this Entity's EnumCreatureAttribute
+     */
     public EnumCreatureAttribute getCreatureAttribute() {
         return EnumCreatureAttribute.ARTHROPOD;
     }

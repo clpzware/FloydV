@@ -6,21 +6,21 @@ public class ShaderUniform4i extends ShaderUniformBase {
     private int[][] programValues;
     private static final int VALUE_UNKNOWN = Integer.MIN_VALUE;
 
-    public ShaderUniform4i(String name) {
+    public ShaderUniform4i(final String name) {
         super(name);
         this.resetValue();
     }
 
-    public void setValue(int v0, int v1, int v2, int v3) {
-        int i = this.getProgram();
-        int[] aint = this.programValues[i];
+    public void setValue(final int v0, final int v1, final int v2, final int v3) {
+        final int i = this.getProgram();
+        final int[] aint = this.programValues[i];
 
         if (aint[0] != v0 || aint[1] != v1 || aint[2] != v2 || aint[3] != v3) {
             aint[0] = v0;
             aint[1] = v1;
             aint[2] = v2;
             aint[3] = v3;
-            int j = this.getLocation();
+            final int j = this.getLocation();
 
             if (j >= 0) {
                 ARBShaderObjects.glUniform4iARB(j, v0, v1, v2, v3);
@@ -30,15 +30,15 @@ public class ShaderUniform4i extends ShaderUniformBase {
     }
 
     public int[] getValue() {
-        int i = this.getProgram();
-        int[] aint = this.programValues[i];
+        final int i = this.getProgram();
+        final int[] aint = this.programValues[i];
         return aint;
     }
 
-    protected void onProgramSet(int program) {
+    protected void onProgramSet(final int program) {
         if (program >= this.programValues.length) {
-            int[][] aint = this.programValues;
-            int[][] aint1 = new int[program + 10][];
+            final int[][] aint = this.programValues;
+            final int[][] aint1 = new int[program + 10][];
             System.arraycopy(aint, 0, aint1, 0, aint.length);
             this.programValues = aint1;
         }

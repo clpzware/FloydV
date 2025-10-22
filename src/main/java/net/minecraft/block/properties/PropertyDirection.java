@@ -9,19 +9,28 @@ import net.minecraft.util.EnumFacing;
 import java.util.Collection;
 
 public class PropertyDirection extends PropertyEnum<EnumFacing> {
-    protected PropertyDirection(String name, Collection<EnumFacing> values) {
+    protected PropertyDirection(final String name, final Collection<EnumFacing> values) {
         super(name, EnumFacing.class, values);
     }
 
-    public static PropertyDirection create(String name) {
+    /**
+     * Create a new PropertyDirection with the given name
+     */
+    public static PropertyDirection create(final String name) {
         return create(name, Predicates.alwaysTrue());
     }
 
-    public static PropertyDirection create(String name, Predicate<EnumFacing> filter) {
+    /**
+     * Create a new PropertyDirection with all directions that match the given Predicate
+     */
+    public static PropertyDirection create(final String name, final Predicate<EnumFacing> filter) {
         return create(name, Collections2.filter(Lists.newArrayList(EnumFacing.values()), filter));
     }
 
-    public static PropertyDirection create(String name, Collection<EnumFacing> values) {
+    /**
+     * Create a new PropertyDirection for the given direction values
+     */
+    public static PropertyDirection create(final String name, final Collection<EnumFacing> values) {
         return new PropertyDirection(name, values);
     }
 }

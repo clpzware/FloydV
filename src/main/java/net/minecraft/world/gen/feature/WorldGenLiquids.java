@@ -11,11 +11,11 @@ import java.util.Random;
 public class WorldGenLiquids extends WorldGenerator {
     private final Block block;
 
-    public WorldGenLiquids(Block p_i45465_1_) {
+    public WorldGenLiquids(final Block p_i45465_1_) {
         this.block = p_i45465_1_;
     }
 
-    public boolean generate(World worldIn, Random rand, BlockPos position) {
+    public boolean generate(final World worldIn, final Random rand, final BlockPos position) {
         if (worldIn.getBlockState(position.up()).getBlock() != Blocks.stone) {
             return false;
         } else if (worldIn.getBlockState(position.down()).getBlock() != Blocks.stone) {

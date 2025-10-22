@@ -17,36 +17,41 @@ public class ItemBoat extends Item {
         this.setCreativeTab(CreativeTabs.tabTransport);
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-        float f = 1.0F;
-        float f1 = playerIn.prevRotationPitch + (playerIn.rotationPitch - playerIn.prevRotationPitch) * f;
-        float f2 = playerIn.prevRotationYaw + (playerIn.rotationYaw - playerIn.prevRotationYaw) * f;
-        double d0 = playerIn.prevPosX + (playerIn.posX - playerIn.prevPosX) * (double) f;
-        double d1 = playerIn.prevPosY + (playerIn.posY - playerIn.prevPosY) * (double) f + (double) playerIn.getEyeHeight();
-        double d2 = playerIn.prevPosZ + (playerIn.posZ - playerIn.prevPosZ) * (double) f;
-        Vec3 vec3 = new Vec3(d0, d1, d2);
-        float f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
-        float f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
-        float f5 = -MathHelper.cos(-f1 * 0.017453292F);
-        float f6 = MathHelper.sin(-f1 * 0.017453292F);
-        float f7 = f4 * f5;
-        float f8 = f3 * f5;
-        double d3 = 5.0D;
-        Vec3 vec31 = vec3.addVector((double) f7 * d3, (double) f6 * d3, (double) f8 * d3);
-        MovingObjectPosition movingobjectposition = worldIn.rayTraceBlocks(vec3, vec31, true);
+    /**
+     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+     */
+    public ItemStack onItemRightClick(final ItemStack itemStackIn, final World worldIn, final EntityPlayer playerIn) {
+        final float f = 1.0F;
+        final float f1 = playerIn.prevRotationPitch + (playerIn.rotationPitch - playerIn.prevRotationPitch) * f;
+        final float f2 = playerIn.prevRotationYaw + (playerIn.rotationYaw - playerIn.prevRotationYaw) * f;
+        final double d0 = playerIn.prevPosX + (playerIn.posX - playerIn.prevPosX) * (double) f;
+        final double d1 = playerIn.prevPosY + (playerIn.posY - playerIn.prevPosY) * (double) f + (double) playerIn.getEyeHeight();
+        final double d2 = playerIn.prevPosZ + (playerIn.posZ - playerIn.prevPosZ) * (double) f;
+        final Vec3 vec3 = new Vec3(d0, d1, d2);
+        final float f3 = MathHelper.cos(-f2 * 0.017453292F - (float) Math.PI);
+        final float f4 = MathHelper.sin(-f2 * 0.017453292F - (float) Math.PI);
+        final float f5 = -MathHelper.cos(-f1 * 0.017453292F);
+        final float f6 = MathHelper.sin(-f1 * 0.017453292F);
+        final float f7 = f4 * f5;
+        final float f8 = f3 * f5;
+        final double d3 = 5.0D;
+        final Vec3 vec31 = vec3.addVector((double) f7 * d3, (double) f6 * d3, (double) f8 * d3);
+        final MovingObjectPosition movingobjectposition = worldIn.rayTraceBlocks(vec3, vec31, true);
 
         if (movingobjectposition == null) {
             return itemStackIn;
         } else {
-            Vec3 vec32 = playerIn.getLook(f);
+            final Vec3 vec32 = playerIn.getLook(f);
             boolean flag = false;
-            float f9 = 1.0F;
-            List<Entity> list = worldIn.getEntitiesWithinAABBExcludingEntity(playerIn, playerIn.getEntityBoundingBox().addCoord(vec32.xCoord * d3, vec32.yCoord * d3, vec32.zCoord * d3).expand(f9, f9, f9));
+            final float f9 = 1.0F;
+            final List<Entity> list = worldIn.getEntitiesWithinAABBExcludingEntity(playerIn, playerIn.getEntityBoundingBox().addCoord(vec32.xCoord * d3, vec32.yCoord * d3, vec32.zCoord * d3).expand(f9, f9, f9));
 
-            for (Entity entity : list) {
+            for (int i = 0; i < list.size(); ++i) {
+                final Entity entity = list.get(i);
+
                 if (entity.canBeCollidedWith()) {
-                    float f10 = entity.getCollisionBorderSize();
-                    AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(f10, f10, f10);
+                    final float f10 = entity.getCollisionBorderSize();
+                    final AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(f10, f10, f10);
 
                     if (axisalignedbb.isVecInside(vec3)) {
                         flag = true;
@@ -64,7 +69,7 @@ public class ItemBoat extends Item {
                         blockpos = blockpos.down();
                     }
 
-                    EntityBoat entityboat = new EntityBoat(worldIn, (float) blockpos.getX() + 0.5F, (float) blockpos.getY() + 1.0F, (float) blockpos.getZ() + 0.5F);
+                    final EntityBoat entityboat = new EntityBoat(worldIn, (float) blockpos.getX() + 0.5F, (float) blockpos.getY() + 1.0F, (float) blockpos.getZ() + 0.5F);
                     entityboat.rotationYaw = (float) (((MathHelper.floor_double((double) (playerIn.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3) - 1) * 90);
 
                     if (!worldIn.getCollidingBoundingBoxes(entityboat, entityboat.getEntityBoundingBox().expand(-0.1D, -0.1D, -0.1D)).isEmpty()) {

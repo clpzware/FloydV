@@ -14,7 +14,7 @@ public class SoundEventAccessorComposite implements ISoundEventAccessor<SoundPoo
     private final double eventPitch;
     private final double eventVolume;
 
-    public SoundEventAccessorComposite(ResourceLocation soundLocation, double pitch, double volume, SoundCategory category) {
+    public SoundEventAccessorComposite(final ResourceLocation soundLocation, final double pitch, final double volume, final SoundCategory category) {
         this.soundLocation = soundLocation;
         this.eventVolume = volume;
         this.eventPitch = pitch;
@@ -24,7 +24,7 @@ public class SoundEventAccessorComposite implements ISoundEventAccessor<SoundPoo
     public int getWeight() {
         int i = 0;
 
-        for (ISoundEventAccessor<SoundPoolEntry> isoundeventaccessor : this.soundPool) {
+        for (final ISoundEventAccessor<SoundPoolEntry> isoundeventaccessor : this.soundPool) {
             i += isoundeventaccessor.getWeight();
         }
 
@@ -32,16 +32,16 @@ public class SoundEventAccessorComposite implements ISoundEventAccessor<SoundPoo
     }
 
     public SoundPoolEntry cloneEntry() {
-        int i = this.getWeight();
+        final int i = this.getWeight();
 
         if (!this.soundPool.isEmpty() && i != 0) {
             int j = this.rnd.nextInt(i);
 
-            for (ISoundEventAccessor<SoundPoolEntry> isoundeventaccessor : this.soundPool) {
+            for (final ISoundEventAccessor<SoundPoolEntry> isoundeventaccessor : this.soundPool) {
                 j -= isoundeventaccessor.getWeight();
 
                 if (j < 0) {
-                    SoundPoolEntry soundpoolentry = isoundeventaccessor.cloneEntry();
+                    final SoundPoolEntry soundpoolentry = isoundeventaccessor.cloneEntry();
                     soundpoolentry.setPitch(soundpoolentry.getPitch() * this.eventPitch);
                     soundpoolentry.setVolume(soundpoolentry.getVolume() * this.eventVolume);
                     return soundpoolentry;
@@ -54,7 +54,7 @@ public class SoundEventAccessorComposite implements ISoundEventAccessor<SoundPoo
         }
     }
 
-    public void addSoundToEventPool(ISoundEventAccessor<SoundPoolEntry> sound) {
+    public void addSoundToEventPool(final ISoundEventAccessor<SoundPoolEntry> sound) {
         this.soundPool.add(sound);
     }
 

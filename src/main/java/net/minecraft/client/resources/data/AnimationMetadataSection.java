@@ -12,7 +12,7 @@ public class AnimationMetadataSection implements IMetadataSection {
     private final int frameTime;
     private final boolean interpolate;
 
-    public AnimationMetadataSection(List<AnimationFrame> p_i46088_1_, int p_i46088_2_, int p_i46088_3_, int p_i46088_4_, boolean p_i46088_5_) {
+    public AnimationMetadataSection(final List<AnimationFrame> p_i46088_1_, final int p_i46088_2_, final int p_i46088_3_, final int p_i46088_4_, final boolean p_i46088_5_) {
         this.animationFrames = p_i46088_1_;
         this.frameWidth = p_i46088_2_;
         this.frameHeight = p_i46088_3_;
@@ -40,28 +40,28 @@ public class AnimationMetadataSection implements IMetadataSection {
         return this.interpolate;
     }
 
-    private AnimationFrame getAnimationFrame(int p_130072_1_) {
+    private AnimationFrame getAnimationFrame(final int p_130072_1_) {
         return this.animationFrames.get(p_130072_1_);
     }
 
-    public int getFrameTimeSingle(int p_110472_1_) {
-        AnimationFrame animationframe = this.getAnimationFrame(p_110472_1_);
+    public int getFrameTimeSingle(final int p_110472_1_) {
+        final AnimationFrame animationframe = this.getAnimationFrame(p_110472_1_);
         return animationframe.hasNoTime() ? this.frameTime : animationframe.getFrameTime();
     }
 
-    public boolean frameHasTime(int p_110470_1_) {
+    public boolean frameHasTime(final int p_110470_1_) {
         return !this.animationFrames.get(p_110470_1_).hasNoTime();
     }
 
-    public int getFrameIndex(int p_110468_1_) {
+    public int getFrameIndex(final int p_110468_1_) {
         return this.animationFrames.get(p_110468_1_).getFrameIndex();
     }
 
     public Set<Integer> getFrameIndexSet() {
-        Set<Integer> set = Sets.newHashSet();
+        final Set<Integer> set = Sets.newHashSet();
 
-        for (AnimationFrame animationframe : this.animationFrames) {
-            set.add(animationframe.getFrameIndex());
+        for (final AnimationFrame animationframe : this.animationFrames) {
+            set.add(Integer.valueOf(animationframe.getFrameIndex()));
         }
 
         return set;

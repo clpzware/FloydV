@@ -3,9 +3,6 @@ package net.minecraft.tileentity;
 import com.google.common.collect.Iterables;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-
-import java.util.UUID;
-
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.network.Packet;
@@ -18,19 +15,19 @@ public class TileEntitySkull extends TileEntity {
     private int skullRotation;
     private GameProfile playerProfile = null;
 
-    public void writeToNBT(NBTTagCompound compound) {
+    public void writeToNBT(final NBTTagCompound compound) {
         super.writeToNBT(compound);
         compound.setByte("SkullType", (byte) (this.skullType & 255));
         compound.setByte("Rot", (byte) (this.skullRotation & 255));
 
         if (this.playerProfile != null) {
-            NBTTagCompound nbttagcompound = new NBTTagCompound();
+            final NBTTagCompound nbttagcompound = new NBTTagCompound();
             NBTUtil.writeGameProfile(nbttagcompound, this.playerProfile);
             compound.setTag("Owner", nbttagcompound);
         }
     }
 
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(final NBTTagCompound compound) {
         super.readFromNBT(compound);
         this.skullType = compound.getByte("SkullType");
         this.skullRotation = compound.getByte("Rot");
@@ -39,7 +36,7 @@ public class TileEntitySkull extends TileEntity {
             if (compound.hasKey("Owner", 10)) {
                 this.playerProfile = NBTUtil.readGameProfileFromNBT(compound.getCompoundTag("Owner"));
             } else if (compound.hasKey("ExtraType", 8)) {
-                String s = compound.getString("ExtraType");
+                final String s = compound.getString("ExtraType");
 
                 if (!StringUtils.isNullOrEmpty(s)) {
                     this.playerProfile = new GameProfile(null, s);
@@ -53,18 +50,22 @@ public class TileEntitySkull extends TileEntity {
         return this.playerProfile;
     }
 
+    /**
+     * Allows for a specialized description packet to be created. This is often used to sync tile entity data from the
+     * server to the client easily. For example this is used by signs to synchronise the text to be displayed.
+     */
     public Packet getDescriptionPacket() {
-        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        final NBTTagCompound nbttagcompound = new NBTTagCompound();
         this.writeToNBT(nbttagcompound);
         return new S35PacketUpdateTileEntity(this.pos, 4, nbttagcompound);
     }
 
-    public void setType(int type) {
+    public void setType(final int type) {
         this.skullType = type;
         this.playerProfile = null;
     }
 
-    public void setPlayerProfile(GameProfile playerProfile) {
+    public void setPlayerProfile(final GameProfile playerProfile) {
         this.skullType = 3;
         this.playerProfile = playerProfile;
         this.updatePlayerProfile();
@@ -75,7 +76,7 @@ public class TileEntitySkull extends TileEntity {
         this.markDirty();
     }
 
-    public static GameProfile updateGameprofile(GameProfile input) {
+    public static GameProfile updateGameprofile(final GameProfile input) {
         if (input != null && !StringUtils.isNullOrEmpty(input.getName())) {
             if (input.isComplete() && input.getProperties().containsKey("textures")) {
                 return input;
@@ -87,7 +88,7 @@ public class TileEntitySkull extends TileEntity {
                 if (gameprofile == null) {
                     return input;
                 } else {
-                    Property property = Iterables.getFirst(gameprofile.getProperties().get("textures"), null);
+                    final Property property = Iterables.getFirst(gameprofile.getProperties().get("textures"), null);
 
                     if (property == null) {
                         gameprofile = MinecraftServer.getServer().getMinecraftSessionService().fillProfileProperties(gameprofile, true);
@@ -109,7 +110,7 @@ public class TileEntitySkull extends TileEntity {
         return this.skullRotation;
     }
 
-    public void setSkullRotation(int rotation) {
+    public void setSkullRotation(final int rotation) {
         this.skullRotation = rotation;
     }
 }

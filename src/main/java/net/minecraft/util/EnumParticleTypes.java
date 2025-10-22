@@ -48,9 +48,7 @@ public enum EnumParticleTypes {
     BLOCK_DUST("blockdust_", 38, false, 1),
     WATER_DROP("droplet", 39, false),
     ITEM_TAKE("take", 40, false),
-    MOB_APPEARANCE("mobappearance", 41, true),
-    BLOOD_PARTICLE("blood", 42, true),
-    CUSTOM_PARTICLE("custom", 43, true);
+    MOB_APPEARANCE("mobappearance", 41, true);
 
     private final String particleName;
     private final int particleID;
@@ -59,14 +57,14 @@ public enum EnumParticleTypes {
     private static final Map<Integer, EnumParticleTypes> PARTICLES = Maps.newHashMap();
     private static final String[] PARTICLE_NAMES;
 
-    EnumParticleTypes(String particleNameIn, int particleIDIn, boolean p_i46011_5_, int argumentCountIn) {
+    EnumParticleTypes(final String particleNameIn, final int particleIDIn, final boolean p_i46011_5_, final int argumentCountIn) {
         this.particleName = particleNameIn;
         this.particleID = particleIDIn;
         this.shouldIgnoreRange = p_i46011_5_;
         this.argumentCount = argumentCountIn;
     }
 
-    EnumParticleTypes(String particleNameIn, int particleIDIn, boolean p_i46012_5_) {
+    EnumParticleTypes(final String particleNameIn, final int particleIDIn, final boolean p_i46012_5_) {
         this(particleNameIn, particleIDIn, p_i46012_5_, 0);
     }
 
@@ -94,25 +92,24 @@ public enum EnumParticleTypes {
         return this.argumentCount > 0;
     }
 
-    public static EnumParticleTypes getParticleFromId(int particleId) {
-        return PARTICLES.get(particleId);
+    /**
+     * Gets the relative EnumParticleTypes by id.
+     */
+    public static EnumParticleTypes getParticleFromId(final int particleId) {
+        return PARTICLES.get(Integer.valueOf(particleId));
     }
 
     static {
-        List<String> list = Lists.newArrayList();
+        final List<String> list = Lists.newArrayList();
 
-        for (EnumParticleTypes enumparticletypes : values()) {
-            PARTICLES.put(enumparticletypes.getParticleID(), enumparticletypes);
+        for (final EnumParticleTypes enumparticletypes : values()) {
+            PARTICLES.put(Integer.valueOf(enumparticletypes.getParticleID()), enumparticletypes);
 
             if (!enumparticletypes.getParticleName().endsWith("_")) {
                 list.add(enumparticletypes.getParticleName());
             }
         }
 
-        PARTICLE_NAMES = list.toArray(new String[list.size()]);
-    }
-
-    public String toString(){
-        return particleName;
+        PARTICLE_NAMES = list.toArray(new String[0]);
     }
 }

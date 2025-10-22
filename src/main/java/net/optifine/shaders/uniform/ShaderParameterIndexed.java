@@ -8,15 +8,15 @@ public class ShaderParameterIndexed implements IExpressionFloat {
     private final int index1;
     private final int index2;
 
-    public ShaderParameterIndexed(ShaderParameterFloat type) {
+    public ShaderParameterIndexed(final ShaderParameterFloat type) {
         this(type, 0, 0);
     }
 
-    public ShaderParameterIndexed(ShaderParameterFloat type, int index1) {
+    public ShaderParameterIndexed(final ShaderParameterFloat type, final int index1) {
         this(type, index1, 0);
     }
 
-    public ShaderParameterIndexed(ShaderParameterFloat type, int index1, int index2) {
+    public ShaderParameterIndexed(final ShaderParameterFloat type, final int index1, final int index2) {
         this.type = type;
         this.index1 = index1;
         this.index2 = index2;
@@ -31,6 +31,6 @@ public class ShaderParameterIndexed implements IExpressionFloat {
     }
 
     public String toString() {
-        return this.type.getIndexNames1() == null ? "" + this.type : (this.type.getIndexNames2() == null ? this.type + "." + this.type.getIndexNames1()[this.index1] : this.type + "." + this.type.getIndexNames1()[this.index1] + "." + this.type.getIndexNames2()[this.index2]);
+        return this.type.getIndexNames1() == null ? "" + this.type : (this.type.getIndexNames2() == null ? "" + this.type + "." + this.type.getIndexNames1()[this.index1] : "" + this.type + "." + this.type.getIndexNames1()[this.index1] + "." + this.type.getIndexNames2()[this.index2]);
     }
 }

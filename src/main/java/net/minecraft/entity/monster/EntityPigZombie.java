@@ -19,16 +19,24 @@ import java.util.UUID;
 public class EntityPigZombie extends EntityZombie {
     private static final UUID ATTACK_SPEED_BOOST_MODIFIER_UUID = UUID.fromString("49455A49-7EC5-45BA-B886-3B90B23A1718");
     private static final AttributeModifier ATTACK_SPEED_BOOST_MODIFIER = (new AttributeModifier(ATTACK_SPEED_BOOST_MODIFIER_UUID, "Attacking speed boost", 0.05D, 0)).setSaved(false);
+
+    /**
+     * Above zero if this PigZombie is Angry.
+     */
     private int angerLevel;
+
+    /**
+     * A random delay until this PigZombie next makes a sound.
+     */
     private int randomSoundDelay;
     private UUID angerTargetUUID;
 
-    public EntityPigZombie(World worldIn) {
+    public EntityPigZombie(final World worldIn) {
         super(worldIn);
         this.isImmuneToFire = true;
     }
 
-    public void setRevengeTarget(EntityLivingBase livingBase) {
+    public void setRevengeTarget(final EntityLivingBase livingBase) {
         super.setRevengeTarget(livingBase);
 
         if (livingBase != null) {
@@ -48,12 +56,15 @@ public class EntityPigZombie extends EntityZombie {
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(5.0D);
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate() {
         super.onUpdate();
     }
 
     protected void updateAITasks() {
-        IAttributeInstance iattributeinstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+        final IAttributeInstance iattributeinstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
 
         if (this.isAngry()) {
             if (!this.isChild() && !iattributeinstance.hasModifier(ATTACK_SPEED_BOOST_MODIFIER)) {
@@ -70,7 +81,7 @@ public class EntityPigZombie extends EntityZombie {
         }
 
         if (this.angerLevel > 0 && this.angerTargetUUID != null && this.getAITarget() == null) {
-            EntityPlayer entityplayer = this.worldObj.getPlayerEntityByUUID(this.angerTargetUUID);
+            final EntityPlayer entityplayer = this.worldObj.getPlayerEntityByUUID(this.angerTargetUUID);
             this.setRevengeTarget(entityplayer);
             this.attackingPlayer = entityplayer;
             this.recentlyHit = this.getRevengeTimer();
@@ -79,15 +90,24 @@ public class EntityPigZombie extends EntityZombie {
         super.updateAITasks();
     }
 
+    /**
+     * Checks if the entity's current position is a valid location to spawn this entity.
+     */
     public boolean getCanSpawnHere() {
         return this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL;
     }
 
+    /**
+     * Checks that the entity is not colliding with any blocks / liquids
+     */
     public boolean isNotColliding() {
         return this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox(), this) && this.worldObj.getCollidingBoundingBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.worldObj.isAnyLiquid(this.getEntityBoundingBox());
     }
 
-    public void writeEntityToNBT(NBTTagCompound tagCompound) {
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
+    public void writeEntityToNBT(final NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
         tagCompound.setShort("Anger", (short) this.angerLevel);
 
@@ -98,14 +118,17 @@ public class EntityPigZombie extends EntityZombie {
         }
     }
 
-    public void readEntityFromNBT(NBTTagCompound tagCompund) {
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
+    public void readEntityFromNBT(final NBTTagCompound tagCompund) {
         super.readEntityFromNBT(tagCompund);
         this.angerLevel = tagCompund.getShort("Anger");
-        String s = tagCompund.getString("HurtBy");
+        final String s = tagCompund.getString("HurtBy");
 
-        if (!s.isEmpty()) {
+        if (s.length() > 0) {
             this.angerTargetUUID = UUID.fromString(s);
-            EntityPlayer entityplayer = this.worldObj.getPlayerEntityByUUID(this.angerTargetUUID);
+            final EntityPlayer entityplayer = this.worldObj.getPlayerEntityByUUID(this.angerTargetUUID);
             this.setRevengeTarget(entityplayer);
 
             if (entityplayer != null) {
@@ -115,11 +138,14 @@ public class EntityPigZombie extends EntityZombie {
         }
     }
 
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    /**
+     * Called when the entity is attacked.
+     */
+    public boolean attackEntityFrom(final DamageSource source, final float amount) {
         if (this.isEntityInvulnerable(source)) {
             return false;
         } else {
-            Entity entity = source.getEntity();
+            final Entity entity = source.getEntity();
 
             if (entity instanceof EntityPlayer) {
                 this.becomeAngryAt(entity);
@@ -129,7 +155,10 @@ public class EntityPigZombie extends EntityZombie {
         }
     }
 
-    private void becomeAngryAt(Entity p_70835_1_) {
+    /**
+     * Causes this PigZombie to become angry at the supplied Entity (which will be a player).
+     */
+    private void becomeAngryAt(final Entity p_70835_1_) {
         this.angerLevel = 400 + this.rand.nextInt(400);
         this.randomSoundDelay = this.rand.nextInt(40);
 
@@ -142,56 +171,81 @@ public class EntityPigZombie extends EntityZombie {
         return this.angerLevel > 0;
     }
 
+    /**
+     * Returns the sound this mob makes while it's alive.
+     */
     protected String getLivingSound() {
         return "mob.zombiepig.zpig";
     }
 
+    /**
+     * Returns the sound this mob makes when it is hurt.
+     */
     protected String getHurtSound() {
         return "mob.zombiepig.zpighurt";
     }
 
+    /**
+     * Returns the sound this mob makes on death.
+     */
     protected String getDeathSound() {
         return "mob.zombiepig.zpigdeath";
     }
 
-    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
-        int i = this.rand.nextInt(2 + lootingModifier);
+    /**
+     * Drop 0-2 items of this living's type
+     */
+    protected void dropFewItems(final boolean p_70628_1_, final int p_70628_2_) {
+        int i = this.rand.nextInt(2 + p_70628_2_);
 
         for (int j = 0; j < i; ++j) {
             this.dropItem(Items.rotten_flesh, 1);
         }
 
-        i = this.rand.nextInt(2 + lootingModifier);
+        i = this.rand.nextInt(2 + p_70628_2_);
 
         for (int k = 0; k < i; ++k) {
             this.dropItem(Items.gold_nugget, 1);
         }
     }
 
-    public boolean interact(EntityPlayer player) {
+    /**
+     * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
+     */
+    public boolean interact(final EntityPlayer player) {
         return false;
     }
 
+    /**
+     * Causes this Entity to drop a random item.
+     */
     protected void addRandomDrop() {
         this.dropItem(Items.gold_ingot, 1);
     }
 
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+    /**
+     * Gives armor or weapon for entity based on given DifficultyInstance
+     */
+    protected void setEquipmentBasedOnDifficulty(final DifficultyInstance difficulty) {
         this.setCurrentItemOrArmor(0, new ItemStack(Items.golden_sword));
     }
 
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
+    /**
+     * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
+     * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
+     */
+    public IEntityLivingData onInitialSpawn(final DifficultyInstance difficulty, final IEntityLivingData livingdata) {
         super.onInitialSpawn(difficulty, livingdata);
         this.setVillager(false);
         return livingdata;
     }
 
     static class AIHurtByAggressor extends EntityAIHurtByTarget {
-        public AIHurtByAggressor(EntityPigZombie p_i45828_1_) {
+        public AIHurtByAggressor(final EntityPigZombie p_i45828_1_) {
             super(p_i45828_1_, true);
         }
 
-        protected void setEntityAttackTarget(EntityCreature creatureIn, EntityLivingBase entityLivingBaseIn) {
+        protected void setEntityAttackTarget(final EntityCreature creatureIn, final EntityLivingBase entityLivingBaseIn) {
             super.setEntityAttackTarget(creatureIn, entityLivingBaseIn);
 
             if (creatureIn instanceof EntityPigZombie) {
@@ -201,7 +255,7 @@ public class EntityPigZombie extends EntityZombie {
     }
 
     static class AITargetAggressor extends EntityAINearestAttackableTarget<EntityPlayer> {
-        public AITargetAggressor(EntityPigZombie p_i45829_1_) {
+        public AITargetAggressor(final EntityPigZombie p_i45829_1_) {
             super(p_i45829_1_, EntityPlayer.class, true);
         }
 

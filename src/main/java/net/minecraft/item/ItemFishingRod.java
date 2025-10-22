@@ -13,17 +13,27 @@ public class ItemFishingRod extends Item {
         this.setCreativeTab(CreativeTabs.tabTools);
     }
 
+    /**
+     * Returns True is the item is renderer in full 3D when hold.
+     */
     public boolean isFull3D() {
         return true;
     }
 
+    /**
+     * Returns true if this item should be rotated by 180 degrees around the Y axis when being held in an entities
+     * hands.
+     */
     public boolean shouldRotateAroundWhenRendering() {
         return true;
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+    /**
+     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+     */
+    public ItemStack onItemRightClick(final ItemStack itemStackIn, final World worldIn, final EntityPlayer playerIn) {
         if (playerIn.fishEntity != null) {
-            int i = playerIn.fishEntity.handleHookRetraction();
+            final int i = playerIn.fishEntity.handleHookRetraction();
             itemStackIn.damageItem(i, playerIn);
             playerIn.swingItem();
         } else {
@@ -40,10 +50,16 @@ public class ItemFishingRod extends Item {
         return itemStackIn;
     }
 
-    public boolean isItemTool(ItemStack stack) {
+    /**
+     * Checks isDamagable and if it cannot be stacked
+     */
+    public boolean isItemTool(final ItemStack stack) {
         return super.isItemTool(stack);
     }
 
+    /**
+     * Return the enchantability factor of the item, most of the time is based on material.
+     */
     public int getItemEnchantability() {
         return 1;
     }

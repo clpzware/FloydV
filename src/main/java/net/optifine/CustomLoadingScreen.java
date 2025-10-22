@@ -19,24 +19,24 @@ public class CustomLoadingScreen {
     private static final int SCALE_MODE_FULL = 1;
     private static final int SCALE_MODE_STRETCH = 2;
 
-    public CustomLoadingScreen(ResourceLocation locationTexture, int scaleMode, int scale, boolean center) {
+    public CustomLoadingScreen(final ResourceLocation locationTexture, final int scaleMode, final int scale, final boolean center) {
         this.locationTexture = locationTexture;
         this.scaleMode = scaleMode;
         this.scale = scale;
         this.center = center;
     }
 
-    public static CustomLoadingScreen parseScreen(String path, int dimId, Properties props) {
-        ResourceLocation resourcelocation = new ResourceLocation(path);
-        int i = parseScaleMode(getProperty("scaleMode", dimId, props));
-        int j = i == 0 ? 2 : 1;
-        int k = parseScale(getProperty("scale", dimId, props), j);
-        boolean flag = Config.parseBoolean(getProperty("center", dimId, props), false);
-        CustomLoadingScreen customloadingscreen = new CustomLoadingScreen(resourcelocation, i, k, flag);
+    public static CustomLoadingScreen parseScreen(final String path, final int dimId, final Properties props) {
+        final ResourceLocation resourcelocation = new ResourceLocation(path);
+        final int i = parseScaleMode(getProperty("scaleMode", dimId, props));
+        final int j = i == 0 ? 2 : 1;
+        final int k = parseScale(getProperty("scale", dimId, props), j);
+        final boolean flag = Config.parseBoolean(getProperty("center", dimId, props), false);
+        final CustomLoadingScreen customloadingscreen = new CustomLoadingScreen(resourcelocation, i, k, flag);
         return customloadingscreen;
     }
 
-    private static String getProperty(String key, int dim, Properties props) {
+    private static String getProperty(final String key, final int dim, final Properties props) {
         if (props == null) {
             return null;
         } else {
@@ -70,12 +70,12 @@ public class CustomLoadingScreen {
         }
     }
 
-    private static int parseScale(String str, int def) {
+    private static int parseScale(String str, final int def) {
         if (str == null) {
             return def;
         } else {
             str = str.trim();
-            int i = Config.parseInt(str, -1);
+            final int i = Config.parseInt(str, -1);
 
             if (i < 1) {
                 CustomLoadingScreens.warn("Invalid scale: " + str);
@@ -86,11 +86,11 @@ public class CustomLoadingScreen {
         }
     }
 
-    public void drawBackground(int width, int height) {
+    public void drawBackground(final int width, final int height) {
         GlStateManager.disableLighting();
         GlStateManager.disableFog();
-        Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        final Tessellator tessellator = Tessellator.getInstance();
+        final WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         Config.getTextureManager().bindTexture(this.locationTexture);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         double d0 = 16 * this.scale;
@@ -124,11 +124,11 @@ public class CustomLoadingScreen {
                 d4 = 0.0D;
         }
 
-        worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
-        worldrenderer.pos(0.0D, height, 0.0D).tex(d3, d4 + d2).color(255, 255, 255, 255).endVertex();
-        worldrenderer.pos(width, height, 0.0D).tex(d3 + d1, d4 + d2).color(255, 255, 255, 255).endVertex();
-        worldrenderer.pos(width, 0.0D, 0.0D).tex(d3 + d1, d4).color(255, 255, 255, 255).endVertex();
-        worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(d3, d4).color(255, 255, 255, 255).endVertex();
+        worldrenderer.begin(7, DefaultVertexFormats.field_181709_i);
+        worldrenderer.pos(0.0D, height, 0.0D).tex(d3, d4 + d2).func_181669_b(255, 255, 255, 255).endVertex();
+        worldrenderer.pos(width, height, 0.0D).tex(d3 + d1, d4 + d2).func_181669_b(255, 255, 255, 255).endVertex();
+        worldrenderer.pos(width, 0.0D, 0.0D).tex(d3 + d1, d4).func_181669_b(255, 255, 255, 255).endVertex();
+        worldrenderer.pos(0.0D, 0.0D, 0.0D).tex(d3, d4).func_181669_b(255, 255, 255, 255).endVertex();
         tessellator.draw();
     }
 }

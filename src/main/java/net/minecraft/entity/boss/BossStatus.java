@@ -6,7 +6,7 @@ public final class BossStatus {
     public static String bossName;
     public static boolean hasColorModifier;
 
-    public static void setBossStatus(IBossDisplayData displayData, boolean hasColorModifierIn) {
+    public static void setBossStatus(final IBossDisplayData displayData, final boolean hasColorModifierIn) {
         healthScale = displayData.getHealth() / displayData.getMaxHealth();
         statusBarTime = 100;
         bossName = displayData.getDisplayName().getFormattedText();

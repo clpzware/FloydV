@@ -13,9 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CrashReporter {
-    public static void onCrashReport(CrashReport crashReport, CrashReportCategory category) {
+    public static void onCrashReport(final CrashReport crashReport, final CrashReportCategory category) {
         try {
-            Throwable throwable = crashReport.getCrashCause();
+            final Throwable throwable = crashReport.getCrashCause();
 
             if (throwable == null) {
                 return;
@@ -25,12 +25,13 @@ public class CrashReporter {
                 return;
             }
 
+            extendCrashReport(category);
+
             if (throwable.getClass() == Throwable.class) {
                 return;
             }
 
-            extendCrashReport(category);
-            GameSettings gamesettings = Config.getGameSettings();
+            final GameSettings gamesettings = Config.getGameSettings();
 
             if (gamesettings == null) {
                 return;
@@ -40,51 +41,55 @@ public class CrashReporter {
                 return;
             }
 
-            String s = "http://optifine.net/crashReport";
-            String s1 = makeReport(crashReport);
-            byte[] abyte = s1.getBytes(StandardCharsets.US_ASCII);
-            IFileUploadListener ifileuploadlistener = (url, content, exception) -> {
+            final String s = "http://optifine.net/crashReport";
+            final String s1 = makeReport(crashReport);
+            final byte[] abyte = s1.getBytes(StandardCharsets.US_ASCII);
+            final IFileUploadListener ifileuploadlistener = new IFileUploadListener() {
+                public void fileUploadFinished(final String url, final byte[] content, final Throwable exception) {
+                }
             };
-            Map map = new HashMap();
+            final Map map = new HashMap();
             map.put("OF-Version", Config.getVersion());
             map.put("OF-Summary", makeSummary(crashReport));
-            FileUploadThread fileuploadthread = new FileUploadThread(s, map, abyte, ifileuploadlistener);
+            final FileUploadThread fileuploadthread = new FileUploadThread(s, map, abyte, ifileuploadlistener);
             fileuploadthread.setPriority(10);
             fileuploadthread.start();
+
             Thread.sleep(1000L);
-        } catch (Exception exception) {
+        } catch (final Exception exception) {
             Config.dbg(exception.getClass().getName() + ": " + exception.getMessage());
         }
     }
 
-    private static String makeReport(CrashReport crashReport) {
-        String stringbuffer = "OptiFineVersion: " + Config.getVersion() + "\n" +
-                "Summary: " + makeSummary(crashReport) + "\n" +
-                "\n" +
-                crashReport.getCompleteReport() +
-                "\n";
-        return stringbuffer;
+    private static String makeReport(final CrashReport crashReport) {
+        final StringBuffer stringbuffer = new StringBuffer();
+        stringbuffer.append("OptiFineVersion: ").append(Config.getVersion()).append("\n");
+        stringbuffer.append("Summary: ").append(makeSummary(crashReport)).append("\n");
+        stringbuffer.append("\n");
+        stringbuffer.append(crashReport.getCompleteReport());
+        stringbuffer.append("\n");
+        return stringbuffer.toString();
     }
 
-    private static String makeSummary(CrashReport crashReport) {
-        Throwable throwable = crashReport.getCrashCause();
+    private static String makeSummary(final CrashReport crashReport) {
+        final Throwable throwable = crashReport.getCrashCause();
 
         if (throwable == null) {
             return "Unknown";
         } else {
-            StackTraceElement[] astacktraceelement = throwable.getStackTrace();
+            final StackTraceElement[] astacktraceelement = throwable.getStackTrace();
             String s = "unknown";
 
             if (astacktraceelement.length > 0) {
                 s = astacktraceelement[0].toString().trim();
             }
 
-            String s1 = throwable.getClass().getName() + ": " + throwable.getMessage() + " (" + crashReport.getDescription() + ")" + " [" + s + "]";
+            final String s1 = throwable.getClass().getName() + ": " + throwable.getMessage() + " (" + crashReport.getDescription() + ")" + " [" + s + "]";
             return s1;
         }
     }
 
-    public static void extendCrashReport(CrashReportCategory cat) {
+    public static void extendCrashReport(final CrashReportCategory cat) {
         cat.addCrashSection("OptiFine Version", Config.getVersion());
         cat.addCrashSection("OptiFine Build", Config.getBuild());
 
@@ -96,10 +101,10 @@ public class CrashReporter {
             cat.addCrashSection("Multitexture", "" + Config.isMultiTexture());
         }
 
-        cat.addCrashSection("Shaders", Shaders.getShaderPackName());
-        cat.addCrashSection("OpenGlVersion", Config.openGlVersion);
-        cat.addCrashSection("OpenGlRenderer", Config.openGlRenderer);
-        cat.addCrashSection("OpenGlVendor", Config.openGlVendor);
+        cat.addCrashSection("Shaders", "" + Shaders.getShaderPackName());
+        cat.addCrashSection("OpenGlVersion", "" + Config.openGlVersion);
+        cat.addCrashSection("OpenGlRenderer", "" + Config.openGlRenderer);
+        cat.addCrashSection("OpenGlVendor", "" + Config.openGlVendor);
         cat.addCrashSection("CpuCount", "" + Config.getAvailableProcessors());
     }
 }

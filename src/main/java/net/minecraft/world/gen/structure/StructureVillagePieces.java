@@ -1,18 +1,12 @@
 package net.minecraft.world.gen.structure;
 
 import com.google.common.collect.Lists;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSandStone;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -26,6 +20,10 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.WorldChunkManager;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 @SuppressWarnings("incomplete-switch")
 public class StructureVillagePieces {
@@ -45,18 +43,18 @@ public class StructureVillagePieces {
         MapGenStructureIO.registerStructureComponent(StructureVillagePieces.Well.class, "ViW");
     }
 
-    public static List<StructureVillagePieces.PieceWeight> getStructureVillageWeightedPieceList(Random random, int size) {
-        List<StructureVillagePieces.PieceWeight> list = Lists.newArrayList();
-        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House4Garden.class, 4, MathHelper.getRandomIntegerInRange(random, 2 + size, 4 + size * 2)));
-        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Church.class, 20, MathHelper.getRandomIntegerInRange(random, size, 1 + size)));
-        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House1.class, 20, MathHelper.getRandomIntegerInRange(random, size, 2 + size)));
-        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.WoodHut.class, 3, MathHelper.getRandomIntegerInRange(random, 2 + size, 5 + size * 3)));
-        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Hall.class, 15, MathHelper.getRandomIntegerInRange(random, size, 2 + size)));
-        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Field1.class, 3, MathHelper.getRandomIntegerInRange(random, 1 + size, 4 + size)));
-        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Field2.class, 3, MathHelper.getRandomIntegerInRange(random, 2 + size, 4 + size * 2)));
-        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House2.class, 15, MathHelper.getRandomIntegerInRange(random, 0, 1 + size)));
-        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House3.class, 8, MathHelper.getRandomIntegerInRange(random, size, 3 + size * 2)));
-        Iterator<StructureVillagePieces.PieceWeight> iterator = list.iterator();
+    public static List<StructureVillagePieces.PieceWeight> getStructureVillageWeightedPieceList(final Random random, final int p_75084_1_) {
+        final List<StructureVillagePieces.PieceWeight> list = Lists.newArrayList();
+        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House4Garden.class, 4, MathHelper.getRandomIntegerInRange(random, 2 + p_75084_1_, 4 + p_75084_1_ * 2)));
+        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Church.class, 20, MathHelper.getRandomIntegerInRange(random, 0 + p_75084_1_, 1 + p_75084_1_)));
+        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House1.class, 20, MathHelper.getRandomIntegerInRange(random, 0 + p_75084_1_, 2 + p_75084_1_)));
+        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.WoodHut.class, 3, MathHelper.getRandomIntegerInRange(random, 2 + p_75084_1_, 5 + p_75084_1_ * 3)));
+        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Hall.class, 15, MathHelper.getRandomIntegerInRange(random, 0 + p_75084_1_, 2 + p_75084_1_)));
+        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Field1.class, 3, MathHelper.getRandomIntegerInRange(random, 1 + p_75084_1_, 4 + p_75084_1_)));
+        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.Field2.class, 3, MathHelper.getRandomIntegerInRange(random, 2 + p_75084_1_, 4 + p_75084_1_ * 2)));
+        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House2.class, 15, MathHelper.getRandomIntegerInRange(random, 0, 1 + p_75084_1_)));
+        list.add(new StructureVillagePieces.PieceWeight(StructureVillagePieces.House3.class, 8, MathHelper.getRandomIntegerInRange(random, 0 + p_75084_1_, 3 + p_75084_1_ * 2)));
+        final Iterator<StructureVillagePieces.PieceWeight> iterator = list.iterator();
 
         while (iterator.hasNext()) {
             if (iterator.next().villagePiecesLimit == 0) {
@@ -67,11 +65,11 @@ public class StructureVillagePieces {
         return list;
     }
 
-    private static int func_75079_a(List<StructureVillagePieces.PieceWeight> p_75079_0_) {
+    private static int func_75079_a(final List<StructureVillagePieces.PieceWeight> p_75079_0_) {
         boolean flag = false;
         int i = 0;
 
-        for (StructureVillagePieces.PieceWeight structurevillagepieces$pieceweight : p_75079_0_) {
+        for (final StructureVillagePieces.PieceWeight structurevillagepieces$pieceweight : p_75079_0_) {
             if (structurevillagepieces$pieceweight.villagePiecesLimit > 0 && structurevillagepieces$pieceweight.villagePiecesSpawned < structurevillagepieces$pieceweight.villagePiecesLimit) {
                 flag = true;
             }
@@ -82,8 +80,8 @@ public class StructureVillagePieces {
         return flag ? i : -1;
     }
 
-    private static StructureVillagePieces.Village func_176065_a(StructureVillagePieces.Start start, StructureVillagePieces.PieceWeight weight, List<StructureComponent> p_176065_2_, Random rand, int p_176065_4_, int p_176065_5_, int p_176065_6_, EnumFacing facing, int p_176065_8_) {
-        Class<? extends StructureVillagePieces.Village> oclass = weight.villagePieceClass;
+    private static StructureVillagePieces.Village func_176065_a(final StructureVillagePieces.Start start, final StructureVillagePieces.PieceWeight weight, final List<StructureComponent> p_176065_2_, final Random rand, final int p_176065_4_, final int p_176065_5_, final int p_176065_6_, final EnumFacing facing, final int p_176065_8_) {
+        final Class<? extends StructureVillagePieces.Village> oclass = weight.villagePieceClass;
         StructureVillagePieces.Village structurevillagepieces$village = null;
 
         if (oclass == StructureVillagePieces.House4Garden.class) {
@@ -109,8 +107,8 @@ public class StructureVillagePieces {
         return structurevillagepieces$village;
     }
 
-    private static StructureVillagePieces.Village func_176067_c(StructureVillagePieces.Start start, List<StructureComponent> p_176067_1_, Random rand, int p_176067_3_, int p_176067_4_, int p_176067_5_, EnumFacing facing, int p_176067_7_) {
-        int i = func_75079_a(start.structureVillageWeightedPieceList);
+    private static StructureVillagePieces.Village func_176067_c(final StructureVillagePieces.Start start, final List<StructureComponent> p_176067_1_, final Random rand, final int p_176067_3_, final int p_176067_4_, final int p_176067_5_, final EnumFacing facing, final int p_176067_7_) {
+        final int i = func_75079_a(start.structureVillageWeightedPieceList);
 
         if (i <= 0) {
             return null;
@@ -121,7 +119,7 @@ public class StructureVillagePieces {
                 ++j;
                 int k = rand.nextInt(i);
 
-                for (StructureVillagePieces.PieceWeight structurevillagepieces$pieceweight : start.structureVillageWeightedPieceList) {
+                for (final StructureVillagePieces.PieceWeight structurevillagepieces$pieceweight : start.structureVillageWeightedPieceList) {
                     k -= structurevillagepieces$pieceweight.villagePieceWeight;
 
                     if (k < 0) {
@@ -129,7 +127,7 @@ public class StructureVillagePieces {
                             break;
                         }
 
-                        StructureVillagePieces.Village structurevillagepieces$village = func_176065_a(start, structurevillagepieces$pieceweight, p_176067_1_, rand, p_176067_3_, p_176067_4_, p_176067_5_, facing, p_176067_7_);
+                        final StructureVillagePieces.Village structurevillagepieces$village = func_176065_a(start, structurevillagepieces$pieceweight, p_176067_1_, rand, p_176067_3_, p_176067_4_, p_176067_5_, facing, p_176067_7_);
 
                         if (structurevillagepieces$village != null) {
                             ++structurevillagepieces$pieceweight.villagePiecesSpawned;
@@ -145,7 +143,7 @@ public class StructureVillagePieces {
                 }
             }
 
-            StructureBoundingBox structureboundingbox = StructureVillagePieces.Torch.func_175856_a(start, p_176067_1_, rand, p_176067_3_, p_176067_4_, p_176067_5_, facing);
+            final StructureBoundingBox structureboundingbox = StructureVillagePieces.Torch.func_175856_a(start, p_176067_1_, rand, p_176067_3_, p_176067_4_, p_176067_5_, facing);
 
             if (structureboundingbox != null) {
                 return new StructureVillagePieces.Torch(start, p_176067_7_, rand, structureboundingbox, facing);
@@ -155,18 +153,18 @@ public class StructureVillagePieces {
         }
     }
 
-    private static StructureComponent func_176066_d(StructureVillagePieces.Start start, List<StructureComponent> p_176066_1_, Random rand, int p_176066_3_, int p_176066_4_, int p_176066_5_, EnumFacing facing, int p_176066_7_) {
+    private static StructureComponent func_176066_d(final StructureVillagePieces.Start start, final List<StructureComponent> p_176066_1_, final Random rand, final int p_176066_3_, final int p_176066_4_, final int p_176066_5_, final EnumFacing facing, final int p_176066_7_) {
         if (p_176066_7_ > 50) {
             return null;
         } else if (Math.abs(p_176066_3_ - start.getBoundingBox().minX) <= 112 && Math.abs(p_176066_5_ - start.getBoundingBox().minZ) <= 112) {
-            StructureComponent structurecomponent = func_176067_c(start, p_176066_1_, rand, p_176066_3_, p_176066_4_, p_176066_5_, facing, p_176066_7_ + 1);
+            final StructureComponent structurecomponent = func_176067_c(start, p_176066_1_, rand, p_176066_3_, p_176066_4_, p_176066_5_, facing, p_176066_7_ + 1);
 
             if (structurecomponent != null) {
-                int i = (structurecomponent.boundingBox.minX + structurecomponent.boundingBox.maxX) / 2;
-                int j = (structurecomponent.boundingBox.minZ + structurecomponent.boundingBox.maxZ) / 2;
-                int k = structurecomponent.boundingBox.maxX - structurecomponent.boundingBox.minX;
-                int l = structurecomponent.boundingBox.maxZ - structurecomponent.boundingBox.minZ;
-                int i1 = k > l ? k : l;
+                final int i = (structurecomponent.boundingBox.minX + structurecomponent.boundingBox.maxX) / 2;
+                final int j = (structurecomponent.boundingBox.minZ + structurecomponent.boundingBox.maxZ) / 2;
+                final int k = structurecomponent.boundingBox.maxX - structurecomponent.boundingBox.minX;
+                final int l = structurecomponent.boundingBox.maxZ - structurecomponent.boundingBox.minZ;
+                final int i1 = k > l ? k : l;
 
                 if (start.getWorldChunkManager().areBiomesViable(i, j, i1 / 2 + 4, MapGenVillage.villageSpawnBiomes)) {
                     p_176066_1_.add(structurecomponent);
@@ -181,19 +179,19 @@ public class StructureVillagePieces {
         }
     }
 
-    private static StructureComponent func_176069_e(StructureVillagePieces.Start start, List<StructureComponent> p_176069_1_, Random rand, int p_176069_3_, int p_176069_4_, int p_176069_5_, EnumFacing facing, int p_176069_7_) {
+    private static StructureComponent func_176069_e(final StructureVillagePieces.Start start, final List<StructureComponent> p_176069_1_, final Random rand, final int p_176069_3_, final int p_176069_4_, final int p_176069_5_, final EnumFacing facing, final int p_176069_7_) {
         if (p_176069_7_ > 3 + start.terrainType) {
             return null;
         } else if (Math.abs(p_176069_3_ - start.getBoundingBox().minX) <= 112 && Math.abs(p_176069_5_ - start.getBoundingBox().minZ) <= 112) {
-            StructureBoundingBox structureboundingbox = StructureVillagePieces.Path.func_175848_a(start, p_176069_1_, rand, p_176069_3_, p_176069_4_, p_176069_5_, facing);
+            final StructureBoundingBox structureboundingbox = StructureVillagePieces.Path.func_175848_a(start, p_176069_1_, rand, p_176069_3_, p_176069_4_, p_176069_5_, facing);
 
             if (structureboundingbox != null && structureboundingbox.minY > 10) {
-                StructureComponent structurecomponent = new StructureVillagePieces.Path(start, p_176069_7_, rand, structureboundingbox, facing);
-                int i = (structurecomponent.boundingBox.minX + structurecomponent.boundingBox.maxX) / 2;
-                int j = (structurecomponent.boundingBox.minZ + structurecomponent.boundingBox.maxZ) / 2;
-                int k = structurecomponent.boundingBox.maxX - structurecomponent.boundingBox.minX;
-                int l = structurecomponent.boundingBox.maxZ - structurecomponent.boundingBox.minZ;
-                int i1 = k > l ? k : l;
+                final StructureComponent structurecomponent = new StructureVillagePieces.Path(start, p_176069_7_, rand, structureboundingbox, facing);
+                final int i = (structurecomponent.boundingBox.minX + structurecomponent.boundingBox.maxX) / 2;
+                final int j = (structurecomponent.boundingBox.minZ + structurecomponent.boundingBox.maxZ) / 2;
+                final int k = structurecomponent.boundingBox.maxX - structurecomponent.boundingBox.minX;
+                final int l = structurecomponent.boundingBox.maxZ - structurecomponent.boundingBox.minZ;
+                final int i1 = k > l ? k : l;
 
                 if (start.getWorldChunkManager().areBiomesViable(i, j, i1 / 2 + 4, MapGenVillage.villageSpawnBiomes)) {
                     p_176069_1_.add(structurecomponent);
@@ -212,18 +210,18 @@ public class StructureVillagePieces {
         public Church() {
         }
 
-        public Church(StructureVillagePieces.Start start, int p_i45564_2_, Random rand, StructureBoundingBox p_i45564_4_, EnumFacing facing) {
+        public Church(final StructureVillagePieces.Start start, final int p_i45564_2_, final Random rand, final StructureBoundingBox p_i45564_4_, final EnumFacing facing) {
             super(start, p_i45564_2_);
             this.coordBaseMode = facing;
             this.boundingBox = p_i45564_4_;
         }
 
-        public static StructureVillagePieces.Church func_175854_a(StructureVillagePieces.Start start, List<StructureComponent> p_175854_1_, Random rand, int p_175854_3_, int p_175854_4_, int p_175854_5_, EnumFacing facing, int p_175854_7_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175854_3_, p_175854_4_, p_175854_5_, 0, 0, 0, 5, 12, 9, facing);
+        public static StructureVillagePieces.Church func_175854_a(final StructureVillagePieces.Start start, final List<StructureComponent> p_175854_1_, final Random rand, final int p_175854_3_, final int p_175854_4_, final int p_175854_5_, final EnumFacing facing, final int p_175854_7_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175854_3_, p_175854_4_, p_175854_5_, 0, 0, 0, 5, 12, 9, facing);
             return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175854_1_, structureboundingbox) == null ? new StructureVillagePieces.Church(start, p_175854_7_, rand, structureboundingbox, facing) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.field_143015_k < 0) {
                 this.field_143015_k = this.getAverageGroundLevel(worldIn, structureBoundingBoxIn);
 
@@ -280,7 +278,7 @@ public class StructureVillagePieces {
             this.setBlockState(worldIn, Blocks.torch.getDefaultState().withProperty(BlockTorch.FACING, this.coordBaseMode.rotateY()), 1, 4, 6, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.torch.getDefaultState().withProperty(BlockTorch.FACING, this.coordBaseMode.rotateYCCW()), 3, 4, 6, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.torch.getDefaultState().withProperty(BlockTorch.FACING, this.coordBaseMode), 2, 4, 5, structureBoundingBoxIn);
-            int i = this.getMetadataWithOffset(Blocks.ladder, 4);
+            final int i = this.getMetadataWithOffset(Blocks.ladder, 4);
 
             for (int j = 1; j <= 9; ++j) {
                 this.setBlockState(worldIn, Blocks.ladder.getStateFromMeta(i), 3, j, 3, structureBoundingBoxIn);
@@ -305,7 +303,7 @@ public class StructureVillagePieces {
             return true;
         }
 
-        protected int func_180779_c(int p_180779_1_, int p_180779_2_) {
+        protected int func_180779_c(final int p_180779_1_, final int p_180779_2_) {
             return 2;
         }
     }
@@ -319,7 +317,7 @@ public class StructureVillagePieces {
         public Field1() {
         }
 
-        public Field1(StructureVillagePieces.Start start, int p_i45570_2_, Random rand, StructureBoundingBox p_i45570_4_, EnumFacing facing) {
+        public Field1(final StructureVillagePieces.Start start, final int p_i45570_2_, final Random rand, final StructureBoundingBox p_i45570_4_, final EnumFacing facing) {
             super(start, p_i45570_2_);
             this.coordBaseMode = facing;
             this.boundingBox = p_i45570_4_;
@@ -329,7 +327,7 @@ public class StructureVillagePieces {
             this.cropTypeD = this.func_151559_a(rand);
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             super.writeStructureToNBT(tagCompound);
             tagCompound.setInteger("CA", Block.blockRegistry.getIDForObject(this.cropTypeA));
             tagCompound.setInteger("CB", Block.blockRegistry.getIDForObject(this.cropTypeB));
@@ -337,7 +335,7 @@ public class StructureVillagePieces {
             tagCompound.setInteger("CD", Block.blockRegistry.getIDForObject(this.cropTypeD));
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             super.readStructureFromNBT(tagCompound);
             this.cropTypeA = Block.getBlockById(tagCompound.getInteger("CA"));
             this.cropTypeB = Block.getBlockById(tagCompound.getInteger("CB"));
@@ -345,20 +343,25 @@ public class StructureVillagePieces {
             this.cropTypeD = Block.getBlockById(tagCompound.getInteger("CD"));
         }
 
-        private Block func_151559_a(Random rand) {
-            return switch (rand.nextInt(5)) {
-                case 0 -> Blocks.carrots;
-                case 1 -> Blocks.potatoes;
-                default -> Blocks.wheat;
-            };
+        private Block func_151559_a(final Random rand) {
+            switch (rand.nextInt(5)) {
+                case 0:
+                    return Blocks.carrots;
+
+                case 1:
+                    return Blocks.potatoes;
+
+                default:
+                    return Blocks.wheat;
+            }
         }
 
-        public static StructureVillagePieces.Field1 func_175851_a(StructureVillagePieces.Start start, List<StructureComponent> p_175851_1_, Random rand, int p_175851_3_, int p_175851_4_, int p_175851_5_, EnumFacing facing, int p_175851_7_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175851_3_, p_175851_4_, p_175851_5_, 0, 0, 0, 13, 4, 9, facing);
+        public static StructureVillagePieces.Field1 func_175851_a(final StructureVillagePieces.Start start, final List<StructureComponent> p_175851_1_, final Random rand, final int p_175851_3_, final int p_175851_4_, final int p_175851_5_, final EnumFacing facing, final int p_175851_7_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175851_3_, p_175851_4_, p_175851_5_, 0, 0, 0, 13, 4, 9, facing);
             return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175851_1_, structureboundingbox) == null ? new StructureVillagePieces.Field1(start, p_175851_7_, rand, structureboundingbox, facing) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.field_143015_k < 0) {
                 this.field_143015_k = this.getAverageGroundLevel(worldIn, structureBoundingBoxIn);
 
@@ -411,7 +414,7 @@ public class StructureVillagePieces {
         public Field2() {
         }
 
-        public Field2(StructureVillagePieces.Start start, int p_i45569_2_, Random rand, StructureBoundingBox p_i45569_4_, EnumFacing facing) {
+        public Field2(final StructureVillagePieces.Start start, final int p_i45569_2_, final Random rand, final StructureBoundingBox p_i45569_4_, final EnumFacing facing) {
             super(start, p_i45569_2_);
             this.coordBaseMode = facing;
             this.boundingBox = p_i45569_4_;
@@ -419,32 +422,37 @@ public class StructureVillagePieces {
             this.cropTypeB = this.func_151560_a(rand);
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             super.writeStructureToNBT(tagCompound);
             tagCompound.setInteger("CA", Block.blockRegistry.getIDForObject(this.cropTypeA));
             tagCompound.setInteger("CB", Block.blockRegistry.getIDForObject(this.cropTypeB));
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             super.readStructureFromNBT(tagCompound);
             this.cropTypeA = Block.getBlockById(tagCompound.getInteger("CA"));
             this.cropTypeB = Block.getBlockById(tagCompound.getInteger("CB"));
         }
 
-        private Block func_151560_a(Random rand) {
-            return switch (rand.nextInt(5)) {
-                case 0 -> Blocks.carrots;
-                case 1 -> Blocks.potatoes;
-                default -> Blocks.wheat;
-            };
+        private Block func_151560_a(final Random rand) {
+            switch (rand.nextInt(5)) {
+                case 0:
+                    return Blocks.carrots;
+
+                case 1:
+                    return Blocks.potatoes;
+
+                default:
+                    return Blocks.wheat;
+            }
         }
 
-        public static StructureVillagePieces.Field2 func_175852_a(StructureVillagePieces.Start start, List<StructureComponent> p_175852_1_, Random rand, int p_175852_3_, int p_175852_4_, int p_175852_5_, EnumFacing facing, int p_175852_7_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175852_3_, p_175852_4_, p_175852_5_, 0, 0, 0, 7, 4, 9, facing);
+        public static StructureVillagePieces.Field2 func_175852_a(final StructureVillagePieces.Start start, final List<StructureComponent> p_175852_1_, final Random rand, final int p_175852_3_, final int p_175852_4_, final int p_175852_5_, final EnumFacing facing, final int p_175852_7_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175852_3_, p_175852_4_, p_175852_5_, 0, 0, 0, 7, 4, 9, facing);
             return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175852_1_, structureboundingbox) == null ? new StructureVillagePieces.Field2(start, p_175852_7_, rand, structureboundingbox, facing) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.field_143015_k < 0) {
                 this.field_143015_k = this.getAverageGroundLevel(worldIn, structureBoundingBoxIn);
 
@@ -486,18 +494,18 @@ public class StructureVillagePieces {
         public Hall() {
         }
 
-        public Hall(StructureVillagePieces.Start start, int p_i45567_2_, Random rand, StructureBoundingBox p_i45567_4_, EnumFacing facing) {
+        public Hall(final StructureVillagePieces.Start start, final int p_i45567_2_, final Random rand, final StructureBoundingBox p_i45567_4_, final EnumFacing facing) {
             super(start, p_i45567_2_);
             this.coordBaseMode = facing;
             this.boundingBox = p_i45567_4_;
         }
 
-        public static StructureVillagePieces.Hall func_175857_a(StructureVillagePieces.Start start, List<StructureComponent> p_175857_1_, Random rand, int p_175857_3_, int p_175857_4_, int p_175857_5_, EnumFacing facing, int p_175857_7_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175857_3_, p_175857_4_, p_175857_5_, 0, 0, 0, 9, 7, 11, facing);
+        public static StructureVillagePieces.Hall func_175857_a(final StructureVillagePieces.Start start, final List<StructureComponent> p_175857_1_, final Random rand, final int p_175857_3_, final int p_175857_4_, final int p_175857_5_, final EnumFacing facing, final int p_175857_7_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175857_3_, p_175857_4_, p_175857_5_, 0, 0, 0, 9, 7, 11, facing);
             return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175857_1_, structureboundingbox) == null ? new StructureVillagePieces.Hall(start, p_175857_7_, rand, structureboundingbox, facing) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.field_143015_k < 0) {
                 this.field_143015_k = this.getAverageGroundLevel(worldIn, structureBoundingBoxIn);
 
@@ -529,8 +537,8 @@ public class StructureVillagePieces {
             this.setBlockState(worldIn, Blocks.planks.getDefaultState(), 0, 4, 3, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.planks.getDefaultState(), 8, 4, 2, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.planks.getDefaultState(), 8, 4, 3, structureBoundingBoxIn);
-            int i = this.getMetadataWithOffset(Blocks.oak_stairs, 3);
-            int j = this.getMetadataWithOffset(Blocks.oak_stairs, 2);
+            final int i = this.getMetadataWithOffset(Blocks.oak_stairs, 3);
+            final int j = this.getMetadataWithOffset(Blocks.oak_stairs, 2);
 
             for (int k = -1; k <= 2; ++k) {
                 for (int l = 0; l <= 8; ++l) {
@@ -584,7 +592,7 @@ public class StructureVillagePieces {
             return true;
         }
 
-        protected int func_180779_c(int p_180779_1_, int p_180779_2_) {
+        protected int func_180779_c(final int p_180779_1_, final int p_180779_2_) {
             return p_180779_1_ == 0 ? 4 : super.func_180779_c(p_180779_1_, p_180779_2_);
         }
     }
@@ -593,18 +601,18 @@ public class StructureVillagePieces {
         public House1() {
         }
 
-        public House1(StructureVillagePieces.Start start, int p_i45571_2_, Random rand, StructureBoundingBox p_i45571_4_, EnumFacing facing) {
+        public House1(final StructureVillagePieces.Start start, final int p_i45571_2_, final Random rand, final StructureBoundingBox p_i45571_4_, final EnumFacing facing) {
             super(start, p_i45571_2_);
             this.coordBaseMode = facing;
             this.boundingBox = p_i45571_4_;
         }
 
-        public static StructureVillagePieces.House1 func_175850_a(StructureVillagePieces.Start start, List<StructureComponent> p_175850_1_, Random rand, int p_175850_3_, int p_175850_4_, int p_175850_5_, EnumFacing facing, int p_175850_7_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175850_3_, p_175850_4_, p_175850_5_, 0, 0, 0, 9, 9, 6, facing);
+        public static StructureVillagePieces.House1 func_175850_a(final StructureVillagePieces.Start start, final List<StructureComponent> p_175850_1_, final Random rand, final int p_175850_3_, final int p_175850_4_, final int p_175850_5_, final EnumFacing facing, final int p_175850_7_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175850_3_, p_175850_4_, p_175850_5_, 0, 0, 0, 9, 9, 6, facing);
             return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175850_1_, structureboundingbox) == null ? new StructureVillagePieces.House1(start, p_175850_7_, rand, structureboundingbox, facing) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.field_143015_k < 0) {
                 this.field_143015_k = this.getAverageGroundLevel(worldIn, structureBoundingBoxIn);
 
@@ -620,8 +628,8 @@ public class StructureVillagePieces {
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 5, 0, 8, 5, 5, Blocks.cobblestone.getDefaultState(), Blocks.cobblestone.getDefaultState(), false);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 6, 1, 8, 6, 4, Blocks.cobblestone.getDefaultState(), Blocks.cobblestone.getDefaultState(), false);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 7, 2, 8, 7, 3, Blocks.cobblestone.getDefaultState(), Blocks.cobblestone.getDefaultState(), false);
-            int i = this.getMetadataWithOffset(Blocks.oak_stairs, 3);
-            int j = this.getMetadataWithOffset(Blocks.oak_stairs, 2);
+            final int i = this.getMetadataWithOffset(Blocks.oak_stairs, 3);
+            final int j = this.getMetadataWithOffset(Blocks.oak_stairs, 2);
 
             for (int k = -1; k <= 2; ++k) {
                 for (int l = 0; l <= 8; ++l) {
@@ -665,7 +673,7 @@ public class StructureVillagePieces {
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 3, 4, 7, 3, 4, Blocks.bookshelf.getDefaultState(), Blocks.bookshelf.getDefaultState(), false);
             this.setBlockState(worldIn, Blocks.planks.getDefaultState(), 7, 1, 4, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.oak_stairs.getStateFromMeta(this.getMetadataWithOffset(Blocks.oak_stairs, 0)), 7, 1, 3, structureBoundingBoxIn);
-            int j1 = this.getMetadataWithOffset(Blocks.oak_stairs, 3);
+            final int j1 = this.getMetadataWithOffset(Blocks.oak_stairs, 3);
             this.setBlockState(worldIn, Blocks.oak_stairs.getStateFromMeta(j1), 6, 1, 4, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.oak_stairs.getStateFromMeta(j1), 5, 1, 4, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.oak_stairs.getStateFromMeta(j1), 4, 1, 4, structureBoundingBoxIn);
@@ -694,7 +702,7 @@ public class StructureVillagePieces {
             return true;
         }
 
-        protected int func_180779_c(int p_180779_1_, int p_180779_2_) {
+        protected int func_180779_c(final int p_180779_1_, final int p_180779_2_) {
             return 1;
         }
     }
@@ -706,28 +714,28 @@ public class StructureVillagePieces {
         public House2() {
         }
 
-        public House2(StructureVillagePieces.Start start, int p_i45563_2_, Random rand, StructureBoundingBox p_i45563_4_, EnumFacing facing) {
+        public House2(final StructureVillagePieces.Start start, final int p_i45563_2_, final Random rand, final StructureBoundingBox p_i45563_4_, final EnumFacing facing) {
             super(start, p_i45563_2_);
             this.coordBaseMode = facing;
             this.boundingBox = p_i45563_4_;
         }
 
-        public static StructureVillagePieces.House2 func_175855_a(StructureVillagePieces.Start start, List<StructureComponent> p_175855_1_, Random rand, int p_175855_3_, int p_175855_4_, int p_175855_5_, EnumFacing facing, int p_175855_7_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175855_3_, p_175855_4_, p_175855_5_, 0, 0, 0, 10, 6, 7, facing);
+        public static StructureVillagePieces.House2 func_175855_a(final StructureVillagePieces.Start start, final List<StructureComponent> p_175855_1_, final Random rand, final int p_175855_3_, final int p_175855_4_, final int p_175855_5_, final EnumFacing facing, final int p_175855_7_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175855_3_, p_175855_4_, p_175855_5_, 0, 0, 0, 10, 6, 7, facing);
             return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175855_1_, structureboundingbox) == null ? new StructureVillagePieces.House2(start, p_175855_7_, rand, structureboundingbox, facing) : null;
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             super.writeStructureToNBT(tagCompound);
             tagCompound.setBoolean("Chest", this.hasMadeChest);
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             super.readStructureFromNBT(tagCompound);
             this.hasMadeChest = tagCompound.getBoolean("Chest");
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.field_143015_k < 0) {
                 this.field_143015_k = this.getAverageGroundLevel(worldIn, structureBoundingBoxIn);
 
@@ -796,7 +804,7 @@ public class StructureVillagePieces {
             return true;
         }
 
-        protected int func_180779_c(int p_180779_1_, int p_180779_2_) {
+        protected int func_180779_c(final int p_180779_1_, final int p_180779_2_) {
             return 3;
         }
     }
@@ -805,18 +813,18 @@ public class StructureVillagePieces {
         public House3() {
         }
 
-        public House3(StructureVillagePieces.Start start, int p_i45561_2_, Random rand, StructureBoundingBox p_i45561_4_, EnumFacing facing) {
+        public House3(final StructureVillagePieces.Start start, final int p_i45561_2_, final Random rand, final StructureBoundingBox p_i45561_4_, final EnumFacing facing) {
             super(start, p_i45561_2_);
             this.coordBaseMode = facing;
             this.boundingBox = p_i45561_4_;
         }
 
-        public static StructureVillagePieces.House3 func_175849_a(StructureVillagePieces.Start start, List<StructureComponent> p_175849_1_, Random rand, int p_175849_3_, int p_175849_4_, int p_175849_5_, EnumFacing facing, int p_175849_7_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175849_3_, p_175849_4_, p_175849_5_, 0, 0, 0, 9, 7, 12, facing);
+        public static StructureVillagePieces.House3 func_175849_a(final StructureVillagePieces.Start start, final List<StructureComponent> p_175849_1_, final Random rand, final int p_175849_3_, final int p_175849_4_, final int p_175849_5_, final EnumFacing facing, final int p_175849_7_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175849_3_, p_175849_4_, p_175849_5_, 0, 0, 0, 9, 7, 12, facing);
             return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175849_1_, structureboundingbox) == null ? new StructureVillagePieces.House3(start, p_175849_7_, rand, structureboundingbox, facing) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.field_143015_k < 0) {
                 this.field_143015_k = this.getAverageGroundLevel(worldIn, structureBoundingBoxIn);
 
@@ -847,8 +855,8 @@ public class StructureVillagePieces {
             this.setBlockState(worldIn, Blocks.planks.getDefaultState(), 8, 4, 2, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.planks.getDefaultState(), 8, 4, 3, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.planks.getDefaultState(), 8, 4, 4, structureBoundingBoxIn);
-            int i = this.getMetadataWithOffset(Blocks.oak_stairs, 3);
-            int j = this.getMetadataWithOffset(Blocks.oak_stairs, 2);
+            final int i = this.getMetadataWithOffset(Blocks.oak_stairs, 3);
+            final int j = this.getMetadataWithOffset(Blocks.oak_stairs, 2);
 
             for (int k = -1; k <= 2; ++k) {
                 for (int l = 0; l <= 8; ++l) {
@@ -865,7 +873,7 @@ public class StructureVillagePieces {
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 4, 5, 4, 4, 5, 10, Blocks.planks.getDefaultState(), Blocks.planks.getDefaultState(), false);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 6, 5, 4, 6, 5, 10, Blocks.planks.getDefaultState(), Blocks.planks.getDefaultState(), false);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 5, 6, 3, 5, 6, 10, Blocks.planks.getDefaultState(), Blocks.planks.getDefaultState(), false);
-            int k1 = this.getMetadataWithOffset(Blocks.oak_stairs, 0);
+            final int k1 = this.getMetadataWithOffset(Blocks.oak_stairs, 0);
 
             for (int l1 = 4; l1 >= 1; --l1) {
                 this.setBlockState(worldIn, Blocks.planks.getDefaultState(), l1, 2 + l1, 7 - l1, structureBoundingBoxIn);
@@ -875,7 +883,7 @@ public class StructureVillagePieces {
                 }
             }
 
-            int i2 = this.getMetadataWithOffset(Blocks.oak_stairs, 1);
+            final int i2 = this.getMetadataWithOffset(Blocks.oak_stairs, 1);
             this.setBlockState(worldIn, Blocks.planks.getDefaultState(), 6, 6, 3, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.planks.getDefaultState(), 7, 5, 4, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.oak_stairs.getStateFromMeta(i2), 6, 6, 4, structureBoundingBoxIn);
@@ -945,29 +953,29 @@ public class StructureVillagePieces {
         public House4Garden() {
         }
 
-        public House4Garden(StructureVillagePieces.Start start, int p_i45566_2_, Random rand, StructureBoundingBox p_i45566_4_, EnumFacing facing) {
+        public House4Garden(final StructureVillagePieces.Start start, final int p_i45566_2_, final Random rand, final StructureBoundingBox p_i45566_4_, final EnumFacing facing) {
             super(start, p_i45566_2_);
             this.coordBaseMode = facing;
             this.boundingBox = p_i45566_4_;
             this.isRoofAccessible = rand.nextBoolean();
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             super.writeStructureToNBT(tagCompound);
             tagCompound.setBoolean("Terrace", this.isRoofAccessible);
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             super.readStructureFromNBT(tagCompound);
             this.isRoofAccessible = tagCompound.getBoolean("Terrace");
         }
 
-        public static StructureVillagePieces.House4Garden func_175858_a(StructureVillagePieces.Start start, List<StructureComponent> p_175858_1_, Random rand, int p_175858_3_, int p_175858_4_, int p_175858_5_, EnumFacing facing, int p_175858_7_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175858_3_, p_175858_4_, p_175858_5_, 0, 0, 0, 5, 6, 5, facing);
+        public static StructureVillagePieces.House4Garden func_175858_a(final StructureVillagePieces.Start start, final List<StructureComponent> p_175858_1_, final Random rand, final int p_175858_3_, final int p_175858_4_, final int p_175858_5_, final EnumFacing facing, final int p_175858_7_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175858_3_, p_175858_4_, p_175858_5_, 0, 0, 0, 5, 6, 5, facing);
             return StructureComponent.findIntersecting(p_175858_1_, structureboundingbox) != null ? null : new StructureVillagePieces.House4Garden(start, p_175858_7_, rand, structureboundingbox, facing);
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.field_143015_k < 0) {
                 this.field_143015_k = this.getAverageGroundLevel(worldIn, structureBoundingBoxIn);
 
@@ -1033,7 +1041,7 @@ public class StructureVillagePieces {
             }
 
             if (this.isRoofAccessible) {
-                int i = this.getMetadataWithOffset(Blocks.ladder, 3);
+                final int i = this.getMetadataWithOffset(Blocks.ladder, 3);
                 this.setBlockState(worldIn, Blocks.ladder.getStateFromMeta(i), 3, 1, 3, structureBoundingBoxIn);
                 this.setBlockState(worldIn, Blocks.ladder.getStateFromMeta(i), 3, 2, 3, structureBoundingBoxIn);
                 this.setBlockState(worldIn, Blocks.ladder.getStateFromMeta(i), 3, 3, 3, structureBoundingBoxIn);
@@ -1060,28 +1068,28 @@ public class StructureVillagePieces {
         public Path() {
         }
 
-        public Path(StructureVillagePieces.Start start, int p_i45562_2_, Random rand, StructureBoundingBox p_i45562_4_, EnumFacing facing) {
+        public Path(final StructureVillagePieces.Start start, final int p_i45562_2_, final Random rand, final StructureBoundingBox p_i45562_4_, final EnumFacing facing) {
             super(start, p_i45562_2_);
             this.coordBaseMode = facing;
             this.boundingBox = p_i45562_4_;
             this.length = Math.max(p_i45562_4_.getXSize(), p_i45562_4_.getZSize());
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             super.writeStructureToNBT(tagCompound);
             tagCompound.setInteger("Length", this.length);
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             super.readStructureFromNBT(tagCompound);
             this.length = tagCompound.getInteger("Length");
         }
 
-        public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
+        public void buildComponent(final StructureComponent componentIn, final List<StructureComponent> listIn, final Random rand) {
             boolean flag = false;
 
             for (int i = rand.nextInt(5); i < this.length - 8; i += 2 + rand.nextInt(5)) {
-                StructureComponent structurecomponent = this.getNextComponentNN((StructureVillagePieces.Start) componentIn, listIn, rand, 0, i);
+                final StructureComponent structurecomponent = this.getNextComponentNN((StructureVillagePieces.Start) componentIn, listIn, rand, 0, i);
 
                 if (structurecomponent != null) {
                     i += Math.max(structurecomponent.boundingBox.getXSize(), structurecomponent.boundingBox.getZSize());
@@ -1090,7 +1098,7 @@ public class StructureVillagePieces {
             }
 
             for (int j = rand.nextInt(5); j < this.length - 8; j += 2 + rand.nextInt(5)) {
-                StructureComponent structurecomponent1 = this.getNextComponentPP((StructureVillagePieces.Start) componentIn, listIn, rand, 0, j);
+                final StructureComponent structurecomponent1 = this.getNextComponentPP((StructureVillagePieces.Start) componentIn, listIn, rand, 0, j);
 
                 if (structurecomponent1 != null) {
                     j += Math.max(structurecomponent1.boundingBox.getXSize(), structurecomponent1.boundingBox.getZSize());
@@ -1137,9 +1145,9 @@ public class StructureVillagePieces {
             }
         }
 
-        public static StructureBoundingBox func_175848_a(StructureVillagePieces.Start start, List<StructureComponent> p_175848_1_, Random rand, int p_175848_3_, int p_175848_4_, int p_175848_5_, EnumFacing facing) {
+        public static StructureBoundingBox func_175848_a(final StructureVillagePieces.Start start, final List<StructureComponent> p_175848_1_, final Random rand, final int p_175848_3_, final int p_175848_4_, final int p_175848_5_, final EnumFacing facing) {
             for (int i = 7 * MathHelper.getRandomIntegerInRange(rand, 3, 5); i >= 7; i -= 7) {
-                StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175848_3_, p_175848_4_, p_175848_5_, 0, 0, 0, 3, 3, i, facing);
+                final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175848_3_, p_175848_4_, p_175848_5_, 0, 0, 0, 3, 3, i, facing);
 
                 if (StructureComponent.findIntersecting(p_175848_1_, structureboundingbox) == null) {
                     return structureboundingbox;
@@ -1149,9 +1157,9 @@ public class StructureVillagePieces {
             return null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
-            IBlockState iblockstate = this.func_175847_a(Blocks.gravel.getDefaultState());
-            IBlockState iblockstate1 = this.func_175847_a(Blocks.cobblestone.getDefaultState());
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
+            final IBlockState iblockstate = this.func_175847_a(Blocks.gravel.getDefaultState());
+            final IBlockState iblockstate1 = this.func_175847_a(Blocks.cobblestone.getDefaultState());
 
             for (int i = this.boundingBox.minX; i <= this.boundingBox.maxX; ++i) {
                 for (int j = this.boundingBox.minZ; j <= this.boundingBox.maxZ; ++j) {
@@ -1175,13 +1183,13 @@ public class StructureVillagePieces {
         public int villagePiecesSpawned;
         public int villagePiecesLimit;
 
-        public PieceWeight(Class<? extends StructureVillagePieces.Village> p_i2098_1_, int p_i2098_2_, int p_i2098_3_) {
+        public PieceWeight(final Class<? extends StructureVillagePieces.Village> p_i2098_1_, final int p_i2098_2_, final int p_i2098_3_) {
             this.villagePieceClass = p_i2098_1_;
             this.villagePieceWeight = p_i2098_2_;
             this.villagePiecesLimit = p_i2098_3_;
         }
 
-        public boolean canSpawnMoreVillagePiecesOfType(int p_75085_1_) {
+        public boolean canSpawnMoreVillagePiecesOfType(final int p_75085_1_) {
             return this.villagePiecesLimit == 0 || this.villagePiecesSpawned < this.villagePiecesLimit;
         }
 
@@ -1194,7 +1202,7 @@ public class StructureVillagePieces {
         public Road() {
         }
 
-        protected Road(StructureVillagePieces.Start start, int type) {
+        protected Road(final StructureVillagePieces.Start start, final int type) {
             super(start, type);
         }
     }
@@ -1211,12 +1219,12 @@ public class StructureVillagePieces {
         public Start() {
         }
 
-        public Start(WorldChunkManager chunkManagerIn, int p_i2104_2_, Random rand, int p_i2104_4_, int p_i2104_5_, List<StructureVillagePieces.PieceWeight> p_i2104_6_, int p_i2104_7_) {
+        public Start(final WorldChunkManager chunkManagerIn, final int p_i2104_2_, final Random rand, final int p_i2104_4_, final int p_i2104_5_, final List<StructureVillagePieces.PieceWeight> p_i2104_6_, final int p_i2104_7_) {
             super(null, 0, rand, p_i2104_4_, p_i2104_5_);
             this.worldChunkMngr = chunkManagerIn;
             this.structureVillageWeightedPieceList = p_i2104_6_;
             this.terrainType = p_i2104_7_;
-            BiomeGenBase biomegenbase = chunkManagerIn.getBiomeGenerator(new BlockPos(p_i2104_4_, 0, p_i2104_5_), BiomeGenBase.field_180279_ad);
+            final BiomeGenBase biomegenbase = chunkManagerIn.getBiomeGenerator(new BlockPos(p_i2104_4_, 0, p_i2104_5_), BiomeGenBase.field_180279_ad);
             this.inDesert = biomegenbase == BiomeGenBase.desert || biomegenbase == BiomeGenBase.desertHills;
             this.func_175846_a(this.inDesert);
         }
@@ -1230,18 +1238,18 @@ public class StructureVillagePieces {
         public Torch() {
         }
 
-        public Torch(StructureVillagePieces.Start start, int p_i45568_2_, Random rand, StructureBoundingBox p_i45568_4_, EnumFacing facing) {
+        public Torch(final StructureVillagePieces.Start start, final int p_i45568_2_, final Random rand, final StructureBoundingBox p_i45568_4_, final EnumFacing facing) {
             super(start, p_i45568_2_);
             this.coordBaseMode = facing;
             this.boundingBox = p_i45568_4_;
         }
 
-        public static StructureBoundingBox func_175856_a(StructureVillagePieces.Start start, List<StructureComponent> p_175856_1_, Random rand, int p_175856_3_, int p_175856_4_, int p_175856_5_, EnumFacing facing) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175856_3_, p_175856_4_, p_175856_5_, 0, 0, 0, 3, 4, 2, facing);
+        public static StructureBoundingBox func_175856_a(final StructureVillagePieces.Start start, final List<StructureComponent> p_175856_1_, final Random rand, final int p_175856_3_, final int p_175856_4_, final int p_175856_5_, final EnumFacing facing) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175856_3_, p_175856_4_, p_175856_5_, 0, 0, 0, 3, 4, 2, facing);
             return StructureComponent.findIntersecting(p_175856_1_, structureboundingbox) != null ? null : structureboundingbox;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.field_143015_k < 0) {
                 this.field_143015_k = this.getAverageGroundLevel(worldIn, structureBoundingBoxIn);
 
@@ -1257,7 +1265,7 @@ public class StructureVillagePieces {
             this.setBlockState(worldIn, Blocks.oak_fence.getDefaultState(), 1, 1, 0, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.oak_fence.getDefaultState(), 1, 2, 0, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.wool.getStateFromMeta(EnumDyeColor.WHITE.getDyeDamage()), 1, 3, 0, structureBoundingBoxIn);
-            boolean flag = this.coordBaseMode == EnumFacing.EAST || this.coordBaseMode == EnumFacing.NORTH;
+            final boolean flag = this.coordBaseMode == EnumFacing.EAST || this.coordBaseMode == EnumFacing.NORTH;
             this.setBlockState(worldIn, Blocks.torch.getDefaultState().withProperty(BlockTorch.FACING, this.coordBaseMode.rotateY()), flag ? 2 : 0, 3, 0, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.torch.getDefaultState().withProperty(BlockTorch.FACING, this.coordBaseMode), 1, 3, 1, structureBoundingBoxIn);
             this.setBlockState(worldIn, Blocks.torch.getDefaultState().withProperty(BlockTorch.FACING, this.coordBaseMode.rotateYCCW()), flag ? 0 : 2, 3, 0, structureBoundingBoxIn);
@@ -1274,7 +1282,7 @@ public class StructureVillagePieces {
         public Village() {
         }
 
-        protected Village(StructureVillagePieces.Start start, int type) {
+        protected Village(final StructureVillagePieces.Start start, final int type) {
             super(type);
 
             if (start != null) {
@@ -1282,19 +1290,19 @@ public class StructureVillagePieces {
             }
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             tagCompound.setInteger("HPos", this.field_143015_k);
             tagCompound.setInteger("VCount", this.villagersSpawned);
             tagCompound.setBoolean("Desert", this.isDesertVillage);
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             this.field_143015_k = tagCompound.getInteger("HPos");
             this.villagersSpawned = tagCompound.getInteger("VCount");
             this.isDesertVillage = tagCompound.getBoolean("Desert");
         }
 
-        protected StructureComponent getNextComponentNN(StructureVillagePieces.Start start, List<StructureComponent> p_74891_2_, Random rand, int p_74891_4_, int p_74891_5_) {
+        protected StructureComponent getNextComponentNN(final StructureVillagePieces.Start start, final List<StructureComponent> p_74891_2_, final Random rand, final int p_74891_4_, final int p_74891_5_) {
             if (this.coordBaseMode != null) {
                 switch (this.coordBaseMode) {
                     case NORTH:
@@ -1314,7 +1322,7 @@ public class StructureVillagePieces {
             return null;
         }
 
-        protected StructureComponent getNextComponentPP(StructureVillagePieces.Start start, List<StructureComponent> p_74894_2_, Random rand, int p_74894_4_, int p_74894_5_) {
+        protected StructureComponent getNextComponentPP(final StructureVillagePieces.Start start, final List<StructureComponent> p_74894_2_, final Random rand, final int p_74894_4_, final int p_74894_5_) {
             if (this.coordBaseMode != null) {
                 switch (this.coordBaseMode) {
                     case NORTH:
@@ -1334,14 +1342,14 @@ public class StructureVillagePieces {
             return null;
         }
 
-        protected int getAverageGroundLevel(World worldIn, StructureBoundingBox p_74889_2_) {
+        protected int getAverageGroundLevel(final World worldIn, final StructureBoundingBox p_74889_2_) {
             int i = 0;
             int j = 0;
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+            final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
             for (int k = this.boundingBox.minZ; k <= this.boundingBox.maxZ; ++k) {
                 for (int l = this.boundingBox.minX; l <= this.boundingBox.maxX; ++l) {
-                    blockpos$mutableblockpos.set(l, 64, k);
+                    blockpos$mutableblockpos.func_181079_c(l, 64, k);
 
                     if (p_74889_2_.isVecInside(blockpos$mutableblockpos)) {
                         i += Math.max(worldIn.getTopSolidOrLiquidBlock(blockpos$mutableblockpos).getY(), worldIn.provider.getAverageGroundLevel());
@@ -1357,23 +1365,23 @@ public class StructureVillagePieces {
             }
         }
 
-        protected static boolean canVillageGoDeeper(StructureBoundingBox p_74895_0_) {
+        protected static boolean canVillageGoDeeper(final StructureBoundingBox p_74895_0_) {
             return p_74895_0_ != null && p_74895_0_.minY > 10;
         }
 
-        protected void spawnVillagers(World worldIn, StructureBoundingBox p_74893_2_, int p_74893_3_, int p_74893_4_, int p_74893_5_, int p_74893_6_) {
+        protected void spawnVillagers(final World worldIn, final StructureBoundingBox p_74893_2_, final int p_74893_3_, final int p_74893_4_, final int p_74893_5_, final int p_74893_6_) {
             if (this.villagersSpawned < p_74893_6_) {
                 for (int i = this.villagersSpawned; i < p_74893_6_; ++i) {
-                    int j = this.getXWithOffset(p_74893_3_ + i, p_74893_5_);
-                    int k = this.getYWithOffset(p_74893_4_);
-                    int l = this.getZWithOffset(p_74893_3_ + i, p_74893_5_);
+                    final int j = this.getXWithOffset(p_74893_3_ + i, p_74893_5_);
+                    final int k = this.getYWithOffset(p_74893_4_);
+                    final int l = this.getZWithOffset(p_74893_3_ + i, p_74893_5_);
 
                     if (!p_74893_2_.isVecInside(new BlockPos(j, k, l))) {
                         break;
                     }
 
                     ++this.villagersSpawned;
-                    EntityVillager entityvillager = new EntityVillager(worldIn);
+                    final EntityVillager entityvillager = new EntityVillager(worldIn);
                     entityvillager.setLocationAndAngles((double) j + 0.5D, k, (double) l + 0.5D, 0.0F, 0.0F);
                     entityvillager.onInitialSpawn(worldIn.getDifficultyForLocation(new BlockPos(entityvillager)), null);
                     entityvillager.setProfession(this.func_180779_c(i, entityvillager.getProfession()));
@@ -1382,11 +1390,11 @@ public class StructureVillagePieces {
             }
         }
 
-        protected int func_180779_c(int p_180779_1_, int p_180779_2_) {
+        protected int func_180779_c(final int p_180779_1_, final int p_180779_2_) {
             return p_180779_2_;
         }
 
-        protected IBlockState func_175847_a(IBlockState p_175847_1_) {
+        protected IBlockState func_175847_a(final IBlockState p_175847_1_) {
             if (this.isDesertVillage) {
                 if (p_175847_1_.getBlock() == Blocks.log || p_175847_1_.getBlock() == Blocks.log2) {
                     return Blocks.sandstone.getDefaultState();
@@ -1416,23 +1424,23 @@ public class StructureVillagePieces {
             return p_175847_1_;
         }
 
-        protected void setBlockState(World worldIn, IBlockState blockstateIn, int x, int y, int z, StructureBoundingBox boundingboxIn) {
-            IBlockState iblockstate = this.func_175847_a(blockstateIn);
+        protected void setBlockState(final World worldIn, final IBlockState blockstateIn, final int x, final int y, final int z, final StructureBoundingBox boundingboxIn) {
+            final IBlockState iblockstate = this.func_175847_a(blockstateIn);
             super.setBlockState(worldIn, iblockstate, x, y, z, boundingboxIn);
         }
 
-        protected void fillWithBlocks(World worldIn, StructureBoundingBox boundingboxIn, int xMin, int yMin, int zMin, int xMax, int yMax, int zMax, IBlockState boundaryBlockState, IBlockState insideBlockState, boolean existingOnly) {
-            IBlockState iblockstate = this.func_175847_a(boundaryBlockState);
-            IBlockState iblockstate1 = this.func_175847_a(insideBlockState);
+        protected void fillWithBlocks(final World worldIn, final StructureBoundingBox boundingboxIn, final int xMin, final int yMin, final int zMin, final int xMax, final int yMax, final int zMax, final IBlockState boundaryBlockState, final IBlockState insideBlockState, final boolean existingOnly) {
+            final IBlockState iblockstate = this.func_175847_a(boundaryBlockState);
+            final IBlockState iblockstate1 = this.func_175847_a(insideBlockState);
             super.fillWithBlocks(worldIn, boundingboxIn, xMin, yMin, zMin, xMax, yMax, zMax, iblockstate, iblockstate1, existingOnly);
         }
 
-        protected void replaceAirAndLiquidDownwards(World worldIn, IBlockState blockstateIn, int x, int y, int z, StructureBoundingBox boundingboxIn) {
-            IBlockState iblockstate = this.func_175847_a(blockstateIn);
+        protected void replaceAirAndLiquidDownwards(final World worldIn, final IBlockState blockstateIn, final int x, final int y, final int z, final StructureBoundingBox boundingboxIn) {
+            final IBlockState iblockstate = this.func_175847_a(blockstateIn);
             super.replaceAirAndLiquidDownwards(worldIn, iblockstate, x, y, z, boundingboxIn);
         }
 
-        protected void func_175846_a(boolean p_175846_1_) {
+        protected void func_175846_a(final boolean p_175846_1_) {
             this.isDesertVillage = p_175846_1_;
         }
     }
@@ -1441,7 +1449,7 @@ public class StructureVillagePieces {
         public Well() {
         }
 
-        public Well(StructureVillagePieces.Start start, int p_i2109_2_, Random rand, int p_i2109_4_, int p_i2109_5_) {
+        public Well(final StructureVillagePieces.Start start, final int p_i2109_2_, final Random rand, final int p_i2109_4_, final int p_i2109_5_) {
             super(start, p_i2109_2_);
             this.coordBaseMode = EnumFacing.Plane.HORIZONTAL.random(rand);
 
@@ -1456,14 +1464,14 @@ public class StructureVillagePieces {
             }
         }
 
-        public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
+        public void buildComponent(final StructureComponent componentIn, final List<StructureComponent> listIn, final Random rand) {
             StructureVillagePieces.func_176069_e((StructureVillagePieces.Start) componentIn, listIn, rand, this.boundingBox.minX - 1, this.boundingBox.maxY - 4, this.boundingBox.minZ + 1, EnumFacing.WEST, this.getComponentType());
             StructureVillagePieces.func_176069_e((StructureVillagePieces.Start) componentIn, listIn, rand, this.boundingBox.maxX + 1, this.boundingBox.maxY - 4, this.boundingBox.minZ + 1, EnumFacing.EAST, this.getComponentType());
             StructureVillagePieces.func_176069_e((StructureVillagePieces.Start) componentIn, listIn, rand, this.boundingBox.minX + 1, this.boundingBox.maxY - 4, this.boundingBox.minZ - 1, EnumFacing.NORTH, this.getComponentType());
             StructureVillagePieces.func_176069_e((StructureVillagePieces.Start) componentIn, listIn, rand, this.boundingBox.minX + 1, this.boundingBox.maxY - 4, this.boundingBox.maxZ + 1, EnumFacing.SOUTH, this.getComponentType());
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.field_143015_k < 0) {
                 this.field_143015_k = this.getAverageGroundLevel(worldIn, structureBoundingBoxIn);
 
@@ -1509,7 +1517,7 @@ public class StructureVillagePieces {
         public WoodHut() {
         }
 
-        public WoodHut(StructureVillagePieces.Start start, int p_i45565_2_, Random rand, StructureBoundingBox p_i45565_4_, EnumFacing facing) {
+        public WoodHut(final StructureVillagePieces.Start start, final int p_i45565_2_, final Random rand, final StructureBoundingBox p_i45565_4_, final EnumFacing facing) {
             super(start, p_i45565_2_);
             this.coordBaseMode = facing;
             this.boundingBox = p_i45565_4_;
@@ -1517,24 +1525,24 @@ public class StructureVillagePieces {
             this.tablePosition = rand.nextInt(3);
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
             super.writeStructureToNBT(tagCompound);
             tagCompound.setInteger("T", this.tablePosition);
             tagCompound.setBoolean("C", this.isTallHouse);
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
             super.readStructureFromNBT(tagCompound);
             this.tablePosition = tagCompound.getInteger("T");
             this.isTallHouse = tagCompound.getBoolean("C");
         }
 
-        public static StructureVillagePieces.WoodHut func_175853_a(StructureVillagePieces.Start start, List<StructureComponent> p_175853_1_, Random rand, int p_175853_3_, int p_175853_4_, int p_175853_5_, EnumFacing facing, int p_175853_7_) {
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175853_3_, p_175853_4_, p_175853_5_, 0, 0, 0, 4, 6, 5, facing);
+        public static StructureVillagePieces.WoodHut func_175853_a(final StructureVillagePieces.Start start, final List<StructureComponent> p_175853_1_, final Random rand, final int p_175853_3_, final int p_175853_4_, final int p_175853_5_, final EnumFacing facing, final int p_175853_7_) {
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175853_3_, p_175853_4_, p_175853_5_, 0, 0, 0, 4, 6, 5, facing);
             return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175853_1_, structureboundingbox) == null ? new StructureVillagePieces.WoodHut(start, p_175853_7_, rand, structureboundingbox, facing) : null;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.field_143015_k < 0) {
                 this.field_143015_k = this.getAverageGroundLevel(worldIn, structureBoundingBoxIn);
 

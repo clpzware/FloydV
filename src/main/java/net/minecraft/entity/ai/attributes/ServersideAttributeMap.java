@@ -7,15 +7,15 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-public class ServersideAttributeMap extends BaseAttributeMap {
+public class ServersideAttributeMap extends BaseAttributeMap implements java.io.Serializable {
     private final Set<IAttributeInstance> attributeInstanceSet = Sets.newHashSet();
     protected final Map<String, IAttributeInstance> descriptionToAttributeInstanceMap = new LowerStringMap();
 
-    public ModifiableAttributeInstance getAttributeInstance(IAttribute attribute) {
+    public ModifiableAttributeInstance getAttributeInstance(final IAttribute attribute) {
         return (ModifiableAttributeInstance) super.getAttributeInstance(attribute);
     }
 
-    public ModifiableAttributeInstance getAttributeInstanceByName(String attributeName) {
+    public ModifiableAttributeInstance getAttributeInstanceByName(final String attributeName) {
         IAttributeInstance iattributeinstance = super.getAttributeInstanceByName(attributeName);
 
         if (iattributeinstance == null) {
@@ -25,8 +25,11 @@ public class ServersideAttributeMap extends BaseAttributeMap {
         return (ModifiableAttributeInstance) iattributeinstance;
     }
 
-    public IAttributeInstance registerAttribute(IAttribute attribute) {
-        IAttributeInstance iattributeinstance = super.registerAttribute(attribute);
+    /**
+     * Registers an attribute with this AttributeMap, returns a modifiable AttributeInstance associated with this map
+     */
+    public IAttributeInstance registerAttribute(final IAttribute attribute) {
+        final IAttributeInstance iattributeinstance = super.registerAttribute(attribute);
 
         if (attribute instanceof RangedAttribute && ((RangedAttribute) attribute).getDescription() != null) {
             this.descriptionToAttributeInstanceMap.put(((RangedAttribute) attribute).getDescription(), iattributeinstance);
@@ -35,17 +38,17 @@ public class ServersideAttributeMap extends BaseAttributeMap {
         return iattributeinstance;
     }
 
-    protected IAttributeInstance func_180376_c(IAttribute attribute) {
-        return new ModifiableAttributeInstance(this, attribute);
+    protected IAttributeInstance func_180376_c(final IAttribute p_180376_1_) {
+        return new ModifiableAttributeInstance(this, p_180376_1_);
     }
 
-    public void func_180794_a(IAttributeInstance instance) {
-        if (instance.getAttribute().getShouldWatch()) {
-            this.attributeInstanceSet.add(instance);
+    public void func_180794_a(final IAttributeInstance p_180794_1_) {
+        if (p_180794_1_.getAttribute().getShouldWatch()) {
+            this.attributeInstanceSet.add(p_180794_1_);
         }
 
-        for (IAttribute iattribute : this.field_180377_c.get(instance.getAttribute())) {
-            ModifiableAttributeInstance modifiableattributeinstance = this.getAttributeInstance(iattribute);
+        for (final IAttribute iattribute : this.field_180377_c.get(p_180794_1_.getAttribute())) {
+            final ModifiableAttributeInstance modifiableattributeinstance = this.getAttributeInstance(iattribute);
 
             if (modifiableattributeinstance != null) {
                 modifiableattributeinstance.flagForUpdate();
@@ -58,9 +61,9 @@ public class ServersideAttributeMap extends BaseAttributeMap {
     }
 
     public Collection<IAttributeInstance> getWatchedAttributes() {
-        Set<IAttributeInstance> set = Sets.newHashSet();
+        final Set<IAttributeInstance> set = Sets.newHashSet();
 
-        for (IAttributeInstance iattributeinstance : this.getAllAttributes()) {
+        for (final IAttributeInstance iattributeinstance : this.getAllAttributes()) {
             if (iattributeinstance.getAttribute().getShouldWatch()) {
                 set.add(iattributeinstance);
             }

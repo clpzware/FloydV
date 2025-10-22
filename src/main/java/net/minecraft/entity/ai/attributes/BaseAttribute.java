@@ -6,7 +6,7 @@ public abstract class BaseAttribute implements IAttribute {
     private final double defaultValue;
     private boolean shouldWatch;
 
-    protected BaseAttribute(IAttribute p_i45892_1_, String unlocalizedNameIn, double defaultValueIn) {
+    protected BaseAttribute(final IAttribute p_i45892_1_, final String unlocalizedNameIn, final double defaultValueIn) {
         this.field_180373_a = p_i45892_1_;
         this.unlocalizedName = unlocalizedNameIn;
         this.defaultValue = defaultValueIn;
@@ -28,7 +28,7 @@ public abstract class BaseAttribute implements IAttribute {
         return this.shouldWatch;
     }
 
-    public BaseAttribute setShouldWatch(boolean shouldWatchIn) {
+    public BaseAttribute setShouldWatch(final boolean shouldWatchIn) {
         this.shouldWatch = shouldWatchIn;
         return this;
     }
@@ -41,7 +41,7 @@ public abstract class BaseAttribute implements IAttribute {
         return this.unlocalizedName.hashCode();
     }
 
-    public boolean equals(Object p_equals_1_) {
+    public boolean equals(final Object p_equals_1_) {
         return p_equals_1_ instanceof IAttribute && this.unlocalizedName.equals(((IAttribute) p_equals_1_).getAttributeUnlocalizedName());
     }
 }

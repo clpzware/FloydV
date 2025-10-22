@@ -7,19 +7,19 @@ import java.util.Date;
 import java.util.UUID;
 
 public class UserListBansEntry extends BanEntry<GameProfile> {
-    public UserListBansEntry(GameProfile profile) {
+    public UserListBansEntry(final GameProfile profile) {
         this(profile, null, null, null, null);
     }
 
-    public UserListBansEntry(GameProfile profile, Date startDate, String banner, Date endDate, String banReason) {
+    public UserListBansEntry(final GameProfile profile, final Date startDate, final String banner, final Date endDate, final String banReason) {
         super(profile, endDate, banner, endDate, banReason);
     }
 
-    public UserListBansEntry(JsonObject json) {
-        super(toGameProfile(json), json);
+    public UserListBansEntry(final JsonObject p_i1136_1_) {
+        super(func_152648_b(p_i1136_1_), p_i1136_1_);
     }
 
-    protected void onSerialization(JsonObject data) {
+    protected void onSerialization(final JsonObject data) {
         if (this.getValue() != null) {
             data.addProperty("uuid", this.getValue().getId() == null ? "" : this.getValue().getId().toString());
             data.addProperty("name", this.getValue().getName());
@@ -27,18 +27,18 @@ public class UserListBansEntry extends BanEntry<GameProfile> {
         }
     }
 
-    private static GameProfile toGameProfile(JsonObject json) {
-        if (json.has("uuid") && json.has("name")) {
-            String s = json.get("uuid").getAsString();
-            UUID uuid;
+    private static GameProfile func_152648_b(final JsonObject p_152648_0_) {
+        if (p_152648_0_.has("uuid") && p_152648_0_.has("name")) {
+            final String s = p_152648_0_.get("uuid").getAsString();
+            final UUID uuid;
 
             try {
                 uuid = UUID.fromString(s);
-            } catch (Throwable var4) {
+            } catch (final Throwable var4) {
                 return null;
             }
 
-            return new GameProfile(uuid, json.get("name").getAsString());
+            return new GameProfile(uuid, p_152648_0_.get("name").getAsString());
         } else {
             return null;
         }

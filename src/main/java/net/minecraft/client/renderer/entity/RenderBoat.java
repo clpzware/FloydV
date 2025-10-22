@@ -9,18 +9,30 @@ import net.minecraft.util.ResourceLocation;
 
 public class RenderBoat extends Render<EntityBoat> {
     private static final ResourceLocation boatTextures = new ResourceLocation("textures/entity/boat.png");
+
+    /**
+     * instance of ModelBoat for rendering
+     */
     protected ModelBase modelBoat = new ModelBoat();
 
-    public RenderBoat(RenderManager renderManagerIn) {
+    public RenderBoat(final RenderManager renderManagerIn) {
         super(renderManagerIn);
         this.shadowSize = 0.5F;
     }
 
-    public void doRender(EntityBoat entity, double x, double y, double z, float entityYaw, float partialTicks) {
+    /**
+     * Actually renders the given argument. This is a synthetic bridge method, always casting down its argument and then
+     * handing it off to a worker function which does the actual work. In all probabilty, the class Render is generic
+     * (Render<T extends Entity>) and this method has signature public void doRender(T entity, double d, double d1,
+     * double d2, float f, float f1). But JAD is pre 1.5 so doe
+     *
+     * @param entityYaw The yaw rotation of the passed entity
+     */
+    public void doRender(final EntityBoat entity, final double x, final double y, final double z, final float entityYaw, final float partialTicks) {
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x, (float) y + 0.25F, (float) z);
         GlStateManager.rotate(180.0F - entityYaw, 0.0F, 1.0F, 0.0F);
-        float f = (float) entity.getTimeSinceHit() - partialTicks;
+        final float f = (float) entity.getTimeSinceHit() - partialTicks;
         float f1 = entity.getDamageTaken() - partialTicks;
 
         if (f1 < 0.0F) {
@@ -31,7 +43,7 @@ public class RenderBoat extends Render<EntityBoat> {
             GlStateManager.rotate(MathHelper.sin(f) * f * f1 / 10.0F * (float) entity.getForwardDirection(), 1.0F, 0.0F, 0.0F);
         }
 
-        float f2 = 0.75F;
+        final float f2 = 0.75F;
         GlStateManager.scale(f2, f2, f2);
         GlStateManager.scale(1.0F / f2, 1.0F / f2, 1.0F / f2);
         this.bindEntityTexture(entity);
@@ -41,7 +53,10 @@ public class RenderBoat extends Render<EntityBoat> {
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 
-    protected ResourceLocation getEntityTexture(EntityBoat entity) {
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(final EntityBoat entity) {
         return boatTextures;
     }
 }

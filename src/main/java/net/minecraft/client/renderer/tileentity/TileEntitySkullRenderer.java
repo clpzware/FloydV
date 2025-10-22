@@ -26,17 +26,22 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
     private final ModelSkeletonHead skeletonHead = new ModelSkeletonHead(0, 0, 64, 32);
     private final ModelSkeletonHead humanoidHead = new ModelHumanoidHead();
 
-    public void renderTileEntityAt(TileEntitySkull te, double x, double y, double z, float partialTicks, int destroyStage) {
-        EnumFacing enumfacing = EnumFacing.getFront(te.getBlockMetadata() & 7);
+    public void renderTileEntityAt(final TileEntitySkull te, final double x, final double y, final double z, final float partialTicks, final int destroyStage) {
+        final EnumFacing enumfacing = EnumFacing.getFront(te.getBlockMetadata() & 7);
         this.renderSkull((float) x, (float) y, (float) z, enumfacing, (float) (te.getSkullRotation() * 360) / 16.0F, te.getSkullType(), te.getPlayerProfile(), destroyStage);
     }
 
-    public void setRendererDispatcher(TileEntityRendererDispatcher rendererDispatcherIn) {
+    @Override
+    public void renderBasicTileEntityAt(TileEntitySkull te, double x, double y, double z, float partialTicks, int destroyStage) {
+
+    }
+
+    public void setRendererDispatcher(final TileEntityRendererDispatcher rendererDispatcherIn) {
         super.setRendererDispatcher(rendererDispatcherIn);
         instance = this;
     }
 
-    public void renderSkull(float p_180543_1_, float p_180543_2_, float p_180543_3_, EnumFacing p_180543_4_, float p_180543_5_, int p_180543_6_, GameProfile p_180543_7_, int p_180543_8_) {
+    public void renderSkull(final float p_180543_1_, final float p_180543_2_, final float p_180543_3_, final EnumFacing p_180543_4_, float p_180543_5_, final int p_180543_6_, final GameProfile p_180543_7_, final int p_180543_8_) {
         ModelBase modelbase = this.skeletonHead;
 
         if (p_180543_8_ >= 0) {
@@ -67,13 +72,13 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
                     ResourceLocation resourcelocation = DefaultPlayerSkin.getDefaultSkinLegacy();
 
                     if (p_180543_7_ != null) {
-                        Minecraft minecraft = Minecraft.getMinecraft();
-                        Map<Type, MinecraftProfileTexture> map = minecraft.getSkinManager().loadSkinFromCache(p_180543_7_);
+                        final Minecraft minecraft = Minecraft.getMinecraft();
+                        final Map<Type, MinecraftProfileTexture> map = minecraft.getSkinManager().loadSkinFromCache(p_180543_7_);
 
                         if (map.containsKey(Type.SKIN)) {
                             resourcelocation = minecraft.getSkinManager().loadSkin(map.get(Type.SKIN), Type.SKIN);
                         } else {
-                            UUID uuid = EntityPlayer.getUUID(p_180543_7_);
+                            final UUID uuid = EntityPlayer.getUUID(p_180543_7_);
                             resourcelocation = DefaultPlayerSkin.getDefaultSkin(uuid);
                         }
                     }
@@ -114,7 +119,7 @@ public class TileEntitySkullRenderer extends TileEntitySpecialRenderer<TileEntit
             GlStateManager.translate(p_180543_1_ + 0.5F, p_180543_2_, p_180543_3_ + 0.5F);
         }
 
-        float f = 0.0625F;
+        final float f = 0.0625F;
         GlStateManager.enableRescaleNormal();
         GlStateManager.scale(-1.0F, -1.0F, 1.0F);
         GlStateManager.enableAlpha();

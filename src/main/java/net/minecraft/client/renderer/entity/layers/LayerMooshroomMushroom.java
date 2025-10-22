@@ -23,22 +23,22 @@ public class LayerMooshroomMushroom implements LayerRenderer<EntityMooshroom> {
         hasTextureMushroom = Config.hasResource(LOCATION_MUSHROOM_RED);
     }
 
-    public LayerMooshroomMushroom(RenderMooshroom mooshroomRendererIn) {
+    public LayerMooshroomMushroom(final RenderMooshroom mooshroomRendererIn) {
         this.mooshroomRenderer = mooshroomRendererIn;
         this.modelRendererMushroom = new ModelRenderer(this.mooshroomRenderer.mainModel);
         this.modelRendererMushroom.setTextureSize(16, 16);
         this.modelRendererMushroom.rotationPointX = -6.0F;
         this.modelRendererMushroom.rotationPointZ = -8.0F;
         this.modelRendererMushroom.rotateAngleY = MathHelper.PI / 4.0F;
-        int[][] aint = new int[][]{null, null, {16, 16, 0, 0}, {16, 16, 0, 0}, null, null};
+        final int[][] aint = new int[][]{null, null, {16, 16, 0, 0}, {16, 16, 0, 0}, null, null};
         this.modelRendererMushroom.addBox(aint, 0.0F, 0.0F, 10.0F, 20.0F, 16.0F, 0.0F, 0.0F);
-        int[][] aint1 = new int[][]{null, null, null, null, {16, 16, 0, 0}, {16, 16, 0, 0}};
+        final int[][] aint1 = new int[][]{null, null, null, null, {16, 16, 0, 0}, {16, 16, 0, 0}};
         this.modelRendererMushroom.addBox(aint1, 10.0F, 0.0F, 0.0F, 0.0F, 16.0F, 20.0F, 0.0F);
     }
 
-    public void doRenderLayer(EntityMooshroom entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale) {
+    public void doRenderLayer(final EntityMooshroom entitylivingbaseIn, final float p_177141_2_, final float p_177141_3_, final float partialTicks, final float p_177141_5_, final float p_177141_6_, final float p_177141_7_, final float scale) {
         if (!entitylivingbaseIn.isChild() && !entitylivingbaseIn.isInvisible()) {
-            BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
+            final BlockRendererDispatcher blockrendererdispatcher = Minecraft.getMinecraft().getBlockRendererDispatcher();
 
             if (hasTextureMushroom) {
                 this.mooshroomRenderer.bindTexture(LOCATION_MUSHROOM_RED);

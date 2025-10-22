@@ -28,14 +28,14 @@ public class DynamicLight {
     private Set<BlockPos> setLitChunkPos = new HashSet();
     private final BlockPos.MutableBlockPos blockPosMutable = new BlockPos.MutableBlockPos();
 
-    public DynamicLight(Entity entity) {
+    public DynamicLight(final Entity entity) {
         this.entity = entity;
         this.offsetY = entity.getEyeHeight();
     }
 
-    public void update(RenderGlobal renderGlobal) {
+    public void update(final RenderGlobal renderGlobal) {
         if (Config.isDynamicLightsFast()) {
-            long i = System.currentTimeMillis();
+            final long i = System.currentTimeMillis();
 
             if (i < this.timeCheckMs + 500L) {
                 return;
@@ -44,14 +44,14 @@ public class DynamicLight {
             this.timeCheckMs = i;
         }
 
-        double d6 = this.entity.posX - 0.5D;
-        double d0 = this.entity.posY - 0.5D + this.offsetY;
-        double d1 = this.entity.posZ - 0.5D;
-        int j = DynamicLights.getLightLevel(this.entity);
-        double d2 = d6 - this.lastPosX;
-        double d3 = d0 - this.lastPosY;
-        double d4 = d1 - this.lastPosZ;
-        double d5 = 0.1D;
+        final double d6 = this.entity.posX - 0.5D;
+        final double d0 = this.entity.posY - 0.5D + this.offsetY;
+        final double d1 = this.entity.posZ - 0.5D;
+        final int j = DynamicLights.getLightLevel(this.entity);
+        final double d2 = d6 - this.lastPosX;
+        final double d3 = d0 - this.lastPosY;
+        final double d4 = d1 - this.lastPosZ;
+        final double d5 = 0.1D;
 
         if (Math.abs(d2) > d5 || Math.abs(d3) > d5 || Math.abs(d4) > d5 || this.lastLightLevel != j) {
             this.lastPosX = d6;
@@ -59,37 +59,37 @@ public class DynamicLight {
             this.lastPosZ = d1;
             this.lastLightLevel = j;
             this.underwater = false;
-            World world = renderGlobal.getWorld();
+            final World world = renderGlobal.getWorld();
 
             if (world != null) {
-                this.blockPosMutable.set(MathHelper.floor_double(d6), MathHelper.floor_double(d0), MathHelper.floor_double(d1));
-                IBlockState iblockstate = world.getBlockState(this.blockPosMutable);
-                Block block = iblockstate.getBlock();
+                this.blockPosMutable.func_181079_c(MathHelper.floor_double(d6), MathHelper.floor_double(d0), MathHelper.floor_double(d1));
+                final IBlockState iblockstate = world.getBlockState(this.blockPosMutable);
+                final Block block = iblockstate.getBlock();
                 this.underwater = block == Blocks.water;
             }
 
-            Set<BlockPos> set = new HashSet();
+            final Set<BlockPos> set = new HashSet();
 
             if (j > 0) {
-                EnumFacing enumfacing2 = (MathHelper.floor_double(d6) & 15) >= 8 ? EnumFacing.EAST : EnumFacing.WEST;
-                EnumFacing enumfacing = (MathHelper.floor_double(d0) & 15) >= 8 ? EnumFacing.UP : EnumFacing.DOWN;
-                EnumFacing enumfacing1 = (MathHelper.floor_double(d1) & 15) >= 8 ? EnumFacing.SOUTH : EnumFacing.NORTH;
-                BlockPos blockpos = new BlockPos(d6, d0, d1);
-                RenderChunk renderchunk = renderGlobal.getRenderChunk(blockpos);
-                BlockPos blockpos1 = this.getChunkPos(renderchunk, blockpos, enumfacing2);
-                RenderChunk renderchunk1 = renderGlobal.getRenderChunk(blockpos1);
-                BlockPos blockpos2 = this.getChunkPos(renderchunk, blockpos, enumfacing1);
-                RenderChunk renderchunk2 = renderGlobal.getRenderChunk(blockpos2);
-                BlockPos blockpos3 = this.getChunkPos(renderchunk1, blockpos1, enumfacing1);
-                RenderChunk renderchunk3 = renderGlobal.getRenderChunk(blockpos3);
-                BlockPos blockpos4 = this.getChunkPos(renderchunk, blockpos, enumfacing);
-                RenderChunk renderchunk4 = renderGlobal.getRenderChunk(blockpos4);
-                BlockPos blockpos5 = this.getChunkPos(renderchunk4, blockpos4, enumfacing2);
-                RenderChunk renderchunk5 = renderGlobal.getRenderChunk(blockpos5);
-                BlockPos blockpos6 = this.getChunkPos(renderchunk4, blockpos4, enumfacing1);
-                RenderChunk renderchunk6 = renderGlobal.getRenderChunk(blockpos6);
-                BlockPos blockpos7 = this.getChunkPos(renderchunk5, blockpos5, enumfacing1);
-                RenderChunk renderchunk7 = renderGlobal.getRenderChunk(blockpos7);
+                final EnumFacing enumfacing2 = (MathHelper.floor_double(d6) & 15) >= 8 ? EnumFacing.EAST : EnumFacing.WEST;
+                final EnumFacing enumfacing = (MathHelper.floor_double(d0) & 15) >= 8 ? EnumFacing.UP : EnumFacing.DOWN;
+                final EnumFacing enumfacing1 = (MathHelper.floor_double(d1) & 15) >= 8 ? EnumFacing.SOUTH : EnumFacing.NORTH;
+                final BlockPos blockpos = new BlockPos(d6, d0, d1);
+                final RenderChunk renderchunk = renderGlobal.getRenderChunk(blockpos);
+                final BlockPos blockpos1 = this.getChunkPos(renderchunk, blockpos, enumfacing2);
+                final RenderChunk renderchunk1 = renderGlobal.getRenderChunk(blockpos1);
+                final BlockPos blockpos2 = this.getChunkPos(renderchunk, blockpos, enumfacing1);
+                final RenderChunk renderchunk2 = renderGlobal.getRenderChunk(blockpos2);
+                final BlockPos blockpos3 = this.getChunkPos(renderchunk1, blockpos1, enumfacing1);
+                final RenderChunk renderchunk3 = renderGlobal.getRenderChunk(blockpos3);
+                final BlockPos blockpos4 = this.getChunkPos(renderchunk, blockpos, enumfacing);
+                final RenderChunk renderchunk4 = renderGlobal.getRenderChunk(blockpos4);
+                final BlockPos blockpos5 = this.getChunkPos(renderchunk4, blockpos4, enumfacing2);
+                final RenderChunk renderchunk5 = renderGlobal.getRenderChunk(blockpos5);
+                final BlockPos blockpos6 = this.getChunkPos(renderchunk4, blockpos4, enumfacing1);
+                final RenderChunk renderchunk6 = renderGlobal.getRenderChunk(blockpos6);
+                final BlockPos blockpos7 = this.getChunkPos(renderchunk5, blockpos5, enumfacing1);
+                final RenderChunk renderchunk7 = renderGlobal.getRenderChunk(blockpos7);
                 this.updateChunkLight(renderchunk, this.setLitChunkPos, set);
                 this.updateChunkLight(renderchunk1, this.setLitChunkPos, set);
                 this.updateChunkLight(renderchunk2, this.setLitChunkPos, set);
@@ -105,19 +105,19 @@ public class DynamicLight {
         }
     }
 
-    private BlockPos getChunkPos(RenderChunk renderChunk, BlockPos pos, EnumFacing facing) {
-        return renderChunk != null ? renderChunk.getBlockPosOffset16(facing) : pos.offset(facing, 16);
+    private BlockPos getChunkPos(final RenderChunk renderChunk, final BlockPos pos, final EnumFacing facing) {
+        return renderChunk != null ? renderChunk.func_181701_a(facing) : pos.offset(facing, 16);
     }
 
-    private void updateChunkLight(RenderChunk renderChunk, Set<BlockPos> setPrevPos, Set<BlockPos> setNewPos) {
+    private void updateChunkLight(final RenderChunk renderChunk, final Set<BlockPos> setPrevPos, final Set<BlockPos> setNewPos) {
         if (renderChunk != null) {
-            CompiledChunk compiledchunk = renderChunk.getCompiledChunk();
+            final CompiledChunk compiledchunk = renderChunk.getCompiledChunk();
 
             if (compiledchunk != null && !compiledchunk.isEmpty()) {
                 renderChunk.setNeedsUpdate(true);
             }
 
-            BlockPos blockpos = renderChunk.getPosition();
+            final BlockPos blockpos = renderChunk.getPosition();
 
             if (setPrevPos != null) {
                 setPrevPos.remove(blockpos);
@@ -129,9 +129,9 @@ public class DynamicLight {
         }
     }
 
-    public void updateLitChunks(RenderGlobal renderGlobal) {
-        for (BlockPos blockpos : this.setLitChunkPos) {
-            RenderChunk renderchunk = renderGlobal.getRenderChunk(blockpos);
+    public void updateLitChunks(final RenderGlobal renderGlobal) {
+        for (final BlockPos blockpos : this.setLitChunkPos) {
+            final RenderChunk renderchunk = renderGlobal.getRenderChunk(blockpos);
             this.updateChunkLight(renderchunk, null, null);
         }
     }

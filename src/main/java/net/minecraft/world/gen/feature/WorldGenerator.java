@@ -7,13 +7,17 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public abstract class WorldGenerator {
+    /**
+     * Sets wither or not the generator should notify blocks of blocks it changes. When the world is first generated,
+     * this is false, when saplings grow, this is true.
+     */
     private final boolean doBlockNotify;
 
     public WorldGenerator() {
         this(false);
     }
 
-    public WorldGenerator(boolean notify) {
+    public WorldGenerator(final boolean notify) {
         this.doBlockNotify = notify;
     }
 
@@ -22,7 +26,7 @@ public abstract class WorldGenerator {
     public void func_175904_e() {
     }
 
-    protected void setBlockAndNotifyAdequately(World worldIn, BlockPos pos, IBlockState state) {
+    protected void setBlockAndNotifyAdequately(final World worldIn, final BlockPos pos, final IBlockState state) {
         if (this.doBlockNotify) {
             worldIn.setBlockState(pos, state, 3);
         } else {

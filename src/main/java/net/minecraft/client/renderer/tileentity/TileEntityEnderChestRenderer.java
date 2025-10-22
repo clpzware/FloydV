@@ -9,7 +9,7 @@ public class TileEntityEnderChestRenderer extends TileEntitySpecialRenderer<Tile
     private static final ResourceLocation ENDER_CHEST_TEXTURE = new ResourceLocation("textures/entity/chest/ender.png");
     private final ModelChest field_147521_c = new ModelChest();
 
-    public void renderTileEntityAt(TileEntityEnderChest te, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void renderTileEntityAt(final TileEntityEnderChest te, final double x, final double y, final double z, final float partialTicks, final int destroyStage) {
         int i = 0;
 
         if (te.hasWorldObj()) {
@@ -67,5 +67,10 @@ public class TileEntityEnderChestRenderer extends TileEntitySpecialRenderer<Tile
             GlStateManager.popMatrix();
             GlStateManager.matrixMode(5888);
         }
+    }
+
+    @Override
+    public void renderBasicTileEntityAt(TileEntityEnderChest te, double x, double y, double z, float partialTicks, int destroyStage) {
+
     }
 }

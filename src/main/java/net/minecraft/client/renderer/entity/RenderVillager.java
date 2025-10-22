@@ -14,7 +14,7 @@ public class RenderVillager extends RenderLiving<EntityVillager> {
     private static final ResourceLocation smithVillagerTextures = new ResourceLocation("textures/entity/villager/smith.png");
     private static final ResourceLocation butcherVillagerTextures = new ResourceLocation("textures/entity/villager/butcher.png");
 
-    public RenderVillager(RenderManager renderManagerIn) {
+    public RenderVillager(final RenderManager renderManagerIn) {
         super(renderManagerIn, new ModelVillager(0.0F), 0.5F);
         this.addLayer(new LayerCustomHead(this.getMainModel().villagerHead));
     }
@@ -23,18 +23,36 @@ public class RenderVillager extends RenderLiving<EntityVillager> {
         return (ModelVillager) super.getMainModel();
     }
 
-    protected ResourceLocation getEntityTexture(EntityVillager entity) {
-        return switch (entity.getProfession()) {
-            case 0 -> farmerVillagerTextures;
-            case 1 -> librarianVillagerTextures;
-            case 2 -> priestVillagerTextures;
-            case 3 -> smithVillagerTextures;
-            case 4 -> butcherVillagerTextures;
-            default -> villagerTextures;
-        };
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(final EntityVillager entity) {
+        switch (entity.getProfession()) {
+            case 0:
+                return farmerVillagerTextures;
+
+            case 1:
+                return librarianVillagerTextures;
+
+            case 2:
+                return priestVillagerTextures;
+
+            case 3:
+                return smithVillagerTextures;
+
+            case 4:
+                return butcherVillagerTextures;
+
+            default:
+                return villagerTextures;
+        }
     }
 
-    protected void preRenderCallback(EntityVillager entitylivingbaseIn, float partialTickTime) {
+    /**
+     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
+     * entityLiving, partialTickTime
+     */
+    protected void preRenderCallback(final EntityVillager entitylivingbaseIn, final float partialTickTime) {
         float f = 0.9375F;
 
         if (entitylivingbaseIn.getGrowingAge() < 0) {

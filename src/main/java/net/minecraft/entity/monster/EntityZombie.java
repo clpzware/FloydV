@@ -31,16 +31,31 @@ import java.util.List;
 import java.util.UUID;
 
 public class EntityZombie extends EntityMob {
+    /**
+     * The attribute which determines the chance that this mob will spawn reinforcements
+     */
     protected static final IAttribute reinforcementChance = (new RangedAttribute(null, "zombie.spawnReinforcements", 0.0D, 0.0D, 1.0D)).setDescription("Spawn Reinforcements Chance");
     private static final UUID babySpeedBoostUUID = UUID.fromString("B9766B59-9566-4402-BC1F-2EE2A276D836");
     private static final AttributeModifier babySpeedBoostModifier = new AttributeModifier(babySpeedBoostUUID, "Baby speed boost", 0.5D, 1);
     private final EntityAIBreakDoor breakDoor = new EntityAIBreakDoor(this);
+
+    /**
+     * Ticker used to determine the time remaining for this zombie to convert into a villager when cured.
+     */
     private int conversionTime;
     private boolean isBreakDoorsTaskSet = false;
+
+    /**
+     * The width of the entity
+     */
     private float zombieWidth = -1.0F;
+
+    /**
+     * The height of the the entity.
+     */
     private float zombieHeight;
 
-    public EntityZombie(World worldIn) {
+    public EntityZombie(final World worldIn) {
         super(worldIn);
         ((PathNavigateGround) this.getNavigator()).setBreakDoors(true);
         this.tasks.addTask(0, new EntityAISwimming(this));
@@ -73,11 +88,14 @@ public class EntityZombie extends EntityMob {
 
     protected void entityInit() {
         super.entityInit();
-        this.getDataWatcher().addObject(12, (byte) 0);
-        this.getDataWatcher().addObject(13, (byte) 0);
-        this.getDataWatcher().addObject(14, (byte) 0);
+        this.getDataWatcher().addObject(12, Byte.valueOf((byte) 0));
+        this.getDataWatcher().addObject(13, Byte.valueOf((byte) 0));
+        this.getDataWatcher().addObject(14, Byte.valueOf((byte) 0));
     }
 
+    /**
+     * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+     */
     public int getTotalArmorValue() {
         int i = super.getTotalArmorValue() + 2;
 
@@ -92,7 +110,10 @@ public class EntityZombie extends EntityMob {
         return this.isBreakDoorsTaskSet;
     }
 
-    public void setBreakDoorsAItask(boolean par1) {
+    /**
+     * Sets or removes EntityAIBreakDoor task
+     */
+    public void setBreakDoorsAItask(final boolean par1) {
         if (this.isBreakDoorsTaskSet != par1) {
             this.isBreakDoorsTaskSet = par1;
 
@@ -104,11 +125,17 @@ public class EntityZombie extends EntityMob {
         }
     }
 
+    /**
+     * If Animal, checks if the age timer is negative
+     */
     public boolean isChild() {
         return this.getDataWatcher().getWatchableObjectByte(12) == 1;
     }
 
-    protected int getExperiencePoints(EntityPlayer player) {
+    /**
+     * Get the experience points the entity currently has.
+     */
+    protected int getExperiencePoints(final EntityPlayer player) {
         if (this.isChild()) {
             this.experienceValue = (int) ((float) this.experienceValue * 2.5F);
         }
@@ -116,11 +143,14 @@ public class EntityZombie extends EntityMob {
         return super.getExperiencePoints(player);
     }
 
-    public void setChild(boolean childZombie) {
-        this.getDataWatcher().updateObject(12, (byte) (childZombie ? 1 : 0));
+    /**
+     * Set whether this zombie is a child.
+     */
+    public void setChild(final boolean childZombie) {
+        this.getDataWatcher().updateObject(12, Byte.valueOf((byte) (childZombie ? 1 : 0)));
 
         if (this.worldObj != null && !this.worldObj.isRemote) {
-            IAttributeInstance iattributeinstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
+            final IAttributeInstance iattributeinstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
             iattributeinstance.removeModifier(babySpeedBoostModifier);
 
             if (childZombie) {
@@ -131,22 +161,32 @@ public class EntityZombie extends EntityMob {
         this.setChildSize(childZombie);
     }
 
+    /**
+     * Return whether this zombie is a villager.
+     */
     public boolean isVillager() {
         return this.getDataWatcher().getWatchableObjectByte(13) == 1;
     }
 
-    public void setVillager(boolean villager) {
-        this.getDataWatcher().updateObject(13, (byte) (villager ? 1 : 0));
+    /**
+     * Set whether this zombie is a villager.
+     */
+    public void setVillager(final boolean villager) {
+        this.getDataWatcher().updateObject(13, Byte.valueOf((byte) (villager ? 1 : 0)));
     }
 
+    /**
+     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
+     * use this to react to sunlight and start to burn.
+     */
     public void onLivingUpdate() {
         if (this.worldObj.isDaytime() && !this.worldObj.isRemote && !this.isChild()) {
-            float f = this.getBrightness(1.0F);
-            BlockPos blockpos = new BlockPos(this.posX, (double) Math.round(this.posY), this.posZ);
+            final float f = this.getBrightness(1.0F);
+            final BlockPos blockpos = new BlockPos(this.posX, (double) Math.round(this.posY), this.posZ);
 
             if (f > 0.5F && this.rand.nextFloat() * 30.0F < (f - 0.4F) * 2.0F && this.worldObj.canSeeSky(blockpos)) {
                 boolean flag = true;
-                ItemStack itemstack = this.getEquipmentInSlot(4);
+                final ItemStack itemstack = this.getEquipmentInSlot(4);
 
                 if (itemstack != null) {
                     if (itemstack.isItemStackDamageable()) {
@@ -174,7 +214,10 @@ public class EntityZombie extends EntityMob {
         super.onLivingUpdate();
     }
 
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    /**
+     * Called when the entity is attacked.
+     */
+    public boolean attackEntityFrom(final DamageSource source, final float amount) {
         if (super.attackEntityFrom(source, amount)) {
             EntityLivingBase entitylivingbase = this.getAttackTarget();
 
@@ -183,15 +226,15 @@ public class EntityZombie extends EntityMob {
             }
 
             if (entitylivingbase != null && this.worldObj.getDifficulty() == EnumDifficulty.HARD && (double) this.rand.nextFloat() < this.getEntityAttribute(reinforcementChance).getAttributeValue()) {
-                int i = MathHelper.floor_double(this.posX);
-                int j = MathHelper.floor_double(this.posY);
-                int k = MathHelper.floor_double(this.posZ);
-                EntityZombie entityzombie = new EntityZombie(this.worldObj);
+                final int i = MathHelper.floor_double(this.posX);
+                final int j = MathHelper.floor_double(this.posY);
+                final int k = MathHelper.floor_double(this.posZ);
+                final EntityZombie entityzombie = new EntityZombie(this.worldObj);
 
                 for (int l = 0; l < 50; ++l) {
-                    int i1 = i + MathHelper.getRandomIntegerInRange(this.rand, 7, 40) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
-                    int j1 = j + MathHelper.getRandomIntegerInRange(this.rand, 7, 40) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
-                    int k1 = k + MathHelper.getRandomIntegerInRange(this.rand, 7, 40) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
+                    final int i1 = i + MathHelper.getRandomIntegerInRange(this.rand, 7, 40) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
+                    final int j1 = j + MathHelper.getRandomIntegerInRange(this.rand, 7, 40) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
+                    final int k1 = k + MathHelper.getRandomIntegerInRange(this.rand, 7, 40) * MathHelper.getRandomIntegerInRange(this.rand, -1, 1);
 
                     if (World.doesBlockHaveSolidTopSurface(this.worldObj, new BlockPos(i1, j1 - 1, k1)) && this.worldObj.getLightFromNeighbors(new BlockPos(i1, j1, k1)) < 10) {
                         entityzombie.setPosition(i1, j1, k1);
@@ -214,9 +257,12 @@ public class EntityZombie extends EntityMob {
         }
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate() {
         if (!this.worldObj.isRemote && this.isConverting()) {
-            int i = this.getConversionTimeBoost();
+            final int i = this.getConversionTimeBoost();
             this.conversionTime -= i;
 
             if (this.conversionTime <= 0) {
@@ -227,11 +273,11 @@ public class EntityZombie extends EntityMob {
         super.onUpdate();
     }
 
-    public boolean attackEntityAsMob(Entity entityIn) {
-        boolean flag = super.attackEntityAsMob(entityIn);
+    public boolean attackEntityAsMob(final Entity entityIn) {
+        final boolean flag = super.attackEntityAsMob(entityIn);
 
         if (flag) {
-            int i = this.worldObj.getDifficulty().getDifficultyId();
+            final int i = this.worldObj.getDifficulty().getDifficultyId();
 
             if (this.getHeldItem() == null && this.isBurning() && this.rand.nextFloat() < (float) i * 0.3F) {
                 entityIn.setFire(2 * i);
@@ -241,19 +287,28 @@ public class EntityZombie extends EntityMob {
         return flag;
     }
 
+    /**
+     * Returns the sound this mob makes while it's alive.
+     */
     protected String getLivingSound() {
         return "mob.zombie.say";
     }
 
+    /**
+     * Returns the sound this mob makes when it is hurt.
+     */
     protected String getHurtSound() {
         return "mob.zombie.hurt";
     }
 
+    /**
+     * Returns the sound this mob makes on death.
+     */
     protected String getDeathSound() {
         return "mob.zombie.death";
     }
 
-    protected void playStepSound(BlockPos pos, Block blockIn) {
+    protected void playStepSound(final BlockPos pos, final Block blockIn) {
         this.playSound("mob.zombie.step", 0.15F, 1.0F);
     }
 
@@ -261,10 +316,16 @@ public class EntityZombie extends EntityMob {
         return Items.rotten_flesh;
     }
 
+    /**
+     * Get this Entity's EnumCreatureAttribute
+     */
     public EnumCreatureAttribute getCreatureAttribute() {
         return EnumCreatureAttribute.UNDEAD;
     }
 
+    /**
+     * Causes this Entity to drop a random item.
+     */
     protected void addRandomDrop() {
         switch (this.rand.nextInt(3)) {
             case 0:
@@ -280,11 +341,14 @@ public class EntityZombie extends EntityMob {
         }
     }
 
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+    /**
+     * Gives armor or weapon for entity based on given DifficultyInstance
+     */
+    protected void setEquipmentBasedOnDifficulty(final DifficultyInstance difficulty) {
         super.setEquipmentBasedOnDifficulty(difficulty);
 
         if (this.rand.nextFloat() < (this.worldObj.getDifficulty() == EnumDifficulty.HARD ? 0.05F : 0.01F)) {
-            int i = this.rand.nextInt(3);
+            final int i = this.rand.nextInt(3);
 
             if (i == 0) {
                 this.setCurrentItemOrArmor(0, new ItemStack(Items.iron_sword));
@@ -294,7 +358,10 @@ public class EntityZombie extends EntityMob {
         }
     }
 
-    public void writeEntityToNBT(NBTTagCompound tagCompound) {
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
+    public void writeEntityToNBT(final NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
 
         if (this.isChild()) {
@@ -309,7 +376,10 @@ public class EntityZombie extends EntityMob {
         tagCompound.setBoolean("CanBreakDoors", this.isBreakDoorsTaskSet());
     }
 
-    public void readEntityFromNBT(NBTTagCompound tagCompund) {
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
+    public void readEntityFromNBT(final NBTTagCompound tagCompund) {
         super.readEntityFromNBT(tagCompund);
 
         if (tagCompund.getBoolean("IsBaby")) {
@@ -327,15 +397,19 @@ public class EntityZombie extends EntityMob {
         this.setBreakDoorsAItask(tagCompund.getBoolean("CanBreakDoors"));
     }
 
-    public void onKillEntity(EntityLivingBase entityLivingIn) {
+    /**
+     * This method gets called when the entity kills another one.
+     */
+    public void onKillEntity(final EntityLivingBase entityLivingIn) {
         super.onKillEntity(entityLivingIn);
 
-        if ((this.worldObj.getDifficulty() == EnumDifficulty.NORMAL || this.worldObj.getDifficulty() == EnumDifficulty.HARD) && entityLivingIn instanceof EntityVillager entityliving) {
+        if ((this.worldObj.getDifficulty() == EnumDifficulty.NORMAL || this.worldObj.getDifficulty() == EnumDifficulty.HARD) && entityLivingIn instanceof EntityVillager) {
             if (this.worldObj.getDifficulty() != EnumDifficulty.HARD && this.rand.nextBoolean()) {
                 return;
             }
 
-            EntityZombie entityzombie = new EntityZombie(this.worldObj);
+            final EntityLiving entityliving = (EntityLiving) entityLivingIn;
+            final EntityZombie entityzombie = new EntityZombie(this.worldObj);
             entityzombie.copyLocationAndAnglesFrom(entityLivingIn);
             this.worldObj.removeEntity(entityLivingIn);
             entityzombie.onInitialSpawn(this.worldObj.getDifficultyForLocation(new BlockPos(entityzombie)), null);
@@ -367,20 +441,25 @@ public class EntityZombie extends EntityMob {
         return f;
     }
 
-    protected boolean func_175448_a(ItemStack stack) {
-        return (stack.getItem() != Items.egg || !this.isChild() || !this.isRiding());
+    protected boolean func_175448_a(final ItemStack stack) {
+        return (stack.getItem() != Items.egg || !this.isChild() || !this.isRiding()) && super.func_175448_a(stack);
     }
 
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
+    /**
+     * Called only once on an entity when first time spawned, via egg, mob spawner, natural spawning etc, but not called
+     * when entity is reloaded from nbt. Mainly used for initializing attributes and inventory
+     */
+    public IEntityLivingData onInitialSpawn(final DifficultyInstance difficulty, IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
-        float f = difficulty.getClampedAdditionalDifficulty();
+        final float f = difficulty.getClampedAdditionalDifficulty();
         this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * f);
 
         if (livingdata == null) {
             livingdata = new EntityZombie.GroupData(this.worldObj.rand.nextFloat() < 0.05F, this.worldObj.rand.nextFloat() < 0.05F);
         }
 
-        if (livingdata instanceof GroupData entityzombie$groupdata) {
+        if (livingdata instanceof EntityZombie.GroupData) {
+            final EntityZombie.GroupData entityzombie$groupdata = (EntityZombie.GroupData) livingdata;
 
             if (entityzombie$groupdata.isVillager) {
                 this.setVillager(true);
@@ -390,15 +469,15 @@ public class EntityZombie extends EntityMob {
                 this.setChild(true);
 
                 if ((double) this.worldObj.rand.nextFloat() < 0.05D) {
-                    List<EntityChicken> list = this.worldObj.getEntitiesWithinAABB(EntityChicken.class, this.getEntityBoundingBox().expand(5.0D, 3.0D, 5.0D), EntitySelectors.IS_STANDALONE);
+                    final List<EntityChicken> list = this.worldObj.getEntitiesWithinAABB(EntityChicken.class, this.getEntityBoundingBox().expand(5.0D, 3.0D, 5.0D), EntitySelectors.IS_STANDALONE);
 
                     if (!list.isEmpty()) {
-                        EntityChicken entitychicken = list.get(0);
+                        final EntityChicken entitychicken = list.get(0);
                         entitychicken.setChickenJockey(true);
                         this.mountEntity(entitychicken);
                     }
                 } else if ((double) this.worldObj.rand.nextFloat() < 0.05D) {
-                    EntityChicken entitychicken1 = new EntityChicken(this.worldObj);
+                    final EntityChicken entitychicken1 = new EntityChicken(this.worldObj);
                     entitychicken1.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
                     entitychicken1.onInitialSpawn(difficulty, null);
                     entitychicken1.setChickenJockey(true);
@@ -413,7 +492,7 @@ public class EntityZombie extends EntityMob {
         this.setEnchantmentBasedOnDifficulty(difficulty);
 
         if (this.getEquipmentInSlot(4) == null) {
-            Calendar calendar = this.worldObj.getCurrentDate();
+            final Calendar calendar = this.worldObj.getCurrentDate();
 
             if (calendar.get(2) + 1 == 10 && calendar.get(5) == 31 && this.rand.nextFloat() < 0.25F) {
                 this.setCurrentItemOrArmor(4, new ItemStack(this.rand.nextFloat() < 0.1F ? Blocks.lit_pumpkin : Blocks.pumpkin));
@@ -422,7 +501,7 @@ public class EntityZombie extends EntityMob {
         }
 
         this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).applyModifier(new AttributeModifier("Random spawn bonus", this.rand.nextDouble() * 0.05000000074505806D, 0));
-        double d0 = this.rand.nextDouble() * 1.5D * (double) f;
+        final double d0 = this.rand.nextDouble() * 1.5D * (double) f;
 
         if (d0 > 1.0D) {
             this.getEntityAttribute(SharedMonsterAttributes.followRange).applyModifier(new AttributeModifier("Random zombie-spawn bonus", d0, 2));
@@ -437,8 +516,11 @@ public class EntityZombie extends EntityMob {
         return livingdata;
     }
 
-    public boolean interact(EntityPlayer player) {
-        ItemStack itemstack = player.getCurrentEquippedItem();
+    /**
+     * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
+     */
+    public boolean interact(final EntityPlayer player) {
+        final ItemStack itemstack = player.getCurrentEquippedItem();
 
         if (itemstack != null && itemstack.getItem() == Items.golden_apple && itemstack.getMetadata() == 0 && this.isVillager() && this.isPotionActive(Potion.weakness)) {
             if (!player.capabilities.isCreativeMode) {
@@ -459,34 +541,47 @@ public class EntityZombie extends EntityMob {
         }
     }
 
-    protected void startConversion(int ticks) {
+    /**
+     * Starts converting this zombie into a villager. The zombie converts into a villager after the specified time in
+     * ticks.
+     */
+    protected void startConversion(final int ticks) {
         this.conversionTime = ticks;
-        this.getDataWatcher().updateObject(14, (byte) 1);
+        this.getDataWatcher().updateObject(14, Byte.valueOf((byte) 1));
         this.removePotionEffect(Potion.weakness.id);
         this.addPotionEffect(new PotionEffect(Potion.damageBoost.id, ticks, Math.min(this.worldObj.getDifficulty().getDifficultyId() - 1, 0)));
         this.worldObj.setEntityState(this, (byte) 16);
     }
 
-    public void handleStatusUpdate(byte id) {
+    public void handleHealthUpdate(final byte id) {
         if (id == 16) {
             if (!this.isSilent()) {
                 this.worldObj.playSound(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D, "mob.zombie.remedy", 1.0F + this.rand.nextFloat(), this.rand.nextFloat() * 0.7F + 0.3F, false);
             }
         } else {
-            super.handleStatusUpdate(id);
+            super.handleHealthUpdate(id);
         }
     }
 
+    /**
+     * Determines if an entity can be despawned, used on idle far away entities
+     */
     protected boolean canDespawn() {
         return !this.isConverting();
     }
 
+    /**
+     * Returns whether this zombie is in the process of converting to a villager
+     */
     public boolean isConverting() {
         return this.getDataWatcher().getWatchableObjectByte(14) == 1;
     }
 
+    /**
+     * Convert this zombie into a villager.
+     */
     protected void convertToVillager() {
-        EntityVillager entityvillager = new EntityVillager(this.worldObj);
+        final EntityVillager entityvillager = new EntityVillager(this.worldObj);
         entityvillager.copyLocationAndAnglesFrom(this);
         entityvillager.onInitialSpawn(this.worldObj.getDifficultyForLocation(new BlockPos(entityvillager)), null);
         entityvillager.setLookingForHome();
@@ -508,17 +603,20 @@ public class EntityZombie extends EntityMob {
         this.worldObj.playAuxSFXAtEntity(null, 1017, new BlockPos((int) this.posX, (int) this.posY, (int) this.posZ), 0);
     }
 
+    /**
+     * Return the amount of time decremented from conversionTime every tick.
+     */
     protected int getConversionTimeBoost() {
         int i = 1;
 
         if (this.rand.nextFloat() < 0.01F) {
             int j = 0;
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+            final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
             for (int k = (int) this.posX - 4; k < (int) this.posX + 4 && j < 14; ++k) {
                 for (int l = (int) this.posY - 4; l < (int) this.posY + 4 && j < 14; ++l) {
                     for (int i1 = (int) this.posZ - 4; i1 < (int) this.posZ + 4 && j < 14; ++i1) {
-                        Block block = this.worldObj.getBlockState(blockpos$mutableblockpos.set(k, l, i1)).getBlock();
+                        final Block block = this.worldObj.getBlockState(blockpos$mutableblockpos.func_181079_c(k, l, i1)).getBlock();
 
                         if (block == Blocks.iron_bars || block == Blocks.bed) {
                             if (this.rand.nextFloat() < 0.3F) {
@@ -535,12 +633,21 @@ public class EntityZombie extends EntityMob {
         return i;
     }
 
-    public void setChildSize(boolean isChild) {
+    /**
+     * sets the size of the entity to be half of its current size if true.
+     *
+     * @param isChild If the mob is a child it's height and width will be halved. Otherwise the size will remain the
+     *                same.
+     */
+    public void setChildSize(final boolean isChild) {
         this.multiplySize(isChild ? 0.5F : 1.0F);
     }
 
-    protected final void setSize(float width, float height) {
-        boolean flag = this.zombieWidth > 0.0F && this.zombieHeight > 0.0F;
+    /**
+     * Sets the width and height of the entity. Args: width, height
+     */
+    public final void setSize(final float width, final float height) {
+        final boolean flag = this.zombieWidth > 0.0F && this.zombieHeight > 0.0F;
         this.zombieWidth = width;
         this.zombieHeight = height;
 
@@ -549,15 +656,26 @@ public class EntityZombie extends EntityMob {
         }
     }
 
-    protected final void multiplySize(float size) {
+    /**
+     * Multiplies the height and width by the provided float.
+     *
+     * @param size The size to multiply the height and width of the entity by.
+     */
+    protected final void multiplySize(final float size) {
         super.setSize(this.zombieWidth * size, this.zombieHeight * size);
     }
 
+    /**
+     * Returns the Y Offset of this entity.
+     */
     public double getYOffset() {
         return this.isChild() ? 0.0D : -0.35D;
     }
 
-    public void onDeath(DamageSource cause) {
+    /**
+     * Called when the mob's health reaches 0.
+     */
+    public void onDeath(final DamageSource cause) {
         super.onDeath(cause);
 
         if (cause.getEntity() instanceof EntityCreeper && !(this instanceof EntityPigZombie) && ((EntityCreeper) cause.getEntity()).getPowered() && ((EntityCreeper) cause.getEntity()).isAIEnabled()) {
@@ -570,7 +688,7 @@ public class EntityZombie extends EntityMob {
         public boolean isChild;
         public boolean isVillager;
 
-        private GroupData(boolean isBaby, boolean isVillagerZombie) {
+        private GroupData(final boolean isBaby, final boolean isVillagerZombie) {
             this.isChild = false;
             this.isVillager = false;
             this.isChild = isBaby;

@@ -1,13 +1,13 @@
 package net.minecraft.scoreboard;
 
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayer;
+
+import java.util.List;
 
 public class ScoreDummyCriteria implements IScoreObjectiveCriteria {
     private final String dummyName;
 
-    public ScoreDummyCriteria(String name) {
+    public ScoreDummyCriteria(final String name) {
         this.dummyName = name;
         IScoreObjectiveCriteria.INSTANCES.put(name, this);
     }
@@ -16,7 +16,7 @@ public class ScoreDummyCriteria implements IScoreObjectiveCriteria {
         return this.dummyName;
     }
 
-    public int setScore(List<EntityPlayer> p_96635_1_) {
+    public int func_96635_a(final List<EntityPlayer> p_96635_1_) {
         return 0;
     }
 

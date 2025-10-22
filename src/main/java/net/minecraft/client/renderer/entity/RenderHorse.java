@@ -18,13 +18,17 @@ public class RenderHorse extends RenderLiving<EntityHorse> {
     private static final ResourceLocation zombieHorseTextures = new ResourceLocation("textures/entity/horse/horse_zombie.png");
     private static final ResourceLocation skeletonHorseTextures = new ResourceLocation("textures/entity/horse/horse_skeleton.png");
 
-    public RenderHorse(RenderManager rendermanagerIn, ModelHorse model, float shadowSizeIn) {
+    public RenderHorse(final RenderManager rendermanagerIn, final ModelHorse model, final float shadowSizeIn) {
         super(rendermanagerIn, model, shadowSizeIn);
     }
 
-    protected void preRenderCallback(EntityHorse entitylivingbaseIn, float partialTickTime) {
+    /**
+     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
+     * entityLiving, partialTickTime
+     */
+    protected void preRenderCallback(final EntityHorse entitylivingbaseIn, final float partialTickTime) {
         float f = 1.0F;
-        int i = entitylivingbaseIn.getHorseType();
+        final int i = entitylivingbaseIn.getHorseType();
 
         if (i == 1) {
             f *= 0.87F;
@@ -36,22 +40,35 @@ public class RenderHorse extends RenderLiving<EntityHorse> {
         super.preRenderCallback(entitylivingbaseIn, partialTickTime);
     }
 
-    protected ResourceLocation getEntityTexture(EntityHorse entity) {
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(final EntityHorse entity) {
         if (!entity.func_110239_cn()) {
-            return switch (entity.getHorseType()) {
-                default -> whiteHorseTextures;
-                case 1 -> donkeyTextures;
-                case 2 -> muleTextures;
-                case 3 -> zombieHorseTextures;
-                case 4 -> skeletonHorseTextures;
-            };
+            switch (entity.getHorseType()) {
+                case 0:
+                default:
+                    return whiteHorseTextures;
+
+                case 1:
+                    return donkeyTextures;
+
+                case 2:
+                    return muleTextures;
+
+                case 3:
+                    return zombieHorseTextures;
+
+                case 4:
+                    return skeletonHorseTextures;
+            }
         } else {
             return this.func_110848_b(entity);
         }
     }
 
-    private ResourceLocation func_110848_b(EntityHorse horse) {
-        String s = horse.getHorseTexture();
+    private ResourceLocation func_110848_b(final EntityHorse horse) {
+        final String s = horse.getHorseTexture();
 
         if (!horse.func_175507_cI()) {
             return null;

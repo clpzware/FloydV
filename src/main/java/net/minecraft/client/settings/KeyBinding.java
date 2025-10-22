@@ -2,34 +2,30 @@ package net.minecraft.client.settings;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.IntHashMap;
 
 import java.util.List;
 import java.util.Set;
-
-import lombok.Getter;
-import lombok.Setter;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.IntHashMap;
 
 public class KeyBinding implements Comparable<KeyBinding> {
     private static final List<KeyBinding> keybindArray = Lists.newArrayList();
     private static final IntHashMap<KeyBinding> hash = new IntHashMap();
     private static final Set<String> keybindSet = Sets.newHashSet();
-    @Getter
     private final String keyDescription;
-    @Getter
     private final int keyCodeDefault;
-    @Getter
     private final String keyCategory;
-    @Setter
-    @Getter
     private int keyCode;
-    public boolean pressed;
+
+    /**
+     * Is the key held down?
+     */
+    private boolean pressed;
     private int pressTime;
 
-    public static void onTick(int keyCode) {
+    public static void onTick(final int keyCode) {
         if (keyCode != 0) {
-            KeyBinding keybinding = hash.lookup(keyCode);
+            final KeyBinding keybinding = hash.lookup(keyCode);
 
             if (keybinding != null) {
                 ++keybinding.pressTime;
@@ -37,9 +33,9 @@ public class KeyBinding implements Comparable<KeyBinding> {
         }
     }
 
-    public static void setKeyBindState(int keyCode, boolean pressed) {
+    public static void setKeyBindState(final int keyCode, final boolean pressed) {
         if (keyCode != 0) {
-            KeyBinding keybinding = hash.lookup(keyCode);
+            final KeyBinding keybinding = hash.lookup(keyCode);
 
             if (keybinding != null) {
                 keybinding.pressed = pressed;
@@ -48,7 +44,7 @@ public class KeyBinding implements Comparable<KeyBinding> {
     }
 
     public static void unPressAllKeys() {
-        for (KeyBinding keybinding : keybindArray) {
+        for (final KeyBinding keybinding : keybindArray) {
             keybinding.unpressKey();
         }
     }
@@ -56,7 +52,7 @@ public class KeyBinding implements Comparable<KeyBinding> {
     public static void resetKeyBindingArrayAndHash() {
         hash.clearMap();
 
-        for (KeyBinding keybinding : keybindArray) {
+        for (final KeyBinding keybinding : keybindArray) {
             hash.addKey(keybinding.keyCode, keybinding);
         }
     }
@@ -65,7 +61,7 @@ public class KeyBinding implements Comparable<KeyBinding> {
         return keybindSet;
     }
 
-    public KeyBinding(String description, int keyCode, String category) {
+    public KeyBinding(final String description, final int keyCode, final String category) {
         this.keyDescription = description;
         this.keyCode = keyCode;
         this.keyCodeDefault = keyCode;
@@ -75,10 +71,21 @@ public class KeyBinding implements Comparable<KeyBinding> {
         keybindSet.add(category);
     }
 
+    /**
+     * Returns true if the key is pressed (used for continuous querying). Should be used in tickers.
+     */
     public boolean isKeyDown() {
         return this.pressed;
     }
 
+    public String getKeyCategory() {
+        return this.keyCategory;
+    }
+
+    /**
+     * Returns true on the initial key press. For continuous querying use {@link isKeyDown()}. Should be used in key
+     * events.
+     */
     public boolean isPressed() {
         if (this.pressTime == 0) {
             return false;
@@ -88,12 +95,32 @@ public class KeyBinding implements Comparable<KeyBinding> {
         }
     }
 
-    public void unpressKey() {
+    public void setPressed(final boolean pressed) {
+        this.pressed = pressed;
+    }
+
+    private void unpressKey() {
         this.pressTime = 0;
         this.pressed = false;
     }
 
-    public int compareTo(KeyBinding p_compareTo_1_) {
+    public String getKeyDescription() {
+        return this.keyDescription;
+    }
+
+    public int getKeyCodeDefault() {
+        return this.keyCodeDefault;
+    }
+
+    public int getKeyCode() {
+        return this.keyCode;
+    }
+
+    public void setKeyCode(final int keyCode) {
+        this.keyCode = keyCode;
+    }
+
+    public int compareTo(final KeyBinding p_compareTo_1_) {
         int i = I18n.format(this.keyCategory).compareTo(I18n.format(p_compareTo_1_.keyCategory));
 
         if (i == 0) {

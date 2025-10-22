@@ -1,11 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S12PacketEntityVelocity implements Packet<INetHandlerPlayClient> {
     private int entityID;
@@ -16,13 +16,13 @@ public class S12PacketEntityVelocity implements Packet<INetHandlerPlayClient> {
     public S12PacketEntityVelocity() {
     }
 
-    public S12PacketEntityVelocity(Entity entityIn) {
+    public S12PacketEntityVelocity(final Entity entityIn) {
         this(entityIn.getEntityId(), entityIn.motionX, entityIn.motionY, entityIn.motionZ);
     }
 
-    public S12PacketEntityVelocity(int entityIDIn, double motionXIn, double motionYIn, double motionZIn) {
+    public S12PacketEntityVelocity(final int entityIDIn, double motionXIn, double motionYIn, double motionZIn) {
         this.entityID = entityIDIn;
-        double d0 = 3.9D;
+        final double d0 = 3.9D;
 
         if (motionXIn < -d0) {
             motionXIn = -d0;
@@ -53,21 +53,30 @@ public class S12PacketEntityVelocity implements Packet<INetHandlerPlayClient> {
         this.motionZ = (int) (motionZIn * 8000.0D);
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.entityID = buf.readVarIntFromBuffer();
         this.motionX = buf.readShort();
         this.motionY = buf.readShort();
         this.motionZ = buf.readShort();
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeVarIntToBuffer(this.entityID);
         buf.writeShort(this.motionX);
         buf.writeShort(this.motionY);
         buf.writeShort(this.motionZ);
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleEntityVelocity(this);
     }
 

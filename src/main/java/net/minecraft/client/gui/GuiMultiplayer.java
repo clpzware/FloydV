@@ -1,11 +1,8 @@
 package net.minecraft.client.gui;
 
+import com.alan.clients.ui.menu.impl.serverfinder.ServerFinder;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
-
-import java.io.IOException;
-import java.util.List;
-
 import de.florianmichael.viamcp.ViaMCP;
 import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.client.multiplayer.ServerData;
@@ -15,31 +12,45 @@ import net.minecraft.client.network.OldServerPinger;
 import net.minecraft.client.resources.I18n;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjglx.input.Keyboard;
+import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
+import java.util.List;
 
 public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
-    private static final Logger logger = LogManager.getLogger("MinecraftLogger");
+    private static final Logger logger = LogManager.getLogger();
     private final OldServerPinger oldServerPinger = new OldServerPinger();
     private final GuiScreen parentScreen;
     private ServerSelectionList serverListSelector;
-    private ServerList savedServerList;
+    public static ServerList savedServerList;
     private GuiButton btnEditServer;
     private GuiButton btnSelectServer;
     private GuiButton btnDeleteServer;
+    private GuiButton btnClearList;
     private boolean deletingServer;
     private boolean addingServer;
     private boolean editingServer;
     private boolean directConnect;
+
+    /**
+     * The text to be displayed when the player's cursor hovers over a server listing.
+     */
     private String hoveringText;
     private ServerData selectedServer;
     private LanServerDetector.LanServerList lanServerList;
     private LanServerDetector.ThreadLanServerFind lanServerDetector;
     private boolean initialized;
 
-    public GuiMultiplayer(GuiScreen parentScreen) {
+    public static boolean usingFinderList;
+
+    public GuiMultiplayer(final GuiScreen parentScreen) {
         this.parentScreen = parentScreen;
     }
 
+    /**
+     * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
+     * window resizes, the buttonList is cleared beforehand.
+     */
     public void initGui() {
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
@@ -53,7 +64,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
             try {
                 this.lanServerDetector = new LanServerDetector.ThreadLanServerFind(this.lanServerList);
                 this.lanServerDetector.start();
-            } catch (Exception exception) {
+            } catch (final Exception exception) {
                 logger.warn("Unable to start LAN server detection: " + exception.getMessage());
             }
 
@@ -64,8 +75,12 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
         }
 
         this.createButtons();
+//        Client.INSTANCE.getRichPresence().updatePresence("In Multiplayer Menu");
     }
 
+    /**
+     * Handles mouse input.
+     */
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         this.serverListSelector.handleMouseInput();
@@ -79,15 +94,28 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
         this.buttonList.add(new GuiButton(3, this.width / 2 + 4 + 50, this.height - 52, 100, 20, I18n.format("selectServer.add")));
         this.buttonList.add(new GuiButton(8, this.width / 2 + 4, this.height - 28, 70, 20, I18n.format("selectServer.refresh")));
         this.buttonList.add(new GuiButton(0, this.width / 2 + 4 + 76, this.height - 28, 75, 20, I18n.format("gui.cancel")));
-        this.buttonList.add(ViaMCP.INSTANCE.getAsyncVersionSlider());
         this.selectServer(this.serverListSelector.func_148193_k());
+
+        // ViaMCP
+        this.buttonList.add(ViaMCP.INSTANCE.getAsyncVersionSlider());
+
+        // Server Finder
+        int width = 100;
+        this.buttonList.add(new GuiButton(9, this.width - width - 5, 5, width, 20, "Server Finder"));
+        width = 50;
+        this.buttonList.add(new GuiButton(10, this.width - width - 5, this.height - 28, width, 20, "Change"));
+        this.buttonList.add(this.btnClearList = new GuiButton(11, this.width - width - 5, this.height - 52, width, 20, "Clear"));
+        this.btnClearList.enabled = usingFinderList;
     }
 
+    /**
+     * Called from the main game loop to update the screen.
+     */
     public void updateScreen() {
         super.updateScreen();
 
         if (this.lanServerList.getWasUpdated()) {
-            List<LanServerDetector.LanServer> list = this.lanServerList.getLanServers();
+            final List<LanServerDetector.LanServer> list = this.lanServerList.getLanServers();
             this.lanServerList.setWasNotUpdated();
             this.serverListSelector.func_148194_a(list);
         }
@@ -95,6 +123,9 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
         this.oldServerPinger.pingPendingNetworks();
     }
 
+    /**
+     * Called when the screen is unloaded. Used to disable keyboard repeat events
+     */
     public void onGuiClosed() {
         Keyboard.enableRepeatEvents(false);
 
@@ -106,20 +137,23 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
         this.oldServerPinger.clearPendingNetworks();
     }
 
-    protected void actionPerformed(GuiButton button) throws IOException {
+    /**
+     * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
+     */
+    protected void actionPerformed(final GuiButton button) throws IOException {
         if (button.enabled) {
-            GuiListExtended.IGuiListEntry guilistextended$iguilistentry = this.serverListSelector.func_148193_k() < 0 ? null : this.serverListSelector.getListEntry(this.serverListSelector.func_148193_k());
+            final GuiListExtended.IGuiListEntry guilistextended$iguilistentry = this.serverListSelector.func_148193_k() < 0 ? null : this.serverListSelector.getListEntry(this.serverListSelector.func_148193_k());
 
             if (button.id == 2 && guilistextended$iguilistentry instanceof ServerListEntryNormal) {
-                String s4 = ((ServerListEntryNormal) guilistextended$iguilistentry).getServerData().serverName;
+                final String s4 = ((ServerListEntryNormal) guilistextended$iguilistentry).getServerData().serverName;
 
                 if (s4 != null) {
                     this.deletingServer = true;
-                    String s = I18n.format("selectServer.deleteQuestion");
-                    String s1 = "'" + s4 + "' " + I18n.format("selectServer.deleteWarning");
-                    String s2 = I18n.format("selectServer.deleteButton");
-                    String s3 = I18n.format("gui.cancel");
-                    GuiYesNo guiyesno = new GuiYesNo(this, s, s1, s2, s3, this.serverListSelector.func_148193_k());
+                    final String s = I18n.format("selectServer.deleteQuestion");
+                    final String s1 = "'" + s4 + "' " + I18n.format("selectServer.deleteWarning");
+                    final String s2 = I18n.format("selectServer.deleteButton");
+                    final String s3 = I18n.format("gui.cancel");
+                    final GuiYesNo guiyesno = new GuiYesNo(this, s, s1, s2, s3, this.serverListSelector.func_148193_k());
                     this.mc.displayGuiScreen(guiyesno);
                 }
             } else if (button.id == 1) {
@@ -132,7 +166,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
                 this.mc.displayGuiScreen(new GuiScreenAddServer(this, this.selectedServer = new ServerData(I18n.format("selectServer.defaultName"), "", false)));
             } else if (button.id == 7 && guilistextended$iguilistentry instanceof ServerListEntryNormal) {
                 this.editingServer = true;
-                ServerData serverdata = ((ServerListEntryNormal) guilistextended$iguilistentry).getServerData();
+                final ServerData serverdata = ((ServerListEntryNormal) guilistextended$iguilistentry).getServerData();
                 this.selectedServer = new ServerData(serverdata.serverName, serverdata.serverIP, false);
                 this.selectedServer.copyFrom(serverdata);
                 this.mc.displayGuiScreen(new GuiScreenAddServer(this, this.selectedServer));
@@ -140,6 +174,17 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
                 this.mc.displayGuiScreen(this.parentScreen);
             } else if (button.id == 8) {
                 this.refreshServerList();
+            } else if (button.id == 9) {
+                this.mc.displayGuiScreen(new ServerFinder());
+            } else if (button.id == 10) {
+                usingFinderList = !usingFinderList;
+                this.btnClearList.enabled = usingFinderList;
+                this.savedServerList.loadServerList();
+                this.serverListSelector.func_148195_a(this.savedServerList);
+            } else if (button.id == 11) {
+                this.savedServerList.clearServers();
+                this.savedServerList.saveServerList();
+                this.serverListSelector.func_148195_a(this.savedServerList);
             }
         }
     }
@@ -148,8 +193,8 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
         this.mc.displayGuiScreen(new GuiMultiplayer(this.parentScreen));
     }
 
-    public void confirmClicked(boolean result, int id) {
-        GuiListExtended.IGuiListEntry guilistextended$iguilistentry = this.serverListSelector.func_148193_k() < 0 ? null : this.serverListSelector.getListEntry(this.serverListSelector.func_148193_k());
+    public void confirmClicked(final boolean result, final int id) {
+        final GuiListExtended.IGuiListEntry guilistextended$iguilistentry = this.serverListSelector.func_148193_k() < 0 ? null : this.serverListSelector.getListEntry(this.serverListSelector.func_148193_k());
 
         if (this.deletingServer) {
             this.deletingServer = false;
@@ -185,7 +230,7 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
             this.editingServer = false;
 
             if (result && guilistextended$iguilistentry instanceof ServerListEntryNormal) {
-                ServerData serverdata = ((ServerListEntryNormal) guilistextended$iguilistentry).getServerData();
+                final ServerData serverdata = ((ServerListEntryNormal) guilistextended$iguilistentry).getServerData();
                 serverdata.serverName = this.selectedServer.serverName;
                 serverdata.serverIP = this.selectedServer.serverIP;
                 serverdata.copyFrom(this.selectedServer);
@@ -197,9 +242,13 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
         }
     }
 
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
-        int i = this.serverListSelector.func_148193_k();
-        GuiListExtended.IGuiListEntry guilistextended$iguilistentry = i < 0 ? null : this.serverListSelector.getListEntry(i);
+    /**
+     * Fired when a key is typed (except F11 which toggles full screen). This is the equivalent of
+     * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
+     */
+    protected void keyTyped(final char typedChar, final int keyCode) throws IOException {
+        final int i = this.serverListSelector.func_148193_k();
+        final GuiListExtended.IGuiListEntry guilistextended$iguilistentry = i < 0 ? null : this.serverListSelector.getListEntry(i);
 
         if (keyCode == 63) {
             this.refreshServerList();
@@ -262,11 +311,14 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
         }
     }
 
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    /**
+     * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
+     */
+    public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
         this.hoveringText = null;
         this.drawDefaultBackground();
         this.serverListSelector.drawScreen(mouseX, mouseY, partialTicks);
-        this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.title"), this.width / 2, 20, 16777215);
+        this.drawCenteredString(this.fontRendererObj, I18n.format("multiplayer.title") + (!usingFinderList ? " (Normal)" : " (Finder)"), this.width / 2, 20, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         if (this.hoveringText != null) {
@@ -275,23 +327,23 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
     }
 
     public void connectToSelected() {
-        GuiListExtended.IGuiListEntry guilistextended$iguilistentry = this.serverListSelector.func_148193_k() < 0 ? null : this.serverListSelector.getListEntry(this.serverListSelector.func_148193_k());
+        final GuiListExtended.IGuiListEntry guilistextended$iguilistentry = this.serverListSelector.func_148193_k() < 0 ? null : this.serverListSelector.getListEntry(this.serverListSelector.func_148193_k());
 
         if (guilistextended$iguilistentry instanceof ServerListEntryNormal) {
             this.connectToServer(((ServerListEntryNormal) guilistextended$iguilistentry).getServerData());
         } else if (guilistextended$iguilistentry instanceof ServerListEntryLanDetected) {
-            LanServerDetector.LanServer lanserverdetector$lanserver = ((ServerListEntryLanDetected) guilistextended$iguilistentry).getLanServer();
+            final LanServerDetector.LanServer lanserverdetector$lanserver = ((ServerListEntryLanDetected) guilistextended$iguilistentry).getLanServer();
             this.connectToServer(new ServerData(lanserverdetector$lanserver.getServerMotd(), lanserverdetector$lanserver.getServerIpPort(), true));
         }
     }
 
-    private void connectToServer(ServerData server) {
+    private void connectToServer(final ServerData server) {
         this.mc.displayGuiScreen(new GuiConnecting(this, this.mc, server));
     }
 
-    public void selectServer(int index) {
+    public void selectServer(final int index) {
         this.serverListSelector.setSelectedSlotIndex(index);
-        GuiListExtended.IGuiListEntry guilistextended$iguilistentry = index < 0 ? null : this.serverListSelector.getListEntry(index);
+        final GuiListExtended.IGuiListEntry guilistextended$iguilistentry = index < 0 ? null : this.serverListSelector.getListEntry(index);
         this.btnSelectServer.enabled = false;
         this.btnEditServer.enabled = false;
         this.btnDeleteServer.enabled = false;
@@ -310,16 +362,22 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
         return this.oldServerPinger;
     }
 
-    public void setHoveringText(String p_146793_1_) {
+    public void setHoveringText(final String p_146793_1_) {
         this.hoveringText = p_146793_1_;
     }
 
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    /**
+     * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
+     */
+    protected void mouseClicked(final int mouseX, final int mouseY, final int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         this.serverListSelector.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
-    protected void mouseReleased(int mouseX, int mouseY, int state) {
+    /**
+     * Called when a mouse button is released.  Args : mouseX, mouseY, releaseButton
+     */
+    protected void mouseReleased(final int mouseX, final int mouseY, final int state) {
         super.mouseReleased(mouseX, mouseY, state);
         this.serverListSelector.mouseReleased(mouseX, mouseY, state);
     }
@@ -328,16 +386,16 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
         return this.savedServerList;
     }
 
-    public boolean func_175392_a(ServerListEntryNormal p_175392_1_, int p_175392_2_) {
+    public boolean func_175392_a(final ServerListEntryNormal p_175392_1_, final int p_175392_2_) {
         return p_175392_2_ > 0;
     }
 
-    public boolean func_175394_b(ServerListEntryNormal p_175394_1_, int p_175394_2_) {
+    public boolean func_175394_b(final ServerListEntryNormal p_175394_1_, final int p_175394_2_) {
         return p_175394_2_ < this.savedServerList.countServers() - 1;
     }
 
-    public void func_175391_a(ServerListEntryNormal p_175391_1_, int p_175391_2_, boolean p_175391_3_) {
-        int i = p_175391_3_ ? 0 : p_175391_2_ - 1;
+    public void func_175391_a(final ServerListEntryNormal p_175391_1_, final int p_175391_2_, final boolean p_175391_3_) {
+        final int i = p_175391_3_ ? 0 : p_175391_2_ - 1;
         this.savedServerList.swapServers(p_175391_2_, i);
 
         if (this.serverListSelector.func_148193_k() == p_175391_2_) {
@@ -347,8 +405,8 @@ public class GuiMultiplayer extends GuiScreen implements GuiYesNoCallback {
         this.serverListSelector.func_148195_a(this.savedServerList);
     }
 
-    public void func_175393_b(ServerListEntryNormal p_175393_1_, int p_175393_2_, boolean p_175393_3_) {
-        int i = p_175393_3_ ? this.savedServerList.countServers() - 1 : p_175393_2_ + 1;
+    public void func_175393_b(final ServerListEntryNormal p_175393_1_, final int p_175393_2_, final boolean p_175393_3_) {
+        final int i = p_175393_3_ ? this.savedServerList.countServers() - 1 : p_175393_2_ + 1;
         this.savedServerList.swapServers(p_175393_2_, i);
 
         if (this.serverListSelector.func_148193_k() == p_175393_2_) {

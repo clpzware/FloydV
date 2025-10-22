@@ -25,7 +25,7 @@ public class TileEntityCommandBlock extends TileEntity {
             return TileEntityCommandBlock.this.getWorld();
         }
 
-        public void setCommand(String command) {
+        public void setCommand(final String command) {
             super.setCommand(command);
             TileEntityCommandBlock.this.markDirty();
         }
@@ -38,7 +38,7 @@ public class TileEntityCommandBlock extends TileEntity {
             return 0;
         }
 
-        public void func_145757_a(ByteBuf p_145757_1_) {
+        public void func_145757_a(final ByteBuf p_145757_1_) {
             p_145757_1_.writeInt(TileEntityCommandBlock.this.pos.getX());
             p_145757_1_.writeInt(TileEntityCommandBlock.this.pos.getY());
             p_145757_1_.writeInt(TileEntityCommandBlock.this.pos.getZ());
@@ -49,18 +49,22 @@ public class TileEntityCommandBlock extends TileEntity {
         }
     };
 
-    public void writeToNBT(NBTTagCompound compound) {
+    public void writeToNBT(final NBTTagCompound compound) {
         super.writeToNBT(compound);
         this.commandBlockLogic.writeDataToNBT(compound);
     }
 
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(final NBTTagCompound compound) {
         super.readFromNBT(compound);
         this.commandBlockLogic.readDataFromNBT(compound);
     }
 
+    /**
+     * Allows for a specialized description packet to be created. This is often used to sync tile entity data from the
+     * server to the client easily. For example this is used by signs to synchronise the text to be displayed.
+     */
     public Packet getDescriptionPacket() {
-        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        final NBTTagCompound nbttagcompound = new NBTTagCompound();
         this.writeToNBT(nbttagcompound);
         return new S35PacketUpdateTileEntity(this.pos, 2, nbttagcompound);
     }

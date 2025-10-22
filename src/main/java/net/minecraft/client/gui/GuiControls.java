@@ -1,27 +1,43 @@
 package net.minecraft.client.gui;
 
-import java.io.IOException;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 
+import java.io.IOException;
+
 public class GuiControls extends GuiScreen {
     private static final GameSettings.Options[] optionsArr = new GameSettings.Options[]{GameSettings.Options.INVERT_MOUSE, GameSettings.Options.SENSITIVITY, GameSettings.Options.TOUCHSCREEN};
+
+    /**
+     * A reference to the screen object that created this. Used for navigating between screens.
+     */
     private final GuiScreen parentScreen;
     protected String screenTitle = "Controls";
+
+    /**
+     * Reference to the GameSettings object.
+     */
     private final GameSettings options;
+
+    /**
+     * The ID of the button that has been pressed.
+     */
     public KeyBinding buttonId = null;
     public long time;
     private GuiKeyBindingList keyBindingList;
     private GuiButton buttonReset;
 
-    public GuiControls(GuiScreen screen, GameSettings settings) {
+    public GuiControls(final GuiScreen screen, final GameSettings settings) {
         this.parentScreen = screen;
         this.options = settings;
     }
 
+    /**
+     * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
+     * window resizes, the buttonList is cleared beforehand.
+     */
     public void initGui() {
         this.keyBindingList = new GuiKeyBindingList(this, this.mc);
         this.buttonList.add(new GuiButton(200, this.width / 2 - 155, this.height - 29, 150, 20, I18n.format("gui.done")));
@@ -29,7 +45,7 @@ public class GuiControls extends GuiScreen {
         this.screenTitle = I18n.format("controls.title");
         int i = 0;
 
-        for (GameSettings.Options gamesettings$options : optionsArr) {
+        for (final GameSettings.Options gamesettings$options : optionsArr) {
             if (gamesettings$options.getEnumFloat()) {
                 this.buttonList.add(new GuiOptionSlider(gamesettings$options.returnEnumOrdinal(), this.width / 2 - 155 + i % 2 * 160, 18 + 24 * (i >> 1), gamesettings$options));
             } else {
@@ -40,16 +56,22 @@ public class GuiControls extends GuiScreen {
         }
     }
 
+    /**
+     * Handles mouse input.
+     */
     public void handleMouseInput() throws IOException {
         super.handleMouseInput();
         this.keyBindingList.handleMouseInput();
     }
 
-    protected void actionPerformed(GuiButton button) throws IOException {
+    /**
+     * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
+     */
+    protected void actionPerformed(final GuiButton button) throws IOException {
         if (button.id == 200) {
             this.mc.displayGuiScreen(this.parentScreen);
         } else if (button.id == 201) {
-            for (KeyBinding keybinding : this.mc.gameSettings.keyBindings) {
+            for (final KeyBinding keybinding : this.mc.gameSettings.keyBindings) {
                 keybinding.setKeyCode(keybinding.getKeyCodeDefault());
             }
 
@@ -60,7 +82,10 @@ public class GuiControls extends GuiScreen {
         }
     }
 
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    /**
+     * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
+     */
+    protected void mouseClicked(final int mouseX, final int mouseY, final int mouseButton) throws IOException {
         if (this.buttonId != null) {
             this.options.setOptionKeyBinding(this.buttonId, -100 + mouseButton);
             this.buttonId = null;
@@ -70,13 +95,20 @@ public class GuiControls extends GuiScreen {
         }
     }
 
-    protected void mouseReleased(int mouseX, int mouseY, int state) {
+    /**
+     * Called when a mouse button is released.  Args : mouseX, mouseY, releaseButton
+     */
+    protected void mouseReleased(final int mouseX, final int mouseY, final int state) {
         if (state != 0 || !this.keyBindingList.mouseReleased(mouseX, mouseY, state)) {
             super.mouseReleased(mouseX, mouseY, state);
         }
     }
 
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    /**
+     * Fired when a key is typed (except F11 which toggles full screen). This is the equivalent of
+     * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
+     */
+    protected void keyTyped(final char typedChar, final int keyCode) throws IOException {
         if (this.buttonId != null) {
             if (keyCode == 1) {
                 this.options.setOptionKeyBinding(this.buttonId, 0);
@@ -94,13 +126,16 @@ public class GuiControls extends GuiScreen {
         }
     }
 
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    /**
+     * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
+     */
+    public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
         this.drawDefaultBackground();
         this.keyBindingList.drawScreen(mouseX, mouseY, partialTicks);
         this.drawCenteredString(this.fontRendererObj, this.screenTitle, this.width / 2, 8, 16777215);
         boolean flag = true;
 
-        for (KeyBinding keybinding : this.options.keyBindings) {
+        for (final KeyBinding keybinding : this.options.keyBindings) {
             if (keybinding.getKeyCode() != keybinding.getKeyCodeDefault()) {
                 flag = false;
                 break;

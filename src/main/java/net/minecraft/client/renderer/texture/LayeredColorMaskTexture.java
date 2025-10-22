@@ -17,23 +17,30 @@ import java.io.InputStream;
 import java.util.List;
 
 public class LayeredColorMaskTexture extends AbstractTexture {
-    private static final Logger LOG = LogManager.getLogger("MinecraftLogger");
+    /**
+     * Access to the Logger, for all your logging needs.
+     */
+    private static final Logger LOG = LogManager.getLogger();
+
+    /**
+     * The location of the texture.
+     */
     private final ResourceLocation textureLocation;
     private final List<String> field_174949_h;
     private final List<EnumDyeColor> field_174950_i;
 
-    public LayeredColorMaskTexture(ResourceLocation textureLocationIn, List<String> p_i46101_2_, List<EnumDyeColor> p_i46101_3_) {
+    public LayeredColorMaskTexture(final ResourceLocation textureLocationIn, final List<String> p_i46101_2_, final List<EnumDyeColor> p_i46101_3_) {
         this.textureLocation = textureLocationIn;
         this.field_174949_h = p_i46101_2_;
         this.field_174950_i = p_i46101_3_;
     }
 
-    public void loadTexture(IResourceManager resourceManager) throws IOException {
+    public void loadTexture(final IResourceManager resourceManager) throws IOException {
         this.deleteGlTexture();
-        BufferedImage bufferedimage;
+        final BufferedImage bufferedimage;
 
         try {
-            BufferedImage bufferedimage1 = TextureUtil.readBufferedImage(resourceManager.getResource(this.textureLocation).getInputStream());
+            final BufferedImage bufferedimage1 = TextureUtil.readBufferedImage(resourceManager.getResource(this.textureLocation).getInputStream());
             int i = bufferedimage1.getType();
 
             if (i == 0) {
@@ -41,26 +48,26 @@ public class LayeredColorMaskTexture extends AbstractTexture {
             }
 
             bufferedimage = new BufferedImage(bufferedimage1.getWidth(), bufferedimage1.getHeight(), i);
-            Graphics graphics = bufferedimage.getGraphics();
+            final Graphics graphics = bufferedimage.getGraphics();
             graphics.drawImage(bufferedimage1, 0, 0, null);
 
             for (int j = 0; j < 17 && j < this.field_174949_h.size() && j < this.field_174950_i.size(); ++j) {
-                String s = this.field_174949_h.get(j);
-                MapColor mapcolor = this.field_174950_i.get(j).getMapColor();
+                final String s = this.field_174949_h.get(j);
+                final MapColor mapcolor = this.field_174950_i.get(j).getMapColor();
 
                 if (s != null) {
-                    InputStream inputstream = resourceManager.getResource(new ResourceLocation(s)).getInputStream();
-                    BufferedImage bufferedimage2 = TextureUtil.readBufferedImage(inputstream);
+                    final InputStream inputstream = resourceManager.getResource(new ResourceLocation(s)).getInputStream();
+                    final BufferedImage bufferedimage2 = TextureUtil.readBufferedImage(inputstream);
 
                     if (bufferedimage2.getWidth() == bufferedimage.getWidth() && bufferedimage2.getHeight() == bufferedimage.getHeight() && bufferedimage2.getType() == 6) {
                         for (int k = 0; k < bufferedimage2.getHeight(); ++k) {
                             for (int l = 0; l < bufferedimage2.getWidth(); ++l) {
-                                int i1 = bufferedimage2.getRGB(l, k);
+                                final int i1 = bufferedimage2.getRGB(l, k);
 
                                 if ((i1 & -16777216) != 0) {
-                                    int j1 = (i1 & 16711680) << 8 & -16777216;
-                                    int k1 = bufferedimage1.getRGB(l, k);
-                                    int l1 = MathHelper.func_180188_d(k1, mapcolor.colorValue) & 16777215;
+                                    final int j1 = (i1 & 16711680) << 8 & -16777216;
+                                    final int k1 = bufferedimage1.getRGB(l, k);
+                                    final int l1 = MathHelper.func_180188_d(k1, mapcolor.colorValue) & 16777215;
                                     bufferedimage2.setRGB(l, k, j1 | l1);
                                 }
                             }
@@ -70,7 +77,7 @@ public class LayeredColorMaskTexture extends AbstractTexture {
                     }
                 }
             }
-        } catch (IOException ioexception) {
+        } catch (final IOException ioexception) {
             LOG.error("Couldn't load layered image", ioexception);
             return;
         }

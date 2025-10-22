@@ -5,7 +5,7 @@ public class ExpressionFloatCached implements IExpressionFloat, IExpressionCache
     private boolean cached;
     private float value;
 
-    public ExpressionFloatCached(IExpressionFloat expression) {
+    public ExpressionFloatCached(final IExpressionFloat expression) {
         this.expression = expression;
     }
 

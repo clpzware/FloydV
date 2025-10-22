@@ -1,26 +1,26 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.MathHelper;
 
+import java.io.IOException;
+
 public class S18PacketEntityTeleport implements Packet<INetHandlerPlayClient> {
-    private int entityId;
-    private int posX;
-    private int posY;
-    private int posZ;
-    private byte yaw;
-    private byte pitch;
-    private boolean onGround;
+    public int entityId;
+    public int posX;
+    public int posY;
+    public int posZ;
+    public byte yaw;
+    public byte pitch;
+    public boolean onGround;
 
     public S18PacketEntityTeleport() {
     }
 
-    public S18PacketEntityTeleport(Entity entityIn) {
+    public S18PacketEntityTeleport(final Entity entityIn) {
         this.entityId = entityIn.getEntityId();
         this.posX = MathHelper.floor_double(entityIn.posX * 32.0D);
         this.posY = MathHelper.floor_double(entityIn.posY * 32.0D);
@@ -30,7 +30,7 @@ public class S18PacketEntityTeleport implements Packet<INetHandlerPlayClient> {
         this.onGround = entityIn.onGround;
     }
 
-    public S18PacketEntityTeleport(int entityIdIn, int posXIn, int posYIn, int posZIn, byte yawIn, byte pitchIn, boolean onGroundIn) {
+    public S18PacketEntityTeleport(final int entityIdIn, final int posXIn, final int posYIn, final int posZIn, final byte yawIn, final byte pitchIn, final boolean onGroundIn) {
         this.entityId = entityIdIn;
         this.posX = posXIn;
         this.posY = posYIn;
@@ -40,7 +40,10 @@ public class S18PacketEntityTeleport implements Packet<INetHandlerPlayClient> {
         this.onGround = onGroundIn;
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.entityId = buf.readVarIntFromBuffer();
         this.posX = buf.readInt();
         this.posY = buf.readInt();
@@ -50,7 +53,10 @@ public class S18PacketEntityTeleport implements Packet<INetHandlerPlayClient> {
         this.onGround = buf.readBoolean();
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeVarIntToBuffer(this.entityId);
         buf.writeInt(this.posX);
         buf.writeInt(this.posY);
@@ -60,7 +66,10 @@ public class S18PacketEntityTeleport implements Packet<INetHandlerPlayClient> {
         buf.writeBoolean(this.onGround);
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleEntityTeleport(this);
     }
 

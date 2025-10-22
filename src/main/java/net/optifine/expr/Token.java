@@ -4,7 +4,7 @@ public class Token {
     private final TokenType type;
     private final String text;
 
-    public Token(TokenType type, String text) {
+    public Token(final TokenType type, final String text) {
         this.type = type;
         this.text = text;
     }

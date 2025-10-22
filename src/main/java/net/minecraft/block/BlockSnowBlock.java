@@ -18,15 +18,23 @@ public class BlockSnowBlock extends Block {
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    /**
+     * Get the Item that this Block should drop when harvested.
+     *
+     * @param fortune the level of the Fortune enchantment on the player's tool
+     */
+    public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
         return Items.snowball;
     }
 
-    public int quantityDropped(Random random) {
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
+    public int quantityDropped(final Random random) {
         return 4;
     }
 
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(final World worldIn, final BlockPos pos, final IBlockState state, final Random rand) {
         if (worldIn.getLightFor(EnumSkyBlock.BLOCK, pos) > 11) {
             this.dropBlockAsItem(worldIn, pos, worldIn.getBlockState(pos), 0);
             worldIn.setBlockToAir(pos);

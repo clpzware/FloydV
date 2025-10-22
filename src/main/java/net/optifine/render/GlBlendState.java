@@ -11,11 +11,11 @@ public class GlBlendState {
         this(false, 1, 0);
     }
 
-    public GlBlendState(boolean enabled) {
+    public GlBlendState(final boolean enabled) {
         this(enabled, 1, 0);
     }
 
-    public GlBlendState(boolean enabled, int srcFactor, int dstFactor, int srcFactorAlpha, int dstFactorAlpha) {
+    public GlBlendState(final boolean enabled, final int srcFactor, final int dstFactor, final int srcFactorAlpha, final int dstFactorAlpha) {
         this.enabled = enabled;
         this.srcFactor = srcFactor;
         this.dstFactor = dstFactor;
@@ -23,11 +23,11 @@ public class GlBlendState {
         this.dstFactorAlpha = dstFactorAlpha;
     }
 
-    public GlBlendState(boolean enabled, int srcFactor, int dstFactor) {
+    public GlBlendState(final boolean enabled, final int srcFactor, final int dstFactor) {
         this(enabled, srcFactor, dstFactor, srcFactor, dstFactor);
     }
 
-    public void setState(boolean enabled, int srcFactor, int dstFactor, int srcFactorAlpha, int dstFactorAlpha) {
+    public void setState(final boolean enabled, final int srcFactor, final int dstFactor, final int srcFactorAlpha, final int dstFactorAlpha) {
         this.enabled = enabled;
         this.srcFactor = srcFactor;
         this.dstFactor = dstFactor;
@@ -35,7 +35,7 @@ public class GlBlendState {
         this.dstFactorAlpha = dstFactorAlpha;
     }
 
-    public void setState(GlBlendState state) {
+    public void setState(final GlBlendState state) {
         this.enabled = state.enabled;
         this.srcFactor = state.srcFactor;
         this.dstFactor = state.dstFactor;
@@ -43,7 +43,7 @@ public class GlBlendState {
         this.dstFactorAlpha = state.dstFactorAlpha;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(final boolean enabled) {
         this.enabled = enabled;
     }
 
@@ -55,14 +55,14 @@ public class GlBlendState {
         this.enabled = false;
     }
 
-    public void setFactors(int srcFactor, int dstFactor) {
+    public void setFactors(final int srcFactor, final int dstFactor) {
         this.srcFactor = srcFactor;
         this.dstFactor = dstFactor;
         this.srcFactorAlpha = srcFactor;
         this.dstFactorAlpha = dstFactor;
     }
 
-    public void setFactors(int srcFactor, int dstFactor, int srcFactorAlpha, int dstFactorAlpha) {
+    public void setFactors(final int srcFactor, final int dstFactor, final int srcFactorAlpha, final int dstFactorAlpha) {
         this.srcFactor = srcFactor;
         this.dstFactor = dstFactor;
         this.srcFactorAlpha = srcFactorAlpha;

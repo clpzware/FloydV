@@ -10,9 +10,9 @@ import net.minecraft.event.ClickEvent;
 import net.minecraft.src.Config;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-import org.lwjglx.BufferUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -23,25 +23,41 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ScreenShotHelper {
-    private static final Logger logger = LogManager.getLogger("MinecraftLogger");
+    private static final Logger logger = LogManager.getLogger();
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
-    private static IntBuffer pixelBuffer;
-    private static int[] pixelValues;
 
-    public static IChatComponent saveScreenshot(File gameDirectory, int width, int height, Framebuffer buffer) {
+    /**
+     * A buffer to hold pixel values returned by OpenGL.
+     */
+    private static IntBuffer pixelBuffer;
+
+    /**
+     * The built-up array that contains all the pixel values returned by OpenGL.
+     */
+    public static int[] pixelValues;
+
+    /**
+     * Saves a screenshot in the game directory with a time-stamped filename.  Args: gameDirectory,
+     * requestedWidthInPixels, requestedHeightInPixels, frameBuffer
+     */
+    public static IChatComponent saveScreenshot(final File gameDirectory, final int width, final int height, final Framebuffer buffer) {
         return saveScreenshot(gameDirectory, null, width, height, buffer);
     }
 
-    public static IChatComponent saveScreenshot(File gameDirectory, String screenshotName, int width, int height, Framebuffer buffer) {
+    /**
+     * Saves a screenshot in the game directory with the given file name (or null to generate a time-stamped name).
+     * Args: gameDirectory, fileName, requestedWidthInPixels, requestedHeightInPixels, frameBuffer
+     */
+    public static IChatComponent saveScreenshot(final File gameDirectory, final String screenshotName, int width, int height, final Framebuffer buffer) {
         try {
-            File file1 = new File(gameDirectory, "screenshots");
+            final File file1 = new File(gameDirectory, "screenshots");
             file1.mkdir();
-            Minecraft minecraft = Minecraft.getMinecraft();
-            int i = Config.getGameSettings().guiScale;
-            ScaledResolution scaledresolution = new ScaledResolution(minecraft);
-            int j = scaledresolution.getScaleFactor();
-            int k = Config.getScreenshotSize();
-            boolean flag = OpenGlHelper.isFramebufferEnabled() && k > 1;
+            final Minecraft minecraft = Minecraft.getMinecraft();
+            final int i = Config.getGameSettings().guiScale;
+            final ScaledResolution scaledresolution = new ScaledResolution(minecraft);
+            final int j = scaledresolution.getScaleFactor();
+            final int k = Config.getScreenshotSize();
+            final boolean flag = OpenGlHelper.isFramebufferEnabled() && k > 1;
 
             if (flag) {
                 Config.getGameSettings().guiScale = j * k;
@@ -49,7 +65,7 @@ public class ScreenShotHelper {
                 GlStateManager.pushMatrix();
                 GlStateManager.clear(16640);
                 minecraft.getFramebuffer().bindFramebuffer(true);
-                minecraft.entityRenderer.updateCameraAndRender(Config.renderPartialTicks, System.nanoTime());
+                minecraft.entityRenderer.func_181560_a(Config.renderPartialTicks, System.nanoTime());
             }
 
             if (OpenGlHelper.isFramebufferEnabled()) {
@@ -57,7 +73,7 @@ public class ScreenShotHelper {
                 height = buffer.framebufferTextureHeight;
             }
 
-            int l = width * height;
+            final int l = width * height;
 
             if (pixelBuffer == null || pixelBuffer.capacity() < l) {
                 pixelBuffer = BufferUtils.createIntBuffer(l);
@@ -81,7 +97,7 @@ public class ScreenShotHelper {
 
             if (OpenGlHelper.isFramebufferEnabled()) {
                 bufferedimage = new BufferedImage(buffer.framebufferWidth, buffer.framebufferHeight, 1);
-                int i1 = buffer.framebufferTextureHeight - buffer.framebufferHeight;
+                final int i1 = buffer.framebufferTextureHeight - buffer.framebufferHeight;
 
                 for (int j1 = i1; j1 < buffer.framebufferTextureHeight; ++j1) {
                     for (int k1 = 0; k1 < buffer.framebufferWidth; ++k1) {
@@ -110,22 +126,28 @@ public class ScreenShotHelper {
 
             file2 = file2.getCanonicalFile();
             ImageIO.write(bufferedimage, "png", file2);
-            IChatComponent ichatcomponent = new ChatComponentText(file2.getName());
+            final IChatComponent ichatcomponent = new ChatComponentText(file2.getName());
             ichatcomponent.getChatStyle().setChatClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getAbsolutePath()));
-            ichatcomponent.getChatStyle().setUnderlined(Boolean.TRUE);
+            ichatcomponent.getChatStyle().setUnderlined(Boolean.valueOf(true));
             return new ChatComponentTranslation("screenshot.success", ichatcomponent);
-        } catch (Exception exception) {
+        } catch (final Exception exception) {
             logger.warn("Couldn't save screenshot", exception);
             return new ChatComponentTranslation("screenshot.failure", exception.getMessage());
         }
     }
 
-    private static File getTimestampedPNGFileForDirectory(File gameDirectory) {
-        String s = dateFormat.format(new Date());
+    /**
+     * Creates a unique PNG file in the given directory named by a timestamp.  Handles cases where the timestamp alone
+     * is not enough to create a uniquely named file, though it still might suffer from an unlikely race condition where
+     * the filename was unique when this method was called, but another process or thread created a file at the same
+     * path immediately after this method returned.
+     */
+    private static File getTimestampedPNGFileForDirectory(final File gameDirectory) {
+        final String s = dateFormat.format(new Date());
         int i = 1;
 
         while (true) {
-            File file1 = new File(gameDirectory, s + (i == 1 ? "" : "_" + i) + ".png");
+            final File file1 = new File(gameDirectory, s + (i == 1 ? "" : "_" + i) + ".png");
 
             if (!file1.exists()) {
                 return file1;
@@ -135,13 +157,13 @@ public class ScreenShotHelper {
         }
     }
 
-    private static void resize(int p_resize_0_, int p_resize_1_) {
-        Minecraft minecraft = Minecraft.getMinecraft();
+    private static void resize(final int p_resize_0_, final int p_resize_1_) {
+        final Minecraft minecraft = Minecraft.getMinecraft();
         minecraft.displayWidth = Math.max(1, p_resize_0_);
         minecraft.displayHeight = Math.max(1, p_resize_1_);
 
         if (minecraft.currentScreen != null) {
-            ScaledResolution scaledresolution = new ScaledResolution(minecraft);
+            final ScaledResolution scaledresolution = new ScaledResolution(minecraft);
             minecraft.currentScreen.onResize(minecraft, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight());
         }
 
@@ -149,7 +171,7 @@ public class ScreenShotHelper {
     }
 
     private static void updateFramebufferSize() {
-        Minecraft minecraft = Minecraft.getMinecraft();
+        final Minecraft minecraft = Minecraft.getMinecraft();
         minecraft.getFramebuffer().createBindFramebuffer(minecraft.displayWidth, minecraft.displayHeight);
 
         if (minecraft.entityRenderer != null) {

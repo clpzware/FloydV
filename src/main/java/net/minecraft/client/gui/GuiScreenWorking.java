@@ -11,21 +11,34 @@ public class GuiScreenWorking extends GuiScreen implements IProgressUpdate {
     private boolean doneWorking;
     private final CustomLoadingScreen customLoadingScreen = CustomLoadingScreens.getCustomLoadingScreen();
 
-    public void displaySavingString(String message) {
+    /**
+     * Shows the 'Saving level' string.
+     */
+    public void displaySavingString(final String message) {
         this.resetProgressAndMessage(message);
     }
 
-    public void resetProgressAndMessage(String message) {
+    /**
+     * this string, followed by "working..." and then the "% complete" are the 3 lines shown. This resets progress to 0,
+     * and the WorkingString to "working...".
+     */
+    public void resetProgressAndMessage(final String message) {
         this.field_146591_a = message;
         this.displayLoadingString("Working...");
     }
 
-    public void displayLoadingString(String message) {
+    /**
+     * Displays a string on the loading screen supposed to indicate what is being done currently.
+     */
+    public void displayLoadingString(final String message) {
         this.field_146589_f = message;
         this.setLoadingProgress(0);
     }
 
-    public void setLoadingProgress(int progress) {
+    /**
+     * Updates the progress bar on the loading screen to the specified amount. Args: loadProgress
+     */
+    public void setLoadingProgress(final int progress) {
         this.progress = progress;
     }
 
@@ -33,9 +46,12 @@ public class GuiScreenWorking extends GuiScreen implements IProgressUpdate {
         this.doneWorking = true;
     }
 
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    /**
+     * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
+     */
+    public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
         if (this.doneWorking) {
-            if (!this.mc.isConnectedToRealms()) {
+            if (!this.mc.func_181540_al()) {
                 this.mc.displayGuiScreen(null);
             }
         } else {

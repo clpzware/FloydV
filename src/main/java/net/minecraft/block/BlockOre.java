@@ -19,20 +19,31 @@ public class BlockOre extends Block {
         this(Material.rock.getMaterialMapColor());
     }
 
-    public BlockOre(MapColor p_i46390_1_) {
+    public BlockOre(final MapColor p_i46390_1_) {
         super(Material.rock, p_i46390_1_);
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    /**
+     * Get the Item that this Block should drop when harvested.
+     *
+     * @param fortune the level of the Fortune enchantment on the player's tool
+     */
+    public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
         return this == Blocks.coal_ore ? Items.coal : (this == Blocks.diamond_ore ? Items.diamond : (this == Blocks.lapis_ore ? Items.dye : (this == Blocks.emerald_ore ? Items.emerald : (this == Blocks.quartz_ore ? Items.quartz : Item.getItemFromBlock(this)))));
     }
 
-    public int quantityDropped(Random random) {
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
+    public int quantityDropped(final Random random) {
         return this == Blocks.lapis_ore ? 4 + random.nextInt(5) : 1;
     }
 
-    public int quantityDroppedWithBonus(int fortune, Random random) {
+    /**
+     * Get the quantity dropped based on the given fortune level
+     */
+    public int quantityDroppedWithBonus(final int fortune, final Random random) {
         if (fortune > 0 && Item.getItemFromBlock(this) != this.getItemDropped(this.getBlockState().getValidStates().iterator().next(), random, fortune)) {
             int i = random.nextInt(fortune + 2) - 1;
 
@@ -46,7 +57,13 @@ public class BlockOre extends Block {
         }
     }
 
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+    /**
+     * Spawns this Block's drops into the World as EntityItems.
+     *
+     * @param chance  The chance that each Item is actually spawned (1.0 = always, 0.0 = never)
+     * @param fortune The player's fortune level
+     */
+    public void dropBlockAsItemWithChance(final World worldIn, final BlockPos pos, final IBlockState state, final float chance, final int fortune) {
         super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
 
         if (this.getItemDropped(state, worldIn.rand, fortune) != Item.getItemFromBlock(this)) {
@@ -68,11 +85,15 @@ public class BlockOre extends Block {
         }
     }
 
-    public int getDamageValue(World worldIn, BlockPos pos) {
+    public int getDamageValue(final World worldIn, final BlockPos pos) {
         return 0;
     }
 
-    public int damageDropped(IBlockState state) {
+    /**
+     * Gets the metadata of the item this Block can drop. This method is called when the block gets destroyed. It
+     * returns the metadata of the dropped item based on the old metadata of the block.
+     */
+    public int damageDropped(final IBlockState state) {
         return this == Blocks.lapis_ore ? EnumDyeColor.BLUE.getDyeDamage() : 0;
     }
 }

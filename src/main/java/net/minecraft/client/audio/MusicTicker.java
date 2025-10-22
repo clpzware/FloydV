@@ -13,12 +13,15 @@ public class MusicTicker implements ITickable {
     private ISound currentMusic;
     private int timeUntilNextMusic = 100;
 
-    public MusicTicker(Minecraft mcIn) {
+    public MusicTicker(final Minecraft mcIn) {
         this.mc = mcIn;
     }
 
+    /**
+     * Like the old updateEntity(), except more generic.
+     */
     public void update() {
-        MusicTicker.MusicType musicticker$musictype = this.mc.getAmbientMusicType();
+        final MusicTicker.MusicType musicticker$musictype = this.mc.getAmbientMusicType();
 
         if (this.currentMusic != null) {
             if (!musicticker$musictype.getMusicLocation().equals(this.currentMusic.getSoundLocation())) {
@@ -37,7 +40,7 @@ public class MusicTicker implements ITickable {
         }
     }
 
-    public void func_181558_a(MusicTicker.MusicType p_181558_1_) {
+    public void func_181558_a(final MusicTicker.MusicType p_181558_1_) {
         this.currentMusic = PositionedSoundRecord.create(p_181558_1_.getMusicLocation());
         this.mc.getSoundHandler().playSound(this.currentMusic);
         this.timeUntilNextMusic = Integer.MAX_VALUE;
@@ -64,7 +67,7 @@ public class MusicTicker implements ITickable {
         private final int minDelay;
         private final int maxDelay;
 
-        MusicType(ResourceLocation location, int minDelayIn, int maxDelayIn) {
+        MusicType(final ResourceLocation location, final int minDelayIn, final int maxDelayIn) {
             this.musicLocation = location;
             this.minDelay = minDelayIn;
             this.maxDelay = maxDelayIn;

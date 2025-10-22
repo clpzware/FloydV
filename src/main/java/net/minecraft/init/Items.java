@@ -192,7 +192,7 @@ public class Items {
     public static final Item prismarine_crystals;
     public static final Item banner;
 
-    private static Item getRegisteredItem(String name) {
+    private static Item getRegisteredItem(final String name) {
         return Item.itemRegistry.getObject(new ResourceLocation(name));
     }
 
@@ -263,7 +263,7 @@ public class Items {
             golden_leggings = (ItemArmor) getRegisteredItem("golden_leggings");
             golden_boots = (ItemArmor) getRegisteredItem("golden_boots");
             flint = getRegisteredItem("flint");
-            porkchop = getRegisteredItem("porkchop");
+            porkchop = getRegisteredItem("porkchop"); //Removed pork because haram
             cooked_porkchop = getRegisteredItem("cooked_porkchop");
             painting = getRegisteredItem("painting");
             golden_apple = getRegisteredItem("golden_apple");

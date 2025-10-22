@@ -10,14 +10,17 @@ public class EntityAIOcelotAttack extends EntityAIBase {
     EntityLivingBase theVictim;
     int attackCountdown;
 
-    public EntityAIOcelotAttack(EntityLiving theEntityIn) {
+    public EntityAIOcelotAttack(final EntityLiving theEntityIn) {
         this.theEntity = theEntityIn;
         this.theWorld = theEntityIn.worldObj;
         this.setMutexBits(3);
     }
 
+    /**
+     * Returns whether the EntityAIBase should begin execution.
+     */
     public boolean shouldExecute() {
-        EntityLivingBase entitylivingbase = this.theEntity.getAttackTarget();
+        final EntityLivingBase entitylivingbase = this.theEntity.getAttackTarget();
 
         if (entitylivingbase == null) {
             return false;
@@ -27,19 +30,28 @@ public class EntityAIOcelotAttack extends EntityAIBase {
         }
     }
 
+    /**
+     * Returns whether an in-progress EntityAIBase should continue executing
+     */
     public boolean continueExecuting() {
         return this.theVictim.isEntityAlive() && (!(this.theEntity.getDistanceSqToEntity(this.theVictim) > 225.0D) && (!this.theEntity.getNavigator().noPath() || this.shouldExecute()));
     }
 
+    /**
+     * Resets the task
+     */
     public void resetTask() {
         this.theVictim = null;
         this.theEntity.getNavigator().clearPathEntity();
     }
 
+    /**
+     * Updates the task
+     */
     public void updateTask() {
         this.theEntity.getLookHelper().setLookPositionWithEntity(this.theVictim, 30.0F, 30.0F);
-        double d0 = this.theEntity.width * 2.0F * this.theEntity.width * 2.0F;
-        double d1 = this.theEntity.getDistanceSq(this.theVictim.posX, this.theVictim.getEntityBoundingBox().minY, this.theVictim.posZ);
+        final double d0 = this.theEntity.width * 2.0F * this.theEntity.width * 2.0F;
+        final double d1 = this.theEntity.getDistanceSq(this.theVictim.posX, this.theVictim.getEntityBoundingBox().minY, this.theVictim.posZ);
         double d2 = 0.8D;
 
         if (d1 > d0 && d1 < 16.0D) {

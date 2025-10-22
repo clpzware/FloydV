@@ -13,7 +13,7 @@ public abstract class AbstractTexture implements ITextureObject {
     protected boolean mipmapLast;
     public MultiTexID multiTex;
 
-    public void setBlurMipmapDirect(boolean p_174937_1_, boolean p_174937_2_) {
+    public void setBlurMipmapDirect(final boolean p_174937_1_, final boolean p_174937_2_) {
         this.blur = p_174937_1_;
         this.mipmap = p_174937_2_;
         int i = -1;
@@ -32,7 +32,7 @@ public abstract class AbstractTexture implements ITextureObject {
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, j);
     }
 
-    public void setBlurMipmap(boolean p_174936_1_, boolean p_174936_2_) {
+    public void setBlurMipmap(final boolean p_174936_1_, final boolean p_174936_2_) {
         this.blurLast = this.blur;
         this.mipmapLast = this.mipmap;
         this.setBlurMipmapDirect(p_174936_1_, p_174936_2_);

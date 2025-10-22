@@ -1,8 +1,5 @@
 package net.minecraft.inventory;
 
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,20 +12,34 @@ import net.minecraft.stats.StatList;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.List;
+import java.util.Random;
+
 public class ContainerEnchantment extends Container {
+    /**
+     * SlotEnchantmentTable object with ItemStack to be enchanted
+     */
     public IInventory tableInventory;
+
+    /**
+     * current world (for bookshelf counting)
+     */
     private final World worldPointer;
     private final BlockPos position;
     private final Random rand;
     public int xpSeed;
-    public int[] enchantLevels;
-    public int[] enchantmentIds;
 
-    public ContainerEnchantment(InventoryPlayer playerInv, World worldIn) {
+    /**
+     * 3-member array storing the enchantment levels of each slot
+     */
+    public int[] enchantLevels;
+    public int[] field_178151_h;
+
+    public ContainerEnchantment(final InventoryPlayer playerInv, final World worldIn) {
         this(playerInv, worldIn, BlockPos.ORIGIN);
     }
 
-    public ContainerEnchantment(InventoryPlayer playerInv, World worldIn, BlockPos pos) {
+    public ContainerEnchantment(final InventoryPlayer playerInv, final World worldIn, final BlockPos pos) {
         this.tableInventory = new InventoryBasic("Enchant", true, 2) {
             public int getInventoryStackLimit() {
                 return 64;
@@ -41,12 +52,12 @@ public class ContainerEnchantment extends Container {
         };
         this.rand = new Random();
         this.enchantLevels = new int[3];
-        this.enchantmentIds = new int[]{-1, -1, -1};
+        this.field_178151_h = new int[]{-1, -1, -1};
         this.worldPointer = worldIn;
         this.position = pos;
         this.xpSeed = playerInv.player.getXPSeed();
         this.addSlotToContainer(new Slot(this.tableInventory, 0, 15, 47) {
-            public boolean isItemValid(ItemStack stack) {
+            public boolean isItemValid(final ItemStack stack) {
                 return true;
             }
 
@@ -55,7 +66,7 @@ public class ContainerEnchantment extends Container {
             }
         });
         this.addSlotToContainer(new Slot(this.tableInventory, 1, 35, 47) {
-            public boolean isItemValid(ItemStack stack) {
+            public boolean isItemValid(final ItemStack stack) {
                 return stack.getItem() == Items.dye && EnumDyeColor.byDyeDamage(stack.getMetadata()) == EnumDyeColor.BLUE;
             }
         });
@@ -71,46 +82,53 @@ public class ContainerEnchantment extends Container {
         }
     }
 
-    public void onCraftGuiOpened(ICrafting listener) {
+    public void onCraftGuiOpened(final ICrafting listener) {
         super.onCraftGuiOpened(listener);
         listener.sendProgressBarUpdate(this, 0, this.enchantLevels[0]);
         listener.sendProgressBarUpdate(this, 1, this.enchantLevels[1]);
         listener.sendProgressBarUpdate(this, 2, this.enchantLevels[2]);
         listener.sendProgressBarUpdate(this, 3, this.xpSeed & -16);
-        listener.sendProgressBarUpdate(this, 4, this.enchantmentIds[0]);
-        listener.sendProgressBarUpdate(this, 5, this.enchantmentIds[1]);
-        listener.sendProgressBarUpdate(this, 6, this.enchantmentIds[2]);
+        listener.sendProgressBarUpdate(this, 4, this.field_178151_h[0]);
+        listener.sendProgressBarUpdate(this, 5, this.field_178151_h[1]);
+        listener.sendProgressBarUpdate(this, 6, this.field_178151_h[2]);
     }
 
+    /**
+     * Looks for changes made in the container, sends them to every listener.
+     */
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
 
-        for (ICrafting icrafting : this.crafters) {
+        for (int i = 0; i < this.crafters.size(); ++i) {
+            final ICrafting icrafting = this.crafters.get(i);
             icrafting.sendProgressBarUpdate(this, 0, this.enchantLevels[0]);
             icrafting.sendProgressBarUpdate(this, 1, this.enchantLevels[1]);
             icrafting.sendProgressBarUpdate(this, 2, this.enchantLevels[2]);
             icrafting.sendProgressBarUpdate(this, 3, this.xpSeed & -16);
-            icrafting.sendProgressBarUpdate(this, 4, this.enchantmentIds[0]);
-            icrafting.sendProgressBarUpdate(this, 5, this.enchantmentIds[1]);
-            icrafting.sendProgressBarUpdate(this, 6, this.enchantmentIds[2]);
+            icrafting.sendProgressBarUpdate(this, 4, this.field_178151_h[0]);
+            icrafting.sendProgressBarUpdate(this, 5, this.field_178151_h[1]);
+            icrafting.sendProgressBarUpdate(this, 6, this.field_178151_h[2]);
         }
     }
 
-    public void updateProgressBar(int id, int data) {
+    public void updateProgressBar(final int id, final int data) {
         if (id >= 0 && id <= 2) {
             this.enchantLevels[id] = data;
         } else if (id == 3) {
             this.xpSeed = data;
         } else if (id >= 4 && id <= 6) {
-            this.enchantmentIds[id - 4] = data;
+            this.field_178151_h[id - 4] = data;
         } else {
             super.updateProgressBar(id, data);
         }
     }
 
-    public void onCraftMatrixChanged(IInventory inventoryIn) {
+    /**
+     * Callback for when the crafting matrix is changed.
+     */
+    public void onCraftMatrixChanged(final IInventory inventoryIn) {
         if (inventoryIn == this.tableInventory) {
-            ItemStack itemstack = inventoryIn.getStackInSlot(0);
+            final ItemStack itemstack = inventoryIn.getStackInSlot(0);
 
             if (itemstack != null && itemstack.isItemEnchantable()) {
                 if (!this.worldPointer.isRemote) {
@@ -152,7 +170,7 @@ public class ContainerEnchantment extends Container {
 
                     for (int i1 = 0; i1 < 3; ++i1) {
                         this.enchantLevels[i1] = EnchantmentHelper.calcItemStackEnchantability(this.rand, i1, l, itemstack);
-                        this.enchantmentIds[i1] = -1;
+                        this.field_178151_h[i1] = -1;
 
                         if (this.enchantLevels[i1] < i1 + 1) {
                             this.enchantLevels[i1] = 0;
@@ -161,11 +179,11 @@ public class ContainerEnchantment extends Container {
 
                     for (int j1 = 0; j1 < 3; ++j1) {
                         if (this.enchantLevels[j1] > 0) {
-                            List<EnchantmentData> list = this.func_178148_a(itemstack, j1, this.enchantLevels[j1]);
+                            final List<EnchantmentData> list = this.func_178148_a(itemstack, j1, this.enchantLevels[j1]);
 
                             if (list != null && !list.isEmpty()) {
-                                EnchantmentData enchantmentdata = list.get(this.rand.nextInt(list.size()));
-                                this.enchantmentIds[j1] = enchantmentdata.enchantmentobj.effectId | enchantmentdata.enchantmentLevel << 8;
+                                final EnchantmentData enchantmentdata = list.get(this.rand.nextInt(list.size()));
+                                this.field_178151_h[j1] = enchantmentdata.enchantmentobj.effectId | enchantmentdata.enchantmentLevel << 8;
                             }
                         }
                     }
@@ -175,23 +193,26 @@ public class ContainerEnchantment extends Container {
             } else {
                 for (int i = 0; i < 3; ++i) {
                     this.enchantLevels[i] = 0;
-                    this.enchantmentIds[i] = -1;
+                    this.field_178151_h[i] = -1;
                 }
             }
         }
     }
 
-    public boolean enchantItem(EntityPlayer playerIn, int id) {
-        ItemStack itemstack = this.tableInventory.getStackInSlot(0);
-        ItemStack itemstack1 = this.tableInventory.getStackInSlot(1);
-        int i = id + 1;
+    /**
+     * Handles the given Button-click on the server, currently only used by enchanting. Name is for legacy.
+     */
+    public boolean enchantItem(final EntityPlayer playerIn, final int id) {
+        final ItemStack itemstack = this.tableInventory.getStackInSlot(0);
+        final ItemStack itemstack1 = this.tableInventory.getStackInSlot(1);
+        final int i = id + 1;
 
         if ((itemstack1 == null || itemstack1.stackSize < i) && !playerIn.capabilities.isCreativeMode) {
             return false;
         } else if (this.enchantLevels[id] > 0 && itemstack != null && (playerIn.experienceLevel >= i && playerIn.experienceLevel >= this.enchantLevels[id] || playerIn.capabilities.isCreativeMode)) {
             if (!this.worldPointer.isRemote) {
-                List<EnchantmentData> list = this.func_178148_a(itemstack, id, this.enchantLevels[id]);
-                boolean flag = itemstack.getItem() == Items.book;
+                final List<EnchantmentData> list = this.func_178148_a(itemstack, id, this.enchantLevels[id]);
+                final boolean flag = itemstack.getItem() == Items.book;
 
                 if (list != null) {
                     playerIn.removeExperienceLevel(i);
@@ -200,7 +221,9 @@ public class ContainerEnchantment extends Container {
                         itemstack.setItem(Items.enchanted_book);
                     }
 
-                    for (EnchantmentData enchantmentdata : list) {
+                    for (int j = 0; j < list.size(); ++j) {
+                        final EnchantmentData enchantmentdata = list.get(j);
+
                         if (flag) {
                             Items.enchanted_book.addEnchantment(itemstack, enchantmentdata);
                         } else {
@@ -229,9 +252,9 @@ public class ContainerEnchantment extends Container {
         }
     }
 
-    private List<EnchantmentData> func_178148_a(ItemStack stack, int p_178148_2_, int p_178148_3_) {
+    private List<EnchantmentData> func_178148_a(final ItemStack stack, final int p_178148_2_, final int p_178148_3_) {
         this.rand.setSeed(this.xpSeed + p_178148_2_);
-        List<EnchantmentData> list = EnchantmentHelper.buildEnchantmentList(this.rand, stack, p_178148_3_);
+        final List<EnchantmentData> list = EnchantmentHelper.buildEnchantmentList(this.rand, stack, p_178148_3_);
 
         if (stack.getItem() == Items.book && list != null && list.size() > 1) {
             list.remove(this.rand.nextInt(list.size()));
@@ -241,16 +264,19 @@ public class ContainerEnchantment extends Container {
     }
 
     public int getLapisAmount() {
-        ItemStack itemstack = this.tableInventory.getStackInSlot(1);
+        final ItemStack itemstack = this.tableInventory.getStackInSlot(1);
         return itemstack == null ? 0 : itemstack.stackSize;
     }
 
-    public void onContainerClosed(EntityPlayer playerIn) {
+    /**
+     * Called when the container is closed.
+     */
+    public void onContainerClosed(final EntityPlayer playerIn) {
         super.onContainerClosed(playerIn);
 
         if (!this.worldPointer.isRemote) {
             for (int i = 0; i < this.tableInventory.getSizeInventory(); ++i) {
-                ItemStack itemstack = this.tableInventory.removeStackFromSlot(i);
+                final ItemStack itemstack = this.tableInventory.getStackInSlotOnClosing(i);
 
                 if (itemstack != null) {
                     playerIn.dropPlayerItemWithRandomChoice(itemstack, false);
@@ -259,16 +285,19 @@ public class ContainerEnchantment extends Container {
         }
     }
 
-    public boolean canInteractWith(EntityPlayer playerIn) {
+    public boolean canInteractWith(final EntityPlayer playerIn) {
         return this.worldPointer.getBlockState(this.position).getBlock() == Blocks.enchanting_table && playerIn.getDistanceSq((double) this.position.getX() + 0.5D, (double) this.position.getY() + 0.5D, (double) this.position.getZ() + 0.5D) <= 64.0D;
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+    /**
+     * Take a stack from the specified inventory slot.
+     */
+    public ItemStack transferStackInSlot(final EntityPlayer playerIn, final int index) {
         ItemStack itemstack = null;
-        Slot slot = this.inventorySlots.get(index);
+        final Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+            final ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
             if (index == 0) {

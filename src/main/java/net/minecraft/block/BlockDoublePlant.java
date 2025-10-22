@@ -26,21 +26,21 @@ import java.util.Random;
 public class BlockDoublePlant extends BlockBush implements IGrowable {
     public static final PropertyEnum<BlockDoublePlant.EnumPlantType> VARIANT = PropertyEnum.create("variant", BlockDoublePlant.EnumPlantType.class);
     public static final PropertyEnum<BlockDoublePlant.EnumBlockHalf> HALF = PropertyEnum.create("half", BlockDoublePlant.EnumBlockHalf.class);
-    public static final PropertyEnum<EnumFacing> FACING = BlockDirectional.FACING;
+    public static final PropertyEnum<EnumFacing> field_181084_N = BlockDirectional.FACING;
 
     public BlockDoublePlant() {
         super(Material.vine);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockDoublePlant.EnumPlantType.SUNFLOWER).withProperty(HALF, BlockDoublePlant.EnumBlockHalf.LOWER).withProperty(FACING, EnumFacing.NORTH));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockDoublePlant.EnumPlantType.SUNFLOWER).withProperty(HALF, BlockDoublePlant.EnumBlockHalf.LOWER).withProperty(field_181084_N, EnumFacing.NORTH));
         this.setHardness(0.0F);
         this.setStepSound(soundTypeGrass);
         this.setUnlocalizedName("doublePlant");
     }
 
-    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+    public void setBlockBoundsBasedOnState(final IBlockAccess worldIn, final BlockPos pos) {
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
     }
 
-    public BlockDoublePlant.EnumPlantType getVariant(IBlockAccess worldIn, BlockPos pos) {
+    public BlockDoublePlant.EnumPlantType getVariant(final IBlockAccess worldIn, final BlockPos pos) {
         IBlockState iblockstate = worldIn.getBlockState(pos);
 
         if (iblockstate.getBlock() == this) {
@@ -51,28 +51,31 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
         }
     }
 
-    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+    public boolean canPlaceBlockAt(final World worldIn, final BlockPos pos) {
         return super.canPlaceBlockAt(worldIn, pos) && worldIn.isAirBlock(pos.up());
     }
 
-    public boolean isReplaceable(World worldIn, BlockPos pos) {
-        IBlockState iblockstate = worldIn.getBlockState(pos);
+    /**
+     * Whether this Block can be replaced directly by other blocks (true for e.g. tall grass)
+     */
+    public boolean isReplaceable(final World worldIn, final BlockPos pos) {
+        final IBlockState iblockstate = worldIn.getBlockState(pos);
 
         if (iblockstate.getBlock() != this) {
             return true;
         } else {
-            BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = this.getActualState(iblockstate, worldIn, pos).getValue(VARIANT);
+            final BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = this.getActualState(iblockstate, worldIn, pos).getValue(VARIANT);
             return blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.FERN || blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.GRASS;
         }
     }
 
-    protected void checkAndDropBlock(World worldIn, BlockPos pos, IBlockState state) {
+    protected void checkAndDropBlock(final World worldIn, final BlockPos pos, final IBlockState state) {
         if (!this.canBlockStay(worldIn, pos, state)) {
-            boolean flag = state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER;
-            BlockPos blockpos = flag ? pos : pos.up();
-            BlockPos blockpos1 = flag ? pos.down() : pos;
-            Block block = flag ? this : worldIn.getBlockState(blockpos).getBlock();
-            Block block1 = flag ? worldIn.getBlockState(blockpos1).getBlock() : this;
+            final boolean flag = state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER;
+            final BlockPos blockpos = flag ? pos : pos.up();
+            final BlockPos blockpos1 = flag ? pos.down() : pos;
+            final Block block = flag ? this : worldIn.getBlockState(blockpos).getBlock();
+            final Block block1 = flag ? worldIn.getBlockState(blockpos1).getBlock() : this;
 
             if (block == this) {
                 worldIn.setBlockState(blockpos, Blocks.air.getDefaultState(), 2);
@@ -88,54 +91,66 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
         }
     }
 
-    public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
+    public boolean canBlockStay(final World worldIn, final BlockPos pos, final IBlockState state) {
         if (state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER) {
             return worldIn.getBlockState(pos.down()).getBlock() == this;
         } else {
-            IBlockState iblockstate = worldIn.getBlockState(pos.up());
+            final IBlockState iblockstate = worldIn.getBlockState(pos.up());
             return iblockstate.getBlock() == this && super.canBlockStay(worldIn, pos, iblockstate);
         }
     }
 
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    /**
+     * Get the Item that this Block should drop when harvested.
+     *
+     * @param fortune the level of the Fortune enchantment on the player's tool
+     */
+    public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
         if (state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER) {
             return null;
         } else {
-            BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = state.getValue(VARIANT);
+            final BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = state.getValue(VARIANT);
             return blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.FERN ? null : (blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.GRASS ? (rand.nextInt(8) == 0 ? Items.wheat_seeds : null) : Item.getItemFromBlock(this));
         }
     }
 
-    public int damageDropped(IBlockState state) {
+    /**
+     * Gets the metadata of the item this Block can drop. This method is called when the block gets destroyed. It
+     * returns the metadata of the dropped item based on the old metadata of the block.
+     */
+    public int damageDropped(final IBlockState state) {
         return state.getValue(HALF) != BlockDoublePlant.EnumBlockHalf.UPPER && state.getValue(VARIANT) != BlockDoublePlant.EnumPlantType.GRASS ? state.getValue(VARIANT).getMeta() : 0;
     }
 
-    public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
-        BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = this.getVariant(worldIn, pos);
+    public int colorMultiplier(final IBlockAccess worldIn, final BlockPos pos, final int renderPass) {
+        final BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = this.getVariant(worldIn, pos);
         return blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.GRASS && blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.FERN ? 16777215 : BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
     }
 
-    public void placeAt(World worldIn, BlockPos lowerPos, BlockDoublePlant.EnumPlantType variant, int flags) {
+    public void placeAt(final World worldIn, final BlockPos lowerPos, final BlockDoublePlant.EnumPlantType variant, final int flags) {
         worldIn.setBlockState(lowerPos, this.getDefaultState().withProperty(HALF, BlockDoublePlant.EnumBlockHalf.LOWER).withProperty(VARIANT, variant), flags);
         worldIn.setBlockState(lowerPos.up(), this.getDefaultState().withProperty(HALF, BlockDoublePlant.EnumBlockHalf.UPPER), flags);
     }
 
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+    /**
+     * Called by ItemBlocks after a block is set in the world, to allow post-place logic
+     */
+    public void onBlockPlacedBy(final World worldIn, final BlockPos pos, final IBlockState state, final EntityLivingBase placer, final ItemStack stack) {
         worldIn.setBlockState(pos.up(), this.getDefaultState().withProperty(HALF, BlockDoublePlant.EnumBlockHalf.UPPER), 2);
     }
 
-    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
+    public void harvestBlock(final World worldIn, final EntityPlayer player, final BlockPos pos, final IBlockState state, final TileEntity te) {
         if (worldIn.isRemote || player.getCurrentEquippedItem() == null || player.getCurrentEquippedItem().getItem() != Items.shears || state.getValue(HALF) != BlockDoublePlant.EnumBlockHalf.LOWER || !this.onHarvest(worldIn, pos, state, player)) {
             super.harvestBlock(worldIn, player, pos, state, te);
         }
     }
 
-    public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+    public void onBlockHarvested(final World worldIn, final BlockPos pos, final IBlockState state, final EntityPlayer player) {
         if (state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER) {
             if (worldIn.getBlockState(pos.down()).getBlock() == this) {
                 if (!player.capabilities.isCreativeMode) {
-                    IBlockState iblockstate = worldIn.getBlockState(pos.down());
-                    BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = iblockstate.getValue(VARIANT);
+                    final IBlockState iblockstate = worldIn.getBlockState(pos.down());
+                    final BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = iblockstate.getValue(VARIANT);
 
                     if (blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.FERN && blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.GRASS) {
                         worldIn.destroyBlock(pos.down(), true);
@@ -160,49 +175,62 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
         super.onBlockHarvested(worldIn, pos, state, player);
     }
 
-    private boolean onHarvest(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
-        BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = state.getValue(VARIANT);
+    private boolean onHarvest(final World worldIn, final BlockPos pos, final IBlockState state, final EntityPlayer player) {
+        final BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = state.getValue(VARIANT);
 
         if (blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.FERN && blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.GRASS) {
             return false;
         } else {
             player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
-            int i = (blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.GRASS ? BlockTallGrass.EnumType.GRASS : BlockTallGrass.EnumType.FERN).getMeta();
+            final int i = (blockdoubleplant$enumplanttype == BlockDoublePlant.EnumPlantType.GRASS ? BlockTallGrass.EnumType.GRASS : BlockTallGrass.EnumType.FERN).getMeta();
             spawnAsEntity(worldIn, pos, new ItemStack(Blocks.tallgrass, 2, i));
             return true;
         }
     }
 
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
-        for (BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype : BlockDoublePlant.EnumPlantType.values()) {
+    /**
+     * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
+     */
+    public void getSubBlocks(final Item itemIn, final CreativeTabs tab, final List<ItemStack> list) {
+        for (final BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype : BlockDoublePlant.EnumPlantType.values()) {
             list.add(new ItemStack(itemIn, 1, blockdoubleplant$enumplanttype.getMeta()));
         }
     }
 
-    public int getDamageValue(World worldIn, BlockPos pos) {
+    public int getDamageValue(final World worldIn, final BlockPos pos) {
         return this.getVariant(worldIn, pos).getMeta();
     }
 
-    public boolean canGrow(World worldIn, BlockPos pos, IBlockState state, boolean isClient) {
-        BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = this.getVariant(worldIn, pos);
+    /**
+     * Whether this IGrowable can grow
+     */
+    public boolean canGrow(final World worldIn, final BlockPos pos, final IBlockState state, final boolean isClient) {
+        final BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype = this.getVariant(worldIn, pos);
         return blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.GRASS && blockdoubleplant$enumplanttype != BlockDoublePlant.EnumPlantType.FERN;
     }
 
-    public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+    public boolean canUseBonemeal(final World worldIn, final Random rand, final BlockPos pos, final IBlockState state) {
         return true;
     }
 
-    public void grow(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+    public void grow(final World worldIn, final Random rand, final BlockPos pos, final IBlockState state) {
         spawnAsEntity(worldIn, pos, new ItemStack(this, 1, this.getVariant(worldIn, pos).getMeta()));
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
         return (meta & 8) > 0 ? this.getDefaultState().withProperty(HALF, BlockDoublePlant.EnumBlockHalf.UPPER) : this.getDefaultState().withProperty(HALF, BlockDoublePlant.EnumBlockHalf.LOWER).withProperty(VARIANT, BlockDoublePlant.EnumPlantType.byMetadata(meta & 7));
     }
 
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+    /**
+     * Get the actual Block state of this Block at the given position. This applies properties not visible in the
+     * metadata, such as fence connections.
+     */
+    public IBlockState getActualState(IBlockState state, final IBlockAccess worldIn, final BlockPos pos) {
         if (state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER) {
-            IBlockState iblockstate = worldIn.getBlockState(pos.down());
+            final IBlockState iblockstate = worldIn.getBlockState(pos.down());
 
             if (iblockstate.getBlock() == this) {
                 state = state.withProperty(VARIANT, iblockstate.getValue(VARIANT));
@@ -212,14 +240,20 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
         return state;
     }
 
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER ? 8 | state.getValue(FACING).getHorizontalIndex() : state.getValue(VARIANT).getMeta();
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
+        return state.getValue(HALF) == BlockDoublePlant.EnumBlockHalf.UPPER ? 8 | state.getValue(field_181084_N).getHorizontalIndex() : state.getValue(VARIANT).getMeta();
     }
 
     protected BlockState createBlockState() {
-        return new BlockState(this, HALF, VARIANT, FACING);
+        return new BlockState(this, HALF, VARIANT, field_181084_N);
     }
 
+    /**
+     * Get the OffsetType for this Block. Determines if the model is rendered slightly offset.
+     */
     public Block.EnumOffsetType getOffsetType() {
         return Block.EnumOffsetType.XZ;
     }
@@ -250,11 +284,11 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
         private final String name;
         private final String unlocalizedName;
 
-        EnumPlantType(int meta, String name) {
+        EnumPlantType(final int meta, final String name) {
             this(meta, name, name);
         }
 
-        EnumPlantType(int meta, String name, String unlocalizedName) {
+        EnumPlantType(final int meta, final String name, final String unlocalizedName) {
             this.meta = meta;
             this.name = name;
             this.unlocalizedName = unlocalizedName;
@@ -285,7 +319,7 @@ public class BlockDoublePlant extends BlockBush implements IGrowable {
         }
 
         static {
-            for (BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype : values()) {
+            for (final BlockDoublePlant.EnumPlantType blockdoubleplant$enumplanttype : values()) {
                 META_LOOKUP[blockdoubleplant$enumplanttype.getMeta()] = blockdoubleplant$enumplanttype;
             }
         }

@@ -1,11 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.potion.PotionEffect;
+
+import java.io.IOException;
 
 public class S1DPacketEntityEffect implements Packet<INetHandlerPlayClient> {
     private int entityId;
@@ -17,7 +17,7 @@ public class S1DPacketEntityEffect implements Packet<INetHandlerPlayClient> {
     public S1DPacketEntityEffect() {
     }
 
-    public S1DPacketEntityEffect(int entityIdIn, PotionEffect effect) {
+    public S1DPacketEntityEffect(final int entityIdIn, final PotionEffect effect) {
         this.entityId = entityIdIn;
         this.effectId = (byte) (effect.getPotionID() & 255);
         this.amplifier = (byte) (effect.getAmplifier() & 255);
@@ -31,7 +31,10 @@ public class S1DPacketEntityEffect implements Packet<INetHandlerPlayClient> {
         this.hideParticles = (byte) (effect.getIsShowParticles() ? 1 : 0);
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.entityId = buf.readVarIntFromBuffer();
         this.effectId = buf.readByte();
         this.amplifier = buf.readByte();
@@ -39,7 +42,10 @@ public class S1DPacketEntityEffect implements Packet<INetHandlerPlayClient> {
         this.hideParticles = buf.readByte();
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeVarIntToBuffer(this.entityId);
         buf.writeByte(this.effectId);
         buf.writeByte(this.amplifier);
@@ -51,7 +57,10 @@ public class S1DPacketEntityEffect implements Packet<INetHandlerPlayClient> {
         return this.duration == 32767;
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleEntityEffect(this);
     }
 

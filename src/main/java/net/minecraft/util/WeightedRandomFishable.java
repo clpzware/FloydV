@@ -10,16 +10,16 @@ public class WeightedRandomFishable extends WeightedRandom.Item {
     private float maxDamagePercent;
     private boolean enchantable;
 
-    public WeightedRandomFishable(ItemStack returnStackIn, int itemWeightIn) {
+    public WeightedRandomFishable(final ItemStack returnStackIn, final int itemWeightIn) {
         super(itemWeightIn);
         this.returnStack = returnStackIn;
     }
 
-    public ItemStack getItemStack(Random random) {
-        ItemStack itemstack = this.returnStack.copy();
+    public ItemStack getItemStack(final Random random) {
+        final ItemStack itemstack = this.returnStack.copy();
 
         if (this.maxDamagePercent > 0.0F) {
-            int i = (int) (this.maxDamagePercent * (float) this.returnStack.getMaxDamage());
+            final int i = (int) (this.maxDamagePercent * (float) this.returnStack.getMaxDamage());
             int j = itemstack.getMaxDamage() - random.nextInt(random.nextInt(i) + 1);
 
             if (j > i) {
@@ -40,7 +40,7 @@ public class WeightedRandomFishable extends WeightedRandom.Item {
         return itemstack;
     }
 
-    public WeightedRandomFishable setMaxDamagePercent(float maxDamagePercentIn) {
+    public WeightedRandomFishable setMaxDamagePercent(final float maxDamagePercentIn) {
         this.maxDamagePercent = maxDamagePercentIn;
         return this;
     }

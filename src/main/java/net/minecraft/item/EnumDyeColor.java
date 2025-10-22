@@ -31,7 +31,7 @@ public enum EnumDyeColor implements IStringSerializable {
     private final MapColor mapColor;
     private final EnumChatFormatting chatColor;
 
-    EnumDyeColor(int meta, int dyeDamage, String name, String unlocalizedName, MapColor mapColorIn, EnumChatFormatting chatColor) {
+    EnumDyeColor(final int meta, final int dyeDamage, final String name, final String unlocalizedName, final MapColor mapColorIn, final EnumChatFormatting chatColor) {
         this.meta = meta;
         this.dyeDamage = dyeDamage;
         this.name = name;
@@ -81,7 +81,7 @@ public enum EnumDyeColor implements IStringSerializable {
     }
 
     static {
-        for (EnumDyeColor enumdyecolor : values()) {
+        for (final EnumDyeColor enumdyecolor : values()) {
             META_LOOKUP[enumdyecolor.getMetadata()] = enumdyecolor;
             DYE_DMG_LOOKUP[enumdyecolor.getDyeDamage()] = enumdyecolor;
         }

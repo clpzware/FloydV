@@ -3,7 +3,6 @@ package net.minecraft.block.state;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableTable;
-import com.google.common.collect.Iterables;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.util.ResourceLocation;
@@ -11,6 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public abstract class BlockStateBase implements IBlockState {
     private static final Joiner COMMA_JOINER = Joiner.on(',');
@@ -18,7 +18,7 @@ public abstract class BlockStateBase implements IBlockState {
         if (p_apply_1_ == null) {
             return "<NULL>";
         } else {
-            IProperty iproperty = p_apply_1_.getKey();
+            final IProperty iproperty = p_apply_1_.getKey();
             return iproperty.getName() + "=" + iproperty.getName(p_apply_1_.getValue());
         }
     };
@@ -63,12 +63,12 @@ public abstract class BlockStateBase implements IBlockState {
         return null;
     }
 
-    public <T extends Comparable<T>> IBlockState cycleProperty(IProperty<T> property) {
+    public <T extends Comparable<T>> IBlockState cycleProperty(final IProperty<T> property) {
         return this.withProperty(property, cyclePropertyValue(property.getAllowedValues(), this.getValue(property)));
     }
 
-    protected static <T> T cyclePropertyValue(Collection<T> values, T currentValue) {
-        Iterator<T> iterator = values.iterator();
+    protected static <T> T cyclePropertyValue(final Collection<T> values, final T currentValue) {
+        final Iterator<T> iterator = values.iterator();
 
         while (iterator.hasNext()) {
             if (iterator.next().equals(currentValue)) {
@@ -84,12 +84,12 @@ public abstract class BlockStateBase implements IBlockState {
     }
 
     public String toString() {
-        StringBuilder stringbuilder = new StringBuilder();
+        final StringBuilder stringbuilder = new StringBuilder();
         stringbuilder.append(Block.blockRegistry.getNameForObject(this.getBlock()));
 
         if (!this.getProperties().isEmpty()) {
             stringbuilder.append("[");
-            COMMA_JOINER.appendTo(stringbuilder, Iterables.transform(this.getProperties().entrySet(), MAP_ENTRY_TO_STRING));
+            COMMA_JOINER.appendTo(stringbuilder, this.getProperties().entrySet().stream().map(MAP_ENTRY_TO_STRING::apply).collect(Collectors.toList()));
             stringbuilder.append("]");
         }
 

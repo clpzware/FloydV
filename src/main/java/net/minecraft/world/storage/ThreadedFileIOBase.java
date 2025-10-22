@@ -6,6 +6,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class ThreadedFileIOBase implements Runnable {
+    /**
+     * Instance of ThreadedFileIOBase
+     */
     private static final ThreadedFileIOBase threadedIOInstance = new ThreadedFileIOBase();
     private final List<IThreadedFileIO> threadedIOQueue = Collections.synchronizedList(Lists.newArrayList());
     private volatile long writeQueuedCounter;
@@ -13,11 +16,14 @@ public class ThreadedFileIOBase implements Runnable {
     private volatile boolean isThreadWaiting;
 
     private ThreadedFileIOBase() {
-        Thread thread = new Thread(this, "File IO Thread");
+        final Thread thread = new Thread(this, "File IO Thread");
         thread.setPriority(1);
         thread.start();
     }
 
+    /**
+     * Retrieves an instance of the threadedFileIOBase.
+     */
     public static ThreadedFileIOBase getThreadedIOInstance() {
         return threadedIOInstance;
     }
@@ -28,10 +34,13 @@ public class ThreadedFileIOBase implements Runnable {
         }
     }
 
+    /**
+     * Process the items that are in the queue
+     */
     private void processQueue() {
         for (int i = 0; i < this.threadedIOQueue.size(); ++i) {
-            IThreadedFileIO ithreadedfileio = this.threadedIOQueue.get(i);
-            boolean flag = ithreadedfileio.writeNextIO();
+            final IThreadedFileIO ithreadedfileio = this.threadedIOQueue.get(i);
+            final boolean flag = ithreadedfileio.writeNextIO();
 
             if (!flag) {
                 this.threadedIOQueue.remove(i--);
@@ -40,7 +49,7 @@ public class ThreadedFileIOBase implements Runnable {
 
             try {
                 Thread.sleep(this.isThreadWaiting ? 0L : 10L);
-            } catch (InterruptedException interruptedexception1) {
+            } catch (final InterruptedException interruptedexception1) {
                 interruptedexception1.printStackTrace();
             }
         }
@@ -48,13 +57,16 @@ public class ThreadedFileIOBase implements Runnable {
         if (this.threadedIOQueue.isEmpty()) {
             try {
                 Thread.sleep(25L);
-            } catch (InterruptedException interruptedexception) {
+            } catch (final InterruptedException interruptedexception) {
                 interruptedexception.printStackTrace();
             }
         }
     }
 
-    public void queueIO(IThreadedFileIO p_75735_1_) {
+    /**
+     * threaded io
+     */
+    public void queueIO(final IThreadedFileIO p_75735_1_) {
         if (!this.threadedIOQueue.contains(p_75735_1_)) {
             ++this.writeQueuedCounter;
             this.threadedIOQueue.add(p_75735_1_);

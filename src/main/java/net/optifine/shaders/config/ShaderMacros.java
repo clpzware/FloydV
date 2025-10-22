@@ -36,14 +36,21 @@ public class ShaderMacros {
     private static ShaderMacro[] extensionMacros;
 
     public static String getOs() {
-        Util.EnumOS util$enumos = Util.getOSType();
+        final Util.EnumOS util$enumos = Util.getOSType();
 
-        return switch (util$enumos) {
-            case WINDOWS -> "MC_OS_WINDOWS";
-            case OSX -> "MC_OS_MAC";
-            case LINUX -> "MC_OS_LINUX";
-            default -> "MC_OS_OTHER";
-        };
+        switch (util$enumos) {
+            case WINDOWS:
+                return "MC_OS_WINDOWS";
+
+            case OSX:
+                return "MC_OS_MAC";
+
+            case LINUX:
+                return "MC_OS_LINUX";
+
+            default:
+                return "MC_OS_OTHER";
+        }
     }
 
     public static String getVendor() {
@@ -74,8 +81,8 @@ public class ShaderMacros {
 
     public static ShaderMacro[] getExtensions() {
         if (extensionMacros == null) {
-            String[] astring = Config.getOpenGlExtensions();
-            ShaderMacro[] ashadermacro = new ShaderMacro[astring.length];
+            final String[] astring = Config.getOpenGlExtensions();
+            final ShaderMacro[] ashadermacro = new ShaderMacro[astring.length];
 
             for (int i = 0; i < astring.length; ++i) {
                 ashadermacro[i] = new ShaderMacro(PREFIX_MACRO + astring[i], "");
@@ -88,7 +95,7 @@ public class ShaderMacros {
     }
 
     public static String getFixedMacroLines() {
-        StringBuilder stringbuilder = new StringBuilder();
+        final StringBuilder stringbuilder = new StringBuilder();
         addMacroLine(stringbuilder, "MC_VERSION", Config.getMinecraftVersionInt());
         addMacroLine(stringbuilder, "MC_GL_VERSION " + Config.getGlVersion().toInt());
         addMacroLine(stringbuilder, "MC_GLSL_VERSION " + Config.getGlslVersion().toInt());
@@ -99,7 +106,7 @@ public class ShaderMacros {
     }
 
     public static String getOptionMacroLines() {
-        StringBuilder stringbuilder = new StringBuilder();
+        final StringBuilder stringbuilder = new StringBuilder();
 
         if (Shaders.configAntialiasingLevel > 0) {
             addMacroLine(stringbuilder, "MC_FXAA_LEVEL", Shaders.configAntialiasingLevel);
@@ -128,7 +135,7 @@ public class ShaderMacros {
         return stringbuilder.toString();
     }
 
-    private static void addMacroLine(StringBuilder sb, String name, int value) {
+    private static void addMacroLine(final StringBuilder sb, final String name, final int value) {
         sb.append("#define ");
         sb.append(name);
         sb.append(" ");
@@ -136,7 +143,7 @@ public class ShaderMacros {
         sb.append("\n");
     }
 
-    private static void addMacroLine(StringBuilder sb, String name, float value) {
+    private static void addMacroLine(final StringBuilder sb, final String name, final float value) {
         sb.append("#define ");
         sb.append(name);
         sb.append(" ");
@@ -144,7 +151,7 @@ public class ShaderMacros {
         sb.append("\n");
     }
 
-    private static void addMacroLine(StringBuilder sb, String name) {
+    private static void addMacroLine(final StringBuilder sb, final String name) {
         sb.append("#define ");
         sb.append(name);
         sb.append("\n");

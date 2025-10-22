@@ -1,21 +1,21 @@
 package net.minecraft.network.play.client;
 
-import io.netty.buffer.ByteBuf;
-
-import java.io.IOException;
-
+import lombok.Setter;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
 
+import java.io.IOException;
+
+@Setter
 public class C17PacketCustomPayload implements Packet<INetHandlerPlayServer> {
     private String channel;
-    private PacketBuffer data;
+    public PacketBuffer data;
 
     public C17PacketCustomPayload() {
     }
 
-    public C17PacketCustomPayload(String channelIn, PacketBuffer dataIn) {
+    public C17PacketCustomPayload(final String channelIn, final PacketBuffer dataIn) {
         this.channel = channelIn;
         this.data = dataIn;
 
@@ -24,9 +24,12 @@ public class C17PacketCustomPayload implements Packet<INetHandlerPlayServer> {
         }
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.channel = buf.readStringFromBuffer(20);
-        int i = buf.readableBytes();
+        final int i = buf.readableBytes();
 
         if (i >= 0 && i <= 32767) {
             this.data = new PacketBuffer(buf.readBytes(i));
@@ -35,12 +38,18 @@ public class C17PacketCustomPayload implements Packet<INetHandlerPlayServer> {
         }
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeString(this.channel);
         buf.writeBytes(this.data);
     }
 
-    public void processPacket(INetHandlerPlayServer handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayServer handler) {
         handler.processVanilla250Packet(this);
     }
 

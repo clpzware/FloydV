@@ -36,27 +36,27 @@ public class SmartLeaves {
     private static IBakedModel modelLeavesDoubleOak = null;
     private static IBakedModel modelLeavesDoubleSpruce = null;
 
-    public static IBakedModel getLeavesModel(IBakedModel model, IBlockState stateIn) {
+    public static IBakedModel getLeavesModel(final IBakedModel model, final IBlockState stateIn) {
         if (!Config.isTreesSmart()) {
             return model;
         } else {
-            List list = model.getGeneralQuads();
+            final List list = model.getGeneralQuads();
             return list == generalQuadsCullAcacia ? modelLeavesDoubleAcacia : (list == generalQuadsCullBirch ? modelLeavesDoubleBirch : (list == generalQuadsCullDarkOak ? modelLeavesDoubleDarkOak : (list == generalQuadsCullJungle ? modelLeavesDoubleJungle : (list == generalQuadsCullOak ? modelLeavesDoubleOak : (list == generalQuadsCullSpruce ? modelLeavesDoubleSpruce : model)))));
         }
     }
 
-    public static boolean isSameLeaves(IBlockState state1, IBlockState state2) {
+    public static boolean isSameLeaves(final IBlockState state1, final IBlockState state2) {
         if (state1 == state2) {
             return true;
         } else {
-            Block block = state1.getBlock();
-            Block block1 = state2.getBlock();
+            final Block block = state1.getBlock();
+            final Block block1 = state2.getBlock();
             return block == block1 && (block instanceof BlockOldLeaf ? state1.getValue(BlockOldLeaf.VARIANT).equals(state2.getValue(BlockOldLeaf.VARIANT)) : (block instanceof BlockNewLeaf && state1.getValue(BlockNewLeaf.VARIANT).equals(state2.getValue(BlockNewLeaf.VARIANT))));
         }
     }
 
     public static void updateLeavesModels() {
-        List list = new ArrayList();
+        final List list = new ArrayList();
         modelLeavesCullAcacia = getModelCull("acacia", list);
         modelLeavesCullBirch = getModelCull("birch", list);
         modelLeavesCullDarkOak = getModelCull("dark_oak", list);
@@ -76,47 +76,47 @@ public class SmartLeaves {
         modelLeavesDoubleOak = getModelDoubleFace(modelLeavesCullOak);
         modelLeavesDoubleSpruce = getModelDoubleFace(modelLeavesCullSpruce);
 
-        if (!list.isEmpty()) {
+        if (list.size() > 0) {
             Config.dbg("Enable face culling: " + Config.arrayToString(list.toArray()));
         }
     }
 
-    private static List getGeneralQuadsSafe(IBakedModel model) {
+    private static List getGeneralQuadsSafe(final IBakedModel model) {
         return model == null ? null : model.getGeneralQuads();
     }
 
-    static IBakedModel getModelCull(String type, List updatedTypes) {
-        ModelManager modelmanager = Config.getModelManager();
+    static IBakedModel getModelCull(final String type, final List updatedTypes) {
+        final ModelManager modelmanager = Config.getModelManager();
 
         if (modelmanager == null) {
             return null;
         } else {
-            ResourceLocation resourcelocation = new ResourceLocation("blockstates/" + type + "_leaves.json");
+            final ResourceLocation resourcelocation = new ResourceLocation("blockstates/" + type + "_leaves.json");
 
             if (Config.getDefiningResourcePack(resourcelocation) != Config.getDefaultResourcePack()) {
                 return null;
             } else {
-                ResourceLocation resourcelocation1 = new ResourceLocation("models/block/" + type + "_leaves.json");
+                final ResourceLocation resourcelocation1 = new ResourceLocation("models/block/" + type + "_leaves.json");
 
                 if (Config.getDefiningResourcePack(resourcelocation1) != Config.getDefaultResourcePack()) {
                     return null;
                 } else {
-                    ModelResourceLocation modelresourcelocation = new ModelResourceLocation(type + "_leaves", "normal");
-                    IBakedModel ibakedmodel = modelmanager.getModel(modelresourcelocation);
+                    final ModelResourceLocation modelresourcelocation = new ModelResourceLocation(type + "_leaves", "normal");
+                    final IBakedModel ibakedmodel = modelmanager.getModel(modelresourcelocation);
 
                     if (ibakedmodel != null && ibakedmodel != modelmanager.getMissingModel()) {
-                        List list = ibakedmodel.getGeneralQuads();
+                        final List list = ibakedmodel.getGeneralQuads();
 
-                        if (list.isEmpty()) {
+                        if (list.size() == 0) {
                             return ibakedmodel;
                         } else if (list.size() != 6) {
                             return null;
                         } else {
-                            for (Object o : list) {
-                                BakedQuad bakedquad = (BakedQuad) o;
-                                List list1 = ibakedmodel.getFaceQuads(bakedquad.getFace());
+                            for (final Object e : list) {
+                                final BakedQuad bakedquad = (BakedQuad) e;
+                                final List list1 = ibakedmodel.getFaceQuads(bakedquad.getFace());
 
-                                if (!list1.isEmpty()) {
+                                if (list1.size() > 0) {
                                     return null;
                                 }
 
@@ -135,17 +135,18 @@ public class SmartLeaves {
         }
     }
 
-    private static IBakedModel getModelDoubleFace(IBakedModel model) {
+    private static IBakedModel getModelDoubleFace(final IBakedModel model) {
         if (model == null) {
             return null;
-        } else if (!model.getGeneralQuads().isEmpty()) {
+        } else if (model.getGeneralQuads().size() > 0) {
             Config.warn("SmartLeaves: Model is not cube, general quads: " + model.getGeneralQuads().size() + ", model: " + model);
             return model;
         } else {
-            EnumFacing[] aenumfacing = EnumFacing.VALUES;
+            final EnumFacing[] aenumfacing = EnumFacing.VALUES;
 
-            for (EnumFacing enumfacing : aenumfacing) {
-                List<BakedQuad> list = model.getFaceQuads(enumfacing);
+            for (int i = 0; i < aenumfacing.length; ++i) {
+                final EnumFacing enumfacing = aenumfacing[i];
+                final List<BakedQuad> list = model.getFaceQuads(enumfacing);
 
                 if (list.size() != 1) {
                     Config.warn("SmartLeaves: Model is not cube, side: " + enumfacing + ", quads: " + list.size() + ", model: " + model);
@@ -153,20 +154,21 @@ public class SmartLeaves {
                 }
             }
 
-            IBakedModel ibakedmodel = ModelUtils.duplicateModel(model);
-            List[] alist = new List[aenumfacing.length];
+            final IBakedModel ibakedmodel = ModelUtils.duplicateModel(model);
+            final List[] alist = new List[aenumfacing.length];
 
-            for (EnumFacing enumfacing1 : aenumfacing) {
-                List<BakedQuad> list1 = ibakedmodel.getFaceQuads(enumfacing1);
-                BakedQuad bakedquad = list1.get(0);
-                BakedQuad bakedquad1 = new BakedQuad(bakedquad.getVertexData().clone(), bakedquad.getTintIndex(), bakedquad.getFace(), bakedquad.getSprite());
-                int[] aint = bakedquad1.getVertexData();
-                int[] aint1 = aint.clone();
-                int j = aint.length / 4;
-                System.arraycopy(aint, 0, aint1, 3 * j, j);
-                System.arraycopy(aint, j, aint1, 2 * j, j);
-                System.arraycopy(aint, 2 * j, aint1, j, j);
-                System.arraycopy(aint, 3 * j, aint1, 0, j);
+            for (int k = 0; k < aenumfacing.length; ++k) {
+                final EnumFacing enumfacing1 = aenumfacing[k];
+                final List<BakedQuad> list1 = ibakedmodel.getFaceQuads(enumfacing1);
+                final BakedQuad bakedquad = list1.get(0);
+                final BakedQuad bakedquad1 = new BakedQuad(bakedquad.getVertexData().clone(), bakedquad.getTintIndex(), bakedquad.getFace(), bakedquad.getSprite());
+                final int[] aint = bakedquad1.getVertexData();
+                final int[] aint1 = aint.clone();
+                final int j = aint.length / 4;
+                System.arraycopy(aint, 0 * j, aint1, 3 * j, j);
+                System.arraycopy(aint, 1 * j, aint1, 2 * j, j);
+                System.arraycopy(aint, 2 * j, aint1, 1 * j, j);
+                System.arraycopy(aint, 3 * j, aint1, 0 * j, j);
                 System.arraycopy(aint1, 0, aint, 0, aint1.length);
                 list1.add(bakedquad1);
             }

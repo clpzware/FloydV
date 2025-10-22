@@ -13,15 +13,15 @@ public class LayerWolfCollar implements LayerRenderer<EntityWolf> {
     private static final ResourceLocation WOLF_COLLAR = new ResourceLocation("textures/entity/wolf/wolf_collar.png");
     private final RenderWolf wolfRenderer;
 
-    public LayerWolfCollar(RenderWolf wolfRendererIn) {
+    public LayerWolfCollar(final RenderWolf wolfRendererIn) {
         this.wolfRenderer = wolfRendererIn;
     }
 
-    public void doRenderLayer(EntityWolf entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale) {
+    public void doRenderLayer(final EntityWolf entitylivingbaseIn, final float p_177141_2_, final float p_177141_3_, final float partialTicks, final float p_177141_5_, final float p_177141_6_, final float p_177141_7_, final float scale) {
         if (entitylivingbaseIn.isTamed() && !entitylivingbaseIn.isInvisible()) {
             this.wolfRenderer.bindTexture(WOLF_COLLAR);
-            EnumDyeColor enumdyecolor = EnumDyeColor.byMetadata(entitylivingbaseIn.getCollarColor().getMetadata());
-            float[] afloat = EntitySheep.getDyeRgb(enumdyecolor);
+            final EnumDyeColor enumdyecolor = EnumDyeColor.byMetadata(entitylivingbaseIn.getCollarColor().getMetadata());
+            float[] afloat = EntitySheep.func_175513_a(enumdyecolor);
 
             if (Config.isCustomColors()) {
                 afloat = CustomColors.getWolfCollarColors(enumdyecolor, afloat);

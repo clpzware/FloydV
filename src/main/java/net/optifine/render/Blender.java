@@ -46,7 +46,7 @@ public class Blender {
         }
     }
 
-    public static void setupBlend(int blend, float brightness) {
+    public static void setupBlend(final int blend, final float brightness) {
         switch (blend) {
             case 0:
                 GlStateManager.disableAlpha();
@@ -113,7 +113,7 @@ public class Blender {
         GlStateManager.enableTexture2D();
     }
 
-    public static void clearBlend(float rainBrightness) {
+    public static void clearBlend(final float rainBrightness) {
         GlStateManager.disableAlpha();
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(770, 1);

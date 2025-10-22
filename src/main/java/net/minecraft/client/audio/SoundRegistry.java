@@ -14,10 +14,13 @@ public class SoundRegistry extends RegistrySimple<ResourceLocation, SoundEventAc
         return this.soundRegistry;
     }
 
-    public void registerSound(SoundEventAccessorComposite p_148762_1_) {
+    public void registerSound(final SoundEventAccessorComposite p_148762_1_) {
         this.putObject(p_148762_1_.getSoundEventLocation(), p_148762_1_);
     }
 
+    /**
+     * Reset the underlying sound map (Called on resource bus reload)
+     */
     public void clearMap() {
         this.soundRegistry.clear();
     }

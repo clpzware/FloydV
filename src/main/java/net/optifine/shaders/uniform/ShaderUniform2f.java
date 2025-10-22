@@ -6,19 +6,19 @@ public class ShaderUniform2f extends ShaderUniformBase {
     private float[][] programValues;
     private static final float VALUE_UNKNOWN = -3.4028235E38F;
 
-    public ShaderUniform2f(String name) {
+    public ShaderUniform2f(final String name) {
         super(name);
         this.resetValue();
     }
 
-    public void setValue(float v0, float v1) {
-        int i = this.getProgram();
-        float[] afloat = this.programValues[i];
+    public void setValue(final float v0, final float v1) {
+        final int i = this.getProgram();
+        final float[] afloat = this.programValues[i];
 
         if (afloat[0] != v0 || afloat[1] != v1) {
             afloat[0] = v0;
             afloat[1] = v1;
-            int j = this.getLocation();
+            final int j = this.getLocation();
 
             if (j >= 0) {
                 ARBShaderObjects.glUniform2fARB(j, v0, v1);
@@ -28,15 +28,15 @@ public class ShaderUniform2f extends ShaderUniformBase {
     }
 
     public float[] getValue() {
-        int i = this.getProgram();
-        float[] afloat = this.programValues[i];
+        final int i = this.getProgram();
+        final float[] afloat = this.programValues[i];
         return afloat;
     }
 
-    protected void onProgramSet(int program) {
+    protected void onProgramSet(final int program) {
         if (program >= this.programValues.length) {
-            float[][] afloat = this.programValues;
-            float[][] afloat1 = new float[program + 10][];
+            final float[][] afloat = this.programValues;
+            final float[][] afloat1 = new float[program + 10][];
             System.arraycopy(afloat, 0, afloat1, 0, afloat.length);
             this.programValues = afloat1;
         }

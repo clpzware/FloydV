@@ -18,44 +18,46 @@ public class NativeMemory {
         return bufferMaximumSupplier == null ? -1L : bufferMaximumSupplier.getAsLong();
     }
 
-    private static LongSupplier makeLongSupplier(String[][] paths) {
-        List<Throwable> list = new ArrayList();
+    private static LongSupplier makeLongSupplier(final String[][] paths) {
+        final List<Throwable> list = new ArrayList();
 
-        for (String[] astring : paths) {
+        for (int i = 0; i < paths.length; ++i) {
+            final String[] astring = paths[i];
+
             try {
-                LongSupplier longsupplier = makeLongSupplier(astring);
+                final LongSupplier longsupplier = makeLongSupplier(astring);
                 return longsupplier;
-            } catch (Throwable throwable) {
+            } catch (final Throwable throwable) {
                 list.add(throwable);
             }
         }
 
-        for (Throwable throwable1 : list) {
-            Config.warn(throwable1.getClass().getName() + ": " + throwable1.getMessage());
+        for (final Throwable throwable1 : list) {
+            Config.warn("" + throwable1.getClass().getName() + ": " + throwable1.getMessage());
         }
 
         return null;
     }
 
-    private static LongSupplier makeLongSupplier(String[] path) throws Exception {
+    private static LongSupplier makeLongSupplier(final String[] path) throws Exception {
         if (path.length < 2) {
             return null;
         } else {
-            Class oclass = Class.forName(path[0]);
+            final Class oclass = Class.forName(path[0]);
             Method method = oclass.getMethod(path[1]);
             method.setAccessible(true);
             Object object = null;
 
             for (int i = 2; i < path.length; ++i) {
-                String s = path[i];
+                final String s = path[i];
                 object = method.invoke(object);
                 method = object.getClass().getMethod(s);
                 method.setAccessible(true);
             }
 
-            Method finalMethod = method;
-            Object finalObject = object;
-            LongSupplier longsupplier = new LongSupplier() {
+            final Method method1 = method;
+            final Object o = object;
+            final LongSupplier longsupplier = new LongSupplier() {
                 private boolean disabled = false;
 
                 public long getAsLong() {
@@ -63,9 +65,9 @@ public class NativeMemory {
                         return -1L;
                     } else {
                         try {
-                            return (Long) finalMethod.invoke(finalObject, new Object[0]);
-                        } catch (Throwable throwable) {
-                            Config.warn(throwable.getClass().getName() + ": " + throwable.getMessage());
+                            return (long) method1.invoke(o);
+                        } catch (final Throwable throwable) {
+                            Config.warn("" + throwable.getClass().getName() + ": " + throwable.getMessage());
                             this.disabled = true;
                             return -1L;
                         }

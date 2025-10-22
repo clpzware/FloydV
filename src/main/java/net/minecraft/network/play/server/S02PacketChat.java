@@ -1,12 +1,14 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
+import lombok.Setter;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.IChatComponent;
 
+import java.io.IOException;
+
+@Setter
 public class S02PacketChat implements Packet<INetHandlerPlayClient> {
     private IChatComponent chatComponent;
     private byte type;
@@ -14,26 +16,35 @@ public class S02PacketChat implements Packet<INetHandlerPlayClient> {
     public S02PacketChat() {
     }
 
-    public S02PacketChat(IChatComponent component) {
+    public S02PacketChat(final IChatComponent component) {
         this(component, (byte) 1);
     }
 
-    public S02PacketChat(IChatComponent message, byte typeIn) {
+    public S02PacketChat(final IChatComponent message, final byte typeIn) {
         this.chatComponent = message;
         this.type = typeIn;
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.chatComponent = buf.readChatComponent();
         this.type = buf.readByte();
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeChatComponent(this.chatComponent);
         buf.writeByte(this.type);
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleChat(this);
     }
 
@@ -45,6 +56,10 @@ public class S02PacketChat implements Packet<INetHandlerPlayClient> {
         return this.type == 1 || this.type == 2;
     }
 
+    /**
+     * Returns the id of the area to display the text, 2 for above the action bar, anything else currently for the chat
+     * window
+     */
     public byte getType() {
         return this.type;
     }

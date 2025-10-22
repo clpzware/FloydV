@@ -8,11 +8,14 @@ public class EntityAILookAtVillager extends EntityAIBase {
     private EntityVillager theVillager;
     private int lookTime;
 
-    public EntityAILookAtVillager(EntityIronGolem theGolemIn) {
+    public EntityAILookAtVillager(final EntityIronGolem theGolemIn) {
         this.theGolem = theGolemIn;
         this.setMutexBits(3);
     }
 
+    /**
+     * Returns whether the EntityAIBase should begin execution.
+     */
     public boolean shouldExecute() {
         if (!this.theGolem.worldObj.isDaytime()) {
             return false;
@@ -24,20 +27,32 @@ public class EntityAILookAtVillager extends EntityAIBase {
         }
     }
 
+    /**
+     * Returns whether an in-progress EntityAIBase should continue executing
+     */
     public boolean continueExecuting() {
         return this.lookTime > 0;
     }
 
+    /**
+     * Execute a one shot task or start executing a continuous task
+     */
     public void startExecuting() {
         this.lookTime = 400;
         this.theGolem.setHoldingRose(true);
     }
 
+    /**
+     * Resets the task
+     */
     public void resetTask() {
         this.theGolem.setHoldingRose(false);
         this.theVillager = null;
     }
 
+    /**
+     * Updates the task
+     */
     public void updateTask() {
         this.theGolem.getLookHelper().setLookPositionWithEntity(this.theVillager, 30.0F, 30.0F);
         --this.lookTime;

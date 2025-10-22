@@ -10,19 +10,25 @@ public class LocalBlockIntercommunication implements IInteractionObject {
     private final String guiID;
     private final IChatComponent displayName;
 
-    public LocalBlockIntercommunication(String guiIdIn, IChatComponent displayNameIn) {
+    public LocalBlockIntercommunication(final String guiIdIn, final IChatComponent displayNameIn) {
         this.guiID = guiIdIn;
         this.displayName = displayNameIn;
     }
 
-    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
+    public Container createContainer(final InventoryPlayer playerInventory, final EntityPlayer playerIn) {
         throw new UnsupportedOperationException();
     }
 
-    public String getName() {
+    /**
+     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     */
+    public String getCommandSenderName() {
         return this.displayName.getUnformattedText();
     }
 
+    /**
+     * Returns true if this thing is named
+     */
     public boolean hasCustomName() {
         return true;
     }
@@ -31,6 +37,9 @@ public class LocalBlockIntercommunication implements IInteractionObject {
         return this.guiID;
     }
 
+    /**
+     * Get the formatted ChatComponent that will be used for the sender's username in chat
+     */
     public IChatComponent getDisplayName() {
         return this.displayName;
     }

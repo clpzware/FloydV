@@ -1,20 +1,19 @@
 package net.optifine.reflect;
 
-import net.optifine.Log;
-import net.optifine.util.ArrayUtils;
+import net.minecraft.src.Config;
 
 import java.lang.reflect.Constructor;
 
-public class ReflectorConstructor implements IResolvable {
+public class ReflectorConstructor {
     private ReflectorClass reflectorClass = null;
     private Class[] parameterTypes = null;
     private boolean checked = false;
     private Constructor targetConstructor = null;
 
-    public ReflectorConstructor(ReflectorClass reflectorClass, Class[] parameterTypes) {
+    public ReflectorConstructor(final ReflectorClass reflectorClass, final Class[] parameterTypes) {
         this.reflectorClass = reflectorClass;
         this.parameterTypes = parameterTypes;
-        ReflectorResolver.register(this);
+        final Constructor constructor = this.getTargetConstructor();
     }
 
     public Constructor getTargetConstructor() {
@@ -22,7 +21,7 @@ public class ReflectorConstructor implements IResolvable {
             return this.targetConstructor;
         } else {
             this.checked = true;
-            Class oclass = this.reflectorClass.getTargetClass();
+            final Class oclass = this.reflectorClass.getTargetClass();
 
             if (oclass == null) {
                 return null;
@@ -31,13 +30,13 @@ public class ReflectorConstructor implements IResolvable {
                     this.targetConstructor = findConstructor(oclass, this.parameterTypes);
 
                     if (this.targetConstructor == null) {
-                        Log.dbg("(Reflector) Constructor not present: " + oclass.getName() + ", params: " + ArrayUtils.arrayToString(this.parameterTypes));
+                        Config.dbg("(Reflector) Constructor not present: " + oclass.getName() + ", params: " + Config.arrayToString(this.parameterTypes));
                     }
 
                     if (this.targetConstructor != null) {
                         this.targetConstructor.setAccessible(true);
                     }
-                } catch (Throwable throwable) {
+                } catch (final Throwable throwable) {
                     throwable.printStackTrace();
                 }
 
@@ -46,11 +45,12 @@ public class ReflectorConstructor implements IResolvable {
         }
     }
 
-    private static Constructor findConstructor(Class cls, Class[] paramTypes) {
-        Constructor[] aconstructor = cls.getDeclaredConstructors();
+    private static Constructor findConstructor(final Class cls, final Class[] paramTypes) {
+        final Constructor[] aconstructor = cls.getDeclaredConstructors();
 
-        for (Constructor constructor : aconstructor) {
-            Class[] aclass = constructor.getParameterTypes();
+        for (int i = 0; i < aconstructor.length; ++i) {
+            final Constructor constructor = aconstructor[i];
+            final Class[] aclass = constructor.getParameterTypes();
 
             if (Reflector.matchesTypes(paramTypes, aclass)) {
                 return constructor;
@@ -67,13 +67,5 @@ public class ReflectorConstructor implements IResolvable {
     public void deactivate() {
         this.checked = true;
         this.targetConstructor = null;
-    }
-
-    public Object newInstance(Object... params) {
-        return Reflector.newInstance(this, params);
-    }
-
-    public void resolve() {
-        Constructor constructor = this.getTargetConstructor();
     }
 }

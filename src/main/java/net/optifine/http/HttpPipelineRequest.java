@@ -5,7 +5,7 @@ public class HttpPipelineRequest {
     private HttpListener httpListener = null;
     private boolean closed = false;
 
-    public HttpPipelineRequest(HttpRequest httpRequest, HttpListener httpListener) {
+    public HttpPipelineRequest(final HttpRequest httpRequest, final HttpListener httpListener) {
         this.httpRequest = httpRequest;
         this.httpListener = httpListener;
     }
@@ -22,7 +22,7 @@ public class HttpPipelineRequest {
         return this.closed;
     }
 
-    public void setClosed(boolean closed) {
+    public void setClosed(final boolean closed) {
         this.closed = closed;
     }
 }

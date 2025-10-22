@@ -1,13 +1,13 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-import java.util.Collection;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.Vec4b;
 import net.minecraft.world.storage.MapData;
+
+import java.io.IOException;
+import java.util.Collection;
 
 public class S34PacketMaps implements Packet<INetHandlerPlayClient> {
     private int mapId;
@@ -22,10 +22,10 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient> {
     public S34PacketMaps() {
     }
 
-    public S34PacketMaps(int mapIdIn, byte scale, Collection<Vec4b> visiblePlayers, byte[] colors, int minX, int minY, int maxX, int maxY) {
+    public S34PacketMaps(final int mapIdIn, final byte scale, final Collection<Vec4b> visiblePlayers, final byte[] colors, final int minX, final int minY, final int maxX, final int maxY) {
         this.mapId = mapIdIn;
         this.mapScale = scale;
-        this.mapVisiblePlayersVec4b = visiblePlayers.toArray(new Vec4b[visiblePlayers.size()]);
+        this.mapVisiblePlayersVec4b = visiblePlayers.toArray(new Vec4b[0]);
         this.mapMinX = minX;
         this.mapMinY = minY;
         this.mapMaxX = maxX;
@@ -39,13 +39,16 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient> {
         }
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.mapId = buf.readVarIntFromBuffer();
         this.mapScale = buf.readByte();
         this.mapVisiblePlayersVec4b = new Vec4b[buf.readVarIntFromBuffer()];
 
         for (int i = 0; i < this.mapVisiblePlayersVec4b.length; ++i) {
-            short short1 = buf.readByte();
+            final short short1 = buf.readByte();
             this.mapVisiblePlayersVec4b[i] = new Vec4b((byte) (short1 >> 4 & 15), buf.readByte(), buf.readByte(), (byte) (short1 & 15));
         }
 
@@ -59,12 +62,15 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient> {
         }
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeVarIntToBuffer(this.mapId);
         buf.writeByte(this.mapScale);
         buf.writeVarIntToBuffer(this.mapVisiblePlayersVec4b.length);
 
-        for (Vec4b vec4b : this.mapVisiblePlayersVec4b) {
+        for (final Vec4b vec4b : this.mapVisiblePlayersVec4b) {
             buf.writeByte((vec4b.func_176110_a() & 15) << 4 | vec4b.func_176111_d() & 15);
             buf.writeByte(vec4b.func_176112_b());
             buf.writeByte(vec4b.func_176113_c());
@@ -80,7 +86,10 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient> {
         }
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleMaps(this);
     }
 
@@ -88,13 +97,16 @@ public class S34PacketMaps implements Packet<INetHandlerPlayClient> {
         return this.mapId;
     }
 
-    public void setMapdataTo(MapData mapdataIn) {
+    /**
+     * Sets new MapData from the packet to given MapData param
+     */
+    public void setMapdataTo(final MapData mapdataIn) {
         mapdataIn.scale = this.mapScale;
-        mapdataIn.mapDecorations.clear();
+        mapdataIn.playersVisibleOnMap.clear();
 
         for (int i = 0; i < this.mapVisiblePlayersVec4b.length; ++i) {
-            Vec4b vec4b = this.mapVisiblePlayersVec4b[i];
-            mapdataIn.mapDecorations.put("icon-" + i, vec4b);
+            final Vec4b vec4b = this.mapVisiblePlayersVec4b[i];
+            mapdataIn.playersVisibleOnMap.put("icon-" + i, vec4b);
         }
 
         for (int j = 0; j < this.mapMaxX; ++j) {

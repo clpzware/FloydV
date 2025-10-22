@@ -1,12 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
+
+import java.io.IOException;
 
 public class S3CPacketUpdateScore implements Packet<INetHandlerPlayClient> {
     private String name = "";
@@ -17,28 +17,31 @@ public class S3CPacketUpdateScore implements Packet<INetHandlerPlayClient> {
     public S3CPacketUpdateScore() {
     }
 
-    public S3CPacketUpdateScore(Score scoreIn) {
+    public S3CPacketUpdateScore(final Score scoreIn) {
         this.name = scoreIn.getPlayerName();
         this.objective = scoreIn.getObjective().getName();
         this.value = scoreIn.getScorePoints();
         this.action = S3CPacketUpdateScore.Action.CHANGE;
     }
 
-    public S3CPacketUpdateScore(String nameIn) {
+    public S3CPacketUpdateScore(final String nameIn) {
         this.name = nameIn;
         this.objective = "";
         this.value = 0;
         this.action = S3CPacketUpdateScore.Action.REMOVE;
     }
 
-    public S3CPacketUpdateScore(String nameIn, ScoreObjective objectiveIn) {
+    public S3CPacketUpdateScore(final String nameIn, final ScoreObjective objectiveIn) {
         this.name = nameIn;
         this.objective = objectiveIn.getName();
         this.value = 0;
         this.action = S3CPacketUpdateScore.Action.REMOVE;
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.name = buf.readStringFromBuffer(40);
         this.action = buf.readEnumValue(Action.class);
         this.objective = buf.readStringFromBuffer(16);
@@ -48,7 +51,10 @@ public class S3CPacketUpdateScore implements Packet<INetHandlerPlayClient> {
         }
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeString(this.name);
         buf.writeEnumValue(this.action);
         buf.writeString(this.objective);
@@ -58,7 +64,10 @@ public class S3CPacketUpdateScore implements Packet<INetHandlerPlayClient> {
         }
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleUpdateScore(this);
     }
 

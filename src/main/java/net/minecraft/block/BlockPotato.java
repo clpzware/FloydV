@@ -16,11 +16,17 @@ public class BlockPotato extends BlockCrops {
         return Items.potato;
     }
 
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+    /**
+     * Spawns this Block's drops into the World as EntityItems.
+     *
+     * @param chance  The chance that each Item is actually spawned (1.0 = always, 0.0 = never)
+     * @param fortune The player's fortune level
+     */
+    public void dropBlockAsItemWithChance(final World worldIn, final BlockPos pos, final IBlockState state, final float chance, final int fortune) {
         super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
 
         if (!worldIn.isRemote) {
-            if (state.getValue(AGE) >= 7 && worldIn.rand.nextInt(50) == 0) {
+            if (state.getValue(AGE).intValue() >= 7 && worldIn.rand.nextInt(50) == 0) {
                 spawnAsEntity(worldIn, pos, new ItemStack(Items.poisonous_potato));
             }
         }

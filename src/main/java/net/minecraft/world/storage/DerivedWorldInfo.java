@@ -8,32 +8,53 @@ import net.minecraft.world.WorldSettings;
 import net.minecraft.world.WorldType;
 
 public class DerivedWorldInfo extends WorldInfo {
+    /**
+     * Instance of WorldInfo.
+     */
     private final WorldInfo theWorldInfo;
 
-    public DerivedWorldInfo(WorldInfo p_i2145_1_) {
+    public DerivedWorldInfo(final WorldInfo p_i2145_1_) {
         this.theWorldInfo = p_i2145_1_;
     }
 
+    /**
+     * Gets the NBTTagCompound for the worldInfo
+     */
     public NBTTagCompound getNBTTagCompound() {
         return this.theWorldInfo.getNBTTagCompound();
     }
 
-    public NBTTagCompound cloneNBTCompound(NBTTagCompound nbt) {
+    /**
+     * Creates a new NBTTagCompound for the world, with the given NBTTag as the "Player"
+     */
+    public NBTTagCompound cloneNBTCompound(final NBTTagCompound nbt) {
         return this.theWorldInfo.cloneNBTCompound(nbt);
     }
 
+    /**
+     * Returns the seed of current world.
+     */
     public long getSeed() {
         return this.theWorldInfo.getSeed();
     }
 
+    /**
+     * Returns the x spawn position
+     */
     public int getSpawnX() {
         return this.theWorldInfo.getSpawnX();
     }
 
+    /**
+     * Return the Y axis spawning point of the player.
+     */
     public int getSpawnY() {
         return this.theWorldInfo.getSpawnY();
     }
 
+    /**
+     * Returns the z spawn position
+     */
     public int getSpawnZ() {
         return this.theWorldInfo.getSpawnZ();
     }
@@ -42,6 +63,9 @@ public class DerivedWorldInfo extends WorldInfo {
         return this.theWorldInfo.getWorldTotalTime();
     }
 
+    /**
+     * Get current world time
+     */
     public long getWorldTime() {
         return this.theWorldInfo.getWorldTime();
     }
@@ -50,82 +74,142 @@ public class DerivedWorldInfo extends WorldInfo {
         return this.theWorldInfo.getSizeOnDisk();
     }
 
+    /**
+     * Returns the player's NBTTagCompound to be loaded
+     */
     public NBTTagCompound getPlayerNBTTagCompound() {
         return this.theWorldInfo.getPlayerNBTTagCompound();
     }
 
+    /**
+     * Get current world name
+     */
     public String getWorldName() {
         return this.theWorldInfo.getWorldName();
     }
 
+    /**
+     * Returns the save version of this world
+     */
     public int getSaveVersion() {
         return this.theWorldInfo.getSaveVersion();
     }
 
+    /**
+     * Return the last time the player was in this world.
+     */
     public long getLastTimePlayed() {
         return this.theWorldInfo.getLastTimePlayed();
     }
 
+    /**
+     * Returns true if it is thundering, false otherwise.
+     */
     public boolean isThundering() {
         return this.theWorldInfo.isThundering();
     }
 
+    /**
+     * Returns the number of ticks until next thunderbolt.
+     */
     public int getThunderTime() {
         return this.theWorldInfo.getThunderTime();
     }
 
+    /**
+     * Returns true if it is raining, false otherwise.
+     */
     public boolean isRaining() {
         return this.theWorldInfo.isRaining();
     }
 
+    /**
+     * Return the number of ticks until rain.
+     */
     public int getRainTime() {
         return this.theWorldInfo.getRainTime();
     }
 
+    /**
+     * Gets the GameType.
+     */
     public WorldSettings.GameType getGameType() {
         return this.theWorldInfo.getGameType();
     }
 
-    public void setSpawnX(int x) {
+    /**
+     * Set the x spawn position to the passed in value
+     */
+    public void setSpawnX(final int x) {
     }
 
-    public void setSpawnY(int y) {
+    /**
+     * Sets the y spawn position
+     */
+    public void setSpawnY(final int y) {
     }
 
-    public void setSpawnZ(int z) {
+    /**
+     * Set the z spawn position to the passed in value
+     */
+    public void setSpawnZ(final int z) {
     }
 
-    public void setWorldTotalTime(long time) {
+    public void setWorldTotalTime(final long time) {
     }
 
-    public void setWorldTime(long time) {
+    /**
+     * Set current world time
+     */
+    public void setWorldTime(final long time) {
     }
 
-    public void setSpawn(BlockPos spawnPoint) {
+    public void setSpawn(final BlockPos spawnPoint) {
     }
 
-    public void setWorldName(String worldName) {
+    public void setWorldName(final String worldName) {
     }
 
-    public void setSaveVersion(int version) {
+    /**
+     * Sets the save version of the world
+     */
+    public void setSaveVersion(final int version) {
     }
 
-    public void setThundering(boolean thunderingIn) {
+    /**
+     * Sets whether it is thundering or not.
+     */
+    public void setThundering(final boolean thunderingIn) {
     }
 
-    public void setThunderTime(int time) {
+    /**
+     * Defines the number of ticks until next thunderbolt.
+     */
+    public void setThunderTime(final int time) {
     }
 
-    public void setRaining(boolean isRaining) {
+    /**
+     * Sets whether it is raining or not.
+     */
+    public void setRaining(final boolean isRaining) {
     }
 
-    public void setRainTime(int time) {
+    /**
+     * Sets the number of ticks until rain.
+     */
+    public void setRainTime(final int time) {
     }
 
+    /**
+     * Get whether the map features (e.g. strongholds) generation is enabled or disabled.
+     */
     public boolean isMapFeaturesEnabled() {
         return this.theWorldInfo.isMapFeaturesEnabled();
     }
 
+    /**
+     * Returns true if hardcore mode is enabled, otherwise false
+     */
     public boolean isHardcoreModeEnabled() {
         return this.theWorldInfo.isHardcoreModeEnabled();
     }
@@ -134,23 +218,35 @@ public class DerivedWorldInfo extends WorldInfo {
         return this.theWorldInfo.getTerrainType();
     }
 
-    public void setTerrainType(WorldType type) {
+    public void setTerrainType(final WorldType type) {
     }
 
+    /**
+     * Returns true if commands are allowed on this World.
+     */
     public boolean areCommandsAllowed() {
         return this.theWorldInfo.areCommandsAllowed();
     }
 
-    public void setAllowCommands(boolean allow) {
+    public void setAllowCommands(final boolean allow) {
     }
 
+    /**
+     * Returns true if the World is initialized.
+     */
     public boolean isInitialized() {
         return this.theWorldInfo.isInitialized();
     }
 
-    public void setServerInitialized(boolean initializedIn) {
+    /**
+     * Sets the initialization status of the World.
+     */
+    public void setServerInitialized(final boolean initializedIn) {
     }
 
+    /**
+     * Gets the GameRules class Instance.
+     */
     public GameRules getGameRulesInstance() {
         return this.theWorldInfo.getGameRulesInstance();
     }
@@ -159,13 +255,13 @@ public class DerivedWorldInfo extends WorldInfo {
         return this.theWorldInfo.getDifficulty();
     }
 
-    public void setDifficulty(EnumDifficulty newDifficulty) {
+    public void setDifficulty(final EnumDifficulty newDifficulty) {
     }
 
     public boolean isDifficultyLocked() {
         return this.theWorldInfo.isDifficultyLocked();
     }
 
-    public void setDifficultyLocked(boolean locked) {
+    public void setDifficultyLocked(final boolean locked) {
     }
 }

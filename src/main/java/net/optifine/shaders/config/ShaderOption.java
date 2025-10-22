@@ -20,7 +20,7 @@ public abstract class ShaderOption {
     public static final String COLOR_RED = "\u00a7c";
     public static final String COLOR_BLUE = "\u00a79";
 
-    public ShaderOption(String name, String description, String value, String[] values, String valueDefault, String path) {
+    public ShaderOption(final String name, final String description, final String value, final String[] values, final String valueDefault, final String path) {
         this.name = name;
         this.description = description;
         this.value = value;
@@ -47,7 +47,7 @@ public abstract class ShaderOption {
         return s;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -55,8 +55,8 @@ public abstract class ShaderOption {
         return this.value;
     }
 
-    public boolean setValue(String value) {
-        int i = getIndex(value, this.values);
+    public boolean setValue(final String value) {
+        final int i = getIndex(value, this.values);
 
         if (i < 0) {
             return false;
@@ -92,9 +92,9 @@ public abstract class ShaderOption {
         }
     }
 
-    private static int getIndex(String str, String[] strs) {
+    private static int getIndex(final String str, final String[] strs) {
         for (int i = 0; i < strs.length; ++i) {
-            String s = strs[i];
+            final String s = strs[i];
 
             if (s.equals(str)) {
                 return i;
@@ -108,10 +108,12 @@ public abstract class ShaderOption {
         return this.paths;
     }
 
-    public void addPaths(String[] newPaths) {
-        List<String> list = Arrays.asList(this.paths);
+    public void addPaths(final String[] newPaths) {
+        final List<String> list = Arrays.asList(this.paths);
 
-        for (String s : newPaths) {
+        for (int i = 0; i < newPaths.length; ++i) {
+            final String s = newPaths[i];
+
             if (!list.contains(s)) {
                 this.paths = (String[]) Config.addObjectToArray(this.paths, s);
             }
@@ -122,7 +124,7 @@ public abstract class ShaderOption {
         return this.enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(final boolean enabled) {
         this.enabled = enabled;
     }
 
@@ -134,11 +136,11 @@ public abstract class ShaderOption {
         return this.visible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible(final boolean visible) {
         this.visible = visible;
     }
 
-    public boolean isValidValue(String val) {
+    public boolean isValidValue(final String val) {
         return getIndex(val, this.values) >= 0;
     }
 
@@ -146,15 +148,15 @@ public abstract class ShaderOption {
         return Shaders.translate("option." + this.name, this.name);
     }
 
-    public String getValueText(String val) {
+    public String getValueText(final String val) {
         return Shaders.translate("value." + this.name + "." + val, val);
     }
 
-    public String getValueColor(String val) {
+    public String getValueColor(final String val) {
         return "";
     }
 
-    public boolean matchesLine(String line) {
+    public boolean matchesLine(final String line) {
         return false;
     }
 
@@ -162,7 +164,7 @@ public abstract class ShaderOption {
         return false;
     }
 
-    public boolean isUsedInLine(String line) {
+    public boolean isUsedInLine(final String line) {
         return false;
     }
 
@@ -178,12 +180,12 @@ public abstract class ShaderOption {
         if (this.values.length <= 1) {
             return 0.0F;
         } else {
-            int i = getIndex(this.value, this.values);
+            final int i = getIndex(this.value, this.values);
 
             if (i < 0) {
                 return 0.0F;
             } else {
-                float f = (float) i / ((float) this.values.length - 1.0F);
+                final float f = 1.0F * (float) i / ((float) this.values.length - 1.0F);
                 return f;
             }
         }
@@ -192,12 +194,12 @@ public abstract class ShaderOption {
     public void setIndexNormalized(float f) {
         if (this.values.length > 1) {
             f = Config.limit(f, 0.0F, 1.0F);
-            int i = Math.round(f * (float) (this.values.length - 1));
+            final int i = Math.round(f * (float) (this.values.length - 1));
             this.value = this.values[i];
         }
     }
 
     public String toString() {
-        return this.name + ", value: " + this.value + ", valueDefault: " + this.valueDefault + ", paths: " + Config.arrayToString(this.paths);
+        return "" + this.name + ", value: " + this.value + ", valueDefault: " + this.valueDefault + ", paths: " + Config.arrayToString(this.paths);
     }
 }

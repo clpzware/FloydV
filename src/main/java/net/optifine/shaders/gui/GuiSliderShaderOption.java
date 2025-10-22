@@ -11,18 +11,25 @@ public class GuiSliderShaderOption extends GuiButtonShaderOption {
     public boolean dragging;
     private ShaderOption shaderOption = null;
 
-    public GuiSliderShaderOption(int buttonId, int x, int y, int w, int h, ShaderOption shaderOption, String text) {
+    public GuiSliderShaderOption(final int buttonId, final int x, final int y, final int w, final int h, final ShaderOption shaderOption, final String text) {
         super(buttonId, x, y, w, h, shaderOption, text);
         this.shaderOption = shaderOption;
         this.sliderValue = shaderOption.getIndexNormalized();
         this.displayString = GuiShaderOptions.getButtonText(shaderOption, this.width);
     }
 
-    protected int getHoverState(boolean mouseOver) {
+    /**
+     * Returns 0 if the button is disabled, 1 if the mouse is NOT hovering over this button and 2 if it IS hovering over
+     * this button.
+     */
+    protected int getHoverState(final boolean mouseOver) {
         return 0;
     }
 
-    protected void mouseDragged(Minecraft mc, int mouseX, int mouseY) {
+    /**
+     * Fired when the mouse button is dragged. Equivalent of MouseListener.mouseDragged(MouseEvent e).
+     */
+    protected void mouseDragged(final Minecraft mc, final int mouseX, final int mouseY) {
         if (this.visible) {
             if (this.dragging && !GuiScreen.isShiftKeyDown()) {
                 this.sliderValue = (float) (mouseX - (this.xPosition + 4)) / (float) (this.width - 8);
@@ -39,7 +46,11 @@ public class GuiSliderShaderOption extends GuiButtonShaderOption {
         }
     }
 
-    public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
+    /**
+     * Returns true if the mouse has been pressed on this control. Equivalent of MouseListener.mousePressed(MouseEvent
+     * e).
+     */
+    public boolean mousePressed(final Minecraft mc, final int mouseX, final int mouseY) {
         if (super.mousePressed(mc, mouseX, mouseY)) {
             this.sliderValue = (float) (mouseX - (this.xPosition + 4)) / (float) (this.width - 8);
             this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
@@ -52,7 +63,10 @@ public class GuiSliderShaderOption extends GuiButtonShaderOption {
         }
     }
 
-    public void mouseReleased(int mouseX, int mouseY) {
+    /**
+     * Fired when the mouse button is released. Equivalent of MouseListener.mouseReleased(MouseEvent e).
+     */
+    public void mouseReleased(final int mouseX, final int mouseY) {
         this.dragging = false;
     }
 

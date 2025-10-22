@@ -7,11 +7,14 @@ import net.minecraft.inventory.Container;
 public class EntityAITradePlayer extends EntityAIBase {
     private final EntityVillager villager;
 
-    public EntityAITradePlayer(EntityVillager villagerIn) {
+    public EntityAITradePlayer(final EntityVillager villagerIn) {
         this.villager = villagerIn;
         this.setMutexBits(5);
     }
 
+    /**
+     * Returns whether the EntityAIBase should begin execution.
+     */
     public boolean shouldExecute() {
         if (!this.villager.isEntityAlive()) {
             return false;
@@ -22,15 +25,21 @@ public class EntityAITradePlayer extends EntityAIBase {
         } else if (this.villager.velocityChanged) {
             return false;
         } else {
-            EntityPlayer entityplayer = this.villager.getCustomer();
+            final EntityPlayer entityplayer = this.villager.getCustomer();
             return entityplayer != null && (!(this.villager.getDistanceSqToEntity(entityplayer) > 16.0D) && entityplayer.openContainer instanceof Container);
         }
     }
 
+    /**
+     * Execute a one shot task or start executing a continuous task
+     */
     public void startExecuting() {
         this.villager.getNavigator().clearPathEntity();
     }
 
+    /**
+     * Resets the task
+     */
     public void resetTask() {
         this.villager.setCustomer(null);
     }

@@ -1,7 +1,7 @@
 package net.minecraft.util;
 
-public class Matrix4f extends org.lwjglx.util.vector.Matrix4f {
-    public Matrix4f(float[] p_i46413_1_) {
+public class Matrix4f extends org.lwjgl.util.vector.Matrix4f {
+    public Matrix4f(final float[] p_i46413_1_) {
         this.m00 = p_i46413_1_[0];
         this.m01 = p_i46413_1_[1];
         this.m02 = p_i46413_1_[2];

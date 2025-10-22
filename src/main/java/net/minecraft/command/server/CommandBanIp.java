@@ -1,49 +1,66 @@
 package net.minecraft.command.server;
 
-import java.util.Date;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.PlayerNotFoundException;
-import net.minecraft.command.WrongUsageException;
+import net.minecraft.command.*;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.IPBanEntry;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
 
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class CommandBanIp extends CommandBase {
     public static final Pattern field_147211_a = Pattern.compile("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$");
 
+    /**
+     * Gets the name of the command
+     */
     public String getCommandName() {
         return "ban-ip";
     }
 
+    /**
+     * Return the required permission level for this command.
+     */
     public int getRequiredPermissionLevel() {
         return 3;
     }
 
-    public boolean canCommandSenderUseCommand(ICommandSender sender) {
+    /**
+     * Returns true if the given command sender is allowed to use this command.
+     *
+     * @param sender The CommandSender
+     */
+    public boolean canCommandSenderUseCommand(final ICommandSender sender) {
         return MinecraftServer.getServer().getConfigurationManager().getBannedIPs().isLanServer() && super.canCommandSenderUseCommand(sender);
     }
 
-    public String getCommandUsage(ICommandSender sender) {
+    /**
+     * Gets the usage string for the command.
+     *
+     * @param sender The {@link ICommandSender} who is requesting usage details.
+     */
+    public String getCommandUsage(final ICommandSender sender) {
         return "commands.banip.usage";
     }
 
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    /**
+     * Callback when the command is invoked
+     *
+     * @param sender The {@link ICommandSender sender} who executed the command
+     * @param args   The arguments that were passed with the command
+     */
+    public void processCommand(final ICommandSender sender, final String[] args) throws CommandException {
         if (args.length >= 1 && args[0].length() > 1) {
-            IChatComponent ichatcomponent = args.length >= 2 ? getChatComponentFromNthArg(sender, args, 1) : null;
-            Matcher matcher = field_147211_a.matcher(args[0]);
+            final IChatComponent ichatcomponent = args.length >= 2 ? getChatComponentFromNthArg(sender, args, 1) : null;
+            final Matcher matcher = field_147211_a.matcher(args[0]);
 
             if (matcher.matches()) {
                 this.func_147210_a(sender, args[0], ichatcomponent == null ? null : ichatcomponent.getUnformattedText());
             } else {
-                EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(args[0]);
+                final EntityPlayerMP entityplayermp = MinecraftServer.getServer().getConfigurationManager().getPlayerByUsername(args[0]);
 
                 if (entityplayermp == null) {
                     throw new PlayerNotFoundException("commands.banip.invalid");
@@ -56,26 +73,26 @@ public class CommandBanIp extends CommandBase {
         }
     }
 
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+    public List<String> addTabCompletionOptions(final ICommandSender sender, final String[] args, final BlockPos pos) {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : null;
     }
 
-    protected void func_147210_a(ICommandSender sender, String address, String reason) {
-        IPBanEntry ipbanentry = new IPBanEntry(address, null, sender.getName(), null, reason);
+    protected void func_147210_a(final ICommandSender p_147210_1_, final String p_147210_2_, final String p_147210_3_) {
+        final IPBanEntry ipbanentry = new IPBanEntry(p_147210_2_, null, p_147210_1_.getCommandSenderName(), null, p_147210_3_);
         MinecraftServer.getServer().getConfigurationManager().getBannedIPs().addEntry(ipbanentry);
-        List<EntityPlayerMP> list = MinecraftServer.getServer().getConfigurationManager().getPlayersMatchingAddress(address);
-        String[] astring = new String[list.size()];
+        final List<EntityPlayerMP> list = MinecraftServer.getServer().getConfigurationManager().getPlayersMatchingAddress(p_147210_2_);
+        final String[] astring = new String[list.size()];
         int i = 0;
 
-        for (EntityPlayerMP entityplayermp : list) {
+        for (final EntityPlayerMP entityplayermp : list) {
             entityplayermp.playerNetServerHandler.kickPlayerFromServer("You have been IP banned.");
-            astring[i++] = entityplayermp.getName();
+            astring[i++] = entityplayermp.getCommandSenderName();
         }
 
         if (list.isEmpty()) {
-            notifyOperators(sender, this, "commands.banip.success", address);
+            notifyOperators(p_147210_1_, this, "commands.banip.success", p_147210_2_);
         } else {
-            notifyOperators(sender, this, "commands.banip.success.players", address, joinNiceString(astring));
+            notifyOperators(p_147210_1_, this, "commands.banip.success.players", p_147210_2_, joinNiceString(astring));
         }
     }
 }

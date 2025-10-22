@@ -15,30 +15,33 @@ import net.minecraft.world.World;
 public class BlockDropper extends BlockDispenser {
     private final IBehaviorDispenseItem dropBehavior = new BehaviorDefaultDispenseItem();
 
-    protected IBehaviorDispenseItem getBehavior(ItemStack stack) {
+    protected IBehaviorDispenseItem getBehavior(final ItemStack stack) {
         return this.dropBehavior;
     }
 
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    /**
+     * Returns a new instance of a block's tile entity class. Called on placing the block.
+     */
+    public TileEntity createNewTileEntity(final World worldIn, final int meta) {
         return new TileEntityDropper();
     }
 
-    protected void dispense(World worldIn, BlockPos pos) {
-        BlockSourceImpl blocksourceimpl = new BlockSourceImpl(worldIn, pos);
-        TileEntityDispenser tileentitydispenser = blocksourceimpl.getBlockTileEntity();
+    protected void dispense(final World worldIn, final BlockPos pos) {
+        final BlockSourceImpl blocksourceimpl = new BlockSourceImpl(worldIn, pos);
+        final TileEntityDispenser tileentitydispenser = blocksourceimpl.getBlockTileEntity();
 
         if (tileentitydispenser != null) {
-            int i = tileentitydispenser.getDispenseSlot();
+            final int i = tileentitydispenser.getDispenseSlot();
 
             if (i < 0) {
                 worldIn.playAuxSFX(1001, pos, 0);
             } else {
-                ItemStack itemstack = tileentitydispenser.getStackInSlot(i);
+                final ItemStack itemstack = tileentitydispenser.getStackInSlot(i);
 
                 if (itemstack != null) {
-                    EnumFacing enumfacing = worldIn.getBlockState(pos).getValue(FACING);
-                    BlockPos blockpos = pos.offset(enumfacing);
-                    IInventory iinventory = TileEntityHopper.getInventoryAtPosition(worldIn, blockpos.getX(), blockpos.getY(), blockpos.getZ());
+                    final EnumFacing enumfacing = worldIn.getBlockState(pos).getValue(FACING);
+                    final BlockPos blockpos = pos.offset(enumfacing);
+                    final IInventory iinventory = TileEntityHopper.getInventoryAtPosition(worldIn, blockpos.getX(), blockpos.getY(), blockpos.getZ());
                     ItemStack itemstack1;
 
                     if (iinventory == null) {

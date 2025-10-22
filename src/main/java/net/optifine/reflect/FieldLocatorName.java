@@ -1,6 +1,6 @@
 package net.optifine.reflect;
 
-import net.optifine.Log;
+import net.minecraft.src.Config;
 
 import java.lang.reflect.Field;
 
@@ -8,38 +8,40 @@ public class FieldLocatorName implements IFieldLocator {
     private ReflectorClass reflectorClass = null;
     private String targetFieldName = null;
 
-    public FieldLocatorName(ReflectorClass reflectorClass, String targetFieldName) {
+    public FieldLocatorName(final ReflectorClass reflectorClass, final String targetFieldName) {
         this.reflectorClass = reflectorClass;
         this.targetFieldName = targetFieldName;
     }
 
     public Field getField() {
-        Class oclass = this.reflectorClass.getTargetClass();
+        final Class oclass = this.reflectorClass.getTargetClass();
 
         if (oclass == null) {
             return null;
         } else {
             try {
-                Field field = this.getDeclaredField(oclass, this.targetFieldName);
+                final Field field = this.getDeclaredField(oclass, this.targetFieldName);
                 field.setAccessible(true);
                 return field;
-            } catch (NoSuchFieldException var3) {
-                Log.log("(Reflector) Field not present: " + oclass.getName() + "." + this.targetFieldName);
+            } catch (final NoSuchFieldException var3) {
+                Config.log("(Reflector) Field not present: " + oclass.getName() + "." + this.targetFieldName);
                 return null;
-            } catch (SecurityException securityexception) {
+            } catch (final SecurityException securityexception) {
                 securityexception.printStackTrace();
                 return null;
-            } catch (Throwable throwable) {
+            } catch (final Throwable throwable) {
                 throwable.printStackTrace();
                 return null;
             }
         }
     }
 
-    private Field getDeclaredField(Class cls, String name) throws NoSuchFieldException {
-        Field[] afield = cls.getDeclaredFields();
+    private Field getDeclaredField(final Class cls, final String name) throws NoSuchFieldException {
+        final Field[] afield = cls.getDeclaredFields();
 
-        for (Field field : afield) {
+        for (int i = 0; i < afield.length; ++i) {
+            final Field field = afield[i];
+
             if (field.getName().equals(name)) {
                 return field;
             }

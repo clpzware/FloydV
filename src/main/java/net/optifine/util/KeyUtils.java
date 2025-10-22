@@ -7,18 +7,19 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class KeyUtils {
-    public static void fixKeyConflicts(KeyBinding[] keys, KeyBinding[] keysPrio) {
-        Set<Integer> set = new HashSet();
+    public static void fixKeyConflicts(final KeyBinding[] keys, final KeyBinding[] keysPrio) {
+        final Set<Integer> set = new HashSet();
 
-        for (KeyBinding keybinding : keysPrio) {
-            set.add(keybinding.getKeyCode());
+        for (int i = 0; i < keysPrio.length; ++i) {
+            final KeyBinding keybinding = keysPrio[i];
+            set.add(Integer.valueOf(keybinding.getKeyCode()));
         }
 
-        Set<KeyBinding> set1 = new HashSet(Arrays.asList(keys));
-        set1.removeAll(Arrays.asList(keysPrio));
+        final Set<KeyBinding> set1 = new HashSet<>(Arrays.asList(keys));
+        Arrays.asList(keysPrio).forEach(set1::remove);
 
-        for (KeyBinding keybinding1 : set1) {
-            Integer integer = keybinding1.getKeyCode();
+        for (final KeyBinding keybinding1 : set1) {
+            final Integer integer = Integer.valueOf(keybinding1.getKeyCode());
 
             if (set.contains(integer)) {
                 keybinding1.setKeyCode(0);

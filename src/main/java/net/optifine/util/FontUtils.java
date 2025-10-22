@@ -9,19 +9,19 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class FontUtils {
-    public static Properties readFontProperties(ResourceLocation locationFontTexture) {
-        String s = locationFontTexture.getResourcePath();
-        Properties properties = new PropertiesOrdered();
-        String s1 = ".png";
+    public static Properties readFontProperties(final ResourceLocation locationFontTexture) {
+        final String s = locationFontTexture.getResourcePath();
+        final Properties properties = new PropertiesOrdered();
+        final String s1 = ".png";
 
         if (!s.endsWith(s1)) {
             return properties;
         } else {
-            String s2 = s.substring(0, s.length() - s1.length()) + ".properties";
+            final String s2 = s.substring(0, s.length() - s1.length()) + ".properties";
 
             try {
-                ResourceLocation resourcelocation = new ResourceLocation(locationFontTexture.getResourceDomain(), s2);
-                InputStream inputstream = Config.getResourceStream(Config.getResourceManager(), resourcelocation);
+                final ResourceLocation resourcelocation = new ResourceLocation(locationFontTexture.getResourceDomain(), s2);
+                final InputStream inputstream = Config.getResourceStream(Config.getResourceManager(), resourcelocation);
 
                 if (inputstream == null) {
                     return properties;
@@ -29,9 +29,8 @@ public class FontUtils {
 
                 Config.log("Loading " + s2);
                 properties.load(inputstream);
-                inputstream.close();
-            } catch (FileNotFoundException ignored) {
-            } catch (IOException ioexception) {
+            } catch (final FileNotFoundException var7) {
+            } catch (final IOException ioexception) {
                 ioexception.printStackTrace();
             }
 
@@ -39,18 +38,18 @@ public class FontUtils {
         }
     }
 
-    public static void readCustomCharWidths(Properties props, float[] charWidth) {
-        for (Object o : props.keySet()) {
-            String s = (String) o;
-            String s1 = "width.";
+    public static void readCustomCharWidths(final Properties props, final float[] charWidth) {
+        for (final Object e : props.keySet()) {
+            final String s = (String) e;
+            final String s1 = "width.";
 
             if (s.startsWith(s1)) {
-                String s2 = s.substring(s1.length());
-                int i = Config.parseInt(s2, -1);
+                final String s2 = s.substring(s1.length());
+                final int i = Config.parseInt(s2, -1);
 
                 if (i >= 0 && i < charWidth.length) {
-                    String s3 = props.getProperty(s);
-                    float f = Config.parseFloat(s3, -1.0F);
+                    final String s3 = props.getProperty(s);
+                    final float f = Config.parseFloat(s3, -1.0F);
 
                     if (f >= 0.0F) {
                         charWidth[i] = f;
@@ -60,13 +59,13 @@ public class FontUtils {
         }
     }
 
-    public static float readFloat(Properties props, String key, float defOffset) {
-        String s = props.getProperty(key);
+    public static float readFloat(final Properties props, final String key, final float defOffset) {
+        final String s = props.getProperty(key);
 
         if (s == null) {
             return defOffset;
         } else {
-            float f = Config.parseFloat(s, Float.MIN_VALUE);
+            final float f = Config.parseFloat(s, Float.MIN_VALUE);
 
             if (f == Float.MIN_VALUE) {
                 Config.warn("Invalid value for " + key + ": " + s);
@@ -77,13 +76,13 @@ public class FontUtils {
         }
     }
 
-    public static boolean readBoolean(Properties props, String key, boolean defVal) {
-        String s = props.getProperty(key);
+    public static boolean readBoolean(final Properties props, final String key, final boolean defVal) {
+        final String s = props.getProperty(key);
 
         if (s == null) {
             return defVal;
         } else {
-            String s1 = s.toLowerCase().trim();
+            final String s1 = s.toLowerCase().trim();
 
             if (!s1.equals("true") && !s1.equals("on")) {
                 if (!s1.equals("false") && !s1.equals("off")) {
@@ -98,24 +97,24 @@ public class FontUtils {
         }
     }
 
-    public static ResourceLocation getHdFontLocation(ResourceLocation fontLoc) {
+    public static ResourceLocation getHdFontLocation(final ResourceLocation fontLoc) {
         if (!Config.isCustomFonts()) {
             return fontLoc;
         } else if (fontLoc == null) {
-            return null;
+            return fontLoc;
         } else if (!Config.isMinecraftThread()) {
             return fontLoc;
         } else {
             String s = fontLoc.getResourcePath();
-            String s1 = "textures/";
-            String s2 = "mcpatcher/";
+            final String s1 = "textures/";
+            final String s2 = "mcpatcher/";
 
             if (!s.startsWith(s1)) {
                 return fontLoc;
             } else {
                 s = s.substring(s1.length());
                 s = s2 + s;
-                ResourceLocation resourcelocation = new ResourceLocation(fontLoc.getResourceDomain(), s);
+                final ResourceLocation resourcelocation = new ResourceLocation(fontLoc.getResourceDomain(), s);
                 return Config.hasResource(Config.getResourceManager(), resourcelocation) ? resourcelocation : fontLoc;
             }
         }

@@ -7,11 +7,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class ContainerMerchant extends Container {
+    /**
+     * Instance of Merchant.
+     */
     private final IMerchant theMerchant;
     private final InventoryMerchant merchantInventory;
+
+    /**
+     * Instance of World.
+     */
     private final World theWorld;
 
-    public ContainerMerchant(InventoryPlayer playerInventory, IMerchant merchant, World worldIn) {
+    public ContainerMerchant(final InventoryPlayer playerInventory, final IMerchant merchant, final World worldIn) {
         this.theMerchant = merchant;
         this.theWorld = worldIn;
         this.merchantInventory = new InventoryMerchant(playerInventory.player, merchant);
@@ -34,36 +41,45 @@ public class ContainerMerchant extends Container {
         return this.merchantInventory;
     }
 
-    public void onCraftGuiOpened(ICrafting listener) {
+    public void onCraftGuiOpened(final ICrafting listener) {
         super.onCraftGuiOpened(listener);
     }
 
+    /**
+     * Looks for changes made in the container, sends them to every listener.
+     */
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
     }
 
-    public void onCraftMatrixChanged(IInventory inventoryIn) {
+    /**
+     * Callback for when the crafting matrix is changed.
+     */
+    public void onCraftMatrixChanged(final IInventory inventoryIn) {
         this.merchantInventory.resetRecipeAndSlots();
         super.onCraftMatrixChanged(inventoryIn);
     }
 
-    public void setCurrentRecipeIndex(int currentRecipeIndex) {
+    public void setCurrentRecipeIndex(final int currentRecipeIndex) {
         this.merchantInventory.setCurrentRecipeIndex(currentRecipeIndex);
     }
 
-    public void updateProgressBar(int id, int data) {
+    public void updateProgressBar(final int id, final int data) {
     }
 
-    public boolean canInteractWith(EntityPlayer playerIn) {
+    public boolean canInteractWith(final EntityPlayer playerIn) {
         return this.theMerchant.getCustomer() == playerIn;
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+    /**
+     * Take a stack from the specified inventory slot.
+     */
+    public ItemStack transferStackInSlot(final EntityPlayer playerIn, final int index) {
         ItemStack itemstack = null;
-        Slot slot = this.inventorySlots.get(index);
+        final Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+            final ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
             if (index == 2) {
@@ -73,11 +89,11 @@ public class ContainerMerchant extends Container {
 
                 slot.onSlotChange(itemstack1, itemstack);
             } else if (index != 0 && index != 1) {
-                if (index < 30) {
+                if (index >= 3 && index < 30) {
                     if (!this.mergeItemStack(itemstack1, 30, 39, false)) {
                         return null;
                     }
-                } else if (index < 39 && !this.mergeItemStack(itemstack1, 3, 30, false)) {
+                } else if (index >= 30 && index < 39 && !this.mergeItemStack(itemstack1, 3, 30, false)) {
                     return null;
                 }
             } else if (!this.mergeItemStack(itemstack1, 3, 39, false)) {
@@ -100,19 +116,22 @@ public class ContainerMerchant extends Container {
         return itemstack;
     }
 
-    public void onContainerClosed(EntityPlayer playerIn) {
+    /**
+     * Called when the container is closed.
+     */
+    public void onContainerClosed(final EntityPlayer playerIn) {
         super.onContainerClosed(playerIn);
         this.theMerchant.setCustomer(null);
         super.onContainerClosed(playerIn);
 
         if (!this.theWorld.isRemote) {
-            ItemStack itemstack = this.merchantInventory.removeStackFromSlot(0);
+            ItemStack itemstack = this.merchantInventory.getStackInSlotOnClosing(0);
 
             if (itemstack != null) {
                 playerIn.dropPlayerItemWithRandomChoice(itemstack, false);
             }
 
-            itemstack = this.merchantInventory.removeStackFromSlot(1);
+            itemstack = this.merchantInventory.getStackInSlotOnClosing(1);
 
             if (itemstack != null) {
                 playerIn.dropPlayerItemWithRandomChoice(itemstack, false);

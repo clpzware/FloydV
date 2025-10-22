@@ -12,7 +12,11 @@ public class ItemBucketMilk extends Item {
         this.setCreativeTab(CreativeTabs.tabMisc);
     }
 
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+    /**
+     * Called when the player finishes using this Item (E.g. finishes eating.). Not called when the player stops using
+     * the Item before the action is complete.
+     */
+    public ItemStack onItemUseFinish(final ItemStack stack, final World worldIn, final EntityPlayer playerIn) {
         if (!playerIn.capabilities.isCreativeMode) {
             --stack.stackSize;
         }
@@ -25,15 +29,24 @@ public class ItemBucketMilk extends Item {
         return stack.stackSize <= 0 ? new ItemStack(Items.bucket) : stack;
     }
 
-    public int getMaxItemUseDuration(ItemStack stack) {
+    /**
+     * How long it takes to use or consume an item
+     */
+    public int getMaxItemUseDuration(final ItemStack stack) {
         return 32;
     }
 
-    public EnumAction getItemUseAction(ItemStack stack) {
+    /**
+     * returns the action that specifies what animation to play when the items is being used
+     */
+    public EnumAction getItemUseAction(final ItemStack stack) {
         return EnumAction.DRINK;
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+    /**
+     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+     */
+    public ItemStack onItemRightClick(final ItemStack itemStackIn, final World worldIn, final EntityPlayer playerIn) {
         playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
         return itemStackIn;
     }

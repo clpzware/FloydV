@@ -1,8 +1,5 @@
 package net.optifine.shaders;
 
-import lombok.Getter;
-
-@Getter
 public enum ProgramStage {
     NONE(""),
     SHADOW("shadow"),
@@ -12,8 +9,11 @@ public enum ProgramStage {
 
     private final String name;
 
-    ProgramStage(String name) {
+    ProgramStage(final String name) {
         this.name = name;
     }
 
+    public String getName() {
+        return this.name;
+    }
 }

@@ -9,8 +9,11 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
 public class EntityMinecartMobSpawner extends EntityMinecart {
+    /**
+     * Mob spawner logic for this spawner minecart.
+     */
     private final MobSpawnerBaseLogic mobSpawnerLogic = new MobSpawnerBaseLogic() {
-        public void func_98267_a(int id) {
+        public void func_98267_a(final int id) {
             EntityMinecartMobSpawner.this.worldObj.setEntityState(EntityMinecartMobSpawner.this, (byte) id);
         }
 
@@ -23,11 +26,11 @@ public class EntityMinecartMobSpawner extends EntityMinecart {
         }
     };
 
-    public EntityMinecartMobSpawner(World worldIn) {
+    public EntityMinecartMobSpawner(final World worldIn) {
         super(worldIn);
     }
 
-    public EntityMinecartMobSpawner(World worldIn, double p_i1726_2_, double p_i1726_4_, double p_i1726_6_) {
+    public EntityMinecartMobSpawner(final World worldIn, final double p_i1726_2_, final double p_i1726_4_, final double p_i1726_6_) {
         super(worldIn, p_i1726_2_, p_i1726_4_, p_i1726_6_);
     }
 
@@ -39,20 +42,29 @@ public class EntityMinecartMobSpawner extends EntityMinecart {
         return Blocks.mob_spawner.getDefaultState();
     }
 
-    protected void readEntityFromNBT(NBTTagCompound tagCompund) {
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
+    protected void readEntityFromNBT(final NBTTagCompound tagCompund) {
         super.readEntityFromNBT(tagCompund);
         this.mobSpawnerLogic.readFromNBT(tagCompund);
     }
 
-    protected void writeEntityToNBT(NBTTagCompound tagCompound) {
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
+    protected void writeEntityToNBT(final NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
         this.mobSpawnerLogic.writeToNBT(tagCompound);
     }
 
-    public void handleStatusUpdate(byte id) {
+    public void handleHealthUpdate(final byte id) {
         this.mobSpawnerLogic.setDelayToMin(id);
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate() {
         super.onUpdate();
         this.mobSpawnerLogic.updateSpawner();

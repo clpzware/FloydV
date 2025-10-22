@@ -7,25 +7,25 @@ import java.io.*;
 import java.util.Set;
 
 public class FolderResourcePack extends AbstractResourcePack {
-    public FolderResourcePack(File resourcePackFileIn) {
+    public FolderResourcePack(final File resourcePackFileIn) {
         super(resourcePackFileIn);
     }
 
-    protected InputStream getInputStreamByName(String name) throws IOException {
+    protected InputStream getInputStreamByName(final String name) throws IOException {
         return new BufferedInputStream(new FileInputStream(new File(this.resourcePackFile, name)));
     }
 
-    protected boolean hasResourceName(String name) {
+    protected boolean hasResourceName(final String name) {
         return (new File(this.resourcePackFile, name)).isFile();
     }
 
     public Set<String> getResourceDomains() {
-        Set<String> set = Sets.newHashSet();
-        File file1 = new File(this.resourcePackFile, "assets/");
+        final Set<String> set = Sets.newHashSet();
+        final File file1 = new File(this.resourcePackFile, "assets/");
 
         if (file1.isDirectory()) {
-            for (File file2 : file1.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY)) {
-                String s = getRelativeName(file1, file2);
+            for (final File file2 : file1.listFiles((FileFilter) DirectoryFileFilter.DIRECTORY)) {
+                final String s = getRelativeName(file1, file2);
 
                 if (!s.equals(s.toLowerCase())) {
                     this.logNameNotLowercase(s);

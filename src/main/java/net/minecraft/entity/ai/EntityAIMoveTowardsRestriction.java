@@ -11,18 +11,21 @@ public class EntityAIMoveTowardsRestriction extends EntityAIBase {
     private double movePosZ;
     private final double movementSpeed;
 
-    public EntityAIMoveTowardsRestriction(EntityCreature creatureIn, double speedIn) {
+    public EntityAIMoveTowardsRestriction(final EntityCreature creatureIn, final double speedIn) {
         this.theEntity = creatureIn;
         this.movementSpeed = speedIn;
         this.setMutexBits(1);
     }
 
+    /**
+     * Returns whether the EntityAIBase should begin execution.
+     */
     public boolean shouldExecute() {
         if (this.theEntity.isWithinHomeDistanceCurrentPosition()) {
             return false;
         } else {
-            BlockPos blockpos = this.theEntity.getHomePosition();
-            Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 16, 7, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
+            final BlockPos blockpos = this.theEntity.getHomePosition();
+            final Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(this.theEntity, 16, 7, new Vec3(blockpos.getX(), blockpos.getY(), blockpos.getZ()));
 
             if (vec3 == null) {
                 return false;
@@ -35,10 +38,16 @@ public class EntityAIMoveTowardsRestriction extends EntityAIBase {
         }
     }
 
+    /**
+     * Returns whether an in-progress EntityAIBase should continue executing
+     */
     public boolean continueExecuting() {
         return !this.theEntity.getNavigator().noPath();
     }
 
+    /**
+     * Execute a one shot task or start executing a continuous task
+     */
     public void startExecuting() {
         this.theEntity.getNavigator().tryMoveToXYZ(this.movePosX, this.movePosY, this.movePosZ, this.movementSpeed);
     }

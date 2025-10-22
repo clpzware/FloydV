@@ -4,12 +4,12 @@ public class RangeInt {
     private final int min;
     private final int max;
 
-    public RangeInt(int min, int max) {
+    public RangeInt(final int min, final int max) {
         this.min = Math.min(min, max);
         this.max = Math.max(min, max);
     }
 
-    public boolean isInRange(int val) {
+    public boolean isInRange(final int val) {
         return val >= this.min && val <= this.max;
     }
 

@@ -7,13 +7,13 @@ public class CustomColorFader {
     private Vec3 color = null;
     private long timeUpdate = System.currentTimeMillis();
 
-    public Vec3 getColor(double x, double y, double z) {
+    public Vec3 getColor(final double x, final double y, final double z) {
         if (this.color == null) {
             this.color = new Vec3(x, y, z);
             return this.color;
         } else {
-            long i = System.currentTimeMillis();
-            long j = i - this.timeUpdate;
+            final long i = System.currentTimeMillis();
+            final long j = i - this.timeUpdate;
 
             if (j == 0L) {
                 return this.color;
@@ -25,12 +25,12 @@ public class CustomColorFader {
                 } else {
                     double d0 = (double) j * 0.001D;
                     d0 = Config.limit(d0, 0.0D, 1.0D);
-                    double d1 = x - this.color.xCoord;
-                    double d2 = y - this.color.yCoord;
-                    double d3 = z - this.color.zCoord;
-                    double d4 = this.color.xCoord + d1 * d0;
-                    double d5 = this.color.yCoord + d2 * d0;
-                    double d6 = this.color.zCoord + d3 * d0;
+                    final double d1 = x - this.color.xCoord;
+                    final double d2 = y - this.color.yCoord;
+                    final double d3 = z - this.color.zCoord;
+                    final double d4 = this.color.xCoord + d1 * d0;
+                    final double d5 = this.color.yCoord + d2 * d0;
+                    final double d6 = this.color.zCoord + d3 * d0;
                     this.color = new Vec3(d4, d5, d6);
                     return this.color;
                 }

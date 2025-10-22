@@ -12,12 +12,12 @@ public class WorldGenHellLava extends WorldGenerator {
     private final Block field_150553_a;
     private final boolean field_94524_b;
 
-    public WorldGenHellLava(Block p_i45453_1_, boolean p_i45453_2_) {
+    public WorldGenHellLava(final Block p_i45453_1_, final boolean p_i45453_2_) {
         this.field_150553_a = p_i45453_1_;
         this.field_94524_b = p_i45453_2_;
     }
 
-    public boolean generate(World worldIn, Random rand, BlockPos position) {
+    public boolean generate(final World worldIn, final Random rand, final BlockPos position) {
         if (worldIn.getBlockState(position.up()).getBlock() != Blocks.netherrack) {
             return false;
         } else if (worldIn.getBlockState(position).getBlock().getMaterial() != Material.air && worldIn.getBlockState(position).getBlock() != Blocks.netherrack) {

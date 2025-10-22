@@ -27,8 +27,8 @@ public class ItemMap extends ItemMapBase {
         this.setHasSubtypes(true);
     }
 
-    public static MapData loadMapData(int mapId, World worldIn) {
-        String s = "map_" + mapId;
+    public static MapData loadMapData(final int mapId, final World worldIn) {
+        final String s = "map_" + mapId;
         MapData mapdata = (MapData) worldIn.loadItemData(MapData.class, s);
 
         if (mapdata == null) {
@@ -39,7 +39,7 @@ public class ItemMap extends ItemMapBase {
         return mapdata;
     }
 
-    public MapData getMapData(ItemStack stack, World worldIn) {
+    public MapData getMapData(final ItemStack stack, final World worldIn) {
         String s = "map_" + stack.getMetadata();
         MapData mapdata = (MapData) worldIn.loadItemData(MapData.class, s);
 
@@ -57,20 +57,20 @@ public class ItemMap extends ItemMapBase {
         return mapdata;
     }
 
-    public void updateMapData(World worldIn, Entity viewer, MapData data) {
+    public void updateMapData(final World worldIn, final Entity viewer, final MapData data) {
         if (worldIn.provider.getDimensionId() == data.dimension && viewer instanceof EntityPlayer) {
-            int i = 1 << data.scale;
-            int j = data.xCenter;
-            int k = data.zCenter;
-            int l = MathHelper.floor_double(viewer.posX - (double) j) / i + 64;
-            int i1 = MathHelper.floor_double(viewer.posZ - (double) k) / i + 64;
+            final int i = 1 << data.scale;
+            final int j = data.xCenter;
+            final int k = data.zCenter;
+            final int l = MathHelper.floor_double(viewer.posX - (double) j) / i + 64;
+            final int i1 = MathHelper.floor_double(viewer.posZ - (double) k) / i + 64;
             int j1 = 128 / i;
 
             if (worldIn.provider.getHasNoSky()) {
                 j1 /= 2;
             }
 
-            MapData.MapInfo mapdata$mapinfo = data.getMapInfo((EntityPlayer) viewer);
+            final MapData.MapInfo mapdata$mapinfo = data.getMapInfo((EntityPlayer) viewer);
             ++mapdata$mapinfo.field_82569_d;
             boolean flag = false;
 
@@ -81,17 +81,17 @@ public class ItemMap extends ItemMapBase {
 
                     for (int l1 = i1 - j1 - 1; l1 < i1 + j1; ++l1) {
                         if (k1 >= 0 && l1 >= -1 && k1 < 128 && l1 < 128) {
-                            int i2 = k1 - l;
-                            int j2 = l1 - i1;
-                            boolean flag1 = i2 * i2 + j2 * j2 > (j1 - 2) * (j1 - 2);
-                            int k2 = (j / i + k1 - 64) * i;
-                            int l2 = (k / i + l1 - 64) * i;
-                            Multiset<MapColor> multiset = HashMultiset.create();
-                            Chunk chunk = worldIn.getChunkFromBlockCoords(new BlockPos(k2, 0, l2));
+                            final int i2 = k1 - l;
+                            final int j2 = l1 - i1;
+                            final boolean flag1 = i2 * i2 + j2 * j2 > (j1 - 2) * (j1 - 2);
+                            final int k2 = (j / i + k1 - 64) * i;
+                            final int l2 = (k / i + l1 - 64) * i;
+                            final Multiset<MapColor> multiset = HashMultiset.create();
+                            final Chunk chunk = worldIn.getChunkFromBlockCoords(new BlockPos(k2, 0, l2));
 
                             if (!chunk.isEmpty()) {
-                                int i3 = k2 & 15;
-                                int j3 = l2 & 15;
+                                final int i3 = k2 & 15;
+                                final int j3 = l2 & 15;
                                 int k3 = 0;
                                 double d1 = 0.0D;
 
@@ -107,7 +107,7 @@ public class ItemMap extends ItemMapBase {
 
                                     d1 = 100.0D;
                                 } else {
-                                    BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+                                    final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
                                     for (int i4 = 0; i4 < i; ++i4) {
                                         for (int j4 = 0; j4 < i; ++j4) {
@@ -117,17 +117,20 @@ public class ItemMap extends ItemMapBase {
                                             if (k4 > 1) {
                                                 label541:
                                                 {
-                                                    do {
+                                                    while (true) {
                                                         --k4;
-                                                        iblockstate = chunk.getBlockState(blockpos$mutableblockpos.set(i4 + i3, k4, j4 + j3));
+                                                        iblockstate = chunk.getBlockState(blockpos$mutableblockpos.func_181079_c(i4 + i3, k4, j4 + j3));
 
-                                                    } while (iblockstate.getBlock().getMapColor(iblockstate) == MapColor.airColor && k4 > 0);
+                                                        if (iblockstate.getBlock().getMapColor(iblockstate) != MapColor.airColor || k4 <= 0) {
+                                                            break;
+                                                        }
+                                                    }
 
                                                     if (k4 > 0 && iblockstate.getBlock().getMaterial().isLiquid()) {
                                                         int l4 = k4 - 1;
 
                                                         while (true) {
-                                                            Block block = chunk.getBlock(i4 + i3, l4--, j4 + j3);
+                                                            final Block block = chunk.getBlock(i4 + i3, l4--, j4 + j3);
                                                             ++k3;
 
                                                             if (l4 <= 0 || !block.getMaterial().isLiquid()) {
@@ -156,7 +159,7 @@ public class ItemMap extends ItemMapBase {
                                     i5 = 0;
                                 }
 
-                                MapColor mapcolor = Iterables.getFirst(Multisets.copyHighestCountFirst(multiset), MapColor.airColor);
+                                final MapColor mapcolor = Iterables.getFirst(Multisets.copyHighestCountFirst(multiset), MapColor.airColor);
 
                                 if (mapcolor == MapColor.waterColor) {
                                     d2 = (double) k3 * 0.1D + (double) (k1 + l1 & 1) * 0.2D;
@@ -174,8 +177,8 @@ public class ItemMap extends ItemMapBase {
                                 d0 = d1;
 
                                 if (l1 >= 0 && i2 * i2 + j2 * j2 < j1 * j1 && (!flag1 || (k1 + l1 & 1) != 0)) {
-                                    byte b0 = data.colors[k1 + l1 * 128];
-                                    byte b1 = (byte) (mapcolor.colorIndex * 4 + i5);
+                                    final byte b0 = data.colors[k1 + l1 * 128];
+                                    final byte b1 = (byte) (mapcolor.colorIndex * 4 + i5);
 
                                     if (b0 != b1) {
                                         data.colors[k1 + l1 * 128] = b1;
@@ -191,11 +194,16 @@ public class ItemMap extends ItemMapBase {
         }
     }
 
-    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+    /**
+     * Called each tick as long the item is on a player inventory. Uses by maps to check if is on a player hand and
+     * update it's contents.
+     */
+    public void onUpdate(final ItemStack stack, final World worldIn, final Entity entityIn, final int itemSlot, final boolean isSelected) {
         if (!worldIn.isRemote) {
-            MapData mapdata = this.getMapData(stack, worldIn);
+            final MapData mapdata = this.getMapData(stack, worldIn);
 
-            if (entityIn instanceof EntityPlayer entityplayer) {
+            if (entityIn instanceof EntityPlayer) {
+                final EntityPlayer entityplayer = (EntityPlayer) entityIn;
                 mapdata.updateVisiblePlayers(entityplayer, stack);
             }
 
@@ -205,15 +213,18 @@ public class ItemMap extends ItemMapBase {
         }
     }
 
-    public Packet createMapDataPacket(ItemStack stack, World worldIn, EntityPlayer player) {
+    public Packet createMapDataPacket(final ItemStack stack, final World worldIn, final EntityPlayer player) {
         return this.getMapData(stack, worldIn).getMapPacket(stack, worldIn, player);
     }
 
-    public void onCreated(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+    /**
+     * Called when item is crafted/smelted. Used only by maps so far.
+     */
+    public void onCreated(final ItemStack stack, final World worldIn, final EntityPlayer playerIn) {
         if (stack.hasTagCompound() && stack.getTagCompound().getBoolean("map_is_scaling")) {
-            MapData mapdata = Items.filled_map.getMapData(stack, worldIn);
+            final MapData mapdata = Items.filled_map.getMapData(stack, worldIn);
             stack.setItemDamage(worldIn.getUniqueDataId("map"));
-            MapData mapdata1 = new MapData("map_" + stack.getMetadata());
+            final MapData mapdata1 = new MapData("map_" + stack.getMetadata());
             mapdata1.scale = (byte) (mapdata.scale + 1);
 
             if (mapdata1.scale > 4) {
@@ -227,8 +238,14 @@ public class ItemMap extends ItemMapBase {
         }
     }
 
-    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
-        MapData mapdata = this.getMapData(stack, playerIn.worldObj);
+    /**
+     * allows items to add custom lines of information to the mouseover description
+     *
+     * @param tooltip  All lines to display in the Item's tooltip. This is a List of Strings.
+     * @param advanced Whether the setting "Advanced tooltips" is enabled
+     */
+    public void addInformation(final ItemStack stack, final EntityPlayer playerIn, final List<String> tooltip, final boolean advanced) {
+        final MapData mapdata = this.getMapData(stack, playerIn.worldObj);
 
         if (advanced) {
             if (mapdata == null) {

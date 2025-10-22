@@ -7,23 +7,41 @@ import net.minecraft.stats.StatList;
 import net.minecraft.village.MerchantRecipe;
 
 public class SlotMerchantResult extends Slot {
+    /**
+     * Merchant's inventory.
+     */
     private final InventoryMerchant theMerchantInventory;
+
+    /**
+     * The Player whos trying to buy/sell stuff.
+     */
     private final EntityPlayer thePlayer;
     private int field_75231_g;
+
+    /**
+     * "Instance" of the Merchant.
+     */
     private final IMerchant theMerchant;
 
-    public SlotMerchantResult(EntityPlayer player, IMerchant merchant, InventoryMerchant merchantInventory, int slotIndex, int xPosition, int yPosition) {
+    public SlotMerchantResult(final EntityPlayer player, final IMerchant merchant, final InventoryMerchant merchantInventory, final int slotIndex, final int xPosition, final int yPosition) {
         super(merchantInventory, slotIndex, xPosition, yPosition);
         this.thePlayer = player;
         this.theMerchant = merchant;
         this.theMerchantInventory = merchantInventory;
     }
 
-    public boolean isItemValid(ItemStack stack) {
+    /**
+     * Check if the stack is a valid item for this slot. Always true beside for the armor slots.
+     */
+    public boolean isItemValid(final ItemStack stack) {
         return false;
     }
 
-    public ItemStack decrStackSize(int amount) {
+    /**
+     * Decrease the size of the stack in slot (first int arg) by the amount of the second int arg. Returns the new
+     * stack.
+     */
+    public ItemStack decrStackSize(final int amount) {
         if (this.getHasStack()) {
             this.field_75231_g += Math.min(amount, this.getStack().stackSize);
         }
@@ -31,19 +49,26 @@ public class SlotMerchantResult extends Slot {
         return super.decrStackSize(amount);
     }
 
-    protected void onCrafting(ItemStack stack, int amount) {
+    /**
+     * the itemStack passed in is the output - ie, iron ingots, and pickaxes, not ore and wood. Typically increases an
+     * internal count then calls onCrafting(item).
+     */
+    protected void onCrafting(final ItemStack stack, final int amount) {
         this.field_75231_g += amount;
         this.onCrafting(stack);
     }
 
-    protected void onCrafting(ItemStack stack) {
+    /**
+     * the itemStack passed in is the output - ie, iron ingots, and pickaxes, not ore and wood.
+     */
+    protected void onCrafting(final ItemStack stack) {
         stack.onCrafting(this.thePlayer.worldObj, this.thePlayer, this.field_75231_g);
         this.field_75231_g = 0;
     }
 
-    public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack) {
+    public void onPickupFromSlot(final EntityPlayer playerIn, final ItemStack stack) {
         this.onCrafting(stack);
-        MerchantRecipe merchantrecipe = this.theMerchantInventory.getCurrentRecipe();
+        final MerchantRecipe merchantrecipe = this.theMerchantInventory.getCurrentRecipe();
 
         if (merchantrecipe != null) {
             ItemStack itemstack = this.theMerchantInventory.getStackInSlot(0);
@@ -67,9 +92,9 @@ public class SlotMerchantResult extends Slot {
         }
     }
 
-    private boolean doTrade(MerchantRecipe trade, ItemStack firstItem, ItemStack secondItem) {
-        ItemStack itemstack = trade.getItemToBuy();
-        ItemStack itemstack1 = trade.getSecondItemToBuy();
+    private boolean doTrade(final MerchantRecipe trade, final ItemStack firstItem, final ItemStack secondItem) {
+        final ItemStack itemstack = trade.getItemToBuy();
+        final ItemStack itemstack1 = trade.getSecondItemToBuy();
 
         if (firstItem != null && firstItem.getItem() == itemstack.getItem()) {
             if (itemstack1 != null && secondItem != null && itemstack1.getItem() == secondItem.getItem()) {

@@ -18,10 +18,11 @@ public class ModelAdapterBat extends ModelAdapter {
         return new ModelBat();
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelBat modelbat)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelBat)) {
             return null;
         } else {
+            final ModelBat modelbat = (ModelBat) model;
             return modelPart.equals("head") ? (ModelRenderer) Reflector.getFieldValue(modelbat, Reflector.ModelBat_ModelRenderers, 0) : (modelPart.equals("body") ? (ModelRenderer) Reflector.getFieldValue(modelbat, Reflector.ModelBat_ModelRenderers, 1) : (modelPart.equals("right_wing") ? (ModelRenderer) Reflector.getFieldValue(modelbat, Reflector.ModelBat_ModelRenderers, 2) : (modelPart.equals("left_wing") ? (ModelRenderer) Reflector.getFieldValue(modelbat, Reflector.ModelBat_ModelRenderers, 3) : (modelPart.equals("outer_right_wing") ? (ModelRenderer) Reflector.getFieldValue(modelbat, Reflector.ModelBat_ModelRenderers, 4) : (modelPart.equals("outer_left_wing") ? (ModelRenderer) Reflector.getFieldValue(modelbat, Reflector.ModelBat_ModelRenderers, 5) : null)))));
         }
     }
@@ -30,9 +31,9 @@ public class ModelAdapterBat extends ModelAdapter {
         return new String[]{"head", "body", "right_wing", "left_wing", "outer_right_wing", "outer_left_wing"};
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderBat renderbat = new RenderBat(rendermanager);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderBat renderbat = new RenderBat(rendermanager);
         renderbat.mainModel = modelBase;
         renderbat.shadowSize = shadowSize;
         return renderbat;

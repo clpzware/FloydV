@@ -1,9 +1,5 @@
 package net.minecraft.client.renderer;
 
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-
 import net.minecraft.src.Config;
 import net.optifine.SmartAnimations;
 import net.optifine.render.GlAlphaState;
@@ -11,8 +7,10 @@ import net.optifine.render.GlBlendState;
 import net.optifine.shaders.Shaders;
 import net.optifine.util.LockCounter;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL14;
+
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
 public class GlStateManager {
     private static final GlStateManager.AlphaState alphaState = new GlStateManager.AlphaState();
@@ -27,7 +25,6 @@ public class GlStateManager {
     private static final GlStateManager.ColorLogicState colorLogicState = new GlStateManager.ColorLogicState();
     private static final GlStateManager.TexGenState texGenState = new GlStateManager.TexGenState();
     private static final GlStateManager.ClearState clearState = new GlStateManager.ClearState();
-    private static final GlStateManager.StencilState stencilState = new GlStateManager.StencilState();
     private static final GlStateManager.BooleanState normalizeState = new GlStateManager.BooleanState(2977);
     private static int activeTextureUnit = 0;
     private static final GlStateManager.TextureState[] textureState = new GlStateManager.TextureState[32];
@@ -41,6 +38,9 @@ public class GlStateManager {
     private static final LockCounter blendLock = new LockCounter();
     private static final GlBlendState blendLockState = new GlBlendState();
     private static boolean creatingDisplayList = false;
+
+    public static boolean caching = false;
+    private static boolean blendCacheState = false;
 
     public static void pushAttrib() {
         GL11.glPushAttrib(8256);
@@ -136,6 +136,9 @@ public class GlStateManager {
         if (blendLock.isLocked()) {
             blendLockState.setDisabled();
         } else {
+            if (caching) {
+                blendCacheState = false;
+            }
             blendState.blend.setDisabled();
         }
     }
@@ -144,6 +147,10 @@ public class GlStateManager {
         if (blendLock.isLocked()) {
             blendLockState.setEnabled();
         } else {
+            if (caching) {
+                blendCacheState = true;
+            }
+
             blendState.blend.setEnabled();
         }
     }
@@ -152,6 +159,11 @@ public class GlStateManager {
         if (blendLock.isLocked()) {
             blendLockState.setFactors(srcFactor, dstFactor);
         } else {
+            if (caching) {
+                OpenGlHelper.glBlendFunc(srcFactor, dstFactor, 1, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                return;
+            }
+
             if (srcFactor != blendState.srcFactor || dstFactor != blendState.dstFactor || srcFactor != blendState.srcFactorAlpha || dstFactor != blendState.dstFactorAlpha) {
                 blendState.srcFactor = srcFactor;
                 blendState.dstFactor = dstFactor;
@@ -171,6 +183,11 @@ public class GlStateManager {
         if (blendLock.isLocked()) {
             blendLockState.setFactors(srcFactor, dstFactor, srcFactorAlpha, dstFactorAlpha);
         } else {
+            if (caching && dstFactorAlpha != GL11.GL_ONE_MINUS_SRC_ALPHA) {
+                OpenGlHelper.glBlendFunc(srcFactor, dstFactor, 1, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                return;
+            }
+
             if (srcFactor != blendState.srcFactor || dstFactor != blendState.dstFactor || srcFactorAlpha != blendState.srcFactorAlpha || dstFactorAlpha != blendState.dstFactorAlpha) {
                 blendState.srcFactor = srcFactor;
                 blendState.dstFactor = dstFactor;
@@ -232,14 +249,6 @@ public class GlStateManager {
             fogState.end = param;
             GL11.glFogf(GL11.GL_FOG_END, param);
         }
-    }
-
-    public static void glFog(int p_glFog_0_, FloatBuffer p_glFog_1_) {
-        GL11.glFogfv(p_glFog_0_, p_glFog_1_);
-    }
-
-    public static void glFogi(int p_glFogi_0_, int p_glFogi_1_) {
-        GL11.glFogi(p_glFogi_0_, p_glFogi_1_);
     }
 
     public static void enableCull() {
@@ -306,17 +315,26 @@ public class GlStateManager {
     }
 
     public static void texGen(GlStateManager.TexGen p_179105_0_, int pname, FloatBuffer params) {
-        GL11.glTexGenfv(texGenCoord(p_179105_0_).coord, pname, params);
+        GL11.glTexGen(texGenCoord(p_179105_0_).coord, pname, params);
     }
 
     private static GlStateManager.TexGenCoord texGenCoord(GlStateManager.TexGen p_179125_0_) {
-        return switch (p_179125_0_) {
-            case S -> texGenState.s;
-            case T -> texGenState.t;
-            case R -> texGenState.r;
-            case Q -> texGenState.q;
-            default -> texGenState.s;
-        };
+        switch (p_179125_0_) {
+            case S:
+                return texGenState.s;
+
+            case T:
+                return texGenState.t;
+
+            case R:
+                return texGenState.r;
+
+            case Q:
+                return texGenState.q;
+
+            default:
+                return texGenState.s;
+        }
     }
 
     public static void setActiveTexture(int texture) {
@@ -438,7 +456,7 @@ public class GlStateManager {
     }
 
     public static void getFloat(int pname, FloatBuffer params) {
-        GL11.glGetFloatv(pname, params);
+        GL11.glGetFloat(pname, params);
     }
 
     public static void ortho(double left, double right, double bottom, double top, double zNear, double zFar) {
@@ -466,10 +484,15 @@ public class GlStateManager {
     }
 
     public static void multMatrix(FloatBuffer matrix) {
-        GL11.glMultMatrixf(matrix);
+        GL11.glMultMatrix(matrix);
     }
 
     public static void color(float colorRed, float colorGreen, float colorBlue, float colorAlpha) {
+        if (caching && !blendCacheState && colorAlpha < 1.0F) {
+            GlStateManager.color(colorRed, colorGreen, colorBlue, 1.0F);
+            return;
+        }
+
         if (colorRed != colorState.red || colorGreen != colorState.green || colorBlue != colorState.blue || colorAlpha != colorState.alpha) {
             colorState.red = colorRed;
             colorState.green = colorGreen;
@@ -487,32 +510,8 @@ public class GlStateManager {
         colorState.red = colorState.green = colorState.blue = colorState.alpha = -1.0F;
     }
 
-    public static void glNormalPointer(int p_glNormalPointer_0_, int p_glNormalPointer_1_, ByteBuffer p_glNormalPointer_2_) {
-        GL11.glNormalPointer(p_glNormalPointer_0_, p_glNormalPointer_1_, p_glNormalPointer_2_);
-    }
-
-    public static void glTexCoordPointer(int p_glTexCoordPointer_0_, int p_glTexCoordPointer_1_, int p_glTexCoordPointer_2_, int p_glTexCoordPointer_3_) {
-        GL11.glTexCoordPointer(p_glTexCoordPointer_0_, p_glTexCoordPointer_1_, p_glTexCoordPointer_2_, p_glTexCoordPointer_3_);
-    }
-
-    public static void glTexCoordPointer(int p_glTexCoordPointer_0_, int p_glTexCoordPointer_1_, int p_glTexCoordPointer_2_, ByteBuffer p_glTexCoordPointer_3_) {
-        GL11.glTexCoordPointer(p_glTexCoordPointer_0_, p_glTexCoordPointer_1_, p_glTexCoordPointer_2_, p_glTexCoordPointer_3_);
-    }
-
     public static void glVertexPointer(int p_glVertexPointer_0_, int p_glVertexPointer_1_, int p_glVertexPointer_2_, int p_glVertexPointer_3_) {
-        GL11.glVertexPointer(p_glVertexPointer_0_, p_glVertexPointer_1_, p_glVertexPointer_2_, p_glVertexPointer_3_);
-    }
-
-    public static void glVertexPointer(int p_glVertexPointer_0_, int p_glVertexPointer_1_, int p_glVertexPointer_2_, ByteBuffer p_glVertexPointer_3_) {
-        GL11.glVertexPointer(p_glVertexPointer_0_, p_glVertexPointer_1_, p_glVertexPointer_2_, p_glVertexPointer_3_);
-    }
-
-    public static void glColorPointer(int p_glColorPointer_0_, int p_glColorPointer_1_, int p_glColorPointer_2_, int p_glColorPointer_3_) {
-        GL11.glColorPointer(p_glColorPointer_0_, p_glColorPointer_1_, p_glColorPointer_2_, p_glColorPointer_3_);
-    }
-
-    public static void glColorPointer(int p_glColorPointer_0_, int p_glColorPointer_1_, int p_glColorPointer_2_, ByteBuffer p_glColorPointer_3_) {
-        GL11.glColorPointer(p_glColorPointer_0_, p_glColorPointer_1_, p_glColorPointer_2_, p_glColorPointer_3_);
+        GL11.glVertexPointer(p_glVertexPointer_0_, p_glVertexPointer_1_, p_glVertexPointer_2_, (long) p_glVertexPointer_3_);
     }
 
     public static void glDisableClientState(int p_glDisableClientState_0_) {
@@ -521,14 +520,6 @@ public class GlStateManager {
 
     public static void glEnableClientState(int p_glEnableClientState_0_) {
         GL11.glEnableClientState(p_glEnableClientState_0_);
-    }
-
-    public static void glBegin(int p_glBegin_0_) {
-        GL11.glBegin(p_glBegin_0_);
-    }
-
-    public static void glEnd() {
-        GL11.glEnd();
     }
 
     public static void glDrawArrays(int p_glDrawArrays_0_, int p_glDrawArrays_1_, int p_glDrawArrays_2_) {
@@ -582,15 +573,6 @@ public class GlStateManager {
         }
     }
 
-    public static void glDeleteLists(int p_glDeleteLists_0_, int p_glDeleteLists_1_) {
-        GL11.glDeleteLists(p_glDeleteLists_0_, p_glDeleteLists_1_);
-    }
-
-    public static void glNewList(int p_glNewList_0_, int p_glNewList_1_) {
-        GL11.glNewList(p_glNewList_0_, p_glNewList_1_);
-        creatingDisplayList = true;
-    }
-
     public static void glEndList() {
         GL11.glEndList();
         creatingDisplayList = false;
@@ -602,22 +584,6 @@ public class GlStateManager {
 
     public static void glTexImage2D(int p_glTexImage2D_0_, int p_glTexImage2D_1_, int p_glTexImage2D_2_, int p_glTexImage2D_3_, int p_glTexImage2D_4_, int p_glTexImage2D_5_, int p_glTexImage2D_6_, int p_glTexImage2D_7_, IntBuffer p_glTexImage2D_8_) {
         GL11.glTexImage2D(p_glTexImage2D_0_, p_glTexImage2D_1_, p_glTexImage2D_2_, p_glTexImage2D_3_, p_glTexImage2D_4_, p_glTexImage2D_5_, p_glTexImage2D_6_, p_glTexImage2D_7_, p_glTexImage2D_8_);
-    }
-
-    public static void glTexSubImage2D(int p_glTexSubImage2D_0_, int p_glTexSubImage2D_1_, int p_glTexSubImage2D_2_, int p_glTexSubImage2D_3_, int p_glTexSubImage2D_4_, int p_glTexSubImage2D_5_, int p_glTexSubImage2D_6_, int p_glTexSubImage2D_7_, IntBuffer p_glTexSubImage2D_8_) {
-        GL11.glTexSubImage2D(p_glTexSubImage2D_0_, p_glTexSubImage2D_1_, p_glTexSubImage2D_2_, p_glTexSubImage2D_3_, p_glTexSubImage2D_4_, p_glTexSubImage2D_5_, p_glTexSubImage2D_6_, p_glTexSubImage2D_7_, p_glTexSubImage2D_8_);
-    }
-
-    public static void glCopyTexSubImage2D(int p_glCopyTexSubImage2D_0_, int p_glCopyTexSubImage2D_1_, int p_glCopyTexSubImage2D_2_, int p_glCopyTexSubImage2D_3_, int p_glCopyTexSubImage2D_4_, int p_glCopyTexSubImage2D_5_, int p_glCopyTexSubImage2D_6_, int p_glCopyTexSubImage2D_7_) {
-        GL11.glCopyTexSubImage2D(p_glCopyTexSubImage2D_0_, p_glCopyTexSubImage2D_1_, p_glCopyTexSubImage2D_2_, p_glCopyTexSubImage2D_3_, p_glCopyTexSubImage2D_4_, p_glCopyTexSubImage2D_5_, p_glCopyTexSubImage2D_6_, p_glCopyTexSubImage2D_7_);
-    }
-
-    public static void glGetTexImage(int p_glGetTexImage_0_, int p_glGetTexImage_1_, int p_glGetTexImage_2_, int p_glGetTexImage_3_, IntBuffer p_glGetTexImage_4_) {
-        GL11.glGetTexImage(p_glGetTexImage_0_, p_glGetTexImage_1_, p_glGetTexImage_2_, p_glGetTexImage_3_, p_glGetTexImage_4_);
-    }
-
-    public static void glTexParameterf(int p_glTexParameterf_0_, int p_glTexParameterf_1_, float p_glTexParameterf_2_) {
-        GL11.glTexParameterf(p_glTexParameterf_0_, p_glTexParameterf_1_, p_glTexParameterf_2_);
     }
 
     public static void glTexParameteri(int p_glTexParameteri_0_, int p_glTexParameteri_1_, int p_glTexParameteri_2_) {
@@ -640,21 +606,6 @@ public class GlStateManager {
         return textureState[activeTextureUnit].textureName;
     }
 
-    public static void checkBoundTexture() {
-        if (Config.isMinecraftThread()) {
-            int i = GL11.glGetInteger(GL13.GL_ACTIVE_TEXTURE);
-            int j = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);
-            int k = getActiveTextureUnit();
-            int l = getBoundTexture();
-
-            if (l > 0) {
-                if (i != k || j != l) {
-                    Config.dbg("checkTexture: act: " + k + ", glAct: " + i + ", tex: " + l + ", glTex: " + j);
-                }
-            }
-        }
-    }
-
     public static void deleteTextures(IntBuffer p_deleteTextures_0_) {
         p_deleteTextures_0_.rewind();
 
@@ -664,14 +615,6 @@ public class GlStateManager {
         }
 
         p_deleteTextures_0_.rewind();
-    }
-
-    public static boolean isFogEnabled() {
-        return fogState.fog.currentState;
-    }
-
-    public static void setFogEnabled(boolean p_setFogEnabled_0_) {
-        fogState.fog.setState(p_setFogEnabled_0_);
     }
 
     public static void lockAlpha(GlAlphaState p_lockAlpha_0_) {
@@ -954,27 +897,11 @@ public class GlStateManager {
         }
     }
 
-    static class StencilState {
-        public GlStateManager.StencilFunc field_179078_a;
-        public int field_179076_b;
-        public int field_179077_c;
-        public int field_179074_d;
-        public int field_179075_e;
-
-        private StencilState() {
-            this.field_179078_a = new GlStateManager.StencilFunc();
-            this.field_179076_b = -1;
-            this.field_179077_c = 7680;
-            this.field_179074_d = 7680;
-            this.field_179075_e = 7680;
-        }
-    }
-
     public enum TexGen {
         S,
         T,
         R,
-        Q
+        Q;
     }
 
     static class TexGenCoord {

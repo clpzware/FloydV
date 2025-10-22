@@ -6,32 +6,35 @@ import com.mojang.authlib.GameProfile;
 import java.io.File;
 
 public class UserListWhitelist extends UserList<GameProfile, UserListWhitelistEntry> {
-    public UserListWhitelist(File p_i1132_1_) {
+    public UserListWhitelist(final File p_i1132_1_) {
         super(p_i1132_1_);
     }
 
-    protected UserListEntry<GameProfile> createEntry(JsonObject entryData) {
+    protected UserListEntry<GameProfile> createEntry(final JsonObject entryData) {
         return new UserListWhitelistEntry(entryData);
     }
 
     public String[] getKeys() {
-        String[] astring = new String[this.getValues().size()];
+        final String[] astring = new String[this.getValues().size()];
         int i = 0;
 
-        for (UserListWhitelistEntry userlistwhitelistentry : this.getValues().values()) {
+        for (final UserListWhitelistEntry userlistwhitelistentry : this.getValues().values()) {
             astring[i++] = userlistwhitelistentry.getValue().getName();
         }
 
         return astring;
     }
 
-    protected String getObjectKey(GameProfile obj) {
+    /**
+     * Gets the key value for the given object
+     */
+    protected String getObjectKey(final GameProfile obj) {
         return obj.getId().toString();
     }
 
-    public GameProfile getBannedProfile(String name) {
-        for (UserListWhitelistEntry userlistwhitelistentry : this.getValues().values()) {
-            if (name.equalsIgnoreCase(userlistwhitelistentry.getValue().getName())) {
+    public GameProfile func_152706_a(final String p_152706_1_) {
+        for (final UserListWhitelistEntry userlistwhitelistentry : this.getValues().values()) {
+            if (p_152706_1_.equalsIgnoreCase(userlistwhitelistentry.getValue().getName())) {
                 return userlistwhitelistentry.getValue();
             }
         }

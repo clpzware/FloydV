@@ -5,23 +5,23 @@ import com.google.gson.JsonObject;
 import java.util.Date;
 
 public class IPBanEntry extends BanEntry<String> {
-    public IPBanEntry(String valueIn) {
-        this(valueIn, null, null, null, null);
+    public IPBanEntry(final String p_i46330_1_) {
+        this(p_i46330_1_, null, null, null, null);
     }
 
-    public IPBanEntry(String valueIn, Date startDate, String banner, Date endDate, String banReason) {
-        super(valueIn, startDate, banner, endDate, banReason);
+    public IPBanEntry(final String p_i1159_1_, final Date startDate, final String banner, final Date endDate, final String p_i1159_5_) {
+        super(p_i1159_1_, startDate, banner, endDate, p_i1159_5_);
     }
 
-    public IPBanEntry(JsonObject json) {
-        super(getIPFromJson(json), json);
+    public IPBanEntry(final JsonObject p_i46331_1_) {
+        super(getIPFromJson(p_i46331_1_), p_i46331_1_);
     }
 
-    private static String getIPFromJson(JsonObject json) {
+    private static String getIPFromJson(final JsonObject json) {
         return json.has("ip") ? json.get("ip").getAsString() : null;
     }
 
-    protected void onSerialization(JsonObject data) {
+    protected void onSerialization(final JsonObject data) {
         if (this.getValue() != null) {
             data.addProperty("ip", this.getValue());
             super.onSerialization(data);

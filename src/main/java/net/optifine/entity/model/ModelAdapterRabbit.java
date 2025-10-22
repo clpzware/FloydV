@@ -23,14 +23,15 @@ public class ModelAdapterRabbit extends ModelAdapter {
         return new ModelRabbit();
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelRabbit modelrabbit)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelRabbit)) {
             return null;
         } else {
-            Map<String, Integer> map = getMapPartFields();
+            final ModelRabbit modelrabbit = (ModelRabbit) model;
+            final Map<String, Integer> map = getMapPartFields();
 
             if (map.containsKey(modelPart)) {
-                int i = map.get(modelPart);
+                final int i = map.get(modelPart).intValue();
                 return (ModelRenderer) Reflector.getFieldValue(modelrabbit, Reflector.ModelRabbit_renderers, i);
             } else {
                 return null;
@@ -47,25 +48,25 @@ public class ModelAdapterRabbit extends ModelAdapter {
             return mapPartFields;
         } else {
             mapPartFields = new HashMap();
-            mapPartFields.put("left_foot", 0);
-            mapPartFields.put("right_foot", 1);
-            mapPartFields.put("left_thigh", 2);
-            mapPartFields.put("right_thigh", 3);
-            mapPartFields.put("body", 4);
-            mapPartFields.put("left_arm", 5);
-            mapPartFields.put("right_arm", 6);
-            mapPartFields.put("head", 7);
-            mapPartFields.put("right_ear", 8);
-            mapPartFields.put("left_ear", 9);
-            mapPartFields.put("tail", 10);
-            mapPartFields.put("nose", 11);
+            mapPartFields.put("left_foot", Integer.valueOf(0));
+            mapPartFields.put("right_foot", Integer.valueOf(1));
+            mapPartFields.put("left_thigh", Integer.valueOf(2));
+            mapPartFields.put("right_thigh", Integer.valueOf(3));
+            mapPartFields.put("body", Integer.valueOf(4));
+            mapPartFields.put("left_arm", Integer.valueOf(5));
+            mapPartFields.put("right_arm", Integer.valueOf(6));
+            mapPartFields.put("head", Integer.valueOf(7));
+            mapPartFields.put("right_ear", Integer.valueOf(8));
+            mapPartFields.put("left_ear", Integer.valueOf(9));
+            mapPartFields.put("tail", Integer.valueOf(10));
+            mapPartFields.put("nose", Integer.valueOf(11));
             return mapPartFields;
         }
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderRabbit renderrabbit = new RenderRabbit(rendermanager, modelBase, shadowSize);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderRabbit renderrabbit = new RenderRabbit(rendermanager, modelBase, shadowSize);
         return renderrabbit;
     }
 }

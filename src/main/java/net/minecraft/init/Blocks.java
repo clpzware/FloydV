@@ -203,8 +203,11 @@ public class Blocks {
     public static final BlockSlab double_stone_slab2;
     public static final BlockSlab stone_slab2;
 
-    private static Block getRegisteredBlock(String blockName) {
-        return Block.blockRegistry.getObject(new ResourceLocation(blockName));
+    /**
+     * Returns the Block in the blockRegistry with the specified name.
+     */
+    private static Block getRegisteredBlock(final String p_180383_0_) {
+        return Block.blockRegistry.getObject(new ResourceLocation(p_180383_0_));
     }
 
     static {

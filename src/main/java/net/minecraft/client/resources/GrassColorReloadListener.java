@@ -9,10 +9,10 @@ import java.io.IOException;
 public class GrassColorReloadListener implements IResourceManagerReloadListener {
     private static final ResourceLocation LOC_GRASS_PNG = new ResourceLocation("textures/colormap/grass.png");
 
-    public void onResourceManagerReload(IResourceManager resourceManager) {
+    public void onResourceManagerReload(final IResourceManager resourceManager) {
         try {
             ColorizerGrass.setGrassBiomeColorizer(TextureUtil.readImageData(resourceManager, LOC_GRASS_PNG));
-        } catch (IOException ignored) {
+        } catch (final IOException var3) {
         }
     }
 }

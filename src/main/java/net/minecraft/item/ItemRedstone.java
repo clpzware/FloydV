@@ -13,14 +13,20 @@ public class ItemRedstone extends Item {
         this.setCreativeTab(CreativeTabs.tabRedstone);
     }
 
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-        boolean flag = worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos);
-        BlockPos blockpos = flag ? pos : pos.offset(side);
+    /**
+     * Called when a Block is right-clicked with this Item
+     *
+     * @param pos  The block being right-clicked
+     * @param side The side being right-clicked
+     */
+    public boolean onItemUse(final ItemStack stack, final EntityPlayer playerIn, final World worldIn, final BlockPos pos, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
+        final boolean flag = worldIn.getBlockState(pos).getBlock().isReplaceable(worldIn, pos);
+        final BlockPos blockpos = flag ? pos : pos.offset(side);
 
         if (!playerIn.canPlayerEdit(blockpos, side, stack)) {
             return false;
         } else {
-            Block block = worldIn.getBlockState(blockpos).getBlock();
+            final Block block = worldIn.getBlockState(blockpos).getBlock();
 
             if (!worldIn.canBlockBePlaced(block, blockpos, false, side, null, stack)) {
                 return false;

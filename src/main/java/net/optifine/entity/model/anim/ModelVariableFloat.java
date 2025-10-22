@@ -9,7 +9,7 @@ public class ModelVariableFloat implements IExpressionFloat {
     private final ModelRenderer modelRenderer;
     private final ModelVariableType enumModelVariable;
 
-    public ModelVariableFloat(String name, ModelRenderer modelRenderer, ModelVariableType enumModelVariable) {
+    public ModelVariableFloat(final String name, final ModelRenderer modelRenderer, final ModelVariableType enumModelVariable) {
         this.name = name;
         this.modelRenderer = modelRenderer;
         this.enumModelVariable = enumModelVariable;
@@ -27,7 +27,7 @@ public class ModelVariableFloat implements IExpressionFloat {
         return this.enumModelVariable.getFloat(this.modelRenderer);
     }
 
-    public void setValue(float value) {
+    public void setValue(final float value) {
         this.enumModelVariable.setFloat(this.modelRenderer, value);
     }
 

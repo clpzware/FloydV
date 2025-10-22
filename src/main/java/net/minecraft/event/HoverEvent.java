@@ -9,24 +9,31 @@ public class HoverEvent {
     private final HoverEvent.Action action;
     private final IChatComponent value;
 
-    public HoverEvent(HoverEvent.Action actionIn, IChatComponent valueIn) {
+    public HoverEvent(final HoverEvent.Action actionIn, final IChatComponent valueIn) {
         this.action = actionIn;
         this.value = valueIn;
     }
 
+    /**
+     * Gets the action to perform when this event is raised.
+     */
     public HoverEvent.Action getAction() {
         return this.action;
     }
 
+    /**
+     * Gets the value to perform the action on when this event is raised.  For example, if the action is "show item",
+     * this would be the item to show.
+     */
     public IChatComponent getValue() {
         return this.value;
     }
 
-    public boolean equals(Object p_equals_1_) {
+    public boolean equals(final Object p_equals_1_) {
         if (this == p_equals_1_) {
             return true;
         } else if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass()) {
-            HoverEvent hoverevent = (HoverEvent) p_equals_1_;
+            final HoverEvent hoverevent = (HoverEvent) p_equals_1_;
 
             if (this.action != hoverevent.action) {
                 return false;
@@ -60,7 +67,7 @@ public class HoverEvent {
         private final boolean allowedInChat;
         private final String canonicalName;
 
-        Action(String canonicalNameIn, boolean allowedInChatIn) {
+        Action(final String canonicalNameIn, final boolean allowedInChatIn) {
             this.canonicalName = canonicalNameIn;
             this.allowedInChat = allowedInChatIn;
         }
@@ -73,12 +80,12 @@ public class HoverEvent {
             return this.canonicalName;
         }
 
-        public static HoverEvent.Action getValueByCanonicalName(String canonicalNameIn) {
+        public static HoverEvent.Action getValueByCanonicalName(final String canonicalNameIn) {
             return nameMapping.get(canonicalNameIn);
         }
 
         static {
-            for (HoverEvent.Action hoverevent$action : values()) {
+            for (final HoverEvent.Action hoverevent$action : values()) {
                 nameMapping.put(hoverevent$action.getCanonicalName(), hoverevent$action);
             }
         }

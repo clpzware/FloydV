@@ -4,7 +4,7 @@ public class SoundEventAccessor implements ISoundEventAccessor<SoundPoolEntry> {
     private final SoundPoolEntry entry;
     private final int weight;
 
-    SoundEventAccessor(SoundPoolEntry entry, int weight) {
+    SoundEventAccessor(final SoundPoolEntry entry, final int weight) {
         this.entry = entry;
         this.weight = weight;
     }

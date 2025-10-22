@@ -27,17 +27,17 @@ import com.viaversion.viaversion.protocol.ProtocolManagerImpl;
 import de.florianmichael.vialoadingbase.model.Platform;
 import de.florianmichael.vialoadingbase.platform.ViaBackwardsPlatformImpl;
 import de.florianmichael.vialoadingbase.platform.ViaRewindPlatformImpl;
-import de.florianmichael.vialoadingbase.platform.viaversion.VLBViaCommandHandler;
-import de.florianmichael.vialoadingbase.platform.viaversion.VLBViaProviders;
 import de.florianmichael.vialoadingbase.platform.ViaVersionPlatformImpl;
+import de.florianmichael.vialoadingbase.platform.viaversion.VLBViaCommandHandler;
 import de.florianmichael.vialoadingbase.platform.viaversion.VLBViaInjector;
+import de.florianmichael.vialoadingbase.platform.viaversion.VLBViaProviders;
 import de.florianmichael.vialoadingbase.util.JLoggerToLog4j;
-import lombok.Getter;
-import net.minecraft.client.Minecraft;
 import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -55,17 +55,13 @@ public class ViaLoadingBase {
 
     public final static List<ProtocolVersion> PROTOCOLS = new ArrayList<>();
 
-    @Getter
     private static ViaLoadingBase instance;
 
     private final LinkedList<Platform> platforms;
-    @Getter
     private final File runDirectory;
     private final int nativeVersion;
     private final BooleanSupplier forceNativeVersionCondition;
-    @Getter
     private final Supplier<JsonObject> dumpSupplier;
-    @Getter
     private final Consumer<ViaProviders> providers;
     private final Consumer<ViaManagerImpl.ViaManagerBuilder> managerBuilderConsumer;
     private final Consumer<ProtocolVersion> onProtocolReload;
@@ -76,7 +72,7 @@ public class ViaLoadingBase {
     public ViaLoadingBase(LinkedList<Platform> platforms, File runDirectory, int nativeVersion, BooleanSupplier forceNativeVersionCondition, Supplier<JsonObject> dumpSupplier, Consumer<ViaProviders> providers, Consumer<ViaManagerImpl.ViaManagerBuilder> managerBuilderConsumer, Consumer<ProtocolVersion> onProtocolReload) {
         this.platforms = platforms;
 
-        this.runDirectory = new File(Minecraft.getMinecraft().mcDataDir, "ambient/config");
+        this.runDirectory = new File(runDirectory, "ViaLoadingBase");
         this.nativeVersion = nativeVersion;
         this.forceNativeVersionCondition = forceNativeVersionCondition;
         this.dumpSupplier = dumpSupplier;
@@ -132,12 +128,28 @@ public class ViaLoadingBase {
         ViaLoadingBase.LOGGER.info("ViaLoadingBase has loaded " + Platform.COUNT + "/" + platforms.size() + " platforms");
     }
 
+    public static ViaLoadingBase getInstance() {
+        return instance;
+    }
+
     public List<Platform> getSubPlatforms() {
         return platforms;
     }
 
+    public File getRunDirectory() {
+        return runDirectory;
+    }
+
     public int getNativeVersion() {
         return nativeVersion;
+    }
+
+    public Supplier<JsonObject> getDumpSupplier() {
+        return dumpSupplier;
+    }
+
+    public Consumer<ViaProviders> getProviders() {
+        return providers;
     }
 
     public static boolean inClassPath(final String name) {

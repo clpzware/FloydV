@@ -4,11 +4,11 @@ import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.TextureUtil;
 
 public class CustomTexture implements ICustomTexture {
-    private final int textureUnit;
-    private final String path;
-    private final ITextureObject texture;
+    private int textureUnit = -1;
+    private String path = null;
+    private ITextureObject texture = null;
 
-    public CustomTexture(int textureUnit, String path, ITextureObject texture) {
+    public CustomTexture(final int textureUnit, final String path, final ITextureObject texture) {
         this.textureUnit = textureUnit;
         this.path = path;
         this.texture = texture;

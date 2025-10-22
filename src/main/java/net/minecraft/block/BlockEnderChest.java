@@ -31,6 +31,9 @@ public class BlockEnderChest extends BlockContainer {
         this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
     }
 
+    /**
+     * Used to determine ambient occlusion and culling when rebuilding chunks for render
+     */
     public boolean isOpaqueCube() {
         return false;
     }
@@ -39,15 +42,26 @@ public class BlockEnderChest extends BlockContainer {
         return false;
     }
 
+    /**
+     * The type of render function called. 3 for standard block models, 2 for TESR's, 1 for liquids, -1 is no render
+     */
     public int getRenderType() {
         return 2;
     }
 
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    /**
+     * Get the Item that this Block should drop when harvested.
+     *
+     * @param fortune the level of the Fortune enchantment on the player's tool
+     */
+    public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
         return Item.getItemFromBlock(Blocks.obsidian);
     }
 
-    public int quantityDropped(Random random) {
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
+    public int quantityDropped(final Random random) {
         return 8;
     }
 
@@ -55,17 +69,24 @@ public class BlockEnderChest extends BlockContainer {
         return true;
     }
 
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+    /**
+     * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
+     * IBlockstate
+     */
+    public IBlockState onBlockPlaced(final World worldIn, final BlockPos pos, final EnumFacing facing, final float hitX, final float hitY, final float hitZ, final int meta, final EntityLivingBase placer) {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }
 
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+    /**
+     * Called by ItemBlocks after a block is set in the world, to allow post-place logic
+     */
+    public void onBlockPlacedBy(final World worldIn, final BlockPos pos, final IBlockState state, final EntityLivingBase placer, final ItemStack stack) {
         worldIn.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-        InventoryEnderChest inventoryenderchest = playerIn.getInventoryEnderChest();
-        TileEntity tileentity = worldIn.getTileEntity(pos);
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos, final IBlockState state, final EntityPlayer playerIn, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
+        final InventoryEnderChest inventoryenderchest = playerIn.getInventoryEnderChest();
+        final TileEntity tileentity = worldIn.getTileEntity(pos);
 
         if (inventoryenderchest != null && tileentity instanceof TileEntityEnderChest) {
             if (worldIn.getBlockState(pos.up()).getBlock().isNormalCube()) {
@@ -83,25 +104,31 @@ public class BlockEnderChest extends BlockContainer {
         }
     }
 
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    /**
+     * Returns a new instance of a block's tile entity class. Called on placing the block.
+     */
+    public TileEntity createNewTileEntity(final World worldIn, final int meta) {
         return new TileEntityEnderChest();
     }
 
-    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void randomDisplayTick(final World worldIn, final BlockPos pos, final IBlockState state, final Random rand) {
         for (int i = 0; i < 3; ++i) {
-            int j = rand.nextInt(2) * 2 - 1;
-            int k = rand.nextInt(2) * 2 - 1;
-            double d0 = (double) pos.getX() + 0.5D + 0.25D * (double) j;
-            double d1 = (float) pos.getY() + rand.nextFloat();
-            double d2 = (double) pos.getZ() + 0.5D + 0.25D * (double) k;
-            double d3 = rand.nextFloat() * (float) j;
-            double d4 = ((double) rand.nextFloat() - 0.5D) * 0.125D;
-            double d5 = rand.nextFloat() * (float) k;
+            final int j = rand.nextInt(2) * 2 - 1;
+            final int k = rand.nextInt(2) * 2 - 1;
+            final double d0 = (double) pos.getX() + 0.5D + 0.25D * (double) j;
+            final double d1 = (float) pos.getY() + rand.nextFloat();
+            final double d2 = (double) pos.getZ() + 0.5D + 0.25D * (double) k;
+            final double d3 = rand.nextFloat() * (float) j;
+            final double d4 = ((double) rand.nextFloat() - 0.5D) * 0.125D;
+            final double d5 = rand.nextFloat() * (float) k;
             worldIn.spawnParticle(EnumParticleTypes.PORTAL, d0, d1, d2, d3, d4, d5);
         }
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
         EnumFacing enumfacing = EnumFacing.getFront(meta);
 
         if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
@@ -111,7 +138,10 @@ public class BlockEnderChest extends BlockContainer {
         return this.getDefaultState().withProperty(FACING, enumfacing);
     }
 
-    public int getMetaFromState(IBlockState state) {
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
         return state.getValue(FACING).getIndex();
     }
 

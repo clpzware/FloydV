@@ -19,23 +19,24 @@ public class ModelAdapterGhast extends ModelAdapter {
         return new ModelGhast();
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelGhast modelghast)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelGhast)) {
             return null;
         } else {
+            final ModelGhast modelghast = (ModelGhast) model;
 
             if (modelPart.equals("body")) {
                 return (ModelRenderer) Reflector.getFieldValue(modelghast, Reflector.ModelGhast_body);
             } else {
-                String s = "tentacle";
+                final String s = "tentacle";
 
                 if (modelPart.startsWith(s)) {
-                    ModelRenderer[] amodelrenderer = (ModelRenderer[]) Reflector.getFieldValue(modelghast, Reflector.ModelGhast_tentacles);
+                    final ModelRenderer[] amodelrenderer = (ModelRenderer[]) Reflector.getFieldValue(modelghast, Reflector.ModelGhast_tentacles);
 
                     if (amodelrenderer == null) {
                         return null;
                     } else {
-                        String s1 = modelPart.substring(s.length());
+                        final String s1 = modelPart.substring(s.length());
                         int i = Config.parseInt(s1, -1);
                         --i;
                         return i >= 0 && i < amodelrenderer.length ? amodelrenderer[i] : null;
@@ -51,9 +52,9 @@ public class ModelAdapterGhast extends ModelAdapter {
         return new String[]{"body", "tentacle1", "tentacle2", "tentacle3", "tentacle4", "tentacle5", "tentacle6", "tentacle7", "tentacle8", "tentacle9"};
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderGhast renderghast = new RenderGhast(rendermanager);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderGhast renderghast = new RenderGhast(rendermanager);
         renderghast.mainModel = modelBase;
         renderghast.shadowSize = shadowSize;
         return renderghast;

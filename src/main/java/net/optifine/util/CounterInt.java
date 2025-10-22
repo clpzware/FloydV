@@ -4,13 +4,13 @@ public class CounterInt {
     private final int startValue;
     private int value;
 
-    public CounterInt(int startValue) {
+    public CounterInt(final int startValue) {
         this.startValue = startValue;
         this.value = startValue;
     }
 
     public synchronized int nextValue() {
-        int i = this.value++;
+        final int i = this.value++;
         return i;
     }
 

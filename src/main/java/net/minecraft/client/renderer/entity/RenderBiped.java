@@ -12,19 +12,22 @@ public class RenderBiped<T extends EntityLiving> extends RenderLiving<T> {
     protected ModelBiped modelBipedMain;
     protected float field_77070_b;
 
-    public RenderBiped(RenderManager renderManagerIn, ModelBiped modelBipedIn, float shadowSize) {
+    public RenderBiped(final RenderManager renderManagerIn, final ModelBiped modelBipedIn, final float shadowSize) {
         this(renderManagerIn, modelBipedIn, shadowSize, 1.0F);
         this.addLayer(new LayerHeldItem(this));
     }
 
-    public RenderBiped(RenderManager renderManagerIn, ModelBiped modelBipedIn, float shadowSize, float p_i46169_4_) {
+    public RenderBiped(final RenderManager renderManagerIn, final ModelBiped modelBipedIn, final float shadowSize, final float p_i46169_4_) {
         super(renderManagerIn, modelBipedIn, shadowSize);
         this.modelBipedMain = modelBipedIn;
         this.field_77070_b = p_i46169_4_;
         this.addLayer(new LayerCustomHead(modelBipedIn.bipedHead));
     }
 
-    protected ResourceLocation getEntityTexture(T entity) {
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(final T entity) {
         return DEFAULT_RES_LOC;
     }
 

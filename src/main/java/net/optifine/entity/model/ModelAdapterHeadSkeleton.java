@@ -19,10 +19,11 @@ public class ModelAdapterHeadSkeleton extends ModelAdapter {
         return new ModelSkeletonHead(0, 0, 64, 32);
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelSkeletonHead modelskeletonhead)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelSkeletonHead)) {
             return null;
         } else {
+            final ModelSkeletonHead modelskeletonhead = (ModelSkeletonHead) model;
             return modelPart.equals("head") ? modelskeletonhead.skeletonHead : null;
         }
     }
@@ -31,8 +32,8 @@ public class ModelAdapterHeadSkeleton extends ModelAdapter {
         return new String[]{"head"};
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        TileEntityRendererDispatcher tileentityrendererdispatcher = TileEntityRendererDispatcher.instance;
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final TileEntityRendererDispatcher tileentityrendererdispatcher = TileEntityRendererDispatcher.instance;
         TileEntitySpecialRenderer tileentityspecialrenderer = tileentityrendererdispatcher.getSpecialRendererByClass(TileEntitySkull.class);
 
         if (!(tileentityspecialrenderer instanceof TileEntitySkullRenderer)) {

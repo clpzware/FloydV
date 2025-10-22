@@ -49,44 +49,46 @@ public class CustomEntityModelParser {
     public static final String ENTITY_MODEL = "EntityModel";
     public static final String ENTITY_MODEL_PART = "EntityModelPart";
 
-    public static CustomEntityRenderer parseEntityRender(JsonObject obj, String path) {
-        ConnectedParser connectedparser = new ConnectedParser("CustomEntityModels");
-        String s = connectedparser.parseName(path);
-        String s1 = connectedparser.parseBasePath(path);
-        String s2 = Json.getString(obj, "texture");
-        int[] aint = Json.parseIntArray(obj.get("textureSize"), 2);
-        float f = Json.getFloat(obj, "shadowSize", -1.0F);
-        JsonArray jsonarray = (JsonArray) obj.get("models");
+    public static CustomEntityRenderer parseEntityRender(final JsonObject obj, final String path) {
+        final ConnectedParser connectedparser = new ConnectedParser("CustomEntityModels");
+        final String s = connectedparser.parseName(path);
+        final String s1 = connectedparser.parseBasePath(path);
+        final String s2 = Json.getString(obj, "texture");
+        final int[] aint = Json.parseIntArray(obj.get("textureSize"), 2);
+        final float f = Json.getFloat(obj, "shadowSize", -1.0F);
+        final JsonArray jsonarray = (JsonArray) obj.get("models");
         checkNull(jsonarray, "Missing models");
-        Map map = new HashMap();
-        List list = new ArrayList();
+        final Map map = new HashMap();
+        final List list = new ArrayList();
 
         for (int i = 0; i < jsonarray.size(); ++i) {
-            JsonObject jsonobject = (JsonObject) jsonarray.get(i);
+            final JsonObject jsonobject = (JsonObject) jsonarray.get(i);
             processBaseId(jsonobject, map);
             processExternalModel(jsonobject, map, s1);
             processId(jsonobject, map);
-            CustomModelRenderer custommodelrenderer = parseCustomModelRenderer(jsonobject, aint, s1);
+            final CustomModelRenderer custommodelrenderer = parseCustomModelRenderer(jsonobject, aint, s1);
 
-            list.add(custommodelrenderer);
+            if (custommodelrenderer != null) {
+                list.add(custommodelrenderer);
+            }
         }
 
-        CustomModelRenderer[] acustommodelrenderer = (CustomModelRenderer[]) list.toArray(new CustomModelRenderer[list.size()]);
+        final CustomModelRenderer[] acustommodelrenderer = (CustomModelRenderer[]) list.toArray(new CustomModelRenderer[list.size()]);
         ResourceLocation resourcelocation = null;
 
         if (s2 != null) {
             resourcelocation = getResourceLocation(s1, s2, ".png");
         }
 
-        CustomEntityRenderer customentityrenderer = new CustomEntityRenderer(s, s1, resourcelocation, acustommodelrenderer, f);
+        final CustomEntityRenderer customentityrenderer = new CustomEntityRenderer(s, s1, resourcelocation, acustommodelrenderer, f);
         return customentityrenderer;
     }
 
-    private static void processBaseId(JsonObject elem, Map mapModelJsons) {
-        String s = Json.getString(elem, "baseId");
+    private static void processBaseId(final JsonObject elem, final Map mapModelJsons) {
+        final String s = Json.getString(elem, "baseId");
 
         if (s != null) {
-            JsonObject jsonobject = (JsonObject) mapModelJsons.get(s);
+            final JsonObject jsonobject = (JsonObject) mapModelJsons.get(s);
 
             if (jsonobject == null) {
                 Config.warn("BaseID not found: " + s);
@@ -96,14 +98,14 @@ public class CustomEntityModelParser {
         }
     }
 
-    private static void processExternalModel(JsonObject elem, Map mapModelJsons, String basePath) {
-        String s = Json.getString(elem, "model");
+    private static void processExternalModel(final JsonObject elem, final Map mapModelJsons, final String basePath) {
+        final String s = Json.getString(elem, "model");
 
         if (s != null) {
-            ResourceLocation resourcelocation = getResourceLocation(basePath, s, ".jpm");
+            final ResourceLocation resourcelocation = getResourceLocation(basePath, s, ".jpm");
 
             try {
-                JsonObject jsonobject = loadJson(resourcelocation);
+                final JsonObject jsonobject = loadJson(resourcelocation);
 
                 if (jsonobject == null) {
                     Config.warn("Model not found: " + resourcelocation);
@@ -111,25 +113,25 @@ public class CustomEntityModelParser {
                 }
 
                 copyJsonElements(jsonobject, elem);
-            } catch (IOException ioexception) {
-                Config.error(ioexception.getClass().getName() + ": " + ioexception.getMessage());
-            } catch (JsonParseException jsonparseexception) {
-                Config.error(jsonparseexception.getClass().getName() + ": " + jsonparseexception.getMessage());
-            } catch (Exception exception) {
+            } catch (final IOException ioexception) {
+                Config.error("" + ioexception.getClass().getName() + ": " + ioexception.getMessage());
+            } catch (final JsonParseException jsonparseexception) {
+                Config.error("" + jsonparseexception.getClass().getName() + ": " + jsonparseexception.getMessage());
+            } catch (final Exception exception) {
                 exception.printStackTrace();
             }
         }
     }
 
-    private static void copyJsonElements(JsonObject objFrom, JsonObject objTo) {
-        for (Entry<String, JsonElement> entry : objFrom.entrySet()) {
+    private static void copyJsonElements(final JsonObject objFrom, final JsonObject objTo) {
+        for (final Entry<String, JsonElement> entry : objFrom.entrySet()) {
             if (!entry.getKey().equals("id") && !objTo.has(entry.getKey())) {
                 objTo.add(entry.getKey(), entry.getValue());
             }
         }
     }
 
-    public static ResourceLocation getResourceLocation(String basePath, String path, String extension) {
+    public static ResourceLocation getResourceLocation(final String basePath, String path, final String extension) {
         if (!path.endsWith(extension)) {
             path = path + extension;
         }
@@ -145,11 +147,11 @@ public class CustomEntityModelParser {
         return new ResourceLocation(path);
     }
 
-    private static void processId(JsonObject elem, Map mapModelJsons) {
-        String s = Json.getString(elem, "id");
+    private static void processId(final JsonObject elem, final Map mapModelJsons) {
+        final String s = Json.getString(elem, "id");
 
         if (s != null) {
-            if (s.isEmpty()) {
+            if (s.length() < 1) {
                 Config.warn("Empty model ID: " + s);
             } else if (mapModelJsons.containsKey(s)) {
                 Config.warn("Duplicate model ID: " + s);
@@ -159,11 +161,11 @@ public class CustomEntityModelParser {
         }
     }
 
-    public static CustomModelRenderer parseCustomModelRenderer(JsonObject elem, int[] textureSize, String basePath) {
-        String s = Json.getString(elem, "part");
+    public static CustomModelRenderer parseCustomModelRenderer(final JsonObject elem, final int[] textureSize, final String basePath) {
+        final String s = Json.getString(elem, "part");
         checkNull(s, "Model part not specified, missing \"replace\" or \"attachTo\".");
-        boolean flag = Json.getBoolean(elem, "attach", false);
-        ModelBase modelbase = new CustomEntityModel();
+        final boolean flag = Json.getBoolean(elem, "attach", false);
+        final ModelBase modelbase = new CustomEntityModel();
 
         if (textureSize != null) {
             modelbase.textureWidth = textureSize[0];
@@ -171,49 +173,49 @@ public class CustomEntityModelParser {
         }
 
         ModelUpdater modelupdater = null;
-        JsonArray jsonarray = (JsonArray) elem.get("animations");
+        final JsonArray jsonarray = (JsonArray) elem.get("animations");
 
         if (jsonarray != null) {
-            List<ModelVariableUpdater> list = new ArrayList();
+            final List<ModelVariableUpdater> list = new ArrayList();
 
             for (int i = 0; i < jsonarray.size(); ++i) {
-                JsonObject jsonobject = (JsonObject) jsonarray.get(i);
+                final JsonObject jsonobject = (JsonObject) jsonarray.get(i);
 
-                for (Entry<String, JsonElement> entry : jsonobject.entrySet()) {
-                    String s1 = entry.getKey();
-                    String s2 = entry.getValue().getAsString();
-                    ModelVariableUpdater modelvariableupdater = new ModelVariableUpdater(s1, s2);
+                for (final Entry<String, JsonElement> entry : jsonobject.entrySet()) {
+                    final String s1 = entry.getKey();
+                    final String s2 = entry.getValue().getAsString();
+                    final ModelVariableUpdater modelvariableupdater = new ModelVariableUpdater(s1, s2);
                     list.add(modelvariableupdater);
                 }
             }
 
-            if (!list.isEmpty()) {
-                ModelVariableUpdater[] amodelvariableupdater = list.toArray(new ModelVariableUpdater[list.size()]);
+            if (list.size() > 0) {
+                final ModelVariableUpdater[] amodelvariableupdater = list.toArray(new ModelVariableUpdater[list.size()]);
                 modelupdater = new ModelUpdater(amodelvariableupdater);
             }
         }
 
-        ModelRenderer modelrenderer = PlayerItemParser.parseModelRenderer(elem, modelbase, textureSize, basePath);
-        CustomModelRenderer custommodelrenderer = new CustomModelRenderer(s, flag, modelrenderer, modelupdater);
+        final ModelRenderer modelrenderer = PlayerItemParser.parseModelRenderer(elem, modelbase, textureSize, basePath);
+        final CustomModelRenderer custommodelrenderer = new CustomModelRenderer(s, flag, modelrenderer, modelupdater);
         return custommodelrenderer;
     }
 
-    private static void checkNull(Object obj, String msg) {
+    private static void checkNull(final Object obj, final String msg) {
         if (obj == null) {
             throw new JsonParseException(msg);
         }
     }
 
-    public static JsonObject loadJson(ResourceLocation location) throws IOException, JsonParseException {
-        InputStream inputstream = Config.getResourceStream(location);
+    public static JsonObject loadJson(final ResourceLocation location) throws IOException, JsonParseException {
+        final InputStream inputstream = Config.getResourceStream(location);
 
         if (inputstream == null) {
             return null;
         } else {
-            String s = Config.readInputStream(inputstream, "ASCII");
+            final String s = Config.readInputStream(inputstream, "ASCII");
             inputstream.close();
-            JsonParser jsonparser = new JsonParser();
-            JsonObject jsonobject = (JsonObject) jsonparser.parse(s);
+            final JsonParser jsonparser = new JsonParser();
+            final JsonObject jsonobject = (JsonObject) jsonparser.parse(s);
             return jsonobject;
         }
     }

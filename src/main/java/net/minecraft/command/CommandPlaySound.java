@@ -1,34 +1,51 @@
 package net.minecraft.command;
 
-import java.util.List;
-
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.server.S29PacketSoundEffect;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
 
+import java.util.List;
+
 public class CommandPlaySound extends CommandBase {
+    /**
+     * Gets the name of the command
+     */
     public String getCommandName() {
         return "playsound";
     }
 
+    /**
+     * Return the required permission level for this command.
+     */
     public int getRequiredPermissionLevel() {
         return 2;
     }
 
-    public String getCommandUsage(ICommandSender sender) {
+    /**
+     * Gets the usage string for the command.
+     *
+     * @param sender The {@link ICommandSender} who is requesting usage details.
+     */
+    public String getCommandUsage(final ICommandSender sender) {
         return "commands.playsound.usage";
     }
 
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    /**
+     * Callback when the command is invoked
+     *
+     * @param sender The {@link ICommandSender sender} who executed the command
+     * @param args   The arguments that were passed with the command
+     */
+    public void processCommand(final ICommandSender sender, final String[] args) throws CommandException {
         if (args.length < 2) {
             throw new WrongUsageException(this.getCommandUsage(sender));
         } else {
             int i = 0;
-            String s = args[i++];
-            EntityPlayerMP entityplayermp = getPlayer(sender, args[i++]);
-            Vec3 vec3 = sender.getPositionVector();
+            final String s = args[i++];
+            final EntityPlayerMP entityplayermp = getPlayer(sender, args[i++]);
+            final Vec3 vec3 = sender.getPositionVector();
             double d0 = vec3.xCoord;
 
             if (args.length > i) {
@@ -65,18 +82,18 @@ public class CommandPlaySound extends CommandBase {
                 d5 = parseDouble(args[i], 0.0D, 1.0D);
             }
 
-            double d6 = d3 > 1.0D ? d3 * 16.0D : 16.0D;
-            double d7 = entityplayermp.getDistance(d0, d1, d2);
+            final double d6 = d3 > 1.0D ? d3 * 16.0D : 16.0D;
+            final double d7 = entityplayermp.getDistance(d0, d1, d2);
 
             if (d7 > d6) {
                 if (d5 <= 0.0D) {
-                    throw new CommandException("commands.playsound.playerTooFar", entityplayermp.getName());
+                    throw new CommandException("commands.playsound.playerTooFar", entityplayermp.getCommandSenderName());
                 }
 
-                double d8 = d0 - entityplayermp.posX;
-                double d9 = d1 - entityplayermp.posY;
-                double d10 = d2 - entityplayermp.posZ;
-                double d11 = Math.sqrt(d8 * d8 + d9 * d9 + d10 * d10);
+                final double d8 = d0 - entityplayermp.posX;
+                final double d9 = d1 - entityplayermp.posY;
+                final double d10 = d2 - entityplayermp.posZ;
+                final double d11 = Math.sqrt(d8 * d8 + d9 * d9 + d10 * d10);
 
                 if (d11 > 0.0D) {
                     d0 = entityplayermp.posX + d8 / d11 * 2.0D;
@@ -88,15 +105,21 @@ public class CommandPlaySound extends CommandBase {
             }
 
             entityplayermp.playerNetServerHandler.sendPacket(new S29PacketSoundEffect(s, d0, d1, d2, (float) d3, (float) d4));
-            notifyOperators(sender, this, "commands.playsound.success", s, entityplayermp.getName());
+            notifyOperators(sender, this, "commands.playsound.success", s, entityplayermp.getCommandSenderName());
         }
     }
 
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+    public List<String> addTabCompletionOptions(final ICommandSender sender, final String[] args, final BlockPos pos) {
         return args.length == 2 ? getListOfStringsMatchingLastWord(args, MinecraftServer.getServer().getAllUsernames()) : (args.length > 2 && args.length <= 5 ? func_175771_a(args, 2, pos) : null);
     }
 
-    public boolean isUsernameIndex(String[] args, int index) {
+    /**
+     * Return whether the specified command parameter index is a username parameter.
+     *
+     * @param args  The arguments that were given
+     * @param index The argument index that we are checking
+     */
+    public boolean isUsernameIndex(final String[] args, final int index) {
         return index == 1;
     }
 }

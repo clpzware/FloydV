@@ -1,12 +1,12 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.MathHelper;
+
+import java.io.IOException;
 
 public class S11PacketSpawnExperienceOrb implements Packet<INetHandlerPlayClient> {
     private int entityID;
@@ -18,7 +18,7 @@ public class S11PacketSpawnExperienceOrb implements Packet<INetHandlerPlayClient
     public S11PacketSpawnExperienceOrb() {
     }
 
-    public S11PacketSpawnExperienceOrb(EntityXPOrb xpOrb) {
+    public S11PacketSpawnExperienceOrb(final EntityXPOrb xpOrb) {
         this.entityID = xpOrb.getEntityId();
         this.posX = MathHelper.floor_double(xpOrb.posX * 32.0D);
         this.posY = MathHelper.floor_double(xpOrb.posY * 32.0D);
@@ -26,7 +26,10 @@ public class S11PacketSpawnExperienceOrb implements Packet<INetHandlerPlayClient
         this.xpValue = xpOrb.getXpValue();
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.entityID = buf.readVarIntFromBuffer();
         this.posX = buf.readInt();
         this.posY = buf.readInt();
@@ -34,7 +37,10 @@ public class S11PacketSpawnExperienceOrb implements Packet<INetHandlerPlayClient
         this.xpValue = buf.readShort();
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeVarIntToBuffer(this.entityID);
         buf.writeInt(this.posX);
         buf.writeInt(this.posY);
@@ -42,7 +48,10 @@ public class S11PacketSpawnExperienceOrb implements Packet<INetHandlerPlayClient
         buf.writeShort(this.xpValue);
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleSpawnExperienceOrb(this);
     }
 

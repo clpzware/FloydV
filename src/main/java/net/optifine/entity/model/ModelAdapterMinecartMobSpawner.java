@@ -13,9 +13,9 @@ public class ModelAdapterMinecartMobSpawner extends ModelAdapterMinecart {
         super(EntityMinecartMobSpawner.class, "spawner_minecart", 0.5F);
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderMinecartMobSpawner renderminecartmobspawner = new RenderMinecartMobSpawner(rendermanager);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderMinecartMobSpawner renderminecartmobspawner = new RenderMinecartMobSpawner(rendermanager);
 
         if (!Reflector.RenderMinecart_modelMinecart.exists()) {
             Config.warn("Field not found: RenderMinecart.modelMinecart");

@@ -12,7 +12,10 @@ public class BlockPackedIce extends Block {
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    public int quantityDropped(Random random) {
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
+    public int quantityDropped(final Random random) {
         return 0;
     }
 }

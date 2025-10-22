@@ -15,12 +15,15 @@ public class BlockSoulSand extends Block {
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
-        float f = 0.125F;
+    public AxisAlignedBB getCollisionBoundingBox(final World worldIn, final BlockPos pos, final IBlockState state) {
+        final float f = 0.125F;
         return new AxisAlignedBB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, (float) (pos.getY() + 1) - f, pos.getZ() + 1);
     }
 
-    public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
+    /**
+     * Called When an Entity Collided with the Block
+     */
+    public void onEntityCollidedWithBlock(final World worldIn, final BlockPos pos, final IBlockState state, final Entity entityIn) {
         entityIn.motionX *= 0.4D;
         entityIn.motionZ *= 0.4D;
     }

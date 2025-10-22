@@ -9,7 +9,7 @@ public class CustomEntityRenderer {
     private CustomModelRenderer[] customModelRenderers = null;
     private float shadowSize = 0.0F;
 
-    public CustomEntityRenderer(String name, String basePath, ResourceLocation textureLocation, CustomModelRenderer[] customModelRenderers, float shadowSize) {
+    public CustomEntityRenderer(final String name, final String basePath, final ResourceLocation textureLocation, final CustomModelRenderer[] customModelRenderers, final float shadowSize) {
         this.name = name;
         this.basePath = basePath;
         this.textureLocation = textureLocation;

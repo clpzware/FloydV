@@ -19,7 +19,7 @@ public class WorldGenDesertWells extends WorldGenerator {
     private final IBlockState field_175912_c = Blocks.sandstone.getDefaultState();
     private final IBlockState field_175910_d = Blocks.flowing_water.getDefaultState();
 
-    public boolean generate(World worldIn, Random rand, BlockPos position) {
+    public boolean generate(final World worldIn, final Random rand, BlockPos position) {
         while (worldIn.isAirBlock(position) && position.getY() > 2) {
             position = position.down();
         }
@@ -45,7 +45,7 @@ public class WorldGenDesertWells extends WorldGenerator {
 
             worldIn.setBlockState(position, this.field_175910_d, 2);
 
-            for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
+            for (final EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
                 worldIn.setBlockState(position.offset(enumfacing), this.field_175910_d, 2);
             }
 

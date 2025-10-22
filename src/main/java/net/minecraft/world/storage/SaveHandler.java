@@ -1,12 +1,5 @@
 package net.minecraft.world.storage;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,15 +10,33 @@ import net.minecraft.world.chunk.storage.IChunkLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.*;
+
 public class SaveHandler implements ISaveHandler, IPlayerFileData {
-    private static final Logger logger = LogManager.getLogger("MinecraftLogger");
+    private static final Logger logger = LogManager.getLogger();
+
+    /**
+     * The directory in which to save world data.
+     */
     private final File worldDirectory;
+
+    /**
+     * The directory in which to save player data.
+     */
     private final File playersDirectory;
     private final File mapDataDir;
+
+    /**
+     * The time in milliseconds when this field was initialized. Stored in the session lock file.
+     */
     private final long initializationTime = MinecraftServer.getCurrentTimeMillis();
+
+    /**
+     * The directory name of the world
+     */
     private final String saveDirectoryName;
 
-    public SaveHandler(File savesDirectory, String directoryName, boolean playersDirectoryIn) {
+    public SaveHandler(final File savesDirectory, final String directoryName, final boolean playersDirectoryIn) {
         this.worldDirectory = new File(savesDirectory, directoryName);
         this.worldDirectory.mkdirs();
         this.playersDirectory = new File(this.worldDirectory, "playerdata");
@@ -40,30 +51,39 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
         this.setSessionLock();
     }
 
+    /**
+     * Creates a session lock file for this process
+     */
     private void setSessionLock() {
         try {
-            File file1 = new File(this.worldDirectory, "session.lock");
-            DataOutputStream dataoutputstream = new DataOutputStream(new FileOutputStream(file1));
+            final File file1 = new File(this.worldDirectory, "session.lock");
+            final DataOutputStream dataoutputstream = new DataOutputStream(new FileOutputStream(file1));
 
             try {
                 dataoutputstream.writeLong(this.initializationTime);
             } finally {
                 dataoutputstream.close();
             }
-        } catch (IOException ioexception) {
+        } catch (final IOException ioexception) {
             ioexception.printStackTrace();
             throw new RuntimeException("Failed to check session lock, aborting");
         }
     }
 
+    /**
+     * Gets the File object corresponding to the base directory of this world.
+     */
     public File getWorldDirectory() {
         return this.worldDirectory;
     }
 
+    /**
+     * Checks the session lock to prevent save collisions
+     */
     public void checkSessionLock() throws MinecraftException {
         try {
-            File file1 = new File(this.worldDirectory, "session.lock");
-            DataInputStream datainputstream = new DataInputStream(new FileInputStream(file1));
+            final File file1 = new File(this.worldDirectory, "session.lock");
+            final DataInputStream datainputstream = new DataInputStream(new FileInputStream(file1));
 
             try {
                 if (datainputstream.readLong() != this.initializationTime) {
@@ -72,24 +92,30 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
             } finally {
                 datainputstream.close();
             }
-        } catch (IOException var7) {
+        } catch (final IOException var7) {
             throw new MinecraftException("Failed to check session lock, aborting");
         }
     }
 
-    public IChunkLoader getChunkLoader(WorldProvider provider) {
+    /**
+     * initializes and returns the chunk loader for the specified world provider
+     */
+    public IChunkLoader getChunkLoader(final WorldProvider provider) {
         throw new RuntimeException("Old Chunk Storage is no longer supported.");
     }
 
+    /**
+     * Loads and returns the world info
+     */
     public WorldInfo loadWorldInfo() {
         File file1 = new File(this.worldDirectory, "level.dat");
 
         if (file1.exists()) {
             try {
-                NBTTagCompound nbttagcompound2 = CompressedStreamTools.readCompressed(new FileInputStream(file1));
-                NBTTagCompound nbttagcompound3 = nbttagcompound2.getCompoundTag("Data");
+                final NBTTagCompound nbttagcompound2 = CompressedStreamTools.readCompressed(new FileInputStream(file1));
+                final NBTTagCompound nbttagcompound3 = nbttagcompound2.getCompoundTag("Data");
                 return new WorldInfo(nbttagcompound3);
-            } catch (Exception exception1) {
+            } catch (final Exception exception1) {
                 exception1.printStackTrace();
             }
         }
@@ -98,10 +124,10 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
 
         if (file1.exists()) {
             try {
-                NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file1));
-                NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
+                final NBTTagCompound nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file1));
+                final NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Data");
                 return new WorldInfo(nbttagcompound1);
-            } catch (Exception exception) {
+            } catch (final Exception exception) {
                 exception.printStackTrace();
             }
         }
@@ -109,15 +135,18 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
         return null;
     }
 
-    public void saveWorldInfoWithPlayer(WorldInfo worldInformation, NBTTagCompound tagCompound) {
-        NBTTagCompound nbttagcompound = worldInformation.cloneNBTCompound(tagCompound);
-        NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+    /**
+     * Saves the given World Info with the given NBTTagCompound as the Player.
+     */
+    public void saveWorldInfoWithPlayer(final WorldInfo worldInformation, final NBTTagCompound tagCompound) {
+        final NBTTagCompound nbttagcompound = worldInformation.cloneNBTCompound(tagCompound);
+        final NBTTagCompound nbttagcompound1 = new NBTTagCompound();
         nbttagcompound1.setTag("Data", nbttagcompound);
 
         try {
-            File file1 = new File(this.worldDirectory, "level.dat_new");
-            File file2 = new File(this.worldDirectory, "level.dat_old");
-            File file3 = new File(this.worldDirectory, "level.dat");
+            final File file1 = new File(this.worldDirectory, "level.dat_new");
+            final File file2 = new File(this.worldDirectory, "level.dat_old");
+            final File file3 = new File(this.worldDirectory, "level.dat");
             CompressedStreamTools.writeCompressed(nbttagcompound1, new FileOutputStream(file1));
 
             if (file2.exists()) {
@@ -135,20 +164,23 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
             if (file1.exists()) {
                 file1.delete();
             }
-        } catch (Exception exception) {
+        } catch (final Exception exception) {
             exception.printStackTrace();
         }
     }
 
-    public void saveWorldInfo(WorldInfo worldInformation) {
-        NBTTagCompound nbttagcompound = worldInformation.getNBTTagCompound();
-        NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+    /**
+     * used to update level.dat from old format to MCRegion format
+     */
+    public void saveWorldInfo(final WorldInfo worldInformation) {
+        final NBTTagCompound nbttagcompound = worldInformation.getNBTTagCompound();
+        final NBTTagCompound nbttagcompound1 = new NBTTagCompound();
         nbttagcompound1.setTag("Data", nbttagcompound);
 
         try {
-            File file1 = new File(this.worldDirectory, "level.dat_new");
-            File file2 = new File(this.worldDirectory, "level.dat_old");
-            File file3 = new File(this.worldDirectory, "level.dat");
+            final File file1 = new File(this.worldDirectory, "level.dat_new");
+            final File file2 = new File(this.worldDirectory, "level.dat_old");
+            final File file3 = new File(this.worldDirectory, "level.dat");
             CompressedStreamTools.writeCompressed(nbttagcompound1, new FileOutputStream(file1));
 
             if (file2.exists()) {
@@ -166,17 +198,20 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
             if (file1.exists()) {
                 file1.delete();
             }
-        } catch (Exception exception) {
+        } catch (final Exception exception) {
             exception.printStackTrace();
         }
     }
 
-    public void writePlayerData(EntityPlayer player) {
+    /**
+     * Writes the player data to disk from the specified PlayerEntityMP.
+     */
+    public void writePlayerData(final EntityPlayer player) {
         try {
-            NBTTagCompound nbttagcompound = new NBTTagCompound();
+            final NBTTagCompound nbttagcompound = new NBTTagCompound();
             player.writeToNBT(nbttagcompound);
-            File file1 = new File(this.playersDirectory, player.getUniqueID().toString() + ".dat.tmp");
-            File file2 = new File(this.playersDirectory, player.getUniqueID().toString() + ".dat");
+            final File file1 = new File(this.playersDirectory, player.getUniqueID().toString() + ".dat.tmp");
+            final File file2 = new File(this.playersDirectory, player.getUniqueID().toString() + ".dat");
             CompressedStreamTools.writeCompressed(nbttagcompound, new FileOutputStream(file1));
 
             if (file2.exists()) {
@@ -184,22 +219,25 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
             }
 
             file1.renameTo(file2);
-        } catch (Exception var5) {
-            logger.warn("Failed to save player data for " + player.getName());
+        } catch (final Exception var5) {
+            logger.warn("Failed to save player data for " + player.getCommandSenderName());
         }
     }
 
-    public NBTTagCompound readPlayerData(EntityPlayer player) {
+    /**
+     * Reads the player data from disk into the specified PlayerEntityMP.
+     */
+    public NBTTagCompound readPlayerData(final EntityPlayer player) {
         NBTTagCompound nbttagcompound = null;
 
         try {
-            File file1 = new File(this.playersDirectory, player.getUniqueID().toString() + ".dat");
+            final File file1 = new File(this.playersDirectory, player.getUniqueID().toString() + ".dat");
 
             if (file1.exists() && file1.isFile()) {
                 nbttagcompound = CompressedStreamTools.readCompressed(new FileInputStream(file1));
             }
-        } catch (Exception var4) {
-            logger.warn("Failed to load player data for " + player.getName());
+        } catch (final Exception var4) {
+            logger.warn("Failed to load player data for " + player.getCommandSenderName());
         }
 
         if (nbttagcompound != null) {
@@ -213,6 +251,9 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
         return this;
     }
 
+    /**
+     * Returns an array of usernames for which player.dat exists for.
+     */
     public String[] getAvailablePlayerDat() {
         String[] astring = this.playersDirectory.list();
 
@@ -229,13 +270,22 @@ public class SaveHandler implements ISaveHandler, IPlayerFileData {
         return astring;
     }
 
+    /**
+     * Called to flush all changes to disk, waiting for them to complete.
+     */
     public void flush() {
     }
 
-    public File getMapFileFromName(String mapName) {
+    /**
+     * Gets the file location of the given map
+     */
+    public File getMapFileFromName(final String mapName) {
         return new File(this.mapDataDir, mapName + ".dat");
     }
 
+    /**
+     * Returns the name of the directory where world information is saved.
+     */
     public String getWorldDirectoryName() {
         return this.saveDirectoryName;
     }

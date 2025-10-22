@@ -10,12 +10,12 @@ public class ScaledResolution {
     private int scaledHeight;
     private int scaleFactor;
 
-    public ScaledResolution(Minecraft p_i46445_1_) {
+    public ScaledResolution(final Minecraft p_i46445_1_) {
         this.scaledWidth = p_i46445_1_.displayWidth;
         this.scaledHeight = p_i46445_1_.displayHeight;
         this.scaleFactor = 1;
-        boolean flag = p_i46445_1_.isUnicode();
-        int i = p_i46445_1_.gameSettings.guiScale;
+        final boolean flag = p_i46445_1_.isUnicode();
+        int i = p_i46445_1_.gameSettings == null ? 2 : p_i46445_1_.gameSettings.guiScale;
 
         if (i == 0) {
             i = 1000;

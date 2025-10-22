@@ -10,7 +10,7 @@ public class BlockSourceImpl implements IBlockSource {
     private final World worldObj;
     private final BlockPos pos;
 
-    public BlockSourceImpl(World worldIn, BlockPos posIn) {
+    public BlockSourceImpl(final World worldIn, final BlockPos posIn) {
         this.worldObj = worldIn;
         this.pos = posIn;
     }
@@ -36,7 +36,7 @@ public class BlockSourceImpl implements IBlockSource {
     }
 
     public int getBlockMetadata() {
-        IBlockState iblockstate = this.worldObj.getBlockState(this.pos);
+        final IBlockState iblockstate = this.worldObj.getBlockState(this.pos);
         return iblockstate.getBlock().getMetaFromState(iblockstate);
     }
 

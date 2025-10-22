@@ -15,7 +15,7 @@ public class VertexBuffer {
     private VboRange vboRange;
     private int drawMode;
 
-    public VertexBuffer(VertexFormat vertexFormatIn) {
+    public VertexBuffer(final VertexFormat vertexFormatIn) {
         this.vertexFormat = vertexFormatIn;
         this.glBufferId = OpenGlHelper.glGenBuffers();
     }
@@ -24,7 +24,7 @@ public class VertexBuffer {
         OpenGlHelper.glBindBuffer(OpenGlHelper.GL_ARRAY_BUFFER, this.glBufferId);
     }
 
-    public void bufferData(ByteBuffer p_181722_1_) {
+    public void func_181722_a(final ByteBuffer p_181722_1_) {
         if (this.vboRegion != null) {
             this.vboRegion.bufferData(p_181722_1_, this.vboRange);
         } else {
@@ -58,7 +58,7 @@ public class VertexBuffer {
         }
     }
 
-    public void setVboRegion(VboRegion p_setVboRegion_1_) {
+    public void setVboRegion(final VboRegion p_setVboRegion_1_) {
         if (p_setVboRegion_1_ != null) {
             this.deleteGlBuffers();
             this.vboRegion = p_setVboRegion_1_;
@@ -78,7 +78,7 @@ public class VertexBuffer {
         return this.drawMode;
     }
 
-    public void setDrawMode(int p_setDrawMode_1_) {
+    public void setDrawMode(final int p_setDrawMode_1_) {
         this.drawMode = p_setDrawMode_1_;
     }
 }

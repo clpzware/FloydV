@@ -14,23 +14,25 @@ public class RandomEntityProperties {
     public ResourceLocation[] resourceLocations = null;
     public RandomEntityRule[] rules = null;
 
-    public RandomEntityProperties(String path, ResourceLocation[] variants) {
-        ConnectedParser connectedparser = new ConnectedParser("RandomEntities");
+    public RandomEntityProperties(final String path, final ResourceLocation[] variants) {
+        final ConnectedParser connectedparser = new ConnectedParser("RandomEntities");
         this.name = connectedparser.parseName(path);
         this.basePath = connectedparser.parseBasePath(path);
         this.resourceLocations = variants;
     }
 
-    public RandomEntityProperties(Properties props, String path, ResourceLocation baseResLoc) {
-        ConnectedParser connectedparser = new ConnectedParser("RandomEntities");
+    public RandomEntityProperties(final Properties props, final String path, final ResourceLocation baseResLoc) {
+        final ConnectedParser connectedparser = new ConnectedParser("RandomEntities");
         this.name = connectedparser.parseName(path);
         this.basePath = connectedparser.parseBasePath(path);
         this.rules = this.parseRules(props, path, baseResLoc, connectedparser);
     }
 
-    public ResourceLocation getTextureLocation(ResourceLocation loc, IRandomEntity randomEntity) {
+    public ResourceLocation getTextureLocation(final ResourceLocation loc, final IRandomEntity randomEntity) {
         if (this.rules != null) {
-            for (RandomEntityRule randomentityrule : this.rules) {
+            for (int i = 0; i < this.rules.length; ++i) {
+                final RandomEntityRule randomentityrule = this.rules[i];
+
                 if (randomentityrule.matches(randomEntity)) {
                     return randomentityrule.getTextureLocation(loc, randomEntity.getId());
                 }
@@ -38,20 +40,20 @@ public class RandomEntityProperties {
         }
 
         if (this.resourceLocations != null) {
-            int j = randomEntity.getId();
-            int k = j % this.resourceLocations.length;
+            final int j = randomEntity.getId();
+            final int k = j % this.resourceLocations.length;
             return this.resourceLocations[k];
         } else {
             return loc;
         }
     }
 
-    private RandomEntityRule[] parseRules(Properties props, String pathProps, ResourceLocation baseResLoc, ConnectedParser cp) {
-        List list = new ArrayList();
-        int i = props.size();
+    private RandomEntityRule[] parseRules(final Properties props, final String pathProps, final ResourceLocation baseResLoc, final ConnectedParser cp) {
+        final List list = new ArrayList();
+        final int i = props.size();
 
         for (int j = 0; j < i; ++j) {
-            int k = j + 1;
+            final int k = j + 1;
             String s = props.getProperty("textures." + k);
 
             if (s == null) {
@@ -59,7 +61,7 @@ public class RandomEntityProperties {
             }
 
             if (s != null) {
-                RandomEntityRule randomentityrule = new RandomEntityRule(props, pathProps, baseResLoc, k, s, cp);
+                final RandomEntityRule randomentityrule = new RandomEntityRule(props, pathProps, baseResLoc, k, s, cp);
 
                 if (randomentityrule.isValid(pathProps)) {
                     list.add(randomentityrule);
@@ -67,17 +69,19 @@ public class RandomEntityProperties {
             }
         }
 
-        RandomEntityRule[] arandomentityrule = (RandomEntityRule[]) list.toArray(new RandomEntityRule[list.size()]);
+        final RandomEntityRule[] arandomentityrule = (RandomEntityRule[]) list.toArray(new RandomEntityRule[list.size()]);
         return arandomentityrule;
     }
 
-    public boolean isValid(String path) {
+    public boolean isValid(final String path) {
         if (this.resourceLocations == null && this.rules == null) {
             Config.warn("No skins specified: " + path);
             return false;
         } else {
             if (this.rules != null) {
-                for (RandomEntityRule randomentityrule : this.rules) {
+                for (int i = 0; i < this.rules.length; ++i) {
+                    final RandomEntityRule randomentityrule = this.rules[i];
+
                     if (!randomentityrule.isValid(path)) {
                         return false;
                     }
@@ -85,7 +89,9 @@ public class RandomEntityProperties {
             }
 
             if (this.resourceLocations != null) {
-                for (ResourceLocation resourcelocation : this.resourceLocations) {
+                for (int j = 0; j < this.resourceLocations.length; ++j) {
+                    final ResourceLocation resourcelocation = this.resourceLocations[j];
+
                     if (!Config.hasResource(resourcelocation)) {
                         Config.warn("Texture not found: " + resourcelocation.getResourcePath());
                         return false;

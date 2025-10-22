@@ -10,15 +10,38 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityXPOrb extends Entity {
+    /**
+     * A constantly increasing value that RenderXPOrb uses to control the colour shifting (Green / yellow)
+     */
     public int xpColor;
+
+    /**
+     * The age of the XP orb in ticks.
+     */
     public int xpOrbAge;
     public int delayBeforeCanPickup;
+
+    /**
+     * The health of this XP orb.
+     */
     private int xpOrbHealth = 5;
+
+    /**
+     * This is how much XP this orb has.
+     */
     private int xpValue;
+
+    /**
+     * The closest EntityPlayer to this orb.
+     */
     private EntityPlayer closestPlayer;
+
+    /**
+     * Threshold color for tracking players
+     */
     private int xpTargetColor;
 
-    public EntityXPOrb(World worldIn, double x, double y, double z, int expValue) {
+    public EntityXPOrb(final World worldIn, final double x, final double y, final double z, final int expValue) {
         super(worldIn);
         this.setSize(0.5F, 0.5F);
         this.setPosition(x, y, z);
@@ -29,11 +52,15 @@ public class EntityXPOrb extends Entity {
         this.xpValue = expValue;
     }
 
+    /**
+     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
+     * prevent them from trampling crops
+     */
     protected boolean canTriggerWalking() {
         return false;
     }
 
-    public EntityXPOrb(World worldIn) {
+    public EntityXPOrb(final World worldIn) {
         super(worldIn);
         this.setSize(0.25F, 0.25F);
     }
@@ -41,12 +68,12 @@ public class EntityXPOrb extends Entity {
     protected void entityInit() {
     }
 
-    public int getBrightnessForRender(float partialTicks) {
+    public int getBrightnessForRender(final float partialTicks) {
         float f = 0.5F;
         f = MathHelper.clamp_float(f, 0.0F, 1.0F);
-        int i = super.getBrightnessForRender(partialTicks);
+        final int i = super.getBrightnessForRender(partialTicks);
         int j = i & 255;
-        int k = i >> 16 & 255;
+        final int k = i >> 16 & 255;
         j = j + (int) (f * 15.0F * 16.0F);
 
         if (j > 240) {
@@ -56,6 +83,9 @@ public class EntityXPOrb extends Entity {
         return j | k << 16;
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate() {
         super.onUpdate();
 
@@ -76,7 +106,7 @@ public class EntityXPOrb extends Entity {
         }
 
         this.pushOutOfBlocks(this.posX, (this.getEntityBoundingBox().minY + this.getEntityBoundingBox().maxY) / 2.0D, this.posZ);
-        double d0 = 8.0D;
+        final double d0 = 8.0D;
 
         if (this.xpTargetColor < this.xpColor - 20 + this.getEntityId() % 100) {
             if (this.closestPlayer == null || this.closestPlayer.getDistanceSqToEntity(this) > d0 * d0) {
@@ -91,10 +121,10 @@ public class EntityXPOrb extends Entity {
         }
 
         if (this.closestPlayer != null) {
-            double d1 = (this.closestPlayer.posX - this.posX) / d0;
-            double d2 = (this.closestPlayer.posY + (double) this.closestPlayer.getEyeHeight() - this.posY) / d0;
-            double d3 = (this.closestPlayer.posZ - this.posZ) / d0;
-            double d4 = Math.sqrt(d1 * d1 + d2 * d2 + d3 * d3);
+            final double d1 = (this.closestPlayer.posX - this.posX) / d0;
+            final double d2 = (this.closestPlayer.posY + (double) this.closestPlayer.getEyeHeight() - this.posY) / d0;
+            final double d3 = (this.closestPlayer.posZ - this.posZ) / d0;
+            final double d4 = Math.sqrt(d1 * d1 + d2 * d2 + d3 * d3);
             double d5 = 1.0D - d4;
 
             if (d5 > 0.0D) {
@@ -128,15 +158,25 @@ public class EntityXPOrb extends Entity {
         }
     }
 
+    /**
+     * Returns if this entity is in water and will end up adding the waters velocity to the entity
+     */
     public boolean handleWaterMovement() {
         return this.worldObj.handleMaterialAcceleration(this.getEntityBoundingBox(), Material.water, this);
     }
 
-    protected void dealFireDamage(int amount) {
+    /**
+     * Will deal the specified amount of damage to the entity if the entity isn't immune to fire damage. Args:
+     * amountDamage
+     */
+    protected void dealFireDamage(final int amount) {
         this.attackEntityFrom(DamageSource.inFire, (float) amount);
     }
 
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    /**
+     * Called when the entity is attacked.
+     */
+    public boolean attackEntityFrom(final DamageSource source, final float amount) {
         if (this.isEntityInvulnerable(source)) {
             return false;
         } else {
@@ -151,19 +191,28 @@ public class EntityXPOrb extends Entity {
         }
     }
 
-    public void writeEntityToNBT(NBTTagCompound tagCompound) {
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
+    public void writeEntityToNBT(final NBTTagCompound tagCompound) {
         tagCompound.setShort("Health", (byte) this.xpOrbHealth);
         tagCompound.setShort("Age", (short) this.xpOrbAge);
         tagCompound.setShort("Value", (short) this.xpValue);
     }
 
-    public void readEntityFromNBT(NBTTagCompound tagCompund) {
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
+    public void readEntityFromNBT(final NBTTagCompound tagCompund) {
         this.xpOrbHealth = tagCompund.getShort("Health") & 255;
         this.xpOrbAge = tagCompund.getShort("Age");
         this.xpValue = tagCompund.getShort("Value");
     }
 
-    public void onCollideWithPlayer(EntityPlayer entityIn) {
+    /**
+     * Called by a player entity when they collide with an entity
+     */
+    public void onCollideWithPlayer(final EntityPlayer entityIn) {
         if (!this.worldObj.isRemote) {
             if (this.delayBeforeCanPickup == 0 && entityIn.xpCooldown == 0) {
                 entityIn.xpCooldown = 2;
@@ -175,18 +224,33 @@ public class EntityXPOrb extends Entity {
         }
     }
 
+    /**
+     * Returns the XP value of this XP orb.
+     */
     public int getXpValue() {
         return this.xpValue;
     }
 
+    /**
+     * Returns a number from 1 to 10 based on how much XP this orb is worth. This is used by RenderXPOrb to determine
+     * what texture to use.
+     */
     public int getTextureByXP() {
         return this.xpValue >= 2477 ? 10 : (this.xpValue >= 1237 ? 9 : (this.xpValue >= 617 ? 8 : (this.xpValue >= 307 ? 7 : (this.xpValue >= 149 ? 6 : (this.xpValue >= 73 ? 5 : (this.xpValue >= 37 ? 4 : (this.xpValue >= 17 ? 3 : (this.xpValue >= 7 ? 2 : (this.xpValue >= 3 ? 1 : 0)))))))));
     }
 
-    public static int getXPSplit(int expValue) {
+    /**
+     * Get a fragment of the maximum experience points value for the supplied value of experience points value.
+     *
+     * @param expValue The experience value to fragment
+     */
+    public static int getXPSplit(final int expValue) {
         return expValue >= 2477 ? 2477 : (expValue >= 1237 ? 1237 : (expValue >= 617 ? 617 : (expValue >= 307 ? 307 : (expValue >= 149 ? 149 : (expValue >= 73 ? 73 : (expValue >= 37 ? 37 : (expValue >= 17 ? 17 : (expValue >= 7 ? 7 : (expValue >= 3 ? 3 : 1)))))))));
     }
 
+    /**
+     * If returns false, the item will not inflict any damage against entities.
+     */
     public boolean canAttackWithItem() {
         return false;
     }

@@ -7,16 +7,23 @@ import net.minecraft.util.ResourceLocation;
 public class RenderCaveSpider extends RenderSpider<EntityCaveSpider> {
     private static final ResourceLocation caveSpiderTextures = new ResourceLocation("textures/entity/spider/cave_spider.png");
 
-    public RenderCaveSpider(RenderManager renderManagerIn) {
+    public RenderCaveSpider(final RenderManager renderManagerIn) {
         super(renderManagerIn);
         this.shadowSize *= 0.7F;
     }
 
-    protected void preRenderCallback(EntityCaveSpider entitylivingbaseIn, float partialTickTime) {
+    /**
+     * Allows the render to do any OpenGL state modifications necessary before the model is rendered. Args:
+     * entityLiving, partialTickTime
+     */
+    protected void preRenderCallback(final EntityCaveSpider entitylivingbaseIn, final float partialTickTime) {
         GlStateManager.scale(0.7F, 0.7F, 0.7F);
     }
 
-    protected ResourceLocation getEntityTexture(EntityCaveSpider entity) {
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(final EntityCaveSpider entity) {
         return caveSpiderTextures;
     }
 }

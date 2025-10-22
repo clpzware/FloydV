@@ -11,15 +11,18 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase {
     private double targetY;
     private double targetZ;
 
-    public EntityAIRunAroundLikeCrazy(EntityHorse horse, double speedIn) {
+    public EntityAIRunAroundLikeCrazy(final EntityHorse horse, final double speedIn) {
         this.horseHost = horse;
         this.speed = speedIn;
         this.setMutexBits(1);
     }
 
+    /**
+     * Returns whether the EntityAIBase should begin execution.
+     */
     public boolean shouldExecute() {
         if (!this.horseHost.isTame() && this.horseHost.riddenByEntity != null) {
-            Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.horseHost, 5, 4);
+            final Vec3 vec3 = RandomPositionGenerator.findRandomTarget(this.horseHost, 5, 4);
 
             if (vec3 == null) {
                 return false;
@@ -34,19 +37,28 @@ public class EntityAIRunAroundLikeCrazy extends EntityAIBase {
         }
     }
 
+    /**
+     * Execute a one shot task or start executing a continuous task
+     */
     public void startExecuting() {
         this.horseHost.getNavigator().tryMoveToXYZ(this.targetX, this.targetY, this.targetZ, this.speed);
     }
 
+    /**
+     * Returns whether an in-progress EntityAIBase should continue executing
+     */
     public boolean continueExecuting() {
         return !this.horseHost.getNavigator().noPath() && this.horseHost.riddenByEntity != null;
     }
 
+    /**
+     * Updates the task
+     */
     public void updateTask() {
         if (this.horseHost.getRNG().nextInt(50) == 0) {
             if (this.horseHost.riddenByEntity instanceof EntityPlayer) {
-                int i = this.horseHost.getTemper();
-                int j = this.horseHost.getMaxTemper();
+                final int i = this.horseHost.getTemper();
+                final int j = this.horseHost.getMaxTemper();
 
                 if (j > 0 && this.horseHost.getRNG().nextInt(j) < i) {
                     this.horseHost.setTamedBy((EntityPlayer) this.horseHost.riddenByEntity);

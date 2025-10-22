@@ -15,15 +15,15 @@ public class DemoWorldManager extends ItemInWorldManager {
     private int field_73104_e;
     private int field_73102_f;
 
-    public DemoWorldManager(World worldIn) {
+    public DemoWorldManager(final World worldIn) {
         super(worldIn);
     }
 
     public void updateBlockRemoving() {
         super.updateBlockRemoving();
         ++this.field_73102_f;
-        long i = this.theWorld.getTotalWorldTime();
-        long j = i / 24000L + 1L;
+        final long i = this.theWorld.getTotalWorldTime();
+        final long j = i / 24000L + 1L;
 
         if (!this.field_73105_c && this.field_73102_f > 20) {
             this.field_73105_c = true;
@@ -53,6 +53,9 @@ public class DemoWorldManager extends ItemInWorldManager {
         }
     }
 
+    /**
+     * Sends a message to the player reminding them that this is the demo version
+     */
     private void sendDemoReminder() {
         if (this.field_73104_e > 100) {
             this.thisPlayerMP.addChatMessage(new ChatComponentTranslation("demo.reminder"));
@@ -60,7 +63,14 @@ public class DemoWorldManager extends ItemInWorldManager {
         }
     }
 
-    public void onBlockClicked(BlockPos pos, EnumFacing side) {
+    /**
+     * If not creative, it calls sendBlockBreakProgress until the block is broken first. tryHarvestBlock can also be the
+     * result of this call.
+     *
+     * @param pos  The block's coordinates
+     * @param side The specific side that is being hit
+     */
+    public void onBlockClicked(final BlockPos pos, final EnumFacing side) {
         if (this.demoTimeExpired) {
             this.sendDemoReminder();
         } else {
@@ -68,17 +78,25 @@ public class DemoWorldManager extends ItemInWorldManager {
         }
     }
 
-    public void blockRemoving(BlockPos pos) {
+    public void blockRemoving(final BlockPos pos) {
         if (!this.demoTimeExpired) {
             super.blockRemoving(pos);
         }
     }
 
-    public boolean tryHarvestBlock(BlockPos pos) {
+    /**
+     * Attempts to harvest a block
+     *
+     * @param pos The coordinates of the block
+     */
+    public boolean tryHarvestBlock(final BlockPos pos) {
         return !this.demoTimeExpired && super.tryHarvestBlock(pos);
     }
 
-    public boolean tryUseItem(EntityPlayer player, World worldIn, ItemStack stack) {
+    /**
+     * Attempts to right-click use an item by the given EntityPlayer in the given World
+     */
+    public boolean tryUseItem(final EntityPlayer player, final World worldIn, final ItemStack stack) {
         if (this.demoTimeExpired) {
             this.sendDemoReminder();
             return false;
@@ -87,7 +105,13 @@ public class DemoWorldManager extends ItemInWorldManager {
         }
     }
 
-    public boolean activateBlockOrUseItem(EntityPlayer player, World worldIn, ItemStack stack, BlockPos pos, EnumFacing side, float offsetX, float offsetY, float offsetZ) {
+    /**
+     * Activate the clicked on block, otherwise use the held item.
+     *
+     * @param pos  The block's coordinates
+     * @param side The side of the block that was clicked on
+     */
+    public boolean activateBlockOrUseItem(final EntityPlayer player, final World worldIn, final ItemStack stack, final BlockPos pos, final EnumFacing side, final float offsetX, final float offsetY, final float offsetZ) {
         if (this.demoTimeExpired) {
             this.sendDemoReminder();
             return false;

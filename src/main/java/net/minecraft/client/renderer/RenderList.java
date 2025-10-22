@@ -14,11 +14,11 @@ public class RenderList extends ChunkRenderContainer {
     private double viewEntityZ;
     IntBuffer bufferLists = GLAllocation.createDirectIntBuffer(16);
 
-    public void renderChunkLayer(EnumWorldBlockLayer layer) {
+    public void renderChunkLayer(final EnumWorldBlockLayer layer) {
         if (this.initialized) {
             if (!Config.isRenderRegions()) {
-                for (RenderChunk renderchunk1 : this.renderChunks) {
-                    ListedRenderChunk listedrenderchunk1 = (ListedRenderChunk) renderchunk1;
+                for (final RenderChunk renderchunk1 : this.renderChunks) {
+                    final ListedRenderChunk listedrenderchunk1 = (ListedRenderChunk) renderchunk1;
                     GlStateManager.pushMatrix();
                     this.preRenderChunk(renderchunk1);
                     GL11.glCallList(listedrenderchunk1.getDisplayList(layer, listedrenderchunk1.getCompiledChunk()));
@@ -28,8 +28,8 @@ public class RenderList extends ChunkRenderContainer {
                 int i = Integer.MIN_VALUE;
                 int j = Integer.MIN_VALUE;
 
-                for (RenderChunk renderchunk : this.renderChunks) {
-                    ListedRenderChunk listedrenderchunk = (ListedRenderChunk) renderchunk;
+                for (final RenderChunk renderchunk : this.renderChunks) {
+                    final ListedRenderChunk listedrenderchunk = (ListedRenderChunk) renderchunk;
 
                     if (i != renderchunk.regionX || j != renderchunk.regionZ) {
                         if (this.bufferLists.position() > 0) {
@@ -41,7 +41,7 @@ public class RenderList extends ChunkRenderContainer {
                     }
 
                     if (this.bufferLists.position() >= this.bufferLists.capacity()) {
-                        IntBuffer intbuffer = GLAllocation.createDirectIntBuffer(this.bufferLists.capacity() * 2);
+                        final IntBuffer intbuffer = GLAllocation.createDirectIntBuffer(this.bufferLists.capacity() * 2);
                         this.bufferLists.flip();
                         intbuffer.put(this.bufferLists);
                         this.bufferLists = intbuffer;
@@ -64,14 +64,14 @@ public class RenderList extends ChunkRenderContainer {
         }
     }
 
-    public void initialize(double viewEntityXIn, double viewEntityYIn, double viewEntityZIn) {
+    public void initialize(final double viewEntityXIn, final double viewEntityYIn, final double viewEntityZIn) {
         this.viewEntityX = viewEntityXIn;
         this.viewEntityY = viewEntityYIn;
         this.viewEntityZ = viewEntityZIn;
         super.initialize(viewEntityXIn, viewEntityYIn, viewEntityZIn);
     }
 
-    private void drawRegion(int p_drawRegion_1_, int p_drawRegion_2_, IntBuffer p_drawRegion_3_) {
+    private void drawRegion(final int p_drawRegion_1_, final int p_drawRegion_2_, final IntBuffer p_drawRegion_3_) {
         GlStateManager.pushMatrix();
         this.preRenderRegion(p_drawRegion_1_, 0, p_drawRegion_2_);
         p_drawRegion_3_.flip();
@@ -80,7 +80,7 @@ public class RenderList extends ChunkRenderContainer {
         GlStateManager.popMatrix();
     }
 
-    public void preRenderRegion(int p_preRenderRegion_1_, int p_preRenderRegion_2_, int p_preRenderRegion_3_) {
+    public void preRenderRegion(final int p_preRenderRegion_1_, final int p_preRenderRegion_2_, final int p_preRenderRegion_3_) {
         GlStateManager.translate((float) ((double) p_preRenderRegion_1_ - this.viewEntityX), (float) ((double) p_preRenderRegion_2_ - this.viewEntityY), (float) ((double) p_preRenderRegion_3_ - this.viewEntityZ));
     }
 }

@@ -10,11 +10,11 @@ public class LayerSaddle implements LayerRenderer<EntityPig> {
     private final RenderPig pigRenderer;
     private final ModelPig pigModel = new ModelPig(0.5F);
 
-    public LayerSaddle(RenderPig pigRendererIn) {
+    public LayerSaddle(final RenderPig pigRendererIn) {
         this.pigRenderer = pigRendererIn;
     }
 
-    public void doRenderLayer(EntityPig entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale) {
+    public void doRenderLayer(final EntityPig entitylivingbaseIn, final float p_177141_2_, final float p_177141_3_, final float partialTicks, final float p_177141_5_, final float p_177141_6_, final float p_177141_7_, final float scale) {
         if (entitylivingbaseIn.getSaddled()) {
             this.pigRenderer.bindTexture(TEXTURE);
             this.pigModel.setModelAttributes(this.pigRenderer.getMainModel());

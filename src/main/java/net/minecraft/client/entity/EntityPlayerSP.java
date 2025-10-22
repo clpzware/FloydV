@@ -1,18 +1,11 @@
 package net.minecraft.client.entity;
 
-import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import de.florianmichael.vialoadingbase.ViaLoadingBase;
-import fr.ambient.Ambient;
-import fr.ambient.command.impl.ESPCommand;
-import fr.ambient.event.impl.input.InputChatEvent;
-import fr.ambient.event.impl.player.PreMotionEvent;
-import fr.ambient.event.impl.player.PostMotionEvent;
-import fr.ambient.event.impl.player.UpdateEvent;
-import fr.ambient.event.impl.player.move.MovementEvent;
-import fr.ambient.event.impl.player.move.PushOutOfBlockEvent;
-import fr.ambient.event.impl.player.move.SlowDownEvent;
-import fr.ambient.module.impl.movement.NoSlowdown;
-import fr.ambient.module.impl.movement.Sprint;
+import com.alan.clients.Client;
+import com.alan.clients.event.impl.input.ChatInputEvent;
+import com.alan.clients.event.impl.motion.*;
+import com.alan.clients.event.impl.other.MoveEvent;
+import com.alan.clients.util.Accessor;
+import com.alan.clients.util.vector.Vector2f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -38,48 +31,93 @@ import net.minecraft.util.*;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
 
-import java.util.Random;
-
-public class EntityPlayerSP extends AbstractClientPlayer {
-    public final NetHandlerPlayClient sendQueue;
+public class EntityPlayerSP extends AbstractClientPlayer implements Accessor {
+    public NetHandlerPlayClient sendQueue;
     private final StatFileWriter statWriter;
 
-    public boolean hasSentSneakPacketInLastTick = false;
+    /**
+     * The last X position which was transmitted to the server, used to determine when the X position changes and needs
+     * to be re-trasmitted
+     */
+    public double lastReportedPosX;
 
-    public int ticksSinceSneakingReal = 0;
-    public int ticksSinceUnSneakingReal = 0;
-    public int airTicks = 0;
-    private double lastReportedPosX;
+    /**
+     * The last Y position which was transmitted to the server, used to determine when the Y position changes and needs
+     * to be re-transmitted
+     */
     public double lastReportedPosY;
-    private double lastReportedPosZ;
-    private float lastReportedYaw;
-    private float lastReportedPitch;
+
+    /**
+     * The last Z position which was transmitted to the server, used to determine when the Z position changes and needs
+     * to be re-transmitted
+     */
+    public double lastReportedPosZ;
+
+    /**
+     * The last yaw value which was transmitted to the server, used to determine when the yaw changes and needs to be
+     * re-transmitted
+     */
+    public float lastReportedYaw;
+
+    /**
+     * The last pitch value which was transmitted to the server, used to determine when the pitch changes and needs to
+     * be re-transmitted
+     */
+    public float lastReportedPitch;
+
+    /**
+     * the last sneaking state sent to the server
+     */
     public boolean serverSneakState;
-    public boolean nextTickPleaseNoUpdate = false;
+
+    /**
+     * the last sprinting state sent to the server
+     */
     public boolean serverSprintState;
-    private int positionUpdateTicks;
+
+    /**
+     * Reset to 0 every time position is sent to the server, used to send periodic updates every 20 ticks even when the
+     * player is not moving.
+     */
+    public int positionUpdateTicks;
     private boolean hasValidHealth;
     private String clientBrand;
     public MovementInput movementInput;
     protected Minecraft mc;
+
+    /**
+     * Used to tell if the player pressed forward twice. If this is at 0 and it's pressed (And they are allowed to
+     * sprint, aka enough food on the ground etc) it sets this to 7. If it's pressed and it's greater than 0 enable
+     * sprinting.
+     */
     protected int sprintToggleTimer;
+
+    /**
+     * Ticks left before sprinting is disabled.
+     */
     public int sprintingTicksLeft;
     public float renderArmYaw;
     public float renderArmPitch;
+    public float renderPitchHead;
+    public float prevRenderPitchHead;
     public float prevRenderArmYaw;
     public float prevRenderArmPitch;
     private int horseJumpPowerCounter;
     private float horseJumpPower;
+
+    /**
+     * The amount of time an entity has been in a Portal
+     */
     public float timeInPortal;
+
+    /**
+     * The amount of time an entity has been in a Portal the previous tick
+     */
     public float prevTimeInPortal;
 
+    public boolean omniSprint;
 
-    public boolean prevOnGround;
-
-    public float renderPitchHead;
-    public float prevRenderPitchHead;
-
-    public EntityPlayerSP(Minecraft mcIn, World worldIn, NetHandlerPlayClient netHandler, StatFileWriter statFile) {
+    public EntityPlayerSP(final Minecraft mcIn, final World worldIn, final NetHandlerPlayClient netHandler, final StatFileWriter statFile) {
         super(worldIn, netHandler.getGameProfile());
         this.sendQueue = netHandler;
         this.statWriter = statFile;
@@ -87,14 +125,23 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         this.dimension = 0;
     }
 
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    /**
+     * Called when the entity is attacked.
+     */
+    public boolean attackEntityFrom(final DamageSource source, final float amount) {
         return false;
     }
 
-    public void heal(float healAmount) {
+    /**
+     * Heal living entity (param: amount of half-hearts)
+     */
+    public void heal(final float healAmount) {
     }
 
-    public void mountEntity(Entity entityIn) {
+    /**
+     * Called when a player mounts an entity. e.g. mounts a pig, mounts a boat.
+     */
+    public void mountEntity(final Entity entityIn) {
         super.mountEntity(entityIn);
 
         if (entityIn instanceof EntityMinecart) {
@@ -102,67 +149,49 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         }
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate() {
         if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ))) {
-            Ambient.getInstance().getEventBus().post(new UpdateEvent());
+            prevRenderPitchHead = renderPitchHead;
+            renderPitchHead = rotationPitch;
+
+            boolean player = this == Minecraft.getMinecraft().thePlayer;
+
+            if (player) {
+                Client.INSTANCE.getEventBus().handle(new PreUpdateEvent());
+            }
 
             super.onUpdate();
 
-            if (this.isRiding()) {
-                this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(this.rotationYaw, this.rotationPitch, this.onGround));
-                this.sendQueue.addToSendQueue(new C0CPacketInput(this.moveStrafing, this.moveForward, this.movementInput.jump, this.movementInput.sneak));
-            } else {
-                this.onUpdateWalkingPlayer();
+            this.onUpdateWalkingPlayer();
+
+            if (player) {
+                Client.INSTANCE.getEventBus().handle(new PostMotionEvent());
             }
-            Ambient.getInstance().getEventBus().post(new PostMotionEvent());
-
-            if(ESPCommand.timer > 0){
-                ESPCommand.timer--;
-            }
-            if(ESPCommand.timer == 0){
-                Random random = new Random();
-                int idNumber = 400000 + random.nextInt(500000);
-                char suffix = (char) ('A' + random.nextInt(26));
-
-                ChatComponentText text = new ChatComponentText(EnumChatFormatting.RED + "You are temporarily banned for " + EnumChatFormatting.WHITE + "29d 23h 59m 59s" + EnumChatFormatting.RED + " from this server!\n\n" +
-                        EnumChatFormatting.GRAY + "Reason: " + EnumChatFormatting.WHITE + "Cheating through the use of unfair game advantages.\n" + EnumChatFormatting.GRAY + "Find out more: " + EnumChatFormatting.AQUA +
-                        "https://www.hypixel.net/appeal\n\n" + EnumChatFormatting.GRAY + "Ban ID: " + EnumChatFormatting.WHITE + "#" + "C" + idNumber + suffix +"\n" + EnumChatFormatting.GRAY + "Sharing your Ban ID may affect the processing of your appeal!");
-
-
-                Minecraft.getMinecraft().displayGuiScreen(new GuiDisconnected(null, "connect.failed", text));
-                ESPCommand.timer--;
-            }
-
         }
     }
 
-    @Override
-    public void moveEntity(double x, double y, double z) {
-        MovementEvent event = new MovementEvent(x, y, z);
-        Ambient.getInstance().getEventBus().post(event);
-        if (event.isCancelled())
-            super.moveEntity(0, 0, 0);
-        else
-            super.moveEntity(event.getX(), event.getY(), event.getZ());
-    }
-
-    @Override
-    public Vec3 getLook(float partialTicks) {
-        return this.getVectorForRotation(rotationPitch, rotationYaw);
-    }
-
+    /**
+     * called every tick when the player is on foot. Performs all the things that normally happen during movement.
+     */
     public void onUpdateWalkingPlayer() {
-        this.prevRenderPitchHead = this.renderPitchHead;
-        this.renderPitchHead = this.rotationPitch;
+        final PreMotionEvent event = new PreMotionEvent(
+                this.posX,
+                this.posY,
+                this.posZ,
+                this.rotationYaw,
+                this.rotationPitch,
+                this.onGround,
+                this.isSprinting()
+        );
 
-        if(this.onGround){
-            airTicks = 0;
-        }else{
-            airTicks++;
+        if (this == mc.thePlayer) {
+            Client.INSTANCE.getEventBus().handle(event);
         }
 
-
-        boolean flag = this.isSprinting();
+        final boolean flag = event.isSprinting();
 
         if (flag != this.serverSprintState) {
             if (flag) {
@@ -174,9 +203,9 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             this.serverSprintState = flag;
         }
 
-        boolean flag1 = this.isSneaking();
+        final boolean flag1 = this.isSneaking();
 
-        if (flag1 != this.serverSneakState && !nextTickPleaseNoUpdate) {
+        if (flag1 != this.serverSneakState) {
             if (flag1) {
                 this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.START_SNEAKING));
             } else {
@@ -185,36 +214,24 @@ public class EntityPlayerSP extends AbstractClientPlayer {
 
             this.serverSneakState = flag1;
         }
-        nextTickPleaseNoUpdate = false;
 
-        final PreMotionEvent event = new PreMotionEvent(this.posX, this.getEntityBoundingBox().minY, this.posZ, this.rotationYaw, this.rotationPitch, this.onGround);
-        Ambient.getInstance().getEventBus().post(event);
-
-        if (event.isCancelled()) {
-            return;
-        }
+        if (event.isCancelled()) return;
 
         if (this.isCurrentViewEntity()) {
-            double d0 = event.getPosX() - this.lastReportedPosX;
-            double d1 = event.getPosY() - this.lastReportedPosY;
-            double d2 = event.getPosZ() - this.lastReportedPosZ;
-            double d3 = event.getYaw() - this.lastReportedYaw;
-            double d4 = event.getPitch() - this.lastReportedPitch;
+            final double d0 = event.getPosX() - this.lastReportedPosX;
+            final double d1 = event.getPosY() - this.lastReportedPosY;
+            final double d2 = event.getPosZ() - this.lastReportedPosZ;
+            final double d3 = event.getYaw() - this.lastReportedYaw;
+            final double d4 = event.getPitch() - this.lastReportedPitch;
 
+//            MinimumFlyingEvent minimumFlyingEvent = new MinimumFlyingEvent(9.0E-4D);
+//            Rise.INSTANCE.getEventBus().handle(minimumFlyingEvent);
 
-            double dist = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
-
-            double minDist = 0.03D;
-
-            if(ViaLoadingBase.getInstance().getTargetVersion().newerThan(ProtocolVersion.v1_9)){
-                minDist = 0.005D;
-            }
-
-
-            boolean flag2 = dist > minDist || this.positionUpdateTicks >= 20;
-            boolean flag3 = d3 != 0.0D || d4 != 0.0D;
+            final boolean flag2 = d0 * d0 + d1 * d1 + d2 * d2 > 9.0E-4D || this.positionUpdateTicks >= 20;
+            final boolean flag3 = d3 != 0.0D || d4 != 0.0D;
 
             if (this.ridingEntity == null) {
+
                 if (flag2 && flag3) {
                     this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(event.getPosX(), event.getPosY(), event.getPosZ(), event.getYaw(), event.getPitch(), event.isOnGround()));
                 } else if (flag2) {
@@ -222,76 +239,84 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                 } else if (flag3) {
                     this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(event.getYaw(), event.getPitch(), event.isOnGround()));
                 } else {
-                    if(ViaLoadingBase.getInstance().getTargetVersion().newerThan(ProtocolVersion.v1_8)){
-                        if( this.prevOnGround != this.onGround){
-                            this.sendQueue.addToSendQueue(new C03PacketPlayer(event.isOnGround()));
-                        }
-                    }else{
-                        this.sendQueue.addToSendQueue(new C03PacketPlayer(event.isOnGround()));
-                    }
+                    this.sendQueue.addToSendQueue(new C03PacketPlayer(event.isOnGround()));
+                }
 
+                ++this.positionUpdateTicks;
+
+                if (flag2) {
+                    this.lastReportedPosX = event.getPosX();
+                    this.lastReportedPosY = event.getPosY();
+                    this.lastReportedPosZ = event.getPosZ();
+                    this.positionUpdateTicks = 0;
+                }
+
+                if (flag3) {
+                    this.lastReportedYaw = event.getYaw();
+                    this.lastReportedPitch = event.getPitch();
                 }
             } else {
-                this.sendQueue.addToSendQueue(new C03PacketPlayer.C06PacketPlayerPosLook(this.motionX, -999.0D, this.motionZ, event.getYaw(), event.getPitch(), event.isOnGround()));
-                flag2 = false;
+                this.sendQueue.addToSendQueue(new C03PacketPlayer.C05PacketPlayerLook(event.getYaw(), event.getPitch(), event.isOnGround()));
+                this.sendQueue.addToSendQueue(new C0CPacketInput(this.moveStrafing, this.moveForward, this.movementInput.jump, this.movementInput.sneak));
             }
-
-            ++this.positionUpdateTicks;
-
-            if (flag2) {
-                this.lastReportedPosX = event.getPosX();
-                this.lastReportedPosY = event.getPosY();
-                this.lastReportedPosZ = event.getPosZ();
-                this.positionUpdateTicks = 0;
-            }
-
-            if (flag3) {
-                this.lastReportedYaw = event.getYaw();
-                this.lastReportedPitch = event.getPitch();
-            }
-            this.prevOnGround = this.onGround;
         }
     }
 
-    public EntityItem dropOneItem(boolean dropAll) {
-        C07PacketPlayerDigging.Action c07packetplayerdigging$action = dropAll ? C07PacketPlayerDigging.Action.DROP_ALL_ITEMS : C07PacketPlayerDigging.Action.DROP_ITEM;
-        this.sendQueue.addToSendQueue(new C07PacketPlayerDigging(c07packetplayerdigging$action, BlockPos.ORIGIN, EnumFacing.DOWN));
+    /**
+     * Called when player presses the drop item key
+     */
+    public EntityItem dropOneItem(final boolean dropAll) {
+        final C07PacketPlayerDigging.Action action = dropAll ? C07PacketPlayerDigging.Action.DROP_ALL_ITEMS : C07PacketPlayerDigging.Action.DROP_ITEM;
+        this.sendQueue.addToSendQueue(new C07PacketPlayerDigging(action, BlockPos.ORIGIN, EnumFacing.DOWN));
         return null;
     }
 
-    protected void joinEntityItemWithWorld(EntityItem itemIn) {
+    /**
+     * Joins the passed in entity item with the world. Args: entityItem
+     */
+    protected void joinEntityItemWithWorld(final EntityItem itemIn) {
     }
 
-    public void sendChatMessage(String message) {
-        final InputChatEvent chatEvent = new InputChatEvent(message);
-        Ambient.getInstance().getEventBus().post(chatEvent);
+    /**
+     * Sends a chat message from the player. Args: chatMessage
+     *
+     * @param message used on EntityPlayerSP.sendChatMessage - as inbound message
+     */
+    public void sendChatMessage(final String message) {
+        final ChatInputEvent event = new ChatInputEvent(message);
+        Client.INSTANCE.getEventBus().handle(event);
 
-        if (chatEvent.isCancelled()) {
+        if (event.isCancelled())
             return;
-        }
 
-        this.sendQueue.addToSendQueue(new C01PacketChatMessage(chatEvent.getMessage()));
+        this.sendQueue.addToSendQueue(new C01PacketChatMessage(event.getMessage()));
     }
 
+    /**
+     * Swings the item the player is holding.
+     */
     public void swingItem() {
         super.swingItem();
         this.sendQueue.addToSendQueue(new C0APacketAnimation());
-    }
-
-    public void swingItemClientSide(){
-        super.swingItem();
     }
 
     public void respawnPlayer() {
         this.sendQueue.addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.PERFORM_RESPAWN));
     }
 
-    protected void damageEntity(DamageSource damageSrc, float damageAmount) {
+    /**
+     * Deals damage to the entity. If its a EntityPlayer then will take damage from the armor first and then health
+     * second with the reduced value. Args: damageAmount
+     */
+    protected void damageEntity(final DamageSource damageSrc, final float damageAmount) {
         if (!this.isEntityInvulnerable(damageSrc)) {
             this.setHealth(this.getHealth() - damageAmount);
         }
     }
 
+    /**
+     * set current crafting inventory back to the 2x2 square
+     */
     public void closeScreen() {
         this.sendQueue.addToSendQueue(new C0DPacketCloseWindow(this.openContainer.windowId));
         this.closeScreenAndDropStack();
@@ -303,9 +328,12 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         this.mc.displayGuiScreen(null);
     }
 
-    public void setPlayerSPHealth(float health) {
+    /**
+     * Updates health locally.
+     */
+    public void setPlayerSPHealth(final float health) {
         if (this.hasValidHealth) {
-            float f = this.getHealth() - health;
+            final float f = this.getHealth() - health;
 
             if (f <= 0.0F) {
                 this.setHealth(health);
@@ -326,7 +354,10 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         }
     }
 
-    public void addStat(StatBase stat, int amount) {
+    /**
+     * Adds a value to a statistic field.
+     */
+    public void addStat(final StatBase stat, final int amount) {
         if (stat != null) {
             if (stat.isIndependent) {
                 super.addStat(stat, amount);
@@ -334,10 +365,16 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         }
     }
 
+    /**
+     * Sends the player's abilities to the server (if there is one).
+     */
     public void sendPlayerAbilities() {
         this.sendQueue.addToSendQueue(new C13PacketPlayerAbilities(this.capabilities));
     }
 
+    /**
+     * returns true if this is an EntityPlayerSP, or the logged in player.
+     */
     public boolean isUser() {
         return true;
     }
@@ -350,7 +387,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         this.sendQueue.addToSendQueue(new C0BPacketEntityAction(this, C0BPacketEntityAction.Action.OPEN_INVENTORY));
     }
 
-    public void setClientBrand(String brand) {
+    public void setClientBrand(final String brand) {
         this.clientBrand = brand;
     }
 
@@ -362,23 +399,22 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         return this.statWriter;
     }
 
-    public void addChatComponentMessage(IChatComponent chatComponent) {
+    public void addChatComponentMessage(final IChatComponent chatComponent) {
         this.mc.ingameGUI.getChatGUI().printChatMessage(chatComponent);
     }
 
-    protected boolean pushOutOfBlocks(double x, double y, double z) {
+    protected boolean pushOutOfBlocks(final double x, final double y, final double z) {
         if (this.noClip) {
             return false;
         } else {
-            BlockPos blockpos = new BlockPos(x, y, z);
-            double d0 = x - (double) blockpos.getX();
-            double d1 = z - (double) blockpos.getZ();
+            final BlockPos blockpos = new BlockPos(x, y, z);
+            final double d0 = x - (double) blockpos.getX();
+            final double d1 = z - (double) blockpos.getZ();
 
             if (!this.isOpenBlockSpace(blockpos)) {
-                PushOutOfBlockEvent e = new PushOutOfBlockEvent();
-                Ambient.getInstance().getEventBus().post(e);
-
-                if (e.isCancelled()) {
+                PushOutOfBlockEvent pushOutOfBlockEvent = new PushOutOfBlockEvent();
+                Client.INSTANCE.getEventBus().handle(pushOutOfBlockEvent);
+                if (pushOutOfBlockEvent.isCancelled()) {
                     return false;
                 }
 
@@ -405,7 +441,7 @@ public class EntityPlayerSP extends AbstractClientPlayer {
                     i = 5;
                 }
 
-                float f = 0.1F;
+                final float f = 0.1F;
 
                 if (i == 0) {
                     this.motionX = -f;
@@ -428,37 +464,64 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         }
     }
 
-    private boolean isOpenBlockSpace(BlockPos pos) {
+    /**
+     * Returns true if the block at the given BlockPos and the block above it are NOT full cubes.
+     */
+    private boolean isOpenBlockSpace(final BlockPos pos) {
         return !this.worldObj.getBlockState(pos).getBlock().isNormalCube() && !this.worldObj.getBlockState(pos.up()).getBlock().isNormalCube();
     }
 
+    /**
+     * Set sprinting switch for Entity.
+     */
     public void setSprinting(boolean sprinting) {
         super.setSprinting(sprinting);
         this.sprintingTicksLeft = sprinting ? 600 : 0;
     }
 
-    public void setXPStats(float currentXP, int maxXP, int level) {
+    /**
+     * Sets the current XP, total XP, and level number.
+     */
+    public void setXPStats(final float currentXP, final int maxXP, final int level) {
         this.experience = currentXP;
         this.experienceTotal = maxXP;
         this.experienceLevel = level;
     }
 
-    public void addChatMessage(IChatComponent component) {
+    /**
+     * Send a chat message to the CommandSender
+     *
+     * @param component The ChatComponent to send
+     */
+    public void addChatMessage(final IChatComponent component) {
         this.mc.ingameGUI.getChatGUI().printChatMessage(component);
     }
 
-    public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
+    /**
+     * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
+     *
+     * @param permLevel   The permission level required to execute the command
+     * @param commandName The name of the command
+     */
+    public boolean canCommandSenderUseCommand(final int permLevel, final String commandName) {
         return permLevel <= 0;
     }
 
+    /**
+     * Get the position in the world. <b>{@code null} is not allowed!</b> If you are not an entity in the world, return
+     * the coordinates 0, 0, 0
+     */
     public BlockPos getPosition() {
         return new BlockPos(this.posX + 0.5D, this.posY + 0.5D, this.posZ + 0.5D);
     }
 
-    public void playSound(String name, float volume, float pitch) {
+    public void playSound(final String name, final float volume, final float pitch) {
         this.worldObj.playSound(this.posX, this.posY, this.posZ, name, volume, pitch, false);
     }
 
+    /**
+     * Returns whether the entity is in a server world
+     */
     public boolean isServerWorld() {
         return true;
     }
@@ -471,24 +534,30 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         return this.horseJumpPower;
     }
 
-    public void openEditSign(TileEntitySign signTile) {
+    public void openEditSign(final TileEntitySign signTile) {
         this.mc.displayGuiScreen(new GuiEditSign(signTile));
     }
 
-    public void openEditCommandBlock(CommandBlockLogic cmdBlockLogic) {
+    public void openEditCommandBlock(final CommandBlockLogic cmdBlockLogic) {
         this.mc.displayGuiScreen(new GuiCommandBlock(cmdBlockLogic));
     }
 
-    public void displayGUIBook(ItemStack bookStack) {
-        Item item = bookStack.getItem();
+    /**
+     * Displays the GUI for interacting with a book.
+     */
+    public void displayGUIBook(final ItemStack bookStack) {
+        final Item item = bookStack.getItem();
 
         if (item == Items.writable_book) {
             this.mc.displayGuiScreen(new GuiScreenBook(this, bookStack, true));
         }
     }
 
-    public void displayGUIChest(IInventory chestInventory) {
-        String s = chestInventory instanceof IInteractionObject ? ((IInteractionObject) chestInventory).getGuiID() : "minecraft:container";
+    /**
+     * Displays the GUI for interacting with a chest inventory. Args: chestInventory
+     */
+    public void displayGUIChest(final IInventory chestInventory) {
+        final String s = chestInventory instanceof IInteractionObject ? ((IInteractionObject) chestInventory).getGuiID() : "minecraft:container";
 
         if ("minecraft:chest".equals(s)) {
             this.mc.displayGuiScreen(new GuiChest(this.inventory, chestInventory));
@@ -507,12 +576,12 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         }
     }
 
-    public void displayGUIHorse(EntityHorse horse, IInventory horseInventory) {
+    public void displayGUIHorse(final EntityHorse horse, final IInventory horseInventory) {
         this.mc.displayGuiScreen(new GuiScreenHorseInventory(this.inventory, horseInventory, horse));
     }
 
-    public void displayGui(IInteractionObject guiOwner) {
-        String s = guiOwner.getGuiID();
+    public void displayGui(final IInteractionObject guiOwner) {
+        final String s = guiOwner.getGuiID();
 
         if ("minecraft:crafting_table".equals(s)) {
             this.mc.displayGuiScreen(new GuiCrafting(this.inventory, this.worldObj));
@@ -523,20 +592,26 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         }
     }
 
-    public void displayVillagerTradeGui(IMerchant villager) {
+    public void displayVillagerTradeGui(final IMerchant villager) {
         this.mc.displayGuiScreen(new GuiMerchant(this.inventory, villager, this.worldObj));
     }
 
-    public void onCriticalHit(Entity entityHit) {
+    /**
+     * Called when the player performs a critical hit on the Entity. Args: entity that was hit critically
+     */
+    public void onCriticalHit(final Entity entityHit) {
         this.mc.effectRenderer.emitParticleAtEntity(entityHit, EnumParticleTypes.CRIT);
     }
 
-    public void onEnchantmentCritical(Entity entityHit) {
+    public void onEnchantmentCritical(final Entity entityHit) {
         this.mc.effectRenderer.emitParticleAtEntity(entityHit, EnumParticleTypes.CRIT_MAGIC);
     }
 
+    /**
+     * Returns if this entity is sneaking.
+     */
     public boolean isSneaking() {
-        boolean flag = this.movementInput != null && this.movementInput.sneak;
+        final boolean flag = this.movementInput != null && this.movementInput.sneak;
         return flag && !this.sleeping;
     }
 
@@ -558,6 +633,10 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         return this.mc.getRenderViewEntity() == this;
     }
 
+    /**
+     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
+     * use this to react to sunlight and start to burn.
+     */
     public void onLivingUpdate() {
         if (this.sprintingTicksLeft > 0) {
             --this.sprintingTicksLeft;
@@ -609,28 +688,18 @@ public class EntityPlayerSP extends AbstractClientPlayer {
             --this.timeUntilPortal;
         }
 
-        boolean flag = this.movementInput.jump;
-        boolean flag1 = this.movementInput.sneak;
-        float f = 0.8f;
-        if(Ambient.getInstance().getModuleManager().getModule(Sprint.class).sprintMode.is("Omni")){
-            if(this.movementInput.moveForward == 0 && this.movementInput.moveStrafe == 0){
-                f = 0.8f;
-            }else{
-                f = -2;
-            }
-
-        }
-
-        boolean flag2 = this.movementInput.moveForward >= f;
+        final boolean flag = this.movementInput.jump;
+        final boolean flag1 = this.movementInput.sneak;
+        final float f = 0.8F;
+        final boolean flag2 = this.movementInput.moveForward >= f;
         this.movementInput.updatePlayerMoveState();
 
-        if (this.isUsingItem() && !this.isRiding())
-        {
-            SlowDownEvent slowDown = new SlowDownEvent(0.2f, 0.2f);
-            Ambient.getInstance().getEventBus().post(slowDown);
+        final SlowDownEvent slowDownEvent = new SlowDownEvent(0.2F, 0.2F, this.isUsingItem());
+        Client.INSTANCE.getEventBus().handle(slowDownEvent);
 
-            this.movementInput.moveStrafe *= slowDown.getStrafe();
-            this.movementInput.moveForward *= slowDown.getForward();
+        if (!slowDownEvent.isCancelled() && slowDownEvent.isUseItem() && !this.isRiding()) {
+            this.movementInput.moveStrafe *= slowDownEvent.getStrafeMultiplier();
+            this.movementInput.moveForward *= slowDownEvent.getForwardMultiplier();
             this.sprintToggleTimer = 0;
         }
 
@@ -638,27 +707,22 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         this.pushOutOfBlocks(this.posX - (double) this.width * 0.35D, this.getEntityBoundingBox().minY + 0.5D, this.posZ - (double) this.width * 0.35D);
         this.pushOutOfBlocks(this.posX + (double) this.width * 0.35D, this.getEntityBoundingBox().minY + 0.5D, this.posZ - (double) this.width * 0.35D);
         this.pushOutOfBlocks(this.posX + (double) this.width * 0.35D, this.getEntityBoundingBox().minY + 0.5D, this.posZ + (double) this.width * 0.35D);
-        boolean flag3 = (float) this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
 
-        boolean isUsingItem = this.isUsingItem();
-        if(Ambient.getInstance().getModuleManager().getModule(NoSlowdown.class).isEnabled()){
-            isUsingItem = false;
-        }
+        final boolean flag3 = (float) this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
 
-        if (this.onGround && !flag1 && !flag2 && this.movementInput.moveForward >= f && !this.isSprinting() && flag3 && !isUsingItem && !this.isPotionActive(Potion.blindness)) {
-            if (this.sprintToggleTimer <= 0) {
+        if (this.onGround && !flag1 && !flag2 && (this.omniSprint || this.movementInput.moveForward >= f) && !this.isSprinting() && flag3 && !slowDownEvent.isUseItem() && !this.isPotionActive(Potion.blindness)) {
+            if (this.sprintToggleTimer <= 0 && !this.mc.gameSettings.keyBindSprint.isKeyDown()) {
                 this.sprintToggleTimer = 7;
             } else {
                 this.setSprinting(true);
             }
         }
 
-        if (!this.isSprinting() && this.movementInput.moveForward >= f && flag3 && !isUsingItem && !this.isPotionActive(Potion.blindness) && this.mc.gameSettings.keyBindSprint.isKeyDown()) {
+        if (!this.isSprinting() && (this.omniSprint || this.movementInput.moveForward >= f) && flag3 && (!slowDownEvent.isUseItem() || slowDownEvent.isCancelled()) && !this.isPotionActive(Potion.blindness) && this.mc.gameSettings.keyBindSprint.isKeyDown()) {
             this.setSprinting(true);
         }
 
-        if (this.isSprinting() && (this.movementInput.moveForward < f || this.isCollidedHorizontally || !flag3 || (ViaLoadingBase.getInstance().getTargetVersion().newerThanOrEqualTo(ProtocolVersion.v1_14) && this.isSneaking())))
-        {
+        if (this.isSprinting() && (!this.omniSprint && (this.movementInput.moveForward < f || this.isCollidedHorizontally || !flag3))) {
             this.setSprinting(false);
         }
 
@@ -725,4 +789,26 @@ public class EntityPlayerSP extends AbstractClientPlayer {
         }
     }
 
+    public Vector2f getPreviousRotation() {
+        return new Vector2f(lastReportedYaw, lastReportedPitch);
+    }
+
+    @Override
+    public void moveEntity(double x, double y, double z) {
+        final MoveEvent moveEvent = new MoveEvent(x, y, z);
+
+        if (this == Minecraft.getMinecraft().thePlayer) {
+            Client.INSTANCE.getEventBus().handle(moveEvent);
+
+            if (moveEvent.isCancelled()) {
+                return;
+            }
+        }
+
+        super.moveEntity(moveEvent.getPosX(), moveEvent.getPosY(), moveEvent.getPosZ());
+    }
+
+    public void moveEntityNoEvent(double x, double y, double z) {
+        super.moveEntity(x, y, z);
+    }
 }

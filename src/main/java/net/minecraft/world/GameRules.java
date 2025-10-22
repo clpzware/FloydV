@@ -1,9 +1,9 @@
 package net.minecraft.world;
 
+import net.minecraft.nbt.NBTTagCompound;
+
 import java.util.Set;
 import java.util.TreeMap;
-
-import net.minecraft.nbt.NBTTagCompound;
 
 public class GameRules {
     private final TreeMap<String, GameRules.Value> theGameRules = new TreeMap();
@@ -26,12 +26,12 @@ public class GameRules {
         this.addGameRule("reducedDebugInfo", "false", GameRules.ValueType.BOOLEAN_VALUE);
     }
 
-    public void addGameRule(String key, String value, GameRules.ValueType type) {
+    public void addGameRule(final String key, final String value, final GameRules.ValueType type) {
         this.theGameRules.put(key, new GameRules.Value(value, type));
     }
 
-    public void setOrCreateGameRule(String key, String ruleValue) {
-        GameRules.Value gamerules$value = this.theGameRules.get(key);
+    public void setOrCreateGameRule(final String key, final String ruleValue) {
+        final GameRules.Value gamerules$value = this.theGameRules.get(key);
 
         if (gamerules$value != null) {
             gamerules$value.setValue(ruleValue);
@@ -40,50 +40,68 @@ public class GameRules {
         }
     }
 
-    public String getString(String name) {
-        GameRules.Value gamerules$value = this.theGameRules.get(name);
-        return gamerules$value != null ? gamerules$value.getString() : "";
+    /**
+     * Gets the string Game Rule value.
+     */
+    public String getGameRuleStringValue(final String name) {
+        final GameRules.Value gamerules$value = this.theGameRules.get(name);
+        return gamerules$value != null ? gamerules$value.getGameRuleStringValue() : "";
     }
 
-    public boolean getBoolean(String name) {
-        GameRules.Value gamerules$value = this.theGameRules.get(name);
-        return gamerules$value != null && gamerules$value.getBoolean();
+    /**
+     * Gets the boolean Game Rule value.
+     */
+    public boolean getGameRuleBooleanValue(final String name) {
+        final GameRules.Value gamerules$value = this.theGameRules.get(name);
+        return gamerules$value != null && gamerules$value.getGameRuleBooleanValue();
     }
 
-    public int getInt(String name) {
-        GameRules.Value gamerules$value = this.theGameRules.get(name);
+    public int getInt(final String name) {
+        final GameRules.Value gamerules$value = this.theGameRules.get(name);
         return gamerules$value != null ? gamerules$value.getInt() : 0;
     }
 
+    /**
+     * Return the defined game rules as NBT.
+     */
     public NBTTagCompound writeToNBT() {
-        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        final NBTTagCompound nbttagcompound = new NBTTagCompound();
 
-        for (String s : this.theGameRules.keySet()) {
-            GameRules.Value gamerules$value = this.theGameRules.get(s);
-            nbttagcompound.setString(s, gamerules$value.getString());
+        for (final String s : this.theGameRules.keySet()) {
+            final GameRules.Value gamerules$value = this.theGameRules.get(s);
+            nbttagcompound.setString(s, gamerules$value.getGameRuleStringValue());
         }
 
         return nbttagcompound;
     }
 
-    public void readFromNBT(NBTTagCompound nbt) {
-        for (String s : nbt.getKeySet()) {
-            String s1 = nbt.getString(s);
+    /**
+     * Set defined game rules from NBT.
+     */
+    public void readFromNBT(final NBTTagCompound nbt) {
+        for (final String s : nbt.getKeySet()) {
+            final String s1 = nbt.getString(s);
             this.setOrCreateGameRule(s, s1);
         }
     }
 
+    /**
+     * Return the defined game rules.
+     */
     public String[] getRules() {
-        Set<String> set = this.theGameRules.keySet();
+        final Set<String> set = this.theGameRules.keySet();
         return set.toArray(new String[set.size()]);
     }
 
-    public boolean hasRule(String name) {
+    /**
+     * Return whether the specified game rule is defined.
+     */
+    public boolean hasRule(final String name) {
         return this.theGameRules.containsKey(name);
     }
 
-    public boolean areSameType(String key, GameRules.ValueType otherValue) {
-        GameRules.Value gamerules$value = this.theGameRules.get(key);
+    public boolean areSameType(final String key, final GameRules.ValueType otherValue) {
+        final GameRules.Value gamerules$value = this.theGameRules.get(key);
         return gamerules$value != null && (gamerules$value.getType() == otherValue || otherValue == GameRules.ValueType.ANY_VALUE);
     }
 
@@ -94,12 +112,12 @@ public class GameRules {
         private double valueDouble;
         private final GameRules.ValueType type;
 
-        public Value(String value, GameRules.ValueType type) {
+        public Value(final String value, final GameRules.ValueType type) {
             this.type = type;
             this.setValue(value);
         }
 
-        public void setValue(String value) {
+        public void setValue(final String value) {
             this.valueString = value;
 
             if (value != null) {
@@ -119,20 +137,20 @@ public class GameRules {
 
             try {
                 this.valueInteger = Integer.parseInt(value);
-            } catch (NumberFormatException ignored) {
+            } catch (final NumberFormatException var4) {
             }
 
             try {
                 this.valueDouble = Double.parseDouble(value);
-            } catch (NumberFormatException ignored) {
+            } catch (final NumberFormatException var3) {
             }
         }
 
-        public String getString() {
+        public String getGameRuleStringValue() {
             return this.valueString;
         }
 
-        public boolean getBoolean() {
+        public boolean getGameRuleBooleanValue() {
             return this.valueBoolean;
         }
 

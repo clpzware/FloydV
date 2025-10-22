@@ -1,6 +1,6 @@
 package net.optifine.reflect;
 
-import net.optifine.Log;
+import net.minecraft.src.Config;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -11,29 +11,29 @@ import java.util.List;
 public class FieldLocatorTypes implements IFieldLocator {
     private Field field = null;
 
-    public FieldLocatorTypes(Class cls, Class[] preTypes, Class type, Class[] postTypes, String errorName) {
-        Field[] afield = cls.getDeclaredFields();
-        List<Class> list = new ArrayList();
+    public FieldLocatorTypes(final Class cls, final Class[] preTypes, final Class type, final Class[] postTypes, final String errorName) {
+        final Field[] afield = cls.getDeclaredFields();
+        final List<Class> list = new ArrayList();
 
-        for (Field field : afield) {
+        for (int i = 0; i < afield.length; ++i) {
+            final Field field = afield[i];
             list.add(field.getType());
         }
 
-        List<Class> list1 = new ArrayList();
-        list1.addAll(Arrays.asList(preTypes));
+        final List<Class> list1 = new ArrayList<>(Arrays.asList(preTypes));
         list1.add(type);
         list1.addAll(Arrays.asList(postTypes));
-        int l = Collections.indexOfSubList(list, list1);
+        final int l = Collections.indexOfSubList(list, list1);
 
         if (l < 0) {
-            Log.log("(Reflector) Field not found: " + errorName);
+            Config.log("(Reflector) Field not found: " + errorName);
         } else {
-            int j = Collections.indexOfSubList(list.subList(l + 1, list.size()), list1);
+            final int j = Collections.indexOfSubList(list.subList(l + 1, list.size()), list1);
 
             if (j >= 0) {
-                Log.log("(Reflector) More than one match found for field: " + errorName);
+                Config.log("(Reflector) More than one match found for field: " + errorName);
             } else {
-                int k = l + preTypes.length;
+                final int k = l + preTypes.length;
                 this.field = afield[k];
             }
         }

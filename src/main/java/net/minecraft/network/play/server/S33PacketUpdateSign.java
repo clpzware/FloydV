@@ -1,13 +1,13 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
+
+import java.io.IOException;
 
 public class S33PacketUpdateSign implements Packet<INetHandlerPlayClient> {
     private World world;
@@ -17,13 +17,16 @@ public class S33PacketUpdateSign implements Packet<INetHandlerPlayClient> {
     public S33PacketUpdateSign() {
     }
 
-    public S33PacketUpdateSign(World worldIn, BlockPos blockPosIn, IChatComponent[] linesIn) {
+    public S33PacketUpdateSign(final World worldIn, final BlockPos blockPosIn, final IChatComponent[] linesIn) {
         this.world = worldIn;
         this.blockPos = blockPosIn;
         this.lines = new IChatComponent[]{linesIn[0], linesIn[1], linesIn[2], linesIn[3]};
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.blockPos = buf.readBlockPos();
         this.lines = new IChatComponent[4];
 
@@ -32,7 +35,10 @@ public class S33PacketUpdateSign implements Packet<INetHandlerPlayClient> {
         }
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeBlockPos(this.blockPos);
 
         for (int i = 0; i < 4; ++i) {
@@ -40,7 +46,10 @@ public class S33PacketUpdateSign implements Packet<INetHandlerPlayClient> {
         }
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleUpdateSign(this);
     }
 

@@ -13,31 +13,43 @@ import java.util.List;
 import java.util.Random;
 
 public class ItemEnchantedBook extends Item {
-    public boolean hasEffect(ItemStack stack) {
+    public boolean hasEffect(final ItemStack stack) {
         return true;
     }
 
-    public boolean isItemTool(ItemStack stack) {
+    /**
+     * Checks isDamagable and if it cannot be stacked
+     */
+    public boolean isItemTool(final ItemStack stack) {
         return false;
     }
 
-    public EnumRarity getRarity(ItemStack stack) {
+    /**
+     * Return an item rarity from EnumRarity
+     */
+    public EnumRarity getRarity(final ItemStack stack) {
         return this.getEnchantments(stack).tagCount() > 0 ? EnumRarity.UNCOMMON : super.getRarity(stack);
     }
 
-    public NBTTagList getEnchantments(ItemStack stack) {
-        NBTTagCompound nbttagcompound = stack.getTagCompound();
+    public NBTTagList getEnchantments(final ItemStack stack) {
+        final NBTTagCompound nbttagcompound = stack.getTagCompound();
         return nbttagcompound != null && nbttagcompound.hasKey("StoredEnchantments", 9) ? (NBTTagList) nbttagcompound.getTag("StoredEnchantments") : new NBTTagList();
     }
 
-    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+    /**
+     * allows items to add custom lines of information to the mouseover description
+     *
+     * @param tooltip  All lines to display in the Item's tooltip. This is a List of Strings.
+     * @param advanced Whether the setting "Advanced tooltips" is enabled
+     */
+    public void addInformation(final ItemStack stack, final EntityPlayer playerIn, final List<String> tooltip, final boolean advanced) {
         super.addInformation(stack, playerIn, tooltip, advanced);
-        NBTTagList nbttaglist = this.getEnchantments(stack);
+        final NBTTagList nbttaglist = this.getEnchantments(stack);
 
         if (nbttaglist != null) {
             for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                int j = nbttaglist.getCompoundTagAt(i).getShort("id");
-                int k = nbttaglist.getCompoundTagAt(i).getShort("lvl");
+                final int j = nbttaglist.getCompoundTagAt(i).getShort("id");
+                final int k = nbttaglist.getCompoundTagAt(i).getShort("lvl");
 
                 if (Enchantment.getEnchantmentById(j) != null) {
                     tooltip.add(Enchantment.getEnchantmentById(j).getTranslatedName(k));
@@ -46,12 +58,15 @@ public class ItemEnchantedBook extends Item {
         }
     }
 
-    public void addEnchantment(ItemStack stack, EnchantmentData enchantment) {
-        NBTTagList nbttaglist = this.getEnchantments(stack);
+    /**
+     * Adds an stored enchantment to an enchanted book ItemStack
+     */
+    public void addEnchantment(final ItemStack stack, final EnchantmentData enchantment) {
+        final NBTTagList nbttaglist = this.getEnchantments(stack);
         boolean flag = true;
 
         for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-            NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
+            final NBTTagCompound nbttagcompound = nbttaglist.getCompoundTagAt(i);
 
             if (nbttagcompound.getShort("id") == enchantment.enchantmentobj.effectId) {
                 if (nbttagcompound.getShort("lvl") < enchantment.enchantmentLevel) {
@@ -64,7 +79,7 @@ public class ItemEnchantedBook extends Item {
         }
 
         if (flag) {
-            NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+            final NBTTagCompound nbttagcompound1 = new NBTTagCompound();
             nbttagcompound1.setShort("id", (short) enchantment.enchantmentobj.effectId);
             nbttagcompound1.setShort("lvl", (short) enchantment.enchantmentLevel);
             nbttaglist.appendTag(nbttagcompound1);
@@ -77,24 +92,27 @@ public class ItemEnchantedBook extends Item {
         stack.getTagCompound().setTag("StoredEnchantments", nbttaglist);
     }
 
-    public ItemStack getEnchantedItemStack(EnchantmentData data) {
-        ItemStack itemstack = new ItemStack(this);
+    /**
+     * Returns the ItemStack of an enchanted version of this item.
+     */
+    public ItemStack getEnchantedItemStack(final EnchantmentData data) {
+        final ItemStack itemstack = new ItemStack(this);
         this.addEnchantment(itemstack, data);
         return itemstack;
     }
 
-    public void getAll(Enchantment enchantment, List<ItemStack> list) {
+    public void getAll(final Enchantment enchantment, final List<ItemStack> list) {
         for (int i = enchantment.getMinLevel(); i <= enchantment.getMaxLevel(); ++i) {
             list.add(this.getEnchantedItemStack(new EnchantmentData(enchantment, i)));
         }
     }
 
-    public WeightedRandomChestContent getRandom(Random rand) {
+    public WeightedRandomChestContent getRandom(final Random rand) {
         return this.getRandom(rand, 1, 1, 1);
     }
 
-    public WeightedRandomChestContent getRandom(Random rand, int minChance, int maxChance, int weight) {
-        ItemStack itemstack = new ItemStack(Items.book, 1, 0);
+    public WeightedRandomChestContent getRandom(final Random rand, final int minChance, final int maxChance, final int weight) {
+        final ItemStack itemstack = new ItemStack(Items.book, 1, 0);
         EnchantmentHelper.addRandomEnchantment(rand, itemstack, 30);
         return new WeightedRandomChestContent(itemstack, minChance, maxChance, weight);
     }

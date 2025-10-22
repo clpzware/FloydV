@@ -6,7 +6,7 @@ import net.minecraft.client.settings.GameSettings;
 public class GuiOptionButtonOF extends GuiOptionButton implements IOptionControl {
     private GameSettings.Options option = null;
 
-    public GuiOptionButtonOF(int id, int x, int y, GameSettings.Options option, String text) {
+    public GuiOptionButtonOF(final int id, final int x, final int y, final GameSettings.Options option, final String text) {
         super(id, x, y, option, text);
         this.option = option;
     }

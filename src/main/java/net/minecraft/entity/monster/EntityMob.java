@@ -13,14 +13,18 @@ import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 public abstract class EntityMob extends EntityCreature implements IMob {
-    public EntityMob(World worldIn) {
+    public EntityMob(final World worldIn) {
         super(worldIn);
         this.experienceValue = 5;
     }
 
+    /**
+     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
+     * use this to react to sunlight and start to burn.
+     */
     public void onLivingUpdate() {
         this.updateArmSwingProgress();
-        float f = this.getBrightness(1.0F);
+        final float f = this.getBrightness(1.0F);
 
         if (f > 0.5F) {
             this.entityAge += 2;
@@ -29,6 +33,9 @@ public abstract class EntityMob extends EntityCreature implements IMob {
         super.onLivingUpdate();
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate() {
         super.onUpdate();
 
@@ -45,39 +52,48 @@ public abstract class EntityMob extends EntityCreature implements IMob {
         return "game.hostile.swim.splash";
     }
 
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    /**
+     * Called when the entity is attacked.
+     */
+    public boolean attackEntityFrom(final DamageSource source, final float amount) {
         if (this.isEntityInvulnerable(source)) {
             return false;
         } else if (super.attackEntityFrom(source, amount)) {
-            Entity entity = source.getEntity();
+            final Entity entity = source.getEntity();
             return true;
         } else {
             return false;
         }
     }
 
+    /**
+     * Returns the sound this mob makes when it is hurt.
+     */
     protected String getHurtSound() {
         return "game.hostile.hurt";
     }
 
+    /**
+     * Returns the sound this mob makes on death.
+     */
     protected String getDeathSound() {
         return "game.hostile.die";
     }
 
-    protected String getFallSoundString(int damageValue) {
+    protected String getFallSoundString(final int damageValue) {
         return damageValue > 4 ? "game.hostile.hurt.fall.big" : "game.hostile.hurt.fall.small";
     }
 
-    public boolean attackEntityAsMob(Entity entityIn) {
+    public boolean attackEntityAsMob(final Entity entityIn) {
         float f = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
         int i = 0;
 
         if (entityIn instanceof EntityLivingBase) {
-            f += EnchantmentHelper.getModifierForCreature(this.getHeldItem(), ((EntityLivingBase) entityIn).getCreatureAttribute());
+            f += EnchantmentHelper.func_152377_a(this.getHeldItem(), ((EntityLivingBase) entityIn).getCreatureAttribute());
             i += EnchantmentHelper.getKnockbackModifier(this);
         }
 
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
+        final boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), f);
 
         if (flag) {
             if (i > 0) {
@@ -86,7 +102,7 @@ public abstract class EntityMob extends EntityCreature implements IMob {
                 this.motionZ *= 0.6D;
             }
 
-            int j = EnchantmentHelper.getFireAspectModifier(this);
+            final int j = EnchantmentHelper.getFireAspectModifier(this);
 
             if (j > 0) {
                 entityIn.setFire(j * 4);
@@ -98,12 +114,15 @@ public abstract class EntityMob extends EntityCreature implements IMob {
         return flag;
     }
 
-    public float getBlockPathWeight(BlockPos pos) {
+    public float getBlockPathWeight(final BlockPos pos) {
         return 0.5F - this.worldObj.getLightBrightness(pos);
     }
 
+    /**
+     * Checks to make sure the light is not too bright where the mob is spawning
+     */
     protected boolean isValidLightLevel() {
-        BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+        final BlockPos blockpos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
 
         if (this.worldObj.getLightFor(EnumSkyBlock.SKY, blockpos) > this.rand.nextInt(32)) {
             return false;
@@ -111,7 +130,7 @@ public abstract class EntityMob extends EntityCreature implements IMob {
             int i = this.worldObj.getLightFromNeighbors(blockpos);
 
             if (this.worldObj.isThundering()) {
-                int j = this.worldObj.getSkylightSubtracted();
+                final int j = this.worldObj.getSkylightSubtracted();
                 this.worldObj.setSkylightSubtracted(10);
                 i = this.worldObj.getLightFromNeighbors(blockpos);
                 this.worldObj.setSkylightSubtracted(j);
@@ -121,6 +140,9 @@ public abstract class EntityMob extends EntityCreature implements IMob {
         }
     }
 
+    /**
+     * Checks if the entity's current position is a valid location to spawn this entity.
+     */
     public boolean getCanSpawnHere() {
         return this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL && this.isValidLightLevel() && super.getCanSpawnHere();
     }
@@ -130,6 +152,9 @@ public abstract class EntityMob extends EntityCreature implements IMob {
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage);
     }
 
+    /**
+     * Entity won't drop items or experience points if this returns false
+     */
     protected boolean canDropLoot() {
         return true;
     }

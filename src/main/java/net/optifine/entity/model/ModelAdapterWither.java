@@ -19,33 +19,34 @@ public class ModelAdapterWither extends ModelAdapter {
         return new ModelWither(0.0F);
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelWither modelwither)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelWither)) {
             return null;
         } else {
-            String s = "body";
+            final ModelWither modelwither = (ModelWither) model;
+            final String s = "body";
 
             if (modelPart.startsWith(s)) {
-                ModelRenderer[] amodelrenderer1 = (ModelRenderer[]) Reflector.getFieldValue(modelwither, Reflector.ModelWither_bodyParts);
+                final ModelRenderer[] amodelrenderer1 = (ModelRenderer[]) Reflector.getFieldValue(modelwither, Reflector.ModelWither_bodyParts);
 
                 if (amodelrenderer1 == null) {
                     return null;
                 } else {
-                    String s3 = modelPart.substring(s.length());
+                    final String s3 = modelPart.substring(s.length());
                     int j = Config.parseInt(s3, -1);
                     --j;
                     return j >= 0 && j < amodelrenderer1.length ? amodelrenderer1[j] : null;
                 }
             } else {
-                String s1 = "head";
+                final String s1 = "head";
 
                 if (modelPart.startsWith(s1)) {
-                    ModelRenderer[] amodelrenderer = (ModelRenderer[]) Reflector.getFieldValue(modelwither, Reflector.ModelWither_heads);
+                    final ModelRenderer[] amodelrenderer = (ModelRenderer[]) Reflector.getFieldValue(modelwither, Reflector.ModelWither_heads);
 
                     if (amodelrenderer == null) {
                         return null;
                     } else {
-                        String s2 = modelPart.substring(s1.length());
+                        final String s2 = modelPart.substring(s1.length());
                         int i = Config.parseInt(s2, -1);
                         --i;
                         return i >= 0 && i < amodelrenderer.length ? amodelrenderer[i] : null;
@@ -61,9 +62,9 @@ public class ModelAdapterWither extends ModelAdapter {
         return new String[]{"body1", "body2", "body3", "head1", "head2", "head3"};
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderWither renderwither = new RenderWither(rendermanager);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderWither renderwither = new RenderWither(rendermanager);
         renderwither.mainModel = modelBase;
         renderwither.shadowSize = shadowSize;
         return renderwither;

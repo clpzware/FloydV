@@ -1,10 +1,7 @@
 package net.minecraft.client.resources;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiListExtended;
-import net.minecraft.client.gui.GuiScreenResourcePacks;
-import net.minecraft.client.gui.GuiYesNo;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
@@ -20,13 +17,13 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
     protected final Minecraft mc;
     protected final GuiScreenResourcePacks resourcePacksGUI;
 
-    public ResourcePackListEntry(GuiScreenResourcePacks resourcePacksGUIIn) {
+    public ResourcePackListEntry(final GuiScreenResourcePacks resourcePacksGUIIn) {
         this.resourcePacksGUI = resourcePacksGUIIn;
         this.mc = Minecraft.getMinecraft();
     }
 
-    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected) {
-        int i = this.func_183019_a();
+    public void drawEntry(final int slotIndex, final int x, final int y, final int listWidth, final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected) {
+        final int i = this.func_183019_a();
 
         if (i != 1) {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -43,8 +40,8 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
             this.mc.getTextureManager().bindTexture(RESOURCE_PACKS_TEXTURE);
             Gui.drawRect(x, y, x + 32, y + 32, -1601138544);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            int j = mouseX - x;
-            int k = mouseY - y;
+            final int j = mouseX - x;
+            final int k = mouseY - y;
 
             if (i < 1) {
                 s = field_183020_d.getFormattedText();
@@ -87,17 +84,17 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
             }
         }
 
-        int i1 = this.mc.fontRendererObj.getStringWidth(s);
+        final int i1 = this.mc.fontRendererObj.width(s);
 
         if (i1 > 157) {
-            s = this.mc.fontRendererObj.trimStringToWidth(s, 157 - this.mc.fontRendererObj.getStringWidth("...")) + "...";
+            s = this.mc.fontRendererObj.trimStringToWidth(s, 157 - this.mc.fontRendererObj.width("...")) + "...";
         }
 
-        this.mc.fontRendererObj.drawStringWithShadow(s, (float) (x + 32 + 2), (float) (y + 1), 16777215);
-        List<String> list = this.mc.fontRendererObj.listFormattedStringToWidth(s1, 157);
+        this.mc.fontRendererObj.drawWithShadow(s, (float) (x + 32 + 2), (float) (y + 1), 16777215);
+        final List<String> list = this.mc.fontRendererObj.listFormattedStringToWidth(s1, 157);
 
         for (int l = 0; l < 2 && l < list.size(); ++l) {
-            this.mc.fontRendererObj.drawStringWithShadow(list.get(l), (float) (x + 32 + 2), (float) (y + 12 + 10 * l), 8421504);
+            this.mc.fontRendererObj.drawWithShadow(list.get(l), (float) (x + 32 + 2), (float) (y + 12 + 10 * l), 8421504);
         }
     }
 
@@ -122,33 +119,38 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
     }
 
     protected boolean func_148314_g() {
-        List<ResourcePackListEntry> list = this.resourcePacksGUI.getListContaining(this);
-        int i = list.indexOf(this);
+        final List<ResourcePackListEntry> list = this.resourcePacksGUI.getListContaining(this);
+        final int i = list.indexOf(this);
         return i > 0 && list.get(i - 1).func_148310_d();
     }
 
     protected boolean func_148307_h() {
-        List<ResourcePackListEntry> list = this.resourcePacksGUI.getListContaining(this);
-        int i = list.indexOf(this);
+        final List<ResourcePackListEntry> list = this.resourcePacksGUI.getListContaining(this);
+        final int i = list.indexOf(this);
         return i >= 0 && i < list.size() - 1 && list.get(i + 1).func_148310_d();
     }
 
-    public boolean mousePressed(int slotIndex, int p_148278_2_, int p_148278_3_, int p_148278_4_, int p_148278_5_, int p_148278_6_) {
+    /**
+     * Returns true if the mouse has been pressed on this control.
+     */
+    public boolean mousePressed(final int slotIndex, final int p_148278_2_, final int p_148278_3_, final int p_148278_4_, final int p_148278_5_, final int p_148278_6_) {
         if (this.func_148310_d() && p_148278_5_ <= 32) {
             if (this.func_148309_e()) {
                 this.resourcePacksGUI.markChanged();
-                int j = this.func_183019_a();
+                final int j = this.func_183019_a();
 
                 if (j != 1) {
-                    String s1 = I18n.format("resourcePack.incompatible.confirm.title");
-                    String s = I18n.format("resourcePack.incompatible.confirm." + (j > 1 ? "new" : "old"));
-                    this.mc.displayGuiScreen(new GuiYesNo((result, id) -> {
-                        List<ResourcePackListEntry> list2 = ResourcePackListEntry.this.resourcePacksGUI.getListContaining(ResourcePackListEntry.this);
-                        ResourcePackListEntry.this.mc.displayGuiScreen(ResourcePackListEntry.this.resourcePacksGUI);
+                    final String s1 = I18n.format("resourcePack.incompatible.confirm.title");
+                    final String s = I18n.format("resourcePack.incompatible.confirm." + (j > 1 ? "new" : "old"));
+                    this.mc.displayGuiScreen(new GuiYesNo(new GuiYesNoCallback() {
+                        public void confirmClicked(final boolean result, final int id) {
+                            final List<ResourcePackListEntry> list2 = ResourcePackListEntry.this.resourcePacksGUI.getListContaining(ResourcePackListEntry.this);
+                            ResourcePackListEntry.this.mc.displayGuiScreen(ResourcePackListEntry.this.resourcePacksGUI);
 
-                        if (result) {
-                            list2.remove(ResourcePackListEntry.this);
-                            ResourcePackListEntry.this.resourcePacksGUI.getSelectedResourcePacks().add(0, ResourcePackListEntry.this);
+                            if (result) {
+                                list2.remove(ResourcePackListEntry.this);
+                                ResourcePackListEntry.this.resourcePacksGUI.getSelectedResourcePacks().add(0, ResourcePackListEntry.this);
+                            }
                         }
                     }, s1, s, 0));
                 } else {
@@ -167,8 +169,8 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
             }
 
             if (p_148278_5_ > 16 && p_148278_6_ < 16 && this.func_148314_g()) {
-                List<ResourcePackListEntry> list1 = this.resourcePacksGUI.getListContaining(this);
-                int k = list1.indexOf(this);
+                final List<ResourcePackListEntry> list1 = this.resourcePacksGUI.getListContaining(this);
+                final int k = list1.indexOf(this);
                 list1.remove(this);
                 list1.add(k - 1, this);
                 this.resourcePacksGUI.markChanged();
@@ -176,8 +178,8 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
             }
 
             if (p_148278_5_ > 16 && p_148278_6_ > 16 && this.func_148307_h()) {
-                List<ResourcePackListEntry> list = this.resourcePacksGUI.getListContaining(this);
-                int i = list.indexOf(this);
+                final List<ResourcePackListEntry> list = this.resourcePacksGUI.getListContaining(this);
+                final int i = list.indexOf(this);
                 list.remove(this);
                 list.add(i + 1, this);
                 this.resourcePacksGUI.markChanged();
@@ -188,9 +190,12 @@ public abstract class ResourcePackListEntry implements GuiListExtended.IGuiListE
         return false;
     }
 
-    public void setSelected(int p_178011_1_, int p_178011_2_, int p_178011_3_) {
+    public void setSelected(final int p_178011_1_, final int p_178011_2_, final int p_178011_3_) {
     }
 
-    public void mouseReleased(int slotIndex, int x, int y, int mouseEvent, int relativeX, int relativeY) {
+    /**
+     * Fired when the mouse button is released. Arguments: index, x, y, mouseEvent, relativeX, relativeY
+     */
+    public void mouseReleased(final int slotIndex, final int x, final int y, final int mouseEvent, final int relativeX, final int relativeY) {
     }
 }

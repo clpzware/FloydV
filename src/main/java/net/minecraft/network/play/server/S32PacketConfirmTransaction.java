@@ -1,28 +1,31 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 
+import java.io.IOException;
+
 public class S32PacketConfirmTransaction implements Packet<INetHandlerPlayClient> {
-    private int windowId;
-    private short actionNumber;
-    private boolean field_148893_c;
+    public int windowId;
+    public short actionNumber;
+    public boolean accepted;
 
     public S32PacketConfirmTransaction() {
     }
 
-    public S32PacketConfirmTransaction(int windowIdIn, short actionNumberIn, boolean p_i45182_3_) {
+    public S32PacketConfirmTransaction(final int windowIdIn, final short actionNumberIn, final boolean p_i45182_3_) {
         this.windowId = windowIdIn;
         this.actionNumber = actionNumberIn;
-        this.field_148893_c = p_i45182_3_;
+        this.accepted = p_i45182_3_;
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleConfirmTransaction(this);
     }
 
@@ -32,14 +35,17 @@ public class S32PacketConfirmTransaction implements Packet<INetHandlerPlayClient
         } else {
             this.windowId = buf.readUnsignedByte();
             this.actionNumber = buf.readShort();
-            this.field_148893_c = buf.readBoolean();
+            this.accepted = buf.readBoolean();
         }
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeByte(this.windowId);
         buf.writeShort(this.actionNumber);
-        buf.writeBoolean(this.field_148893_c);
+        buf.writeBoolean(this.accepted);
     }
 
     public int getWindowId() {
@@ -50,7 +56,7 @@ public class S32PacketConfirmTransaction implements Packet<INetHandlerPlayClient
         return this.actionNumber;
     }
 
-    public boolean func_148888_e() {
-        return this.field_148893_c;
+    public boolean accepted() {
+        return this.accepted;
     }
 }

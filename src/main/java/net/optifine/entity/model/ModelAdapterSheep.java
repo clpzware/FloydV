@@ -16,8 +16,8 @@ public class ModelAdapterSheep extends ModelAdapterQuadruped {
         return new ModelSheep2();
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
         return new RenderSheep(rendermanager, modelBase, shadowSize);
     }
 }

@@ -18,7 +18,7 @@ public class HttpPipelineReceiver extends Thread {
     private static final char CR = '\r';
     private static final char LF = '\n';
 
-    public HttpPipelineReceiver(HttpPipelineConnection httpPipelineConnection) {
+    public HttpPipelineReceiver(final HttpPipelineConnection httpPipelineConnection) {
         super("HttpPipelineReceiver");
         this.httpPipelineConnection = httpPipelineConnection;
     }
@@ -29,45 +29,45 @@ public class HttpPipelineReceiver extends Thread {
 
             try {
                 httppipelinerequest = this.httpPipelineConnection.getNextRequestReceive();
-                InputStream inputstream = this.httpPipelineConnection.getInputStream();
-                HttpResponse httpresponse = this.readResponse(inputstream);
+                final InputStream inputstream = this.httpPipelineConnection.getInputStream();
+                final HttpResponse httpresponse = this.readResponse(inputstream);
                 this.httpPipelineConnection.onResponseReceived(httppipelinerequest, httpresponse);
-            } catch (InterruptedException var4) {
+            } catch (final InterruptedException var4) {
                 return;
-            } catch (Exception exception) {
+            } catch (final Exception exception) {
                 this.httpPipelineConnection.onExceptionReceive(httppipelinerequest, exception);
             }
         }
     }
 
-    private HttpResponse readResponse(InputStream in) throws IOException {
-        String s = this.readLine(in);
-        String[] astring = Config.tokenize(s, " ");
+    private HttpResponse readResponse(final InputStream in) throws IOException {
+        final String s = this.readLine(in);
+        final String[] astring = Config.tokenize(s, " ");
 
         if (astring.length < 3) {
             throw new IOException("Invalid status line: " + s);
         } else {
-            String s1 = astring[0];
-            int i = Config.parseInt(astring[1], 0);
-            String s2 = astring[2];
-            Map<String, String> map = new LinkedHashMap();
+            final String s1 = astring[0];
+            final int i = Config.parseInt(astring[1], 0);
+            final String s2 = astring[2];
+            final Map<String, String> map = new LinkedHashMap();
 
             while (true) {
-                String s3 = this.readLine(in);
+                final String s3 = this.readLine(in);
 
                 if (s3.length() <= 0) {
                     byte[] abyte = null;
-                    String s6 = map.get("Content-Length");
+                    final String s6 = map.get("Content-Length");
 
                     if (s6 != null) {
-                        int k = Config.parseInt(s6, -1);
+                        final int k = Config.parseInt(s6, -1);
 
                         if (k > 0) {
                             abyte = new byte[k];
                             this.readFull(abyte, in);
                         }
                     } else {
-                        String s7 = map.get("Transfer-Encoding");
+                        final String s7 = map.get("Transfer-Encoding");
 
                         if (Config.equals(s7, "chunked")) {
                             abyte = this.readContentChunked(in);
@@ -77,25 +77,25 @@ public class HttpPipelineReceiver extends Thread {
                     return new HttpResponse(i, s, map, abyte);
                 }
 
-                int j = s3.indexOf(":");
+                final int j = s3.indexOf(":");
 
                 if (j > 0) {
-                    String s4 = s3.substring(0, j).trim();
-                    String s5 = s3.substring(j + 1).trim();
+                    final String s4 = s3.substring(0, j).trim();
+                    final String s5 = s3.substring(j + 1).trim();
                     map.put(s4, s5);
                 }
             }
         }
     }
 
-    private byte[] readContentChunked(InputStream in) throws IOException {
-        ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+    private byte[] readContentChunked(final InputStream in) throws IOException {
+        final ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
 
         while (true) {
-            String s = this.readLine(in);
-            String[] astring = Config.tokenize(s, "; ");
-            int i = Integer.parseInt(astring[0], 16);
-            byte[] abyte = new byte[i];
+            final String s = this.readLine(in);
+            final String[] astring = Config.tokenize(s, "; ");
+            final int i = Integer.parseInt(astring[0], 16);
+            final byte[] abyte = new byte[i];
             this.readFull(abyte, in);
             bytearrayoutputstream.write(abyte);
             this.readLine(in);
@@ -108,7 +108,7 @@ public class HttpPipelineReceiver extends Thread {
         return bytearrayoutputstream.toByteArray();
     }
 
-    private void readFull(byte[] buf, InputStream in) throws IOException {
+    private void readFull(final byte[] buf, final InputStream in) throws IOException {
         int j;
 
         for (int i = 0; i < buf.length; i += j) {
@@ -120,13 +120,13 @@ public class HttpPipelineReceiver extends Thread {
         }
     }
 
-    private String readLine(InputStream in) throws IOException {
-        ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
+    private String readLine(final InputStream in) throws IOException {
+        final ByteArrayOutputStream bytearrayoutputstream = new ByteArrayOutputStream();
         int i = -1;
         boolean flag = false;
 
         while (true) {
-            int j = in.read();
+            final int j = in.read();
 
             if (j < 0) {
                 break;
@@ -142,7 +142,8 @@ public class HttpPipelineReceiver extends Thread {
             i = j;
         }
 
-        String s = bytearrayoutputstream.toString(ASCII);
+        final byte[] abyte = bytearrayoutputstream.toByteArray();
+        String s = new String(abyte, ASCII);
 
         if (flag) {
             s = s.substring(0, s.length() - 2);

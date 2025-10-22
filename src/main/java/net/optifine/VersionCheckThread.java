@@ -17,18 +17,18 @@ public class VersionCheckThread extends Thread {
 
         try {
             Config.dbg("Checking for new version");
-            URL url = new URL("http://optifine.net/version/1.8.9/HD_U.txt");
+            final URL url = new URL("http://optifine.net/version/1.8.9/HD_U.txt");
             httpurlconnection = (HttpURLConnection) url.openConnection();
 
             if (Config.getGameSettings().snooperEnabled) {
                 httpurlconnection.setRequestProperty("OF-MC-Version", "1.8.9");
-                httpurlconnection.setRequestProperty("OF-MC-Brand", ClientBrandRetriever.getClientModName());
+                httpurlconnection.setRequestProperty("OF-MC-Brand", "" + ClientBrandRetriever.getClientModName());
                 httpurlconnection.setRequestProperty("OF-Edition", "HD_U");
-                httpurlconnection.setRequestProperty("OF-Release", "M6_pre2");
-                httpurlconnection.setRequestProperty("OF-Java-Version", System.getProperty("java.version"));
+                httpurlconnection.setRequestProperty("OF-Release", "L5");
+                httpurlconnection.setRequestProperty("OF-Java-Version", "" + System.getProperty("java.version"));
                 httpurlconnection.setRequestProperty("OF-CpuCount", "" + Config.getAvailableProcessors());
-                httpurlconnection.setRequestProperty("OF-OpenGL-Version", Config.openGlVersion);
-                httpurlconnection.setRequestProperty("OF-OpenGL-Vendor", Config.openGlVendor);
+                httpurlconnection.setRequestProperty("OF-OpenGL-Version", "" + Config.openGlVersion);
+                httpurlconnection.setRequestProperty("OF-OpenGL-Vendor", "" + Config.openGlVendor);
             }
 
             httpurlconnection.setDoInput(true);
@@ -36,25 +36,28 @@ public class VersionCheckThread extends Thread {
             httpurlconnection.connect();
 
             try {
-                InputStream inputstream = httpurlconnection.getInputStream();
-                String s = Config.readInputStream(inputstream);
+                final InputStream inputstream = httpurlconnection.getInputStream();
+                final String s = Config.readInputStream(inputstream);
                 inputstream.close();
-                String[] astring = Config.tokenize(s, "\n\r");
+                final String[] astring = Config.tokenize(s, "\n\r");
 
                 if (astring.length >= 1) {
-                    String s1 = astring[0].trim();
+                    final String s1 = astring[0].trim();
                     Config.dbg("Version found: " + s1);
 
-                    if (Config.compareRelease(s1, "M6_pre2") <= 0) {
+                    if (Config.compareRelease(s1, "L5") <= 0) {
                         return;
                     }
 
                     Config.setNewRelease(s1);
+                    return;
                 }
             } finally {
-                httpurlconnection.disconnect();
+                if (httpurlconnection != null) {
+                    httpurlconnection.disconnect();
+                }
             }
-        } catch (Exception exception) {
+        } catch (final Exception exception) {
             Config.dbg(exception.getClass().getName() + ": " + exception.getMessage());
         }
     }

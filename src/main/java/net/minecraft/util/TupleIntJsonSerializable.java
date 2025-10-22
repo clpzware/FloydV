@@ -4,11 +4,17 @@ public class TupleIntJsonSerializable {
     private int integerValue;
     private IJsonSerializable jsonSerializableValue;
 
+    /**
+     * Gets the integer value stored in this tuple.
+     */
     public int getIntegerValue() {
         return this.integerValue;
     }
 
-    public void setIntegerValue(int integerValueIn) {
+    /**
+     * Sets this tuple's integer value to the given value.
+     */
+    public void setIntegerValue(final int integerValueIn) {
         this.integerValue = integerValueIn;
     }
 
@@ -16,7 +22,10 @@ public class TupleIntJsonSerializable {
         return (T) this.jsonSerializableValue;
     }
 
-    public void setJsonSerializableValue(IJsonSerializable jsonSerializableValueIn) {
+    /**
+     * Sets this tuple's JsonSerializable value to the given value.
+     */
+    public void setJsonSerializableValue(final IJsonSerializable jsonSerializableValueIn) {
         this.jsonSerializableValue = jsonSerializableValueIn;
     }
 }

@@ -1,11 +1,6 @@
 package net.minecraft.enchantment;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemFishingRod;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
+import net.minecraft.item.*;
 
 public enum EnumEnchantmentType {
     ALL,
@@ -20,7 +15,10 @@ public enum EnumEnchantmentType {
     BREAKABLE,
     BOW;
 
-    public boolean canEnchantItem(Item p_77557_1_) {
+    /**
+     * Return true if the item passed can be enchanted by a enchantment of this type.
+     */
+    public boolean canEnchantItem(final Item p_77557_1_) {
         if (this == ALL) {
             return true;
         } else if (this == BREAKABLE && p_77557_1_.isDamageable()) {
@@ -29,7 +27,7 @@ public enum EnumEnchantmentType {
             if (this == ARMOR) {
                 return true;
             } else {
-                ItemArmor itemarmor = (ItemArmor) p_77557_1_;
+                final ItemArmor itemarmor = (ItemArmor) p_77557_1_;
                 return itemarmor.armorType == 0 ? this == ARMOR_HEAD : (itemarmor.armorType == 2 ? this == ARMOR_LEGS : (itemarmor.armorType == 1 ? this == ARMOR_TORSO : (itemarmor.armorType == 3 && this == ARMOR_FEET)));
             }
         } else {

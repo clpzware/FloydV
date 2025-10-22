@@ -19,37 +19,46 @@ public class BlockNetherWart extends BlockBush {
 
     protected BlockNetherWart() {
         super(Material.plants, MapColor.redColor);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, Integer.valueOf(0)));
         this.setTickRandomly(true);
-        float f = 0.5F;
+        final float f = 0.5F;
         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, 0.25F, 0.5F + f);
         this.setCreativeTab(null);
     }
 
-    protected boolean canPlaceBlockOn(Block ground) {
+    /**
+     * is the block grass, dirt or farmland
+     */
+    protected boolean canPlaceBlockOn(final Block ground) {
         return ground == Blocks.soul_sand;
     }
 
-    public boolean canBlockStay(World worldIn, BlockPos pos, IBlockState state) {
+    public boolean canBlockStay(final World worldIn, final BlockPos pos, final IBlockState state) {
         return this.canPlaceBlockOn(worldIn.getBlockState(pos.down()).getBlock());
     }
 
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-        int i = state.getValue(AGE);
+    public void updateTick(final World worldIn, final BlockPos pos, IBlockState state, final Random rand) {
+        final int i = state.getValue(AGE).intValue();
 
         if (i < 3 && rand.nextInt(10) == 0) {
-            state = state.withProperty(AGE, i + 1);
+            state = state.withProperty(AGE, Integer.valueOf(i + 1));
             worldIn.setBlockState(pos, state, 2);
         }
 
         super.updateTick(worldIn, pos, state, rand);
     }
 
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+    /**
+     * Spawns this Block's drops into the World as EntityItems.
+     *
+     * @param chance  The chance that each Item is actually spawned (1.0 = always, 0.0 = never)
+     * @param fortune The player's fortune level
+     */
+    public void dropBlockAsItemWithChance(final World worldIn, final BlockPos pos, final IBlockState state, final float chance, final int fortune) {
         if (!worldIn.isRemote) {
             int i = 1;
 
-            if (state.getValue(AGE) >= 3) {
+            if (state.getValue(AGE).intValue() >= 3) {
                 i = 2 + worldIn.rand.nextInt(3);
 
                 if (fortune > 0) {
@@ -63,24 +72,41 @@ public class BlockNetherWart extends BlockBush {
         }
     }
 
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    /**
+     * Get the Item that this Block should drop when harvested.
+     *
+     * @param fortune the level of the Fortune enchantment on the player's tool
+     */
+    public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
         return null;
     }
 
-    public int quantityDropped(Random random) {
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
+    public int quantityDropped(final Random random) {
         return 0;
     }
 
-    public Item getItem(World worldIn, BlockPos pos) {
+    /**
+     * Used by pick block on the client to get a block's item form, if it exists.
+     */
+    public Item getItem(final World worldIn, final BlockPos pos) {
         return Items.nether_wart;
     }
 
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(AGE, meta);
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
+        return this.getDefaultState().withProperty(AGE, Integer.valueOf(meta));
     }
 
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(AGE);
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
+        return state.getValue(AGE).intValue();
     }
 
     protected BlockState createBlockState() {

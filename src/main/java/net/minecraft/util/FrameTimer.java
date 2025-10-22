@@ -1,45 +1,45 @@
 package net.minecraft.util;
 
 public class FrameTimer {
-    private final long[] frames = new long[240];
-    private int lastIndex;
-    private int counter;
-    private int index;
+    private final long[] field_181752_a = new long[240];
+    private int field_181753_b;
+    private int field_181754_c;
+    private int field_181755_d;
 
-    public void addFrame(long runningTime) {
-        this.frames[this.index] = runningTime;
-        ++this.index;
+    public void func_181747_a(final long p_181747_1_) {
+        this.field_181752_a[this.field_181755_d] = p_181747_1_;
+        ++this.field_181755_d;
 
-        if (this.index == 240) {
-            this.index = 0;
+        if (this.field_181755_d == 240) {
+            this.field_181755_d = 0;
         }
 
-        if (this.counter < 240) {
-            this.lastIndex = 0;
-            ++this.counter;
+        if (this.field_181754_c < 240) {
+            this.field_181753_b = 0;
+            ++this.field_181754_c;
         } else {
-            this.lastIndex = this.parseIndex(this.index + 1);
+            this.field_181753_b = this.func_181751_b(this.field_181755_d + 1);
         }
     }
 
-    public int getLagometerValue(long time, int multiplier) {
-        double d0 = (double) time / 1.6666666E7D;
-        return (int) (d0 * (double) multiplier);
+    public int func_181748_a(final long p_181748_1_, final int p_181748_3_) {
+        final double d0 = (double) p_181748_1_ / 1.6666666E7D;
+        return (int) (d0 * (double) p_181748_3_);
     }
 
-    public int getLastIndex() {
-        return this.lastIndex;
+    public int func_181749_a() {
+        return this.field_181753_b;
     }
 
-    public int getIndex() {
-        return this.index;
+    public int func_181750_b() {
+        return this.field_181755_d;
     }
 
-    public int parseIndex(int rawIndex) {
-        return rawIndex % 240;
+    public int func_181751_b(final int p_181751_1_) {
+        return p_181751_1_ % 240;
     }
 
-    public long[] getFrames() {
-        return this.frames;
+    public long[] func_181746_c() {
+        return this.field_181752_a;
     }
 }

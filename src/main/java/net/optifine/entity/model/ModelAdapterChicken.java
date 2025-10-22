@@ -17,10 +17,11 @@ public class ModelAdapterChicken extends ModelAdapter {
         return new ModelChicken();
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelChicken modelchicken)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelChicken)) {
             return null;
         } else {
+            final ModelChicken modelchicken = (ModelChicken) model;
             return modelPart.equals("head") ? modelchicken.head : (modelPart.equals("body") ? modelchicken.body : (modelPart.equals("right_leg") ? modelchicken.rightLeg : (modelPart.equals("left_leg") ? modelchicken.leftLeg : (modelPart.equals("right_wing") ? modelchicken.rightWing : (modelPart.equals("left_wing") ? modelchicken.leftWing : (modelPart.equals("bill") ? modelchicken.bill : (modelPart.equals("chin") ? modelchicken.chin : null)))))));
         }
     }
@@ -29,9 +30,9 @@ public class ModelAdapterChicken extends ModelAdapter {
         return new String[]{"head", "body", "right_leg", "left_leg", "right_wing", "left_wing", "bill", "chin"};
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderChicken renderchicken = new RenderChicken(rendermanager, modelBase, shadowSize);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderChicken renderchicken = new RenderChicken(rendermanager, modelBase, shadowSize);
         return renderchicken;
     }
 }

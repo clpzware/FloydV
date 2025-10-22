@@ -7,13 +7,16 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 
 public class TileEntityEnchantmentTableRenderer extends TileEntitySpecialRenderer<TileEntityEnchantmentTable> {
+    /**
+     * The texture for the book above the enchantment table.
+     */
     private static final ResourceLocation TEXTURE_BOOK = new ResourceLocation("textures/entity/enchanting_table_book.png");
     private final ModelBook field_147541_c = new ModelBook();
 
-    public void renderTileEntityAt(TileEntityEnchantmentTable te, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void renderTileEntityAt(final TileEntityEnchantmentTable te, final double x, final double y, final double z, final float partialTicks, final int destroyStage) {
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x + 0.5F, (float) y + 0.75F, (float) z + 0.5F);
-        float f = (float) te.tickCount + partialTicks;
+        final float f = (float) te.tickCount + partialTicks;
         GlStateManager.translate(0.0F, 0.1F + MathHelper.sin(f * 0.1F) * 0.01F, 0.0F);
         float f1;
 
@@ -24,7 +27,7 @@ public class TileEntityEnchantmentTableRenderer extends TileEntitySpecialRendere
             f1 += ((float) Math.PI * 2F);
         }
 
-        float f2 = te.bookRotationPrev + f1 * partialTicks;
+        final float f2 = te.bookRotationPrev + f1 * partialTicks;
         GlStateManager.rotate(-f2 * 180.0F / (float) Math.PI, 0.0F, 1.0F, 0.0F);
         GlStateManager.rotate(80.0F, 0.0F, 0.0F, 1.0F);
         this.bindTexture(TEXTURE_BOOK);
@@ -49,9 +52,14 @@ public class TileEntityEnchantmentTableRenderer extends TileEntitySpecialRendere
             f4 = 1.0F;
         }
 
-        float f5 = te.bookSpreadPrev + (te.bookSpread - te.bookSpreadPrev) * partialTicks;
+        final float f5 = te.bookSpreadPrev + (te.bookSpread - te.bookSpreadPrev) * partialTicks;
         GlStateManager.enableCull();
         this.field_147541_c.render(null, f, f3, f4, f5, 0.0F, 0.0625F);
         GlStateManager.popMatrix();
+    }
+
+    @Override
+    public void renderBasicTileEntityAt(TileEntityEnchantmentTable te, double x, double y, double z, float partialTicks, int destroyStage) {
+
     }
 }

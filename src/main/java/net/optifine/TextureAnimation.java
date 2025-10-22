@@ -30,7 +30,7 @@ public class TextureAnimation {
     private boolean active = true;
     private boolean valid = true;
 
-    public TextureAnimation(String texFrom, byte[] srcData, String texTo, ResourceLocation locTexTo, int dstX, int dstY, int frameWidth, int frameHeight, Properties props) {
+    public TextureAnimation(final String texFrom, final byte[] srcData, final String texTo, final ResourceLocation locTexTo, final int dstX, final int dstY, final int frameWidth, final int frameHeight, final Properties props) {
         this.srcTex = texFrom;
         this.dstTex = texTo;
         this.dstTexLoc = locTexTo;
@@ -38,7 +38,7 @@ public class TextureAnimation {
         this.dstY = dstY;
         this.frameWidth = frameWidth;
         this.frameHeight = frameHeight;
-        int i = frameWidth * frameHeight * 4;
+        final int i = frameWidth * frameHeight * 4;
 
         if (srcData.length % i != 0) {
             Config.warn("Invalid animated texture length: " + srcData.length + ", frameWidth: " + frameWidth + ", frameHeight: " + frameHeight);
@@ -53,16 +53,16 @@ public class TextureAnimation {
             }
         }
 
-        String s2 = (String) props.get("duration");
-        int l = Math.max(Config.parseInt(s2, 1), 1);
+        final String s2 = (String) props.get("duration");
+        final int l = Math.max(Config.parseInt(s2, 1), 1);
         this.frames = new TextureAnimationFrame[j];
 
         for (int i1 = 0; i1 < this.frames.length; ++i1) {
-            String s = (String) props.get("tile." + i1);
-            int j1 = Config.parseInt(s, i1);
-            String s1 = (String) props.get("duration." + i1);
-            int k1 = Math.max(Config.parseInt(s1, l), 1);
-            TextureAnimationFrame textureanimationframe = new TextureAnimationFrame(j1, k1);
+            final String s = (String) props.get("tile." + i1);
+            final int j1 = Config.parseInt(s, i1);
+            final String s1 = (String) props.get("duration." + i1);
+            final int k1 = Math.max(Config.parseInt(s1, l), 1);
+            final TextureAnimationFrame textureanimationframe = new TextureAnimationFrame(j1, k1);
             this.frames[i1] = textureanimationframe;
         }
 
@@ -75,7 +75,7 @@ public class TextureAnimation {
     }
 
     public boolean nextFrame() {
-        TextureAnimationFrame textureanimationframe = this.getCurrentFrame();
+        final TextureAnimationFrame textureanimationframe = this.getCurrentFrame();
 
         if (textureanimationframe == null) {
             return false;
@@ -109,7 +109,7 @@ public class TextureAnimation {
                 index = 0;
             }
 
-            TextureAnimationFrame textureanimationframe = this.frames[index];
+            final TextureAnimationFrame textureanimationframe = this.frames[index];
             return textureanimationframe;
         }
     }
@@ -121,7 +121,7 @@ public class TextureAnimation {
     public void updateTexture() {
         if (this.valid) {
             if (this.dstTextId < 0) {
-                ITextureObject itextureobject = TextureUtils.getTexture(this.dstTexLoc);
+                final ITextureObject itextureobject = TextureUtils.getTexture(this.dstTexLoc);
 
                 if (itextureobject == null) {
                     this.valid = false;
@@ -142,17 +142,17 @@ public class TextureAnimation {
 
             if (this.nextFrame()) {
                 if (this.active) {
-                    int j = this.frameWidth * this.frameHeight * 4;
-                    TextureAnimationFrame textureanimationframe = this.getCurrentFrame();
+                    final int j = this.frameWidth * this.frameHeight * 4;
+                    final TextureAnimationFrame textureanimationframe = this.getCurrentFrame();
 
                     if (textureanimationframe != null) {
-                        int i = j * textureanimationframe.index;
+                        final int i = j * textureanimationframe.index;
 
                         if (i + j <= this.imageData.limit()) {
                             if (this.interpolate && textureanimationframe.counter > 0) {
                                 if (this.interpolateSkip <= 1 || textureanimationframe.counter % this.interpolateSkip == 0) {
-                                    TextureAnimationFrame textureanimationframe1 = this.getFrame(this.currentFrameIndex + 1);
-                                    double d0 = (double) textureanimationframe.counter / (double) textureanimationframe.duration;
+                                    final TextureAnimationFrame textureanimationframe1 = this.getFrame(this.currentFrameIndex + 1);
+                                    final double d0 = 1.0D * (double) textureanimationframe.counter / (double) textureanimationframe.duration;
                                     this.updateTextureInerpolate(textureanimationframe, textureanimationframe1, d0);
                                 }
                             } else {
@@ -167,21 +167,21 @@ public class TextureAnimation {
         }
     }
 
-    private void updateTextureInerpolate(TextureAnimationFrame frame1, TextureAnimationFrame frame2, double dd) {
-        int i = this.frameWidth * this.frameHeight * 4;
-        int j = i * frame1.index;
+    private void updateTextureInerpolate(final TextureAnimationFrame frame1, final TextureAnimationFrame frame2, final double dd) {
+        final int i = this.frameWidth * this.frameHeight * 4;
+        final int j = i * frame1.index;
 
         if (j + i <= this.imageData.limit()) {
-            int k = i * frame2.index;
+            final int k = i * frame2.index;
 
             if (k + i <= this.imageData.limit()) {
                 this.interpolateData.clear();
 
                 for (int l = 0; l < i; ++l) {
-                    int i1 = this.imageData.get(j + l) & 255;
-                    int j1 = this.imageData.get(k + l) & 255;
-                    int k1 = this.mix(i1, j1, dd);
-                    byte b0 = (byte) k1;
+                    final int i1 = this.imageData.get(j + l) & 255;
+                    final int j1 = this.imageData.get(k + l) & 255;
+                    final int k1 = this.mix(i1, j1, dd);
+                    final byte b0 = (byte) k1;
                     this.interpolateData.put(b0);
                 }
 
@@ -192,7 +192,7 @@ public class TextureAnimation {
         }
     }
 
-    private int mix(int col1, int col2, double k) {
+    private int mix(final int col1, final int col2, final double k) {
         return (int) ((double) col1 * (1.0D - k) + (double) col2 * k);
     }
 

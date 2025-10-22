@@ -11,17 +11,17 @@ import java.util.Random;
 
 public class WorldGenTaiga1 extends WorldGenAbstractTree {
     private static final IBlockState field_181636_a = Blocks.log.getDefaultState().withProperty(BlockOldLog.VARIANT, BlockPlanks.EnumType.SPRUCE);
-    private static final IBlockState field_181637_b = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.SPRUCE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.FALSE);
+    private static final IBlockState field_181637_b = Blocks.leaves.getDefaultState().withProperty(BlockOldLeaf.VARIANT, BlockPlanks.EnumType.SPRUCE).withProperty(BlockLeaves.CHECK_DECAY, Boolean.valueOf(false));
 
     public WorldGenTaiga1() {
         super(false);
     }
 
-    public boolean generate(World worldIn, Random rand, BlockPos position) {
-        int i = rand.nextInt(5) + 7;
-        int j = i - rand.nextInt(2) - 3;
-        int k = i - j;
-        int l = 1 + rand.nextInt(k + 1);
+    public boolean generate(final World worldIn, final Random rand, final BlockPos position) {
+        final int i = rand.nextInt(5) + 7;
+        final int j = i - rand.nextInt(2) - 3;
+        final int k = i - j;
+        final int l = 1 + rand.nextInt(k + 1);
         boolean flag = true;
 
         if (position.getY() >= 1 && position.getY() + i + 1 <= 256) {
@@ -34,12 +34,12 @@ public class WorldGenTaiga1 extends WorldGenAbstractTree {
                     j1 = l;
                 }
 
-                BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+                final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
                 for (int k1 = position.getX() - j1; k1 <= position.getX() + j1 && flag; ++k1) {
                     for (int l1 = position.getZ() - j1; l1 <= position.getZ() + j1 && flag; ++l1) {
                         if (i1 >= 0 && i1 < 256) {
-                            if (!this.func_150523_a(worldIn.getBlockState(blockpos$mutableblockpos.set(k1, i1, l1)).getBlock())) {
+                            if (!this.func_150523_a(worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(k1, i1, l1)).getBlock())) {
                                 flag = false;
                             }
                         } else {
@@ -52,7 +52,7 @@ public class WorldGenTaiga1 extends WorldGenAbstractTree {
             if (!flag) {
                 return false;
             } else {
-                Block block = worldIn.getBlockState(position.down()).getBlock();
+                final Block block = worldIn.getBlockState(position.down()).getBlock();
 
                 if ((block == Blocks.grass || block == Blocks.dirt) && position.getY() < 256 - i - 1) {
                     this.func_175921_a(worldIn, position.down());
@@ -60,13 +60,13 @@ public class WorldGenTaiga1 extends WorldGenAbstractTree {
 
                     for (int l2 = position.getY() + i; l2 >= position.getY() + j; --l2) {
                         for (int j3 = position.getX() - k2; j3 <= position.getX() + k2; ++j3) {
-                            int k3 = j3 - position.getX();
+                            final int k3 = j3 - position.getX();
 
                             for (int i2 = position.getZ() - k2; i2 <= position.getZ() + k2; ++i2) {
-                                int j2 = i2 - position.getZ();
+                                final int j2 = i2 - position.getZ();
 
                                 if (Math.abs(k3) != k2 || Math.abs(j2) != k2 || k2 <= 0) {
-                                    BlockPos blockpos = new BlockPos(j3, l2, i2);
+                                    final BlockPos blockpos = new BlockPos(j3, l2, i2);
 
                                     if (!worldIn.getBlockState(blockpos).getBlock().isFullBlock()) {
                                         this.setBlockAndNotifyAdequately(worldIn, blockpos, field_181637_b);
@@ -83,7 +83,7 @@ public class WorldGenTaiga1 extends WorldGenAbstractTree {
                     }
 
                     for (int i3 = 0; i3 < i - 1; ++i3) {
-                        Block block1 = worldIn.getBlockState(position.up(i3)).getBlock();
+                        final Block block1 = worldIn.getBlockState(position.up(i3)).getBlock();
 
                         if (block1.getMaterial() == Material.air || block1.getMaterial() == Material.leaves) {
                             this.setBlockAndNotifyAdequately(worldIn, position.up(i3), field_181636_a);

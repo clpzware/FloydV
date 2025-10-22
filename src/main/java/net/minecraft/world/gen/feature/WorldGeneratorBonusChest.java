@@ -14,14 +14,18 @@ import java.util.Random;
 
 public class WorldGeneratorBonusChest extends WorldGenerator {
     private final List<WeightedRandomChestContent> chestItems;
+
+    /**
+     * Value of this int will determine how much items gonna generate in Bonus Chest.
+     */
     private final int itemsToGenerateInBonusChest;
 
-    public WorldGeneratorBonusChest(List<WeightedRandomChestContent> p_i45634_1_, int p_i45634_2_) {
+    public WorldGeneratorBonusChest(final List<WeightedRandomChestContent> p_i45634_1_, final int p_i45634_2_) {
         this.chestItems = p_i45634_1_;
         this.itemsToGenerateInBonusChest = p_i45634_2_;
     }
 
-    public boolean generate(World worldIn, Random rand, BlockPos position) {
+    public boolean generate(final World worldIn, final Random rand, BlockPos position) {
         Block block;
 
         while (((block = worldIn.getBlockState(position).getBlock()).getMaterial() == Material.air || block.getMaterial() == Material.leaves) && position.getY() > 1) {
@@ -34,20 +38,20 @@ public class WorldGeneratorBonusChest extends WorldGenerator {
             position = position.up();
 
             for (int i = 0; i < 4; ++i) {
-                BlockPos blockpos = position.add(rand.nextInt(4) - rand.nextInt(4), rand.nextInt(3) - rand.nextInt(3), rand.nextInt(4) - rand.nextInt(4));
+                final BlockPos blockpos = position.add(rand.nextInt(4) - rand.nextInt(4), rand.nextInt(3) - rand.nextInt(3), rand.nextInt(4) - rand.nextInt(4));
 
                 if (worldIn.isAirBlock(blockpos) && World.doesBlockHaveSolidTopSurface(worldIn, blockpos.down())) {
                     worldIn.setBlockState(blockpos, Blocks.chest.getDefaultState(), 2);
-                    TileEntity tileentity = worldIn.getTileEntity(blockpos);
+                    final TileEntity tileentity = worldIn.getTileEntity(blockpos);
 
                     if (tileentity instanceof TileEntityChest) {
                         WeightedRandomChestContent.generateChestContents(rand, this.chestItems, (TileEntityChest) tileentity, this.itemsToGenerateInBonusChest);
                     }
 
-                    BlockPos blockpos1 = blockpos.east();
-                    BlockPos blockpos2 = blockpos.west();
-                    BlockPos blockpos3 = blockpos.north();
-                    BlockPos blockpos4 = blockpos.south();
+                    final BlockPos blockpos1 = blockpos.east();
+                    final BlockPos blockpos2 = blockpos.west();
+                    final BlockPos blockpos3 = blockpos.north();
+                    final BlockPos blockpos4 = blockpos.south();
 
                     if (worldIn.isAirBlock(blockpos2) && World.doesBlockHaveSolidTopSurface(worldIn, blockpos2.down())) {
                         worldIn.setBlockState(blockpos2, Blocks.torch.getDefaultState(), 2);

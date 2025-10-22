@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 public class ShaderOptionVariable extends ShaderOption {
     private static final Pattern PATTERN_VARIABLE = Pattern.compile("^\\s*#define\\s+(\\w+)\\s+(-?[0-9\\.Ff]+|\\w+)\\s*(//.*)?$");
 
-    public ShaderOptionVariable(String name, String description, String value, String[] values, String path) {
+    public ShaderOptionVariable(final String name, final String description, final String value, final String[] values, final String path) {
         super(name, description, value, values, value, path);
         this.setVisible(this.getValues().length > 1);
     }
@@ -20,50 +20,50 @@ public class ShaderOptionVariable extends ShaderOption {
         return "#define " + this.getName() + " " + this.getValue() + " // Shader option " + this.getValue();
     }
 
-    public String getValueText(String val) {
-        String s = Shaders.translate("prefix." + this.getName(), "");
-        String s1 = super.getValueText(val);
-        String s2 = Shaders.translate("suffix." + this.getName(), "");
-        String s3 = s + s1 + s2;
+    public String getValueText(final String val) {
+        final String s = Shaders.translate("prefix." + this.getName(), "");
+        final String s1 = super.getValueText(val);
+        final String s2 = Shaders.translate("suffix." + this.getName(), "");
+        final String s3 = s + s1 + s2;
         return s3;
     }
 
-    public String getValueColor(String val) {
-        String s = val.toLowerCase();
+    public String getValueColor(final String val) {
+        final String s = val.toLowerCase();
         return !s.equals("false") && !s.equals("off") ? "\u00a7a" : "\u00a7c";
     }
 
-    public boolean matchesLine(String line) {
-        Matcher matcher = PATTERN_VARIABLE.matcher(line);
+    public boolean matchesLine(final String line) {
+        final Matcher matcher = PATTERN_VARIABLE.matcher(line);
 
         if (!matcher.matches()) {
             return false;
         } else {
-            String s = matcher.group(1);
+            final String s = matcher.group(1);
             return s.matches(this.getName());
         }
     }
 
-    public static ShaderOption parseOption(String line, String path) {
-        Matcher matcher = PATTERN_VARIABLE.matcher(line);
+    public static ShaderOption parseOption(final String line, String path) {
+        final Matcher matcher = PATTERN_VARIABLE.matcher(line);
 
         if (!matcher.matches()) {
             return null;
         } else {
-            String s = matcher.group(1);
-            String s1 = matcher.group(2);
+            final String s = matcher.group(1);
+            final String s1 = matcher.group(2);
             String s2 = matcher.group(3);
-            String s3 = StrUtils.getSegment(s2, "[", "]");
+            final String s3 = StrUtils.getSegment(s2, "[", "]");
 
-            if (s3 != null && !s3.isEmpty()) {
+            if (s3 != null && s3.length() > 0) {
                 s2 = s2.replace(s3, "").trim();
             }
 
-            String[] astring = parseValues(s1, s3);
+            final String[] astring = parseValues(s1, s3);
 
-            if (s != null && !s.isEmpty()) {
+            if (s != null && s.length() > 0) {
                 path = StrUtils.removePrefix(path, "/shaders/");
-                ShaderOption shaderoption = new ShaderOptionVariable(s, s2, s1, astring, path);
+                final ShaderOption shaderoption = new ShaderOptionVariable(s, s2, s1, astring, path);
                 return shaderoption;
             } else {
                 return null;
@@ -71,8 +71,8 @@ public class ShaderOptionVariable extends ShaderOption {
         }
     }
 
-    public static String[] parseValues(String value, String valuesStr) {
-        String[] astring = new String[]{value};
+    public static String[] parseValues(final String value, String valuesStr) {
+        final String[] astring = new String[]{value};
 
         if (valuesStr == null) {
             return astring;

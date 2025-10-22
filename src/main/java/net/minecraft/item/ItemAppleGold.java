@@ -9,20 +9,23 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class ItemAppleGold extends ItemFood {
-    public ItemAppleGold(int amount, float saturation, boolean isWolfFood) {
+    public ItemAppleGold(final int amount, final float saturation, final boolean isWolfFood) {
         super(amount, saturation, isWolfFood);
         this.setHasSubtypes(true);
     }
 
-    public boolean hasEffect(ItemStack stack) {
+    public boolean hasEffect(final ItemStack stack) {
         return stack.getMetadata() > 0;
     }
 
-    public EnumRarity getRarity(ItemStack stack) {
+    /**
+     * Return an item rarity from EnumRarity
+     */
+    public EnumRarity getRarity(final ItemStack stack) {
         return stack.getMetadata() == 0 ? EnumRarity.RARE : EnumRarity.EPIC;
     }
 
-    protected void onFoodEaten(ItemStack stack, World worldIn, EntityPlayer player) {
+    protected void onFoodEaten(final ItemStack stack, final World worldIn, final EntityPlayer player) {
         if (!worldIn.isRemote) {
             player.addPotionEffect(new PotionEffect(Potion.absorption.id, 2400, 0));
         }
@@ -38,7 +41,12 @@ public class ItemAppleGold extends ItemFood {
         }
     }
 
-    public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+    /**
+     * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
+     *
+     * @param subItems The List of sub-items. This is a List of ItemStacks.
+     */
+    public void getSubItems(final Item itemIn, final CreativeTabs tab, final List<ItemStack> subItems) {
         subItems.add(new ItemStack(itemIn, 1, 0));
         subItems.add(new ItemStack(itemIn, 1, 1));
     }

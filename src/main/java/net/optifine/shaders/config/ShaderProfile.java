@@ -7,7 +7,7 @@ public class ShaderProfile {
     private final Map<String, String> mapOptionValues = new LinkedHashMap();
     private final Set<String> disabledPrograms = new LinkedHashSet();
 
-    public ShaderProfile(String name) {
+    public ShaderProfile(final String name) {
         this.name = name;
     }
 
@@ -15,20 +15,21 @@ public class ShaderProfile {
         return this.name;
     }
 
-    public void addOptionValue(String option, String value) {
+    public void addOptionValue(final String option, final String value) {
         this.mapOptionValues.put(option, value);
     }
 
-    public void addOptionValues(ShaderProfile prof) {
+    public void addOptionValues(final ShaderProfile prof) {
         if (prof != null) {
             this.mapOptionValues.putAll(prof.mapOptionValues);
         }
     }
 
-    public void applyOptionValues(ShaderOption[] options) {
-        for (ShaderOption shaderoption : options) {
-            String s = shaderoption.getName();
-            String s1 = this.mapOptionValues.get(s);
+    public void applyOptionValues(final ShaderOption[] options) {
+        for (int i = 0; i < options.length; ++i) {
+            final ShaderOption shaderoption = options[i];
+            final String s = shaderoption.getName();
+            final String s1 = this.mapOptionValues.get(s);
 
             if (s1 != null) {
                 shaderoption.setValue(s1);
@@ -37,20 +38,20 @@ public class ShaderProfile {
     }
 
     public String[] getOptions() {
-        Set<String> set = this.mapOptionValues.keySet();
-        String[] astring = set.toArray(new String[set.size()]);
+        final Set<String> set = this.mapOptionValues.keySet();
+        final String[] astring = set.toArray(new String[set.size()]);
         return astring;
     }
 
-    public String getValue(String key) {
+    public String getValue(final String key) {
         return this.mapOptionValues.get(key);
     }
 
-    public void addDisabledProgram(String program) {
+    public void addDisabledProgram(final String program) {
         this.disabledPrograms.add(program);
     }
 
-    public void removeDisabledProgram(String program) {
+    public void removeDisabledProgram(final String program) {
         this.disabledPrograms.remove(program);
     }
 
@@ -58,11 +59,11 @@ public class ShaderProfile {
         return new LinkedHashSet(this.disabledPrograms);
     }
 
-    public void addDisabledPrograms(Collection<String> programs) {
+    public void addDisabledPrograms(final Collection<String> programs) {
         this.disabledPrograms.addAll(programs);
     }
 
-    public boolean isProgramDisabled(String program) {
+    public boolean isProgramDisabled(final String program) {
         return this.disabledPrograms.contains(program);
     }
 }

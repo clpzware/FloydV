@@ -1,40 +1,55 @@
-import java.io.File;
-
-import joptsimple.OptionParser;
-import joptsimple.OptionSet;
-import joptsimple.OptionSpec;
+import com.alan.clients.Client;
 import net.minecraft.client.main.Main;
 
-/**
- * @author Liticane
- * Allows using existing .minecraft directory during testing.
- */
+import java.io.File;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+
 public class Start {
+    private static void setupLWJGLNatives() {
+        String osName = System.getProperty("os.name").toLowerCase();
+        String arch = System.getProperty("os.arch").toLowerCase();
 
-    // I am tired of copying around assets every single time.
-    public static void main(String[] args) throws Exception {
-        OptionParser optionparser = new OptionParser();
-        optionparser.allowsUnrecognizedOptions();
+        String basePath = "natives";
+        String path;
 
-        OptionSpec<String> uid = optionparser.accepts("uid").withRequiredArg();
-        OptionSet optionset = optionparser.parse(args);
+        if (osName.contains("win")) {
+            path = arch.contains("64") ? basePath + "/windows/64" : basePath + "/windows/32";
+        } else if (osName.contains("mac")) {
+            path = basePath + "/macos";
+        } else if (osName.contains("linux")) {
+            path = basePath + "/linux";
+        } else {
+            throw new UnsupportedOperationException("Unsupported OS: " + osName);
+        }
 
-        final String appdataDirectory = System.getenv("APPDATA");
+        File nativesDir = new File(path);
+        if (!nativesDir.exists()) {
+            throw new RuntimeException("Natives directory not found: " + nativesDir.getAbsolutePath());
+        }
 
-        File runDir = new File(appdataDirectory != null ? appdataDirectory : System.getProperty("user.home", "."), ".minecraft/");
+        // Tell LWJGL where the natives are
+        System.setProperty("org.lwjgl.librarypath", nativesDir.getAbsolutePath());
+        System.setProperty("net.java.games.input.librarypath", nativesDir.getAbsolutePath());
 
-        File gameDir = new File(runDir, ".");
-        File assetsDir = new File(runDir, "assets/");
-
-        Main.main(new String[] {
-                "--version", "1.8.9",
-                "--accessToken", "0",
-                "--assetIndex", "1.8",
-                "--userProperties", "{}",
-                "--gameDir", gameDir.getAbsolutePath(),
-                "--assetsDir", assetsDir.getAbsolutePath(),
-                "--uid=" + optionset.valueOf(uid)
-        });
+        System.out.println("Configured LWJGL natives at: " + nativesDir.getAbsolutePath());
     }
 
+    public static void main(final String[] args) {
+        setupLWJGLNatives();
+
+        Main.main(concat(new String[]{
+                "--version", Client.NAME,
+                "--accessToken", "0",
+                "--assetsDir", "assets",
+                "--assetIndex", "1.8",
+                "--userProperties", "{}"
+        }, args));
+    }
+
+    public static <T> T[] concat(final T[] first, final T[] second) {
+        final T[] result = Arrays.copyOf(first, first.length + second.length);
+        System.arraycopy(second, 0, result, first.length, second.length);
+        return result;
+    }
 }

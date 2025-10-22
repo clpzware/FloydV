@@ -28,12 +28,12 @@ public class BlockIce extends BlockBreakable {
         return EnumWorldBlockLayer.TRANSLUCENT;
     }
 
-    public void harvestBlock(World worldIn, EntityPlayer player, BlockPos pos, IBlockState state, TileEntity te) {
+    public void harvestBlock(final World worldIn, final EntityPlayer player, final BlockPos pos, final IBlockState state, final TileEntity te) {
         player.triggerAchievement(StatList.mineBlockStatArray[Block.getIdFromBlock(this)]);
         player.addExhaustion(0.025F);
 
         if (this.canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(player)) {
-            ItemStack itemstack = this.createStackedBlock(state);
+            final ItemStack itemstack = this.createStackedBlock(state);
 
             if (itemstack != null) {
                 spawnAsEntity(worldIn, pos, itemstack);
@@ -44,9 +44,9 @@ public class BlockIce extends BlockBreakable {
                 return;
             }
 
-            int i = EnchantmentHelper.getFortuneModifier(player);
+            final int i = EnchantmentHelper.getFortuneModifier(player);
             this.dropBlockAsItem(worldIn, pos, state, i);
-            Material material = worldIn.getBlockState(pos.down()).getBlock().getMaterial();
+            final Material material = worldIn.getBlockState(pos.down()).getBlock().getMaterial();
 
             if (material.blocksMovement() || material.isLiquid()) {
                 worldIn.setBlockState(pos, Blocks.flowing_water.getDefaultState());
@@ -54,11 +54,14 @@ public class BlockIce extends BlockBreakable {
         }
     }
 
-    public int quantityDropped(Random random) {
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
+    public int quantityDropped(final Random random) {
         return 0;
     }
 
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(final World worldIn, final BlockPos pos, final IBlockState state, final Random rand) {
         if (worldIn.getLightFor(EnumSkyBlock.BLOCK, pos) > 11 - this.getLightOpacity()) {
             if (worldIn.provider.doesWaterVaporize()) {
                 worldIn.setBlockToAir(pos);

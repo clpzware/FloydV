@@ -7,10 +7,10 @@ import net.minecraft.item.ItemStack;
 public class ContainerHopper extends Container {
     private final IInventory hopperInventory;
 
-    public ContainerHopper(InventoryPlayer playerInventory, IInventory hopperInventoryIn, EntityPlayer player) {
+    public ContainerHopper(final InventoryPlayer playerInventory, final IInventory hopperInventoryIn, final EntityPlayer player) {
         this.hopperInventory = hopperInventoryIn;
         hopperInventoryIn.openInventory(player);
-        int i = 51;
+        final int i = 51;
 
         for (int j = 0; j < hopperInventoryIn.getSizeInventory(); ++j) {
             this.addSlotToContainer(new Slot(hopperInventoryIn, j, 44 + j * 18, 20));
@@ -27,16 +27,19 @@ public class ContainerHopper extends Container {
         }
     }
 
-    public boolean canInteractWith(EntityPlayer playerIn) {
+    public boolean canInteractWith(final EntityPlayer playerIn) {
         return this.hopperInventory.isUseableByPlayer(playerIn);
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+    /**
+     * Take a stack from the specified inventory slot.
+     */
+    public ItemStack transferStackInSlot(final EntityPlayer playerIn, final int index) {
         ItemStack itemstack = null;
-        Slot slot = this.inventorySlots.get(index);
+        final Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+            final ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
             if (index < this.hopperInventory.getSizeInventory()) {
@@ -57,7 +60,10 @@ public class ContainerHopper extends Container {
         return itemstack;
     }
 
-    public void onContainerClosed(EntityPlayer playerIn) {
+    /**
+     * Called when the container is closed.
+     */
+    public void onContainerClosed(final EntityPlayer playerIn) {
         super.onContainerClosed(playerIn);
         this.hopperInventory.closeInventory(playerIn);
     }

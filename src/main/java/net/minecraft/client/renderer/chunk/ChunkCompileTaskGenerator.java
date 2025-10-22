@@ -16,7 +16,7 @@ public class ChunkCompileTaskGenerator {
     private ChunkCompileTaskGenerator.Status status = ChunkCompileTaskGenerator.Status.PENDING;
     private boolean finished;
 
-    public ChunkCompileTaskGenerator(RenderChunk renderChunkIn, ChunkCompileTaskGenerator.Type typeIn) {
+    public ChunkCompileTaskGenerator(final RenderChunk renderChunkIn, final ChunkCompileTaskGenerator.Type typeIn) {
         this.renderChunk = renderChunkIn;
         this.type = typeIn;
     }
@@ -33,7 +33,7 @@ public class ChunkCompileTaskGenerator {
         return this.compiledChunk;
     }
 
-    public void setCompiledChunk(CompiledChunk compiledChunkIn) {
+    public void setCompiledChunk(final CompiledChunk compiledChunkIn) {
         this.compiledChunk = compiledChunkIn;
     }
 
@@ -41,11 +41,11 @@ public class ChunkCompileTaskGenerator {
         return this.regionRenderCacheBuilder;
     }
 
-    public void setRegionRenderCacheBuilder(RegionRenderCacheBuilder regionRenderCacheBuilderIn) {
+    public void setRegionRenderCacheBuilder(final RegionRenderCacheBuilder regionRenderCacheBuilderIn) {
         this.regionRenderCacheBuilder = regionRenderCacheBuilderIn;
     }
 
-    public void setStatus(ChunkCompileTaskGenerator.Status statusIn) {
+    public void setStatus(final ChunkCompileTaskGenerator.Status statusIn) {
         this.lock.lock();
 
         try {
@@ -66,7 +66,7 @@ public class ChunkCompileTaskGenerator {
             this.finished = true;
             this.status = ChunkCompileTaskGenerator.Status.DONE;
 
-            for (Runnable runnable : this.listFinishRunnables) {
+            for (final Runnable runnable : this.listFinishRunnables) {
                 runnable.run();
             }
         } finally {
@@ -74,7 +74,7 @@ public class ChunkCompileTaskGenerator {
         }
     }
 
-    public void addFinishRunnable(Runnable p_178539_1_) {
+    public void addFinishRunnable(final Runnable p_178539_1_) {
         this.lock.lock();
 
         try {

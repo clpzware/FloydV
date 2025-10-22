@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class EntitySpawnPlacementRegistry {
     private static final HashMap<Class, EntityLiving.SpawnPlacementType> ENTITY_PLACEMENTS = Maps.newHashMap();
 
-    public static EntityLiving.SpawnPlacementType getPlacementForEntity(Class entityClass) {
+    public static EntityLiving.SpawnPlacementType getPlacementForEntity(final Class entityClass) {
         return ENTITY_PLACEMENTS.get(entityClass);
     }
 

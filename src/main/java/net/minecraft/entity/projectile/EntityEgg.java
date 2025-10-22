@@ -10,19 +10,22 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class EntityEgg extends EntityThrowable {
-    public EntityEgg(World worldIn) {
+    public EntityEgg(final World worldIn) {
         super(worldIn);
     }
 
-    public EntityEgg(World worldIn, EntityLivingBase throwerIn) {
+    public EntityEgg(final World worldIn, final EntityLivingBase throwerIn) {
         super(worldIn, throwerIn);
     }
 
-    public EntityEgg(World worldIn, double x, double y, double z) {
+    public EntityEgg(final World worldIn, final double x, final double y, final double z) {
         super(worldIn, x, y, z);
     }
 
-    protected void onImpact(MovingObjectPosition p_70184_1_) {
+    /**
+     * Called when this EntityThrowable hits a block or entity.
+     */
+    protected void onImpact(final MovingObjectPosition p_70184_1_) {
         if (p_70184_1_.entityHit != null) {
             p_70184_1_.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
         }
@@ -35,14 +38,14 @@ public class EntityEgg extends EntityThrowable {
             }
 
             for (int j = 0; j < i; ++j) {
-                EntityChicken entitychicken = new EntityChicken(this.worldObj);
+                final EntityChicken entitychicken = new EntityChicken(this.worldObj);
                 entitychicken.setGrowingAge(-24000);
                 entitychicken.setLocationAndAngles(this.posX, this.posY, this.posZ, this.rotationYaw, 0.0F);
                 this.worldObj.spawnEntityInWorld(entitychicken);
             }
         }
 
-        double d0 = 0.08D;
+        final double d0 = 0.08D;
 
         for (int k = 0; k < 8; ++k) {
             this.worldObj.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, Item.getIdFromItem(Items.egg));

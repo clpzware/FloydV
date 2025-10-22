@@ -37,30 +37,30 @@ public abstract class BlockLeaves extends BlockLeavesBase {
         return ColorizerFoliage.getFoliageColor(0.5D, 1.0D);
     }
 
-    public int getRenderColor(IBlockState state) {
+    public int getRenderColor(final IBlockState state) {
         return ColorizerFoliage.getFoliageColorBasic();
     }
 
-    public int colorMultiplier(IBlockAccess worldIn, BlockPos pos, int renderPass) {
+    public int colorMultiplier(final IBlockAccess worldIn, final BlockPos pos, final int renderPass) {
         return BiomeColorHelper.getFoliageColorAtPos(worldIn, pos);
     }
 
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        int i = 1;
-        int j = i + 1;
-        int k = pos.getX();
-        int l = pos.getY();
-        int i1 = pos.getZ();
+    public void breakBlock(final World worldIn, final BlockPos pos, final IBlockState state) {
+        final int i = 1;
+        final int j = i + 1;
+        final int k = pos.getX();
+        final int l = pos.getY();
+        final int i1 = pos.getZ();
 
         if (worldIn.isAreaLoaded(new BlockPos(k - j, l - j, i1 - j), new BlockPos(k + j, l + j, i1 + j))) {
             for (int j1 = -i; j1 <= i; ++j1) {
                 for (int k1 = -i; k1 <= i; ++k1) {
                     for (int l1 = -i; l1 <= i; ++l1) {
-                        BlockPos blockpos = pos.add(j1, k1, l1);
-                        IBlockState iblockstate = worldIn.getBlockState(blockpos);
+                        final BlockPos blockpos = pos.add(j1, k1, l1);
+                        final IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-                        if (iblockstate.getBlock().getMaterial() == Material.leaves && !iblockstate.getValue(CHECK_DECAY)) {
-                            worldIn.setBlockState(blockpos, iblockstate.withProperty(CHECK_DECAY, Boolean.TRUE), 4);
+                        if (iblockstate.getBlock().getMaterial() == Material.leaves && !iblockstate.getValue(CHECK_DECAY).booleanValue()) {
+                            worldIn.setBlockState(blockpos, iblockstate.withProperty(CHECK_DECAY, Boolean.valueOf(true)), 4);
                         }
                     }
                 }
@@ -68,29 +68,29 @@ public abstract class BlockLeaves extends BlockLeavesBase {
         }
     }
 
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(final World worldIn, final BlockPos pos, final IBlockState state, final Random rand) {
         if (!worldIn.isRemote) {
-            if (state.getValue(CHECK_DECAY) && state.getValue(DECAYABLE)) {
-                int i = 4;
-                int j = i + 1;
-                int k = pos.getX();
-                int l = pos.getY();
-                int i1 = pos.getZ();
-                int j1 = 32;
-                int k1 = j1 * j1;
-                int l1 = j1 / 2;
+            if (state.getValue(CHECK_DECAY).booleanValue() && state.getValue(DECAYABLE).booleanValue()) {
+                final int i = 4;
+                final int j = i + 1;
+                final int k = pos.getX();
+                final int l = pos.getY();
+                final int i1 = pos.getZ();
+                final int j1 = 32;
+                final int k1 = j1 * j1;
+                final int l1 = j1 / 2;
 
                 if (this.surroundings == null) {
                     this.surroundings = new int[j1 * j1 * j1];
                 }
 
                 if (worldIn.isAreaLoaded(new BlockPos(k - j, l - j, i1 - j), new BlockPos(k + j, l + j, i1 + j))) {
-                    BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+                    final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
                     for (int i2 = -i; i2 <= i; ++i2) {
                         for (int j2 = -i; j2 <= i; ++j2) {
                             for (int k2 = -i; k2 <= i; ++k2) {
-                                Block block = worldIn.getBlockState(blockpos$mutableblockpos.set(k + i2, l + j2, i1 + k2)).getBlock();
+                                final Block block = worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(k + i2, l + j2, i1 + k2)).getBlock();
 
                                 if (block != Blocks.log && block != Blocks.log2) {
                                     if (block.getMaterial() == Material.leaves) {
@@ -140,10 +140,10 @@ public abstract class BlockLeaves extends BlockLeavesBase {
                     }
                 }
 
-                int l2 = this.surroundings[l1 * k1 + l1 * j1 + l1];
+                final int l2 = this.surroundings[l1 * k1 + l1 * j1 + l1];
 
                 if (l2 >= 0) {
-                    worldIn.setBlockState(pos, state.withProperty(CHECK_DECAY, Boolean.FALSE), 4);
+                    worldIn.setBlockState(pos, state.withProperty(CHECK_DECAY, Boolean.valueOf(false)), 4);
                 } else {
                     this.destroy(worldIn, pos);
                 }
@@ -151,29 +151,43 @@ public abstract class BlockLeaves extends BlockLeavesBase {
         }
     }
 
-    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
-        if (worldIn.isRainingAt(pos.up()) && !World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && rand.nextInt(15) == 1) {
-            double d0 = (float) pos.getX() + rand.nextFloat();
-            double d1 = (double) pos.getY() - 0.05D;
-            double d2 = (float) pos.getZ() + rand.nextFloat();
+    public void randomDisplayTick(final World worldIn, final BlockPos pos, final IBlockState state, final Random rand) {
+        if (worldIn.canLightningStrike(pos.up()) && !World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && rand.nextInt(15) == 1) {
+            final double d0 = (float) pos.getX() + rand.nextFloat();
+            final double d1 = (double) pos.getY() - 0.05D;
+            final double d2 = (float) pos.getZ() + rand.nextFloat();
             worldIn.spawnParticle(EnumParticleTypes.DRIP_WATER, d0, d1, d2, 0.0D, 0.0D, 0.0D);
         }
     }
 
-    private void destroy(World worldIn, BlockPos pos) {
+    private void destroy(final World worldIn, final BlockPos pos) {
         this.dropBlockAsItem(worldIn, pos, worldIn.getBlockState(pos), 0);
         worldIn.setBlockToAir(pos);
     }
 
-    public int quantityDropped(Random random) {
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
+    public int quantityDropped(final Random random) {
         return random.nextInt(20) == 0 ? 1 : 0;
     }
 
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    /**
+     * Get the Item that this Block should drop when harvested.
+     *
+     * @param fortune the level of the Fortune enchantment on the player's tool
+     */
+    public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
         return Item.getItemFromBlock(Blocks.sapling);
     }
 
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+    /**
+     * Spawns this Block's drops into the World as EntityItems.
+     *
+     * @param chance  The chance that each Item is actually spawned (1.0 = always, 0.0 = never)
+     * @param fortune The player's fortune level
+     */
+    public void dropBlockAsItemWithChance(final World worldIn, final BlockPos pos, final IBlockState state, final float chance, final int fortune) {
         if (!worldIn.isRemote) {
             int i = this.getSaplingDropChance(state);
 
@@ -186,7 +200,7 @@ public abstract class BlockLeaves extends BlockLeavesBase {
             }
 
             if (worldIn.rand.nextInt(i) == 0) {
-                Item item = this.getItemDropped(state, worldIn.rand, fortune);
+                final Item item = this.getItemDropped(state, worldIn.rand, fortune);
                 spawnAsEntity(worldIn, pos, new ItemStack(item, 1, this.damageDropped(state)));
             }
 
@@ -204,18 +218,24 @@ public abstract class BlockLeaves extends BlockLeavesBase {
         }
     }
 
-    protected void dropApple(World worldIn, BlockPos pos, IBlockState state, int chance) {
+    protected void dropApple(final World worldIn, final BlockPos pos, final IBlockState state, final int chance) {
     }
 
-    protected int getSaplingDropChance(IBlockState state) {
+    protected int getSaplingDropChance(final IBlockState state) {
         return 20;
     }
 
+    /**
+     * Used to determine ambient occlusion and culling when rebuilding chunks for render
+     */
     public boolean isOpaqueCube() {
         return !this.fancyGraphics;
     }
 
-    public void setGraphicsLevel(boolean fancy) {
+    /**
+     * Pass true to draw this block using fancy graphics, or false for fast graphics.
+     */
+    public void setGraphicsLevel(final boolean fancy) {
         this.isTransparent = fancy;
         this.fancyGraphics = fancy;
         this.iconIndex = fancy ? 0 : 1;

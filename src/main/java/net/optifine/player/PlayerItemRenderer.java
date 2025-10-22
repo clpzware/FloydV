@@ -7,7 +7,7 @@ public class PlayerItemRenderer {
     private int attachTo = 0;
     private ModelRenderer modelRenderer = null;
 
-    public PlayerItemRenderer(int attachTo, ModelRenderer modelRenderer) {
+    public PlayerItemRenderer(final int attachTo, final ModelRenderer modelRenderer) {
         this.attachTo = attachTo;
         this.modelRenderer = modelRenderer;
     }
@@ -16,8 +16,8 @@ public class PlayerItemRenderer {
         return this.modelRenderer;
     }
 
-    public void render(ModelBiped modelBiped, float scale) {
-        ModelRenderer modelrenderer = PlayerItemModel.getAttachModel(modelBiped, this.attachTo);
+    public void render(final ModelBiped modelBiped, final float scale) {
+        final ModelRenderer modelrenderer = PlayerItemModel.getAttachModel(modelBiped, this.attachTo);
 
         if (modelrenderer != null) {
             modelrenderer.postRender(scale);

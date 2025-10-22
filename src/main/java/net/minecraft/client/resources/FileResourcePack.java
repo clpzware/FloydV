@@ -19,7 +19,7 @@ public class FileResourcePack extends AbstractResourcePack implements Closeable 
     public static final Splitter entryNameSplitter = Splitter.on('/').omitEmptyStrings().limit(3);
     private ZipFile resourcePackZipFile;
 
-    public FileResourcePack(File resourcePackFileIn) {
+    public FileResourcePack(final File resourcePackFileIn) {
         super(resourcePackFileIn);
     }
 
@@ -31,9 +31,9 @@ public class FileResourcePack extends AbstractResourcePack implements Closeable 
         return this.resourcePackZipFile;
     }
 
-    protected InputStream getInputStreamByName(String name) throws IOException {
-        ZipFile zipfile = this.getResourcePackZipFile();
-        ZipEntry zipentry = zipfile.getEntry(name);
+    protected InputStream getInputStreamByName(final String name) throws IOException {
+        final ZipFile zipfile = this.getResourcePackZipFile();
+        final ZipEntry zipentry = zipfile.getEntry(name);
 
         if (zipentry == null) {
             throw new ResourcePackFileNotFoundException(this.resourcePackFile, name);
@@ -42,35 +42,35 @@ public class FileResourcePack extends AbstractResourcePack implements Closeable 
         }
     }
 
-    public boolean hasResourceName(String name) {
+    public boolean hasResourceName(final String name) {
         try {
             return this.getResourcePackZipFile().getEntry(name) != null;
-        } catch (IOException var3) {
+        } catch (final IOException var3) {
             return false;
         }
     }
 
     public Set<String> getResourceDomains() {
-        ZipFile zipfile;
+        final ZipFile zipfile;
 
         try {
             zipfile = this.getResourcePackZipFile();
-        } catch (IOException var8) {
+        } catch (final IOException var8) {
             return Collections.emptySet();
         }
 
-        Enumeration<? extends ZipEntry> enumeration = zipfile.entries();
-        Set<String> set = Sets.newHashSet();
+        final Enumeration<? extends ZipEntry> enumeration = zipfile.entries();
+        final Set<String> set = Sets.newHashSet();
 
         while (enumeration.hasMoreElements()) {
-            ZipEntry zipentry = enumeration.nextElement();
-            String s = zipentry.getName();
+            final ZipEntry zipentry = enumeration.nextElement();
+            final String s = zipentry.getName();
 
             if (s.startsWith("assets/")) {
-                List<String> list = Lists.newArrayList(entryNameSplitter.split(s));
+                final List<String> list = Lists.newArrayList(entryNameSplitter.split(s));
 
                 if (list.size() > 1) {
-                    String s1 = list.get(1);
+                    final String s1 = list.get(1);
 
                     if (!s1.equals(s1.toLowerCase())) {
                         this.logNameNotLowercase(s1);
@@ -84,7 +84,6 @@ public class FileResourcePack extends AbstractResourcePack implements Closeable 
         return set;
     }
 
-    @SuppressWarnings("deprecation")
     protected void finalize() throws Throwable {
         this.close();
         super.finalize();

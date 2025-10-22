@@ -7,7 +7,7 @@ import net.minecraft.client.resources.ResourcePackListEntry;
 import java.util.List;
 
 public class GuiResourcePackSelected extends GuiResourcePackList {
-    public GuiResourcePackSelected(Minecraft mcIn, int p_i45056_2_, int p_i45056_3_, List<ResourcePackListEntry> p_i45056_4_) {
+    public GuiResourcePackSelected(final Minecraft mcIn, final int p_i45056_2_, final int p_i45056_3_, final List<ResourcePackListEntry> p_i45056_4_) {
         super(mcIn, p_i45056_2_, p_i45056_3_, p_i45056_4_);
     }
 

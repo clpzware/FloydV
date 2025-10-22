@@ -5,11 +5,13 @@ import net.optifine.shaders.config.ShaderOption;
 import net.optifine.shaders.config.ShaderProfile;
 
 public class ShaderUtils {
-    public static ShaderOption getShaderOption(String name, ShaderOption[] opts) {
+    public static ShaderOption getShaderOption(final String name, final ShaderOption[] opts) {
         if (opts == null) {
             return null;
         } else {
-            for (ShaderOption shaderoption : opts) {
+            for (int i = 0; i < opts.length; ++i) {
+                final ShaderOption shaderoption = opts[i];
+
                 if (shaderoption.getName().equals(name)) {
                     return shaderoption;
                 }
@@ -19,11 +21,13 @@ public class ShaderUtils {
         }
     }
 
-    public static ShaderProfile detectProfile(ShaderProfile[] profs, ShaderOption[] opts, boolean def) {
+    public static ShaderProfile detectProfile(final ShaderProfile[] profs, final ShaderOption[] opts, final boolean def) {
         if (profs == null) {
             return null;
         } else {
-            for (ShaderProfile shaderprofile : profs) {
+            for (int i = 0; i < profs.length; ++i) {
+                final ShaderProfile shaderprofile = profs[i];
+
                 if (matchProfile(shaderprofile, opts, def)) {
                     return shaderprofile;
                 }
@@ -33,20 +37,21 @@ public class ShaderUtils {
         }
     }
 
-    public static boolean matchProfile(ShaderProfile prof, ShaderOption[] opts, boolean def) {
+    public static boolean matchProfile(final ShaderProfile prof, final ShaderOption[] opts, final boolean def) {
         if (prof == null) {
             return false;
         } else if (opts == null) {
             return false;
         } else {
-            String[] astring = prof.getOptions();
+            final String[] astring = prof.getOptions();
 
-            for (String s : astring) {
-                ShaderOption shaderoption = getShaderOption(s, opts);
+            for (int i = 0; i < astring.length; ++i) {
+                final String s = astring[i];
+                final ShaderOption shaderoption = getShaderOption(s, opts);
 
                 if (shaderoption != null) {
-                    String s1 = def ? shaderoption.getValueDefault() : shaderoption.getValue();
-                    String s2 = prof.getValue(s);
+                    final String s1 = def ? shaderoption.getValueDefault() : shaderoption.getValue();
+                    final String s2 = prof.getValue(s);
 
                     if (!Config.equals(s1, s2)) {
                         return false;

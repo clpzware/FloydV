@@ -23,39 +23,55 @@ public class BlockDirt extends Block {
 
     protected BlockDirt() {
         super(Material.ground);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockDirt.DirtType.DIRT).withProperty(SNOWY, Boolean.FALSE));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(VARIANT, BlockDirt.DirtType.DIRT).withProperty(SNOWY, Boolean.valueOf(false)));
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    public MapColor getMapColor(IBlockState state) {
+    /**
+     * Get the MapColor for this Block and the given BlockState
+     */
+    public MapColor getMapColor(final IBlockState state) {
         return state.getValue(VARIANT).func_181066_d();
     }
 
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+    /**
+     * Get the actual Block state of this Block at the given position. This applies properties not visible in the
+     * metadata, such as fence connections.
+     */
+    public IBlockState getActualState(IBlockState state, final IBlockAccess worldIn, final BlockPos pos) {
         if (state.getValue(VARIANT) == BlockDirt.DirtType.PODZOL) {
-            Block block = worldIn.getBlockState(pos.up()).getBlock();
-            state = state.withProperty(SNOWY, block == Blocks.snow || block == Blocks.snow_layer);
+            final Block block = worldIn.getBlockState(pos.up()).getBlock();
+            state = state.withProperty(SNOWY, Boolean.valueOf(block == Blocks.snow || block == Blocks.snow_layer));
         }
 
         return state;
     }
 
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
+    /**
+     * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
+     */
+    public void getSubBlocks(final Item itemIn, final CreativeTabs tab, final List<ItemStack> list) {
         list.add(new ItemStack(this, 1, BlockDirt.DirtType.DIRT.getMetadata()));
         list.add(new ItemStack(this, 1, BlockDirt.DirtType.COARSE_DIRT.getMetadata()));
         list.add(new ItemStack(this, 1, BlockDirt.DirtType.PODZOL.getMetadata()));
     }
 
-    public int getDamageValue(World worldIn, BlockPos pos) {
-        IBlockState iblockstate = worldIn.getBlockState(pos);
+    public int getDamageValue(final World worldIn, final BlockPos pos) {
+        final IBlockState iblockstate = worldIn.getBlockState(pos);
         return iblockstate.getBlock() != this ? 0 : iblockstate.getValue(VARIANT).getMetadata();
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
         return this.getDefaultState().withProperty(VARIANT, BlockDirt.DirtType.byMetadata(meta));
     }
 
-    public int getMetaFromState(IBlockState state) {
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
         return state.getValue(VARIANT).getMetadata();
     }
 
@@ -63,7 +79,11 @@ public class BlockDirt extends Block {
         return new BlockState(this, VARIANT, SNOWY);
     }
 
-    public int damageDropped(IBlockState state) {
+    /**
+     * Gets the metadata of the item this Block can drop. This method is called when the block gets destroyed. It
+     * returns the metadata of the dropped item based on the old metadata of the block.
+     */
+    public int damageDropped(final IBlockState state) {
         BlockDirt.DirtType blockdirt$dirttype = state.getValue(VARIANT);
 
         if (blockdirt$dirttype == BlockDirt.DirtType.PODZOL) {
@@ -84,11 +104,11 @@ public class BlockDirt extends Block {
         private final String unlocalizedName;
         private final MapColor field_181067_h;
 
-        DirtType(int p_i46396_3_, String p_i46396_4_, MapColor p_i46396_5_) {
+        DirtType(final int p_i46396_3_, final String p_i46396_4_, final MapColor p_i46396_5_) {
             this(p_i46396_3_, p_i46396_4_, p_i46396_4_, p_i46396_5_);
         }
 
-        DirtType(int p_i46397_3_, String p_i46397_4_, String p_i46397_5_, MapColor p_i46397_6_) {
+        DirtType(final int p_i46397_3_, final String p_i46397_4_, final String p_i46397_5_, final MapColor p_i46397_6_) {
             this.metadata = p_i46397_3_;
             this.name = p_i46397_4_;
             this.unlocalizedName = p_i46397_5_;
@@ -124,7 +144,7 @@ public class BlockDirt extends Block {
         }
 
         static {
-            for (BlockDirt.DirtType blockdirt$dirttype : values()) {
+            for (final BlockDirt.DirtType blockdirt$dirttype : values()) {
                 METADATA_LOOKUP[blockdirt$dirttype.getMetadata()] = blockdirt$dirttype;
             }
         }

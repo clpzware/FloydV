@@ -13,66 +13,102 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public class StringTranslate {
+    /**
+     * Pattern that matches numeric variable placeholders in a resource string, such as "%d", "%3$d", "%.2f"
+     */
     private static final Pattern numericVariablePattern = Pattern.compile("%(\\d+\\$)?[\\d\\.]*[df]");
+
+    /**
+     * A Splitter that splits a string on the first "=".  For example, "a=b=c" would split into ["a", "b=c"].
+     */
     private static final Splitter equalSignSplitter = Splitter.on('=').limit(2);
-    private static StringTranslate instance = new StringTranslate();
+
+    /**
+     * Is the private singleton instance of StringTranslate.
+     */
+    private static final StringTranslate instance = new StringTranslate();
     private final Map<String, String> languageList = Maps.newHashMap();
+
+    /**
+     * The time, in milliseconds since epoch, that this instance was last updated
+     */
     private long lastUpdateTimeInMilliseconds;
 
     public StringTranslate() {
         try {
-            InputStream inputstream = StringTranslate.class.getResourceAsStream("/assets/minecraft/lang/en_US.lang");
+            final InputStream inputstream = StringTranslate.class.getResourceAsStream("/assets/minecraft/lang/en_US.lang");
 
-            for (String s : IOUtils.readLines(inputstream, Charsets.UTF_8)) {
+            for (final String s : IOUtils.readLines(inputstream, Charsets.UTF_8)) {
                 if (!s.isEmpty() && s.charAt(0) != 35) {
-                    String[] astring = Iterables.toArray(equalSignSplitter.split(s), String.class);
+                    final String[] astring = Iterables.toArray(equalSignSplitter.split(s), String.class);
 
                     if (astring != null && astring.length == 2) {
-                        String s1 = astring[0];
-                        String s2 = numericVariablePattern.matcher(astring[1]).replaceAll("%$1s");
+                        final String s1 = astring[0];
+                        final String s2 = numericVariablePattern.matcher(astring[1]).replaceAll("%$1s");
                         this.languageList.put(s1, s2);
                     }
                 }
             }
 
             this.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
-        } catch (IOException ignored) {
+        } catch (final IOException var7) {
         }
     }
 
+    /**
+     * Return the StringTranslate singleton instance
+     */
     static StringTranslate getInstance() {
         return instance;
     }
 
-    public static synchronized void replaceWith(Map<String, String> p_135063_0_) {
+    /**
+     * Replaces all the current instance's translations with the ones that are passed in.
+     */
+    public static synchronized void replaceWith(final Map<String, String> p_135063_0_) {
         instance.languageList.clear();
         instance.languageList.putAll(p_135063_0_);
         instance.lastUpdateTimeInMilliseconds = System.currentTimeMillis();
     }
 
-    public synchronized String translateKey(String key) {
+    /**
+     * Translate a key to current language.
+     */
+    public synchronized String translateKey(final String key) {
         return this.tryTranslateKey(key);
     }
 
-    public synchronized String translateKeyFormat(String key, Object... format) {
-        String s = this.tryTranslateKey(key);
+    /**
+     * Translate a key to current language applying String.format()
+     */
+    public synchronized String translateKeyFormat(final String key, final Object... format) {
+        final String s = this.tryTranslateKey(key);
 
         try {
             return String.format(s, format);
-        } catch (IllegalFormatException var5) {
+        } catch (final IllegalFormatException var5) {
             return "Format error: " + s;
         }
     }
 
-    private String tryTranslateKey(String key) {
-        String s = this.languageList.get(key);
+    /**
+     * Tries to look up a translation for the given key; spits back the key if no result was found.
+     */
+    private String tryTranslateKey(final String key) {
+        final String s = this.languageList.get(key);
         return s == null ? key : s;
     }
 
-    public synchronized boolean isKeyTranslated(String key) {
+    /**
+     * Returns true if the passed key is in the translation table.
+     */
+    public synchronized boolean isKeyTranslated(final String key) {
         return this.languageList.containsKey(key);
     }
 
+    /**
+     * Gets the time, in milliseconds since epoch, that this instance was last updated
+     */
     public long getLastUpdateTimeInMilliseconds() {
         return this.lastUpdateTimeInMilliseconds;
     }

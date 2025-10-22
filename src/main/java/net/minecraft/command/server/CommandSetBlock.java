@@ -1,14 +1,8 @@
 package net.minecraft.command.server;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.command.CommandBase;
-import net.minecraft.command.CommandException;
-import net.minecraft.command.CommandResultStats;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
+import net.minecraft.command.*;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.JsonToNBT;
@@ -18,33 +12,52 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class CommandSetBlock extends CommandBase {
+    /**
+     * Gets the name of the command
+     */
     public String getCommandName() {
         return "setblock";
     }
 
+    /**
+     * Return the required permission level for this command.
+     */
     public int getRequiredPermissionLevel() {
         return 2;
     }
 
-    public String getCommandUsage(ICommandSender sender) {
+    /**
+     * Gets the usage string for the command.
+     *
+     * @param sender The {@link ICommandSender} who is requesting usage details.
+     */
+    public String getCommandUsage(final ICommandSender sender) {
         return "commands.setblock.usage";
     }
 
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    /**
+     * Callback when the command is invoked
+     *
+     * @param sender The {@link ICommandSender sender} who executed the command
+     * @param args   The arguments that were passed with the command
+     */
+    public void processCommand(final ICommandSender sender, final String[] args) throws CommandException {
         if (args.length < 4) {
             throw new WrongUsageException("commands.setblock.usage");
         } else {
             sender.setCommandStat(CommandResultStats.Type.AFFECTED_BLOCKS, 0);
-            BlockPos blockpos = parseBlockPos(sender, args, 0, false);
-            Block block = CommandBase.getBlockByText(sender, args[3]);
+            final BlockPos blockpos = parseBlockPos(sender, args, 0, false);
+            final Block block = CommandBase.getBlockByText(sender, args[3]);
             int i = 0;
 
             if (args.length >= 5) {
                 i = parseInt(args[4], 0, 15);
             }
 
-            World world = sender.getEntityWorld();
+            final World world = sender.getEntityWorld();
 
             if (!world.isBlockLoaded(blockpos)) {
                 throw new CommandException("commands.setblock.outOfWorld");
@@ -53,12 +66,12 @@ public class CommandSetBlock extends CommandBase {
                 boolean flag = false;
 
                 if (args.length >= 7 && block.hasTileEntity()) {
-                    String s = getChatComponentFromNthArg(sender, args, 6).getUnformattedText();
+                    final String s = getChatComponentFromNthArg(sender, args, 6).getUnformattedText();
 
                     try {
                         nbttagcompound = JsonToNBT.getTagFromJson(s);
                         flag = true;
-                    } catch (NBTException nbtexception) {
+                    } catch (final NBTException nbtexception) {
                         throw new CommandException("commands.setblock.tagError", nbtexception.getMessage());
                     }
                 }
@@ -76,7 +89,7 @@ public class CommandSetBlock extends CommandBase {
                     }
                 }
 
-                TileEntity tileentity1 = world.getTileEntity(blockpos);
+                final TileEntity tileentity1 = world.getTileEntity(blockpos);
 
                 if (tileentity1 != null) {
                     if (tileentity1 instanceof IInventory) {
@@ -86,13 +99,13 @@ public class CommandSetBlock extends CommandBase {
                     world.setBlockState(blockpos, Blocks.air.getDefaultState(), block == Blocks.air ? 2 : 4);
                 }
 
-                IBlockState iblockstate = block.getStateFromMeta(i);
+                final IBlockState iblockstate = block.getStateFromMeta(i);
 
                 if (!world.setBlockState(blockpos, iblockstate, 2)) {
                     throw new CommandException("commands.setblock.noChange");
                 } else {
                     if (flag) {
-                        TileEntity tileentity = world.getTileEntity(blockpos);
+                        final TileEntity tileentity = world.getTileEntity(blockpos);
 
                         if (tileentity != null) {
                             nbttagcompound.setInteger("x", blockpos.getX());
@@ -110,7 +123,7 @@ public class CommandSetBlock extends CommandBase {
         }
     }
 
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+    public List<String> addTabCompletionOptions(final ICommandSender sender, final String[] args, final BlockPos pos) {
         return args.length > 0 && args.length <= 3 ? func_175771_a(args, 0, pos) : (args.length == 4 ? getListOfStringsMatchingLastWord(args, Block.blockRegistry.getKeys()) : (args.length == 6 ? getListOfStringsMatchingLastWord(args, "replace", "destroy", "keep") : null));
     }
 }

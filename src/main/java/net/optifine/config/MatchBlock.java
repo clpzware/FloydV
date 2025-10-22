@@ -7,11 +7,11 @@ public class MatchBlock {
     private int blockId = -1;
     private int[] metadatas = null;
 
-    public MatchBlock(int blockId) {
+    public MatchBlock(final int blockId) {
         this.blockId = blockId;
     }
 
-    public MatchBlock(int blockId, int metadata) {
+    public MatchBlock(final int blockId, final int metadata) {
         this.blockId = blockId;
 
         if (metadata >= 0 && metadata <= 15) {
@@ -19,7 +19,7 @@ public class MatchBlock {
         }
     }
 
-    public MatchBlock(int blockId, int[] metadatas) {
+    public MatchBlock(final int blockId, final int[] metadatas) {
         this.blockId = blockId;
         this.metadatas = metadatas;
     }
@@ -32,19 +32,19 @@ public class MatchBlock {
         return this.metadatas;
     }
 
-    public boolean matches(BlockStateBase blockState) {
+    public boolean matches(final BlockStateBase blockState) {
         return blockState.getBlockId() == this.blockId && Matches.metadata(blockState.getMetadata(), this.metadatas);
     }
 
-    public boolean matches(int id, int metadata) {
+    public boolean matches(final int id, final int metadata) {
         return id == this.blockId && Matches.metadata(metadata, this.metadatas);
     }
 
-    public void addMetadata(int metadata) {
+    public void addMetadata(final int metadata) {
         if (this.metadatas != null) {
             if (metadata >= 0 && metadata <= 15) {
-                for (int j : this.metadatas) {
-                    if (j == metadata) {
+                for (int i = 0; i < this.metadatas.length; ++i) {
+                    if (this.metadatas[i] == metadata) {
                         return;
                     }
                 }
@@ -55,6 +55,6 @@ public class MatchBlock {
     }
 
     public String toString() {
-        return this.blockId + ":" + Config.arrayToString(this.metadatas);
+        return "" + this.blockId + ":" + Config.arrayToString(this.metadatas);
     }
 }

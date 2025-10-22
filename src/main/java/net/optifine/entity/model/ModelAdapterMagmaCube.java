@@ -19,23 +19,24 @@ public class ModelAdapterMagmaCube extends ModelAdapter {
         return new ModelMagmaCube();
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelMagmaCube modelmagmacube)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelMagmaCube)) {
             return null;
         } else {
+            final ModelMagmaCube modelmagmacube = (ModelMagmaCube) model;
 
             if (modelPart.equals("core")) {
                 return (ModelRenderer) Reflector.getFieldValue(modelmagmacube, Reflector.ModelMagmaCube_core);
             } else {
-                String s = "segment";
+                final String s = "segment";
 
                 if (modelPart.startsWith(s)) {
-                    ModelRenderer[] amodelrenderer = (ModelRenderer[]) Reflector.getFieldValue(modelmagmacube, Reflector.ModelMagmaCube_segments);
+                    final ModelRenderer[] amodelrenderer = (ModelRenderer[]) Reflector.getFieldValue(modelmagmacube, Reflector.ModelMagmaCube_segments);
 
                     if (amodelrenderer == null) {
                         return null;
                     } else {
-                        String s1 = modelPart.substring(s.length());
+                        final String s1 = modelPart.substring(s.length());
                         int i = Config.parseInt(s1, -1);
                         --i;
                         return i >= 0 && i < amodelrenderer.length ? amodelrenderer[i] : null;
@@ -51,9 +52,9 @@ public class ModelAdapterMagmaCube extends ModelAdapter {
         return new String[]{"core", "segment1", "segment2", "segment3", "segment4", "segment5", "segment6", "segment7", "segment8"};
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderMagmaCube rendermagmacube = new RenderMagmaCube(rendermanager);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderMagmaCube rendermagmacube = new RenderMagmaCube(rendermanager);
         rendermagmacube.mainModel = modelBase;
         rendermagmacube.shadowSize = shadowSize;
         return rendermagmacube;

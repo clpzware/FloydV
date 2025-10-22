@@ -11,11 +11,14 @@ public class ItemExpBottle extends Item {
         this.setCreativeTab(CreativeTabs.tabMisc);
     }
 
-    public boolean hasEffect(ItemStack stack) {
+    public boolean hasEffect(final ItemStack stack) {
         return true;
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+    /**
+     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+     */
+    public ItemStack onItemRightClick(final ItemStack itemStackIn, final World worldIn, final EntityPlayer playerIn) {
         if (!playerIn.capabilities.isCreativeMode) {
             --itemStackIn.stackSize;
         }

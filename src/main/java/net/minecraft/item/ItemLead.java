@@ -16,8 +16,14 @@ public class ItemLead extends Item {
         this.setCreativeTab(CreativeTabs.tabTools);
     }
 
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-        Block block = worldIn.getBlockState(pos).getBlock();
+    /**
+     * Called when a Block is right-clicked with this Item
+     *
+     * @param pos  The block being right-clicked
+     * @param side The side being right-clicked
+     */
+    public boolean onItemUse(final ItemStack stack, final EntityPlayer playerIn, final World worldIn, final BlockPos pos, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
+        final Block block = worldIn.getBlockState(pos).getBlock();
 
         if (block instanceof BlockFence) {
             if (worldIn.isRemote) {
@@ -31,15 +37,15 @@ public class ItemLead extends Item {
         }
     }
 
-    public static boolean attachToFence(EntityPlayer player, World worldIn, BlockPos fence) {
+    public static boolean attachToFence(final EntityPlayer player, final World worldIn, final BlockPos fence) {
         EntityLeashKnot entityleashknot = EntityLeashKnot.getKnotForPosition(worldIn, fence);
         boolean flag = false;
-        double d0 = 7.0D;
-        int i = fence.getX();
-        int j = fence.getY();
-        int k = fence.getZ();
+        final double d0 = 7.0D;
+        final int i = fence.getX();
+        final int j = fence.getY();
+        final int k = fence.getZ();
 
-        for (EntityLiving entityliving : worldIn.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB((double) i - d0, (double) j - d0, (double) k - d0, (double) i + d0, (double) j + d0, (double) k + d0))) {
+        for (final EntityLiving entityliving : worldIn.getEntitiesWithinAABB(EntityLiving.class, new AxisAlignedBB((double) i - d0, (double) j - d0, (double) k - d0, (double) i + d0, (double) j + d0, (double) k + d0))) {
             if (entityliving.getLeashed() && entityliving.getLeashedToEntity() == player) {
                 if (entityleashknot == null) {
                     entityleashknot = EntityLeashKnot.createKnot(worldIn, fence);

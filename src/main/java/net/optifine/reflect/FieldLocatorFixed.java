@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 public class FieldLocatorFixed implements IFieldLocator {
     private final Field field;
 
-    public FieldLocatorFixed(Field field) {
+    public FieldLocatorFixed(final Field field) {
         this.field = field;
     }
 

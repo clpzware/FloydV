@@ -1,12 +1,14 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
+import lombok.Setter;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.scoreboard.ScoreObjective;
 
+import java.io.IOException;
+
+@Setter
 public class S3DPacketDisplayScoreboard implements Packet<INetHandlerPlayClient> {
     private int position;
     private String scoreName;
@@ -14,7 +16,7 @@ public class S3DPacketDisplayScoreboard implements Packet<INetHandlerPlayClient>
     public S3DPacketDisplayScoreboard() {
     }
 
-    public S3DPacketDisplayScoreboard(int positionIn, ScoreObjective scoreIn) {
+    public S3DPacketDisplayScoreboard(final int positionIn, final ScoreObjective scoreIn) {
         this.position = positionIn;
 
         if (scoreIn == null) {
@@ -24,25 +26,34 @@ public class S3DPacketDisplayScoreboard implements Packet<INetHandlerPlayClient>
         }
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.position = buf.readByte();
         this.scoreName = buf.readStringFromBuffer(16);
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeByte(this.position);
         buf.writeString(this.scoreName);
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleDisplayScoreboard(this);
     }
 
-    public int func_149371_c() {
+    public int getPosition() {
         return this.position;
     }
 
-    public String func_149370_d() {
+    public String getScoreName() {
         return this.scoreName;
     }
 }

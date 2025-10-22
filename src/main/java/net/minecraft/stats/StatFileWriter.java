@@ -10,15 +10,21 @@ import java.util.Map;
 public class StatFileWriter {
     protected final Map<StatBase, TupleIntJsonSerializable> statsData = Maps.newConcurrentMap();
 
-    public boolean hasAchievementUnlocked(Achievement achievementIn) {
+    /**
+     * Returns true if the achievement has been unlocked.
+     */
+    public boolean hasAchievementUnlocked(final Achievement achievementIn) {
         return this.readStat(achievementIn) > 0;
     }
 
-    public boolean canUnlockAchievement(Achievement achievementIn) {
+    /**
+     * Returns true if the parent has been unlocked, or there is no parent
+     */
+    public boolean canUnlockAchievement(final Achievement achievementIn) {
         return achievementIn.parentAchievement == null || this.hasAchievementUnlocked(achievementIn.parentAchievement);
     }
 
-    public int func_150874_c(Achievement p_150874_1_) {
+    public int func_150874_c(final Achievement p_150874_1_) {
         if (this.hasAchievementUnlocked(p_150874_1_)) {
             return 0;
         } else {
@@ -32,13 +38,16 @@ public class StatFileWriter {
         }
     }
 
-    public void increaseStat(EntityPlayer player, StatBase stat, int amount) {
+    public void increaseStat(final EntityPlayer player, final StatBase stat, final int amount) {
         if (!stat.isAchievement() || this.canUnlockAchievement((Achievement) stat)) {
             this.unlockAchievement(player, stat, this.readStat(stat) + amount);
         }
     }
 
-    public void unlockAchievement(EntityPlayer playerIn, StatBase statIn, int p_150873_3_) {
+    /**
+     * Triggers the logging of an achievement and attempts to announce to server
+     */
+    public void unlockAchievement(final EntityPlayer playerIn, final StatBase statIn, final int p_150873_3_) {
         TupleIntJsonSerializable tupleintjsonserializable = this.statsData.get(statIn);
 
         if (tupleintjsonserializable == null) {
@@ -49,17 +58,22 @@ public class StatFileWriter {
         tupleintjsonserializable.setIntegerValue(p_150873_3_);
     }
 
-    public int readStat(StatBase stat) {
-        TupleIntJsonSerializable tupleintjsonserializable = this.statsData.get(stat);
+    /**
+     * Reads the given stat and returns its value as an int.
+     *
+     * @param stat The StatBase object to lookup
+     */
+    public int readStat(final StatBase stat) {
+        final TupleIntJsonSerializable tupleintjsonserializable = this.statsData.get(stat);
         return tupleintjsonserializable == null ? 0 : tupleintjsonserializable.getIntegerValue();
     }
 
-    public <T extends IJsonSerializable> T func_150870_b(StatBase p_150870_1_) {
-        TupleIntJsonSerializable tupleintjsonserializable = this.statsData.get(p_150870_1_);
+    public <T extends IJsonSerializable> T func_150870_b(final StatBase p_150870_1_) {
+        final TupleIntJsonSerializable tupleintjsonserializable = this.statsData.get(p_150870_1_);
         return tupleintjsonserializable != null ? tupleintjsonserializable.getJsonSerializableValue() : null;
     }
 
-    public <T extends IJsonSerializable> T func_150872_a(StatBase p_150872_1_, T p_150872_2_) {
+    public <T extends IJsonSerializable> T func_150872_a(final StatBase p_150872_1_, final T p_150872_2_) {
         TupleIntJsonSerializable tupleintjsonserializable = this.statsData.get(p_150872_1_);
 
         if (tupleintjsonserializable == null) {

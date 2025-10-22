@@ -6,25 +6,25 @@ import java.io.File;
 import java.net.SocketAddress;
 
 public class BanList extends UserList<String, IPBanEntry> {
-    public BanList(File bansFile) {
+    public BanList(final File bansFile) {
         super(bansFile);
     }
 
-    protected UserListEntry<String> createEntry(JsonObject entryData) {
+    protected UserListEntry<String> createEntry(final JsonObject entryData) {
         return new IPBanEntry(entryData);
     }
 
-    public boolean isBanned(SocketAddress address) {
-        String s = this.addressToString(address);
+    public boolean isBanned(final SocketAddress address) {
+        final String s = this.addressToString(address);
         return this.hasEntry(s);
     }
 
-    public IPBanEntry getBanEntry(SocketAddress address) {
-        String s = this.addressToString(address);
+    public IPBanEntry getBanEntry(final SocketAddress address) {
+        final String s = this.addressToString(address);
         return this.getEntry(s);
     }
 
-    private String addressToString(SocketAddress address) {
+    private String addressToString(final SocketAddress address) {
         String s = address.toString();
 
         if (s.contains("/")) {

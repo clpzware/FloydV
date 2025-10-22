@@ -3,7 +3,7 @@ package net.optifine.shaders.config;
 import net.optifine.shaders.Shaders;
 
 public class ShaderOptionScreen extends ShaderOption {
-    public ShaderOptionScreen(String name) {
+    public ShaderOptionScreen(final String name) {
         super(name, null, null, new String[0], null, null);
     }
 

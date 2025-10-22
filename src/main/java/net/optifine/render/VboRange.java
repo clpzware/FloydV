@@ -19,11 +19,11 @@ public class VboRange {
         return this.position + this.size;
     }
 
-    public void setPosition(int position) {
+    public void setPosition(final int position) {
         this.position = position;
     }
 
-    public void setSize(int size) {
+    public void setSize(final int size) {
         this.size = size;
     }
 
@@ -32,16 +32,16 @@ public class VboRange {
     }
 
     public VboRange getPrev() {
-        LinkedList.Node<VboRange> node = this.node.getPrev();
+        final LinkedList.Node<VboRange> node = this.node.getPrev();
         return node == null ? null : node.getItem();
     }
 
     public VboRange getNext() {
-        LinkedList.Node<VboRange> node = this.node.getNext();
+        final LinkedList.Node<VboRange> node = this.node.getNext();
         return node == null ? null : node.getItem();
     }
 
     public String toString() {
-        return this.position + "/" + this.size + "/" + (this.position + this.size);
+        return "" + this.position + "/" + this.size + "/" + (this.position + this.size);
     }
 }

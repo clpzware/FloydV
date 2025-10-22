@@ -19,7 +19,7 @@ public class BlockPistonStructureHelper {
     private final List<BlockPos> toMove = Lists.newArrayList();
     private final List<BlockPos> toDestroy = Lists.newArrayList();
 
-    public BlockPistonStructureHelper(World worldIn, BlockPos posIn, EnumFacing pistonFacing, boolean extending) {
+    public BlockPistonStructureHelper(final World worldIn, final BlockPos posIn, final EnumFacing pistonFacing, final boolean extending) {
         this.world = worldIn;
         this.pistonPos = posIn;
 
@@ -35,7 +35,7 @@ public class BlockPistonStructureHelper {
     public boolean canMove() {
         this.toMove.clear();
         this.toDestroy.clear();
-        Block block = this.world.getBlockState(this.blockToMove).getBlock();
+        final Block block = this.world.getBlockState(this.blockToMove).getBlock();
 
         if (!BlockPistonBase.canPush(block, this.world, this.blockToMove, this.moveDirection, false)) {
             if (block.getMobilityFlag() != 1) {
@@ -47,7 +47,7 @@ public class BlockPistonStructureHelper {
         } else if (!this.func_177251_a(this.blockToMove)) {
             return false;
         } else {
-            for (BlockPos blockpos : this.toMove) {
+            for (final BlockPos blockpos : this.toMove) {
                 if (this.world.getBlockState(blockpos).getBlock() == Blocks.slime_block && !this.func_177250_b(blockpos)) {
                     return false;
                 }
@@ -57,7 +57,7 @@ public class BlockPistonStructureHelper {
         }
     }
 
-    private boolean func_177251_a(BlockPos origin) {
+    private boolean func_177251_a(final BlockPos origin) {
         Block block = this.world.getBlockState(origin).getBlock();
 
         if (block.getMaterial() == Material.air) {
@@ -75,7 +75,7 @@ public class BlockPistonStructureHelper {
                 return false;
             } else {
                 while (block == Blocks.slime_block) {
-                    BlockPos blockpos = origin.offset(this.moveDirection.getOpposite(), i);
+                    final BlockPos blockpos = origin.offset(this.moveDirection.getOpposite(), i);
                     block = this.world.getBlockState(blockpos).getBlock();
 
                     if (block.getMaterial() == Material.air || !BlockPistonBase.canPush(block, this.world, blockpos, this.moveDirection, false) || blockpos.equals(this.pistonPos)) {
@@ -99,14 +99,14 @@ public class BlockPistonStructureHelper {
                 int j1 = 1;
 
                 while (true) {
-                    BlockPos blockpos1 = origin.offset(this.moveDirection, j1);
-                    int k = this.toMove.indexOf(blockpos1);
+                    final BlockPos blockpos1 = origin.offset(this.moveDirection, j1);
+                    final int k = this.toMove.indexOf(blockpos1);
 
                     if (k > -1) {
                         this.func_177255_a(i1, k);
 
                         for (int l = 0; l <= k + i1; ++l) {
-                            BlockPos blockpos2 = this.toMove.get(l);
+                            final BlockPos blockpos2 = this.toMove.get(l);
 
                             if (this.world.getBlockState(blockpos2).getBlock() == Blocks.slime_block && !this.func_177250_b(blockpos2)) {
                                 return false;
@@ -143,10 +143,10 @@ public class BlockPistonStructureHelper {
         }
     }
 
-    private void func_177255_a(int p_177255_1_, int p_177255_2_) {
-        List<BlockPos> list = Lists.newArrayList();
-        List<BlockPos> list1 = Lists.newArrayList();
-        List<BlockPos> list2 = Lists.newArrayList();
+    private void func_177255_a(final int p_177255_1_, final int p_177255_2_) {
+        final List<BlockPos> list = Lists.newArrayList();
+        final List<BlockPos> list1 = Lists.newArrayList();
+        final List<BlockPos> list2 = Lists.newArrayList();
         list.addAll(this.toMove.subList(0, p_177255_2_));
         list1.addAll(this.toMove.subList(this.toMove.size() - p_177255_1_, this.toMove.size()));
         list2.addAll(this.toMove.subList(p_177255_2_, this.toMove.size() - p_177255_1_));
@@ -156,8 +156,8 @@ public class BlockPistonStructureHelper {
         this.toMove.addAll(list2);
     }
 
-    private boolean func_177250_b(BlockPos p_177250_1_) {
-        for (EnumFacing enumfacing : EnumFacing.values()) {
+    private boolean func_177250_b(final BlockPos p_177250_1_) {
+        for (final EnumFacing enumfacing : EnumFacing.values()) {
             if (enumfacing.getAxis() != this.moveDirection.getAxis() && !this.func_177251_a(p_177250_1_.offset(enumfacing))) {
                 return false;
             }

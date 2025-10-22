@@ -7,39 +7,51 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 public class NBTTagFloat extends NBTBase.NBTPrimitive {
+    /**
+     * The float value for the tag.
+     */
     private float data;
 
     NBTTagFloat() {
     }
 
-    public NBTTagFloat(float data) {
+    public NBTTagFloat(final float data) {
         this.data = data;
     }
 
-    void write(DataOutput output) throws IOException {
+    /**
+     * Write the actual data contents of the tag, implemented in NBT extension classes
+     */
+    void write(final DataOutput output) throws IOException {
         output.writeFloat(this.data);
     }
 
-    void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException {
+    void read(final DataInput input, final int depth, final NBTSizeTracker sizeTracker) throws IOException {
         sizeTracker.read(96L);
         this.data = input.readFloat();
     }
 
+    /**
+     * Gets the type byte for the tag.
+     */
     public byte getId() {
         return (byte) 5;
     }
 
     public String toString() {
-        return this.data + "f";
+        return "" + this.data + "f";
     }
 
+    /**
+     * Creates a clone of the tag.
+     */
     public NBTBase copy() {
         return new NBTTagFloat(this.data);
     }
 
-    public boolean equals(Object p_equals_1_) {
+    public boolean equals(final Object p_equals_1_) {
         if (super.equals(p_equals_1_)) {
-            NBTTagFloat nbttagfloat = (NBTTagFloat) p_equals_1_;
+            final NBTTagFloat nbttagfloat = (NBTTagFloat) p_equals_1_;
             return this.data == nbttagfloat.data;
         } else {
             return false;

@@ -2,7 +2,6 @@ package net.optifine;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.entity.Entity;
 import net.minecraft.src.Config;
@@ -23,63 +22,47 @@ public class CustomGuis {
     private static CustomGuiProperties[][] guiProperties = null;
     public static boolean isChristmas = isChristmas();
 
-    public static ResourceLocation getTextureLocation(ResourceLocation loc) {
-        if (guiProperties == null) {
-            return loc;
-        } else {
-            GuiScreen guiscreen = mc.currentScreen;
-
-            if (!(guiscreen instanceof GuiContainer)) {
-                return loc;
-            } else if (loc.getResourceDomain().equals("minecraft") && loc.getResourcePath().startsWith("textures/gui/")) {
-                return loc;
-            } else {
-                return loc;
-            }
-        }
+    public static ResourceLocation getTextureLocation(final ResourceLocation loc) {
+        return loc;
     }
 
-    private static ResourceLocation getTexturePos(CustomGuiProperties.EnumContainer container, BlockPos pos, IBlockAccess blockAccess, ResourceLocation loc, GuiScreen screen) {
-        CustomGuiProperties[] acustomguiproperties = guiProperties[container.ordinal()];
+    private static ResourceLocation getTexturePos(final CustomGuiProperties.EnumContainer container, final BlockPos pos, final IBlockAccess blockAccess, final ResourceLocation loc, final GuiScreen screen) {
+        final CustomGuiProperties[] acustomguiproperties = guiProperties[container.ordinal()];
 
-        if (acustomguiproperties == null) {
-            return loc;
-        } else {
-            for (CustomGuiProperties customguiproperties : acustomguiproperties) {
+        if (acustomguiproperties != null) {
+            for (final CustomGuiProperties customguiproperties : acustomguiproperties) {
                 if (customguiproperties.matchesPos(container, pos, blockAccess, screen)) {
                     return customguiproperties.getTextureLocation(loc);
                 }
             }
-
-            return loc;
         }
+
+        return loc;
     }
 
-    private static ResourceLocation getTextureEntity(CustomGuiProperties.EnumContainer container, Entity entity, IBlockAccess blockAccess, ResourceLocation loc) {
-        CustomGuiProperties[] acustomguiproperties = guiProperties[container.ordinal()];
+    private static ResourceLocation getTextureEntity(final CustomGuiProperties.EnumContainer container, final Entity entity, final IBlockAccess blockAccess, final ResourceLocation loc) {
+        final CustomGuiProperties[] acustomguiproperties = guiProperties[container.ordinal()];
 
-        if (acustomguiproperties == null) {
-            return loc;
-        } else {
-            for (CustomGuiProperties customguiproperties : acustomguiproperties) {
+        if (acustomguiproperties != null) {
+            for (final CustomGuiProperties customguiproperties : acustomguiproperties) {
                 if (customguiproperties.matchesEntity(container, entity, blockAccess)) {
                     return customguiproperties.getTextureLocation(loc);
                 }
             }
-
-            return loc;
         }
+
+        return loc;
     }
 
     public static void update() {
         guiProperties = null;
 
         if (Config.isCustomGuis()) {
-            List<List<CustomGuiProperties>> list = new ArrayList();
-            IResourcePack[] airesourcepack = Config.getResourcePacks();
+            final List<List<CustomGuiProperties>> list = new ArrayList<>();
+            final IResourcePack[] airesourcepack = Config.getResourcePacks();
 
             for (int i = airesourcepack.length - 1; i >= 0; --i) {
-                IResourcePack iresourcepack = airesourcepack[i];
+                final IResourcePack iresourcepack = airesourcepack[i];
                 update(iresourcepack, list);
             }
 
@@ -87,18 +70,18 @@ public class CustomGuis {
         }
     }
 
-    private static CustomGuiProperties[][] propertyListToArray(List<List<CustomGuiProperties>> listProps) {
+    private static CustomGuiProperties[][] propertyListToArray(final List<List<CustomGuiProperties>> listProps) {
         if (listProps.isEmpty()) {
             return null;
         } else {
-            CustomGuiProperties[][] acustomguiproperties = new CustomGuiProperties[CustomGuiProperties.EnumContainer.VALUES.length][];
+            final CustomGuiProperties[][] acustomguiproperties = new CustomGuiProperties[CustomGuiProperties.EnumContainer.VALUES.length][];
 
             for (int i = 0; i < acustomguiproperties.length; ++i) {
                 if (listProps.size() > i) {
-                    List<CustomGuiProperties> list = listProps.get(i);
+                    final List<CustomGuiProperties> list = listProps.get(i);
 
                     if (list != null) {
-                        CustomGuiProperties[] acustomguiproperties1 = list.toArray(new CustomGuiProperties[list.size()]);
+                        final CustomGuiProperties[] acustomguiproperties1 = list.toArray(new CustomGuiProperties[0]);
                         acustomguiproperties[i] = acustomguiproperties1;
                     }
                 }
@@ -108,42 +91,42 @@ public class CustomGuis {
         }
     }
 
-    private static void update(IResourcePack rp, List<List<CustomGuiProperties>> listProps) {
-        String[] astring = ResUtils.collectFiles(rp, "optifine/gui/container/", ".properties", null);
+    private static void update(final IResourcePack rp, final List<List<CustomGuiProperties>> listProps) {
+        final String[] astring = ResUtils.collectFiles(rp, "optifine/gui/container/", ".properties", null);
         Arrays.sort(astring);
 
-        for (String s : astring) {
+        for (final String s : astring) {
             Config.dbg("CustomGuis: " + s);
 
             try {
-                ResourceLocation resourcelocation = new ResourceLocation(s);
-                InputStream inputstream = rp.getInputStream(resourcelocation);
+                final ResourceLocation resourcelocation = new ResourceLocation(s);
+                final InputStream inputstream = rp.getInputStream(resourcelocation);
 
                 if (inputstream == null) {
                     Config.warn("CustomGuis file not found: " + s);
                 } else {
-                    Properties properties = new PropertiesOrdered();
+                    final Properties properties = new PropertiesOrdered();
                     properties.load(inputstream);
                     inputstream.close();
-                    CustomGuiProperties customguiproperties = new CustomGuiProperties(properties, s);
+                    final CustomGuiProperties customguiproperties = new CustomGuiProperties(properties, s);
 
                     if (customguiproperties.isValid(s)) {
                         addToList(customguiproperties, listProps);
                     }
                 }
-            } catch (FileNotFoundException var9) {
+            } catch (final FileNotFoundException var9) {
                 Config.warn("CustomGuis file not found: " + s);
-            } catch (Exception exception) {
+            } catch (final Exception exception) {
                 exception.printStackTrace();
             }
         }
     }
 
-    private static void addToList(CustomGuiProperties cgp, List<List<CustomGuiProperties>> listProps) {
+    private static void addToList(final CustomGuiProperties cgp, final List<List<CustomGuiProperties>> listProps) {
         if (cgp.getContainer() == null) {
             warn("Invalid container: " + cgp.getContainer());
         } else {
-            int i = cgp.getContainer().ordinal();
+            final int i = cgp.getContainer().ordinal();
 
             while (listProps.size() <= i) {
                 listProps.add(null);
@@ -169,11 +152,11 @@ public class CustomGuis {
     }
 
     private static boolean isChristmas() {
-        Calendar calendar = Calendar.getInstance();
+        final Calendar calendar = Calendar.getInstance();
         return calendar.get(2) + 1 == 12 && calendar.get(5) >= 24 && calendar.get(5) <= 26;
     }
 
-    private static void warn(String str) {
+    private static void warn(final String str) {
         Config.warn("[CustomGuis] " + str);
     }
 }

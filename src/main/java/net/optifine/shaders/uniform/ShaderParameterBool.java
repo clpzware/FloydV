@@ -27,7 +27,7 @@ public enum ShaderParameterBool implements IExpressionBool {
     private final RenderManager renderManager;
     private static final ShaderParameterBool[] VALUES = values();
 
-    ShaderParameterBool(String name) {
+    ShaderParameterBool(final String name) {
         this.name = name;
         this.renderManager = Minecraft.getMinecraft().getRenderManager();
     }
@@ -41,9 +41,10 @@ public enum ShaderParameterBool implements IExpressionBool {
     }
 
     public boolean eval() {
-        Entity entity = Minecraft.getMinecraft().getRenderViewEntity();
+        final Entity entity = Minecraft.getMinecraft().getRenderViewEntity();
 
-        if (entity instanceof EntityLivingBase entitylivingbase) {
+        if (entity instanceof EntityLivingBase) {
+            final EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
 
             switch (this) {
                 case IS_ALIVE:
@@ -90,11 +91,13 @@ public enum ShaderParameterBool implements IExpressionBool {
         return false;
     }
 
-    public static ShaderParameterBool parse(String str) {
+    public static ShaderParameterBool parse(final String str) {
         if (str == null) {
             return null;
         } else {
-            for (ShaderParameterBool shaderparameterbool : VALUES) {
+            for (int i = 0; i < VALUES.length; ++i) {
+                final ShaderParameterBool shaderparameterbool = VALUES[i];
+
                 if (shaderparameterbool.getName().equals(str)) {
                     return shaderparameterbool;
                 }

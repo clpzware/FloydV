@@ -8,12 +8,12 @@ public class ArrayCache {
     private int maxCacheSize = 0;
     private final ArrayDeque cache = new ArrayDeque();
 
-    public ArrayCache(Class elementClass, int maxCacheSize) {
+    public ArrayCache(final Class elementClass, final int maxCacheSize) {
         this.elementClass = elementClass;
         this.maxCacheSize = maxCacheSize;
     }
 
-    public synchronized Object allocate(int size) {
+    public synchronized Object allocate(final int size) {
         Object object = this.cache.pollLast();
 
         if (object == null || Array.getLength(object) < size) {
@@ -23,9 +23,9 @@ public class ArrayCache {
         return object;
     }
 
-    public synchronized void free(Object arr) {
+    public synchronized void free(final Object arr) {
         if (arr != null) {
-            Class oclass = arr.getClass();
+            final Class oclass = arr.getClass();
 
             if (oclass.getComponentType() != this.elementClass) {
                 throw new IllegalArgumentException("Wrong component type");

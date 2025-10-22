@@ -22,14 +22,14 @@ public class BlockJukebox extends BlockContainer {
 
     protected BlockJukebox() {
         super(Material.wood, MapColor.dirtColor);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(HAS_RECORD, Boolean.FALSE));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(HAS_RECORD, Boolean.valueOf(false)));
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (state.getValue(HAS_RECORD)) {
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos, IBlockState state, final EntityPlayer playerIn, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
+        if (state.getValue(HAS_RECORD).booleanValue()) {
             this.dropRecord(worldIn, pos, state);
-            state = state.withProperty(HAS_RECORD, Boolean.FALSE);
+            state = state.withProperty(HAS_RECORD, Boolean.valueOf(false));
             worldIn.setBlockState(pos, state, 2);
             return true;
         } else {
@@ -37,34 +37,35 @@ public class BlockJukebox extends BlockContainer {
         }
     }
 
-    public void insertRecord(World worldIn, BlockPos pos, IBlockState state, ItemStack recordStack) {
+    public void insertRecord(final World worldIn, final BlockPos pos, final IBlockState state, final ItemStack recordStack) {
         if (!worldIn.isRemote) {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+            final TileEntity tileentity = worldIn.getTileEntity(pos);
 
             if (tileentity instanceof BlockJukebox.TileEntityJukebox) {
                 ((BlockJukebox.TileEntityJukebox) tileentity).setRecord(new ItemStack(recordStack.getItem(), 1, recordStack.getMetadata()));
-                worldIn.setBlockState(pos, state.withProperty(HAS_RECORD, Boolean.TRUE), 2);
+                worldIn.setBlockState(pos, state.withProperty(HAS_RECORD, Boolean.valueOf(true)), 2);
             }
         }
     }
 
-    private void dropRecord(World worldIn, BlockPos pos, IBlockState state) {
+    private void dropRecord(final World worldIn, final BlockPos pos, final IBlockState state) {
         if (!worldIn.isRemote) {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+            final TileEntity tileentity = worldIn.getTileEntity(pos);
 
-            if (tileentity instanceof TileEntityJukebox blockjukebox$tileentityjukebox) {
-                ItemStack itemstack = blockjukebox$tileentityjukebox.getRecord();
+            if (tileentity instanceof BlockJukebox.TileEntityJukebox) {
+                final BlockJukebox.TileEntityJukebox blockjukebox$tileentityjukebox = (BlockJukebox.TileEntityJukebox) tileentity;
+                final ItemStack itemstack = blockjukebox$tileentityjukebox.getRecord();
 
                 if (itemstack != null) {
                     worldIn.playAuxSFX(1005, pos, 0);
                     worldIn.playRecord(pos, null);
                     blockjukebox$tileentityjukebox.setRecord(null);
-                    float f = 0.7F;
-                    double d0 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-                    double d1 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.2D + 0.6D;
-                    double d2 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
-                    ItemStack itemstack1 = itemstack.copy();
-                    EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d0, (double) pos.getY() + d1, (double) pos.getZ() + d2, itemstack1);
+                    final float f = 0.7F;
+                    final double d0 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
+                    final double d1 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.2D + 0.6D;
+                    final double d2 = (double) (worldIn.rand.nextFloat() * f) + (double) (1.0F - f) * 0.5D;
+                    final ItemStack itemstack1 = itemstack.copy();
+                    final EntityItem entityitem = new EntityItem(worldIn, (double) pos.getX() + d0, (double) pos.getY() + d1, (double) pos.getZ() + d2, itemstack1);
                     entityitem.setDefaultPickupDelay();
                     worldIn.spawnEntityInWorld(entityitem);
                 }
@@ -72,18 +73,27 @@ public class BlockJukebox extends BlockContainer {
         }
     }
 
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
+    public void breakBlock(final World worldIn, final BlockPos pos, final IBlockState state) {
         this.dropRecord(worldIn, pos, state);
         super.breakBlock(worldIn, pos, state);
     }
 
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+    /**
+     * Spawns this Block's drops into the World as EntityItems.
+     *
+     * @param chance  The chance that each Item is actually spawned (1.0 = always, 0.0 = never)
+     * @param fortune The player's fortune level
+     */
+    public void dropBlockAsItemWithChance(final World worldIn, final BlockPos pos, final IBlockState state, final float chance, final int fortune) {
         if (!worldIn.isRemote) {
             super.dropBlockAsItemWithChance(worldIn, pos, state, chance, 0);
         }
     }
 
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    /**
+     * Returns a new instance of a block's tile entity class. Called on placing the block.
+     */
+    public TileEntity createNewTileEntity(final World worldIn, final int meta) {
         return new BlockJukebox.TileEntityJukebox();
     }
 
@@ -91,11 +101,11 @@ public class BlockJukebox extends BlockContainer {
         return true;
     }
 
-    public int getComparatorInputOverride(World worldIn, BlockPos pos) {
-        TileEntity tileentity = worldIn.getTileEntity(pos);
+    public int getComparatorInputOverride(final World worldIn, final BlockPos pos) {
+        final TileEntity tileentity = worldIn.getTileEntity(pos);
 
         if (tileentity instanceof BlockJukebox.TileEntityJukebox) {
-            ItemStack itemstack = ((BlockJukebox.TileEntityJukebox) tileentity).getRecord();
+            final ItemStack itemstack = ((BlockJukebox.TileEntityJukebox) tileentity).getRecord();
 
             if (itemstack != null) {
                 return Item.getIdFromItem(itemstack.getItem()) + 1 - Item.getIdFromItem(Items.record_13);
@@ -105,16 +115,25 @@ public class BlockJukebox extends BlockContainer {
         return 0;
     }
 
+    /**
+     * The type of render function called. 3 for standard block models, 2 for TESR's, 1 for liquids, -1 is no render
+     */
     public int getRenderType() {
         return 3;
     }
 
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(HAS_RECORD, meta > 0);
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
+        return this.getDefaultState().withProperty(HAS_RECORD, Boolean.valueOf(meta > 0));
     }
 
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(HAS_RECORD) ? 1 : 0;
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
+        return state.getValue(HAS_RECORD).booleanValue() ? 1 : 0;
     }
 
     protected BlockState createBlockState() {
@@ -124,7 +143,7 @@ public class BlockJukebox extends BlockContainer {
     public static class TileEntityJukebox extends TileEntity {
         private ItemStack record;
 
-        public void readFromNBT(NBTTagCompound compound) {
+        public void readFromNBT(final NBTTagCompound compound) {
             super.readFromNBT(compound);
 
             if (compound.hasKey("RecordItem", 10)) {
@@ -134,7 +153,7 @@ public class BlockJukebox extends BlockContainer {
             }
         }
 
-        public void writeToNBT(NBTTagCompound compound) {
+        public void writeToNBT(final NBTTagCompound compound) {
             super.writeToNBT(compound);
 
             if (this.getRecord() != null) {
@@ -146,7 +165,7 @@ public class BlockJukebox extends BlockContainer {
             return this.record;
         }
 
-        public void setRecord(ItemStack recordStack) {
+        public void setRecord(final ItemStack recordStack) {
             this.record = recordStack;
             this.markDirty();
         }

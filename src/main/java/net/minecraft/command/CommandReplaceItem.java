@@ -1,10 +1,6 @@
 package net.minecraft.command;
 
 import com.google.common.collect.Maps;
-
-import java.util.List;
-import java.util.Map;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -19,26 +15,46 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.List;
+import java.util.Map;
+
 public class CommandReplaceItem extends CommandBase {
     private static final Map<String, Integer> SHORTCUTS = Maps.newHashMap();
 
+    /**
+     * Gets the name of the command
+     */
     public String getCommandName() {
         return "replaceitem";
     }
 
+    /**
+     * Return the required permission level for this command.
+     */
     public int getRequiredPermissionLevel() {
         return 2;
     }
 
-    public String getCommandUsage(ICommandSender sender) {
+    /**
+     * Gets the usage string for the command.
+     *
+     * @param sender The {@link ICommandSender} who is requesting usage details.
+     */
+    public String getCommandUsage(final ICommandSender sender) {
         return "commands.replaceitem.usage";
     }
 
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    /**
+     * Callback when the command is invoked
+     *
+     * @param sender The {@link ICommandSender sender} who executed the command
+     * @param args   The arguments that were passed with the command
+     */
+    public void processCommand(final ICommandSender sender, final String[] args) throws CommandException {
         if (args.length < 1) {
             throw new WrongUsageException("commands.replaceitem.usage");
         } else {
-            boolean flag;
+            final boolean flag;
 
             if (args[0].equals("entity")) {
                 flag = false;
@@ -66,12 +82,12 @@ public class CommandReplaceItem extends CommandBase {
                 i = 2;
             }
 
-            int j = this.getSlotForShortcut(args[i++]);
+            final int j = this.getSlotForShortcut(args[i++]);
             Item item;
 
             try {
                 item = getItemByText(sender, args[i]);
-            } catch (NumberInvalidException numberinvalidexception) {
+            } catch (final NumberInvalidException numberinvalidexception) {
                 if (Block.getBlockFromName(args[i]) != Blocks.air) {
                     throw numberinvalidexception;
                 }
@@ -80,16 +96,16 @@ public class CommandReplaceItem extends CommandBase {
             }
 
             ++i;
-            int k = args.length > i ? parseInt(args[i++], 1, 64) : 1;
-            int l = args.length > i ? parseInt(args[i++]) : 0;
+            final int k = args.length > i ? parseInt(args[i++], 1, 64) : 1;
+            final int l = args.length > i ? parseInt(args[i++]) : 0;
             ItemStack itemstack = new ItemStack(item, k, l);
 
             if (args.length > i) {
-                String s = getChatComponentFromNthArg(sender, args, i).getUnformattedText();
+                final String s = getChatComponentFromNthArg(sender, args, i).getUnformattedText();
 
                 try {
                     itemstack.setTagCompound(JsonToNBT.getTagFromJson(s));
-                } catch (NBTException nbtexception) {
+                } catch (final NBTException nbtexception) {
                     throw new CommandException("commands.replaceitem.tagError", nbtexception.getMessage());
                 }
             }
@@ -100,19 +116,21 @@ public class CommandReplaceItem extends CommandBase {
 
             if (flag) {
                 sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 0);
-                BlockPos blockpos = parseBlockPos(sender, args, 1, false);
-                World world = sender.getEntityWorld();
-                TileEntity tileentity = world.getTileEntity(blockpos);
+                final BlockPos blockpos = parseBlockPos(sender, args, 1, false);
+                final World world = sender.getEntityWorld();
+                final TileEntity tileentity = world.getTileEntity(blockpos);
 
-                if (tileentity == null || !(tileentity instanceof IInventory iinventory)) {
-                    throw new CommandException("commands.replaceitem.noContainer", blockpos.getX(), blockpos.getY(), blockpos.getZ());
+                if (tileentity == null || !(tileentity instanceof IInventory)) {
+                    throw new CommandException("commands.replaceitem.noContainer", Integer.valueOf(blockpos.getX()), Integer.valueOf(blockpos.getY()), Integer.valueOf(blockpos.getZ()));
                 }
+
+                final IInventory iinventory = (IInventory) tileentity;
 
                 if (j >= 0 && j < iinventory.getSizeInventory()) {
                     iinventory.setInventorySlotContents(j, itemstack);
                 }
             } else {
-                Entity entity = getEntity(sender, args[1]);
+                final Entity entity = func_175768_b(sender, args[1]);
                 sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, 0);
 
                 if (entity instanceof EntityPlayer) {
@@ -120,7 +138,7 @@ public class CommandReplaceItem extends CommandBase {
                 }
 
                 if (!entity.replaceItemInInventory(j, itemstack)) {
-                    throw new CommandException("commands.replaceitem.failed", j, k, itemstack == null ? "Air" : itemstack.getChatComponent());
+                    throw new CommandException("commands.replaceitem.failed", Integer.valueOf(j), Integer.valueOf(k), itemstack == null ? "Air" : itemstack.getChatComponent());
                 }
 
                 if (entity instanceof EntityPlayer) {
@@ -129,19 +147,19 @@ public class CommandReplaceItem extends CommandBase {
             }
 
             sender.setCommandStat(CommandResultStats.Type.AFFECTED_ITEMS, k);
-            notifyOperators(sender, this, "commands.replaceitem.success", j, k, itemstack == null ? "Air" : itemstack.getChatComponent());
+            notifyOperators(sender, this, "commands.replaceitem.success", Integer.valueOf(j), Integer.valueOf(k), itemstack == null ? "Air" : itemstack.getChatComponent());
         }
     }
 
-    private int getSlotForShortcut(String shortcut) throws CommandException {
+    private int getSlotForShortcut(final String shortcut) throws CommandException {
         if (!SHORTCUTS.containsKey(shortcut)) {
             throw new CommandException("commands.generic.parameter.invalid", shortcut);
         } else {
-            return SHORTCUTS.get(shortcut);
+            return SHORTCUTS.get(shortcut).intValue();
         }
     }
 
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+    public List<String> addTabCompletionOptions(final ICommandSender sender, final String[] args, final BlockPos pos) {
         return args.length == 1 ? getListOfStringsMatchingLastWord(args, "entity", "block") : (args.length == 2 && args[0].equals("entity") ? getListOfStringsMatchingLastWord(args, this.getUsernames()) : (args.length >= 2 && args.length <= 4 && args[0].equals("block") ? func_175771_a(args, 1, pos) : ((args.length != 3 || !args[0].equals("entity")) && (args.length != 5 || !args[0].equals("block")) ? ((args.length != 4 || !args[0].equals("entity")) && (args.length != 6 || !args[0].equals("block")) ? null : getListOfStringsMatchingLastWord(args, Item.itemRegistry.getKeys())) : getListOfStringsMatchingLastWord(args, SHORTCUTS.keySet()))));
     }
 
@@ -149,42 +167,48 @@ public class CommandReplaceItem extends CommandBase {
         return MinecraftServer.getServer().getAllUsernames();
     }
 
-    public boolean isUsernameIndex(String[] args, int index) {
+    /**
+     * Return whether the specified command parameter index is a username parameter.
+     *
+     * @param args  The arguments that were given
+     * @param index The argument index that we are checking
+     */
+    public boolean isUsernameIndex(final String[] args, final int index) {
         return args.length > 0 && args[0].equals("entity") && index == 1;
     }
 
     static {
         for (int i = 0; i < 54; ++i) {
-            SHORTCUTS.put("slot.container." + i, i);
+            SHORTCUTS.put("slot.container." + i, Integer.valueOf(i));
         }
 
         for (int j = 0; j < 9; ++j) {
-            SHORTCUTS.put("slot.hotbar." + j, j);
+            SHORTCUTS.put("slot.hotbar." + j, Integer.valueOf(j));
         }
 
         for (int k = 0; k < 27; ++k) {
-            SHORTCUTS.put("slot.inventory." + k, 9 + k);
+            SHORTCUTS.put("slot.inventory." + k, Integer.valueOf(9 + k));
         }
 
         for (int l = 0; l < 27; ++l) {
-            SHORTCUTS.put("slot.enderchest." + l, 200 + l);
+            SHORTCUTS.put("slot.enderchest." + l, Integer.valueOf(200 + l));
         }
 
         for (int i1 = 0; i1 < 8; ++i1) {
-            SHORTCUTS.put("slot.villager." + i1, 300 + i1);
+            SHORTCUTS.put("slot.villager." + i1, Integer.valueOf(300 + i1));
         }
 
         for (int j1 = 0; j1 < 15; ++j1) {
-            SHORTCUTS.put("slot.horse." + j1, 500 + j1);
+            SHORTCUTS.put("slot.horse." + j1, Integer.valueOf(500 + j1));
         }
 
-        SHORTCUTS.put("slot.weapon", 99);
-        SHORTCUTS.put("slot.armor.head", 103);
-        SHORTCUTS.put("slot.armor.chest", 102);
-        SHORTCUTS.put("slot.armor.legs", 101);
-        SHORTCUTS.put("slot.armor.feet", 100);
-        SHORTCUTS.put("slot.horse.saddle", 400);
-        SHORTCUTS.put("slot.horse.armor", 401);
-        SHORTCUTS.put("slot.horse.chest", 499);
+        SHORTCUTS.put("slot.weapon", Integer.valueOf(99));
+        SHORTCUTS.put("slot.armor.head", Integer.valueOf(103));
+        SHORTCUTS.put("slot.armor.chest", Integer.valueOf(102));
+        SHORTCUTS.put("slot.armor.legs", Integer.valueOf(101));
+        SHORTCUTS.put("slot.armor.feet", Integer.valueOf(100));
+        SHORTCUTS.put("slot.horse.saddle", Integer.valueOf(400));
+        SHORTCUTS.put("slot.horse.armor", Integer.valueOf(401));
+        SHORTCUTS.put("slot.horse.chest", Integer.valueOf(499));
     }
 }

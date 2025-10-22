@@ -14,83 +14,96 @@ public class CrashReportCategory {
     private final List<CrashReportCategory.Entry> children = Lists.newArrayList();
     private StackTraceElement[] stackTrace = new StackTraceElement[0];
 
-    public CrashReportCategory(CrashReport report, String name) {
+    public CrashReportCategory(final CrashReport report, final String name) {
         this.crashReport = report;
         this.name = name;
     }
 
-    public static String getCoordinateInfo(double x, double y, double z) {
-        return String.format("%.2f,%.2f,%.2f - %s", x, y, z, getCoordinateInfo(new BlockPos(x, y, z)));
+    public static String getCoordinateInfo(final double x, final double y, final double z) {
+        return String.format("%.2f,%.2f,%.2f - %s", Double.valueOf(x), Double.valueOf(y), Double.valueOf(z), getCoordinateInfo(new BlockPos(x, y, z)));
     }
 
-    public static String getCoordinateInfo(BlockPos pos) {
-        int i = pos.getX();
-        int j = pos.getY();
-        int k = pos.getZ();
-        StringBuilder stringbuilder = new StringBuilder();
+    public static String getCoordinateInfo(final BlockPos pos) {
+        final int i = pos.getX();
+        final int j = pos.getY();
+        final int k = pos.getZ();
+        final StringBuilder stringbuilder = new StringBuilder();
 
         try {
-            stringbuilder.append(String.format("World: (%d,%d,%d)", i, j, k));
-        } catch (Throwable var17) {
+            stringbuilder.append(String.format("World: (%d,%d,%d)", Integer.valueOf(i), Integer.valueOf(j), Integer.valueOf(k)));
+        } catch (final Throwable var17) {
             stringbuilder.append("(Error finding world loc)");
         }
 
         stringbuilder.append(", ");
 
         try {
-            int l = i >> 4;
-            int i1 = k >> 4;
-            int j1 = i & 15;
-            int k1 = j >> 4;
-            int l1 = k & 15;
-            int i2 = l << 4;
-            int j2 = i1 << 4;
-            int k2 = (l + 1 << 4) - 1;
-            int l2 = (i1 + 1 << 4) - 1;
-            stringbuilder.append(String.format("Chunk: (at %d,%d,%d in %d,%d; contains blocks %d,0,%d to %d,255,%d)", j1, k1, l1, l, i1, i2, j2, k2, l2));
-        } catch (Throwable var16) {
+            final int l = i >> 4;
+            final int i1 = k >> 4;
+            final int j1 = i & 15;
+            final int k1 = j >> 4;
+            final int l1 = k & 15;
+            final int i2 = l << 4;
+            final int j2 = i1 << 4;
+            final int k2 = (l + 1 << 4) - 1;
+            final int l2 = (i1 + 1 << 4) - 1;
+            stringbuilder.append(String.format("Chunk: (at %d,%d,%d in %d,%d; contains blocks %d,0,%d to %d,255,%d)", Integer.valueOf(j1), Integer.valueOf(k1), Integer.valueOf(l1), Integer.valueOf(l), Integer.valueOf(i1), Integer.valueOf(i2), Integer.valueOf(j2), Integer.valueOf(k2), Integer.valueOf(l2)));
+        } catch (final Throwable var16) {
             stringbuilder.append("(Error finding chunk loc)");
         }
 
         stringbuilder.append(", ");
 
         try {
-            int j3 = i >> 9;
-            int k3 = k >> 9;
-            int l3 = j3 << 5;
-            int i4 = k3 << 5;
-            int j4 = (j3 + 1 << 5) - 1;
-            int k4 = (k3 + 1 << 5) - 1;
-            int l4 = j3 << 9;
-            int i5 = k3 << 9;
-            int j5 = (j3 + 1 << 9) - 1;
-            int i3 = (k3 + 1 << 9) - 1;
-            stringbuilder.append(String.format("Region: (%d,%d; contains chunks %d,%d to %d,%d, blocks %d,0,%d to %d,255,%d)", j3, k3, l3, i4, j4, k4, l4, i5, j5, i3));
-        } catch (Throwable var15) {
+            final int j3 = i >> 9;
+            final int k3 = k >> 9;
+            final int l3 = j3 << 5;
+            final int i4 = k3 << 5;
+            final int j4 = (j3 + 1 << 5) - 1;
+            final int k4 = (k3 + 1 << 5) - 1;
+            final int l4 = j3 << 9;
+            final int i5 = k3 << 9;
+            final int j5 = (j3 + 1 << 9) - 1;
+            final int i3 = (k3 + 1 << 9) - 1;
+            stringbuilder.append(String.format("Region: (%d,%d; contains chunks %d,%d to %d,%d, blocks %d,0,%d to %d,255,%d)", Integer.valueOf(j3), Integer.valueOf(k3), Integer.valueOf(l3), Integer.valueOf(i4), Integer.valueOf(j4), Integer.valueOf(k4), Integer.valueOf(l4), Integer.valueOf(i5), Integer.valueOf(j5), Integer.valueOf(i3)));
+        } catch (final Throwable var15) {
             stringbuilder.append("(Error finding world loc)");
         }
 
         return stringbuilder.toString();
     }
 
-    public void addCrashSectionCallable(String sectionName, Callable<String> callable) {
+    /**
+     * Adds a Crashreport section with the given name with the value set to the result of the given Callable;
+     */
+    public void addCrashSectionCallable(final String sectionName, final Callable<String> callable) {
         try {
             this.addCrashSection(sectionName, callable.call());
-        } catch (Throwable throwable) {
+        } catch (final Throwable throwable) {
             this.addCrashSectionThrowable(sectionName, throwable);
         }
     }
 
-    public void addCrashSection(String sectionName, Object value) {
+    /**
+     * Adds a Crashreport section with the given name with the given value (convered .toString())
+     */
+    public void addCrashSection(final String sectionName, final Object value) {
         this.children.add(new CrashReportCategory.Entry(sectionName, value));
     }
 
-    public void addCrashSectionThrowable(String sectionName, Throwable throwable) {
+    /**
+     * Adds a Crashreport section with the given name with the given Throwable
+     */
+    public void addCrashSectionThrowable(final String sectionName, final Throwable throwable) {
         this.addCrashSection(sectionName, throwable);
     }
 
-    public int getPrunedStackTrace(int size) {
-        StackTraceElement[] astacktraceelement = Thread.currentThread().getStackTrace();
+    /**
+     * Resets our stack trace according to the current trace, pruning the deepest 3 entries.  The parameter indicates
+     * how many additional deepest entries to prune.  Returns the number of entries in the resulting pruned stack trace.
+     */
+    public int getPrunedStackTrace(final int size) {
+        final StackTraceElement[] astacktraceelement = Thread.currentThread().getStackTrace();
 
         if (astacktraceelement.length <= 0) {
             return 0;
@@ -101,9 +114,12 @@ public class CrashReportCategory {
         }
     }
 
-    public boolean firstTwoElementsOfStackTraceMatch(StackTraceElement s1, StackTraceElement s2) {
+    /**
+     * Do the deepest two elements of our saved stack trace match the given elements, in order from the deepest?
+     */
+    public boolean firstTwoElementsOfStackTraceMatch(final StackTraceElement s1, final StackTraceElement s2) {
         if (this.stackTrace.length != 0 && s1 != null) {
-            StackTraceElement stacktraceelement = this.stackTrace[0];
+            final StackTraceElement stacktraceelement = this.stackTrace[0];
 
             if (stacktraceelement.isNativeMethod() == s1.isNativeMethod() && stacktraceelement.getClassName().equals(s1.getClassName()) && stacktraceelement.getFileName().equals(s1.getFileName()) && stacktraceelement.getMethodName().equals(s1.getMethodName())) {
                 if (s2 == null == this.stackTrace.length > 1) {
@@ -122,17 +138,20 @@ public class CrashReportCategory {
         }
     }
 
-    public void trimStackTraceEntriesFromBottom(int amount) {
-        StackTraceElement[] astacktraceelement = new StackTraceElement[this.stackTrace.length - amount];
+    /**
+     * Removes the given number entries from the bottom of the stack trace.
+     */
+    public void trimStackTraceEntriesFromBottom(final int amount) {
+        final StackTraceElement[] astacktraceelement = new StackTraceElement[this.stackTrace.length - amount];
         System.arraycopy(this.stackTrace, 0, astacktraceelement, 0, astacktraceelement.length);
         this.stackTrace = astacktraceelement;
     }
 
-    public void appendToStringBuilder(StringBuilder builder) {
+    public void appendToStringBuilder(final StringBuilder builder) {
         builder.append("-- ").append(this.name).append(" --\n");
         builder.append("Details:");
 
-        for (CrashReportCategory.Entry crashreportcategory$entry : this.children) {
+        for (final CrashReportCategory.Entry crashreportcategory$entry : this.children) {
             builder.append("\n\t");
             builder.append(crashreportcategory$entry.getKey());
             builder.append(": ");
@@ -142,7 +161,7 @@ public class CrashReportCategory {
         if (this.stackTrace != null && this.stackTrace.length > 0) {
             builder.append("\nStacktrace:");
 
-            for (StackTraceElement stacktraceelement : this.stackTrace) {
+            for (final StackTraceElement stacktraceelement : this.stackTrace) {
                 builder.append("\n\tat ");
                 builder.append(stacktraceelement.toString());
             }
@@ -153,41 +172,58 @@ public class CrashReportCategory {
         return this.stackTrace;
     }
 
-    public static void addBlockInfo(CrashReportCategory category, final BlockPos pos, final Block blockIn, final int blockData) {
+    public static void addBlockInfo(final CrashReportCategory category, final BlockPos pos, final Block blockIn, final int blockData) {
         final int i = Block.getIdFromBlock(blockIn);
-        category.addCrashSectionCallable("Block type", () -> {
-            try {
-                return String.format("ID #%d (%s // %s)", i, blockIn.getUnlocalizedName(), blockIn.getClass().getCanonicalName());
-            } catch (Throwable var2) {
-                return "ID #" + i;
+        category.addCrashSectionCallable("Block type", new Callable<String>() {
+            public String call() throws Exception {
+                try {
+                    return String.format("ID #%d (%s // %s)", Integer.valueOf(i), blockIn.getUnlocalizedName(), blockIn.getClass().getCanonicalName());
+                } catch (final Throwable var2) {
+                    return "ID #" + i;
+                }
             }
         });
-        category.addCrashSectionCallable("Block data value", () -> {
-            if (blockData < 0) {
-                return "Unknown? (Got " + blockData + ")";
-            } else {
-                String s = String.format("%4s", new Object[]{Integer.toBinaryString(blockData)}).replace(" ", "0");
-                return String.format("%1$d / 0x%1$X / 0b%2$s", blockData, s);
+        category.addCrashSectionCallable("Block data value", new Callable<String>() {
+            public String call() throws Exception {
+                if (blockData < 0) {
+                    return "Unknown? (Got " + blockData + ")";
+                } else {
+                    final String s = String.format("%4s", Integer.toBinaryString(blockData)).replace(" ", "0");
+                    return String.format("%1$d / 0x%1$X / 0b%2$s", Integer.valueOf(blockData), s);
+                }
             }
         });
-        category.addCrashSectionCallable("Block location", () -> CrashReportCategory.getCoordinateInfo(pos));
+        category.addCrashSectionCallable("Block location", new Callable<String>() {
+            public String call() throws Exception {
+                return CrashReportCategory.getCoordinateInfo(pos);
+            }
+        });
     }
 
-    public static void addBlockInfo(CrashReportCategory category, final BlockPos pos, final IBlockState state) {
-        category.addCrashSectionCallable("Block", state::toString);
-        category.addCrashSectionCallable("Block location", () -> CrashReportCategory.getCoordinateInfo(pos));
+    public static void addBlockInfo(final CrashReportCategory category, final BlockPos pos, final IBlockState state) {
+        category.addCrashSectionCallable("Block", new Callable<String>() {
+            public String call() throws Exception {
+                return state.toString();
+            }
+        });
+        category.addCrashSectionCallable("Block location", new Callable<String>() {
+            public String call() throws Exception {
+                return CrashReportCategory.getCoordinateInfo(pos);
+            }
+        });
     }
 
     static class Entry {
         private final String key;
         private final String value;
 
-        public Entry(String key, Object value) {
+        public Entry(final String key, final Object value) {
             this.key = key;
 
             if (value == null) {
                 this.value = "~~NULL~~";
-            } else if (value instanceof Throwable throwable) {
+            } else if (value instanceof Throwable) {
+                final Throwable throwable = (Throwable) value;
                 this.value = "~~ERROR~~ " + throwable.getClass().getSimpleName() + ": " + throwable.getMessage();
             } else {
                 this.value = value.toString();

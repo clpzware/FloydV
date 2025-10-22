@@ -7,23 +7,31 @@ import java.io.IOException;
 
 public class DynamicTexture extends AbstractTexture {
     private final int[] dynamicTextureData;
+
+    /**
+     * width of this icon in pixels
+     */
     private final int width;
+
+    /**
+     * height of this icon in pixels
+     */
     private final int height;
 
-    public DynamicTexture(BufferedImage bufferedImage) {
+    public DynamicTexture(final BufferedImage bufferedImage) {
         this(bufferedImage.getWidth(), bufferedImage.getHeight());
         bufferedImage.getRGB(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight(), this.dynamicTextureData, 0, bufferedImage.getWidth());
         this.updateDynamicTexture();
     }
 
-    public DynamicTexture(int textureWidth, int textureHeight) {
+    public DynamicTexture(final int textureWidth, final int textureHeight) {
         this.width = textureWidth;
         this.height = textureHeight;
         this.dynamicTextureData = new int[textureWidth * textureHeight];
         TextureUtil.allocateTexture(this.getGlTextureId(), textureWidth, textureHeight);
     }
 
-    public void loadTexture(IResourceManager resourceManager) throws IOException {
+    public void loadTexture(final IResourceManager resourceManager) throws IOException {
     }
 
     public void updateDynamicTexture() {

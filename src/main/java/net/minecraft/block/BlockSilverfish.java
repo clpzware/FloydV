@@ -26,53 +26,80 @@ public class BlockSilverfish extends Block {
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 
-    public int quantityDropped(Random random) {
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
+    public int quantityDropped(final Random random) {
         return 0;
     }
 
-    public static boolean canContainSilverfish(IBlockState blockState) {
-        Block block = blockState.getBlock();
+    public static boolean canContainSilverfish(final IBlockState blockState) {
+        final Block block = blockState.getBlock();
         return blockState == Blocks.stone.getDefaultState().withProperty(BlockStone.VARIANT, BlockStone.EnumType.STONE) || block == Blocks.cobblestone || block == Blocks.stonebrick;
     }
 
-    protected ItemStack createStackedBlock(IBlockState state) {
-        return switch (state.getValue(VARIANT)) {
-            case COBBLESTONE -> new ItemStack(Blocks.cobblestone);
-            case STONEBRICK -> new ItemStack(Blocks.stonebrick);
-            case MOSSY_STONEBRICK -> new ItemStack(Blocks.stonebrick, 1, BlockStoneBrick.EnumType.MOSSY.getMetadata());
-            case CRACKED_STONEBRICK ->
-                    new ItemStack(Blocks.stonebrick, 1, BlockStoneBrick.EnumType.CRACKED.getMetadata());
-            case CHISELED_STONEBRICK ->
-                    new ItemStack(Blocks.stonebrick, 1, BlockStoneBrick.EnumType.CHISELED.getMetadata());
-            default -> new ItemStack(Blocks.stone);
-        };
+    protected ItemStack createStackedBlock(final IBlockState state) {
+        switch (state.getValue(VARIANT)) {
+            case COBBLESTONE:
+                return new ItemStack(Blocks.cobblestone);
+
+            case STONEBRICK:
+                return new ItemStack(Blocks.stonebrick);
+
+            case MOSSY_STONEBRICK:
+                return new ItemStack(Blocks.stonebrick, 1, BlockStoneBrick.EnumType.MOSSY.getMetadata());
+
+            case CRACKED_STONEBRICK:
+                return new ItemStack(Blocks.stonebrick, 1, BlockStoneBrick.EnumType.CRACKED.getMetadata());
+
+            case CHISELED_STONEBRICK:
+                return new ItemStack(Blocks.stonebrick, 1, BlockStoneBrick.EnumType.CHISELED.getMetadata());
+
+            default:
+                return new ItemStack(Blocks.stone);
+        }
     }
 
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
-        if (!worldIn.isRemote && worldIn.getGameRules().getBoolean("doTileDrops")) {
-            EntitySilverfish entitysilverfish = new EntitySilverfish(worldIn);
+    /**
+     * Spawns this Block's drops into the World as EntityItems.
+     *
+     * @param chance  The chance that each Item is actually spawned (1.0 = always, 0.0 = never)
+     * @param fortune The player's fortune level
+     */
+    public void dropBlockAsItemWithChance(final World worldIn, final BlockPos pos, final IBlockState state, final float chance, final int fortune) {
+        if (!worldIn.isRemote && worldIn.getGameRules().getGameRuleBooleanValue("doTileDrops")) {
+            final EntitySilverfish entitysilverfish = new EntitySilverfish(worldIn);
             entitysilverfish.setLocationAndAngles((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, 0.0F, 0.0F);
             worldIn.spawnEntityInWorld(entitysilverfish);
             entitysilverfish.spawnExplosionParticle();
         }
     }
 
-    public int getDamageValue(World worldIn, BlockPos pos) {
-        IBlockState iblockstate = worldIn.getBlockState(pos);
+    public int getDamageValue(final World worldIn, final BlockPos pos) {
+        final IBlockState iblockstate = worldIn.getBlockState(pos);
         return iblockstate.getBlock().getMetaFromState(iblockstate);
     }
 
-    public void getSubBlocks(Item itemIn, CreativeTabs tab, List<ItemStack> list) {
-        for (BlockSilverfish.EnumType blocksilverfish$enumtype : BlockSilverfish.EnumType.values()) {
+    /**
+     * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
+     */
+    public void getSubBlocks(final Item itemIn, final CreativeTabs tab, final List<ItemStack> list) {
+        for (final BlockSilverfish.EnumType blocksilverfish$enumtype : BlockSilverfish.EnumType.values()) {
             list.add(new ItemStack(itemIn, 1, blocksilverfish$enumtype.getMetadata()));
         }
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
         return this.getDefaultState().withProperty(VARIANT, BlockSilverfish.EnumType.byMetadata(meta));
     }
 
-    public int getMetaFromState(IBlockState state) {
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
         return state.getValue(VARIANT).getMetadata();
     }
 
@@ -117,11 +144,11 @@ public class BlockSilverfish extends Block {
         private final String name;
         private final String unlocalizedName;
 
-        EnumType(int meta, String name) {
+        EnumType(final int meta, final String name) {
             this(meta, name, name);
         }
 
-        EnumType(int meta, String name, String unlocalizedName) {
+        EnumType(final int meta, final String name, final String unlocalizedName) {
             this.meta = meta;
             this.name = name;
             this.unlocalizedName = unlocalizedName;
@@ -153,8 +180,8 @@ public class BlockSilverfish extends Block {
 
         public abstract IBlockState getModelBlock();
 
-        public static BlockSilverfish.EnumType forModelBlock(IBlockState model) {
-            for (BlockSilverfish.EnumType blocksilverfish$enumtype : values()) {
+        public static BlockSilverfish.EnumType forModelBlock(final IBlockState model) {
+            for (final BlockSilverfish.EnumType blocksilverfish$enumtype : values()) {
                 if (model == blocksilverfish$enumtype.getModelBlock()) {
                     return blocksilverfish$enumtype;
                 }
@@ -164,7 +191,7 @@ public class BlockSilverfish extends Block {
         }
 
         static {
-            for (BlockSilverfish.EnumType blocksilverfish$enumtype : values()) {
+            for (final BlockSilverfish.EnumType blocksilverfish$enumtype : values()) {
                 META_LOOKUP[blocksilverfish$enumtype.getMetadata()] = blocksilverfish$enumtype;
             }
         }

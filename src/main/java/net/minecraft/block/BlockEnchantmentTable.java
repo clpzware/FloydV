@@ -29,7 +29,7 @@ public class BlockEnchantmentTable extends BlockContainer {
         return false;
     }
 
-    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void randomDisplayTick(final World worldIn, final BlockPos pos, final IBlockState state, final Random rand) {
         super.randomDisplayTick(worldIn, pos, state, rand);
 
         for (int i = -2; i <= 2; ++i) {
@@ -40,7 +40,7 @@ public class BlockEnchantmentTable extends BlockContainer {
 
                 if (rand.nextInt(16) == 0) {
                     for (int k = 0; k <= 1; ++k) {
-                        BlockPos blockpos = pos.add(i, k, j);
+                        final BlockPos blockpos = pos.add(i, k, j);
 
                         if (worldIn.getBlockState(blockpos).getBlock() == Blocks.bookshelf) {
                             if (!worldIn.isAirBlock(pos.add(i / 2, 0, j / 2))) {
@@ -55,23 +55,32 @@ public class BlockEnchantmentTable extends BlockContainer {
         }
     }
 
+    /**
+     * Used to determine ambient occlusion and culling when rebuilding chunks for render
+     */
     public boolean isOpaqueCube() {
         return false;
     }
 
+    /**
+     * The type of render function called. 3 for standard block models, 2 for TESR's, 1 for liquids, -1 is no render
+     */
     public int getRenderType() {
         return 3;
     }
 
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    /**
+     * Returns a new instance of a block's tile entity class. Called on placing the block.
+     */
+    public TileEntity createNewTileEntity(final World worldIn, final int meta) {
         return new TileEntityEnchantmentTable();
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos, final IBlockState state, final EntityPlayer playerIn, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         if (worldIn.isRemote) {
             return true;
         } else {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+            final TileEntity tileentity = worldIn.getTileEntity(pos);
 
             if (tileentity instanceof TileEntityEnchantmentTable) {
                 playerIn.displayGui((TileEntityEnchantmentTable) tileentity);
@@ -81,11 +90,14 @@ public class BlockEnchantmentTable extends BlockContainer {
         }
     }
 
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
+    /**
+     * Called by ItemBlocks after a block is set in the world, to allow post-place logic
+     */
+    public void onBlockPlacedBy(final World worldIn, final BlockPos pos, final IBlockState state, final EntityLivingBase placer, final ItemStack stack) {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
 
         if (stack.hasDisplayName()) {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+            final TileEntity tileentity = worldIn.getTileEntity(pos);
 
             if (tileentity instanceof TileEntityEnchantmentTable) {
                 ((TileEntityEnchantmentTable) tileentity).setCustomName(stack.getDisplayName());

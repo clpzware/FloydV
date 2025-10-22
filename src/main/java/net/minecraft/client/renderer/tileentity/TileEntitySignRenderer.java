@@ -1,10 +1,9 @@
 package net.minecraft.client.renderer.tileentity;
 
+import com.alan.clients.util.font.impl.minecraft.FontRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiUtilRenderComponents;
-import net.minecraft.client.gui.inventory.GuiEditSign;
 import net.minecraft.client.model.ModelSign;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
@@ -21,21 +20,25 @@ import java.util.List;
 
 public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntitySign> {
     private static final ResourceLocation SIGN_TEXTURE = new ResourceLocation("textures/entity/sign.png");
+
+    /**
+     * The ModelSign instance for use in this renderer
+     */
     private final ModelSign model = new ModelSign();
     private static double textRenderDistanceSq = 4096.0D;
 
-    public void renderTileEntityAt(TileEntitySign te, double x, double y, double z, float partialTicks, int destroyStage) {
-        Block block = te.getBlockType();
+    public void renderTileEntityAt(final TileEntitySign te, final double x, final double y, final double z, final float partialTicks, final int destroyStage) {
+        final Block block = te.getBlockType();
         GlStateManager.pushMatrix();
-        float f = 0.6666667F;
+        final float f = 0.6666667F;
 
         if (block == Blocks.standing_sign) {
             GlStateManager.translate((float) x + 0.5F, (float) y + 0.75F * f, (float) z + 0.5F);
-            float f1 = (float) (te.getBlockMetadata() * 360) / 16.0F;
+            final float f1 = (float) (te.getBlockMetadata() * 360) / 16.0F;
             GlStateManager.rotate(-f1, 0.0F, 1.0F, 0.0F);
             this.model.signStick.showModel = true;
         } else {
-            int k = te.getBlockMetadata();
+            final int k = te.getBlockMetadata();
             float f2 = 0.0F;
 
             if (k == 2) {
@@ -74,8 +77,8 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntity
         GlStateManager.popMatrix();
 
         if (isRenderText(te)) {
-            FontRenderer fontrenderer = this.getFontRenderer();
-            float f3 = 0.015625F * f;
+            final FontRenderer fontrenderer = this.getFontRenderer();
+            final float f3 = 0.015625F * f;
             GlStateManager.translate(0.0F, 0.5F * f, 0.07F * f);
             GlStateManager.scale(f3, -f3, f3);
             GL11.glNormal3f(0.0F, 0.0F, -1.0F * f3);
@@ -89,15 +92,15 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntity
             if (destroyStage < 0) {
                 for (int j = 0; j < te.signText.length; ++j) {
                     if (te.signText[j] != null) {
-                        IChatComponent ichatcomponent = te.signText[j];
-                        List<IChatComponent> list = GuiUtilRenderComponents.splitText(ichatcomponent, 90, fontrenderer, false, true);
-                        String s = !list.isEmpty() ? list.get(0).getFormattedText() : "";
+                        final IChatComponent ichatcomponent = te.signText[j];
+                        final List<IChatComponent> list = GuiUtilRenderComponents.func_178908_a(ichatcomponent, 90, fontrenderer, false, true);
+                        String s = list != null && list.size() > 0 ? list.get(0).getFormattedText() : "";
 
                         if (j == te.lineBeingEdited) {
                             s = "> " + s + " <";
-                            fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, j * 10 - te.signText.length * 5, i);
+                            fontrenderer.draw(s, -fontrenderer.width(s) / 2, j * 10 - te.signText.length * 5, i);
                         } else {
-                            fontrenderer.drawString(s, -fontrenderer.getStringWidth(s) / 2, j * 10 - te.signText.length * 5, i);
+                            fontrenderer.draw(s, -fontrenderer.width(s) / 2, j * 10 - te.signText.length * 5, i);
                         }
                     }
                 }
@@ -115,15 +118,18 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntity
         }
     }
 
-    private static boolean isRenderText(TileEntitySign p_isRenderText_0_) {
+    @Override
+    public void renderBasicTileEntityAt(TileEntitySign te, double x, double y, double z, float partialTicks, int destroyStage) {
+
+    }
+
+    private static boolean isRenderText(final TileEntitySign p_isRenderText_0_) {
         if (Shaders.isShadowPass) {
             return false;
-        } else if (Config.getMinecraft().currentScreen instanceof GuiEditSign) {
-            return true;
         } else {
             if (!Config.zoomMode && p_isRenderText_0_.lineBeingEdited < 0) {
-                Entity entity = Config.getMinecraft().getRenderViewEntity();
-                double d0 = p_isRenderText_0_.getDistanceSq(entity.posX, entity.posY, entity.posZ);
+                final Entity entity = Config.getMinecraft().getRenderViewEntity();
+                final double d0 = p_isRenderText_0_.getDistanceSq(entity.posX, entity.posY, entity.posZ);
 
                 return !(d0 > textRenderDistanceSq);
             }
@@ -133,9 +139,9 @@ public class TileEntitySignRenderer extends TileEntitySpecialRenderer<TileEntity
     }
 
     public static void updateTextRenderDistance() {
-        Minecraft minecraft = Config.getMinecraft();
-        double d0 = Config.limit(minecraft.gameSettings.fovSetting, 1.0F, 120.0F);
-        double d1 = Math.max(1.5D * (double) minecraft.displayHeight / d0, 16.0D);
+        final Minecraft minecraft = Config.getMinecraft();
+        final double d0 = Config.limit(minecraft.gameSettings.fovSetting, 1.0F, 120.0F);
+        final double d1 = Math.max(1.5D * (double) minecraft.displayHeight / d0, 16.0D);
         textRenderDistanceSq = d1 * d1;
     }
 }

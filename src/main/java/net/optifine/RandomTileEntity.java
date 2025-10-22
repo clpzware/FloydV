@@ -18,7 +18,7 @@ public class RandomTileEntity implements IRandomEntity {
     }
 
     public String getName() {
-        String s = TileEntityUtils.getTileEntityName(this.tileEntity);
+        final String s = TileEntityUtils.getTileEntityName(this.tileEntity);
         return s;
     }
 
@@ -38,7 +38,7 @@ public class RandomTileEntity implements IRandomEntity {
         return this.tileEntity;
     }
 
-    public void setTileEntity(TileEntity tileEntity) {
+    public void setTileEntity(final TileEntity tileEntity) {
         this.tileEntity = tileEntity;
     }
 }

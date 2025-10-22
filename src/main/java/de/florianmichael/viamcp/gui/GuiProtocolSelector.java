@@ -22,7 +22,9 @@ import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import de.florianmichael.viamcp.protocolinfo.ProtocolInfo;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.EnumChatFormatting;
 
@@ -64,7 +66,7 @@ public class GuiProtocolSelector extends GuiScreen {
         GlStateManager.pushMatrix();
         GlStateManager.scale(2.0, 2.0, 2.0);
         String title = EnumChatFormatting.BOLD + "ViaMCP";
-        drawString(this.fontRendererObj, title, (this.width - (this.fontRendererObj.getStringWidth(title) * 2)) / 4, 5, -1);
+        drawString(this.fontRendererObj, title, (this.width - (this.fontRendererObj.width(title) * 2)) / 4, 5, -1);
         GlStateManager.popMatrix();
 
         drawString(this.fontRendererObj, "by EnZaXD/Flori2007", 1, 1, -1);
@@ -77,9 +79,9 @@ public class GuiProtocolSelector extends GuiScreen {
 
         final int fixedHeight = ((5 + this.fontRendererObj.FONT_HEIGHT) * 2) + 2;
 
-        drawString(this.fontRendererObj, EnumChatFormatting.GRAY + (EnumChatFormatting.BOLD + "Version Information"), (width - this.fontRendererObj.getStringWidth("Version Information")) / 2, fixedHeight, -1);
-        drawString(this.fontRendererObj, versionTitle, (width - this.fontRendererObj.getStringWidth(versionTitle)) / 2, fixedHeight + this.fontRendererObj.FONT_HEIGHT, -1);
-        drawString(this.fontRendererObj, versionReleased, (width - this.fontRendererObj.getStringWidth(versionReleased)) / 2, fixedHeight + this.fontRendererObj.FONT_HEIGHT * 2, -1);
+        drawString(this.fontRendererObj, EnumChatFormatting.GRAY + (EnumChatFormatting.BOLD + "Version Information"), (width - this.fontRendererObj.width("Version Information")) / 2, fixedHeight, -1);
+        drawString(this.fontRendererObj, versionTitle, (width - this.fontRendererObj.width(versionTitle)) / 2, fixedHeight + this.fontRendererObj.FONT_HEIGHT, -1);
+        drawString(this.fontRendererObj, versionReleased, (width - this.fontRendererObj.width(versionReleased)) / 2, fixedHeight + this.fontRendererObj.FONT_HEIGHT * 2, -1);
 
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

@@ -11,8 +11,12 @@ public class ItemSaddle extends Item {
         this.setCreativeTab(CreativeTabs.tabTransport);
     }
 
-    public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
-        if (target instanceof EntityPig entitypig) {
+    /**
+     * Returns true if the item can be used on the given entity, e.g. shears on sheep.
+     */
+    public boolean itemInteractionForEntity(final ItemStack stack, final EntityPlayer playerIn, final EntityLivingBase target) {
+        if (target instanceof EntityPig) {
+            final EntityPig entitypig = (EntityPig) target;
 
             if (!entitypig.getSaddled() && !entitypig.isChild()) {
                 entitypig.setSaddled(true);
@@ -26,7 +30,14 @@ public class ItemSaddle extends Item {
         }
     }
 
-    public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
+    /**
+     * Current implementations of this method in child classes do not use the entry argument beside ev. They just raise
+     * the damage on the stack.
+     *
+     * @param target   The Entity being hit
+     * @param attacker the attacking entity
+     */
+    public boolean hitEntity(final ItemStack stack, final EntityLivingBase target, final EntityLivingBase attacker) {
         this.itemInteractionForEntity(stack, null, target);
         return true;
     }

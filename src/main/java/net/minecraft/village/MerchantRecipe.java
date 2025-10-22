@@ -5,22 +5,41 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class MerchantRecipe {
+    /**
+     * Item the Villager buys.
+     */
     private ItemStack itemToBuy;
+
+    /**
+     * Second Item the Villager buys.
+     */
     private ItemStack secondItemToBuy;
+
+    /**
+     * Item the Villager sells.
+     */
     private ItemStack itemToSell;
+
+    /**
+     * Saves how much has been tool used when put into to slot to be enchanted.
+     */
     private int toolUses;
+
+    /**
+     * Maximum times this trade can be used.
+     */
     private int maxTradeUses;
     private boolean rewardsExp;
 
-    public MerchantRecipe(NBTTagCompound tagCompound) {
+    public MerchantRecipe(final NBTTagCompound tagCompound) {
         this.readFromTags(tagCompound);
     }
 
-    public MerchantRecipe(ItemStack buy1, ItemStack buy2, ItemStack sell) {
+    public MerchantRecipe(final ItemStack buy1, final ItemStack buy2, final ItemStack sell) {
         this(buy1, buy2, sell, 0, 7);
     }
 
-    public MerchantRecipe(ItemStack buy1, ItemStack buy2, ItemStack sell, int toolUsesIn, int maxTradeUsesIn) {
+    public MerchantRecipe(final ItemStack buy1, final ItemStack buy2, final ItemStack sell, final int toolUsesIn, final int maxTradeUsesIn) {
         this.itemToBuy = buy1;
         this.secondItemToBuy = buy2;
         this.itemToSell = sell;
@@ -29,26 +48,38 @@ public class MerchantRecipe {
         this.rewardsExp = true;
     }
 
-    public MerchantRecipe(ItemStack buy1, ItemStack sell) {
+    public MerchantRecipe(final ItemStack buy1, final ItemStack sell) {
         this(buy1, null, sell);
     }
 
-    public MerchantRecipe(ItemStack buy1, Item sellItem) {
+    public MerchantRecipe(final ItemStack buy1, final Item sellItem) {
         this(buy1, new ItemStack(sellItem));
     }
 
+    /**
+     * Gets the itemToBuy.
+     */
     public ItemStack getItemToBuy() {
         return this.itemToBuy;
     }
 
+    /**
+     * Gets secondItemToBuy.
+     */
     public ItemStack getSecondItemToBuy() {
         return this.secondItemToBuy;
     }
 
+    /**
+     * Gets if Villager has secondItemToBuy.
+     */
     public boolean hasSecondItemToBuy() {
         return this.secondItemToBuy != null;
     }
 
+    /**
+     * Gets itemToSell.
+     */
     public ItemStack getItemToSell() {
         return this.itemToSell;
     }
@@ -65,7 +96,7 @@ public class MerchantRecipe {
         ++this.toolUses;
     }
 
-    public void increaseMaxTradeUses(int increment) {
+    public void increaseMaxTradeUses(final int increment) {
         this.maxTradeUses += increment;
     }
 
@@ -73,6 +104,10 @@ public class MerchantRecipe {
         return this.toolUses >= this.maxTradeUses;
     }
 
+    /**
+     * Compensates {@link net.minecraft.village.MerchantRecipe#toolUses toolUses} with {@link
+     * net.minecraft.village.MerchantRecipe#maxTradeUses maxTradeUses}
+     */
     public void compensateToolUses() {
         this.toolUses = this.maxTradeUses;
     }
@@ -81,10 +116,10 @@ public class MerchantRecipe {
         return this.rewardsExp;
     }
 
-    public void readFromTags(NBTTagCompound tagCompound) {
-        NBTTagCompound nbttagcompound = tagCompound.getCompoundTag("buy");
+    public void readFromTags(final NBTTagCompound tagCompound) {
+        final NBTTagCompound nbttagcompound = tagCompound.getCompoundTag("buy");
         this.itemToBuy = ItemStack.loadItemStackFromNBT(nbttagcompound);
-        NBTTagCompound nbttagcompound1 = tagCompound.getCompoundTag("sell");
+        final NBTTagCompound nbttagcompound1 = tagCompound.getCompoundTag("sell");
         this.itemToSell = ItemStack.loadItemStackFromNBT(nbttagcompound1);
 
         if (tagCompound.hasKey("buyB", 10)) {
@@ -109,7 +144,7 @@ public class MerchantRecipe {
     }
 
     public NBTTagCompound writeToTags() {
-        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        final NBTTagCompound nbttagcompound = new NBTTagCompound();
         nbttagcompound.setTag("buy", this.itemToBuy.writeToNBT(new NBTTagCompound()));
         nbttagcompound.setTag("sell", this.itemToSell.writeToNBT(new NBTTagCompound()));
 

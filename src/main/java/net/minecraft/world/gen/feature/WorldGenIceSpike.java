@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class WorldGenIceSpike extends WorldGenerator {
-    public boolean generate(World worldIn, Random rand, BlockPos position) {
+    public boolean generate(final World worldIn, final Random rand, BlockPos position) {
         while (worldIn.isAirBlock(position) && position.getY() > 2) {
             position = position.down();
         }
@@ -19,22 +19,22 @@ public class WorldGenIceSpike extends WorldGenerator {
             return false;
         } else {
             position = position.up(rand.nextInt(4));
-            int i = rand.nextInt(4) + 7;
-            int j = i / 4 + rand.nextInt(2);
+            final int i = rand.nextInt(4) + 7;
+            final int j = i / 4 + rand.nextInt(2);
 
             if (j > 1 && rand.nextInt(60) == 0) {
                 position = position.up(10 + rand.nextInt(30));
             }
 
             for (int k = 0; k < i; ++k) {
-                float f = (1.0F - (float) k / (float) i) * (float) j;
-                int l = MathHelper.ceiling_float_int(f);
+                final float f = (1.0F - (float) k / (float) i) * (float) j;
+                final int l = MathHelper.ceiling_float_int(f);
 
                 for (int i1 = -l; i1 <= l; ++i1) {
-                    float f1 = (float) MathHelper.abs_int(i1) - 0.25F;
+                    final float f1 = (float) MathHelper.abs_int(i1) - 0.25F;
 
                     for (int j1 = -l; j1 <= l; ++j1) {
-                        float f2 = (float) MathHelper.abs_int(j1) - 0.25F;
+                        final float f2 = (float) MathHelper.abs_int(j1) - 0.25F;
 
                         if ((i1 == 0 && j1 == 0 || f1 * f1 + f2 * f2 <= f * f) && (i1 != -l && i1 != l && j1 != -l && j1 != l || rand.nextFloat() <= 0.75F)) {
                             Block block = worldIn.getBlockState(position.add(i1, k, j1)).getBlock();
@@ -57,7 +57,9 @@ public class WorldGenIceSpike extends WorldGenerator {
 
             int k1 = j - 1;
 
-            if (k1 > 1) {
+            if (k1 < 0) {
+                k1 = 0;
+            } else if (k1 > 1) {
                 k1 = 1;
             }
 
@@ -71,7 +73,7 @@ public class WorldGenIceSpike extends WorldGenerator {
                     }
 
                     while (blockpos.getY() > 50) {
-                        Block block1 = worldIn.getBlockState(blockpos).getBlock();
+                        final Block block1 = worldIn.getBlockState(blockpos).getBlock();
 
                         if (block1.getMaterial() != Material.air && block1 != Blocks.dirt && block1 != Blocks.snow && block1 != Blocks.ice && block1 != Blocks.packed_ice) {
                             break;

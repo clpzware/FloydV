@@ -15,7 +15,7 @@ public class JsonBlendingMode {
     private final boolean field_148113_g;
     private final boolean field_148119_h;
 
-    private JsonBlendingMode(boolean p_i45084_1_, boolean p_i45084_2_, int p_i45084_3_, int p_i45084_4_, int p_i45084_5_, int p_i45084_6_, int p_i45084_7_) {
+    private JsonBlendingMode(final boolean p_i45084_1_, final boolean p_i45084_2_, final int p_i45084_3_, final int p_i45084_4_, final int p_i45084_5_, final int p_i45084_6_, final int p_i45084_7_) {
         this.field_148113_g = p_i45084_1_;
         this.field_148116_b = p_i45084_3_;
         this.field_148114_d = p_i45084_4_;
@@ -29,11 +29,11 @@ public class JsonBlendingMode {
         this(false, true, 1, 0, 1, 0, 32774);
     }
 
-    public JsonBlendingMode(int p_i45085_1_, int p_i45085_2_, int p_i45085_3_) {
+    public JsonBlendingMode(final int p_i45085_1_, final int p_i45085_2_, final int p_i45085_3_) {
         this(false, false, p_i45085_1_, p_i45085_2_, p_i45085_1_, p_i45085_2_, p_i45085_3_);
     }
 
-    public JsonBlendingMode(int p_i45086_1_, int p_i45086_2_, int p_i45086_3_, int p_i45086_4_, int p_i45086_5_) {
+    public JsonBlendingMode(final int p_i45086_1_, final int p_i45086_2_, final int p_i45086_3_, final int p_i45086_4_, final int p_i45086_5_) {
         this(true, false, p_i45086_1_, p_i45086_2_, p_i45086_3_, p_i45086_4_, p_i45086_5_);
     }
 
@@ -60,12 +60,13 @@ public class JsonBlendingMode {
         }
     }
 
-    public boolean equals(Object p_equals_1_) {
+    public boolean equals(final Object p_equals_1_) {
         if (this == p_equals_1_) {
             return true;
-        } else if (!(p_equals_1_ instanceof JsonBlendingMode jsonblendingmode)) {
+        } else if (!(p_equals_1_ instanceof JsonBlendingMode)) {
             return false;
         } else {
+            final JsonBlendingMode jsonblendingmode = (JsonBlendingMode) p_equals_1_;
             return this.field_148112_f == jsonblendingmode.field_148112_f && (this.field_148115_e == jsonblendingmode.field_148115_e && (this.field_148114_d == jsonblendingmode.field_148114_d && (this.field_148119_h == jsonblendingmode.field_148119_h && (this.field_148113_g == jsonblendingmode.field_148113_g && (this.field_148117_c == jsonblendingmode.field_148117_c && this.field_148116_b == jsonblendingmode.field_148116_b)))));
         }
     }
@@ -85,7 +86,7 @@ public class JsonBlendingMode {
         return this.field_148119_h;
     }
 
-    public static JsonBlendingMode func_148110_a(JsonObject p_148110_0_) {
+    public static JsonBlendingMode func_148110_a(final JsonObject p_148110_0_) {
         if (p_148110_0_ == null) {
             return new JsonBlendingMode();
         } else {
@@ -145,12 +146,12 @@ public class JsonBlendingMode {
         }
     }
 
-    private static int func_148108_a(String p_148108_0_) {
-        String s = p_148108_0_.trim().toLowerCase();
+    private static int func_148108_a(final String p_148108_0_) {
+        final String s = p_148108_0_.trim().toLowerCase();
         return s.equals("add") ? 32774 : (s.equals("subtract") ? 32778 : (s.equals("reversesubtract") ? 32779 : (s.equals("reverse_subtract") ? 32779 : (s.equals("min") ? 32775 : (s.equals("max") ? 32776 : 32774)))));
     }
 
-    private static int func_148107_b(String p_148107_0_) {
+    private static int func_148107_b(final String p_148107_0_) {
         String s = p_148107_0_.trim().toLowerCase();
         s = s.replaceAll("_", "");
         s = s.replaceAll("one", "1");

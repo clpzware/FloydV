@@ -4,27 +4,32 @@ import java.util.Collection;
 import java.util.Random;
 
 public class WeightedRandom {
-    public static int getTotalWeight(Collection<? extends WeightedRandom.Item> collection) {
+    /**
+     * Returns the total weight of all items in a collection.
+     *
+     * @param collection Collection to get the total weight of
+     */
+    public static int getTotalWeight(final Collection<? extends WeightedRandom.Item> collection) {
         int i = 0;
 
-        for (WeightedRandom.Item weightedrandom$item : collection) {
+        for (final WeightedRandom.Item weightedrandom$item : collection) {
             i += weightedrandom$item.itemWeight;
         }
 
         return i;
     }
 
-    public static <T extends WeightedRandom.Item> T getRandomItem(Random random, Collection<T> collection, int totalWeight) {
+    public static <T extends WeightedRandom.Item> T getRandomItem(final Random random, final Collection<T> collection, final int totalWeight) {
         if (totalWeight <= 0) {
             throw new IllegalArgumentException();
         } else {
-            int i = random.nextInt(totalWeight);
+            final int i = random.nextInt(totalWeight);
             return getRandomItem(collection, i);
         }
     }
 
-    public static <T extends WeightedRandom.Item> T getRandomItem(Collection<T> collection, int weight) {
-        for (T t : collection) {
+    public static <T extends WeightedRandom.Item> T getRandomItem(final Collection<T> collection, int weight) {
+        for (final T t : collection) {
             weight -= t.itemWeight;
 
             if (weight < 0) {
@@ -35,14 +40,14 @@ public class WeightedRandom {
         return null;
     }
 
-    public static <T extends WeightedRandom.Item> T getRandomItem(Random random, Collection<T> collection) {
+    public static <T extends WeightedRandom.Item> T getRandomItem(final Random random, final Collection<T> collection) {
         return getRandomItem(random, collection, getTotalWeight(collection));
     }
 
     public static class Item {
         protected int itemWeight;
 
-        public Item(int itemWeightIn) {
+        public Item(final int itemWeightIn) {
             this.itemWeight = itemWeightIn;
         }
     }

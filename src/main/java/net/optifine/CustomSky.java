@@ -32,35 +32,35 @@ public class CustomSky {
     }
 
     private static CustomSkyLayer[][] readCustomSkies() {
-        CustomSkyLayer[][] acustomskylayer = new CustomSkyLayer[10][0];
-        String s = "mcpatcher/sky/world";
+        final CustomSkyLayer[][] acustomskylayer = new CustomSkyLayer[10][0];
+        final String s = "mcpatcher/sky/world";
         int i = -1;
 
         for (int j = 0; j < acustomskylayer.length; ++j) {
-            String s1 = s + j + "/sky";
-            List list = new ArrayList();
+            final String s1 = s + j + "/sky";
+            final List list = new ArrayList();
 
             for (int k = 1; k < 1000; ++k) {
-                String s2 = s1 + k + ".properties";
+                final String s2 = s1 + k + ".properties";
 
                 try {
-                    ResourceLocation resourcelocation = new ResourceLocation(s2);
-                    InputStream inputstream = Config.getResourceStream(resourcelocation);
+                    final ResourceLocation resourcelocation = new ResourceLocation(s2);
+                    final InputStream inputstream = Config.getResourceStream(resourcelocation);
 
                     if (inputstream == null) {
                         break;
                     }
 
-                    Properties properties = new PropertiesOrdered();
+                    final Properties properties = new PropertiesOrdered();
                     properties.load(inputstream);
                     inputstream.close();
                     Config.dbg("CustomSky properties: " + s2);
-                    String s3 = s1 + k + ".png";
-                    CustomSkyLayer customskylayer = new CustomSkyLayer(properties, s3);
+                    final String s3 = s1 + k + ".png";
+                    final CustomSkyLayer customskylayer = new CustomSkyLayer(properties, s3);
 
                     if (customskylayer.isValid(s2)) {
-                        ResourceLocation resourcelocation1 = new ResourceLocation(customskylayer.source);
-                        ITextureObject itextureobject = TextureUtils.getTexture(resourcelocation1);
+                        final ResourceLocation resourcelocation1 = new ResourceLocation(customskylayer.source);
+                        final ITextureObject itextureobject = TextureUtils.getTexture(resourcelocation1);
 
                         if (itextureobject == null) {
                             Config.log("CustomSky: Texture not found: " + resourcelocation1);
@@ -70,15 +70,15 @@ public class CustomSky {
                             inputstream.close();
                         }
                     }
-                } catch (FileNotFoundException var15) {
+                } catch (final FileNotFoundException var15) {
                     break;
-                } catch (IOException ioexception) {
+                } catch (final IOException ioexception) {
                     ioexception.printStackTrace();
                 }
             }
 
-            if (!list.isEmpty()) {
-                CustomSkyLayer[] acustomskylayer2 = (CustomSkyLayer[]) list.toArray(new CustomSkyLayer[list.size()]);
+            if (list.size() > 0) {
+                final CustomSkyLayer[] acustomskylayer2 = (CustomSkyLayer[]) list.toArray(new CustomSkyLayer[list.size()]);
                 acustomskylayer[j] = acustomskylayer2;
                 i = j;
             }
@@ -87,8 +87,8 @@ public class CustomSky {
         if (i < 0) {
             return null;
         } else {
-            int l = i + 1;
-            CustomSkyLayer[][] acustomskylayer1 = new CustomSkyLayer[l][0];
+            final int l = i + 1;
+            final CustomSkyLayer[][] acustomskylayer1 = new CustomSkyLayer[l][0];
 
             System.arraycopy(acustomskylayer, 0, acustomskylayer1, 0, acustomskylayer1.length);
 
@@ -96,45 +96,47 @@ public class CustomSky {
         }
     }
 
-    public static void renderSky(World world, TextureManager re, float partialTicks) {
+    public static void renderSky(final World world, final TextureManager re, final float partialTicks) {
         if (worldSkyLayers != null) {
-            int i = world.provider.getDimensionId();
+            final int i = world.provider.getDimensionId();
 
             if (i >= 0 && i < worldSkyLayers.length) {
-                CustomSkyLayer[] acustomskylayer = worldSkyLayers[i];
+                final CustomSkyLayer[] acustomskylayer = worldSkyLayers[i];
 
                 if (acustomskylayer != null) {
-                    long j = world.getWorldTime();
-                    int k = (int) (j % 24000L);
-                    float f = world.getCelestialAngle(partialTicks);
-                    float f1 = world.getRainStrength(partialTicks);
+                    final long j = world.getWorldTime();
+                    final int k = (int) (j % 24000L);
+                    final float f = world.getCelestialAngle(partialTicks);
+                    final float f1 = world.getRainStrength(partialTicks);
                     float f2 = world.getThunderStrength(partialTicks);
 
                     if (f1 > 0.0F) {
                         f2 /= f1;
                     }
 
-                    for (CustomSkyLayer customskylayer : acustomskylayer) {
+                    for (int l = 0; l < acustomskylayer.length; ++l) {
+                        final CustomSkyLayer customskylayer = acustomskylayer[l];
+
                         if (customskylayer.isActive(world, k)) {
                             customskylayer.render(world, k, f, f1, f2);
                         }
                     }
 
-                    float f3 = 1.0F - f1;
+                    final float f3 = 1.0F - f1;
                     Blender.clearBlend(f3);
                 }
             }
         }
     }
 
-    public static boolean hasSkyLayers(World world) {
+    public static boolean hasSkyLayers(final World world) {
         if (worldSkyLayers == null) {
             return false;
         } else {
-            int i = world.provider.getDimensionId();
+            final int i = world.provider.getDimensionId();
 
             if (i >= 0 && i < worldSkyLayers.length) {
-                CustomSkyLayer[] acustomskylayer = worldSkyLayers[i];
+                final CustomSkyLayer[] acustomskylayer = worldSkyLayers[i];
                 return acustomskylayer != null && acustomskylayer.length > 0;
             } else {
                 return false;

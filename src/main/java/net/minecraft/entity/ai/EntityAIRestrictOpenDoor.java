@@ -10,7 +10,7 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase {
     private final EntityCreature entityObj;
     private VillageDoorInfo frontDoor;
 
-    public EntityAIRestrictOpenDoor(EntityCreature creatureIn) {
+    public EntityAIRestrictOpenDoor(final EntityCreature creatureIn) {
         this.entityObj = creatureIn;
 
         if (!(creatureIn.getNavigator() instanceof PathNavigateGround)) {
@@ -18,12 +18,15 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase {
         }
     }
 
+    /**
+     * Returns whether the EntityAIBase should begin execution.
+     */
     public boolean shouldExecute() {
         if (this.entityObj.worldObj.isDaytime()) {
             return false;
         } else {
-            BlockPos blockpos = new BlockPos(this.entityObj);
-            Village village = this.entityObj.worldObj.getVillageCollection().getNearestVillage(blockpos, 16);
+            final BlockPos blockpos = new BlockPos(this.entityObj);
+            final Village village = this.entityObj.worldObj.getVillageCollection().getNearestVillage(blockpos, 16);
 
             if (village == null) {
                 return false;
@@ -34,21 +37,33 @@ public class EntityAIRestrictOpenDoor extends EntityAIBase {
         }
     }
 
+    /**
+     * Returns whether an in-progress EntityAIBase should continue executing
+     */
     public boolean continueExecuting() {
         return !this.entityObj.worldObj.isDaytime() && !this.frontDoor.getIsDetachedFromVillageFlag() && this.frontDoor.func_179850_c(new BlockPos(this.entityObj));
     }
 
+    /**
+     * Execute a one shot task or start executing a continuous task
+     */
     public void startExecuting() {
         ((PathNavigateGround) this.entityObj.getNavigator()).setBreakDoors(false);
         ((PathNavigateGround) this.entityObj.getNavigator()).setEnterDoors(false);
     }
 
+    /**
+     * Resets the task
+     */
     public void resetTask() {
         ((PathNavigateGround) this.entityObj.getNavigator()).setBreakDoors(true);
         ((PathNavigateGround) this.entityObj.getNavigator()).setEnterDoors(true);
         this.frontDoor = null;
     }
 
+    /**
+     * Updates the task
+     */
     public void updateTask() {
         this.frontDoor.incrementDoorOpeningRestrictionCounter();
     }

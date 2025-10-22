@@ -32,11 +32,10 @@ import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import de.florianmichael.vialoadingbase.platform.viaversion.VLBViaAPIWrapper;
 import de.florianmichael.vialoadingbase.platform.viaversion.VLBViaConfig;
 import de.florianmichael.vialoadingbase.util.VLBTask;
-import lombok.Getter;
 
 import java.io.File;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -45,13 +44,11 @@ public class ViaVersionPlatformImpl implements ViaPlatform<UserConnection> {
     private final ViaAPI<UserConnection> api = new VLBViaAPIWrapper();
 
     private final Logger logger;
-    @Getter
     private final VLBViaConfig config;
 
     public ViaVersionPlatformImpl(final Logger logger) {
         this.logger = logger;
         config = new VLBViaConfig(new File(ViaLoadingBase.getInstance().getRunDirectory(), "viaversion.yml"), logger);
-
     }
 
     public static List<ProtocolVersion> createVersionList() {
@@ -59,7 +56,6 @@ public class ViaVersionPlatformImpl implements ViaPlatform<UserConnection> {
         Collections.reverse(versions);
         return versions;
     }
-
 
     @Override
     public VLBTask runAsync(Runnable runnable) {
@@ -128,6 +124,10 @@ public class ViaVersionPlatformImpl implements ViaPlatform<UserConnection> {
     @Override
     public String getPlatformVersion() {
         return ViaLoadingBase.VERSION;
+    }
+
+    public VLBViaConfig getConfig() {
+        return config;
     }
 
     @Override

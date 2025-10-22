@@ -5,7 +5,7 @@ public class NumberInvalidException extends CommandException {
         this("commands.generic.num.invalid");
     }
 
-    public NumberInvalidException(String message, Object... replacements) {
+    public NumberInvalidException(final String message, final Object... replacements) {
         super(message, replacements);
     }
 }

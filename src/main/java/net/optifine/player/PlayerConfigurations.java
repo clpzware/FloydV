@@ -14,17 +14,17 @@ public class PlayerConfigurations {
     private static final boolean reloadPlayerItems = Boolean.getBoolean("player.models.reload");
     private static long timeReloadPlayerItemsMs = System.currentTimeMillis();
 
-    public static void renderPlayerItems(ModelBiped modelBiped, AbstractClientPlayer player, float scale, float partialTicks) {
-        PlayerConfiguration playerconfiguration = getPlayerConfiguration(player);
+    public static void renderPlayerItems(final ModelBiped modelBiped, final AbstractClientPlayer player, final float scale, final float partialTicks) {
+        final PlayerConfiguration playerconfiguration = getPlayerConfiguration(player);
 
         if (playerconfiguration != null) {
             playerconfiguration.renderPlayerItems(modelBiped, player, scale, partialTicks);
         }
     }
 
-    public static synchronized PlayerConfiguration getPlayerConfiguration(AbstractClientPlayer player) {
+    public static synchronized PlayerConfiguration getPlayerConfiguration(final AbstractClientPlayer player) {
         if (reloadPlayerItems && System.currentTimeMillis() > timeReloadPlayerItemsMs + 5000L) {
-            AbstractClientPlayer abstractclientplayer = Minecraft.getMinecraft().thePlayer;
+            final AbstractClientPlayer abstractclientplayer = Minecraft.getMinecraft().thePlayer;
 
             if (abstractclientplayer != null) {
                 setPlayerConfiguration(abstractclientplayer.getNameClear(), null);
@@ -32,7 +32,7 @@ public class PlayerConfigurations {
             }
         }
 
-        String s1 = player.getNameClear();
+        final String s1 = player.getNameClear();
 
         if (s1 == null) {
             return null;
@@ -42,9 +42,9 @@ public class PlayerConfigurations {
             if (playerconfiguration == null) {
                 playerconfiguration = new PlayerConfiguration();
                 getMapConfigurations().put(s1, playerconfiguration);
-                PlayerConfigurationReceiver playerconfigurationreceiver = new PlayerConfigurationReceiver(s1);
-                String s = HttpUtils.getPlayerItemsUrl() + "/users/" + s1 + ".cfg";
-                FileDownloadThread filedownloadthread = new FileDownloadThread(s, playerconfigurationreceiver);
+                final PlayerConfigurationReceiver playerconfigurationreceiver = new PlayerConfigurationReceiver(s1);
+                final String s = HttpUtils.getPlayerItemsUrl() + "/users/" + s1 + ".cfg";
+                final FileDownloadThread filedownloadthread = new FileDownloadThread(s, playerconfigurationreceiver);
                 filedownloadthread.start();
             }
 
@@ -52,7 +52,7 @@ public class PlayerConfigurations {
         }
     }
 
-    public static synchronized void setPlayerConfiguration(String player, PlayerConfiguration pc) {
+    public static synchronized void setPlayerConfiguration(final String player, final PlayerConfiguration pc) {
         getMapConfigurations().put(player, pc);
     }
 

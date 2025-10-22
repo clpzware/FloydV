@@ -7,12 +7,15 @@ import net.minecraft.util.EnumWorldBlockLayer;
 import java.util.Random;
 
 public class BlockGlass extends BlockBreakable {
-    public BlockGlass(Material materialIn, boolean ignoreSimilarity) {
+    public BlockGlass(final Material materialIn, final boolean ignoreSimilarity) {
         super(materialIn, ignoreSimilarity);
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    public int quantityDropped(Random random) {
+    /**
+     * Returns the quantity of items to drop on block destruction.
+     */
+    public int quantityDropped(final Random random) {
         return 0;
     }
 

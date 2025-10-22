@@ -1,7 +1,5 @@
 package net.minecraft.creativetab;
 
-import java.util.List;
-
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
@@ -11,8 +9,10 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
+import java.util.List;
+
 public abstract class CreativeTabs {
-    public static final CreativeTabs[] creativeTabArray = new CreativeTabs[12];
+    public static final CreativeTabs[] creativeTabArray = new CreativeTabs[13];
     public static final CreativeTabs tabBlock = new CreativeTabs(0, "buildingBlocks") {
         public Item getTabIconItem() {
             return Item.getItemFromBlock(Blocks.brick_block);
@@ -79,13 +79,21 @@ public abstract class CreativeTabs {
     }).setBackgroundImageName("inventory.png").setNoScrollbar().setNoTitle();
     private final int tabIndex;
     private final String tabLabel;
+
+    /**
+     * Texture to use.
+     */
     private String theTexture = "items.png";
     private boolean hasScrollbar = true;
+
+    /**
+     * Whether to draw the title in the foreground of the creative GUI
+     */
     private boolean drawTitle = true;
     private EnumEnchantmentType[] enchantmentTypes;
     private ItemStack iconItemStack;
 
-    public CreativeTabs(int index, String label) {
+    public CreativeTabs(final int index, final String label) {
         this.tabIndex = index;
         this.tabLabel = label;
         creativeTabArray[index] = this;
@@ -99,6 +107,9 @@ public abstract class CreativeTabs {
         return this.tabLabel;
     }
 
+    /**
+     * Gets the translated Label.
+     */
     public String getTranslatedTabLabel() {
         return "itemGroup." + this.getTabLabel();
     }
@@ -121,7 +132,7 @@ public abstract class CreativeTabs {
         return this.theTexture;
     }
 
-    public CreativeTabs setBackgroundImageName(String texture) {
+    public CreativeTabs setBackgroundImageName(final String texture) {
         this.theTexture = texture;
         return this;
     }
@@ -144,28 +155,40 @@ public abstract class CreativeTabs {
         return this;
     }
 
+    /**
+     * returns index % 6
+     */
     public int getTabColumn() {
         return this.tabIndex % 6;
     }
 
+    /**
+     * returns tabIndex < 6
+     */
     public boolean isTabInFirstRow() {
         return this.tabIndex < 6;
     }
 
+    /**
+     * Returns the enchantment types relevant to this tab
+     */
     public EnumEnchantmentType[] getRelevantEnchantmentTypes() {
         return this.enchantmentTypes;
     }
 
-    public CreativeTabs setRelevantEnchantmentTypes(EnumEnchantmentType... types) {
+    /**
+     * Sets the enchantment types for populating this tab with enchanting books
+     */
+    public CreativeTabs setRelevantEnchantmentTypes(final EnumEnchantmentType... types) {
         this.enchantmentTypes = types;
         return this;
     }
 
-    public boolean hasRelevantEnchantmentType(EnumEnchantmentType enchantmentType) {
+    public boolean hasRelevantEnchantmentType(final EnumEnchantmentType enchantmentType) {
         if (this.enchantmentTypes == null) {
             return false;
         } else {
-            for (EnumEnchantmentType enumenchantmenttype : this.enchantmentTypes) {
+            for (final EnumEnchantmentType enumenchantmenttype : this.enchantmentTypes) {
                 if (enumenchantmenttype == enchantmentType) {
                     return true;
                 }
@@ -175,8 +198,11 @@ public abstract class CreativeTabs {
         }
     }
 
-    public void displayAllReleventItems(List<ItemStack> p_78018_1_) {
-        for (Item item : Item.itemRegistry) {
+    /**
+     * only shows items which have tabToDisplayOn == this
+     */
+    public void displayAllReleventItems(final List<ItemStack> p_78018_1_) {
+        for (final Item item : Item.itemRegistry) {
             if (item != null && item.getCreativeTab() == this) {
                 item.getSubItems(item, this, p_78018_1_);
             }
@@ -187,13 +213,18 @@ public abstract class CreativeTabs {
         }
     }
 
-    public void addEnchantmentBooksToList(List<ItemStack> itemList, EnumEnchantmentType... enchantmentType) {
-        for (Enchantment enchantment : Enchantment.enchantmentsBookList) {
+    /**
+     * Adds the enchantment books from the supplied EnumEnchantmentType to the given list.
+     *
+     * @param itemList A list of ItemStacks that contains every item/block in the creative tab.
+     */
+    public void addEnchantmentBooksToList(final List<ItemStack> itemList, final EnumEnchantmentType... enchantmentType) {
+        for (final Enchantment enchantment : Enchantment.enchantmentsBookList) {
             if (enchantment != null && enchantment.type != null) {
                 boolean flag = false;
 
-                for (int i = 0; i < enchantmentType.length; ++i) {
-                    if (enchantment.type == enchantmentType[i]) {
+                for (EnumEnchantmentType enumEnchantmentType : enchantmentType) {
+                    if (enchantment.type == enumEnchantmentType) {
                         flag = true;
                         break;
                     }

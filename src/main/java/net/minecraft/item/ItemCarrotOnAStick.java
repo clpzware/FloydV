@@ -14,23 +14,34 @@ public class ItemCarrotOnAStick extends Item {
         this.setMaxDamage(25);
     }
 
+    /**
+     * Returns True is the item is renderer in full 3D when hold.
+     */
     public boolean isFull3D() {
         return true;
     }
 
+    /**
+     * Returns true if this item should be rotated by 180 degrees around the Y axis when being held in an entities
+     * hands.
+     */
     public boolean shouldRotateAroundWhenRendering() {
         return true;
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-        if (playerIn.isRiding() && playerIn.ridingEntity instanceof EntityPig entitypig) {
+    /**
+     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+     */
+    public ItemStack onItemRightClick(final ItemStack itemStackIn, final World worldIn, final EntityPlayer playerIn) {
+        if (playerIn.isRiding() && playerIn.ridingEntity instanceof EntityPig) {
+            final EntityPig entitypig = (EntityPig) playerIn.ridingEntity;
 
             if (entitypig.getAIControlledByPlayer().isControlledByPlayer() && itemStackIn.getMaxDamage() - itemStackIn.getMetadata() >= 7) {
                 entitypig.getAIControlledByPlayer().boostSpeed();
                 itemStackIn.damageItem(7, playerIn);
 
                 if (itemStackIn.stackSize == 0) {
-                    ItemStack itemstack = new ItemStack(Items.fishing_rod);
+                    final ItemStack itemstack = new ItemStack(Items.fishing_rod);
                     itemstack.setTagCompound(itemStackIn.getTagCompound());
                     return itemstack;
                 }

@@ -18,11 +18,16 @@ public class ItemBow extends Item {
         this.setCreativeTab(CreativeTabs.tabCombat);
     }
 
-    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityPlayer playerIn, int timeLeft) {
-        boolean flag = playerIn.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
+    /**
+     * Called when the player stops using an Item (stops holding the right mouse button).
+     *
+     * @param timeLeft The amount of ticks left before the using would have been complete
+     */
+    public void onPlayerStoppedUsing(final ItemStack stack, final World worldIn, final EntityPlayer playerIn, final int timeLeft) {
+        final boolean flag = playerIn.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) > 0;
 
         if (flag || playerIn.inventory.hasItem(Items.arrow)) {
-            int i = this.getMaxItemUseDuration(stack) - timeLeft;
+            final int i = this.getMaxItemUseDuration(stack) - timeLeft;
             float f = (float) i / 20.0F;
             f = (f * f + f * 2.0F) / 3.0F;
 
@@ -34,19 +39,19 @@ public class ItemBow extends Item {
                 f = 1.0F;
             }
 
-            EntityArrow entityarrow = new EntityArrow(worldIn, playerIn, f * 2.0F);
+            final EntityArrow entityarrow = new EntityArrow(worldIn, playerIn, f * 2.0F);
 
             if (f == 1.0F) {
                 entityarrow.setIsCritical(true);
             }
 
-            int j = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, stack);
+            final int j = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, stack);
 
             if (j > 0) {
                 entityarrow.setDamage(entityarrow.getDamage() + (double) j * 0.5D + 0.5D);
             }
 
-            int k = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, stack);
+            final int k = EnchantmentHelper.getEnchantmentLevel(Enchantment.punch.effectId, stack);
 
             if (k > 0) {
                 entityarrow.setKnockbackStrength(k);
@@ -73,19 +78,32 @@ public class ItemBow extends Item {
         }
     }
 
-    public ItemStack onItemUseFinish(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+    /**
+     * Called when the player finishes using this Item (E.g. finishes eating.). Not called when the player stops using
+     * the Item before the action is complete.
+     */
+    public ItemStack onItemUseFinish(final ItemStack stack, final World worldIn, final EntityPlayer playerIn) {
         return stack;
     }
 
-    public int getMaxItemUseDuration(ItemStack stack) {
+    /**
+     * How long it takes to use or consume an item
+     */
+    public int getMaxItemUseDuration(final ItemStack stack) {
         return 72000;
     }
 
-    public EnumAction getItemUseAction(ItemStack stack) {
+    /**
+     * returns the action that specifies what animation to play when the items is being used
+     */
+    public EnumAction getItemUseAction(final ItemStack stack) {
         return EnumAction.BOW;
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+    /**
+     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+     */
+    public ItemStack onItemRightClick(final ItemStack itemStackIn, final World worldIn, final EntityPlayer playerIn) {
         if (playerIn.capabilities.isCreativeMode || playerIn.inventory.hasItem(Items.arrow)) {
             playerIn.setItemInUse(itemStackIn, this.getMaxItemUseDuration(itemStackIn));
         }
@@ -93,6 +111,9 @@ public class ItemBow extends Item {
         return itemStackIn;
     }
 
+    /**
+     * Return the enchantability factor of the item, most of the time is based on material.
+     */
     public int getItemEnchantability() {
         return 1;
     }

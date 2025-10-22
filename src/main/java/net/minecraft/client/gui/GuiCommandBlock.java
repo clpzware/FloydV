@@ -1,35 +1,51 @@
 package net.minecraft.client.gui;
 
+import com.alan.clients.util.font.impl.minecraft.FontRenderer;
 import io.netty.buffer.Unpooled;
-
-import java.io.IOException;
-
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.server.CommandBlockLogic;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.client.C17PacketCustomPayload;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.lwjglx.input.Keyboard;
+import org.lwjgl.input.Keyboard;
+
+import java.io.IOException;
 
 public class GuiCommandBlock extends GuiScreen {
-    private static final Logger field_146488_a = LogManager.getLogger("MinecraftLogger");
+
+    /**
+     * Text field containing the command block's command.
+     */
     private GuiTextField commandTextField;
     private GuiTextField previousOutputTextField;
+
+    /**
+     * Command block being edited.
+     */
     private final CommandBlockLogic localCommandBlock;
+
+    /**
+     * "Done" button for the GUI.
+     */
     private GuiButton doneBtn;
     private GuiButton cancelBtn;
     private GuiButton field_175390_s;
     private boolean field_175389_t;
 
-    public GuiCommandBlock(CommandBlockLogic p_i45032_1_) {
+    public GuiCommandBlock(final CommandBlockLogic p_i45032_1_) {
         this.localCommandBlock = p_i45032_1_;
     }
 
+    /**
+     * Called from the main game loop to update the screen.
+     */
     public void updateScreen() {
         this.commandTextField.updateCursorCounter();
     }
 
+    /**
+     * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
+     * window resizes, the buttonList is cleared beforehand.
+     */
     public void initGui() {
         Keyboard.enableRepeatEvents(true);
         this.buttonList.clear();
@@ -46,20 +62,26 @@ public class GuiCommandBlock extends GuiScreen {
         this.previousOutputTextField.setText("-");
         this.field_175389_t = this.localCommandBlock.shouldTrackOutput();
         this.func_175388_a();
-        this.doneBtn.enabled = !this.commandTextField.getText().trim().isEmpty();
+        this.doneBtn.enabled = this.commandTextField.getText().trim().length() > 0;
     }
 
+    /**
+     * Called when the screen is unloaded. Used to disable keyboard repeat events
+     */
     public void onGuiClosed() {
         Keyboard.enableRepeatEvents(false);
     }
 
-    protected void actionPerformed(GuiButton button) throws IOException {
+    /**
+     * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
+     */
+    protected void actionPerformed(final GuiButton button) throws IOException {
         if (button.enabled) {
             if (button.id == 1) {
                 this.localCommandBlock.setTrackOutput(this.field_175389_t);
                 this.mc.displayGuiScreen(null);
             } else if (button.id == 0) {
-                PacketBuffer packetbuffer = new PacketBuffer(Unpooled.buffer());
+                final PacketBuffer packetbuffer = new PacketBuffer(Unpooled.buffer());
                 packetbuffer.writeByte(this.localCommandBlock.func_145751_f());
                 this.localCommandBlock.func_145757_a(packetbuffer);
                 packetbuffer.writeString(this.commandTextField.getText());
@@ -78,10 +100,14 @@ public class GuiCommandBlock extends GuiScreen {
         }
     }
 
-    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+    /**
+     * Fired when a key is typed (except F11 which toggles full screen). This is the equivalent of
+     * KeyListener.keyTyped(KeyEvent e). Args : character (character on the key), keyCode (lwjgl Keyboard key code)
+     */
+    protected void keyTyped(final char typedChar, final int keyCode) throws IOException {
         this.commandTextField.textboxKeyTyped(typedChar, keyCode);
         this.previousOutputTextField.textboxKeyTyped(typedChar, keyCode);
-        this.doneBtn.enabled = !this.commandTextField.getText().trim().isEmpty();
+        this.doneBtn.enabled = this.commandTextField.getText().trim().length() > 0;
 
         if (keyCode != 28 && keyCode != 156) {
             if (keyCode == 1) {
@@ -92,28 +118,33 @@ public class GuiCommandBlock extends GuiScreen {
         }
     }
 
-    public void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+    /**
+     * Called when the mouse is clicked. Args : mouseX, mouseY, clickedButton
+     */
+    protected void mouseClicked(final int mouseX, final int mouseY, final int mouseButton) throws IOException {
         super.mouseClicked(mouseX, mouseY, mouseButton);
         this.commandTextField.mouseClicked(mouseX, mouseY, mouseButton);
         this.previousOutputTextField.mouseClicked(mouseX, mouseY, mouseButton);
     }
 
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+    /**
+     * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
+     */
+    public void drawScreen(final int mouseX, final int mouseY, final float partialTicks) {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj, I18n.format("advMode.setCommand"), this.width / 2, 20, 16777215);
         this.drawString(this.fontRendererObj, I18n.format("advMode.command"), this.width / 2 - 150, 37, 10526880);
         this.commandTextField.drawTextBox();
         int i = 75;
         int j = 0;
-        j++;
-        this.drawString(this.fontRendererObj, I18n.format("advMode.nearestPlayer"), this.width / 2 - 150, i + 0, 10526880);
-        this.drawString(this.fontRendererObj, I18n.format("advMode.randomPlayer"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
-        this.drawString(this.fontRendererObj, I18n.format("advMode.allPlayers"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
-        this.drawString(this.fontRendererObj, I18n.format("advMode.allEntities"), this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
-        this.drawString(this.fontRendererObj, "", this.width / 2 - 150, i + j++ * this.fontRendererObj.FONT_HEIGHT, 10526880);
+        this.drawString(this.fontRendererObj, I18n.format("advMode.nearestPlayer"), this.width / 2 - 150, i + j++ * FontRenderer.FONT_HEIGHT, 10526880);
+        this.drawString(this.fontRendererObj, I18n.format("advMode.randomPlayer"), this.width / 2 - 150, i + j++ * FontRenderer.FONT_HEIGHT, 10526880);
+        this.drawString(this.fontRendererObj, I18n.format("advMode.allPlayers"), this.width / 2 - 150, i + j++ * FontRenderer.FONT_HEIGHT, 10526880);
+        this.drawString(this.fontRendererObj, I18n.format("advMode.allEntities"), this.width / 2 - 150, i + j++ * FontRenderer.FONT_HEIGHT, 10526880);
+        this.drawString(this.fontRendererObj, "", this.width / 2 - 150, i + j++ * FontRenderer.FONT_HEIGHT, 10526880);
 
-        if (!this.previousOutputTextField.getText().isEmpty()) {
-            i = i + j * this.fontRendererObj.FONT_HEIGHT + 16;
+        if (this.previousOutputTextField.getText().length() > 0) {
+            i = i + j * FontRenderer.FONT_HEIGHT + 16;
             this.drawString(this.fontRendererObj, I18n.format("advMode.previousOutput"), this.width / 2 - 150, i, 10526880);
             this.previousOutputTextField.drawTextBox();
         }

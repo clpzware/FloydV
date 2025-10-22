@@ -1,11 +1,11 @@
 package net.optifine.expr;
 
 public class ParseException extends Exception {
-    public ParseException(String message, Throwable cause) {
+    public ParseException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public ParseException(String message) {
+    public ParseException(final String message) {
         super(message);
     }
 }

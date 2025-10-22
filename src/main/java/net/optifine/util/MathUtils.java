@@ -8,31 +8,32 @@ public class MathUtils {
     public static final float PId2 = ((float) Math.PI / 2F);
     private static final float[] ASIN_TABLE = new float[65536];
 
-    public static float asin(float value) {
+    public static float asin(final float value) {
         return ASIN_TABLE[(int) ((double) (value + 1.0F) * 32767.5D) & 65535];
     }
 
-    public static float acos(float value) {
+    public static float acos(final float value) {
         return ((float) Math.PI / 2F) - ASIN_TABLE[(int) ((double) (value + 1.0F) * 32767.5D) & 65535];
     }
 
-    public static int getAverage(int[] vals) {
+    public static int getAverage(final int[] vals) {
         if (vals.length <= 0) {
             return 0;
         } else {
-            int i = getSum(vals);
-            int j = i / vals.length;
+            final int i = getSum(vals);
+            final int j = i / vals.length;
             return j;
         }
     }
 
-    public static int getSum(int[] vals) {
+    public static int getSum(final int[] vals) {
         if (vals.length <= 0) {
             return 0;
         } else {
             int i = 0;
 
-            for (int k : vals) {
+            for (int j = 0; j < vals.length; ++j) {
+                final int k = vals[j];
                 i += k;
             }
 
@@ -40,24 +41,24 @@ public class MathUtils {
         }
     }
 
-    public static int roundDownToPowerOfTwo(int val) {
-        int i = MathHelper.roundUpToPowerOfTwo(val);
+    public static int roundDownToPowerOfTwo(final int val) {
+        final int i = MathHelper.roundUpToPowerOfTwo(val);
         return val == i ? i : i / 2;
     }
 
-    public static boolean equalsDelta(float f1, float f2, float delta) {
+    public static boolean equalsDelta(final float f1, final float f2, final float delta) {
         return Math.abs(f1 - f2) <= delta;
     }
 
-    public static float toDeg(float angle) {
+    public static float toDeg(final float angle) {
         return angle * 180.0F / MathHelper.PI;
     }
 
-    public static float toRad(float angle) {
+    public static float toRad(final float angle) {
         return angle / 180.0F * MathHelper.PI;
     }
 
-    public static float roundToFloat(double d) {
+    public static float roundToFloat(final double d) {
         return (float) ((double) Math.round(d * 1.0E8D) / 1.0E8D);
     }
 

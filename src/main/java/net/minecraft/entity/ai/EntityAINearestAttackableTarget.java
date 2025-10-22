@@ -15,61 +15,70 @@ import java.util.List;
 public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends EntityAITarget {
     protected final Class<T> targetClass;
     private final int targetChance;
+
+    /**
+     * Instance of EntityAINearestAttackableTargetSorter.
+     */
     protected final EntityAINearestAttackableTarget.Sorter theNearestAttackableTargetSorter;
     protected Predicate<? super T> targetEntitySelector;
     protected EntityLivingBase targetEntity;
 
-    public EntityAINearestAttackableTarget(EntityCreature creature, Class<T> classTarget, boolean checkSight) {
+    public EntityAINearestAttackableTarget(final EntityCreature creature, final Class<T> classTarget, final boolean checkSight) {
         this(creature, classTarget, checkSight, false);
     }
 
-    public EntityAINearestAttackableTarget(EntityCreature creature, Class<T> classTarget, boolean checkSight, boolean onlyNearby) {
+    public EntityAINearestAttackableTarget(final EntityCreature creature, final Class<T> classTarget, final boolean checkSight, final boolean onlyNearby) {
         this(creature, classTarget, 10, checkSight, onlyNearby, null);
     }
 
-    public EntityAINearestAttackableTarget(EntityCreature creature, Class<T> classTarget, int chance, boolean checkSight, boolean onlyNearby, final Predicate<? super T> targetSelector) {
+    public EntityAINearestAttackableTarget(final EntityCreature creature, final Class<T> classTarget, final int chance, final boolean checkSight, final boolean onlyNearby, final Predicate<? super T> targetSelector) {
         super(creature, checkSight, onlyNearby);
         this.targetClass = classTarget;
         this.targetChance = chance;
         this.theNearestAttackableTargetSorter = new EntityAINearestAttackableTarget.Sorter(creature);
         this.setMutexBits(1);
-        this.targetEntitySelector = (Predicate<T>) p_apply_1_ -> {
-            if (targetSelector != null && !targetSelector.apply(p_apply_1_)) {
-                return false;
-            } else {
-                if (p_apply_1_ instanceof EntityPlayer) {
-                    double d0 = EntityAINearestAttackableTarget.this.getTargetDistance();
+        this.targetEntitySelector = new Predicate<T>() {
+            public boolean apply(final T p_apply_1_) {
+                if (targetSelector != null && !targetSelector.apply(p_apply_1_)) {
+                    return false;
+                } else {
+                    if (p_apply_1_ instanceof EntityPlayer) {
+                        double d0 = EntityAINearestAttackableTarget.this.getTargetDistance();
 
-                    if (p_apply_1_.isSneaking()) {
-                        d0 *= 0.800000011920929D;
-                    }
-
-                    if (p_apply_1_.isInvisible()) {
-                        float f = ((EntityPlayer) p_apply_1_).getArmorVisibility();
-
-                        if (f < 0.1F) {
-                            f = 0.1F;
+                        if (p_apply_1_.isSneaking()) {
+                            d0 *= 0.800000011920929D;
                         }
 
-                        d0 *= 0.7F * f;
+                        if (p_apply_1_.isInvisible()) {
+                            float f = ((EntityPlayer) p_apply_1_).getArmorVisibility();
+
+                            if (f < 0.1F) {
+                                f = 0.1F;
+                            }
+
+                            d0 *= 0.7F * f;
+                        }
+
+                        if ((double) p_apply_1_.getDistanceToEntity(EntityAINearestAttackableTarget.this.taskOwner) > d0) {
+                            return false;
+                        }
                     }
 
-                    if ((double) p_apply_1_.getDistanceToEntity(EntityAINearestAttackableTarget.this.taskOwner) > d0) {
-                        return false;
-                    }
+                    return EntityAINearestAttackableTarget.this.isSuitableTarget(p_apply_1_, false);
                 }
-
-                return EntityAINearestAttackableTarget.this.isSuitableTarget(p_apply_1_, false);
             }
         };
     }
 
+    /**
+     * Returns whether the EntityAIBase should begin execution.
+     */
     public boolean shouldExecute() {
         if (this.targetChance > 0 && this.taskOwner.getRNG().nextInt(this.targetChance) != 0) {
             return false;
         } else {
-            double d0 = this.getTargetDistance();
-            List<T> list = this.taskOwner.worldObj.getEntitiesWithinAABB(this.targetClass, this.taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0), Predicates.and(this.targetEntitySelector, EntitySelectors.NOT_SPECTATING));
+            final double d0 = this.getTargetDistance();
+            final List<T> list = this.taskOwner.worldObj.getEntitiesWithinAABB(this.targetClass, this.taskOwner.getEntityBoundingBox().expand(d0, 4.0D, d0), Predicates.<T>and(this.targetEntitySelector, EntitySelectors.NOT_SPECTATING));
             Collections.sort(list, this.theNearestAttackableTargetSorter);
 
             if (list.isEmpty()) {
@@ -81,6 +90,9 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
         }
     }
 
+    /**
+     * Execute a one shot task or start executing a continuous task
+     */
     public void startExecuting() {
         this.taskOwner.setAttackTarget(this.targetEntity);
         super.startExecuting();
@@ -89,13 +101,13 @@ public class EntityAINearestAttackableTarget<T extends EntityLivingBase> extends
     public static class Sorter implements Comparator<Entity> {
         private final Entity theEntity;
 
-        public Sorter(Entity theEntityIn) {
+        public Sorter(final Entity theEntityIn) {
             this.theEntity = theEntityIn;
         }
 
-        public int compare(Entity p_compare_1_, Entity p_compare_2_) {
-            double d0 = this.theEntity.getDistanceSqToEntity(p_compare_1_);
-            double d1 = this.theEntity.getDistanceSqToEntity(p_compare_2_);
+        public int compare(final Entity p_compare_1_, final Entity p_compare_2_) {
+            final double d0 = this.theEntity.getDistanceSqToEntity(p_compare_1_);
+            final double d1 = this.theEntity.getDistanceSqToEntity(p_compare_2_);
             return d0 < d1 ? -1 : (d0 > d1 ? 1 : 0);
         }
     }

@@ -6,17 +6,24 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class TextureCompass extends TextureAtlasSprite {
+    /**
+     * Current compass heading in radians
+     */
     public double currentAngle;
-    public double angleDelta;
-    public static String locationSprite;
 
-    public TextureCompass(String iconName) {
+    /**
+     * Speed and direction of compass rotation
+     */
+    public double angleDelta;
+    public static String field_176608_l;
+
+    public TextureCompass(final String iconName) {
         super(iconName);
-        locationSprite = iconName;
+        field_176608_l = iconName;
     }
 
     public void updateAnimation() {
-        Minecraft minecraft = Minecraft.getMinecraft();
+        final Minecraft minecraft = Minecraft.getMinecraft();
 
         if (minecraft.theWorld != null && minecraft.thePlayer != null) {
             this.updateCompass(minecraft.theWorld, minecraft.thePlayer.posX, minecraft.thePlayer.posZ, minecraft.thePlayer.rotationYaw, false, false);
@@ -25,14 +32,17 @@ public class TextureCompass extends TextureAtlasSprite {
         }
     }
 
-    public void updateCompass(World worldIn, double p_94241_2_, double p_94241_4_, double p_94241_6_, boolean p_94241_8_, boolean p_94241_9_) {
+    /**
+     * Updates the compass based on the given x,z coords and camera direction
+     */
+    public void updateCompass(final World worldIn, final double p_94241_2_, final double p_94241_4_, double p_94241_6_, final boolean p_94241_8_, final boolean p_94241_9_) {
         if (!this.framesTextureData.isEmpty()) {
             double d0 = 0.0D;
 
             if (worldIn != null && !p_94241_8_) {
-                BlockPos blockpos = worldIn.getSpawnPoint();
-                double d1 = (double) blockpos.getX() - p_94241_2_;
-                double d2 = (double) blockpos.getZ() - p_94241_4_;
+                final BlockPos blockpos = worldIn.getSpawnPoint();
+                final double d1 = (double) blockpos.getX() - p_94241_2_;
+                final double d2 = (double) blockpos.getZ() - p_94241_4_;
                 p_94241_6_ = p_94241_6_ % 360.0D;
                 d0 = -((p_94241_6_ - 90.0D) * Math.PI / 180.0D - Math.atan2(d2, d1));
 

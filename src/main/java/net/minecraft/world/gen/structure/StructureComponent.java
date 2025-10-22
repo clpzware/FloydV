@@ -1,8 +1,5 @@
 package net.minecraft.world.gen.structure;
 
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.block.BlockDoor;
@@ -19,20 +16,37 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 
+import java.util.List;
+import java.util.Random;
+
 public abstract class StructureComponent {
     protected StructureBoundingBox boundingBox;
+
+    /**
+     * switches the Coordinate System base off the Bounding AboveBox
+     */
     protected EnumFacing coordBaseMode;
+
+    /**
+     * The type ID of this component.
+     */
     protected int componentType;
 
     public StructureComponent() {
     }
 
-    protected StructureComponent(int type) {
+    protected StructureComponent(final int type) {
         this.componentType = type;
     }
 
+    /**
+     * Writes structure base data (id, boundingbox, {@link
+     * net.minecraft.world.gen.structure.StructureComponent#coordBaseMode coordBase} and {@link
+     * net.minecraft.world.gen.structure.StructureComponent#componentType componentType}) to new NBTTagCompound and
+     * returns it.
+     */
     public NBTTagCompound createStructureBaseNBT() {
-        NBTTagCompound nbttagcompound = new NBTTagCompound();
+        final NBTTagCompound nbttagcompound = new NBTTagCompound();
         nbttagcompound.setString("id", MapGenStructureIO.getStructureComponentName(this));
         nbttagcompound.setTag("BB", this.boundingBox.toNBTTagIntArray());
         nbttagcompound.setInteger("O", this.coordBaseMode == null ? -1 : this.coordBaseMode.getHorizontalIndex());
@@ -41,36 +55,60 @@ public abstract class StructureComponent {
         return nbttagcompound;
     }
 
+    /**
+     * (abstract) Helper method to write subclass data to NBT
+     */
     protected abstract void writeStructureToNBT(NBTTagCompound tagCompound);
 
-    public void readStructureBaseNBT(World worldIn, NBTTagCompound tagCompound) {
+    /**
+     * Reads and sets structure base data (boundingbox, {@link
+     * net.minecraft.world.gen.structure.StructureComponent#coordBaseMode coordBase} and {@link
+     * net.minecraft.world.gen.structure.StructureComponent#componentType componentType})
+     */
+    public void readStructureBaseNBT(final World worldIn, final NBTTagCompound tagCompound) {
         if (tagCompound.hasKey("BB")) {
             this.boundingBox = new StructureBoundingBox(tagCompound.getIntArray("BB"));
         }
 
-        int i = tagCompound.getInteger("O");
+        final int i = tagCompound.getInteger("O");
         this.coordBaseMode = i == -1 ? null : EnumFacing.getHorizontal(i);
         this.componentType = tagCompound.getInteger("GD");
         this.readStructureFromNBT(tagCompound);
     }
 
+    /**
+     * (abstract) Helper method to read subclass data from NBT
+     */
     protected abstract void readStructureFromNBT(NBTTagCompound tagCompound);
 
-    public void buildComponent(StructureComponent componentIn, List<StructureComponent> listIn, Random rand) {
+    /**
+     * Initiates construction of the Structure Component picked, at the current Location of StructGen
+     */
+    public void buildComponent(final StructureComponent componentIn, final List<StructureComponent> listIn, final Random rand) {
     }
 
+    /**
+     * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes Mineshafts at
+     * the end, it adds Fences...
+     */
     public abstract boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn);
 
     public StructureBoundingBox getBoundingBox() {
         return this.boundingBox;
     }
 
+    /**
+     * Returns the component type ID of this component.
+     */
     public int getComponentType() {
         return this.componentType;
     }
 
-    public static StructureComponent findIntersecting(List<StructureComponent> listIn, StructureBoundingBox boundingboxIn) {
-        for (StructureComponent structurecomponent : listIn) {
+    /**
+     * Discover if bounding box can fit within the current bounding box object.
+     */
+    public static StructureComponent findIntersecting(final List<StructureComponent> listIn, final StructureBoundingBox boundingboxIn) {
+        for (final StructureComponent structurecomponent : listIn) {
             if (structurecomponent.getBoundingBox() != null && structurecomponent.getBoundingBox().intersectsWith(boundingboxIn)) {
                 return structurecomponent;
             }
@@ -83,22 +121,25 @@ public abstract class StructureComponent {
         return new BlockPos(this.boundingBox.getCenter());
     }
 
-    protected boolean isLiquidInStructureBoundingBox(World worldIn, StructureBoundingBox boundingboxIn) {
-        int i = Math.max(this.boundingBox.minX - 1, boundingboxIn.minX);
-        int j = Math.max(this.boundingBox.minY - 1, boundingboxIn.minY);
-        int k = Math.max(this.boundingBox.minZ - 1, boundingboxIn.minZ);
-        int l = Math.min(this.boundingBox.maxX + 1, boundingboxIn.maxX);
-        int i1 = Math.min(this.boundingBox.maxY + 1, boundingboxIn.maxY);
-        int j1 = Math.min(this.boundingBox.maxZ + 1, boundingboxIn.maxZ);
-        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+    /**
+     * checks the entire StructureBoundingBox for Liquids
+     */
+    protected boolean isLiquidInStructureBoundingBox(final World worldIn, final StructureBoundingBox boundingboxIn) {
+        final int i = Math.max(this.boundingBox.minX - 1, boundingboxIn.minX);
+        final int j = Math.max(this.boundingBox.minY - 1, boundingboxIn.minY);
+        final int k = Math.max(this.boundingBox.minZ - 1, boundingboxIn.minZ);
+        final int l = Math.min(this.boundingBox.maxX + 1, boundingboxIn.maxX);
+        final int i1 = Math.min(this.boundingBox.maxY + 1, boundingboxIn.maxY);
+        final int j1 = Math.min(this.boundingBox.maxZ + 1, boundingboxIn.maxZ);
+        final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
         for (int k1 = i; k1 <= l; ++k1) {
             for (int l1 = k; l1 <= j1; ++l1) {
-                if (worldIn.getBlockState(blockpos$mutableblockpos.set(k1, j, l1)).getBlock().getMaterial().isLiquid()) {
+                if (worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(k1, j, l1)).getBlock().getMaterial().isLiquid()) {
                     return true;
                 }
 
-                if (worldIn.getBlockState(blockpos$mutableblockpos.set(k1, i1, l1)).getBlock().getMaterial().isLiquid()) {
+                if (worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(k1, i1, l1)).getBlock().getMaterial().isLiquid()) {
                     return true;
                 }
             }
@@ -106,11 +147,11 @@ public abstract class StructureComponent {
 
         for (int i2 = i; i2 <= l; ++i2) {
             for (int k2 = j; k2 <= i1; ++k2) {
-                if (worldIn.getBlockState(blockpos$mutableblockpos.set(i2, k2, k)).getBlock().getMaterial().isLiquid()) {
+                if (worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(i2, k2, k)).getBlock().getMaterial().isLiquid()) {
                     return true;
                 }
 
-                if (worldIn.getBlockState(blockpos$mutableblockpos.set(i2, k2, j1)).getBlock().getMaterial().isLiquid()) {
+                if (worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(i2, k2, j1)).getBlock().getMaterial().isLiquid()) {
                     return true;
                 }
             }
@@ -118,11 +159,11 @@ public abstract class StructureComponent {
 
         for (int j2 = k; j2 <= j1; ++j2) {
             for (int l2 = j; l2 <= i1; ++l2) {
-                if (worldIn.getBlockState(blockpos$mutableblockpos.set(i, l2, j2)).getBlock().getMaterial().isLiquid()) {
+                if (worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(i, l2, j2)).getBlock().getMaterial().isLiquid()) {
                     return true;
                 }
 
-                if (worldIn.getBlockState(blockpos$mutableblockpos.set(l, l2, j2)).getBlock().getMaterial().isLiquid()) {
+                if (worldIn.getBlockState(blockpos$mutableblockpos.func_181079_c(l, l2, j2)).getBlock().getMaterial().isLiquid()) {
                     return true;
                 }
             }
@@ -131,37 +172,58 @@ public abstract class StructureComponent {
         return false;
     }
 
-    protected int getXWithOffset(int x, int z) {
+    protected int getXWithOffset(final int x, final int z) {
         if (this.coordBaseMode == null) {
             return x;
         } else {
-            return switch (this.coordBaseMode) {
-                case NORTH, SOUTH -> this.boundingBox.minX + x;
-                case WEST -> this.boundingBox.maxX - z;
-                case EAST -> this.boundingBox.minX + z;
-                default -> x;
-            };
+            switch (this.coordBaseMode) {
+                case NORTH:
+                case SOUTH:
+                    return this.boundingBox.minX + x;
+
+                case WEST:
+                    return this.boundingBox.maxX - z;
+
+                case EAST:
+                    return this.boundingBox.minX + z;
+
+                default:
+                    return x;
+            }
         }
     }
 
-    protected int getYWithOffset(int y) {
+    protected int getYWithOffset(final int y) {
         return this.coordBaseMode == null ? y : y + this.boundingBox.minY;
     }
 
-    protected int getZWithOffset(int x, int z) {
+    protected int getZWithOffset(final int x, final int z) {
         if (this.coordBaseMode == null) {
             return z;
         } else {
-            return switch (this.coordBaseMode) {
-                case NORTH -> this.boundingBox.maxZ - z;
-                case SOUTH -> this.boundingBox.minZ + z;
-                case WEST, EAST -> this.boundingBox.minZ + x;
-                default -> z;
-            };
+            switch (this.coordBaseMode) {
+                case NORTH:
+                    return this.boundingBox.maxZ - z;
+
+                case SOUTH:
+                    return this.boundingBox.minZ + z;
+
+                case WEST:
+                case EAST:
+                    return this.boundingBox.minZ + x;
+
+                default:
+                    return z;
+            }
         }
     }
 
-    protected int getMetadataWithOffset(Block blockIn, int meta) {
+    /**
+     * Returns the direction-shifted metadata for blocks that require orientation, e.g. doors, stairs, ladders.
+     *
+     * @param meta block direction meta data
+     */
+    protected int getMetadataWithOffset(final Block blockIn, final int meta) {
         if (blockIn == Blocks.rail) {
             if (this.coordBaseMode == EnumFacing.WEST || this.coordBaseMode == EnumFacing.EAST) {
                 if (meta == 1) {
@@ -314,7 +376,7 @@ public abstract class StructureComponent {
                     }
                 }
             } else {
-                EnumFacing enumfacing = EnumFacing.getHorizontal(meta);
+                final EnumFacing enumfacing = EnumFacing.getHorizontal(meta);
 
                 if (this.coordBaseMode == EnumFacing.SOUTH) {
                     if (enumfacing == EnumFacing.SOUTH || enumfacing == EnumFacing.NORTH) {
@@ -399,23 +461,27 @@ public abstract class StructureComponent {
         return meta;
     }
 
-    protected void setBlockState(World worldIn, IBlockState blockstateIn, int x, int y, int z, StructureBoundingBox boundingboxIn) {
-        BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
+    protected void setBlockState(final World worldIn, final IBlockState blockstateIn, final int x, final int y, final int z, final StructureBoundingBox boundingboxIn) {
+        final BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
 
         if (boundingboxIn.isVecInside(blockpos)) {
             worldIn.setBlockState(blockpos, blockstateIn, 2);
         }
     }
 
-    protected IBlockState getBlockStateFromPos(World worldIn, int x, int y, int z, StructureBoundingBox boundingboxIn) {
-        int i = this.getXWithOffset(x, z);
-        int j = this.getYWithOffset(y);
-        int k = this.getZWithOffset(x, z);
-        BlockPos blockpos = new BlockPos(i, j, k);
+    protected IBlockState getBlockStateFromPos(final World worldIn, final int x, final int y, final int z, final StructureBoundingBox boundingboxIn) {
+        final int i = this.getXWithOffset(x, z);
+        final int j = this.getYWithOffset(y);
+        final int k = this.getZWithOffset(x, z);
+        final BlockPos blockpos = new BlockPos(i, j, k);
         return !boundingboxIn.isVecInside(blockpos) ? Blocks.air.getDefaultState() : worldIn.getBlockState(blockpos);
     }
 
-    protected void fillWithAir(World worldIn, StructureBoundingBox structurebb, int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+    /**
+     * arguments: (World worldObj, StructureBoundingBox structBB, int minX, int minY, int minZ, int maxX, int maxY, int
+     * maxZ)
+     */
+    protected void fillWithAir(final World worldIn, final StructureBoundingBox structurebb, final int minX, final int minY, final int minZ, final int maxX, final int maxY, final int maxZ) {
         for (int i = minY; i <= maxY; ++i) {
             for (int j = minX; j <= maxX; ++j) {
                 for (int k = minZ; k <= maxZ; ++k) {
@@ -425,7 +491,23 @@ public abstract class StructureComponent {
         }
     }
 
-    protected void fillWithBlocks(World worldIn, StructureBoundingBox boundingboxIn, int xMin, int yMin, int zMin, int xMax, int yMax, int zMax, IBlockState boundaryBlockState, IBlockState insideBlockState, boolean existingOnly) {
+    /**
+     * Fill the given area with the selected blocks
+     *
+     * @param worldIn            World object
+     * @param boundingboxIn      Building bounding box
+     * @param xMin               Minimum X plotting coordinate, inclusive. Minimum must be less than or equal to the maximum
+     * @param yMin               Minimum Y plotting coordinate, inclusive
+     * @param zMin               Minimum Z plotting coordinate, inclusive
+     * @param xMax               Maximum X plotting coordinate, inclusive
+     * @param yMax               Maximum Y plotting coordinate, inclusive
+     * @param zMax               Maximum Z plotting coordinate, inclusive
+     * @param boundaryBlockState This block is used for any position on the edge of the designated area
+     * @param insideBlockState   This block is used for filling in the interior. For a hollow object, you'd pass in air.
+     * @param existingOnly       Only replace non-air blocks. Set to true if you want caves and such to eat away your
+     *                           structure.
+     */
+    protected void fillWithBlocks(final World worldIn, final StructureBoundingBox boundingboxIn, final int xMin, final int yMin, final int zMin, final int xMax, final int yMax, final int zMax, final IBlockState boundaryBlockState, final IBlockState insideBlockState, final boolean existingOnly) {
         for (int i = yMin; i <= yMax; ++i) {
             for (int j = xMin; j <= xMax; ++j) {
                 for (int k = zMin; k <= zMax; ++k) {
@@ -441,7 +523,11 @@ public abstract class StructureComponent {
         }
     }
 
-    protected void fillWithRandomizedBlocks(World worldIn, StructureBoundingBox boundingboxIn, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, boolean alwaysReplace, Random rand, StructureComponent.BlockSelector blockselector) {
+    /**
+     * arguments: World worldObj, StructureBoundingBox structBB, int minX, int minY, int minZ, int maxX, int maxY, int
+     * maxZ, boolean alwaysreplace, Random rand, StructurePieceBlockSelector blockselector
+     */
+    protected void fillWithRandomizedBlocks(final World worldIn, final StructureBoundingBox boundingboxIn, final int minX, final int minY, final int minZ, final int maxX, final int maxY, final int maxZ, final boolean alwaysReplace, final Random rand, final StructureComponent.BlockSelector blockselector) {
         for (int i = minY; i <= maxY; ++i) {
             for (int j = minX; j <= maxX; ++j) {
                 for (int k = minZ; k <= maxZ; ++k) {
@@ -454,7 +540,7 @@ public abstract class StructureComponent {
         }
     }
 
-    protected void func_175805_a(World worldIn, StructureBoundingBox boundingboxIn, Random rand, float chance, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, IBlockState blockstate1, IBlockState blockstate2, boolean p_175805_13_) {
+    protected void func_175805_a(final World worldIn, final StructureBoundingBox boundingboxIn, final Random rand, final float chance, final int minX, final int minY, final int minZ, final int maxX, final int maxY, final int maxZ, final IBlockState blockstate1, final IBlockState blockstate2, final boolean p_175805_13_) {
         for (int i = minY; i <= maxY; ++i) {
             for (int j = minX; j <= maxX; ++j) {
                 for (int k = minZ; k <= maxZ; ++k) {
@@ -470,30 +556,30 @@ public abstract class StructureComponent {
         }
     }
 
-    protected void randomlyPlaceBlock(World worldIn, StructureBoundingBox boundingboxIn, Random rand, float chance, int x, int y, int z, IBlockState blockstateIn) {
+    protected void randomlyPlaceBlock(final World worldIn, final StructureBoundingBox boundingboxIn, final Random rand, final float chance, final int x, final int y, final int z, final IBlockState blockstateIn) {
         if (rand.nextFloat() < chance) {
             this.setBlockState(worldIn, blockstateIn, x, y, z, boundingboxIn);
         }
     }
 
-    protected void randomlyRareFillWithBlocks(World worldIn, StructureBoundingBox boundingboxIn, int minX, int minY, int minZ, int maxX, int maxY, int maxZ, IBlockState blockstateIn, boolean p_180777_10_) {
-        float f = (float) (maxX - minX + 1);
-        float f1 = (float) (maxY - minY + 1);
-        float f2 = (float) (maxZ - minZ + 1);
-        float f3 = (float) minX + f / 2.0F;
-        float f4 = (float) minZ + f2 / 2.0F;
+    protected void randomlyRareFillWithBlocks(final World worldIn, final StructureBoundingBox boundingboxIn, final int minX, final int minY, final int minZ, final int maxX, final int maxY, final int maxZ, final IBlockState blockstateIn, final boolean p_180777_10_) {
+        final float f = (float) (maxX - minX + 1);
+        final float f1 = (float) (maxY - minY + 1);
+        final float f2 = (float) (maxZ - minZ + 1);
+        final float f3 = (float) minX + f / 2.0F;
+        final float f4 = (float) minZ + f2 / 2.0F;
 
         for (int i = minY; i <= maxY; ++i) {
-            float f5 = (float) (i - minY) / f1;
+            final float f5 = (float) (i - minY) / f1;
 
             for (int j = minX; j <= maxX; ++j) {
-                float f6 = ((float) j - f3) / (f * 0.5F);
+                final float f6 = ((float) j - f3) / (f * 0.5F);
 
                 for (int k = minZ; k <= maxZ; ++k) {
-                    float f7 = ((float) k - f4) / (f2 * 0.5F);
+                    final float f7 = ((float) k - f4) / (f2 * 0.5F);
 
                     if (!p_180777_10_ || this.getBlockStateFromPos(worldIn, j, i, k, boundingboxIn).getBlock().getMaterial() != Material.air) {
-                        float f8 = f6 * f6 + f5 * f5 + f7 * f7;
+                        final float f8 = f6 * f6 + f5 * f5 + f7 * f7;
 
                         if (f8 <= 1.05F) {
                             this.setBlockState(worldIn, blockstateIn, j, i, k, boundingboxIn);
@@ -504,7 +590,10 @@ public abstract class StructureComponent {
         }
     }
 
-    protected void clearCurrentPositionBlocksUpwards(World worldIn, int x, int y, int z, StructureBoundingBox structurebb) {
+    /**
+     * Deletes all continuous blocks from selected position upwards. Stops at hitting air.
+     */
+    protected void clearCurrentPositionBlocksUpwards(final World worldIn, final int x, final int y, final int z, final StructureBoundingBox structurebb) {
         BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
 
         if (structurebb.isVecInside(blockpos)) {
@@ -515,10 +604,15 @@ public abstract class StructureComponent {
         }
     }
 
-    protected void replaceAirAndLiquidDownwards(World worldIn, IBlockState blockstateIn, int x, int y, int z, StructureBoundingBox boundingboxIn) {
-        int i = this.getXWithOffset(x, z);
+    /**
+     * Replaces air and liquid from given position downwards. Stops when hitting anything else than air or liquid
+     *
+     * @param blockstateIn replacement to use
+     */
+    protected void replaceAirAndLiquidDownwards(final World worldIn, final IBlockState blockstateIn, final int x, final int y, final int z, final StructureBoundingBox boundingboxIn) {
+        final int i = this.getXWithOffset(x, z);
         int j = this.getYWithOffset(y);
-        int k = this.getZWithOffset(x, z);
+        final int k = this.getZWithOffset(x, z);
 
         if (boundingboxIn.isVecInside(new BlockPos(i, j, k))) {
             while ((worldIn.isAirBlock(new BlockPos(i, j, k)) || worldIn.getBlockState(new BlockPos(i, j, k)).getBlock().getMaterial().isLiquid()) && j > 1) {
@@ -528,13 +622,13 @@ public abstract class StructureComponent {
         }
     }
 
-    protected boolean generateChestContents(World worldIn, StructureBoundingBox boundingBoxIn, Random rand, int x, int y, int z, List<WeightedRandomChestContent> listIn, int max) {
-        BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
+    protected boolean generateChestContents(final World worldIn, final StructureBoundingBox boundingBoxIn, final Random rand, final int x, final int y, final int z, final List<WeightedRandomChestContent> listIn, final int max) {
+        final BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
 
         if (boundingBoxIn.isVecInside(blockpos) && worldIn.getBlockState(blockpos).getBlock() != Blocks.chest) {
-            IBlockState iblockstate = Blocks.chest.getDefaultState();
+            final IBlockState iblockstate = Blocks.chest.getDefaultState();
             worldIn.setBlockState(blockpos, Blocks.chest.correctFacing(worldIn, blockpos, iblockstate), 2);
-            TileEntity tileentity = worldIn.getTileEntity(blockpos);
+            final TileEntity tileentity = worldIn.getTileEntity(blockpos);
 
             if (tileentity instanceof TileEntityChest) {
                 WeightedRandomChestContent.generateChestContents(rand, listIn, (TileEntityChest) tileentity, max);
@@ -546,12 +640,12 @@ public abstract class StructureComponent {
         }
     }
 
-    protected boolean generateDispenserContents(World worldIn, StructureBoundingBox boundingBoxIn, Random rand, int x, int y, int z, int meta, List<WeightedRandomChestContent> listIn, int max) {
-        BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
+    protected boolean generateDispenserContents(final World worldIn, final StructureBoundingBox boundingBoxIn, final Random rand, final int x, final int y, final int z, final int meta, final List<WeightedRandomChestContent> listIn, final int max) {
+        final BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
 
         if (boundingBoxIn.isVecInside(blockpos) && worldIn.getBlockState(blockpos).getBlock() != Blocks.dispenser) {
             worldIn.setBlockState(blockpos, Blocks.dispenser.getStateFromMeta(this.getMetadataWithOffset(Blocks.dispenser, meta)), 2);
-            TileEntity tileentity = worldIn.getTileEntity(blockpos);
+            final TileEntity tileentity = worldIn.getTileEntity(blockpos);
 
             if (tileentity instanceof TileEntityDispenser) {
                 WeightedRandomChestContent.generateDispenserContents(rand, listIn, (TileEntityDispenser) tileentity, max);
@@ -563,15 +657,18 @@ public abstract class StructureComponent {
         }
     }
 
-    protected void placeDoorCurrentPosition(World worldIn, StructureBoundingBox boundingBoxIn, Random rand, int x, int y, int z, EnumFacing facing) {
-        BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
+    /**
+     * Places door on given position
+     */
+    protected void placeDoorCurrentPosition(final World worldIn, final StructureBoundingBox boundingBoxIn, final Random rand, final int x, final int y, final int z, final EnumFacing facing) {
+        final BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
 
         if (boundingBoxIn.isVecInside(blockpos)) {
             ItemDoor.placeDoor(worldIn, blockpos, facing.rotateYCCW(), Blocks.oak_door);
         }
     }
 
-    public void func_181138_a(int p_181138_1_, int p_181138_2_, int p_181138_3_) {
+    public void func_181138_a(final int p_181138_1_, final int p_181138_2_, final int p_181138_3_) {
         this.boundingBox.offset(p_181138_1_, p_181138_2_, p_181138_3_);
     }
 

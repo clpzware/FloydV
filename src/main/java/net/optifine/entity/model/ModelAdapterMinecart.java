@@ -15,7 +15,7 @@ public class ModelAdapterMinecart extends ModelAdapter {
         super(EntityMinecart.class, "minecart", 0.5F);
     }
 
-    protected ModelAdapterMinecart(Class entityClass, String name, float shadow) {
+    protected ModelAdapterMinecart(final Class entityClass, final String name, final float shadow) {
         super(entityClass, name, shadow);
     }
 
@@ -23,10 +23,11 @@ public class ModelAdapterMinecart extends ModelAdapter {
         return new ModelMinecart();
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelMinecart modelminecart)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelMinecart)) {
             return null;
         } else {
+            final ModelMinecart modelminecart = (ModelMinecart) model;
             return modelPart.equals("bottom") ? modelminecart.sideModels[0] : (modelPart.equals("back") ? modelminecart.sideModels[1] : (modelPart.equals("front") ? modelminecart.sideModels[2] : (modelPart.equals("right") ? modelminecart.sideModels[3] : (modelPart.equals("left") ? modelminecart.sideModels[4] : (modelPart.equals("dirt") ? modelminecart.sideModels[5] : null)))));
         }
     }
@@ -35,9 +36,9 @@ public class ModelAdapterMinecart extends ModelAdapter {
         return new String[]{"bottom", "back", "front", "right", "left", "dirt"};
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderMinecart renderminecart = new RenderMinecart(rendermanager);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderMinecart renderminecart = new RenderMinecart(rendermanager);
 
         if (!Reflector.RenderMinecart_modelMinecart.exists()) {
             Config.warn("Field not found: RenderMinecart.modelMinecart");

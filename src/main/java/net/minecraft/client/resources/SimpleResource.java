@@ -3,17 +3,15 @@ package net.minecraft.client.resources;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.Map;
-
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
 import org.apache.commons.io.IOUtils;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Map;
 
 public class SimpleResource implements IResource {
     private final Map<String, IMetadataSection> mapMetadataSections = Maps.newHashMap();
@@ -25,7 +23,7 @@ public class SimpleResource implements IResource {
     private boolean mcmetaJsonChecked;
     private JsonObject mcmetaJson;
 
-    public SimpleResource(String resourcePackNameIn, ResourceLocation srResourceLocationIn, InputStream resourceInputStreamIn, InputStream mcmetaInputStreamIn, IMetadataSerializer srMetadataSerializerIn) {
+    public SimpleResource(final String resourcePackNameIn, final ResourceLocation srResourceLocationIn, final InputStream resourceInputStreamIn, final InputStream mcmetaInputStreamIn, final IMetadataSerializer srMetadataSerializerIn) {
         this.resourcePackName = resourcePackNameIn;
         this.srResourceLocation = srResourceLocationIn;
         this.resourceInputStream = resourceInputStreamIn;
@@ -45,7 +43,7 @@ public class SimpleResource implements IResource {
         return this.mcmetaInputStream != null;
     }
 
-    public <T extends IMetadataSection> T getMetadata(String p_110526_1_) {
+    public <T extends IMetadataSection> T getMetadata(final String p_110526_1_) {
         if (!this.hasMetadata()) {
             return null;
         } else {
@@ -75,12 +73,13 @@ public class SimpleResource implements IResource {
         return this.resourcePackName;
     }
 
-    public boolean equals(Object p_equals_1_) {
+    public boolean equals(final Object p_equals_1_) {
         if (this == p_equals_1_) {
             return true;
-        } else if (!(p_equals_1_ instanceof SimpleResource simpleresource)) {
+        } else if (!(p_equals_1_ instanceof SimpleResource)) {
             return false;
         } else {
+            final SimpleResource simpleresource = (SimpleResource) p_equals_1_;
 
             if (this.srResourceLocation != null) {
                 if (!this.srResourceLocation.equals(simpleresource.srResourceLocation)) {

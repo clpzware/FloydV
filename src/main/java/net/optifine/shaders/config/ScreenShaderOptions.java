@@ -5,7 +5,7 @@ public class ScreenShaderOptions {
     private final ShaderOption[] shaderOptions;
     private final int columns;
 
-    public ScreenShaderOptions(String name, ShaderOption[] shaderOptions, int columns) {
+    public ScreenShaderOptions(final String name, final ShaderOption[] shaderOptions, final int columns) {
         this.name = name;
         this.shaderOptions = shaderOptions;
         this.columns = columns;

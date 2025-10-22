@@ -22,12 +22,12 @@ public class CloudRenderer {
     private double updatePlayerZ = 0.0D;
     private int glListClouds = -1;
 
-    public CloudRenderer(Minecraft mc) {
+    public CloudRenderer(final Minecraft mc) {
         this.mc = mc;
         this.glListClouds = GLAllocation.generateDisplayLists(1);
     }
 
-    public void prepareToRender(boolean renderFancy, int cloudTickCounter, float partialTicks, Vec3 cloudColor) {
+    public void prepareToRender(final boolean renderFancy, final int cloudTickCounter, final float partialTicks, final Vec3 cloudColor) {
         this.renderFancy = renderFancy;
         this.cloudTickCounter = cloudTickCounter;
         this.partialTicks = partialTicks;
@@ -48,9 +48,9 @@ public class CloudRenderer {
         } else if (Math.abs(this.cloudColor.zCoord - this.updateCloudColor.zCoord) > 0.003D) {
             return true;
         } else {
-            Entity entity = this.mc.getRenderViewEntity();
-            boolean flag = this.updatePlayerY + (double) entity.getEyeHeight() < 128.0D + (double) (this.mc.gameSettings.ofCloudsHeight * 128.0F);
-            boolean flag1 = entity.prevPosY + (double) entity.getEyeHeight() < 128.0D + (double) (this.mc.gameSettings.ofCloudsHeight * 128.0F);
+            final Entity entity = this.mc.getRenderViewEntity();
+            final boolean flag = this.updatePlayerY + (double) entity.getEyeHeight() < 128.0D + (double) (this.mc.gameSettings.ofCloudsHeight * 128.0F);
+            final boolean flag1 = entity.prevPosY + (double) entity.getEyeHeight() < 128.0D + (double) (this.mc.gameSettings.ofCloudsHeight * 128.0F);
             return flag1 != flag;
         }
     }
@@ -72,14 +72,14 @@ public class CloudRenderer {
     }
 
     public void renderGlList() {
-        Entity entity = this.mc.getRenderViewEntity();
-        double d0 = entity.prevPosX + (entity.posX - entity.prevPosX) * (double) this.partialTicks;
-        double d1 = entity.prevPosY + (entity.posY - entity.prevPosY) * (double) this.partialTicks;
-        double d2 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * (double) this.partialTicks;
-        double d3 = (float) (this.cloudTickCounter - this.updateCloudTickCounter) + this.partialTicks;
-        float f = (float) (d0 - this.updatePlayerX + d3 * 0.03D);
-        float f1 = (float) (d1 - this.updatePlayerY);
-        float f2 = (float) (d2 - this.updatePlayerZ);
+        final Entity entity = this.mc.getRenderViewEntity();
+        final double d0 = entity.prevPosX + (entity.posX - entity.prevPosX) * (double) this.partialTicks;
+        final double d1 = entity.prevPosY + (entity.posY - entity.prevPosY) * (double) this.partialTicks;
+        final double d2 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * (double) this.partialTicks;
+        final double d3 = (float) (this.cloudTickCounter - this.updateCloudTickCounter) + this.partialTicks;
+        final float f = (float) (d0 - this.updatePlayerX + d3 * 0.03D);
+        final float f1 = (float) (d1 - this.updatePlayerY);
+        final float f2 = (float) (d2 - this.updatePlayerZ);
         GlStateManager.pushMatrix();
 
         if (this.renderFancy) {

@@ -1,12 +1,11 @@
 package net.minecraft.scoreboard;
 
 import com.google.common.collect.Maps;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumChatFormatting;
 
 import java.util.List;
 import java.util.Map;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.EnumChatFormatting;
 
 public interface IScoreObjectiveCriteria {
     Map<String, IScoreObjectiveCriteria> INSTANCES = Maps.newHashMap();
@@ -21,7 +20,7 @@ public interface IScoreObjectiveCriteria {
 
     String getName();
 
-    int setScore(List<EntityPlayer> p_96635_1_);
+    int func_96635_a(List<EntityPlayer> p_96635_1_);
 
     boolean isReadOnly();
 
@@ -34,7 +33,7 @@ public interface IScoreObjectiveCriteria {
         private static final Map<String, IScoreObjectiveCriteria.EnumRenderType> field_178801_c = Maps.newHashMap();
         private final String field_178798_d;
 
-        EnumRenderType(String p_i45548_3_) {
+        EnumRenderType(final String p_i45548_3_) {
             this.field_178798_d = p_i45548_3_;
         }
 
@@ -42,13 +41,13 @@ public interface IScoreObjectiveCriteria {
             return this.field_178798_d;
         }
 
-        public static IScoreObjectiveCriteria.EnumRenderType func_178795_a(String p_178795_0_) {
-            IScoreObjectiveCriteria.EnumRenderType iscoreobjectivecriteria$enumrendertype = field_178801_c.get(p_178795_0_);
+        public static IScoreObjectiveCriteria.EnumRenderType func_178795_a(final String p_178795_0_) {
+            final IScoreObjectiveCriteria.EnumRenderType iscoreobjectivecriteria$enumrendertype = field_178801_c.get(p_178795_0_);
             return iscoreobjectivecriteria$enumrendertype == null ? INTEGER : iscoreobjectivecriteria$enumrendertype;
         }
 
         static {
-            for (IScoreObjectiveCriteria.EnumRenderType iscoreobjectivecriteria$enumrendertype : values()) {
+            for (final IScoreObjectiveCriteria.EnumRenderType iscoreobjectivecriteria$enumrendertype : values()) {
                 field_178801_c.put(iscoreobjectivecriteria$enumrendertype.func_178796_a(), iscoreobjectivecriteria$enumrendertype);
             }
         }

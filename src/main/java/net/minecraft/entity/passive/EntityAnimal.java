@@ -18,7 +18,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
     private int inLove;
     private EntityPlayer playerInLove;
 
-    public EntityAnimal(World worldIn) {
+    public EntityAnimal(final World worldIn) {
         super(worldIn);
     }
 
@@ -30,6 +30,10 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
         super.updateAITasks();
     }
 
+    /**
+     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
+     * use this to react to sunlight and start to burn.
+     */
     public void onLivingUpdate() {
         super.onLivingUpdate();
 
@@ -41,15 +45,18 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
             --this.inLove;
 
             if (this.inLove % 10 == 0) {
-                double d0 = this.rand.nextGaussian() * 0.02D;
-                double d1 = this.rand.nextGaussian() * 0.02D;
-                double d2 = this.rand.nextGaussian() * 0.02D;
+                final double d0 = this.rand.nextGaussian() * 0.02D;
+                final double d1 = this.rand.nextGaussian() * 0.02D;
+                final double d2 = this.rand.nextGaussian() * 0.02D;
                 this.worldObj.spawnParticle(EnumParticleTypes.HEART, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.posY + 0.5D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, d0, d1, d2);
             }
         }
     }
 
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    /**
+     * Called when the entity is attacked.
+     */
+    public boolean attackEntityFrom(final DamageSource source, final float amount) {
         if (this.isEntityInvulnerable(source)) {
             return false;
         } else {
@@ -58,46 +65,71 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
         }
     }
 
-    public float getBlockPathWeight(BlockPos pos) {
+    public float getBlockPathWeight(final BlockPos pos) {
         return this.worldObj.getBlockState(pos.down()).getBlock() == Blocks.grass ? 10.0F : this.worldObj.getLightBrightness(pos) - 0.5F;
     }
 
-    public void writeEntityToNBT(NBTTagCompound tagCompound) {
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
+    public void writeEntityToNBT(final NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
         tagCompound.setInteger("InLove", this.inLove);
     }
 
-    public void readEntityFromNBT(NBTTagCompound tagCompund) {
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
+    public void readEntityFromNBT(final NBTTagCompound tagCompund) {
         super.readEntityFromNBT(tagCompund);
         this.inLove = tagCompund.getInteger("InLove");
     }
 
+    /**
+     * Checks if the entity's current position is a valid location to spawn this entity.
+     */
     public boolean getCanSpawnHere() {
-        int i = MathHelper.floor_double(this.posX);
-        int j = MathHelper.floor_double(this.getEntityBoundingBox().minY);
-        int k = MathHelper.floor_double(this.posZ);
-        BlockPos blockpos = new BlockPos(i, j, k);
+        final int i = MathHelper.floor_double(this.posX);
+        final int j = MathHelper.floor_double(this.getEntityBoundingBox().minY);
+        final int k = MathHelper.floor_double(this.posZ);
+        final BlockPos blockpos = new BlockPos(i, j, k);
         return this.worldObj.getBlockState(blockpos.down()).getBlock() == this.spawnableBlock && this.worldObj.getLight(blockpos) > 8 && super.getCanSpawnHere();
     }
 
+    /**
+     * Get number of ticks, at least during which the living entity will be silent.
+     */
     public int getTalkInterval() {
         return 120;
     }
 
+    /**
+     * Determines if an entity can be despawned, used on idle far away entities
+     */
     protected boolean canDespawn() {
         return false;
     }
 
-    protected int getExperiencePoints(EntityPlayer player) {
+    /**
+     * Get the experience points the entity currently has.
+     */
+    protected int getExperiencePoints(final EntityPlayer player) {
         return 1 + this.worldObj.rand.nextInt(3);
     }
 
-    public boolean isBreedingItem(ItemStack stack) {
+    /**
+     * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
+     * the animal type)
+     */
+    public boolean isBreedingItem(final ItemStack stack) {
         return stack != null && stack.getItem() == Items.wheat;
     }
 
-    public boolean interact(EntityPlayer player) {
-        ItemStack itemstack = player.inventory.getCurrentItem();
+    /**
+     * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
+     */
+    public boolean interact(final EntityPlayer player) {
+        final ItemStack itemstack = player.inventory.getCurrentItem();
 
         if (itemstack != null) {
             if (this.isBreedingItem(itemstack) && this.getGrowingAge() == 0 && this.inLove <= 0) {
@@ -116,7 +148,10 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
         return super.interact(player);
     }
 
-    protected void consumeItemFromStack(EntityPlayer player, ItemStack stack) {
+    /**
+     * Decreases ItemStack size by one
+     */
+    protected void consumeItemFromStack(final EntityPlayer player, final ItemStack stack) {
         if (!player.capabilities.isCreativeMode) {
             --stack.stackSize;
 
@@ -126,7 +161,7 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
         }
     }
 
-    public void setInLove(EntityPlayer player) {
+    public void setInLove(final EntityPlayer player) {
         this.inLove = 600;
         this.playerInLove = player;
         this.worldObj.setEntityState(this, (byte) 18);
@@ -136,6 +171,9 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
         return this.playerInLove;
     }
 
+    /**
+     * Returns if the entity is currently in 'love mode'.
+     */
     public boolean isInLove() {
         return this.inLove > 0;
     }
@@ -144,20 +182,23 @@ public abstract class EntityAnimal extends EntityAgeable implements IAnimals {
         this.inLove = 0;
     }
 
-    public boolean canMateWith(EntityAnimal otherAnimal) {
+    /**
+     * Returns true if the mob is currently able to mate with the specified mob.
+     */
+    public boolean canMateWith(final EntityAnimal otherAnimal) {
         return otherAnimal != this && (otherAnimal.getClass() == this.getClass() && this.isInLove() && otherAnimal.isInLove());
     }
 
-    public void handleStatusUpdate(byte id) {
+    public void handleHealthUpdate(final byte id) {
         if (id == 18) {
             for (int i = 0; i < 7; ++i) {
-                double d0 = this.rand.nextGaussian() * 0.02D;
-                double d1 = this.rand.nextGaussian() * 0.02D;
-                double d2 = this.rand.nextGaussian() * 0.02D;
+                final double d0 = this.rand.nextGaussian() * 0.02D;
+                final double d1 = this.rand.nextGaussian() * 0.02D;
+                final double d2 = this.rand.nextGaussian() * 0.02D;
                 this.worldObj.spawnParticle(EnumParticleTypes.HEART, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.posY + 0.5D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, d0, d1, d2);
             }
         } else {
-            super.handleStatusUpdate(id);
+            super.handleHealthUpdate(id);
         }
     }
 }

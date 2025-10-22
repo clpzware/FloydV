@@ -1,23 +1,27 @@
 package net.optifine.reflect;
 
-import net.optifine.Log;
+import net.minecraft.src.Config;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReflectorMethod implements IResolvable {
+public class ReflectorMethod {
     private ReflectorClass reflectorClass;
     private String targetMethodName;
     private Class[] targetMethodParameterTypes;
     private boolean checked;
     private Method targetMethod;
 
-    public ReflectorMethod(ReflectorClass reflectorClass, String targetMethodName) {
-        this(reflectorClass, targetMethodName, null);
+    public ReflectorMethod(final ReflectorClass reflectorClass, final String targetMethodName) {
+        this(reflectorClass, targetMethodName, null, false);
     }
 
-    public ReflectorMethod(ReflectorClass reflectorClass, String targetMethodName, Class[] targetMethodParameterTypes) {
+    public ReflectorMethod(final ReflectorClass reflectorClass, final String targetMethodName, final Class[] targetMethodParameterTypes) {
+        this(reflectorClass, targetMethodName, targetMethodParameterTypes, false);
+    }
+
+    public ReflectorMethod(final ReflectorClass reflectorClass, final String targetMethodName, final Class[] targetMethodParameterTypes, final boolean lazyResolve) {
         this.reflectorClass = null;
         this.targetMethodName = null;
         this.targetMethodParameterTypes = null;
@@ -26,7 +30,10 @@ public class ReflectorMethod implements IResolvable {
         this.reflectorClass = reflectorClass;
         this.targetMethodName = targetMethodName;
         this.targetMethodParameterTypes = targetMethodParameterTypes;
-        ReflectorResolver.register(this);
+
+        if (!lazyResolve) {
+            final Method method = this.getTargetMethod();
+        }
     }
 
     public Method getTargetMethod() {
@@ -34,25 +41,26 @@ public class ReflectorMethod implements IResolvable {
             return this.targetMethod;
         } else {
             this.checked = true;
-            Class oclass = this.reflectorClass.getTargetClass();
+            final Class oclass = this.reflectorClass.getTargetClass();
 
             if (oclass == null) {
                 return null;
             } else {
                 try {
                     if (this.targetMethodParameterTypes == null) {
-                        Method[] amethod = getMethods(oclass, this.targetMethodName);
+                        final Method[] amethod = getMethods(oclass, this.targetMethodName);
 
                         if (amethod.length <= 0) {
-                            Log.log("(Reflector) Method not present: " + oclass.getName() + "." + this.targetMethodName);
+                            Config.log("(Reflector) Method not present: " + oclass.getName() + "." + this.targetMethodName);
                             return null;
                         }
 
                         if (amethod.length > 1) {
-                            Log.warn("(Reflector) More than one method found: " + oclass.getName() + "." + this.targetMethodName);
+                            Config.warn("(Reflector) More than one method found: " + oclass.getName() + "." + this.targetMethodName);
 
-                            for (Method method : amethod) {
-                                Log.warn("(Reflector)  - " + method);
+                            for (int i = 0; i < amethod.length; ++i) {
+                                final Method method = amethod[i];
+                                Config.warn("(Reflector)  - " + method);
                             }
 
                             return null;
@@ -64,13 +72,13 @@ public class ReflectorMethod implements IResolvable {
                     }
 
                     if (this.targetMethod == null) {
-                        Log.log("(Reflector) Method not present: " + oclass.getName() + "." + this.targetMethodName);
+                        Config.log("(Reflector) Method not present: " + oclass.getName() + "." + this.targetMethodName);
                         return null;
                     } else {
                         this.targetMethod.setAccessible(true);
                         return this.targetMethod;
                     }
-                } catch (Throwable throwable) {
+                } catch (final Throwable throwable) {
                     throwable.printStackTrace();
                     return null;
                 }
@@ -83,7 +91,7 @@ public class ReflectorMethod implements IResolvable {
     }
 
     public Class getReturnType() {
-        Method method = this.getTargetMethod();
+        final Method method = this.getTargetMethod();
         return method == null ? null : method.getReturnType();
     }
 
@@ -92,64 +100,14 @@ public class ReflectorMethod implements IResolvable {
         this.targetMethod = null;
     }
 
-    public Object call(Object... params) {
-        return Reflector.call(this, params);
-    }
+    public static Method getMethod(final Class cls, final String methodName, final Class[] paramTypes) {
+        final Method[] amethod = cls.getDeclaredMethods();
 
-    public boolean callBoolean(Object... params) {
-        return Reflector.callBoolean(this, params);
-    }
+        for (int i = 0; i < amethod.length; ++i) {
+            final Method method = amethod[i];
 
-    public int callInt(Object... params) {
-        return Reflector.callInt(this, params);
-    }
-
-    public float callFloat(Object... params) {
-        return Reflector.callFloat(this, params);
-    }
-
-    public double callDouble(Object... params) {
-        return Reflector.callDouble(this, params);
-    }
-
-    public String callString(Object... params) {
-        return Reflector.callString(this, params);
-    }
-
-    public Object call(Object param) {
-        return Reflector.call(this, param);
-    }
-
-    public boolean callBoolean(Object param) {
-        return Reflector.callBoolean(this, param);
-    }
-
-    public int callInt(Object param) {
-        return Reflector.callInt(this, param);
-    }
-
-    public float callFloat(Object param) {
-        return Reflector.callFloat(this, param);
-    }
-
-    public double callDouble(Object param) {
-        return Reflector.callDouble(this, param);
-    }
-
-    public String callString1(Object param) {
-        return Reflector.callString(this, param);
-    }
-
-    public void callVoid(Object... params) {
-        Reflector.callVoid(this, params);
-    }
-
-    public static Method getMethod(Class cls, String methodName, Class[] paramTypes) {
-        Method[] amethod = cls.getDeclaredMethods();
-
-        for (Method method : amethod) {
             if (method.getName().equals(methodName)) {
-                Class[] aclass = method.getParameterTypes();
+                final Class[] aclass = method.getParameterTypes();
 
                 if (Reflector.matchesTypes(paramTypes, aclass)) {
                     return method;
@@ -160,21 +118,19 @@ public class ReflectorMethod implements IResolvable {
         return null;
     }
 
-    public static Method[] getMethods(Class cls, String methodName) {
-        List list = new ArrayList();
-        Method[] amethod = cls.getDeclaredMethods();
+    public static Method[] getMethods(final Class cls, final String methodName) {
+        final List list = new ArrayList();
+        final Method[] amethod = cls.getDeclaredMethods();
 
-        for (Method method : amethod) {
+        for (int i = 0; i < amethod.length; ++i) {
+            final Method method = amethod[i];
+
             if (method.getName().equals(methodName)) {
                 list.add(method);
             }
         }
 
-        Method[] amethod1 = (Method[]) list.toArray(new Method[list.size()]);
+        final Method[] amethod1 = (Method[]) list.toArray(new Method[list.size()]);
         return amethod1;
-    }
-
-    public void resolve() {
-        Method method = this.getTargetMethod();
     }
 }

@@ -28,13 +28,19 @@ public class ItemSkull extends Item {
         this.setHasSubtypes(true);
     }
 
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    /**
+     * Called when a Block is right-clicked with this Item
+     *
+     * @param pos  The block being right-clicked
+     * @param side The side being right-clicked
+     */
+    public boolean onItemUse(final ItemStack stack, final EntityPlayer playerIn, final World worldIn, BlockPos pos, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         if (side == EnumFacing.DOWN) {
             return false;
         } else {
-            IBlockState iblockstate = worldIn.getBlockState(pos);
-            Block block = iblockstate.getBlock();
-            boolean flag = block.isReplaceable(worldIn, pos);
+            final IBlockState iblockstate = worldIn.getBlockState(pos);
+            final Block block = iblockstate.getBlock();
+            final boolean flag = block.isReplaceable(worldIn, pos);
 
             if (!flag) {
                 if (!worldIn.getBlockState(pos).getBlock().getMaterial().isSolid()) {
@@ -57,19 +63,20 @@ public class ItemSkull extends Item {
                         i = MathHelper.floor_double((double) (playerIn.rotationYaw * 16.0F / 360.0F) + 0.5D) & 15;
                     }
 
-                    TileEntity tileentity = worldIn.getTileEntity(pos);
+                    final TileEntity tileentity = worldIn.getTileEntity(pos);
 
-                    if (tileentity instanceof TileEntitySkull tileentityskull) {
+                    if (tileentity instanceof TileEntitySkull) {
+                        final TileEntitySkull tileentityskull = (TileEntitySkull) tileentity;
 
                         if (stack.getMetadata() == 3) {
                             GameProfile gameprofile = null;
 
                             if (stack.hasTagCompound()) {
-                                NBTTagCompound nbttagcompound = stack.getTagCompound();
+                                final NBTTagCompound nbttagcompound = stack.getTagCompound();
 
                                 if (nbttagcompound.hasKey("SkullOwner", 10)) {
                                     gameprofile = NBTUtil.readGameProfileFromNBT(nbttagcompound.getCompoundTag("SkullOwner"));
-                                } else if (nbttagcompound.hasKey("SkullOwner", 8) && !nbttagcompound.getString("SkullOwner").isEmpty()) {
+                                } else if (nbttagcompound.hasKey("SkullOwner", 8) && nbttagcompound.getString("SkullOwner").length() > 0) {
                                     gameprofile = new GameProfile(null, nbttagcompound.getString("SkullOwner"));
                                 }
                             }
@@ -91,17 +98,30 @@ public class ItemSkull extends Item {
         }
     }
 
-    public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+    /**
+     * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
+     *
+     * @param subItems The List of sub-items. This is a List of ItemStacks.
+     */
+    public void getSubItems(final Item itemIn, final CreativeTabs tab, final List<ItemStack> subItems) {
         for (int i = 0; i < skullTypes.length; ++i) {
             subItems.add(new ItemStack(itemIn, 1, i));
         }
     }
 
-    public int getMetadata(int damage) {
+    /**
+     * Converts the given ItemStack damage value into a metadata value to be placed in the world when this Item is
+     * placed as a Block (mostly used with ItemBlocks).
+     */
+    public int getMetadata(final int damage) {
         return damage;
     }
 
-    public String getUnlocalizedName(ItemStack stack) {
+    /**
+     * Returns the unlocalized name of this item. This version accepts an ItemStack so different stacks can have
+     * different names based on their damage or NBT.
+     */
+    public String getUnlocalizedName(final ItemStack stack) {
         int i = stack.getMetadata();
 
         if (i < 0 || i >= skullTypes.length) {
@@ -111,14 +131,14 @@ public class ItemSkull extends Item {
         return super.getUnlocalizedName() + "." + skullTypes[i];
     }
 
-    public String getItemStackDisplayName(ItemStack stack) {
+    public String getItemStackDisplayName(final ItemStack stack) {
         if (stack.getMetadata() == 3 && stack.hasTagCompound()) {
             if (stack.getTagCompound().hasKey("SkullOwner", 8)) {
                 return StatCollector.translateToLocalFormatted("item.skull.player.name", stack.getTagCompound().getString("SkullOwner"));
             }
 
             if (stack.getTagCompound().hasKey("SkullOwner", 10)) {
-                NBTTagCompound nbttagcompound = stack.getTagCompound().getCompoundTag("SkullOwner");
+                final NBTTagCompound nbttagcompound = stack.getTagCompound().getCompoundTag("SkullOwner");
 
                 if (nbttagcompound.hasKey("Name", 8)) {
                     return StatCollector.translateToLocalFormatted("item.skull.player.name", nbttagcompound.getString("Name"));
@@ -129,10 +149,13 @@ public class ItemSkull extends Item {
         return super.getItemStackDisplayName(stack);
     }
 
-    public boolean updateItemStackNBT(NBTTagCompound nbt) {
+    /**
+     * Called when an ItemStack with NBT data is read to potentially that ItemStack's NBT data
+     */
+    public boolean updateItemStackNBT(final NBTTagCompound nbt) {
         super.updateItemStackNBT(nbt);
 
-        if (nbt.hasKey("SkullOwner", 8) && !nbt.getString("SkullOwner").isEmpty()) {
+        if (nbt.hasKey("SkullOwner", 8) && nbt.getString("SkullOwner").length() > 0) {
             GameProfile gameprofile = new GameProfile(null, nbt.getString("SkullOwner"));
             gameprofile = TileEntitySkull.updateGameprofile(gameprofile);
             nbt.setTag("SkullOwner", NBTUtil.writeGameProfile(new NBTTagCompound(), gameprofile));

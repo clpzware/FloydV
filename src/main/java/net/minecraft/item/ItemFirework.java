@@ -13,9 +13,15 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class ItemFirework extends Item {
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    /**
+     * Called when a Block is right-clicked with this Item
+     *
+     * @param pos  The block being right-clicked
+     * @param side The side being right-clicked
+     */
+    public boolean onItemUse(final ItemStack stack, final EntityPlayer playerIn, final World worldIn, final BlockPos pos, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         if (!worldIn.isRemote) {
-            EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(worldIn, (float) pos.getX() + hitX, (float) pos.getY() + hitY, (float) pos.getZ() + hitZ, stack);
+            final EntityFireworkRocket entityfireworkrocket = new EntityFireworkRocket(worldIn, (float) pos.getX() + hitX, (float) pos.getY() + hitY, (float) pos.getZ() + hitZ, stack);
             worldIn.spawnEntityInWorld(entityfireworkrocket);
 
             if (!playerIn.capabilities.isCreativeMode) {
@@ -28,24 +34,30 @@ public class ItemFirework extends Item {
         }
     }
 
-    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+    /**
+     * allows items to add custom lines of information to the mouseover description
+     *
+     * @param tooltip  All lines to display in the Item's tooltip. This is a List of Strings.
+     * @param advanced Whether the setting "Advanced tooltips" is enabled
+     */
+    public void addInformation(final ItemStack stack, final EntityPlayer playerIn, final List<String> tooltip, final boolean advanced) {
         if (stack.hasTagCompound()) {
-            NBTTagCompound nbttagcompound = stack.getTagCompound().getCompoundTag("Fireworks");
+            final NBTTagCompound nbttagcompound = stack.getTagCompound().getCompoundTag("Fireworks");
 
             if (nbttagcompound != null) {
                 if (nbttagcompound.hasKey("Flight", 99)) {
                     tooltip.add(StatCollector.translateToLocal("item.fireworks.flight") + " " + nbttagcompound.getByte("Flight"));
                 }
 
-                NBTTagList nbttaglist = nbttagcompound.getTagList("Explosions", 10);
+                final NBTTagList nbttaglist = nbttagcompound.getTagList("Explosions", 10);
 
                 if (nbttaglist != null && nbttaglist.tagCount() > 0) {
                     for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                        NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-                        List<String> list = Lists.newArrayList();
+                        final NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
+                        final List<String> list = Lists.newArrayList();
                         ItemFireworkCharge.addExplosionInfo(nbttagcompound1, list);
 
-                        if (!list.isEmpty()) {
+                        if (list.size() > 0) {
                             for (int j = 1; j < list.size(); ++j) {
                                 list.set(j, "  " + list.get(j));
                             }

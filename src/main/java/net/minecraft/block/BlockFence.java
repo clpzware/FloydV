@@ -19,26 +19,46 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class BlockFence extends Block {
+    /**
+     * Whether this fence connects in the northern direction
+     */
     public static final PropertyBool NORTH = PropertyBool.create("north");
+
+    /**
+     * Whether this fence connects in the eastern direction
+     */
     public static final PropertyBool EAST = PropertyBool.create("east");
+
+    /**
+     * Whether this fence connects in the southern direction
+     */
     public static final PropertyBool SOUTH = PropertyBool.create("south");
+
+    /**
+     * Whether this fence connects in the western direction
+     */
     public static final PropertyBool WEST = PropertyBool.create("west");
 
-    public BlockFence(Material materialIn) {
+    public BlockFence(final Material materialIn) {
         this(materialIn, materialIn.getMaterialMapColor());
     }
 
-    public BlockFence(Material p_i46395_1_, MapColor p_i46395_2_) {
+    public BlockFence(final Material p_i46395_1_, final MapColor p_i46395_2_) {
         super(p_i46395_1_, p_i46395_2_);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(NORTH, Boolean.FALSE).withProperty(EAST, Boolean.FALSE).withProperty(SOUTH, Boolean.FALSE).withProperty(WEST, Boolean.FALSE));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(NORTH, Boolean.valueOf(false)).withProperty(EAST, Boolean.valueOf(false)).withProperty(SOUTH, Boolean.valueOf(false)).withProperty(WEST, Boolean.valueOf(false)));
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 
-    public void addCollisionBoxesToList(World worldIn, BlockPos pos, IBlockState state, AxisAlignedBB mask, List<AxisAlignedBB> list, Entity collidingEntity) {
-        boolean flag = this.canConnectTo(worldIn, pos.north());
-        boolean flag1 = this.canConnectTo(worldIn, pos.south());
-        boolean flag2 = this.canConnectTo(worldIn, pos.west());
-        boolean flag3 = this.canConnectTo(worldIn, pos.east());
+    /**
+     * Add all collision boxes of this Block to the list that intersect with the given mask.
+     *
+     * @param collidingEntity the Entity colliding with this Block
+     */
+    public void addCollisionBoxesToList(final World worldIn, final BlockPos pos, final IBlockState state, final AxisAlignedBB mask, final List<AxisAlignedBB> list, final Entity collidingEntity) {
+        final boolean flag = this.canConnectTo(worldIn, pos.north());
+        final boolean flag1 = this.canConnectTo(worldIn, pos.south());
+        final boolean flag2 = this.canConnectTo(worldIn, pos.west());
+        final boolean flag3 = this.canConnectTo(worldIn, pos.east());
         float f = 0.375F;
         float f1 = 0.625F;
         float f2 = 0.375F;
@@ -84,11 +104,11 @@ public class BlockFence extends Block {
         this.setBlockBounds(f, 0.0F, f2, f1, 1.0F, f3);
     }
 
-    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-        boolean flag = this.canConnectTo(worldIn, pos.north());
-        boolean flag1 = this.canConnectTo(worldIn, pos.south());
-        boolean flag2 = this.canConnectTo(worldIn, pos.west());
-        boolean flag3 = this.canConnectTo(worldIn, pos.east());
+    public void setBlockBoundsBasedOnState(final IBlockAccess worldIn, final BlockPos pos) {
+        final boolean flag = this.canConnectTo(worldIn, pos.north());
+        final boolean flag1 = this.canConnectTo(worldIn, pos.south());
+        final boolean flag2 = this.canConnectTo(worldIn, pos.west());
+        final boolean flag3 = this.canConnectTo(worldIn, pos.east());
         float f = 0.375F;
         float f1 = 0.625F;
         float f2 = 0.375F;
@@ -113,6 +133,9 @@ public class BlockFence extends Block {
         this.setBlockBounds(f, 0.0F, f2, f1, 1.0F, f3);
     }
 
+    /**
+     * Used to determine ambient occlusion and culling when rebuilding chunks for render
+     */
     public boolean isOpaqueCube() {
         return false;
     }
@@ -121,29 +144,36 @@ public class BlockFence extends Block {
         return false;
     }
 
-    public boolean isPassable(IBlockAccess worldIn, BlockPos pos) {
+    public boolean isPassable(final IBlockAccess worldIn, final BlockPos pos) {
         return false;
     }
 
-    public boolean canConnectTo(IBlockAccess worldIn, BlockPos pos) {
-        Block block = worldIn.getBlockState(pos).getBlock();
+    public boolean canConnectTo(final IBlockAccess worldIn, final BlockPos pos) {
+        final Block block = worldIn.getBlockState(pos).getBlock();
         return block != Blocks.barrier && ((block instanceof BlockFence && block.blockMaterial == this.blockMaterial) || block instanceof BlockFenceGate || (block.blockMaterial.isOpaque() && block.isFullCube() && block.blockMaterial != Material.gourd));
     }
 
-    public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(final IBlockAccess worldIn, final BlockPos pos, final EnumFacing side) {
         return true;
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos, final IBlockState state, final EntityPlayer playerIn, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         return worldIn.isRemote || ItemLead.attachToFence(playerIn, worldIn, pos);
     }
 
-    public int getMetaFromState(IBlockState state) {
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
         return 0;
     }
 
-    public IBlockState getActualState(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        return state.withProperty(NORTH, this.canConnectTo(worldIn, pos.north())).withProperty(EAST, this.canConnectTo(worldIn, pos.east())).withProperty(SOUTH, this.canConnectTo(worldIn, pos.south())).withProperty(WEST, this.canConnectTo(worldIn, pos.west()));
+    /**
+     * Get the actual Block state of this Block at the given position. This applies properties not visible in the
+     * metadata, such as fence connections.
+     */
+    public IBlockState getActualState(final IBlockState state, final IBlockAccess worldIn, final BlockPos pos) {
+        return state.withProperty(NORTH, Boolean.valueOf(this.canConnectTo(worldIn, pos.north()))).withProperty(EAST, Boolean.valueOf(this.canConnectTo(worldIn, pos.east()))).withProperty(SOUTH, Boolean.valueOf(this.canConnectTo(worldIn, pos.south()))).withProperty(WEST, Boolean.valueOf(this.canConnectTo(worldIn, pos.west())));
     }
 
     protected BlockState createBlockState() {

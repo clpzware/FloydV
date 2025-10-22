@@ -1,11 +1,6 @@
 package net.minecraft.command.server;
 
 import io.netty.buffer.ByteBuf;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.Callable;
-
 import net.minecraft.command.CommandResultStats;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.command.ICommandSender;
@@ -19,24 +14,56 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.ReportedException;
 import net.minecraft.world.World;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.Callable;
+
 public abstract class CommandBlockLogic implements ICommandSender {
+    /**
+     * The formatting for the timestamp on commands run.
+     */
     private static final SimpleDateFormat timestampFormat = new SimpleDateFormat("HH:mm:ss");
+
+    /**
+     * The number of successful commands run. (used for redstone output)
+     */
     private int successCount;
     private boolean trackOutput = true;
+
+    /**
+     * The previously run command.
+     */
     private IChatComponent lastOutput = null;
+
+    /**
+     * The command stored in the command block.
+     */
     private String commandStored = "";
+
+    /**
+     * The custom name of the command block. (defaults to "@")
+     */
     private String customName = "@";
     private final CommandResultStats resultStats = new CommandResultStats();
 
+    /**
+     * returns the successCount int.
+     */
     public int getSuccessCount() {
         return this.successCount;
     }
 
+    /**
+     * Returns the lastOutput.
+     */
     public IChatComponent getLastOutput() {
         return this.lastOutput;
     }
 
-    public void writeDataToNBT(NBTTagCompound tagCompound) {
+    /**
+     * Stores data to NBT format.
+     */
+    public void writeDataToNBT(final NBTTagCompound tagCompound) {
         tagCompound.setString("Command", this.commandStored);
         tagCompound.setInteger("SuccessCount", this.successCount);
         tagCompound.setString("CustomName", this.customName);
@@ -49,7 +76,10 @@ public abstract class CommandBlockLogic implements ICommandSender {
         this.resultStats.writeStatsToNBT(tagCompound);
     }
 
-    public void readDataFromNBT(NBTTagCompound nbt) {
+    /**
+     * Reads NBT formatting and stored data into variables.
+     */
+    public void readDataFromNBT(final NBTTagCompound nbt) {
         this.commandStored = nbt.getString("Command");
         this.successCount = nbt.getInteger("SuccessCount");
 
@@ -68,37 +98,57 @@ public abstract class CommandBlockLogic implements ICommandSender {
         this.resultStats.readStatsFromNBT(nbt);
     }
 
-    public boolean canCommandSenderUseCommand(int permLevel, String commandName) {
+    /**
+     * Returns {@code true} if the CommandSender is allowed to execute the command, {@code false} if not
+     *
+     * @param permLevel   The permission level required to execute the command
+     * @param commandName The name of the command
+     */
+    public boolean canCommandSenderUseCommand(final int permLevel, final String commandName) {
         return permLevel <= 2;
     }
 
-    public void setCommand(String command) {
+    /**
+     * Sets the command.
+     */
+    public void setCommand(final String command) {
         this.commandStored = command;
         this.successCount = 0;
     }
 
+    /**
+     * Returns the command of the command block.
+     */
     public String getCommand() {
         return this.commandStored;
     }
 
-    public void trigger(World worldIn) {
+    public void trigger(final World worldIn) {
         if (worldIn.isRemote) {
             this.successCount = 0;
         }
 
-        MinecraftServer minecraftserver = MinecraftServer.getServer();
+        final MinecraftServer minecraftserver = MinecraftServer.getServer();
 
         if (minecraftserver != null && minecraftserver.isAnvilFileSet() && minecraftserver.isCommandBlockEnabled()) {
-            ICommandManager icommandmanager = minecraftserver.getCommandManager();
+            final ICommandManager icommandmanager = minecraftserver.getCommandManager();
 
             try {
                 this.lastOutput = null;
                 this.successCount = icommandmanager.executeCommand(this, this.commandStored);
-            } catch (Throwable throwable) {
-                CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Executing command block");
-                CrashReportCategory crashreportcategory = crashreport.makeCategory("Command to be executed");
-                crashreportcategory.addCrashSectionCallable("Command", CommandBlockLogic.this::getCommand);
-                crashreportcategory.addCrashSectionCallable("Name", CommandBlockLogic.this::getName);
+            } catch (final Throwable throwable) {
+                final CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Executing command block");
+                final CrashReportCategory crashreportcategory = crashreport.makeCategory("Command to be executed");
+                crashreportcategory.addCrashSectionCallable("Command", new Callable<String>() {
+                    public String call() throws Exception {
+                        return CommandBlockLogic.this.getCommand();
+                    }
+                });
+                crashreportcategory.addCrashSectionCallable("Name", new Callable<String>() {
+                    public String call() throws Exception {
+                        return CommandBlockLogic.this.getCommandSenderName();
+                    }
+                });
                 throw new ReportedException(crashreport);
             }
         } else {
@@ -106,32 +156,46 @@ public abstract class CommandBlockLogic implements ICommandSender {
         }
     }
 
-    public String getName() {
+    /**
+     * Gets the name of this command sender (usually username, but possibly "Rcon")
+     */
+    public String getCommandSenderName() {
         return this.customName;
     }
 
+    /**
+     * Get the formatted ChatComponent that will be used for the sender's username in chat
+     */
     public IChatComponent getDisplayName() {
-        return new ChatComponentText(this.getName());
+        return new ChatComponentText(this.getCommandSenderName());
     }
 
-    public void setName(String p_145754_1_) {
+    public void setName(final String p_145754_1_) {
         this.customName = p_145754_1_;
     }
 
-    public void addChatMessage(IChatComponent component) {
+    /**
+     * Send a chat message to the CommandSender
+     *
+     * @param component The ChatComponent to send
+     */
+    public void addChatMessage(final IChatComponent component) {
         if (this.trackOutput && this.getEntityWorld() != null && !this.getEntityWorld().isRemote) {
             this.lastOutput = (new ChatComponentText("[" + timestampFormat.format(new Date()) + "] ")).appendSibling(component);
             this.updateCommand();
         }
     }
 
+    /**
+     * Returns true if the command sender should be sent feedback about executed commands
+     */
     public boolean sendCommandFeedback() {
-        MinecraftServer minecraftserver = MinecraftServer.getServer();
-        return minecraftserver == null || !minecraftserver.isAnvilFileSet() || minecraftserver.worldServers[0].getGameRules().getBoolean("commandBlockOutput");
+        final MinecraftServer minecraftserver = MinecraftServer.getServer();
+        return minecraftserver == null || !minecraftserver.isAnvilFileSet() || minecraftserver.worldServers[0].getGameRules().getGameRuleBooleanValue("commandBlockOutput");
     }
 
-    public void setCommandStat(CommandResultStats.Type type, int amount) {
-        this.resultStats.setCommandStatScore(this, type, amount);
+    public void setCommandStat(final CommandResultStats.Type type, final int amount) {
+        this.resultStats.func_179672_a(this, type, amount);
     }
 
     public abstract void updateCommand();
@@ -140,11 +204,11 @@ public abstract class CommandBlockLogic implements ICommandSender {
 
     public abstract void func_145757_a(ByteBuf p_145757_1_);
 
-    public void setLastOutput(IChatComponent lastOutputMessage) {
+    public void setLastOutput(final IChatComponent lastOutputMessage) {
         this.lastOutput = lastOutputMessage;
     }
 
-    public void setTrackOutput(boolean shouldTrackOutput) {
+    public void setTrackOutput(final boolean shouldTrackOutput) {
         this.trackOutput = shouldTrackOutput;
     }
 
@@ -152,7 +216,7 @@ public abstract class CommandBlockLogic implements ICommandSender {
         return this.trackOutput;
     }
 
-    public boolean tryOpenEditCommandBlock(EntityPlayer playerIn) {
+    public boolean tryOpenEditCommandBlock(final EntityPlayer playerIn) {
         if (!playerIn.capabilities.isCreativeMode) {
             return false;
         } else {

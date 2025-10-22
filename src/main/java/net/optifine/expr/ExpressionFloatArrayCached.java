@@ -5,7 +5,7 @@ public class ExpressionFloatArrayCached implements IExpressionFloatArray, IExpre
     private boolean cached;
     private float[] value;
 
-    public ExpressionFloatArrayCached(IExpressionFloatArray expression) {
+    public ExpressionFloatArrayCached(final IExpressionFloatArray expression) {
         this.expression = expression;
     }
 

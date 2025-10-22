@@ -9,37 +9,46 @@ import net.minecraft.world.World;
 public class EntityLargeFireball extends EntityFireball {
     public int explosionPower = 1;
 
-    public EntityLargeFireball(World worldIn) {
+    public EntityLargeFireball(final World worldIn) {
         super(worldIn);
     }
 
-    public EntityLargeFireball(World worldIn, double x, double y, double z, double accelX, double accelY, double accelZ) {
+    public EntityLargeFireball(final World worldIn, final double x, final double y, final double z, final double accelX, final double accelY, final double accelZ) {
         super(worldIn, x, y, z, accelX, accelY, accelZ);
     }
 
-    public EntityLargeFireball(World worldIn, EntityLivingBase shooter, double accelX, double accelY, double accelZ) {
+    public EntityLargeFireball(final World worldIn, final EntityLivingBase shooter, final double accelX, final double accelY, final double accelZ) {
         super(worldIn, shooter, accelX, accelY, accelZ);
     }
 
-    protected void onImpact(MovingObjectPosition movingObject) {
+    /**
+     * Called when this EntityFireball hits a block or entity.
+     */
+    protected void onImpact(final MovingObjectPosition movingObject) {
         if (!this.worldObj.isRemote) {
             if (movingObject.entityHit != null) {
                 movingObject.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 6.0F);
                 this.applyEnchantments(this.shootingEntity, movingObject.entityHit);
             }
 
-            boolean flag = this.worldObj.getGameRules().getBoolean("mobGriefing");
+            final boolean flag = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
             this.worldObj.newExplosion(null, this.posX, this.posY, this.posZ, (float) this.explosionPower, flag, flag);
             this.setDead();
         }
     }
 
-    public void writeEntityToNBT(NBTTagCompound tagCompound) {
+    /**
+     * (abstract) Protected helper method to write subclass entity data to NBT.
+     */
+    public void writeEntityToNBT(final NBTTagCompound tagCompound) {
         super.writeEntityToNBT(tagCompound);
         tagCompound.setInteger("ExplosionPower", this.explosionPower);
     }
 
-    public void readEntityFromNBT(NBTTagCompound tagCompund) {
+    /**
+     * (abstract) Protected helper method to read subclass entity data from NBT.
+     */
+    public void readEntityFromNBT(final NBTTagCompound tagCompund) {
         super.readEntityFromNBT(tagCompund);
 
         if (tagCompund.hasKey("ExplosionPower", 99)) {

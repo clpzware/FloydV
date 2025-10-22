@@ -12,23 +12,23 @@ public class ModelManager implements IResourceManagerReloadListener {
     private final BlockModelShapes modelProvider;
     private IBakedModel defaultModel;
 
-    public ModelManager(TextureMap textures) {
+    public ModelManager(final TextureMap textures) {
         this.texMap = textures;
         this.modelProvider = new BlockModelShapes(this);
     }
 
-    public void onResourceManagerReload(IResourceManager resourceManager) {
-        ModelBakery modelbakery = new ModelBakery(resourceManager, this.texMap, this.modelProvider);
+    public void onResourceManagerReload(final IResourceManager resourceManager) {
+        final ModelBakery modelbakery = new ModelBakery(resourceManager, this.texMap, this.modelProvider);
         this.modelRegistry = modelbakery.setupModelRegistry();
         this.defaultModel = this.modelRegistry.getObject(ModelBakery.MODEL_MISSING);
         this.modelProvider.reloadModels();
     }
 
-    public IBakedModel getModel(ModelResourceLocation modelLocation) {
+    public IBakedModel getModel(final ModelResourceLocation modelLocation) {
         if (modelLocation == null) {
             return this.defaultModel;
         } else {
-            IBakedModel ibakedmodel = this.modelRegistry.getObject(modelLocation);
+            final IBakedModel ibakedmodel = this.modelRegistry.getObject(modelLocation);
             return ibakedmodel == null ? this.defaultModel : ibakedmodel;
         }
     }

@@ -7,7 +7,7 @@ public class RangedAttribute extends BaseAttribute {
     private final double maximumValue;
     private String description;
 
-    public RangedAttribute(IAttribute p_i45891_1_, String unlocalizedNameIn, double defaultValue, double minimumValueIn, double maximumValueIn) {
+    public RangedAttribute(final IAttribute p_i45891_1_, final String unlocalizedNameIn, final double defaultValue, final double minimumValueIn, final double maximumValueIn) {
         super(p_i45891_1_, unlocalizedNameIn, defaultValue);
         this.minimumValue = minimumValueIn;
         this.maximumValue = maximumValueIn;
@@ -21,7 +21,7 @@ public class RangedAttribute extends BaseAttribute {
         }
     }
 
-    public RangedAttribute setDescription(String descriptionIn) {
+    public RangedAttribute setDescription(final String descriptionIn) {
         this.description = descriptionIn;
         return this;
     }

@@ -1,11 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
+
+import java.io.IOException;
 
 public class S2FPacketSetSlot implements Packet<INetHandlerPlayClient> {
     private int windowId;
@@ -15,23 +15,32 @@ public class S2FPacketSetSlot implements Packet<INetHandlerPlayClient> {
     public S2FPacketSetSlot() {
     }
 
-    public S2FPacketSetSlot(int windowIdIn, int slotIn, ItemStack itemIn) {
+    public S2FPacketSetSlot(final int windowIdIn, final int slotIn, final ItemStack itemIn) {
         this.windowId = windowIdIn;
         this.slot = slotIn;
         this.item = itemIn == null ? null : itemIn.copy();
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleSetSlot(this);
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.windowId = buf.readByte();
         this.slot = buf.readShort();
         this.item = buf.readItemStackFromBuffer();
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeByte(this.windowId);
         buf.writeShort(this.slot);
         buf.writeItemStackToBuffer(this.item);
@@ -41,11 +50,11 @@ public class S2FPacketSetSlot implements Packet<INetHandlerPlayClient> {
         return this.windowId;
     }
 
-    public int func_149173_d() {
+    public int slotID() {
         return this.slot;
     }
 
-    public ItemStack func_149174_e() {
+    public ItemStack stack() {
         return this.item;
     }
 }

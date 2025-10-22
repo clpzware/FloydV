@@ -1,22 +1,20 @@
 package net.minecraft.world.gen.structure;
 
 import com.google.common.collect.Lists;
-
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.BlockPrismarine;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.monster.EntityGuardian;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
 
 public class StructureOceanMonumentPieces {
     public static void registerOceanMonumentPieces() {
@@ -37,13 +35,13 @@ public class StructureOceanMonumentPieces {
         public DoubleXRoom() {
         }
 
-        public DoubleXRoom(EnumFacing p_i45597_1_, StructureOceanMonumentPieces.RoomDefinition p_i45597_2_, Random p_i45597_3_) {
+        public DoubleXRoom(final EnumFacing p_i45597_1_, final StructureOceanMonumentPieces.RoomDefinition p_i45597_2_, final Random p_i45597_3_) {
             super(1, p_i45597_1_, p_i45597_2_, 2, 1, 1);
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = this.field_175830_k.field_175965_b[EnumFacing.EAST.getIndex()];
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition1 = this.field_175830_k;
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = this.field_175830_k.field_175965_b[EnumFacing.EAST.getIndex()];
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition1 = this.field_175830_k;
 
             if (this.field_175830_k.field_175967_a / 25 > 0) {
                 this.func_175821_a(worldIn, structureBoundingBoxIn, 8, 0, structureoceanmonumentpieces$roomdefinition.field_175966_c[EnumFacing.DOWN.getIndex()]);
@@ -108,15 +106,15 @@ public class StructureOceanMonumentPieces {
         public DoubleXYRoom() {
         }
 
-        public DoubleXYRoom(EnumFacing p_i45596_1_, StructureOceanMonumentPieces.RoomDefinition p_i45596_2_, Random p_i45596_3_) {
+        public DoubleXYRoom(final EnumFacing p_i45596_1_, final StructureOceanMonumentPieces.RoomDefinition p_i45596_2_, final Random p_i45596_3_) {
             super(1, p_i45596_1_, p_i45596_2_, 2, 2, 1);
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = this.field_175830_k.field_175965_b[EnumFacing.EAST.getIndex()];
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition1 = this.field_175830_k;
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition2 = structureoceanmonumentpieces$roomdefinition1.field_175965_b[EnumFacing.UP.getIndex()];
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition3 = structureoceanmonumentpieces$roomdefinition.field_175965_b[EnumFacing.UP.getIndex()];
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = this.field_175830_k.field_175965_b[EnumFacing.EAST.getIndex()];
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition1 = this.field_175830_k;
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition2 = structureoceanmonumentpieces$roomdefinition1.field_175965_b[EnumFacing.UP.getIndex()];
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition3 = structureoceanmonumentpieces$roomdefinition.field_175965_b[EnumFacing.UP.getIndex()];
 
             if (this.field_175830_k.field_175967_a / 25 > 0) {
                 this.func_175821_a(worldIn, structureBoundingBoxIn, 8, 0, structureoceanmonumentpieces$roomdefinition.field_175966_c[EnumFacing.DOWN.getIndex()]);
@@ -224,16 +222,16 @@ public class StructureOceanMonumentPieces {
         public DoubleYRoom() {
         }
 
-        public DoubleYRoom(EnumFacing p_i45595_1_, StructureOceanMonumentPieces.RoomDefinition p_i45595_2_, Random p_i45595_3_) {
+        public DoubleYRoom(final EnumFacing p_i45595_1_, final StructureOceanMonumentPieces.RoomDefinition p_i45595_2_, final Random p_i45595_3_) {
             super(1, p_i45595_1_, p_i45595_2_, 1, 2, 1);
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.field_175830_k.field_175967_a / 25 > 0) {
                 this.func_175821_a(worldIn, structureBoundingBoxIn, 0, 0, this.field_175830_k.field_175966_c[EnumFacing.DOWN.getIndex()]);
             }
 
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = this.field_175830_k.field_175965_b[EnumFacing.UP.getIndex()];
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = this.field_175830_k.field_175965_b[EnumFacing.UP.getIndex()];
 
             if (structureoceanmonumentpieces$roomdefinition.field_175965_b[EnumFacing.UP.getIndex()] == null) {
                 this.func_175819_a(worldIn, structureBoundingBoxIn, 1, 8, 1, 6, 8, 6, field_175828_a);
@@ -309,15 +307,15 @@ public class StructureOceanMonumentPieces {
         public DoubleYZRoom() {
         }
 
-        public DoubleYZRoom(EnumFacing p_i45594_1_, StructureOceanMonumentPieces.RoomDefinition p_i45594_2_, Random p_i45594_3_) {
+        public DoubleYZRoom(final EnumFacing p_i45594_1_, final StructureOceanMonumentPieces.RoomDefinition p_i45594_2_, final Random p_i45594_3_) {
             super(1, p_i45594_1_, p_i45594_2_, 1, 2, 2);
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = this.field_175830_k.field_175965_b[EnumFacing.NORTH.getIndex()];
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition1 = this.field_175830_k;
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition2 = structureoceanmonumentpieces$roomdefinition.field_175965_b[EnumFacing.UP.getIndex()];
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition3 = structureoceanmonumentpieces$roomdefinition1.field_175965_b[EnumFacing.UP.getIndex()];
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = this.field_175830_k.field_175965_b[EnumFacing.NORTH.getIndex()];
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition1 = this.field_175830_k;
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition2 = structureoceanmonumentpieces$roomdefinition.field_175965_b[EnumFacing.UP.getIndex()];
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition3 = structureoceanmonumentpieces$roomdefinition1.field_175965_b[EnumFacing.UP.getIndex()];
 
             if (this.field_175830_k.field_175967_a / 25 > 0) {
                 this.func_175821_a(worldIn, structureBoundingBoxIn, 0, 8, structureoceanmonumentpieces$roomdefinition.field_175966_c[EnumFacing.DOWN.getIndex()]);
@@ -423,13 +421,13 @@ public class StructureOceanMonumentPieces {
         public DoubleZRoom() {
         }
 
-        public DoubleZRoom(EnumFacing p_i45593_1_, StructureOceanMonumentPieces.RoomDefinition p_i45593_2_, Random p_i45593_3_) {
+        public DoubleZRoom(final EnumFacing p_i45593_1_, final StructureOceanMonumentPieces.RoomDefinition p_i45593_2_, final Random p_i45593_3_) {
             super(1, p_i45593_1_, p_i45593_2_, 1, 1, 2);
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = this.field_175830_k.field_175965_b[EnumFacing.NORTH.getIndex()];
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition1 = this.field_175830_k;
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = this.field_175830_k.field_175965_b[EnumFacing.NORTH.getIndex()];
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition1 = this.field_175830_k;
 
             if (this.field_175830_k.field_175967_a / 25 > 0) {
                 this.func_175821_a(worldIn, structureBoundingBoxIn, 0, 8, structureoceanmonumentpieces$roomdefinition.field_175966_c[EnumFacing.DOWN.getIndex()]);
@@ -513,11 +511,11 @@ public class StructureOceanMonumentPieces {
         public EntryRoom() {
         }
 
-        public EntryRoom(EnumFacing p_i45592_1_, StructureOceanMonumentPieces.RoomDefinition p_i45592_2_) {
+        public EntryRoom(final EnumFacing p_i45592_1_, final StructureOceanMonumentPieces.RoomDefinition p_i45592_2_) {
             super(1, p_i45592_1_, p_i45592_2_, 1, 1, 1);
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 3, 0, 2, 3, 7, field_175826_b, field_175826_b, false);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 5, 3, 0, 7, 3, 7, field_175826_b, field_175826_b, false);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 2, 0, 1, 2, 7, field_175826_b, field_175826_b, false);
@@ -548,11 +546,11 @@ public class StructureOceanMonumentPieces {
         private FitSimpleRoomHelper() {
         }
 
-        public boolean func_175969_a(StructureOceanMonumentPieces.RoomDefinition p_175969_1_) {
+        public boolean func_175969_a(final StructureOceanMonumentPieces.RoomDefinition p_175969_1_) {
             return true;
         }
 
-        public StructureOceanMonumentPieces.Piece func_175968_a(EnumFacing p_175968_1_, StructureOceanMonumentPieces.RoomDefinition p_175968_2_, Random p_175968_3_) {
+        public StructureOceanMonumentPieces.Piece func_175968_a(final EnumFacing p_175968_1_, final StructureOceanMonumentPieces.RoomDefinition p_175968_2_, final Random p_175968_3_) {
             p_175968_2_.field_175963_d = true;
             return new StructureOceanMonumentPieces.SimpleRoom(p_175968_1_, p_175968_2_, p_175968_3_);
         }
@@ -562,11 +560,11 @@ public class StructureOceanMonumentPieces {
         private FitSimpleRoomTopHelper() {
         }
 
-        public boolean func_175969_a(StructureOceanMonumentPieces.RoomDefinition p_175969_1_) {
+        public boolean func_175969_a(final StructureOceanMonumentPieces.RoomDefinition p_175969_1_) {
             return !p_175969_1_.field_175966_c[EnumFacing.WEST.getIndex()] && !p_175969_1_.field_175966_c[EnumFacing.EAST.getIndex()] && !p_175969_1_.field_175966_c[EnumFacing.NORTH.getIndex()] && !p_175969_1_.field_175966_c[EnumFacing.SOUTH.getIndex()] && !p_175969_1_.field_175966_c[EnumFacing.UP.getIndex()];
         }
 
-        public StructureOceanMonumentPieces.Piece func_175968_a(EnumFacing p_175968_1_, StructureOceanMonumentPieces.RoomDefinition p_175968_2_, Random p_175968_3_) {
+        public StructureOceanMonumentPieces.Piece func_175968_a(final EnumFacing p_175968_1_, final StructureOceanMonumentPieces.RoomDefinition p_175968_2_, final Random p_175968_3_) {
             p_175968_2_.field_175963_d = true;
             return new StructureOceanMonumentPieces.SimpleTopRoom(p_175968_1_, p_175968_2_, p_175968_3_);
         }
@@ -580,7 +578,7 @@ public class StructureOceanMonumentPieces {
         public MonumentBuilding() {
         }
 
-        public MonumentBuilding(Random p_i45599_1_, int p_i45599_2_, int p_i45599_3_, EnumFacing p_i45599_4_) {
+        public MonumentBuilding(final Random p_i45599_1_, final int p_i45599_2_, final int p_i45599_3_, final EnumFacing p_i45599_4_) {
             super(0);
             this.coordBaseMode = p_i45599_4_;
 
@@ -594,11 +592,11 @@ public class StructureOceanMonumentPieces {
                     this.boundingBox = new StructureBoundingBox(p_i45599_2_, 39, p_i45599_3_, p_i45599_2_ + 58 - 1, 61, p_i45599_3_ + 58 - 1);
             }
 
-            List<StructureOceanMonumentPieces.RoomDefinition> list = this.func_175836_a(p_i45599_1_);
+            final List<StructureOceanMonumentPieces.RoomDefinition> list = this.func_175836_a(p_i45599_1_);
             this.field_175845_o.field_175963_d = true;
             this.field_175843_q.add(new StructureOceanMonumentPieces.EntryRoom(this.coordBaseMode, this.field_175845_o));
             this.field_175843_q.add(new StructureOceanMonumentPieces.MonumentCoreRoom(this.coordBaseMode, this.field_175844_p, p_i45599_1_));
-            List<StructureOceanMonumentPieces.MonumentRoomFitHelper> list1 = Lists.newArrayList();
+            final List<StructureOceanMonumentPieces.MonumentRoomFitHelper> list1 = Lists.newArrayList();
             list1.add(new StructureOceanMonumentPieces.XYDoubleRoomFitHelper());
             list1.add(new StructureOceanMonumentPieces.YZDoubleRoomFitHelper());
             list1.add(new StructureOceanMonumentPieces.ZDoubleRoomFitHelper());
@@ -608,64 +606,67 @@ public class StructureOceanMonumentPieces {
             list1.add(new StructureOceanMonumentPieces.FitSimpleRoomHelper());
             label319:
 
-            for (StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition : list) {
+            for (final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition : list) {
                 if (!structureoceanmonumentpieces$roomdefinition.field_175963_d && !structureoceanmonumentpieces$roomdefinition.func_175961_b()) {
-                    Iterator iterator = list1.iterator();
+                    final Iterator iterator = list1.iterator();
                     StructureOceanMonumentPieces.MonumentRoomFitHelper structureoceanmonumentpieces$monumentroomfithelper;
 
-                    do {
+                    while (true) {
                         if (!iterator.hasNext()) {
                             continue label319;
                         }
 
-                        structureoceanmonumentpieces$monumentroomfithelper = (MonumentRoomFitHelper) iterator.next();
+                        structureoceanmonumentpieces$monumentroomfithelper = (StructureOceanMonumentPieces.MonumentRoomFitHelper) iterator.next();
 
-                    } while (!structureoceanmonumentpieces$monumentroomfithelper.func_175969_a(structureoceanmonumentpieces$roomdefinition));
+                        if (structureoceanmonumentpieces$monumentroomfithelper.func_175969_a(structureoceanmonumentpieces$roomdefinition)) {
+                            break;
+                        }
+                    }
 
                     this.field_175843_q.add(structureoceanmonumentpieces$monumentroomfithelper.func_175968_a(this.coordBaseMode, structureoceanmonumentpieces$roomdefinition, p_i45599_1_));
                 }
             }
 
-            int j = this.boundingBox.minY;
-            int k = this.getXWithOffset(9, 22);
-            int l = this.getZWithOffset(9, 22);
+            final int j = this.boundingBox.minY;
+            final int k = this.getXWithOffset(9, 22);
+            final int l = this.getZWithOffset(9, 22);
 
-            for (StructureOceanMonumentPieces.Piece structureoceanmonumentpieces$piece : this.field_175843_q) {
+            for (final StructureOceanMonumentPieces.Piece structureoceanmonumentpieces$piece : this.field_175843_q) {
                 structureoceanmonumentpieces$piece.getBoundingBox().offset(k, j, l);
             }
 
-            StructureBoundingBox structureboundingbox1 = StructureBoundingBox.func_175899_a(this.getXWithOffset(1, 1), this.getYWithOffset(1), this.getZWithOffset(1, 1), this.getXWithOffset(23, 21), this.getYWithOffset(8), this.getZWithOffset(23, 21));
-            StructureBoundingBox structureboundingbox2 = StructureBoundingBox.func_175899_a(this.getXWithOffset(34, 1), this.getYWithOffset(1), this.getZWithOffset(34, 1), this.getXWithOffset(56, 21), this.getYWithOffset(8), this.getZWithOffset(56, 21));
-            StructureBoundingBox structureboundingbox = StructureBoundingBox.func_175899_a(this.getXWithOffset(22, 22), this.getYWithOffset(13), this.getZWithOffset(22, 22), this.getXWithOffset(35, 35), this.getYWithOffset(17), this.getZWithOffset(35, 35));
+            final StructureBoundingBox structureboundingbox1 = StructureBoundingBox.func_175899_a(this.getXWithOffset(1, 1), this.getYWithOffset(1), this.getZWithOffset(1, 1), this.getXWithOffset(23, 21), this.getYWithOffset(8), this.getZWithOffset(23, 21));
+            final StructureBoundingBox structureboundingbox2 = StructureBoundingBox.func_175899_a(this.getXWithOffset(34, 1), this.getYWithOffset(1), this.getZWithOffset(34, 1), this.getXWithOffset(56, 21), this.getYWithOffset(8), this.getZWithOffset(56, 21));
+            final StructureBoundingBox structureboundingbox = StructureBoundingBox.func_175899_a(this.getXWithOffset(22, 22), this.getYWithOffset(13), this.getZWithOffset(22, 22), this.getXWithOffset(35, 35), this.getYWithOffset(17), this.getZWithOffset(35, 35));
             int i = p_i45599_1_.nextInt();
             this.field_175843_q.add(new StructureOceanMonumentPieces.WingRoom(this.coordBaseMode, structureboundingbox1, i++));
             this.field_175843_q.add(new StructureOceanMonumentPieces.WingRoom(this.coordBaseMode, structureboundingbox2, i++));
             this.field_175843_q.add(new StructureOceanMonumentPieces.Penthouse(this.coordBaseMode, structureboundingbox));
         }
 
-        private List<StructureOceanMonumentPieces.RoomDefinition> func_175836_a(Random p_175836_1_) {
-            StructureOceanMonumentPieces.RoomDefinition[] astructureoceanmonumentpieces$roomdefinition = new StructureOceanMonumentPieces.RoomDefinition[75];
+        private List<StructureOceanMonumentPieces.RoomDefinition> func_175836_a(final Random p_175836_1_) {
+            final StructureOceanMonumentPieces.RoomDefinition[] astructureoceanmonumentpieces$roomdefinition = new StructureOceanMonumentPieces.RoomDefinition[75];
 
             for (int i = 0; i < 5; ++i) {
                 for (int j = 0; j < 4; ++j) {
-                    int k = 0;
-                    int l = func_175820_a(i, k, j);
+                    final int k = 0;
+                    final int l = func_175820_a(i, k, j);
                     astructureoceanmonumentpieces$roomdefinition[l] = new StructureOceanMonumentPieces.RoomDefinition(l);
                 }
             }
 
             for (int i2 = 0; i2 < 5; ++i2) {
                 for (int l2 = 0; l2 < 4; ++l2) {
-                    int k3 = 1;
-                    int j4 = func_175820_a(i2, k3, l2);
+                    final int k3 = 1;
+                    final int j4 = func_175820_a(i2, k3, l2);
                     astructureoceanmonumentpieces$roomdefinition[j4] = new StructureOceanMonumentPieces.RoomDefinition(j4);
                 }
             }
 
             for (int j2 = 1; j2 < 4; ++j2) {
                 for (int i3 = 0; i3 < 2; ++i3) {
-                    int l3 = 2;
-                    int k4 = func_175820_a(j2, l3, i3);
+                    final int l3 = 2;
+                    final int k4 = func_175820_a(j2, l3, i3);
                     astructureoceanmonumentpieces$roomdefinition[k4] = new StructureOceanMonumentPieces.RoomDefinition(k4);
                 }
             }
@@ -675,16 +676,16 @@ public class StructureOceanMonumentPieces {
             for (int k2 = 0; k2 < 5; ++k2) {
                 for (int j3 = 0; j3 < 5; ++j3) {
                     for (int i4 = 0; i4 < 3; ++i4) {
-                        int l4 = func_175820_a(k2, i4, j3);
+                        final int l4 = func_175820_a(k2, i4, j3);
 
                         if (astructureoceanmonumentpieces$roomdefinition[l4] != null) {
-                            for (EnumFacing enumfacing : EnumFacing.values()) {
-                                int i1 = k2 + enumfacing.getFrontOffsetX();
-                                int j1 = i4 + enumfacing.getFrontOffsetY();
-                                int k1 = j3 + enumfacing.getFrontOffsetZ();
+                            for (final EnumFacing enumfacing : EnumFacing.values()) {
+                                final int i1 = k2 + enumfacing.getFrontOffsetX();
+                                final int j1 = i4 + enumfacing.getFrontOffsetY();
+                                final int k1 = j3 + enumfacing.getFrontOffsetZ();
 
                                 if (i1 >= 0 && i1 < 5 && k1 >= 0 && k1 < 5 && j1 >= 0 && j1 < 3) {
-                                    int l1 = func_175820_a(i1, j1, k1);
+                                    final int l1 = func_175820_a(i1, j1, k1);
 
                                     if (astructureoceanmonumentpieces$roomdefinition[l1] != null) {
                                         if (k1 != j3) {
@@ -700,11 +701,11 @@ public class StructureOceanMonumentPieces {
                 }
             }
 
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition;
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition;
             astructureoceanmonumentpieces$roomdefinition[field_175831_h].func_175957_a(EnumFacing.UP, structureoceanmonumentpieces$roomdefinition = new StructureOceanMonumentPieces.RoomDefinition(1003));
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition1;
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition1;
             astructureoceanmonumentpieces$roomdefinition[field_175832_i].func_175957_a(EnumFacing.SOUTH, structureoceanmonumentpieces$roomdefinition1 = new StructureOceanMonumentPieces.RoomDefinition(1001));
-            StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition2;
+            final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition2;
             astructureoceanmonumentpieces$roomdefinition[field_175829_j].func_175957_a(EnumFacing.SOUTH, structureoceanmonumentpieces$roomdefinition2 = new StructureOceanMonumentPieces.RoomDefinition(1002));
             structureoceanmonumentpieces$roomdefinition.field_175963_d = true;
             structureoceanmonumentpieces$roomdefinition1.field_175963_d = true;
@@ -719,9 +720,9 @@ public class StructureOceanMonumentPieces {
             this.field_175844_p.field_175965_b[EnumFacing.EAST.getIndex()].field_175965_b[EnumFacing.UP.getIndex()].field_175963_d = true;
             this.field_175844_p.field_175965_b[EnumFacing.NORTH.getIndex()].field_175965_b[EnumFacing.UP.getIndex()].field_175963_d = true;
             this.field_175844_p.field_175965_b[EnumFacing.EAST.getIndex()].field_175965_b[EnumFacing.NORTH.getIndex()].field_175965_b[EnumFacing.UP.getIndex()].field_175963_d = true;
-            List<StructureOceanMonumentPieces.RoomDefinition> list = Lists.newArrayList();
+            final List<StructureOceanMonumentPieces.RoomDefinition> list = Lists.newArrayList();
 
-            for (StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition4 : astructureoceanmonumentpieces$roomdefinition) {
+            for (final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition4 : astructureoceanmonumentpieces$roomdefinition) {
                 if (structureoceanmonumentpieces$roomdefinition4 != null) {
                     structureoceanmonumentpieces$roomdefinition4.func_175958_a();
                     list.add(structureoceanmonumentpieces$roomdefinition4);
@@ -732,16 +733,16 @@ public class StructureOceanMonumentPieces {
             Collections.shuffle(list, p_175836_1_);
             int i5 = 1;
 
-            for (StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition3 : list) {
+            for (final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition3 : list) {
                 int j5 = 0;
                 int k5 = 0;
 
                 while (j5 < 2 && k5 < 5) {
                     ++k5;
-                    int l5 = p_175836_1_.nextInt(6);
+                    final int l5 = p_175836_1_.nextInt(6);
 
                     if (structureoceanmonumentpieces$roomdefinition3.field_175966_c[l5]) {
-                        int i6 = EnumFacing.getFront(l5).getOpposite().getIndex();
+                        final int i6 = EnumFacing.getFront(l5).getOpposite().getIndex();
                         structureoceanmonumentpieces$roomdefinition3.field_175966_c[l5] = false;
                         structureoceanmonumentpieces$roomdefinition3.field_175965_b[l5].field_175966_c[i6] = false;
 
@@ -761,8 +762,8 @@ public class StructureOceanMonumentPieces {
             return list;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
-            int i = Math.max(worldIn.getSeaLevel(), 64) - this.boundingBox.minY;
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
+            final int i = Math.max(worldIn.func_181545_F(), 64) - this.boundingBox.minY;
             this.func_181655_a(worldIn, structureBoundingBoxIn, 0, 0, 0, 58, i, 58, false);
             this.func_175840_a(false, 0, worldIn, randomIn, structureBoundingBoxIn);
             this.func_175840_a(true, 33, worldIn, randomIn, structureBoundingBoxIn);
@@ -781,8 +782,8 @@ public class StructureOceanMonumentPieces {
                         k = 6;
                     }
 
-                    int l = j * 9;
-                    int i1 = k * 9;
+                    final int l = j * 9;
+                    final int i1 = k * 9;
 
                     for (int j1 = 0; j1 < 4; ++j1) {
                         for (int k1 = 0; k1 < 4; ++k1) {
@@ -800,13 +801,13 @@ public class StructureOceanMonumentPieces {
             }
 
             for (int l1 = 0; l1 < 5; ++l1) {
-                this.func_181655_a(worldIn, structureBoundingBoxIn, -1 - l1, l1 * 2, -1 - l1, -1 - l1, 23, 58 + l1, false);
-                this.func_181655_a(worldIn, structureBoundingBoxIn, 58 + l1, l1 * 2, -1 - l1, 58 + l1, 23, 58 + l1, false);
-                this.func_181655_a(worldIn, structureBoundingBoxIn, -l1, l1 * 2, -1 - l1, 57 + l1, 23, -1 - l1, false);
-                this.func_181655_a(worldIn, structureBoundingBoxIn, -l1, l1 * 2, 58 + l1, 57 + l1, 23, 58 + l1, false);
+                this.func_181655_a(worldIn, structureBoundingBoxIn, -1 - l1, 0 + l1 * 2, -1 - l1, -1 - l1, 23, 58 + l1, false);
+                this.func_181655_a(worldIn, structureBoundingBoxIn, 58 + l1, 0 + l1 * 2, -1 - l1, 58 + l1, 23, 58 + l1, false);
+                this.func_181655_a(worldIn, structureBoundingBoxIn, 0 - l1, 0 + l1 * 2, -1 - l1, 57 + l1, 23, -1 - l1, false);
+                this.func_181655_a(worldIn, structureBoundingBoxIn, 0 - l1, 0 + l1 * 2, 58 + l1, 57 + l1, 23, 58 + l1, false);
             }
 
-            for (StructureOceanMonumentPieces.Piece structureoceanmonumentpieces$piece : this.field_175843_q) {
+            for (final StructureOceanMonumentPieces.Piece structureoceanmonumentpieces$piece : this.field_175843_q) {
                 if (structureoceanmonumentpieces$piece.getBoundingBox().intersectsWith(structureBoundingBoxIn)) {
                     structureoceanmonumentpieces$piece.addComponentParts(worldIn, randomIn, structureBoundingBoxIn);
                 }
@@ -815,12 +816,12 @@ public class StructureOceanMonumentPieces {
             return true;
         }
 
-        private void func_175840_a(boolean p_175840_1_, int p_175840_2_, World worldIn, Random p_175840_4_, StructureBoundingBox p_175840_5_) {
-            int i = 24;
+        private void func_175840_a(final boolean p_175840_1_, final int p_175840_2_, final World worldIn, final Random p_175840_4_, final StructureBoundingBox p_175840_5_) {
+            final int i = 24;
 
             if (this.func_175818_a(p_175840_5_, p_175840_2_, 0, p_175840_2_ + 23, 20)) {
-                this.fillWithBlocks(worldIn, p_175840_5_, p_175840_2_, 0, 0, p_175840_2_ + 24, 0, 20, field_175828_a, field_175828_a, false);
-                this.func_181655_a(worldIn, p_175840_5_, p_175840_2_, 1, 0, p_175840_2_ + 24, 10, 20, false);
+                this.fillWithBlocks(worldIn, p_175840_5_, p_175840_2_ + 0, 0, 0, p_175840_2_ + 24, 0, 20, field_175828_a, field_175828_a, false);
+                this.func_181655_a(worldIn, p_175840_5_, p_175840_2_ + 0, 1, 0, p_175840_2_ + 24, 10, 20, false);
 
                 for (int j = 0; j < 4; ++j) {
                     this.fillWithBlocks(worldIn, p_175840_5_, p_175840_2_ + j, j + 1, j, p_175840_2_ + j, j + 1, 20, field_175826_b, field_175826_b, false);
@@ -838,8 +839,8 @@ public class StructureOceanMonumentPieces {
                 this.setBlockState(worldIn, field_175824_d, p_175840_2_ + 12, 9, 12, p_175840_5_);
                 this.setBlockState(worldIn, field_175824_d, p_175840_2_ + 12, 9, 15, p_175840_5_);
                 this.setBlockState(worldIn, field_175824_d, p_175840_2_ + 12, 9, 18, p_175840_5_);
-                int j1 = p_175840_1_ ? p_175840_2_ + 19 : p_175840_2_ + 5;
-                int k = p_175840_1_ ? p_175840_2_ + 5 : p_175840_2_ + 19;
+                final int j1 = p_175840_1_ ? p_175840_2_ + 19 : p_175840_2_ + 5;
+                final int k = p_175840_1_ ? p_175840_2_ + 5 : p_175840_2_ + 19;
 
                 for (int l = 20; l >= 5; l -= 3) {
                     this.setBlockState(worldIn, field_175824_d, j1, 5, l, p_175840_5_);
@@ -850,7 +851,7 @@ public class StructureOceanMonumentPieces {
                 }
 
                 for (int l1 = 0; l1 < 4; ++l1) {
-                    int i1 = p_175840_1_ ? p_175840_2_ + (24 - (17 - l1 * 3)) : p_175840_2_ + 17 - l1 * 3;
+                    final int i1 = p_175840_1_ ? p_175840_2_ + (24 - (17 - l1 * 3)) : p_175840_2_ + 17 - l1 * 3;
                     this.setBlockState(worldIn, field_175824_d, i1, 5, 5, p_175840_5_);
                 }
 
@@ -860,7 +861,7 @@ public class StructureOceanMonumentPieces {
             }
         }
 
-        private void func_175839_b(World worldIn, Random p_175839_2_, StructureBoundingBox p_175839_3_) {
+        private void func_175839_b(final World worldIn, final Random p_175839_2_, final StructureBoundingBox p_175839_3_) {
             if (this.func_175818_a(p_175839_3_, 22, 5, 35, 17)) {
                 this.func_181655_a(worldIn, p_175839_3_, 25, 0, 0, 32, 8, 20, false);
 
@@ -880,7 +881,7 @@ public class StructureOceanMonumentPieces {
             }
         }
 
-        private void func_175837_c(World worldIn, Random p_175837_2_, StructureBoundingBox p_175837_3_) {
+        private void func_175837_c(final World worldIn, final Random p_175837_2_, final StructureBoundingBox p_175837_3_) {
             if (this.func_175818_a(p_175837_3_, 15, 20, 42, 21)) {
                 this.fillWithBlocks(worldIn, p_175837_3_, 15, 0, 21, 42, 0, 21, field_175828_a, field_175828_a, false);
                 this.func_181655_a(worldIn, p_175837_3_, 26, 1, 21, 31, 3, 21, false);
@@ -939,7 +940,7 @@ public class StructureOceanMonumentPieces {
             }
         }
 
-        private void func_175841_d(World worldIn, Random p_175841_2_, StructureBoundingBox p_175841_3_) {
+        private void func_175841_d(final World worldIn, final Random p_175841_2_, final StructureBoundingBox p_175841_3_) {
             if (this.func_175818_a(p_175841_3_, 21, 21, 36, 36)) {
                 this.fillWithBlocks(worldIn, p_175841_3_, 21, 0, 22, 36, 0, 36, field_175828_a, field_175828_a, false);
                 this.func_181655_a(worldIn, p_175841_3_, 21, 1, 22, 36, 23, 36, false);
@@ -975,7 +976,7 @@ public class StructureOceanMonumentPieces {
             }
         }
 
-        private void func_175835_e(World worldIn, Random p_175835_2_, StructureBoundingBox p_175835_3_) {
+        private void func_175835_e(final World worldIn, final Random p_175835_2_, final StructureBoundingBox p_175835_3_) {
             if (this.func_175818_a(p_175835_3_, 0, 21, 6, 58)) {
                 this.fillWithBlocks(worldIn, p_175835_3_, 0, 0, 21, 6, 0, 57, field_175828_a, field_175828_a, false);
                 this.func_181655_a(worldIn, p_175835_3_, 0, 1, 21, 6, 7, 57, false);
@@ -1027,7 +1028,7 @@ public class StructureOceanMonumentPieces {
             }
         }
 
-        private void func_175842_f(World worldIn, Random p_175842_2_, StructureBoundingBox p_175842_3_) {
+        private void func_175842_f(final World worldIn, final Random p_175842_2_, final StructureBoundingBox p_175842_3_) {
             if (this.func_175818_a(p_175842_3_, 7, 21, 13, 50)) {
                 this.fillWithBlocks(worldIn, p_175842_3_, 7, 0, 21, 13, 0, 50, field_175828_a, field_175828_a, false);
                 this.func_181655_a(worldIn, p_175842_3_, 7, 1, 21, 13, 10, 50, false);
@@ -1087,7 +1088,7 @@ public class StructureOceanMonumentPieces {
             }
         }
 
-        private void func_175838_g(World worldIn, Random p_175838_2_, StructureBoundingBox p_175838_3_) {
+        private void func_175838_g(final World worldIn, final Random p_175838_2_, final StructureBoundingBox p_175838_3_) {
             if (this.func_175818_a(p_175838_3_, 14, 21, 20, 43)) {
                 this.fillWithBlocks(worldIn, p_175838_3_, 14, 0, 21, 20, 0, 43, field_175828_a, field_175828_a, false);
                 this.func_181655_a(worldIn, p_175838_3_, 14, 1, 22, 20, 14, 43, false);
@@ -1138,11 +1139,11 @@ public class StructureOceanMonumentPieces {
         public MonumentCoreRoom() {
         }
 
-        public MonumentCoreRoom(EnumFacing p_i45598_1_, StructureOceanMonumentPieces.RoomDefinition p_i45598_2_, Random p_i45598_3_) {
+        public MonumentCoreRoom(final EnumFacing p_i45598_1_, final StructureOceanMonumentPieces.RoomDefinition p_i45598_2_, final Random p_i45598_3_) {
             super(1, p_i45598_1_, p_i45598_2_, 2, 2, 2);
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             this.func_175819_a(worldIn, structureBoundingBoxIn, 1, 8, 0, 14, 8, 14, field_175828_a);
             int i = 7;
             IBlockState iblockstate = field_175826_b;
@@ -1222,11 +1223,11 @@ public class StructureOceanMonumentPieces {
         public Penthouse() {
         }
 
-        public Penthouse(EnumFacing p_i45591_1_, StructureBoundingBox p_i45591_2_) {
+        public Penthouse(final EnumFacing p_i45591_1_, final StructureBoundingBox p_i45591_2_) {
             super(p_i45591_1_, p_i45591_2_);
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 2, -1, 2, 11, -1, 11, field_175826_b, field_175826_b, false);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, -1, 0, 1, -1, 11, field_175828_a, field_175828_a, false);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 12, -1, 0, 13, -1, 11, field_175828_a, field_175828_a, false);
@@ -1285,7 +1286,7 @@ public class StructureOceanMonumentPieces {
         protected static final int field_175829_j = func_175820_a(4, 1, 0);
         protected StructureOceanMonumentPieces.RoomDefinition field_175830_k;
 
-        protected static final int func_175820_a(int p_175820_0_, int p_175820_1_, int p_175820_2_) {
+        protected static final int func_175820_a(final int p_175820_0_, final int p_175820_1_, final int p_175820_2_) {
             return p_175820_1_ * 25 + p_175820_2_ * 5 + p_175820_0_;
         }
 
@@ -1293,24 +1294,24 @@ public class StructureOceanMonumentPieces {
             super(0);
         }
 
-        public Piece(int p_i45588_1_) {
+        public Piece(final int p_i45588_1_) {
             super(p_i45588_1_);
         }
 
-        public Piece(EnumFacing p_i45589_1_, StructureBoundingBox p_i45589_2_) {
+        public Piece(final EnumFacing p_i45589_1_, final StructureBoundingBox p_i45589_2_) {
             super(1);
             this.coordBaseMode = p_i45589_1_;
             this.boundingBox = p_i45589_2_;
         }
 
-        protected Piece(int p_i45590_1_, EnumFacing p_i45590_2_, StructureOceanMonumentPieces.RoomDefinition p_i45590_3_, int p_i45590_4_, int p_i45590_5_, int p_i45590_6_) {
+        protected Piece(final int p_i45590_1_, final EnumFacing p_i45590_2_, final StructureOceanMonumentPieces.RoomDefinition p_i45590_3_, final int p_i45590_4_, final int p_i45590_5_, final int p_i45590_6_) {
             super(p_i45590_1_);
             this.coordBaseMode = p_i45590_2_;
             this.field_175830_k = p_i45590_3_;
-            int i = p_i45590_3_.field_175967_a;
-            int j = i % 5;
-            int k = i / 5 % 5;
-            int l = i / 25;
+            final int i = p_i45590_3_.field_175967_a;
+            final int j = i % 5;
+            final int k = i / 5 % 5;
+            final int l = i / 25;
 
             if (p_i45590_2_ != EnumFacing.NORTH && p_i45590_2_ != EnumFacing.SOUTH) {
                 this.boundingBox = new StructureBoundingBox(0, 0, 0, p_i45590_6_ * 8 - 1, p_i45590_5_ * 4 - 1, p_i45590_4_ * 8 - 1);
@@ -1336,18 +1337,18 @@ public class StructureOceanMonumentPieces {
             }
         }
 
-        protected void writeStructureToNBT(NBTTagCompound tagCompound) {
+        protected void writeStructureToNBT(final NBTTagCompound tagCompound) {
         }
 
-        protected void readStructureFromNBT(NBTTagCompound tagCompound) {
+        protected void readStructureFromNBT(final NBTTagCompound tagCompound) {
         }
 
-        protected void func_181655_a(World p_181655_1_, StructureBoundingBox p_181655_2_, int p_181655_3_, int p_181655_4_, int p_181655_5_, int p_181655_6_, int p_181655_7_, int p_181655_8_, boolean p_181655_9_) {
+        protected void func_181655_a(final World p_181655_1_, final StructureBoundingBox p_181655_2_, final int p_181655_3_, final int p_181655_4_, final int p_181655_5_, final int p_181655_6_, final int p_181655_7_, final int p_181655_8_, final boolean p_181655_9_) {
             for (int i = p_181655_4_; i <= p_181655_7_; ++i) {
                 for (int j = p_181655_3_; j <= p_181655_6_; ++j) {
                     for (int k = p_181655_5_; k <= p_181655_8_; ++k) {
                         if (!p_181655_9_ || this.getBlockStateFromPos(p_181655_1_, j, i, k, p_181655_2_).getBlock().getMaterial() != Material.air) {
-                            if (this.getYWithOffset(i) >= p_181655_1_.getSeaLevel()) {
+                            if (this.getYWithOffset(i) >= p_181655_1_.func_181545_F()) {
                                 this.setBlockState(p_181655_1_, Blocks.air.getDefaultState(), j, i, k, p_181655_2_);
                             } else {
                                 this.setBlockState(p_181655_1_, field_175822_f, j, i, k, p_181655_2_);
@@ -1358,22 +1359,22 @@ public class StructureOceanMonumentPieces {
             }
         }
 
-        protected void func_175821_a(World worldIn, StructureBoundingBox p_175821_2_, int p_175821_3_, int p_175821_4_, boolean p_175821_5_) {
+        protected void func_175821_a(final World worldIn, final StructureBoundingBox p_175821_2_, final int p_175821_3_, final int p_175821_4_, final boolean p_175821_5_) {
             if (p_175821_5_) {
-                this.fillWithBlocks(worldIn, p_175821_2_, p_175821_3_, 0, p_175821_4_, p_175821_3_ + 2, 0, p_175821_4_ + 8 - 1, field_175828_a, field_175828_a, false);
-                this.fillWithBlocks(worldIn, p_175821_2_, p_175821_3_ + 5, 0, p_175821_4_, p_175821_3_ + 8 - 1, 0, p_175821_4_ + 8 - 1, field_175828_a, field_175828_a, false);
-                this.fillWithBlocks(worldIn, p_175821_2_, p_175821_3_ + 3, 0, p_175821_4_, p_175821_3_ + 4, 0, p_175821_4_ + 2, field_175828_a, field_175828_a, false);
+                this.fillWithBlocks(worldIn, p_175821_2_, p_175821_3_ + 0, 0, p_175821_4_ + 0, p_175821_3_ + 2, 0, p_175821_4_ + 8 - 1, field_175828_a, field_175828_a, false);
+                this.fillWithBlocks(worldIn, p_175821_2_, p_175821_3_ + 5, 0, p_175821_4_ + 0, p_175821_3_ + 8 - 1, 0, p_175821_4_ + 8 - 1, field_175828_a, field_175828_a, false);
+                this.fillWithBlocks(worldIn, p_175821_2_, p_175821_3_ + 3, 0, p_175821_4_ + 0, p_175821_3_ + 4, 0, p_175821_4_ + 2, field_175828_a, field_175828_a, false);
                 this.fillWithBlocks(worldIn, p_175821_2_, p_175821_3_ + 3, 0, p_175821_4_ + 5, p_175821_3_ + 4, 0, p_175821_4_ + 8 - 1, field_175828_a, field_175828_a, false);
                 this.fillWithBlocks(worldIn, p_175821_2_, p_175821_3_ + 3, 0, p_175821_4_ + 2, p_175821_3_ + 4, 0, p_175821_4_ + 2, field_175826_b, field_175826_b, false);
                 this.fillWithBlocks(worldIn, p_175821_2_, p_175821_3_ + 3, 0, p_175821_4_ + 5, p_175821_3_ + 4, 0, p_175821_4_ + 5, field_175826_b, field_175826_b, false);
                 this.fillWithBlocks(worldIn, p_175821_2_, p_175821_3_ + 2, 0, p_175821_4_ + 3, p_175821_3_ + 2, 0, p_175821_4_ + 4, field_175826_b, field_175826_b, false);
                 this.fillWithBlocks(worldIn, p_175821_2_, p_175821_3_ + 5, 0, p_175821_4_ + 3, p_175821_3_ + 5, 0, p_175821_4_ + 4, field_175826_b, field_175826_b, false);
             } else {
-                this.fillWithBlocks(worldIn, p_175821_2_, p_175821_3_, 0, p_175821_4_, p_175821_3_ + 8 - 1, 0, p_175821_4_ + 8 - 1, field_175828_a, field_175828_a, false);
+                this.fillWithBlocks(worldIn, p_175821_2_, p_175821_3_ + 0, 0, p_175821_4_ + 0, p_175821_3_ + 8 - 1, 0, p_175821_4_ + 8 - 1, field_175828_a, field_175828_a, false);
             }
         }
 
-        protected void func_175819_a(World worldIn, StructureBoundingBox p_175819_2_, int p_175819_3_, int p_175819_4_, int p_175819_5_, int p_175819_6_, int p_175819_7_, int p_175819_8_, IBlockState p_175819_9_) {
+        protected void func_175819_a(final World worldIn, final StructureBoundingBox p_175819_2_, final int p_175819_3_, final int p_175819_4_, final int p_175819_5_, final int p_175819_6_, final int p_175819_7_, final int p_175819_8_, final IBlockState p_175819_9_) {
             for (int i = p_175819_4_; i <= p_175819_7_; ++i) {
                 for (int j = p_175819_3_; j <= p_175819_6_; ++j) {
                     for (int k = p_175819_5_; k <= p_175819_8_; ++k) {
@@ -1385,21 +1386,21 @@ public class StructureOceanMonumentPieces {
             }
         }
 
-        protected boolean func_175818_a(StructureBoundingBox p_175818_1_, int p_175818_2_, int p_175818_3_, int p_175818_4_, int p_175818_5_) {
-            int i = this.getXWithOffset(p_175818_2_, p_175818_3_);
-            int j = this.getZWithOffset(p_175818_2_, p_175818_3_);
-            int k = this.getXWithOffset(p_175818_4_, p_175818_5_);
-            int l = this.getZWithOffset(p_175818_4_, p_175818_5_);
+        protected boolean func_175818_a(final StructureBoundingBox p_175818_1_, final int p_175818_2_, final int p_175818_3_, final int p_175818_4_, final int p_175818_5_) {
+            final int i = this.getXWithOffset(p_175818_2_, p_175818_3_);
+            final int j = this.getZWithOffset(p_175818_2_, p_175818_3_);
+            final int k = this.getXWithOffset(p_175818_4_, p_175818_5_);
+            final int l = this.getZWithOffset(p_175818_4_, p_175818_5_);
             return p_175818_1_.intersectsWith(Math.min(i, k), Math.min(j, l), Math.max(i, k), Math.max(j, l));
         }
 
-        protected boolean func_175817_a(World worldIn, StructureBoundingBox p_175817_2_, int p_175817_3_, int p_175817_4_, int p_175817_5_) {
-            int i = this.getXWithOffset(p_175817_3_, p_175817_5_);
-            int j = this.getYWithOffset(p_175817_4_);
-            int k = this.getZWithOffset(p_175817_3_, p_175817_5_);
+        protected boolean func_175817_a(final World worldIn, final StructureBoundingBox p_175817_2_, final int p_175817_3_, final int p_175817_4_, final int p_175817_5_) {
+            final int i = this.getXWithOffset(p_175817_3_, p_175817_5_);
+            final int j = this.getYWithOffset(p_175817_4_);
+            final int k = this.getZWithOffset(p_175817_3_, p_175817_5_);
 
             if (p_175817_2_.isVecInside(new BlockPos(i, j, k))) {
-                EntityGuardian entityguardian = new EntityGuardian(worldIn);
+                final EntityGuardian entityguardian = new EntityGuardian(worldIn);
                 entityguardian.setElder(true);
                 entityguardian.heal(entityguardian.getMaxHealth());
                 entityguardian.setLocationAndAngles((double) i + 0.5D, j, (double) k + 0.5D, 0.0F, 0.0F);
@@ -1420,11 +1421,11 @@ public class StructureOceanMonumentPieces {
         boolean field_175964_e;
         int field_175962_f;
 
-        public RoomDefinition(int p_i45584_1_) {
+        public RoomDefinition(final int p_i45584_1_) {
             this.field_175967_a = p_i45584_1_;
         }
 
-        public void func_175957_a(EnumFacing p_175957_1_, StructureOceanMonumentPieces.RoomDefinition p_175957_2_) {
+        public void func_175957_a(final EnumFacing p_175957_1_, final StructureOceanMonumentPieces.RoomDefinition p_175957_2_) {
             this.field_175965_b[p_175957_1_.getIndex()] = p_175957_2_;
             p_175957_2_.field_175965_b[p_175957_1_.getOpposite().getIndex()] = this;
         }
@@ -1435,7 +1436,7 @@ public class StructureOceanMonumentPieces {
             }
         }
 
-        public boolean func_175959_a(int p_175959_1_) {
+        public boolean func_175959_a(final int p_175959_1_) {
             if (this.field_175964_e) {
                 return true;
             } else {
@@ -1474,12 +1475,12 @@ public class StructureOceanMonumentPieces {
         public SimpleRoom() {
         }
 
-        public SimpleRoom(EnumFacing p_i45587_1_, StructureOceanMonumentPieces.RoomDefinition p_i45587_2_, Random p_i45587_3_) {
+        public SimpleRoom(final EnumFacing p_i45587_1_, final StructureOceanMonumentPieces.RoomDefinition p_i45587_2_, final Random p_i45587_3_) {
             super(1, p_i45587_1_, p_i45587_2_, 1, 1, 1);
             this.field_175833_o = p_i45587_3_.nextInt(3);
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.field_175830_k.field_175967_a / 25 > 0) {
                 this.func_175821_a(worldIn, structureBoundingBoxIn, 0, 0, this.field_175830_k.field_175966_c[EnumFacing.DOWN.getIndex()]);
             }
@@ -1488,7 +1489,7 @@ public class StructureOceanMonumentPieces {
                 this.func_175819_a(worldIn, structureBoundingBoxIn, 1, 4, 1, 6, 4, 6, field_175828_a);
             }
 
-            boolean flag = this.field_175833_o != 0 && randomIn.nextBoolean() && !this.field_175830_k.field_175966_c[EnumFacing.DOWN.getIndex()] && !this.field_175830_k.field_175966_c[EnumFacing.UP.getIndex()] && this.field_175830_k.func_175960_c() > 1;
+            final boolean flag = this.field_175833_o != 0 && randomIn.nextBoolean() && !this.field_175830_k.field_175966_c[EnumFacing.DOWN.getIndex()] && !this.field_175830_k.field_175966_c[EnumFacing.UP.getIndex()] && this.field_175830_k.func_175960_c() > 1;
 
             if (this.field_175833_o == 0) {
                 this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 1, 0, 2, 1, 2, field_175826_b, field_175826_b, false);
@@ -1641,11 +1642,11 @@ public class StructureOceanMonumentPieces {
         public SimpleTopRoom() {
         }
 
-        public SimpleTopRoom(EnumFacing p_i45586_1_, StructureOceanMonumentPieces.RoomDefinition p_i45586_2_, Random p_i45586_3_) {
+        public SimpleTopRoom(final EnumFacing p_i45586_1_, final StructureOceanMonumentPieces.RoomDefinition p_i45586_2_, final Random p_i45586_3_) {
             super(1, p_i45586_1_, p_i45586_2_, 1, 1, 1);
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.field_175830_k.field_175967_a / 25 > 0) {
                 this.func_175821_a(worldIn, structureBoundingBoxIn, 0, 0, this.field_175830_k.field_175966_c[EnumFacing.DOWN.getIndex()]);
             }
@@ -1657,7 +1658,7 @@ public class StructureOceanMonumentPieces {
             for (int i = 1; i <= 6; ++i) {
                 for (int j = 1; j <= 6; ++j) {
                     if (randomIn.nextInt(3) != 0) {
-                        int k = 2 + (randomIn.nextInt(4) == 0 ? 0 : 1);
+                        final int k = 2 + (randomIn.nextInt(4) == 0 ? 0 : 1);
                         this.fillWithBlocks(worldIn, structureBoundingBoxIn, i, k, j, i, 3, j, Blocks.sponge.getStateFromMeta(1), Blocks.sponge.getStateFromMeta(1), false);
                     }
                 }
@@ -1694,12 +1695,12 @@ public class StructureOceanMonumentPieces {
         public WingRoom() {
         }
 
-        public WingRoom(EnumFacing p_i45585_1_, StructureBoundingBox p_i45585_2_, int p_i45585_3_) {
+        public WingRoom(final EnumFacing p_i45585_1_, final StructureBoundingBox p_i45585_2_, final int p_i45585_3_) {
             super(p_i45585_1_, p_i45585_2_);
             this.field_175834_o = p_i45585_3_ & 1;
         }
 
-        public boolean addComponentParts(World worldIn, Random randomIn, StructureBoundingBox structureBoundingBoxIn) {
+        public boolean addComponentParts(final World worldIn, final Random randomIn, final StructureBoundingBox structureBoundingBoxIn) {
             if (this.field_175834_o == 0) {
                 for (int i = 0; i < 4; ++i) {
                     this.fillWithBlocks(worldIn, structureBoundingBoxIn, 10 - i, 3 - i, 20 - i, 12 + i, 3 - i, 20, field_175826_b, field_175826_b, false);
@@ -1752,8 +1753,8 @@ public class StructureOceanMonumentPieces {
                 this.fillWithBlocks(worldIn, structureBoundingBoxIn, 9, 0, 18, 9, 2, 18, field_175826_b, field_175826_b, false);
                 this.fillWithBlocks(worldIn, structureBoundingBoxIn, 13, 0, 18, 13, 2, 18, field_175826_b, field_175826_b, false);
                 int j1 = 9;
-                int j = 20;
-                int k = 5;
+                final int j = 20;
+                final int k = 5;
 
                 for (int l = 0; l < 2; ++l) {
                     this.setBlockState(worldIn, field_175826_b, j1, k + 1, j, structureBoundingBoxIn);
@@ -1796,11 +1797,11 @@ public class StructureOceanMonumentPieces {
         private XDoubleRoomFitHelper() {
         }
 
-        public boolean func_175969_a(StructureOceanMonumentPieces.RoomDefinition p_175969_1_) {
+        public boolean func_175969_a(final StructureOceanMonumentPieces.RoomDefinition p_175969_1_) {
             return p_175969_1_.field_175966_c[EnumFacing.EAST.getIndex()] && !p_175969_1_.field_175965_b[EnumFacing.EAST.getIndex()].field_175963_d;
         }
 
-        public StructureOceanMonumentPieces.Piece func_175968_a(EnumFacing p_175968_1_, StructureOceanMonumentPieces.RoomDefinition p_175968_2_, Random p_175968_3_) {
+        public StructureOceanMonumentPieces.Piece func_175968_a(final EnumFacing p_175968_1_, final StructureOceanMonumentPieces.RoomDefinition p_175968_2_, final Random p_175968_3_) {
             p_175968_2_.field_175963_d = true;
             p_175968_2_.field_175965_b[EnumFacing.EAST.getIndex()].field_175963_d = true;
             return new StructureOceanMonumentPieces.DoubleXRoom(p_175968_1_, p_175968_2_, p_175968_3_);
@@ -1811,16 +1812,16 @@ public class StructureOceanMonumentPieces {
         private XYDoubleRoomFitHelper() {
         }
 
-        public boolean func_175969_a(StructureOceanMonumentPieces.RoomDefinition p_175969_1_) {
+        public boolean func_175969_a(final StructureOceanMonumentPieces.RoomDefinition p_175969_1_) {
             if (p_175969_1_.field_175966_c[EnumFacing.EAST.getIndex()] && !p_175969_1_.field_175965_b[EnumFacing.EAST.getIndex()].field_175963_d && p_175969_1_.field_175966_c[EnumFacing.UP.getIndex()] && !p_175969_1_.field_175965_b[EnumFacing.UP.getIndex()].field_175963_d) {
-                StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = p_175969_1_.field_175965_b[EnumFacing.EAST.getIndex()];
+                final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = p_175969_1_.field_175965_b[EnumFacing.EAST.getIndex()];
                 return structureoceanmonumentpieces$roomdefinition.field_175966_c[EnumFacing.UP.getIndex()] && !structureoceanmonumentpieces$roomdefinition.field_175965_b[EnumFacing.UP.getIndex()].field_175963_d;
             } else {
                 return false;
             }
         }
 
-        public StructureOceanMonumentPieces.Piece func_175968_a(EnumFacing p_175968_1_, StructureOceanMonumentPieces.RoomDefinition p_175968_2_, Random p_175968_3_) {
+        public StructureOceanMonumentPieces.Piece func_175968_a(final EnumFacing p_175968_1_, final StructureOceanMonumentPieces.RoomDefinition p_175968_2_, final Random p_175968_3_) {
             p_175968_2_.field_175963_d = true;
             p_175968_2_.field_175965_b[EnumFacing.EAST.getIndex()].field_175963_d = true;
             p_175968_2_.field_175965_b[EnumFacing.UP.getIndex()].field_175963_d = true;
@@ -1833,11 +1834,11 @@ public class StructureOceanMonumentPieces {
         private YDoubleRoomFitHelper() {
         }
 
-        public boolean func_175969_a(StructureOceanMonumentPieces.RoomDefinition p_175969_1_) {
+        public boolean func_175969_a(final StructureOceanMonumentPieces.RoomDefinition p_175969_1_) {
             return p_175969_1_.field_175966_c[EnumFacing.UP.getIndex()] && !p_175969_1_.field_175965_b[EnumFacing.UP.getIndex()].field_175963_d;
         }
 
-        public StructureOceanMonumentPieces.Piece func_175968_a(EnumFacing p_175968_1_, StructureOceanMonumentPieces.RoomDefinition p_175968_2_, Random p_175968_3_) {
+        public StructureOceanMonumentPieces.Piece func_175968_a(final EnumFacing p_175968_1_, final StructureOceanMonumentPieces.RoomDefinition p_175968_2_, final Random p_175968_3_) {
             p_175968_2_.field_175963_d = true;
             p_175968_2_.field_175965_b[EnumFacing.UP.getIndex()].field_175963_d = true;
             return new StructureOceanMonumentPieces.DoubleYRoom(p_175968_1_, p_175968_2_, p_175968_3_);
@@ -1848,16 +1849,16 @@ public class StructureOceanMonumentPieces {
         private YZDoubleRoomFitHelper() {
         }
 
-        public boolean func_175969_a(StructureOceanMonumentPieces.RoomDefinition p_175969_1_) {
+        public boolean func_175969_a(final StructureOceanMonumentPieces.RoomDefinition p_175969_1_) {
             if (p_175969_1_.field_175966_c[EnumFacing.NORTH.getIndex()] && !p_175969_1_.field_175965_b[EnumFacing.NORTH.getIndex()].field_175963_d && p_175969_1_.field_175966_c[EnumFacing.UP.getIndex()] && !p_175969_1_.field_175965_b[EnumFacing.UP.getIndex()].field_175963_d) {
-                StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = p_175969_1_.field_175965_b[EnumFacing.NORTH.getIndex()];
+                final StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = p_175969_1_.field_175965_b[EnumFacing.NORTH.getIndex()];
                 return structureoceanmonumentpieces$roomdefinition.field_175966_c[EnumFacing.UP.getIndex()] && !structureoceanmonumentpieces$roomdefinition.field_175965_b[EnumFacing.UP.getIndex()].field_175963_d;
             } else {
                 return false;
             }
         }
 
-        public StructureOceanMonumentPieces.Piece func_175968_a(EnumFacing p_175968_1_, StructureOceanMonumentPieces.RoomDefinition p_175968_2_, Random p_175968_3_) {
+        public StructureOceanMonumentPieces.Piece func_175968_a(final EnumFacing p_175968_1_, final StructureOceanMonumentPieces.RoomDefinition p_175968_2_, final Random p_175968_3_) {
             p_175968_2_.field_175963_d = true;
             p_175968_2_.field_175965_b[EnumFacing.NORTH.getIndex()].field_175963_d = true;
             p_175968_2_.field_175965_b[EnumFacing.UP.getIndex()].field_175963_d = true;
@@ -1870,11 +1871,11 @@ public class StructureOceanMonumentPieces {
         private ZDoubleRoomFitHelper() {
         }
 
-        public boolean func_175969_a(StructureOceanMonumentPieces.RoomDefinition p_175969_1_) {
+        public boolean func_175969_a(final StructureOceanMonumentPieces.RoomDefinition p_175969_1_) {
             return p_175969_1_.field_175966_c[EnumFacing.NORTH.getIndex()] && !p_175969_1_.field_175965_b[EnumFacing.NORTH.getIndex()].field_175963_d;
         }
 
-        public StructureOceanMonumentPieces.Piece func_175968_a(EnumFacing p_175968_1_, StructureOceanMonumentPieces.RoomDefinition p_175968_2_, Random p_175968_3_) {
+        public StructureOceanMonumentPieces.Piece func_175968_a(final EnumFacing p_175968_1_, final StructureOceanMonumentPieces.RoomDefinition p_175968_2_, final Random p_175968_3_) {
             StructureOceanMonumentPieces.RoomDefinition structureoceanmonumentpieces$roomdefinition = p_175968_2_;
 
             if (!p_175968_2_.field_175966_c[EnumFacing.NORTH.getIndex()] || p_175968_2_.field_175965_b[EnumFacing.NORTH.getIndex()].field_175963_d) {

@@ -6,6 +6,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import java.util.Properties;
 
 public class Property {
+    private final int[] values = null;
     private int defaultValue = 0;
     private String propertyName = null;
     private String[] propertyValues = null;
@@ -13,7 +14,7 @@ public class Property {
     private String[] userValues = null;
     private int value = 0;
 
-    public Property(String propertyName, String[] propertyValues, String userName, String[] userValues, int defaultValue) {
+    public Property(final String propertyName, final String[] propertyValues, final String userName, final String[] userValues, final int defaultValue) {
         this.propertyName = propertyName;
         this.propertyValues = propertyValues;
         this.userName = userName;
@@ -29,7 +30,7 @@ public class Property {
         }
     }
 
-    public boolean setPropertyValue(String propVal) {
+    public boolean setPropertyValue(final String propVal) {
         if (propVal == null) {
             this.value = this.defaultValue;
             return false;
@@ -45,27 +46,15 @@ public class Property {
         }
     }
 
-    public void nextValue(boolean forward) {
-        int i = 0;
-        int j = this.propertyValues.length - 1;
-        this.value = Config.limit(this.value, i, j);
+    public void nextValue() {
+        ++this.value;
 
-        if (forward) {
-            ++this.value;
-
-            if (this.value > j) {
-                this.value = i;
-            }
-        } else {
-            --this.value;
-
-            if (this.value < i) {
-                this.value = j;
-            }
+        if (this.value < 0 || this.value >= this.propertyValues.length) {
+            this.value = 0;
         }
     }
 
-    public void setValue(int val) {
+    public void setValue(final int val) {
         this.value = val;
 
         if (this.value < 0 || this.value >= this.propertyValues.length) {
@@ -97,24 +86,24 @@ public class Property {
         this.value = this.defaultValue;
     }
 
-    public boolean loadFrom(Properties props) {
+    public boolean loadFrom(final Properties props) {
         this.resetValue();
 
         if (props == null) {
             return false;
         } else {
-            String s = props.getProperty(this.propertyName);
+            final String s = props.getProperty(this.propertyName);
             return s != null && this.setPropertyValue(s);
         }
     }
 
-    public void saveTo(Properties props) {
+    public void saveTo(final Properties props) {
         if (props != null) {
             props.setProperty(this.getPropertyName(), this.getPropertyValue());
         }
     }
 
     public String toString() {
-        return this.propertyName + "=" + this.getPropertyValue() + " [" + Config.arrayToString(this.propertyValues) + "], value: " + this.value;
+        return "" + this.propertyName + "=" + this.getPropertyValue() + " [" + Config.arrayToString(this.propertyValues) + "], value: " + this.value;
     }
 }

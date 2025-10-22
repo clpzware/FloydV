@@ -9,16 +9,17 @@ import net.minecraft.util.StatCollector;
 import java.util.List;
 
 public class ItemFireworkCharge extends Item {
-    public int getColorFromItemStack(ItemStack stack, int renderPass) {
+    public int getColorFromItemStack(final ItemStack stack, final int renderPass) {
         if (renderPass != 1) {
             return super.getColorFromItemStack(stack, renderPass);
         } else {
-            NBTBase nbtbase = getExplosionTag(stack, "Colors");
+            final NBTBase nbtbase = getExplosionTag(stack, "Colors");
 
-            if (!(nbtbase instanceof NBTTagIntArray nbttagintarray)) {
+            if (!(nbtbase instanceof NBTTagIntArray)) {
                 return 9079434;
             } else {
-                int[] aint = nbttagintarray.getIntArray();
+                final NBTTagIntArray nbttagintarray = (NBTTagIntArray) nbtbase;
+                final int[] aint = nbttagintarray.getIntArray();
 
                 if (aint.length == 1) {
                     return aint[0];
@@ -27,7 +28,7 @@ public class ItemFireworkCharge extends Item {
                     int j = 0;
                     int k = 0;
 
-                    for (int l : aint) {
+                    for (final int l : aint) {
                         i += (l & 16711680) >> 16;
                         j += (l & 65280) >> 8;
                         k += (l & 255) >> 0;
@@ -42,9 +43,9 @@ public class ItemFireworkCharge extends Item {
         }
     }
 
-    public static NBTBase getExplosionTag(ItemStack stack, String key) {
+    public static NBTBase getExplosionTag(final ItemStack stack, final String key) {
         if (stack.hasTagCompound()) {
-            NBTTagCompound nbttagcompound = stack.getTagCompound().getCompoundTag("Explosion");
+            final NBTTagCompound nbttagcompound = stack.getTagCompound().getCompoundTag("Explosion");
 
             if (nbttagcompound != null) {
                 return nbttagcompound.getTag(key);
@@ -54,9 +55,15 @@ public class ItemFireworkCharge extends Item {
         return null;
     }
 
-    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+    /**
+     * allows items to add custom lines of information to the mouseover description
+     *
+     * @param tooltip  All lines to display in the Item's tooltip. This is a List of Strings.
+     * @param advanced Whether the setting "Advanced tooltips" is enabled
+     */
+    public void addInformation(final ItemStack stack, final EntityPlayer playerIn, final List<String> tooltip, final boolean advanced) {
         if (stack.hasTagCompound()) {
-            NBTTagCompound nbttagcompound = stack.getTagCompound().getCompoundTag("Explosion");
+            final NBTTagCompound nbttagcompound = stack.getTagCompound().getCompoundTag("Explosion");
 
             if (nbttagcompound != null) {
                 addExplosionInfo(nbttagcompound, tooltip);
@@ -64,8 +71,8 @@ public class ItemFireworkCharge extends Item {
         }
     }
 
-    public static void addExplosionInfo(NBTTagCompound nbt, List<String> tooltip) {
-        byte b0 = nbt.getByte("Type");
+    public static void addExplosionInfo(final NBTTagCompound nbt, final List<String> tooltip) {
+        final byte b0 = nbt.getByte("Type");
 
         if (b0 >= 0 && b0 <= 4) {
             tooltip.add(StatCollector.translateToLocal("item.fireworksCharge.type." + b0).trim());
@@ -73,13 +80,13 @@ public class ItemFireworkCharge extends Item {
             tooltip.add(StatCollector.translateToLocal("item.fireworksCharge.type").trim());
         }
 
-        int[] aint = nbt.getIntArray("Colors");
+        final int[] aint = nbt.getIntArray("Colors");
 
         if (aint.length > 0) {
             boolean flag = true;
             String s = "";
 
-            for (int i : aint) {
+            for (final int i : aint) {
                 if (!flag) {
                     s = s + ", ";
                 }
@@ -103,13 +110,13 @@ public class ItemFireworkCharge extends Item {
             tooltip.add(s);
         }
 
-        int[] aint1 = nbt.getIntArray("FadeColors");
+        final int[] aint1 = nbt.getIntArray("FadeColors");
 
         if (aint1.length > 0) {
             boolean flag2 = true;
             String s1 = StatCollector.translateToLocal("item.fireworksCharge.fadeTo") + " ";
 
-            for (int l : aint1) {
+            for (final int l : aint1) {
                 if (!flag2) {
                     s1 = s1 + ", ";
                 }
@@ -133,13 +140,13 @@ public class ItemFireworkCharge extends Item {
             tooltip.add(s1);
         }
 
-        boolean flag3 = nbt.getBoolean("Trail");
+        final boolean flag3 = nbt.getBoolean("Trail");
 
         if (flag3) {
             tooltip.add(StatCollector.translateToLocal("item.fireworksCharge.trail"));
         }
 
-        boolean flag4 = nbt.getBoolean("Flicker");
+        final boolean flag4 = nbt.getBoolean("Flicker");
 
         if (flag4) {
             tooltip.add(StatCollector.translateToLocal("item.fireworksCharge.flicker"));

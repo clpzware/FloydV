@@ -28,7 +28,7 @@ public enum RenderEntityParameterBool implements IExpressionBool {
     private final RenderManager renderManager;
     private static final RenderEntityParameterBool[] VALUES = values();
 
-    RenderEntityParameterBool(String name) {
+    RenderEntityParameterBool(final String name) {
         this.name = name;
         this.renderManager = Minecraft.getMinecraft().getRenderManager();
     }
@@ -42,13 +42,14 @@ public enum RenderEntityParameterBool implements IExpressionBool {
     }
 
     public boolean eval() {
-        Render render = this.renderManager.renderRender;
+        final Render render = this.renderManager.renderRender;
 
         if (render == null) {
             return false;
         } else {
-            if (render instanceof RendererLivingEntity rendererlivingentity) {
-                EntityLivingBase entitylivingbase = rendererlivingentity.renderEntity;
+            if (render instanceof RendererLivingEntity) {
+                final RendererLivingEntity rendererlivingentity = (RendererLivingEntity) render;
+                final EntityLivingBase entitylivingbase = rendererlivingentity.renderEntity;
 
                 if (entitylivingbase == null) {
                     return false;
@@ -100,11 +101,13 @@ public enum RenderEntityParameterBool implements IExpressionBool {
         }
     }
 
-    public static RenderEntityParameterBool parse(String str) {
+    public static RenderEntityParameterBool parse(final String str) {
         if (str == null) {
             return null;
         } else {
-            for (RenderEntityParameterBool renderentityparameterbool : VALUES) {
+            for (int i = 0; i < VALUES.length; ++i) {
+                final RenderEntityParameterBool renderentityparameterbool = VALUES[i];
+
                 if (renderentityparameterbool.getName().equals(str)) {
                     return renderentityparameterbool;
                 }

@@ -11,18 +11,21 @@ import java.util.Set;
 public class JsonSerializableSet extends ForwardingSet<String> implements IJsonSerializable {
     private final Set<String> underlyingSet = Sets.newHashSet();
 
-    public void fromJson(JsonElement json) {
+    public void fromJson(final JsonElement json) {
         if (json.isJsonArray()) {
-            for (JsonElement jsonelement : json.getAsJsonArray()) {
+            for (final JsonElement jsonelement : json.getAsJsonArray()) {
                 this.add(jsonelement.getAsString());
             }
         }
     }
 
+    /**
+     * Gets the JsonElement that can be serialized.
+     */
     public JsonElement getSerializableElement() {
-        JsonArray jsonarray = new JsonArray();
+        final JsonArray jsonarray = new JsonArray();
 
-        for (String s : this) {
+        for (final String s : this) {
             jsonarray.add(new JsonPrimitive(s));
         }
 

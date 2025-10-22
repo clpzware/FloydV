@@ -12,31 +12,31 @@ public class EntityUtils {
     private static final Map<String, Integer> mapIdByName = new HashMap();
     private static final Map<String, Class> mapClassByName = new HashMap();
 
-    public static int getEntityIdByClass(Entity entity) {
+    public static int getEntityIdByClass(final Entity entity) {
         return entity == null ? -1 : getEntityIdByClass(entity.getClass());
     }
 
-    public static int getEntityIdByClass(Class cls) {
-        Integer integer = mapIdByClass.get(cls);
-        return integer == null ? -1 : integer;
+    public static int getEntityIdByClass(final Class cls) {
+        final Integer integer = mapIdByClass.get(cls);
+        return integer == null ? -1 : integer.intValue();
     }
 
-    public static int getEntityIdByName(String name) {
-        Integer integer = mapIdByName.get(name);
-        return integer == null ? -1 : integer;
+    public static int getEntityIdByName(final String name) {
+        final Integer integer = mapIdByName.get(name);
+        return integer == null ? -1 : integer.intValue();
     }
 
-    public static Class getEntityClassByName(String name) {
-        Class oclass = mapClassByName.get(name);
+    public static Class getEntityClassByName(final String name) {
+        final Class oclass = mapClassByName.get(name);
         return oclass;
     }
 
     static {
         for (int i = 0; i < 1000; ++i) {
-            Class oclass = EntityList.getClassFromID(i);
+            final Class oclass = EntityList.getClassFromID(i);
 
             if (oclass != null) {
-                String s = EntityList.getStringFromID(i);
+                final String s = EntityList.getStringFromID(i);
 
                 if (s != null) {
                     if (mapIdByClass.containsKey(oclass)) {
@@ -51,8 +51,8 @@ public class EntityUtils {
                         Config.warn("Duplicate entity name: " + s + ", class1: " + mapClassByName.get(s) + ", class2: " + oclass);
                     }
 
-                    mapIdByClass.put(oclass, i);
-                    mapIdByName.put(s, i);
+                    mapIdByClass.put(oclass, Integer.valueOf(i));
+                    mapIdByName.put(s, Integer.valueOf(i));
                     mapClassByName.put(s, oclass);
                 }
             }

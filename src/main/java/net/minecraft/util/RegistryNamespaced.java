@@ -3,7 +3,6 @@ package net.minecraft.util;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -15,35 +14,46 @@ public class RegistryNamespaced<K, V> extends RegistrySimple<K, V> implements IO
         this.inverseObjectRegistry = ((BiMap) this.registryObjects).inverse();
     }
 
-    public ArrayList<V> valueItems = new ArrayList<>();
-
-    public void register(int id, K key, V value) {
-        this.underlyingIntegerMap.put(value, id);
-        this.putObject(key, value);
-        this.valueItems.add(value);
+    public void register(final int id, final K p_177775_2_, final V p_177775_3_) {
+        this.underlyingIntegerMap.put(p_177775_3_, id);
+        this.putObject(p_177775_2_, p_177775_3_);
     }
 
     protected Map<K, V> createUnderlyingMap() {
         return HashBiMap.create();
     }
 
-    public V getObject(K name) {
+    public V getObject(final K name) {
         return super.getObject(name);
     }
 
-    public K getNameForObject(V value) {
-        return this.inverseObjectRegistry.get(value);
+    /**
+     * Gets the name we use to identify the given object.
+     */
+    public K getNameForObject(final V p_177774_1_) {
+        return this.inverseObjectRegistry.get(p_177774_1_);
     }
 
-    public boolean containsKey(K key) {
-        return super.containsKey(key);
+    /**
+     * Does this registry contain an entry for the given key?
+     */
+    public boolean containsKey(final K p_148741_1_) {
+        return super.containsKey(p_148741_1_);
     }
 
-    public int getIDForObject(V value) {
-        return this.underlyingIntegerMap.get(value);
+    /**
+     * Gets the integer ID we use to identify the given object.
+     */
+    public int getIDForObject(final V p_148757_1_) {
+        return this.underlyingIntegerMap.get(p_148757_1_);
     }
 
-    public V getObjectById(int id) {
+    /**
+     * Gets the object identified by the given ID.
+     *
+     * @param id The id to fetch from the registry
+     */
+    public V getObjectById(final int id) {
         return this.underlyingIntegerMap.getByValue(id);
     }
 

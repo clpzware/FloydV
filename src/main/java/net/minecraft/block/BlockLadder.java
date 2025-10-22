@@ -1,7 +1,5 @@
 package net.minecraft.block;
 
-import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockState;
@@ -24,26 +22,21 @@ public class BlockLadder extends Block {
         this.setCreativeTab(CreativeTabs.tabDecorations);
     }
 
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
+    public AxisAlignedBB getCollisionBoundingBox(final World worldIn, final BlockPos pos, final IBlockState state) {
         this.setBlockBoundsBasedOnState(worldIn, pos);
         return super.getCollisionBoundingBox(worldIn, pos, state);
     }
 
-    public AxisAlignedBB getSelectedBoundingBox(World worldIn, BlockPos pos) {
+    public AxisAlignedBB getSelectedBoundingBox(final World worldIn, final BlockPos pos) {
         this.setBlockBoundsBasedOnState(worldIn, pos);
         return super.getSelectedBoundingBox(worldIn, pos);
     }
 
-    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-        IBlockState iblockstate = worldIn.getBlockState(pos);
+    public void setBlockBoundsBasedOnState(final IBlockAccess worldIn, final BlockPos pos) {
+        final IBlockState iblockstate = worldIn.getBlockState(pos);
 
-        if (iblockstate.getBlock() == this)
-        {
-            float f = 0.125F;
-
-            if(ViaLoadingBase.getInstance().getTargetVersion().newerThan(ProtocolVersion.v1_8)) {
-                f = 0.1875F;
-            }
+        if (iblockstate.getBlock() == this) {
+            final float f = 0.125F;
 
             switch (iblockstate.getValue(FACING)) {
                 case NORTH:
@@ -65,6 +58,9 @@ public class BlockLadder extends Block {
         }
     }
 
+    /**
+     * Used to determine ambient occlusion and culling when rebuilding chunks for render
+     */
     public boolean isOpaqueCube() {
         return false;
     }
@@ -73,15 +69,19 @@ public class BlockLadder extends Block {
         return false;
     }
 
-    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+    public boolean canPlaceBlockAt(final World worldIn, final BlockPos pos) {
         return worldIn.getBlockState(pos.west()).getBlock().isNormalCube() || (worldIn.getBlockState(pos.east()).getBlock().isNormalCube() || (worldIn.getBlockState(pos.north()).getBlock().isNormalCube() || worldIn.getBlockState(pos.south()).getBlock().isNormalCube()));
     }
 
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+    /**
+     * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
+     * IBlockstate
+     */
+    public IBlockState onBlockPlaced(final World worldIn, final BlockPos pos, final EnumFacing facing, final float hitX, final float hitY, final float hitZ, final int meta, final EntityLivingBase placer) {
         if (facing.getAxis().isHorizontal() && this.canBlockStay(worldIn, pos, facing)) {
             return this.getDefaultState().withProperty(FACING, facing);
         } else {
-            for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
+            for (final EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
                 if (this.canBlockStay(worldIn, pos, enumfacing)) {
                     return this.getDefaultState().withProperty(FACING, enumfacing);
                 }
@@ -91,8 +91,11 @@ public class BlockLadder extends Block {
         }
     }
 
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
-        EnumFacing enumfacing = state.getValue(FACING);
+    /**
+     * Called when a neighboring block changes.
+     */
+    public void onNeighborBlockChange(final World worldIn, final BlockPos pos, final IBlockState state, final Block neighborBlock) {
+        final EnumFacing enumfacing = state.getValue(FACING);
 
         if (!this.canBlockStay(worldIn, pos, enumfacing)) {
             this.dropBlockAsItem(worldIn, pos, state, 0);
@@ -102,7 +105,7 @@ public class BlockLadder extends Block {
         super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
     }
 
-    protected boolean canBlockStay(World worldIn, BlockPos pos, EnumFacing facing) {
+    protected boolean canBlockStay(final World worldIn, final BlockPos pos, final EnumFacing facing) {
         return worldIn.getBlockState(pos.offset(facing.getOpposite())).getBlock().isNormalCube();
     }
 
@@ -110,7 +113,10 @@ public class BlockLadder extends Block {
         return EnumWorldBlockLayer.CUTOUT;
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
         EnumFacing enumfacing = EnumFacing.getFront(meta);
 
         if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
@@ -120,7 +126,10 @@ public class BlockLadder extends Block {
         return this.getDefaultState().withProperty(FACING, enumfacing);
     }
 
-    public int getMetaFromState(IBlockState state) {
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
         return state.getValue(FACING).getIndex();
     }
 

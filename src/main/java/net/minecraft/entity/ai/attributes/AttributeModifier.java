@@ -11,13 +11,17 @@ public class AttributeModifier {
     private final int operation;
     private final String name;
     private final UUID id;
+
+    /**
+     * If false, this modifier is not saved in NBT. Used for "natural" modifiers like speed boost from sprinting
+     */
     private boolean isSaved;
 
-    public AttributeModifier(String nameIn, double amountIn, int operationIn) {
+    public AttributeModifier(final String nameIn, final double amountIn, final int operationIn) {
         this(MathHelper.getRandomUuid(ThreadLocalRandom.current()), nameIn, amountIn, operationIn);
     }
 
-    public AttributeModifier(UUID idIn, String nameIn, double amountIn, int operationIn) {
+    public AttributeModifier(final UUID idIn, final String nameIn, final double amountIn, final int operationIn) {
         this.isSaved = true;
         this.id = idIn;
         this.name = nameIn;
@@ -43,20 +47,26 @@ public class AttributeModifier {
         return this.amount;
     }
 
+    /**
+     * @see #isSaved
+     */
     public boolean isSaved() {
         return this.isSaved;
     }
 
-    public AttributeModifier setSaved(boolean saved) {
+    /**
+     * @see #isSaved
+     */
+    public AttributeModifier setSaved(final boolean saved) {
         this.isSaved = saved;
         return this;
     }
 
-    public boolean equals(Object p_equals_1_) {
+    public boolean equals(final Object p_equals_1_) {
         if (this == p_equals_1_) {
             return true;
         } else if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass()) {
-            AttributeModifier attributemodifier = (AttributeModifier) p_equals_1_;
+            final AttributeModifier attributemodifier = (AttributeModifier) p_equals_1_;
 
             if (this.id != null) {
                 return this.id.equals(attributemodifier.id);

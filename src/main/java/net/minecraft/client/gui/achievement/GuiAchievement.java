@@ -22,12 +22,12 @@ public class GuiAchievement extends Gui {
     private final RenderItem renderItem;
     private boolean permanentNotification;
 
-    public GuiAchievement(Minecraft mc) {
+    public GuiAchievement(final Minecraft mc) {
         this.mc = mc;
         this.renderItem = mc.getRenderItem();
     }
 
-    public void displayAchievement(Achievement ach) {
+    public void displayAchievement(final Achievement ach) {
         this.achievementTitle = I18n.format("achievement.get");
         this.achievementDescription = ach.getStatName().getUnformattedText();
         this.notificationTime = Minecraft.getSystemTime();
@@ -35,7 +35,7 @@ public class GuiAchievement extends Gui {
         this.permanentNotification = false;
     }
 
-    public void displayUnformattedAchievement(Achievement achievementIn) {
+    public void displayUnformattedAchievement(final Achievement achievementIn) {
         this.achievementTitle = achievementIn.getStatName().getUnformattedText();
         this.achievementDescription = achievementIn.getDescription();
         this.notificationTime = Minecraft.getSystemTime() + 2500L;
@@ -51,7 +51,7 @@ public class GuiAchievement extends Gui {
         GlStateManager.loadIdentity();
         this.width = this.mc.displayWidth;
         this.height = this.mc.displayHeight;
-        ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+        final ScaledResolution scaledresolution = new ScaledResolution(this.mc);
         this.width = scaledresolution.getScaledWidth();
         this.height = scaledresolution.getScaledHeight();
         GlStateManager.clear(256);
@@ -94,8 +94,8 @@ public class GuiAchievement extends Gui {
 
             d1 = d1 * d1;
             d1 = d1 * d1;
-            int i = this.width - 160;
-            int j = -(int) (d1 * 36.0D);
+            final int i = this.width - 160;
+            final int j = 0 - (int) (d1 * 36.0D);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.enableTexture2D();
             this.mc.getTextureManager().bindTexture(achievementBg);
@@ -105,8 +105,8 @@ public class GuiAchievement extends Gui {
             if (this.permanentNotification) {
                 this.mc.fontRendererObj.drawSplitString(this.achievementDescription, i + 30, j + 7, 120, -1);
             } else {
-                this.mc.fontRendererObj.drawString(this.achievementTitle, i + 30, j + 7, -256);
-                this.mc.fontRendererObj.drawString(this.achievementDescription, i + 30, j + 18, -1);
+                this.mc.fontRendererObj.draw(this.achievementTitle, i + 30, j + 7, -256);
+                this.mc.fontRendererObj.draw(this.achievementDescription, i + 30, j + 18, -1);
             }
 
             RenderHelper.enableGUIStandardItemLighting();

@@ -4,7 +4,7 @@ public class FunctionFloatArray implements IExpressionFloatArray {
     private final FunctionType type;
     private final IExpression[] arguments;
 
-    public FunctionFloatArray(FunctionType type, IExpression[] arguments) {
+    public FunctionFloatArray(final FunctionType type, final IExpression[] arguments) {
         this.type = type;
         this.arguments = arguments;
     }
@@ -18,6 +18,6 @@ public class FunctionFloatArray implements IExpressionFloatArray {
     }
 
     public String toString() {
-        return this.type + "()";
+        return "" + this.type + "()";
     }
 }

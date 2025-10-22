@@ -8,12 +8,12 @@ import net.minecraft.tileentity.TileEntityFurnace;
 
 public class ContainerFurnace extends Container {
     private final IInventory tileFurnace;
-    private int cookTime;
-    private int totalCookTime;
-    private int furnaceBurnTime;
-    private int currentItemBurnTime;
+    private int field_178152_f;
+    private int field_178153_g;
+    private int field_178154_h;
+    private int field_178155_i;
 
-    public ContainerFurnace(InventoryPlayer playerInventory, IInventory furnaceInventory) {
+    public ContainerFurnace(final InventoryPlayer playerInventory, final IInventory furnaceInventory) {
         this.tileFurnace = furnaceInventory;
         this.addSlotToContainer(new Slot(furnaceInventory, 0, 56, 17));
         this.addSlotToContainer(new SlotFurnaceFuel(furnaceInventory, 1, 56, 53));
@@ -30,52 +30,60 @@ public class ContainerFurnace extends Container {
         }
     }
 
-    public void onCraftGuiOpened(ICrafting listener) {
+    public void onCraftGuiOpened(final ICrafting listener) {
         super.onCraftGuiOpened(listener);
-        listener.sendAllWindowProperties(this, this.tileFurnace);
+        listener.func_175173_a(this, this.tileFurnace);
     }
 
+    /**
+     * Looks for changes made in the container, sends them to every listener.
+     */
     public void detectAndSendChanges() {
         super.detectAndSendChanges();
 
-        for (ICrafting icrafting : this.crafters) {
-            if (this.cookTime != this.tileFurnace.getField(2)) {
+        for (int i = 0; i < this.crafters.size(); ++i) {
+            final ICrafting icrafting = this.crafters.get(i);
+
+            if (this.field_178152_f != this.tileFurnace.getField(2)) {
                 icrafting.sendProgressBarUpdate(this, 2, this.tileFurnace.getField(2));
             }
 
-            if (this.furnaceBurnTime != this.tileFurnace.getField(0)) {
+            if (this.field_178154_h != this.tileFurnace.getField(0)) {
                 icrafting.sendProgressBarUpdate(this, 0, this.tileFurnace.getField(0));
             }
 
-            if (this.currentItemBurnTime != this.tileFurnace.getField(1)) {
+            if (this.field_178155_i != this.tileFurnace.getField(1)) {
                 icrafting.sendProgressBarUpdate(this, 1, this.tileFurnace.getField(1));
             }
 
-            if (this.totalCookTime != this.tileFurnace.getField(3)) {
+            if (this.field_178153_g != this.tileFurnace.getField(3)) {
                 icrafting.sendProgressBarUpdate(this, 3, this.tileFurnace.getField(3));
             }
         }
 
-        this.cookTime = this.tileFurnace.getField(2);
-        this.furnaceBurnTime = this.tileFurnace.getField(0);
-        this.currentItemBurnTime = this.tileFurnace.getField(1);
-        this.totalCookTime = this.tileFurnace.getField(3);
+        this.field_178152_f = this.tileFurnace.getField(2);
+        this.field_178154_h = this.tileFurnace.getField(0);
+        this.field_178155_i = this.tileFurnace.getField(1);
+        this.field_178153_g = this.tileFurnace.getField(3);
     }
 
-    public void updateProgressBar(int id, int data) {
+    public void updateProgressBar(final int id, final int data) {
         this.tileFurnace.setField(id, data);
     }
 
-    public boolean canInteractWith(EntityPlayer playerIn) {
+    public boolean canInteractWith(final EntityPlayer playerIn) {
         return this.tileFurnace.isUseableByPlayer(playerIn);
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+    /**
+     * Take a stack from the specified inventory slot.
+     */
+    public ItemStack transferStackInSlot(final EntityPlayer playerIn, final int index) {
         ItemStack itemstack = null;
-        Slot slot = this.inventorySlots.get(index);
+        final Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+            final ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
             if (index == 2) {
@@ -93,11 +101,11 @@ public class ContainerFurnace extends Container {
                     if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
                         return null;
                     }
-                } else if (index < 30) {
+                } else if (index >= 3 && index < 30) {
                     if (!this.mergeItemStack(itemstack1, 30, 39, false)) {
                         return null;
                     }
-                } else if (index < 39 && !this.mergeItemStack(itemstack1, 3, 30, false)) {
+                } else if (index >= 30 && index < 39 && !this.mergeItemStack(itemstack1, 3, 30, false)) {
                     return null;
                 }
             } else if (!this.mergeItemStack(itemstack1, 3, 39, false)) {

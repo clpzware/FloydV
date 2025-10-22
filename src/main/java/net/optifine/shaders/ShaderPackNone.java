@@ -6,11 +6,11 @@ public class ShaderPackNone implements IShaderPack {
     public void close() {
     }
 
-    public InputStream getResourceAsStream(String resName) {
+    public InputStream getResourceAsStream(final String resName) {
         return null;
     }
 
-    public boolean hasDirectory(String name) {
+    public boolean hasDirectory(final String name) {
         return false;
     }
 

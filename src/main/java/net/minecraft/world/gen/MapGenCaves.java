@@ -1,9 +1,6 @@
 package net.minecraft.world.gen;
 
 import com.google.common.base.Objects;
-
-import java.util.Random;
-
 import net.minecraft.block.BlockSand;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -13,20 +10,22 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkPrimer;
 
+import java.util.Random;
+
 public class MapGenCaves extends MapGenBase {
-    protected void func_180703_a(long p_180703_1_, int p_180703_3_, int p_180703_4_, ChunkPrimer p_180703_5_, double p_180703_6_, double p_180703_8_, double p_180703_10_) {
+    protected void func_180703_a(final long p_180703_1_, final int p_180703_3_, final int p_180703_4_, final ChunkPrimer p_180703_5_, final double p_180703_6_, final double p_180703_8_, final double p_180703_10_) {
         this.func_180702_a(p_180703_1_, p_180703_3_, p_180703_4_, p_180703_5_, p_180703_6_, p_180703_8_, p_180703_10_, 1.0F + this.rand.nextFloat() * 6.0F, 0.0F, 0.0F, -1, -1, 0.5D);
     }
 
-    protected void func_180702_a(long p_180702_1_, int p_180702_3_, int p_180702_4_, ChunkPrimer p_180702_5_, double p_180702_6_, double p_180702_8_, double p_180702_10_, float p_180702_12_, float p_180702_13_, float p_180702_14_, int p_180702_15_, int p_180702_16_, double p_180702_17_) {
-        double d0 = p_180702_3_ * 16 + 8;
-        double d1 = p_180702_4_ * 16 + 8;
+    protected void func_180702_a(final long p_180702_1_, final int p_180702_3_, final int p_180702_4_, final ChunkPrimer p_180702_5_, double p_180702_6_, double p_180702_8_, double p_180702_10_, final float p_180702_12_, float p_180702_13_, float p_180702_14_, int p_180702_15_, int p_180702_16_, final double p_180702_17_) {
+        final double d0 = p_180702_3_ * 16 + 8;
+        final double d1 = p_180702_4_ * 16 + 8;
         float f = 0.0F;
         float f1 = 0.0F;
-        Random random = new Random(p_180702_1_);
+        final Random random = new Random(p_180702_1_);
 
         if (p_180702_16_ <= 0) {
-            int i = this.range * 16 - 16;
+            final int i = this.range * 16 - 16;
             p_180702_16_ = i - random.nextInt(i / 4);
         }
 
@@ -37,13 +36,13 @@ public class MapGenCaves extends MapGenBase {
             flag2 = true;
         }
 
-        int j = random.nextInt(p_180702_16_ / 2) + p_180702_16_ / 4;
+        final int j = random.nextInt(p_180702_16_ / 2) + p_180702_16_ / 4;
 
-        for (boolean flag = random.nextInt(6) == 0; p_180702_15_ < p_180702_16_; ++p_180702_15_) {
-            double d2 = 1.5D + (double) (MathHelper.sin((float) p_180702_15_ * (float) Math.PI / (float) p_180702_16_) * p_180702_12_ * 1.0F);
-            double d3 = d2 * p_180702_17_;
-            float f2 = MathHelper.cos(p_180702_14_);
-            float f3 = MathHelper.sin(p_180702_14_);
+        for (final boolean flag = random.nextInt(6) == 0; p_180702_15_ < p_180702_16_; ++p_180702_15_) {
+            final double d2 = 1.5D + (double) (MathHelper.sin((float) p_180702_15_ * (float) Math.PI / (float) p_180702_16_) * p_180702_12_ * 1.0F);
+            final double d3 = d2 * p_180702_17_;
+            final float f2 = MathHelper.cos(p_180702_14_);
+            final float f3 = MathHelper.sin(p_180702_14_);
             p_180702_6_ += MathHelper.cos(p_180702_13_) * f2;
             p_180702_8_ += f3;
             p_180702_10_ += MathHelper.sin(p_180702_13_) * f2;
@@ -68,10 +67,10 @@ public class MapGenCaves extends MapGenBase {
             }
 
             if (flag2 || random.nextInt(4) != 0) {
-                double d4 = p_180702_6_ - d0;
-                double d5 = p_180702_10_ - d1;
-                double d6 = p_180702_16_ - p_180702_15_;
-                double d7 = p_180702_12_ + 2.0F + 16.0F;
+                final double d4 = p_180702_6_ - d0;
+                final double d5 = p_180702_10_ - d1;
+                final double d6 = p_180702_16_ - p_180702_15_;
+                final double d7 = p_180702_12_ + 2.0F + 16.0F;
 
                 if (d4 * d4 + d5 * d5 - d6 * d6 > d7 * d7) {
                     return;
@@ -114,8 +113,8 @@ public class MapGenCaves extends MapGenBase {
                     for (int j1 = k2; !flag3 && j1 < k; ++j1) {
                         for (int k1 = i3; !flag3 && k1 < i1; ++k1) {
                             for (int l1 = l + 1; !flag3 && l1 >= l2 - 1; --l1) {
-                                if (l1 < 256) {
-                                    IBlockState iblockstate = p_180702_5_.getBlockState(j1, l1, k1);
+                                if (l1 >= 0 && l1 < 256) {
+                                    final IBlockState iblockstate = p_180702_5_.getBlockState(j1, l1, k1);
 
                                     if (iblockstate.getBlock() == Blocks.flowing_water || iblockstate.getBlock() == Blocks.water) {
                                         flag3 = true;
@@ -130,22 +129,22 @@ public class MapGenCaves extends MapGenBase {
                     }
 
                     if (!flag3) {
-                        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+                        final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
                         for (int j3 = k2; j3 < k; ++j3) {
-                            double d10 = ((double) (j3 + p_180702_3_ * 16) + 0.5D - p_180702_6_) / d2;
+                            final double d10 = ((double) (j3 + p_180702_3_ * 16) + 0.5D - p_180702_6_) / d2;
 
                             for (int i2 = i3; i2 < i1; ++i2) {
-                                double d8 = ((double) (i2 + p_180702_4_ * 16) + 0.5D - p_180702_10_) / d2;
+                                final double d8 = ((double) (i2 + p_180702_4_ * 16) + 0.5D - p_180702_10_) / d2;
                                 boolean flag1 = false;
 
                                 if (d10 * d10 + d8 * d8 < 1.0D) {
                                     for (int j2 = l; j2 > l2; --j2) {
-                                        double d9 = ((double) (j2 - 1) + 0.5D - p_180702_8_) / d3;
+                                        final double d9 = ((double) (j2 - 1) + 0.5D - p_180702_8_) / d3;
 
                                         if (d9 > -0.7D && d10 * d10 + d9 * d9 + d8 * d8 < 1.0D) {
-                                            IBlockState iblockstate1 = p_180702_5_.getBlockState(j3, j2, i2);
-                                            IBlockState iblockstate2 = Objects.firstNonNull(p_180702_5_.getBlockState(j3, j2 + 1, i2), Blocks.air.getDefaultState());
+                                            final IBlockState iblockstate1 = p_180702_5_.getBlockState(j3, j2, i2);
+                                            final IBlockState iblockstate2 = Objects.firstNonNull(p_180702_5_.getBlockState(j3, j2 + 1, i2), Blocks.air.getDefaultState());
 
                                             if (iblockstate1.getBlock() == Blocks.grass || iblockstate1.getBlock() == Blocks.mycelium) {
                                                 flag1 = true;
@@ -162,7 +161,7 @@ public class MapGenCaves extends MapGenBase {
                                                     }
 
                                                     if (flag1 && p_180702_5_.getBlockState(j3, j2 - 1, i2).getBlock() == Blocks.dirt) {
-                                                        blockpos$mutableblockpos.set(j3 + p_180702_3_ * 16, 0, i2 + p_180702_4_ * 16);
+                                                        blockpos$mutableblockpos.func_181079_c(j3 + p_180702_3_ * 16, 0, i2 + p_180702_4_ * 16);
                                                         p_180702_5_.setBlockState(j3, j2 - 1, i2, this.worldObj.getBiomeGenForCoords(blockpos$mutableblockpos).topBlock.getBlock().getDefaultState());
                                                     }
                                                 }
@@ -182,11 +181,14 @@ public class MapGenCaves extends MapGenBase {
         }
     }
 
-    protected boolean func_175793_a(IBlockState p_175793_1_, IBlockState p_175793_2_) {
+    protected boolean func_175793_a(final IBlockState p_175793_1_, final IBlockState p_175793_2_) {
         return p_175793_1_.getBlock() == Blocks.stone || (p_175793_1_.getBlock() == Blocks.dirt || (p_175793_1_.getBlock() == Blocks.grass || (p_175793_1_.getBlock() == Blocks.hardened_clay || (p_175793_1_.getBlock() == Blocks.stained_hardened_clay || (p_175793_1_.getBlock() == Blocks.sandstone || (p_175793_1_.getBlock() == Blocks.red_sandstone || (p_175793_1_.getBlock() == Blocks.mycelium || (p_175793_1_.getBlock() == Blocks.snow_layer || (p_175793_1_.getBlock() == Blocks.sand || p_175793_1_.getBlock() == Blocks.gravel) && p_175793_2_.getBlock().getMaterial() != Material.water))))))));
     }
 
-    protected void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int p_180701_4_, int p_180701_5_, ChunkPrimer chunkPrimerIn) {
+    /**
+     * Recursively called by generate()
+     */
+    protected void recursiveGenerate(final World worldIn, final int chunkX, final int chunkZ, final int p_180701_4_, final int p_180701_5_, final ChunkPrimer chunkPrimerIn) {
         int i = this.rand.nextInt(this.rand.nextInt(this.rand.nextInt(15) + 1) + 1);
 
         if (this.rand.nextInt(7) != 0) {
@@ -194,9 +196,9 @@ public class MapGenCaves extends MapGenBase {
         }
 
         for (int j = 0; j < i; ++j) {
-            double d0 = chunkX * 16 + this.rand.nextInt(16);
-            double d1 = this.rand.nextInt(this.rand.nextInt(120) + 8);
-            double d2 = chunkZ * 16 + this.rand.nextInt(16);
+            final double d0 = chunkX * 16 + this.rand.nextInt(16);
+            final double d1 = this.rand.nextInt(this.rand.nextInt(120) + 8);
+            final double d2 = chunkZ * 16 + this.rand.nextInt(16);
             int k = 1;
 
             if (this.rand.nextInt(4) == 0) {
@@ -205,8 +207,8 @@ public class MapGenCaves extends MapGenBase {
             }
 
             for (int l = 0; l < k; ++l) {
-                float f = this.rand.nextFloat() * (float) Math.PI * 2.0F;
-                float f1 = (this.rand.nextFloat() - 0.5F) * 2.0F / 8.0F;
+                final float f = this.rand.nextFloat() * (float) Math.PI * 2.0F;
+                final float f1 = (this.rand.nextFloat() - 0.5F) * 2.0F / 8.0F;
                 float f2 = this.rand.nextFloat() * 2.0F + this.rand.nextFloat();
 
                 if (this.rand.nextInt(10) == 0) {

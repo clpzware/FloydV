@@ -9,7 +9,7 @@ public class HttpResponse {
     private Map<String, String> headers = new LinkedHashMap();
     private byte[] body = null;
 
-    public HttpResponse(int status, String statusLine, Map headers, byte[] body) {
+    public HttpResponse(final int status, final String statusLine, final Map headers, final byte[] body) {
         this.status = status;
         this.statusLine = statusLine;
         this.headers = headers;
@@ -28,7 +28,7 @@ public class HttpResponse {
         return this.headers;
     }
 
-    public String getHeader(String key) {
+    public String getHeader(final String key) {
         return this.headers.get(key);
     }
 

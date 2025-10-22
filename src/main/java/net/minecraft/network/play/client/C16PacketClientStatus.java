@@ -1,10 +1,10 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+
+import java.io.IOException;
 
 public class C16PacketClientStatus implements Packet<INetHandlerPlayServer> {
     private C16PacketClientStatus.EnumState status;
@@ -12,19 +12,28 @@ public class C16PacketClientStatus implements Packet<INetHandlerPlayServer> {
     public C16PacketClientStatus() {
     }
 
-    public C16PacketClientStatus(C16PacketClientStatus.EnumState statusIn) {
+    public C16PacketClientStatus(final C16PacketClientStatus.EnumState statusIn) {
         this.status = statusIn;
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.status = buf.readEnumValue(EnumState.class);
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeEnumValue(this.status);
     }
 
-    public void processPacket(INetHandlerPlayServer handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayServer handler) {
         handler.processClientStatus(this);
     }
 

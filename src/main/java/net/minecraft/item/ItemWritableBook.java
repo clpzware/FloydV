@@ -11,22 +11,28 @@ public class ItemWritableBook extends Item {
         this.setMaxStackSize(1);
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+    /**
+     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+     */
+    public ItemStack onItemRightClick(final ItemStack itemStackIn, final World worldIn, final EntityPlayer playerIn) {
         playerIn.displayGUIBook(itemStackIn);
         playerIn.triggerAchievement(StatList.objectUseStats[Item.getIdFromItem(this)]);
         return itemStackIn;
     }
 
-    public static boolean isNBTValid(NBTTagCompound nbt) {
+    /**
+     * this method returns true if the book's NBT Tag List "pages" is valid
+     */
+    public static boolean isNBTValid(final NBTTagCompound nbt) {
         if (nbt == null) {
             return false;
         } else if (!nbt.hasKey("pages", 9)) {
             return false;
         } else {
-            NBTTagList nbttaglist = nbt.getTagList("pages", 8);
+            final NBTTagList nbttaglist = nbt.getTagList("pages", 8);
 
             for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                String s = nbttaglist.getStringTagAt(i);
+                final String s = nbttaglist.getStringTagAt(i);
 
                 if (s == null) {
                     return false;

@@ -1,8 +1,5 @@
 package net.minecraft.world.gen;
 
-import java.util.List;
-import java.util.Random;
-
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -17,6 +14,9 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.IChunkProvider;
 
+import java.util.List;
+import java.util.Random;
+
 public class ChunkProviderEnd implements IChunkProvider {
     private final Random endRNG;
     private final NoiseGeneratorOctaves noiseGen1;
@@ -26,6 +26,10 @@ public class ChunkProviderEnd implements IChunkProvider {
     public NoiseGeneratorOctaves noiseGen5;
     private final World endWorld;
     private double[] densities;
+
+    /**
+     * The biomes that are used to generate the chunk
+     */
     private BiomeGenBase[] biomesForGeneration;
     double[] noiseData1;
     double[] noiseData2;
@@ -33,9 +37,9 @@ public class ChunkProviderEnd implements IChunkProvider {
     double[] noiseData4;
     double[] noiseData5;
 
-    public ChunkProviderEnd(World worldIn, long seed) {
+    public ChunkProviderEnd(final World worldIn, final long p_i2007_2_) {
         this.endWorld = worldIn;
-        this.endRNG = new Random(seed);
+        this.endRNG = new Random(p_i2007_2_);
         this.noiseGen1 = new NoiseGeneratorOctaves(this.endRNG, 16);
         this.noiseGen2 = new NoiseGeneratorOctaves(this.endRNG, 16);
         this.noiseGen3 = new NoiseGeneratorOctaves(this.endRNG, 8);
@@ -43,37 +47,37 @@ public class ChunkProviderEnd implements IChunkProvider {
         this.noiseGen5 = new NoiseGeneratorOctaves(this.endRNG, 16);
     }
 
-    public void func_180520_a(int p_180520_1_, int p_180520_2_, ChunkPrimer p_180520_3_) {
-        int i = 2;
-        int j = i + 1;
-        int k = 33;
-        int l = i + 1;
+    public void func_180520_a(final int p_180520_1_, final int p_180520_2_, final ChunkPrimer p_180520_3_) {
+        final int i = 2;
+        final int j = i + 1;
+        final int k = 33;
+        final int l = i + 1;
         this.densities = this.initializeNoiseField(this.densities, p_180520_1_ * i, 0, p_180520_2_ * i, j, k, l);
 
         for (int i1 = 0; i1 < i; ++i1) {
             for (int j1 = 0; j1 < i; ++j1) {
                 for (int k1 = 0; k1 < 32; ++k1) {
-                    double d0 = 0.25D;
-                    double d1 = this.densities[((i1) * l + j1) * k + k1];
-                    double d2 = this.densities[((i1) * l + j1 + 1) * k + k1];
-                    double d3 = this.densities[((i1 + 1) * l + j1) * k + k1];
-                    double d4 = this.densities[((i1 + 1) * l + j1 + 1) * k + k1];
-                    double d5 = (this.densities[((i1) * l + j1) * k + k1 + 1] - d1) * d0;
-                    double d6 = (this.densities[((i1) * l + j1 + 1) * k + k1 + 1] - d2) * d0;
-                    double d7 = (this.densities[((i1 + 1) * l + j1) * k + k1 + 1] - d3) * d0;
-                    double d8 = (this.densities[((i1 + 1) * l + j1 + 1) * k + k1 + 1] - d4) * d0;
+                    final double d0 = 0.25D;
+                    double d1 = this.densities[((i1 + 0) * l + j1 + 0) * k + k1 + 0];
+                    double d2 = this.densities[((i1 + 0) * l + j1 + 1) * k + k1 + 0];
+                    double d3 = this.densities[((i1 + 1) * l + j1 + 0) * k + k1 + 0];
+                    double d4 = this.densities[((i1 + 1) * l + j1 + 1) * k + k1 + 0];
+                    final double d5 = (this.densities[((i1 + 0) * l + j1 + 0) * k + k1 + 1] - d1) * d0;
+                    final double d6 = (this.densities[((i1 + 0) * l + j1 + 1) * k + k1 + 1] - d2) * d0;
+                    final double d7 = (this.densities[((i1 + 1) * l + j1 + 0) * k + k1 + 1] - d3) * d0;
+                    final double d8 = (this.densities[((i1 + 1) * l + j1 + 1) * k + k1 + 1] - d4) * d0;
 
                     for (int l1 = 0; l1 < 4; ++l1) {
-                        double d9 = 0.125D;
+                        final double d9 = 0.125D;
                         double d10 = d1;
                         double d11 = d2;
-                        double d12 = (d3 - d1) * d9;
-                        double d13 = (d4 - d2) * d9;
+                        final double d12 = (d3 - d1) * d9;
+                        final double d13 = (d4 - d2) * d9;
 
                         for (int i2 = 0; i2 < 8; ++i2) {
-                            double d14 = 0.125D;
+                            final double d14 = 0.125D;
                             double d15 = d10;
-                            double d16 = (d11 - d10) * d14;
+                            final double d16 = (d11 - d10) * d14;
 
                             for (int j2 = 0; j2 < 8; ++j2) {
                                 IBlockState iblockstate = null;
@@ -82,9 +86,9 @@ public class ChunkProviderEnd implements IChunkProvider {
                                     iblockstate = Blocks.end_stone.getDefaultState();
                                 }
 
-                                int k2 = i2 + i1 * 8;
-                                int l2 = l1 + k1 * 4;
-                                int i3 = j2 + j1 * 8;
+                                final int k2 = i2 + i1 * 8;
+                                final int l2 = l1 + k1 * 4;
+                                final int i3 = j2 + j1 * 8;
                                 p_180520_3_.setBlockState(k2, l2, i3, iblockstate);
                                 d15 += d16;
                             }
@@ -103,25 +107,33 @@ public class ChunkProviderEnd implements IChunkProvider {
         }
     }
 
-    public void func_180519_a(ChunkPrimer p_180519_1_) {
+    public void func_180519_a(final ChunkPrimer p_180519_1_) {
         for (int i = 0; i < 16; ++i) {
             for (int j = 0; j < 16; ++j) {
-                int k = 1;
+                final int k = 1;
                 int l = -1;
                 IBlockState iblockstate = Blocks.end_stone.getDefaultState();
                 IBlockState iblockstate1 = Blocks.end_stone.getDefaultState();
 
                 for (int i1 = 127; i1 >= 0; --i1) {
-                    IBlockState iblockstate2 = p_180519_1_.getBlockState(i, i1, j);
+                    final IBlockState iblockstate2 = p_180519_1_.getBlockState(i, i1, j);
 
                     if (iblockstate2.getBlock().getMaterial() == Material.air) {
                         l = -1;
                     } else if (iblockstate2.getBlock() == Blocks.stone) {
                         if (l == -1) {
+                            if (k <= 0) {
+                                iblockstate = Blocks.air.getDefaultState();
+                                iblockstate1 = Blocks.end_stone.getDefaultState();
+                            }
 
                             l = k;
 
-                            p_180519_1_.setBlockState(i, i1, j, iblockstate);
+                            if (i1 >= 0) {
+                                p_180519_1_.setBlockState(i, i1, j, iblockstate);
+                            } else {
+                                p_180519_1_.setBlockState(i, i1, j, iblockstate1);
+                            }
                         } else if (l > 0) {
                             --l;
                             p_180519_1_.setBlockState(i, i1, j, iblockstate1);
@@ -132,14 +144,18 @@ public class ChunkProviderEnd implements IChunkProvider {
         }
     }
 
-    public Chunk provideChunk(int x, int z) {
+    /**
+     * Will return back a chunk, if it doesn't exist and its not a MP client it will generates all the blocks for the
+     * specified chunk from the map seed and chunk seed
+     */
+    public Chunk provideChunk(final int x, final int z) {
         this.endRNG.setSeed((long) x * 341873128712L + (long) z * 132897987541L);
-        ChunkPrimer chunkprimer = new ChunkPrimer();
+        final ChunkPrimer chunkprimer = new ChunkPrimer();
         this.biomesForGeneration = this.endWorld.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, x * 16, z * 16, 16, 16);
         this.func_180520_a(x, z, chunkprimer);
         this.func_180519_a(chunkprimer);
-        Chunk chunk = new Chunk(this.endWorld, chunkprimer, x, z);
-        byte[] abyte = chunk.getBiomeArray();
+        final Chunk chunk = new Chunk(this.endWorld, chunkprimer, x, z);
+        final byte[] abyte = chunk.getBiomeArray();
 
         for (int i = 0; i < abyte.length; ++i) {
             abyte[i] = (byte) this.biomesForGeneration[i].biomeID;
@@ -149,13 +165,17 @@ public class ChunkProviderEnd implements IChunkProvider {
         return chunk;
     }
 
-    private double[] initializeNoiseField(double[] p_73187_1_, int p_73187_2_, int p_73187_3_, int p_73187_4_, int p_73187_5_, int p_73187_6_, int p_73187_7_) {
+    /**
+     * generates a subset of the level's terrain data. Takes 7 arguments: the [empty] noise array, the position, and the
+     * size.
+     */
+    private double[] initializeNoiseField(double[] p_73187_1_, final int p_73187_2_, final int p_73187_3_, final int p_73187_4_, final int p_73187_5_, final int p_73187_6_, final int p_73187_7_) {
         if (p_73187_1_ == null) {
             p_73187_1_ = new double[p_73187_5_ * p_73187_6_ * p_73187_7_];
         }
 
         double d0 = 684.412D;
-        double d1 = 684.412D;
+        final double d1 = 684.412D;
         this.noiseData4 = this.noiseGen4.generateNoiseOctaves(this.noiseData4, p_73187_2_, p_73187_4_, p_73187_5_, p_73187_7_, 1.121D, 1.121D, 0.5D);
         this.noiseData5 = this.noiseGen5.generateNoiseOctaves(this.noiseData5, p_73187_2_, p_73187_4_, p_73187_5_, p_73187_7_, 200.0D, 200.0D, 0.5D);
         d0 = d0 * 2.0D;
@@ -166,8 +186,8 @@ public class ChunkProviderEnd implements IChunkProvider {
 
         for (int j = 0; j < p_73187_5_; ++j) {
             for (int k = 0; k < p_73187_7_; ++k) {
-                float f = (float) (j + p_73187_2_);
-                float f1 = (float) (k + p_73187_4_);
+                final float f = (float) (j + p_73187_2_) / 1.0F;
+                final float f1 = (float) (k + p_73187_4_) / 1.0F;
                 float f2 = 100.0F - MathHelper.sqrt_float(f * f + f1 * f1) * 8.0F;
 
                 if (f2 > 80.0F) {
@@ -180,9 +200,9 @@ public class ChunkProviderEnd implements IChunkProvider {
 
                 for (int l = 0; l < p_73187_6_; ++l) {
                     double d2 = 0.0D;
-                    double d3 = this.noiseData2[i] / 512.0D;
-                    double d4 = this.noiseData3[i] / 512.0D;
-                    double d5 = (this.noiseData1[i] / 10.0D + 1.0D) / 2.0D;
+                    final double d3 = this.noiseData2[i] / 512.0D;
+                    final double d4 = this.noiseData3[i] / 512.0D;
+                    final double d5 = (this.noiseData1[i] / 10.0D + 1.0D) / 2.0D;
 
                     if (d5 < 0.0D) {
                         d2 = d3;
@@ -205,7 +225,7 @@ public class ChunkProviderEnd implements IChunkProvider {
                     i1 = 8;
 
                     if (l < i1) {
-                        double d7 = (float) (i1 - l) / ((float) i1 - 1.0F);
+                        final double d7 = (float) (i1 - l) / ((float) i1 - 1.0F);
                         d2 = d2 * (1.0D - d7) + -30.0D * d7;
                     }
 
@@ -218,45 +238,68 @@ public class ChunkProviderEnd implements IChunkProvider {
         return p_73187_1_;
     }
 
-    public boolean chunkExists(int x, int z) {
+    /**
+     * Checks to see if a chunk exists at x, z
+     */
+    public boolean chunkExists(final int x, final int z) {
         return true;
     }
 
-    public void populate(IChunkProvider chunkProvider, int x, int z) {
+    /**
+     * Populates chunk with ores etc etc
+     */
+    public void populate(final IChunkProvider p_73153_1_, final int p_73153_2_, final int p_73153_3_) {
         BlockFalling.fallInstantly = true;
-        BlockPos blockpos = new BlockPos(x * 16, 0, z * 16);
+        final BlockPos blockpos = new BlockPos(p_73153_2_ * 16, 0, p_73153_3_ * 16);
         this.endWorld.getBiomeGenForCoords(blockpos.add(16, 0, 16)).decorate(this.endWorld, this.endWorld.rand, blockpos);
         BlockFalling.fallInstantly = false;
     }
 
-    public boolean populateChunk(IChunkProvider chunkProvider, Chunk chunkIn, int x, int z) {
+    public boolean func_177460_a(final IChunkProvider p_177460_1_, final Chunk p_177460_2_, final int p_177460_3_, final int p_177460_4_) {
         return false;
     }
 
-    public boolean saveChunks(boolean saveAllChunks, IProgressUpdate progressCallback) {
+    /**
+     * Two modes of operation: if passed true, save all Chunks in one go.  If passed false, save up to two chunks.
+     * Return true if all chunks have been saved.
+     */
+    public boolean saveChunks(final boolean p_73151_1_, final IProgressUpdate progressCallback) {
         return true;
     }
 
+    /**
+     * Save extra data not associated with any Chunk.  Not saved during autosave, only during world unload.  Currently
+     * unimplemented.
+     */
     public void saveExtraData() {
     }
 
+    /**
+     * Unloads chunks that are marked to be unloaded. This is not guaranteed to unload every such chunk.
+     */
     public boolean unloadQueuedChunks() {
         return false;
     }
 
+    /**
+     * Returns if the IChunkProvider supports saving.
+     */
     public boolean canSave() {
         return true;
     }
 
+    /**
+     * Converts the instance data to a readable string.
+     */
     public String makeString() {
         return "RandomLevelSource";
     }
 
-    public List<BiomeGenBase.SpawnListEntry> getPossibleCreatures(EnumCreatureType creatureType, BlockPos pos) {
+    public List<BiomeGenBase.SpawnListEntry> getPossibleCreatures(final EnumCreatureType creatureType, final BlockPos pos) {
         return this.endWorld.getBiomeGenForCoords(pos).getSpawnableList(creatureType);
     }
 
-    public BlockPos getStrongholdGen(World worldIn, String structureName, BlockPos position) {
+    public BlockPos getStrongholdGen(final World worldIn, final String structureName, final BlockPos position) {
         return null;
     }
 
@@ -264,10 +307,10 @@ public class ChunkProviderEnd implements IChunkProvider {
         return 0;
     }
 
-    public void recreateStructures(Chunk chunkIn, int x, int z) {
+    public void recreateStructures(final Chunk p_180514_1_, final int p_180514_2_, final int p_180514_3_) {
     }
 
-    public Chunk provideChunk(BlockPos blockPosIn) {
+    public Chunk provideChunk(final BlockPos blockPosIn) {
         return this.provideChunk(blockPosIn.getX() >> 4, blockPosIn.getZ() >> 4);
     }
 }

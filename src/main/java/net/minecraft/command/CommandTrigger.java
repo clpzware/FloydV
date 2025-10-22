@@ -1,9 +1,6 @@
 package net.minecraft.command;
 
 import com.google.common.collect.Lists;
-
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.scoreboard.IScoreObjectiveCriteria;
@@ -13,29 +10,48 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.BlockPos;
 
+import java.util.List;
+
 public class CommandTrigger extends CommandBase {
+    /**
+     * Gets the name of the command
+     */
     public String getCommandName() {
         return "trigger";
     }
 
+    /**
+     * Return the required permission level for this command.
+     */
     public int getRequiredPermissionLevel() {
         return 0;
     }
 
-    public String getCommandUsage(ICommandSender sender) {
+    /**
+     * Gets the usage string for the command.
+     *
+     * @param sender The {@link ICommandSender} who is requesting usage details.
+     */
+    public String getCommandUsage(final ICommandSender sender) {
         return "commands.trigger.usage";
     }
 
-    public void processCommand(ICommandSender sender, String[] args) throws CommandException {
+    /**
+     * Callback when the command is invoked
+     *
+     * @param sender The {@link ICommandSender sender} who executed the command
+     * @param args   The arguments that were passed with the command
+     */
+    public void processCommand(final ICommandSender sender, final String[] args) throws CommandException {
         if (args.length < 3) {
             throw new WrongUsageException("commands.trigger.usage");
         } else {
-            EntityPlayerMP entityplayermp;
+            final EntityPlayerMP entityplayermp;
 
             if (sender instanceof EntityPlayerMP) {
                 entityplayermp = (EntityPlayerMP) sender;
             } else {
-                Entity entity = sender.getCommandSenderEntity();
+                final Entity entity = sender.getCommandSenderEntity();
 
                 if (!(entity instanceof EntityPlayerMP)) {
                     throw new CommandException("commands.trigger.invalidPlayer");
@@ -44,16 +60,16 @@ public class CommandTrigger extends CommandBase {
                 entityplayermp = (EntityPlayerMP) entity;
             }
 
-            Scoreboard scoreboard = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();
-            ScoreObjective scoreobjective = scoreboard.getObjective(args[0]);
+            final Scoreboard scoreboard = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();
+            final ScoreObjective scoreobjective = scoreboard.getObjective(args[0]);
 
             if (scoreobjective != null && scoreobjective.getCriteria() == IScoreObjectiveCriteria.TRIGGER) {
-                int i = parseInt(args[2]);
+                final int i = parseInt(args[2]);
 
-                if (!scoreboard.entityHasObjective(entityplayermp.getName(), scoreobjective)) {
+                if (!scoreboard.entityHasObjective(entityplayermp.getCommandSenderName(), scoreobjective)) {
                     throw new CommandException("commands.trigger.invalidObjective", args[0]);
                 } else {
-                    Score score = scoreboard.getValueFromObjective(entityplayermp.getName(), scoreobjective);
+                    final Score score = scoreboard.getValueFromObjective(entityplayermp.getCommandSenderName(), scoreobjective);
 
                     if (score.isLocked()) {
                         throw new CommandException("commands.trigger.disabled", args[0]);
@@ -81,12 +97,12 @@ public class CommandTrigger extends CommandBase {
         }
     }
 
-    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+    public List<String> addTabCompletionOptions(final ICommandSender sender, final String[] args, final BlockPos pos) {
         if (args.length == 1) {
-            Scoreboard scoreboard = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();
-            List<String> list = Lists.newArrayList();
+            final Scoreboard scoreboard = MinecraftServer.getServer().worldServerForDimension(0).getScoreboard();
+            final List<String> list = Lists.newArrayList();
 
-            for (ScoreObjective scoreobjective : scoreboard.getScoreObjectives()) {
+            for (final ScoreObjective scoreobjective : scoreboard.getScoreObjectives()) {
                 if (scoreobjective.getCriteria() == IScoreObjectiveCriteria.TRIGGER) {
                     list.add(scoreobjective.getName());
                 }

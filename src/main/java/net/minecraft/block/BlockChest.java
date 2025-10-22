@@ -27,9 +27,13 @@ import net.minecraft.world.World;
 
 public class BlockChest extends BlockContainer {
     public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+
+    /**
+     * 0 : Normal chest, 1 : Trapped chest
+     */
     public final int chestType;
 
-    protected BlockChest(int type) {
+    protected BlockChest(final int type) {
         super(Material.wood);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
         this.chestType = type;
@@ -37,6 +41,9 @@ public class BlockChest extends BlockContainer {
         this.setBlockBounds(0.0625F, 0.0F, 0.0625F, 0.9375F, 0.875F, 0.9375F);
     }
 
+    /**
+     * Used to determine ambient occlusion and culling when rebuilding chunks for render
+     */
     public boolean isOpaqueCube() {
         return false;
     }
@@ -45,11 +52,14 @@ public class BlockChest extends BlockContainer {
         return false;
     }
 
+    /**
+     * The type of render function called. 3 for standard block models, 2 for TESR's, 1 for liquids, -1 is no render
+     */
     public int getRenderType() {
         return 2;
     }
 
-    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
+    public void setBlockBoundsBasedOnState(final IBlockAccess worldIn, final BlockPos pos) {
         if (worldIn.getBlockState(pos.north()).getBlock() == this) {
             this.setBlockBounds(0.0625F, 0.0F, 0.0F, 0.9375F, 0.875F, 0.9375F);
         } else if (worldIn.getBlockState(pos.south()).getBlock() == this) {
@@ -63,12 +73,12 @@ public class BlockChest extends BlockContainer {
         }
     }
 
-    public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
+    public void onBlockAdded(final World worldIn, final BlockPos pos, final IBlockState state) {
         this.checkForSurroundingChests(worldIn, pos, state);
 
-        for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
-            BlockPos blockpos = pos.offset(enumfacing);
-            IBlockState iblockstate = worldIn.getBlockState(blockpos);
+        for (final EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
+            final BlockPos blockpos = pos.offset(enumfacing);
+            final IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
             if (iblockstate.getBlock() == this) {
                 this.checkForSurroundingChests(worldIn, blockpos, iblockstate);
@@ -76,21 +86,28 @@ public class BlockChest extends BlockContainer {
         }
     }
 
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+    /**
+     * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
+     * IBlockstate
+     */
+    public IBlockState onBlockPlaced(final World worldIn, final BlockPos pos, final EnumFacing facing, final float hitX, final float hitY, final float hitZ, final int meta, final EntityLivingBase placer) {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
     }
 
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
-        EnumFacing enumfacing = EnumFacing.getHorizontal(MathHelper.floor_double((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3).getOpposite();
+    /**
+     * Called by ItemBlocks after a block is set in the world, to allow post-place logic
+     */
+    public void onBlockPlacedBy(final World worldIn, final BlockPos pos, IBlockState state, final EntityLivingBase placer, final ItemStack stack) {
+        final EnumFacing enumfacing = EnumFacing.getHorizontal(MathHelper.floor_double((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3).getOpposite();
         state = state.withProperty(FACING, enumfacing);
-        BlockPos blockpos = pos.north();
-        BlockPos blockpos1 = pos.south();
-        BlockPos blockpos2 = pos.west();
-        BlockPos blockpos3 = pos.east();
-        boolean flag = this == worldIn.getBlockState(blockpos).getBlock();
-        boolean flag1 = this == worldIn.getBlockState(blockpos1).getBlock();
-        boolean flag2 = this == worldIn.getBlockState(blockpos2).getBlock();
-        boolean flag3 = this == worldIn.getBlockState(blockpos3).getBlock();
+        final BlockPos blockpos = pos.north();
+        final BlockPos blockpos1 = pos.south();
+        final BlockPos blockpos2 = pos.west();
+        final BlockPos blockpos3 = pos.east();
+        final boolean flag = this == worldIn.getBlockState(blockpos).getBlock();
+        final boolean flag1 = this == worldIn.getBlockState(blockpos1).getBlock();
+        final boolean flag2 = this == worldIn.getBlockState(blockpos2).getBlock();
+        final boolean flag3 = this == worldIn.getBlockState(blockpos3).getBlock();
 
         if (!flag && !flag1 && !flag2 && !flag3) {
             worldIn.setBlockState(pos, state, 3);
@@ -115,7 +132,7 @@ public class BlockChest extends BlockContainer {
         }
 
         if (stack.hasDisplayName()) {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+            final TileEntity tileentity = worldIn.getTileEntity(pos);
 
             if (tileentity instanceof TileEntityChest) {
                 ((TileEntityChest) tileentity).setCustomName(stack.getDisplayName());
@@ -123,30 +140,30 @@ public class BlockChest extends BlockContainer {
         }
     }
 
-    public IBlockState checkForSurroundingChests(World worldIn, BlockPos pos, IBlockState state) {
+    public IBlockState checkForSurroundingChests(final World worldIn, final BlockPos pos, IBlockState state) {
         if (worldIn.isRemote) {
             return state;
         } else {
-            IBlockState iblockstate = worldIn.getBlockState(pos.north());
-            IBlockState iblockstate1 = worldIn.getBlockState(pos.south());
-            IBlockState iblockstate2 = worldIn.getBlockState(pos.west());
-            IBlockState iblockstate3 = worldIn.getBlockState(pos.east());
+            final IBlockState iblockstate = worldIn.getBlockState(pos.north());
+            final IBlockState iblockstate1 = worldIn.getBlockState(pos.south());
+            final IBlockState iblockstate2 = worldIn.getBlockState(pos.west());
+            final IBlockState iblockstate3 = worldIn.getBlockState(pos.east());
             EnumFacing enumfacing = state.getValue(FACING);
-            Block block = iblockstate.getBlock();
-            Block block1 = iblockstate1.getBlock();
-            Block block2 = iblockstate2.getBlock();
-            Block block3 = iblockstate3.getBlock();
+            final Block block = iblockstate.getBlock();
+            final Block block1 = iblockstate1.getBlock();
+            final Block block2 = iblockstate2.getBlock();
+            final Block block3 = iblockstate3.getBlock();
 
             if (block != this && block1 != this) {
-                boolean flag = block.isFullBlock();
-                boolean flag1 = block1.isFullBlock();
+                final boolean flag = block.isFullBlock();
+                final boolean flag1 = block1.isFullBlock();
 
                 if (block2 == this || block3 == this) {
-                    BlockPos blockpos1 = block2 == this ? pos.west() : pos.east();
-                    IBlockState iblockstate6 = worldIn.getBlockState(blockpos1.north());
-                    IBlockState iblockstate7 = worldIn.getBlockState(blockpos1.south());
+                    final BlockPos blockpos1 = block2 == this ? pos.west() : pos.east();
+                    final IBlockState iblockstate6 = worldIn.getBlockState(blockpos1.north());
+                    final IBlockState iblockstate7 = worldIn.getBlockState(blockpos1.south());
                     enumfacing = EnumFacing.SOUTH;
-                    EnumFacing enumfacing2;
+                    final EnumFacing enumfacing2;
 
                     if (block2 == this) {
                         enumfacing2 = iblockstate2.getValue(FACING);
@@ -158,8 +175,8 @@ public class BlockChest extends BlockContainer {
                         enumfacing = EnumFacing.NORTH;
                     }
 
-                    Block block6 = iblockstate6.getBlock();
-                    Block block7 = iblockstate7.getBlock();
+                    final Block block6 = iblockstate6.getBlock();
+                    final Block block7 = iblockstate7.getBlock();
 
                     if ((flag || block6.isFullBlock()) && !flag1 && !block7.isFullBlock()) {
                         enumfacing = EnumFacing.SOUTH;
@@ -170,11 +187,11 @@ public class BlockChest extends BlockContainer {
                     }
                 }
             } else {
-                BlockPos blockpos = block == this ? pos.north() : pos.south();
-                IBlockState iblockstate4 = worldIn.getBlockState(blockpos.west());
-                IBlockState iblockstate5 = worldIn.getBlockState(blockpos.east());
+                final BlockPos blockpos = block == this ? pos.north() : pos.south();
+                final IBlockState iblockstate4 = worldIn.getBlockState(blockpos.west());
+                final IBlockState iblockstate5 = worldIn.getBlockState(blockpos.east());
                 enumfacing = EnumFacing.EAST;
-                EnumFacing enumfacing1;
+                final EnumFacing enumfacing1;
 
                 if (block == this) {
                     enumfacing1 = iblockstate.getValue(FACING);
@@ -186,8 +203,8 @@ public class BlockChest extends BlockContainer {
                     enumfacing = EnumFacing.WEST;
                 }
 
-                Block block4 = iblockstate4.getBlock();
-                Block block5 = iblockstate5.getBlock();
+                final Block block4 = iblockstate4.getBlock();
+                final Block block5 = iblockstate5.getBlock();
 
                 if ((block2.isFullBlock() || block4.isFullBlock()) && !block3.isFullBlock() && !block5.isFullBlock()) {
                     enumfacing = EnumFacing.EAST;
@@ -204,11 +221,11 @@ public class BlockChest extends BlockContainer {
         }
     }
 
-    public IBlockState correctFacing(World worldIn, BlockPos pos, IBlockState state) {
+    public IBlockState correctFacing(final World worldIn, final BlockPos pos, final IBlockState state) {
         EnumFacing enumfacing = null;
 
-        for (EnumFacing enumfacing1 : EnumFacing.Plane.HORIZONTAL) {
-            IBlockState iblockstate = worldIn.getBlockState(pos.offset(enumfacing1));
+        for (final EnumFacing enumfacing1 : EnumFacing.Plane.HORIZONTAL) {
+            final IBlockState iblockstate = worldIn.getBlockState(pos.offset(enumfacing1));
 
             if (iblockstate.getBlock() == this) {
                 return state;
@@ -245,12 +262,12 @@ public class BlockChest extends BlockContainer {
         }
     }
 
-    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+    public boolean canPlaceBlockAt(final World worldIn, final BlockPos pos) {
         int i = 0;
-        BlockPos blockpos = pos.west();
-        BlockPos blockpos1 = pos.east();
-        BlockPos blockpos2 = pos.north();
-        BlockPos blockpos3 = pos.south();
+        final BlockPos blockpos = pos.west();
+        final BlockPos blockpos1 = pos.east();
+        final BlockPos blockpos2 = pos.north();
+        final BlockPos blockpos3 = pos.south();
 
         if (worldIn.getBlockState(blockpos).getBlock() == this) {
             if (this.isDoubleChest(worldIn, blockpos)) {
@@ -287,11 +304,11 @@ public class BlockChest extends BlockContainer {
         return i <= 1;
     }
 
-    private boolean isDoubleChest(World worldIn, BlockPos pos) {
+    private boolean isDoubleChest(final World worldIn, final BlockPos pos) {
         if (worldIn.getBlockState(pos).getBlock() != this) {
             return false;
         } else {
-            for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
+            for (final EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
                 if (worldIn.getBlockState(pos.offset(enumfacing)).getBlock() == this) {
                     return true;
                 }
@@ -301,17 +318,20 @@ public class BlockChest extends BlockContainer {
         }
     }
 
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+    /**
+     * Called when a neighboring block changes.
+     */
+    public void onNeighborBlockChange(final World worldIn, final BlockPos pos, final IBlockState state, final Block neighborBlock) {
         super.onNeighborBlockChange(worldIn, pos, state, neighborBlock);
-        TileEntity tileentity = worldIn.getTileEntity(pos);
+        final TileEntity tileentity = worldIn.getTileEntity(pos);
 
         if (tileentity instanceof TileEntityChest) {
             tileentity.updateContainingBlockInfo();
         }
     }
 
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        TileEntity tileentity = worldIn.getTileEntity(pos);
+    public void breakBlock(final World worldIn, final BlockPos pos, final IBlockState state) {
+        final TileEntity tileentity = worldIn.getTileEntity(pos);
 
         if (tileentity instanceof IInventory) {
             InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileentity);
@@ -321,11 +341,11 @@ public class BlockChest extends BlockContainer {
         super.breakBlock(worldIn, pos, state);
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos, final IBlockState state, final EntityPlayer playerIn, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         if (worldIn.isRemote) {
             return true;
         } else {
-            ILockableContainer ilockablecontainer = this.getLockableContainer(worldIn, pos);
+            final ILockableContainer ilockablecontainer = this.getLockableContainer(worldIn, pos);
 
             if (ilockablecontainer != null) {
                 playerIn.displayGUIChest(ilockablecontainer);
@@ -341,8 +361,8 @@ public class BlockChest extends BlockContainer {
         }
     }
 
-    public ILockableContainer getLockableContainer(World worldIn, BlockPos pos) {
-        TileEntity tileentity = worldIn.getTileEntity(pos);
+    public ILockableContainer getLockableContainer(final World worldIn, final BlockPos pos) {
+        final TileEntity tileentity = worldIn.getTileEntity(pos);
 
         if (!(tileentity instanceof TileEntityChest)) {
             return null;
@@ -352,16 +372,16 @@ public class BlockChest extends BlockContainer {
             if (this.isBlocked(worldIn, pos)) {
                 return null;
             } else {
-                for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
-                    BlockPos blockpos = pos.offset(enumfacing);
-                    Block block = worldIn.getBlockState(blockpos).getBlock();
+                for (final EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
+                    final BlockPos blockpos = pos.offset(enumfacing);
+                    final Block block = worldIn.getBlockState(blockpos).getBlock();
 
                     if (block == this) {
                         if (this.isBlocked(worldIn, blockpos)) {
                             return null;
                         }
 
-                        TileEntity tileentity1 = worldIn.getTileEntity(blockpos);
+                        final TileEntity tileentity1 = worldIn.getTileEntity(blockpos);
 
                         if (tileentity1 instanceof TileEntityChest) {
                             if (enumfacing != EnumFacing.WEST && enumfacing != EnumFacing.NORTH) {
@@ -378,20 +398,26 @@ public class BlockChest extends BlockContainer {
         }
     }
 
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    /**
+     * Returns a new instance of a block's tile entity class. Called on placing the block.
+     */
+    public TileEntity createNewTileEntity(final World worldIn, final int meta) {
         return new TileEntityChest();
     }
 
+    /**
+     * Can this block provide power. Only wire currently seems to have this change based on its state.
+     */
     public boolean canProvidePower() {
         return this.chestType == 1;
     }
 
-    public int getWeakPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side) {
+    public int isProvidingWeakPower(final IBlockAccess worldIn, final BlockPos pos, final IBlockState state, final EnumFacing side) {
         if (!this.canProvidePower()) {
             return 0;
         } else {
             int i = 0;
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+            final TileEntity tileentity = worldIn.getTileEntity(pos);
 
             if (tileentity instanceof TileEntityChest) {
                 i = ((TileEntityChest) tileentity).numPlayersUsing;
@@ -401,21 +427,21 @@ public class BlockChest extends BlockContainer {
         }
     }
 
-    public int getStrongPower(IBlockAccess worldIn, BlockPos pos, IBlockState state, EnumFacing side) {
-        return side == EnumFacing.UP ? this.getWeakPower(worldIn, pos, state, side) : 0;
+    public int isProvidingStrongPower(final IBlockAccess worldIn, final BlockPos pos, final IBlockState state, final EnumFacing side) {
+        return side == EnumFacing.UP ? this.isProvidingWeakPower(worldIn, pos, state, side) : 0;
     }
 
-    private boolean isBlocked(World worldIn, BlockPos pos) {
+    private boolean isBlocked(final World worldIn, final BlockPos pos) {
         return this.isBelowSolidBlock(worldIn, pos) || this.isOcelotSittingOnChest(worldIn, pos);
     }
 
-    private boolean isBelowSolidBlock(World worldIn, BlockPos pos) {
+    private boolean isBelowSolidBlock(final World worldIn, final BlockPos pos) {
         return worldIn.getBlockState(pos.up()).getBlock().isNormalCube();
     }
 
-    private boolean isOcelotSittingOnChest(World worldIn, BlockPos pos) {
-        for (Entity entity : worldIn.getEntitiesWithinAABB(EntityOcelot.class, new AxisAlignedBB(pos.getX(), pos.getY() + 1, pos.getZ(), pos.getX() + 1, pos.getY() + 2, pos.getZ() + 1))) {
-            EntityOcelot entityocelot = (EntityOcelot) entity;
+    private boolean isOcelotSittingOnChest(final World worldIn, final BlockPos pos) {
+        for (final Entity entity : worldIn.getEntitiesWithinAABB(EntityOcelot.class, new AxisAlignedBB(pos.getX(), pos.getY() + 1, pos.getZ(), pos.getX() + 1, pos.getY() + 2, pos.getZ() + 1))) {
+            final EntityOcelot entityocelot = (EntityOcelot) entity;
 
             if (entityocelot.isSitting()) {
                 return true;
@@ -429,11 +455,14 @@ public class BlockChest extends BlockContainer {
         return true;
     }
 
-    public int getComparatorInputOverride(World worldIn, BlockPos pos) {
+    public int getComparatorInputOverride(final World worldIn, final BlockPos pos) {
         return Container.calcRedstoneFromInventory(this.getLockableContainer(worldIn, pos));
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
         EnumFacing enumfacing = EnumFacing.getFront(meta);
 
         if (enumfacing.getAxis() == EnumFacing.Axis.Y) {
@@ -443,7 +472,10 @@ public class BlockChest extends BlockContainer {
         return this.getDefaultState().withProperty(FACING, enumfacing);
     }
 
-    public int getMetaFromState(IBlockState state) {
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
         return state.getValue(FACING).getIndex();
     }
 

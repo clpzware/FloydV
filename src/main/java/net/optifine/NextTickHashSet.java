@@ -16,49 +16,32 @@ public class NextTickHashSet extends TreeSet {
     private int maxZ = Integer.MIN_VALUE;
     private static final int UNDEFINED = Integer.MIN_VALUE;
 
-    public NextTickHashSet(Set oldSet) {
-        for (Object object : oldSet) {
-            this.add(object);
-        }
+    public NextTickHashSet(final Set oldSet) {
+        this.addAll(oldSet);
     }
 
-    public boolean contains(Object obj) {
-        if (!(obj instanceof NextTickListEntry nextticklistentry)) {
+    public boolean contains(final Object obj) {
+        if (!(obj instanceof NextTickListEntry)) {
             return false;
         } else {
-            Set set = this.getSubSet(nextticklistentry, false);
+            final NextTickListEntry nextticklistentry = (NextTickListEntry) obj;
+            final Set set = this.getSubSet(nextticklistentry, false);
             return set != null && set.contains(nextticklistentry);
         }
     }
 
-    public boolean add(Object obj) {
-        if (!(obj instanceof NextTickListEntry nextticklistentry)) {
+    public boolean add(final Object obj) {
+        if (!(obj instanceof NextTickListEntry)) {
             return false;
         } else {
+            final NextTickListEntry nextticklistentry = (NextTickListEntry) obj;
 
-            Set set = this.getSubSet(nextticklistentry, true);
-            boolean flag = set.add(nextticklistentry);
-            boolean flag1 = super.add(obj);
-
-            if (flag != flag1) {
-                throw new IllegalStateException("Added: " + flag + ", addedParent: " + flag1);
-            } else {
-                return flag1;
-            }
-        }
-    }
-
-    public boolean remove(Object obj) {
-        if (!(obj instanceof NextTickListEntry nextticklistentry)) {
-            return false;
-        } else {
-            Set set = this.getSubSet(nextticklistentry, false);
-
-            if (set == null) {
+            if (nextticklistentry == null) {
                 return false;
             } else {
-                boolean flag = set.remove(nextticklistentry);
-                boolean flag1 = super.remove(nextticklistentry);
+                final Set set = this.getSubSet(nextticklistentry, true);
+                final boolean flag = set.add(nextticklistentry);
+                final boolean flag1 = super.add(obj);
 
                 if (flag != flag1) {
                     throw new IllegalStateException("Added: " + flag + ", addedParent: " + flag1);
@@ -69,19 +52,41 @@ public class NextTickHashSet extends TreeSet {
         }
     }
 
-    private Set getSubSet(NextTickListEntry entry, boolean autoCreate) {
+    public boolean remove(final Object obj) {
+        if (!(obj instanceof NextTickListEntry)) {
+            return false;
+        } else {
+            final NextTickListEntry nextticklistentry = (NextTickListEntry) obj;
+            final Set set = this.getSubSet(nextticklistentry, false);
+
+            if (set == null) {
+                return false;
+            } else {
+                final boolean flag = set.remove(nextticklistentry);
+                final boolean flag1 = super.remove(nextticklistentry);
+
+                if (flag != flag1) {
+                    throw new IllegalStateException("Added: " + flag + ", addedParent: " + flag1);
+                } else {
+                    return flag1;
+                }
+            }
+        }
+    }
+
+    private Set getSubSet(final NextTickListEntry entry, final boolean autoCreate) {
         if (entry == null) {
             return null;
         } else {
-            BlockPos blockpos = entry.position;
-            int i = blockpos.getX() >> 4;
-            int j = blockpos.getZ() >> 4;
+            final BlockPos blockpos = entry.position;
+            final int i = blockpos.getX() >> 4;
+            final int j = blockpos.getZ() >> 4;
             return this.getSubSet(i, j, autoCreate);
         }
     }
 
-    private Set getSubSet(int cx, int cz, boolean autoCreate) {
-        long i = ChunkCoordIntPair.chunkXZ2Int(cx, cz);
+    private Set getSubSet(final int cx, final int cz, final boolean autoCreate) {
+        final long i = ChunkCoordIntPair.chunkXZ2Int(cx, cz);
         HashSet hashset = (HashSet) this.longHashMap.getValueByKey(i);
 
         if (hashset == null && autoCreate) {
@@ -98,15 +103,15 @@ public class NextTickHashSet extends TreeSet {
         } else if (this.size() <= 0) {
             return Iterators.emptyIterator();
         } else {
-            int i = this.minX >> 4;
-            int j = this.minZ >> 4;
-            int k = this.maxX >> 4;
-            int l = this.maxZ >> 4;
-            List list = new ArrayList();
+            final int i = this.minX >> 4;
+            final int j = this.minZ >> 4;
+            final int k = this.maxX >> 4;
+            final int l = this.maxZ >> 4;
+            final List list = new ArrayList();
 
             for (int i1 = i; i1 <= k; ++i1) {
                 for (int j1 = j; j1 <= l; ++j1) {
-                    Set set = this.getSubSet(i1, j1, false);
+                    final Set set = this.getSubSet(i1, j1, false);
 
                     if (set != null) {
                         list.add(set.iterator());
@@ -124,7 +129,7 @@ public class NextTickHashSet extends TreeSet {
         }
     }
 
-    public void setIteratorLimits(int minX, int minZ, int maxX, int maxZ) {
+    public void setIteratorLimits(final int minX, final int minZ, final int maxX, final int maxZ) {
         this.minX = Math.min(minX, maxX);
         this.minZ = Math.min(minZ, maxZ);
         this.maxX = Math.max(minX, maxX);

@@ -5,19 +5,22 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 
 public class SlotFurnaceFuel extends Slot {
-    public SlotFurnaceFuel(IInventory inventoryIn, int slotIndex, int xPosition, int yPosition) {
+    public SlotFurnaceFuel(final IInventory inventoryIn, final int slotIndex, final int xPosition, final int yPosition) {
         super(inventoryIn, slotIndex, xPosition, yPosition);
     }
 
-    public boolean isItemValid(ItemStack stack) {
+    /**
+     * Check if the stack is a valid item for this slot. Always true beside for the armor slots.
+     */
+    public boolean isItemValid(final ItemStack stack) {
         return TileEntityFurnace.isItemFuel(stack) || isBucket(stack);
     }
 
-    public int getItemStackLimit(ItemStack stack) {
+    public int getItemStackLimit(final ItemStack stack) {
         return isBucket(stack) ? 1 : super.getItemStackLimit(stack);
     }
 
-    public static boolean isBucket(ItemStack stack) {
+    public static boolean isBucket(final ItemStack stack) {
         return stack != null && stack.getItem() != null && stack.getItem() == Items.bucket;
     }
 }

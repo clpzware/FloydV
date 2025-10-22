@@ -7,10 +7,14 @@ public enum EnumBorderStatus {
 
     private final int id;
 
-    EnumBorderStatus(int id) {
+    EnumBorderStatus(final int id) {
         this.id = id;
     }
 
+    /**
+     * Returns an integer that represents the state of the world border. Growing, Shrinking and Stationary all have
+     * unique values.
+     */
     public int getID() {
         return this.id;
     }

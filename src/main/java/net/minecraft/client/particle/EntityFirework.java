@@ -12,36 +12,36 @@ import net.minecraft.world.World;
 
 public class EntityFirework {
     public static class Factory implements IParticleFactory {
-        public EntityFX getEntityFX(int particleID, World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn, int... p_178902_15_) {
-            EntityFirework.SparkFX entityfirework$sparkfx = new EntityFirework.SparkFX(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, Minecraft.getMinecraft().effectRenderer);
+        public EntityFX getEntityFX(final int particleID, final World worldIn, final double xCoordIn, final double yCoordIn, final double zCoordIn, final double xSpeedIn, final double ySpeedIn, final double zSpeedIn, final int... p_178902_15_) {
+            final EntityFirework.SparkFX entityfirework$sparkfx = new EntityFirework.SparkFX(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, Minecraft.getMinecraft().effectRenderer);
             entityfirework$sparkfx.setAlphaF(0.99F);
             return entityfirework$sparkfx;
         }
     }
 
     public static class OverlayFX extends EntityFX {
-        protected OverlayFX(World p_i46466_1_, double p_i46466_2_, double p_i46466_4_, double p_i46466_6_) {
+        protected OverlayFX(final World p_i46466_1_, final double p_i46466_2_, final double p_i46466_4_, final double p_i46466_6_) {
             super(p_i46466_1_, p_i46466_2_, p_i46466_4_, p_i46466_6_);
             this.particleMaxAge = 4;
         }
 
-        public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
-            float f = 0.25F;
-            float f1 = 0.5F;
-            float f2 = 0.125F;
-            float f3 = 0.375F;
-            float f4 = 7.1F * MathHelper.sin(((float) this.particleAge + partialTicks - 1.0F) * 0.25F * (float) Math.PI);
+        public void renderParticle(final WorldRenderer worldRendererIn, final Entity entityIn, final float partialTicks, final float p_180434_4_, final float p_180434_5_, final float p_180434_6_, final float p_180434_7_, final float p_180434_8_) {
+            final float f = 0.25F;
+            final float f1 = 0.5F;
+            final float f2 = 0.125F;
+            final float f3 = 0.375F;
+            final float f4 = 7.1F * MathHelper.sin(((float) this.particleAge + partialTicks - 1.0F) * 0.25F * (float) Math.PI);
             this.particleAlpha = 0.6F - ((float) this.particleAge + partialTicks - 1.0F) * 0.25F * 0.5F;
-            float f5 = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) partialTicks - interpPosX);
-            float f6 = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) partialTicks - interpPosY);
-            float f7 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) partialTicks - interpPosZ);
-            int i = this.getBrightnessForRender(partialTicks);
-            int j = i >> 16 & 65535;
-            int k = i & 65535;
-            worldRendererIn.pos(f5 - rotationX * f4 - rotationXY * f4, f6 - rotationZ * f4, f7 - rotationYZ * f4 - rotationXZ * f4).tex(0.5D, 0.375D).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-            worldRendererIn.pos(f5 - rotationX * f4 + rotationXY * f4, f6 + rotationZ * f4, f7 - rotationYZ * f4 + rotationXZ * f4).tex(0.5D, 0.125D).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-            worldRendererIn.pos(f5 + rotationX * f4 + rotationXY * f4, f6 + rotationZ * f4, f7 + rotationYZ * f4 + rotationXZ * f4).tex(0.25D, 0.125D).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
-            worldRendererIn.pos(f5 + rotationX * f4 - rotationXY * f4, f6 - rotationZ * f4, f7 + rotationYZ * f4 - rotationXZ * f4).tex(0.25D, 0.375D).color(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).lightmap(j, k).endVertex();
+            final float f5 = (float) (this.prevPosX + (this.posX - this.prevPosX) * (double) partialTicks - interpPosX);
+            final float f6 = (float) (this.prevPosY + (this.posY - this.prevPosY) * (double) partialTicks - interpPosY);
+            final float f7 = (float) (this.prevPosZ + (this.posZ - this.prevPosZ) * (double) partialTicks - interpPosZ);
+            final int i = this.getBrightnessForRender(partialTicks);
+            final int j = i >> 16 & 65535;
+            final int k = i & 65535;
+            worldRendererIn.pos(f5 - p_180434_4_ * f4 - p_180434_7_ * f4, f6 - p_180434_5_ * f4, f7 - p_180434_6_ * f4 - p_180434_8_ * f4).tex(0.5D, 0.375D).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
+            worldRendererIn.pos(f5 - p_180434_4_ * f4 + p_180434_7_ * f4, f6 + p_180434_5_ * f4, f7 - p_180434_6_ * f4 + p_180434_8_ * f4).tex(0.5D, 0.125D).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
+            worldRendererIn.pos(f5 + p_180434_4_ * f4 + p_180434_7_ * f4, f6 + p_180434_5_ * f4, f7 + p_180434_6_ * f4 + p_180434_8_ * f4).tex(0.25D, 0.125D).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
+            worldRendererIn.pos(f5 + p_180434_4_ * f4 - p_180434_7_ * f4, f6 - p_180434_5_ * f4, f7 + p_180434_6_ * f4 - p_180434_8_ * f4).tex(0.25D, 0.375D).func_181666_a(this.particleRed, this.particleGreen, this.particleBlue, this.particleAlpha).func_181671_a(j, k).endVertex();
         }
     }
 
@@ -55,7 +55,7 @@ public class EntityFirework {
         private float fadeColourBlue;
         private boolean hasFadeColour;
 
-        public SparkFX(World p_i46465_1_, double p_i46465_2_, double p_i46465_4_, double p_i46465_6_, double p_i46465_8_, double p_i46465_10_, double p_i46465_12_, EffectRenderer p_i46465_14_) {
+        public SparkFX(final World p_i46465_1_, final double p_i46465_2_, final double p_i46465_4_, final double p_i46465_6_, final double p_i46465_8_, final double p_i46465_10_, final double p_i46465_12_, final EffectRenderer p_i46465_14_) {
             super(p_i46465_1_, p_i46465_2_, p_i46465_4_, p_i46465_6_);
             this.motionX = p_i46465_8_;
             this.motionY = p_i46465_10_;
@@ -66,23 +66,23 @@ public class EntityFirework {
             this.noClip = false;
         }
 
-        public void setTrail(boolean trailIn) {
+        public void setTrail(final boolean trailIn) {
             this.trail = trailIn;
         }
 
-        public void setTwinkle(boolean twinkleIn) {
+        public void setTwinkle(final boolean twinkleIn) {
             this.twinkle = twinkleIn;
         }
 
-        public void setColour(int colour) {
-            float f = (float) ((colour & 16711680) >> 16) / 255.0F;
-            float f1 = (float) ((colour & 65280) >> 8) / 255.0F;
-            float f2 = (float) ((colour & 255) >> 0) / 255.0F;
-            float f3 = 1.0F;
+        public void setColour(final int colour) {
+            final float f = (float) ((colour & 16711680) >> 16) / 255.0F;
+            final float f1 = (float) ((colour & 65280) >> 8) / 255.0F;
+            final float f2 = (float) ((colour & 255) >> 0) / 255.0F;
+            final float f3 = 1.0F;
             this.setRBGColorF(f * f3, f1 * f3, f2 * f3);
         }
 
-        public void setFadeColour(int faceColour) {
+        public void setFadeColour(final int faceColour) {
             this.fadeColourRed = (float) ((faceColour & 16711680) >> 16) / 255.0F;
             this.fadeColourGreen = (float) ((faceColour & 65280) >> 8) / 255.0F;
             this.fadeColourBlue = (float) ((faceColour & 255) >> 0) / 255.0F;
@@ -97,9 +97,9 @@ public class EntityFirework {
             return false;
         }
 
-        public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+        public void renderParticle(final WorldRenderer worldRendererIn, final Entity entityIn, final float partialTicks, final float p_180434_4_, final float p_180434_5_, final float p_180434_6_, final float p_180434_7_, final float p_180434_8_) {
             if (!this.twinkle || this.particleAge < this.particleMaxAge / 3 || (this.particleAge + this.particleMaxAge) / 3 % 2 == 0) {
-                super.renderParticle(worldRendererIn, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
+                super.renderParticle(worldRendererIn, entityIn, partialTicks, p_180434_4_, p_180434_5_, p_180434_6_, p_180434_7_, p_180434_8_);
             }
         }
 
@@ -135,7 +135,7 @@ public class EntityFirework {
             }
 
             if (this.trail && this.particleAge < this.particleMaxAge / 2 && (this.particleAge + this.particleMaxAge) % 2 == 0) {
-                EntityFirework.SparkFX entityfirework$sparkfx = new EntityFirework.SparkFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D, this.field_92047_az);
+                final EntityFirework.SparkFX entityfirework$sparkfx = new EntityFirework.SparkFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D, this.field_92047_az);
                 entityfirework$sparkfx.setAlphaF(0.99F);
                 entityfirework$sparkfx.setRBGColorF(this.particleRed, this.particleGreen, this.particleBlue);
                 entityfirework$sparkfx.particleAge = entityfirework$sparkfx.particleMaxAge / 2;
@@ -152,11 +152,11 @@ public class EntityFirework {
             }
         }
 
-        public int getBrightnessForRender(float partialTicks) {
+        public int getBrightnessForRender(final float partialTicks) {
             return 15728880;
         }
 
-        public float getBrightness(float partialTicks) {
+        public float getBrightness(final float partialTicks) {
             return 1.0F;
         }
     }
@@ -167,7 +167,7 @@ public class EntityFirework {
         private NBTTagList fireworkExplosions;
         boolean twinkle;
 
-        public StarterFX(World p_i46464_1_, double p_i46464_2_, double p_i46464_4_, double p_i46464_6_, double p_i46464_8_, double p_i46464_10_, double p_i46464_12_, EffectRenderer p_i46464_14_, NBTTagCompound p_i46464_15_) {
+        public StarterFX(final World p_i46464_1_, final double p_i46464_2_, final double p_i46464_4_, final double p_i46464_6_, final double p_i46464_8_, final double p_i46464_10_, final double p_i46464_12_, final EffectRenderer p_i46464_14_, final NBTTagCompound p_i46464_15_) {
             super(p_i46464_1_, p_i46464_2_, p_i46464_4_, p_i46464_6_, 0.0D, 0.0D, 0.0D);
             this.motionX = p_i46464_8_;
             this.motionY = p_i46464_10_;
@@ -184,7 +184,7 @@ public class EntityFirework {
                     this.particleMaxAge = this.fireworkExplosions.tagCount() * 2 - 1;
 
                     for (int i = 0; i < this.fireworkExplosions.tagCount(); ++i) {
-                        NBTTagCompound nbttagcompound = this.fireworkExplosions.getCompoundTagAt(i);
+                        final NBTTagCompound nbttagcompound = this.fireworkExplosions.getCompoundTagAt(i);
 
                         if (nbttagcompound.getBoolean("Flicker")) {
                             this.twinkle = true;
@@ -196,19 +196,19 @@ public class EntityFirework {
             }
         }
 
-        public void renderParticle(WorldRenderer worldRendererIn, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+        public void renderParticle(final WorldRenderer worldRendererIn, final Entity entityIn, final float partialTicks, final float p_180434_4_, final float p_180434_5_, final float p_180434_6_, final float p_180434_7_, final float p_180434_8_) {
         }
 
         public void onUpdate() {
             if (this.fireworkAge == 0 && this.fireworkExplosions != null) {
-                boolean flag = this.func_92037_i();
+                final boolean flag = this.func_92037_i();
                 boolean flag1 = false;
 
                 if (this.fireworkExplosions.tagCount() >= 3) {
                     flag1 = true;
                 } else {
                     for (int i = 0; i < this.fireworkExplosions.tagCount(); ++i) {
-                        NBTTagCompound nbttagcompound = this.fireworkExplosions.getCompoundTagAt(i);
+                        final NBTTagCompound nbttagcompound = this.fireworkExplosions.getCompoundTagAt(i);
 
                         if (nbttagcompound.getByte("Type") == 1) {
                             flag1 = true;
@@ -217,18 +217,18 @@ public class EntityFirework {
                     }
                 }
 
-                String s1 = "fireworks." + (flag1 ? "largeBlast" : "blast") + (flag ? "_far" : "");
+                final String s1 = "fireworks." + (flag1 ? "largeBlast" : "blast") + (flag ? "_far" : "");
                 this.worldObj.playSound(this.posX, this.posY, this.posZ, s1, 20.0F, 0.95F + this.rand.nextFloat() * 0.1F, true);
             }
 
             if (this.fireworkAge % 2 == 0 && this.fireworkExplosions != null && this.fireworkAge / 2 < this.fireworkExplosions.tagCount()) {
-                int k = this.fireworkAge / 2;
-                NBTTagCompound nbttagcompound1 = this.fireworkExplosions.getCompoundTagAt(k);
-                int l = nbttagcompound1.getByte("Type");
-                boolean flag4 = nbttagcompound1.getBoolean("Trail");
-                boolean flag2 = nbttagcompound1.getBoolean("Flicker");
+                final int k = this.fireworkAge / 2;
+                final NBTTagCompound nbttagcompound1 = this.fireworkExplosions.getCompoundTagAt(k);
+                final int l = nbttagcompound1.getByte("Type");
+                final boolean flag4 = nbttagcompound1.getBoolean("Trail");
+                final boolean flag2 = nbttagcompound1.getBoolean("Flicker");
                 int[] aint = nbttagcompound1.getIntArray("Colors");
-                int[] aint1 = nbttagcompound1.getIntArray("FadeColors");
+                final int[] aint1 = nbttagcompound1.getIntArray("FadeColors");
 
                 if (aint.length == 0) {
                     aint = new int[]{ItemDye.dyeColors[0]};
@@ -246,11 +246,11 @@ public class EntityFirework {
                     this.createBall(0.25D, 2, aint, aint1, flag4, flag2);
                 }
 
-                int j = aint[0];
-                float f = (float) ((j & 16711680) >> 16) / 255.0F;
-                float f1 = (float) ((j & 65280) >> 8) / 255.0F;
-                float f2 = (float) ((j & 255) >> 0) / 255.0F;
-                EntityFirework.OverlayFX entityfirework$overlayfx = new EntityFirework.OverlayFX(this.worldObj, this.posX, this.posY, this.posZ);
+                final int j = aint[0];
+                final float f = (float) ((j & 16711680) >> 16) / 255.0F;
+                final float f1 = (float) ((j & 65280) >> 8) / 255.0F;
+                final float f2 = (float) ((j & 255) >> 0) / 255.0F;
+                final EntityFirework.OverlayFX entityfirework$overlayfx = new EntityFirework.OverlayFX(this.worldObj, this.posX, this.posY, this.posZ);
                 entityfirework$overlayfx.setRBGColorF(f, f1, f2);
                 this.theEffectRenderer.addEffect(entityfirework$overlayfx);
             }
@@ -259,8 +259,8 @@ public class EntityFirework {
 
             if (this.fireworkAge > this.particleMaxAge) {
                 if (this.twinkle) {
-                    boolean flag3 = this.func_92037_i();
-                    String s = "fireworks." + (flag3 ? "twinkle_far" : "twinkle");
+                    final boolean flag3 = this.func_92037_i();
+                    final String s = "fireworks." + (flag3 ? "twinkle_far" : "twinkle");
                     this.worldObj.playSound(this.posX, this.posY, this.posZ, s, 20.0F, 0.9F + this.rand.nextFloat() * 0.15F, true);
                 }
 
@@ -269,16 +269,16 @@ public class EntityFirework {
         }
 
         private boolean func_92037_i() {
-            Minecraft minecraft = Minecraft.getMinecraft();
+            final Minecraft minecraft = Minecraft.getMinecraft();
             return minecraft == null || minecraft.getRenderViewEntity() == null || minecraft.getRenderViewEntity().getDistanceSq(this.posX, this.posY, this.posZ) >= 256.0D;
         }
 
-        private void createParticle(double p_92034_1_, double p_92034_3_, double p_92034_5_, double p_92034_7_, double p_92034_9_, double p_92034_11_, int[] p_92034_13_, int[] p_92034_14_, boolean p_92034_15_, boolean p_92034_16_) {
-            EntityFirework.SparkFX entityfirework$sparkfx = new EntityFirework.SparkFX(this.worldObj, p_92034_1_, p_92034_3_, p_92034_5_, p_92034_7_, p_92034_9_, p_92034_11_, this.theEffectRenderer);
+        private void createParticle(final double p_92034_1_, final double p_92034_3_, final double p_92034_5_, final double p_92034_7_, final double p_92034_9_, final double p_92034_11_, final int[] p_92034_13_, final int[] p_92034_14_, final boolean p_92034_15_, final boolean p_92034_16_) {
+            final EntityFirework.SparkFX entityfirework$sparkfx = new EntityFirework.SparkFX(this.worldObj, p_92034_1_, p_92034_3_, p_92034_5_, p_92034_7_, p_92034_9_, p_92034_11_, this.theEffectRenderer);
             entityfirework$sparkfx.setAlphaF(0.99F);
             entityfirework$sparkfx.setTrail(p_92034_15_);
             entityfirework$sparkfx.setTwinkle(p_92034_16_);
-            int i = this.rand.nextInt(p_92034_13_.length);
+            final int i = this.rand.nextInt(p_92034_13_.length);
             entityfirework$sparkfx.setColour(p_92034_13_[i]);
 
             if (p_92034_14_ != null && p_92034_14_.length > 0) {
@@ -288,18 +288,18 @@ public class EntityFirework {
             this.theEffectRenderer.addEffect(entityfirework$sparkfx);
         }
 
-        private void createBall(double speed, int size, int[] colours, int[] fadeColours, boolean trail, boolean twinkleIn) {
-            double d0 = this.posX;
-            double d1 = this.posY;
-            double d2 = this.posZ;
+        private void createBall(final double speed, final int size, final int[] colours, final int[] fadeColours, final boolean trail, final boolean twinkleIn) {
+            final double d0 = this.posX;
+            final double d1 = this.posY;
+            final double d2 = this.posZ;
 
             for (int i = -size; i <= size; ++i) {
                 for (int j = -size; j <= size; ++j) {
                     for (int k = -size; k <= size; ++k) {
-                        double d3 = (double) j + (this.rand.nextDouble() - this.rand.nextDouble()) * 0.5D;
-                        double d4 = (double) i + (this.rand.nextDouble() - this.rand.nextDouble()) * 0.5D;
-                        double d5 = (double) k + (this.rand.nextDouble() - this.rand.nextDouble()) * 0.5D;
-                        double d6 = (double) MathHelper.sqrt_double(d3 * d3 + d4 * d4 + d5 * d5) / speed + this.rand.nextGaussian() * 0.05D;
+                        final double d3 = (double) j + (this.rand.nextDouble() - this.rand.nextDouble()) * 0.5D;
+                        final double d4 = (double) i + (this.rand.nextDouble() - this.rand.nextDouble()) * 0.5D;
+                        final double d5 = (double) k + (this.rand.nextDouble() - this.rand.nextDouble()) * 0.5D;
+                        final double d6 = (double) MathHelper.sqrt_double(d3 * d3 + d4 * d4 + d5 * d5) / speed + this.rand.nextGaussian() * 0.05D;
                         this.createParticle(d0, d1, d2, d3 / d6, d4 / d6, d5 / d6, colours, fadeColours, trail, twinkleIn);
 
                         if (i != -size && i != size && j != -size && j != size) {
@@ -310,26 +310,26 @@ public class EntityFirework {
             }
         }
 
-        private void createShaped(double speed, double[][] shape, int[] colours, int[] fadeColours, boolean trail, boolean twinkleIn, boolean p_92038_8_) {
-            double d0 = shape[0][0];
-            double d1 = shape[0][1];
+        private void createShaped(final double speed, final double[][] shape, final int[] colours, final int[] fadeColours, final boolean trail, final boolean twinkleIn, final boolean p_92038_8_) {
+            final double d0 = shape[0][0];
+            final double d1 = shape[0][1];
             this.createParticle(this.posX, this.posY, this.posZ, d0 * speed, d1 * speed, 0.0D, colours, fadeColours, trail, twinkleIn);
-            float f = this.rand.nextFloat() * (float) Math.PI;
-            double d2 = p_92038_8_ ? 0.034D : 0.34D;
+            final float f = this.rand.nextFloat() * (float) Math.PI;
+            final double d2 = p_92038_8_ ? 0.034D : 0.34D;
 
             for (int i = 0; i < 3; ++i) {
-                double d3 = (double) f + (double) ((float) i * (float) Math.PI) * d2;
+                final double d3 = (double) f + (double) ((float) i * (float) Math.PI) * d2;
                 double d4 = d0;
                 double d5 = d1;
 
                 for (int j = 1; j < shape.length; ++j) {
-                    double d6 = shape[j][0];
-                    double d7 = shape[j][1];
+                    final double d6 = shape[j][0];
+                    final double d7 = shape[j][1];
 
                     for (double d8 = 0.25D; d8 <= 1.0D; d8 += 0.25D) {
                         double d9 = (d4 + (d6 - d4) * d8) * speed;
-                        double d10 = (d5 + (d7 - d5) * d8) * speed;
-                        double d11 = d9 * Math.sin(d3);
+                        final double d10 = (d5 + (d7 - d5) * d8) * speed;
+                        final double d11 = d9 * Math.sin(d3);
                         d9 = d9 * Math.cos(d3);
 
                         for (double d12 = -1.0D; d12 <= 1.0D; d12 += 2.0D) {
@@ -343,14 +343,14 @@ public class EntityFirework {
             }
         }
 
-        private void createBurst(int[] colours, int[] fadeColours, boolean trail, boolean twinkleIn) {
-            double d0 = this.rand.nextGaussian() * 0.05D;
-            double d1 = this.rand.nextGaussian() * 0.05D;
+        private void createBurst(final int[] colours, final int[] fadeColours, final boolean trail, final boolean twinkleIn) {
+            final double d0 = this.rand.nextGaussian() * 0.05D;
+            final double d1 = this.rand.nextGaussian() * 0.05D;
 
             for (int i = 0; i < 70; ++i) {
-                double d2 = this.motionX * 0.5D + this.rand.nextGaussian() * 0.15D + d0;
-                double d3 = this.motionZ * 0.5D + this.rand.nextGaussian() * 0.15D + d1;
-                double d4 = this.motionY * 0.5D + this.rand.nextDouble() * 0.5D;
+                final double d2 = this.motionX * 0.5D + this.rand.nextGaussian() * 0.15D + d0;
+                final double d3 = this.motionZ * 0.5D + this.rand.nextGaussian() * 0.15D + d1;
+                final double d4 = this.motionY * 0.5D + this.rand.nextDouble() * 0.5D;
                 this.createParticle(this.posX, this.posY, this.posZ, d2, d4, d3, colours, fadeColours, trail, twinkleIn);
             }
         }

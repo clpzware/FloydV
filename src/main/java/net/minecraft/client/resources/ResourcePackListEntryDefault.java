@@ -13,18 +13,18 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 
 public class ResourcePackListEntryDefault extends ResourcePackListEntry {
-    private static final Logger logger = LogManager.getLogger("MinecraftLogger");
+    private static final Logger logger = LogManager.getLogger();
     private final IResourcePack field_148320_d;
     private final ResourceLocation resourcePackIcon;
 
-    public ResourcePackListEntryDefault(GuiScreenResourcePacks resourcePacksGUIIn) {
+    public ResourcePackListEntryDefault(final GuiScreenResourcePacks resourcePacksGUIIn) {
         super(resourcePacksGUIIn);
         this.field_148320_d = this.mc.getResourcePackRepository().rprDefaultResourcePack;
         DynamicTexture dynamictexture;
 
         try {
             dynamictexture = new DynamicTexture(this.field_148320_d.getPackImage());
-        } catch (IOException var4) {
+        } catch (final IOException var4) {
             dynamictexture = TextureUtil.missingTexture;
         }
 
@@ -37,14 +37,14 @@ public class ResourcePackListEntryDefault extends ResourcePackListEntry {
 
     protected String func_148311_a() {
         try {
-            PackMetadataSection packmetadatasection = this.field_148320_d.getPackMetadata(this.mc.getResourcePackRepository().rprMetadataSerializer, "pack");
+            final PackMetadataSection packmetadatasection = this.field_148320_d.getPackMetadata(this.mc.getResourcePackRepository().rprMetadataSerializer, "pack");
 
             if (packmetadatasection != null) {
                 return packmetadatasection.getPackDescription().getFormattedText();
             }
-        } catch (JsonParseException jsonparseexception) {
+        } catch (final JsonParseException jsonparseexception) {
             logger.error("Couldn't load metadata info", jsonparseexception);
-        } catch (IOException ioexception) {
+        } catch (final IOException ioexception) {
             logger.error("Couldn't load metadata info", ioexception);
         }
 

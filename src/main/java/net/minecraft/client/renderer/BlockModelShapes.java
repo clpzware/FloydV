@@ -1,49 +1,7 @@
 package net.minecraft.client.renderer;
 
 import com.google.common.collect.Maps;
-
-import java.util.Map;
-import java.util.Map.Entry;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockBed;
-import net.minecraft.block.BlockCactus;
-import net.minecraft.block.BlockColored;
-import net.minecraft.block.BlockCommandBlock;
-import net.minecraft.block.BlockDirt;
-import net.minecraft.block.BlockDispenser;
-import net.minecraft.block.BlockDoor;
-import net.minecraft.block.BlockDoublePlant;
-import net.minecraft.block.BlockDropper;
-import net.minecraft.block.BlockFenceGate;
-import net.minecraft.block.BlockFire;
-import net.minecraft.block.BlockFlowerPot;
-import net.minecraft.block.BlockHopper;
-import net.minecraft.block.BlockJukebox;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockNewLeaf;
-import net.minecraft.block.BlockNewLog;
-import net.minecraft.block.BlockOldLeaf;
-import net.minecraft.block.BlockOldLog;
-import net.minecraft.block.BlockPlanks;
-import net.minecraft.block.BlockPrismarine;
-import net.minecraft.block.BlockQuartz;
-import net.minecraft.block.BlockRedSandstone;
-import net.minecraft.block.BlockRedstoneWire;
-import net.minecraft.block.BlockReed;
-import net.minecraft.block.BlockSand;
-import net.minecraft.block.BlockSandStone;
-import net.minecraft.block.BlockSapling;
-import net.minecraft.block.BlockSilverfish;
-import net.minecraft.block.BlockStem;
-import net.minecraft.block.BlockStone;
-import net.minecraft.block.BlockStoneBrick;
-import net.minecraft.block.BlockStoneSlab;
-import net.minecraft.block.BlockStoneSlabNew;
-import net.minecraft.block.BlockTNT;
-import net.minecraft.block.BlockTallGrass;
-import net.minecraft.block.BlockTripWire;
-import net.minecraft.block.BlockWall;
+import net.minecraft.block.*;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.statemap.BlockStateMapper;
@@ -56,14 +14,16 @@ import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
+
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class BlockModelShapes {
     private final Map<IBlockState, IBakedModel> bakedModelStore = Maps.newIdentityHashMap();
     private final BlockStateMapper blockStateMapper = new BlockStateMapper();
     private final ModelManager modelManager;
 
-    public BlockModelShapes(ModelManager manager) {
+    public BlockModelShapes(final ModelManager manager) {
         this.modelManager = manager;
         this.registerAllBlocks();
     }
@@ -72,8 +32,8 @@ public class BlockModelShapes {
         return this.blockStateMapper;
     }
 
-    public TextureAtlasSprite getTexture(IBlockState state) {
-        Block block = state.getBlock();
+    public TextureAtlasSprite getTexture(final IBlockState state) {
+        final Block block = state.getBlock();
         IBakedModel ibakedmodel = this.getModelForState(state);
 
         if (ibakedmodel == null || ibakedmodel == this.modelManager.getMissingModel()) {
@@ -106,10 +66,10 @@ public class BlockModelShapes {
             ibakedmodel = this.modelManager.getMissingModel();
         }
 
-        return ibakedmodel.getParticleTexture();
+        return ibakedmodel.getTexture();
     }
 
-    public IBakedModel getModelForState(IBlockState state) {
+    public IBakedModel getModelForState(final IBlockState state) {
         IBakedModel ibakedmodel = this.bakedModelStore.get(state);
 
         if (ibakedmodel == null) {
@@ -126,16 +86,16 @@ public class BlockModelShapes {
     public void reloadModels() {
         this.bakedModelStore.clear();
 
-        for (Entry<IBlockState, ModelResourceLocation> entry : this.blockStateMapper.putAllStateModelLocations().entrySet()) {
+        for (final Entry<IBlockState, ModelResourceLocation> entry : this.blockStateMapper.putAllStateModelLocations().entrySet()) {
             this.bakedModelStore.put(entry.getKey(), this.modelManager.getModel(entry.getValue()));
         }
     }
 
-    public void registerBlockWithStateMapper(Block assoc, IStateMapper stateMapper) {
+    public void registerBlockWithStateMapper(final Block assoc, final IStateMapper stateMapper) {
         this.blockStateMapper.registerBlockStateMapper(assoc, stateMapper);
     }
 
-    public void registerBuiltInBlocks(Block... builtIns) {
+    public void registerBuiltInBlocks(final Block... builtIns) {
         this.blockStateMapper.registerBuiltInBlocks(builtIns);
     }
 
@@ -150,7 +110,7 @@ public class BlockModelShapes {
         this.registerBlockWithStateMapper(Blocks.jukebox, (new StateMap.Builder()).ignore(BlockJukebox.HAS_RECORD).build());
         this.registerBlockWithStateMapper(Blocks.command_block, (new StateMap.Builder()).ignore(BlockCommandBlock.TRIGGERED).build());
         this.registerBlockWithStateMapper(Blocks.cobblestone_wall, (new StateMap.Builder()).withName(BlockWall.VARIANT).withSuffix("_wall").build());
-        this.registerBlockWithStateMapper(Blocks.double_plant, (new StateMap.Builder()).withName(BlockDoublePlant.VARIANT).ignore(BlockDoublePlant.FACING).build());
+        this.registerBlockWithStateMapper(Blocks.double_plant, (new StateMap.Builder()).withName(BlockDoublePlant.VARIANT).ignore(BlockDoublePlant.field_181084_N).build());
         this.registerBlockWithStateMapper(Blocks.oak_fence_gate, (new StateMap.Builder()).ignore(BlockFenceGate.POWERED).build());
         this.registerBlockWithStateMapper(Blocks.spruce_fence_gate, (new StateMap.Builder()).ignore(BlockFenceGate.POWERED).build());
         this.registerBlockWithStateMapper(Blocks.birch_fence_gate, (new StateMap.Builder()).ignore(BlockFenceGate.POWERED).build());
@@ -195,26 +155,36 @@ public class BlockModelShapes {
         this.registerBlockWithStateMapper(Blocks.hopper, (new StateMap.Builder()).ignore(BlockHopper.ENABLED).build());
         this.registerBlockWithStateMapper(Blocks.flower_pot, (new StateMap.Builder()).ignore(BlockFlowerPot.LEGACY_DATA).build());
         this.registerBlockWithStateMapper(Blocks.quartz_block, new StateMapperBase() {
-            protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-                BlockQuartz.EnumType blockquartz$enumtype = state.getValue(BlockQuartz.VARIANT);
+            protected ModelResourceLocation getModelResourceLocation(final IBlockState state) {
+                final BlockQuartz.EnumType blockquartz$enumtype = state.getValue(BlockQuartz.VARIANT);
 
-                return switch (blockquartz$enumtype) {
-                    default -> new ModelResourceLocation("quartz_block", "normal");
-                    case CHISELED -> new ModelResourceLocation("chiseled_quartz_block", "normal");
-                    case LINES_Y -> new ModelResourceLocation("quartz_column", "axis=y");
-                    case LINES_X -> new ModelResourceLocation("quartz_column", "axis=x");
-                    case LINES_Z -> new ModelResourceLocation("quartz_column", "axis=z");
-                };
+                switch (blockquartz$enumtype) {
+                    case DEFAULT:
+                    default:
+                        return new ModelResourceLocation("quartz_block", "normal");
+
+                    case CHISELED:
+                        return new ModelResourceLocation("chiseled_quartz_block", "normal");
+
+                    case LINES_Y:
+                        return new ModelResourceLocation("quartz_column", "axis=y");
+
+                    case LINES_X:
+                        return new ModelResourceLocation("quartz_column", "axis=x");
+
+                    case LINES_Z:
+                        return new ModelResourceLocation("quartz_column", "axis=z");
+                }
             }
         });
         this.registerBlockWithStateMapper(Blocks.deadbush, new StateMapperBase() {
-            protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
+            protected ModelResourceLocation getModelResourceLocation(final IBlockState state) {
                 return new ModelResourceLocation("dead_bush", "normal");
             }
         });
         this.registerBlockWithStateMapper(Blocks.pumpkin_stem, new StateMapperBase() {
-            protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-                Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());
+            protected ModelResourceLocation getModelResourceLocation(final IBlockState state) {
+                final Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());
 
                 if (state.getValue(BlockStem.FACING) != EnumFacing.UP) {
                     map.remove(BlockStem.AGE);
@@ -224,8 +194,8 @@ public class BlockModelShapes {
             }
         });
         this.registerBlockWithStateMapper(Blocks.melon_stem, new StateMapperBase() {
-            protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-                Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());
+            protected ModelResourceLocation getModelResourceLocation(final IBlockState state) {
+                final Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());
 
                 if (state.getValue(BlockStem.FACING) != EnumFacing.UP) {
                     map.remove(BlockStem.AGE);
@@ -235,9 +205,9 @@ public class BlockModelShapes {
             }
         });
         this.registerBlockWithStateMapper(Blocks.dirt, new StateMapperBase() {
-            protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-                Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());
-                String s = BlockDirt.VARIANT.getName((BlockDirt.DirtType) map.remove(BlockDirt.VARIANT));
+            protected ModelResourceLocation getModelResourceLocation(final IBlockState state) {
+                final Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());
+                final String s = BlockDirt.VARIANT.getName((BlockDirt.DirtType) map.remove(BlockDirt.VARIANT));
 
                 if (BlockDirt.DirtType.PODZOL != state.getValue(BlockDirt.VARIANT)) {
                     map.remove(BlockDirt.SNOWY);
@@ -247,20 +217,20 @@ public class BlockModelShapes {
             }
         });
         this.registerBlockWithStateMapper(Blocks.double_stone_slab, new StateMapperBase() {
-            protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-                Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());
-                String s = BlockStoneSlab.VARIANT.getName((BlockStoneSlab.EnumType) map.remove(BlockStoneSlab.VARIANT));
+            protected ModelResourceLocation getModelResourceLocation(final IBlockState state) {
+                final Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());
+                final String s = BlockStoneSlab.VARIANT.getName((BlockStoneSlab.EnumType) map.remove(BlockStoneSlab.VARIANT));
                 map.remove(BlockStoneSlab.SEAMLESS);
-                String s1 = state.getValue(BlockStoneSlab.SEAMLESS) ? "all" : "normal";
+                final String s1 = state.getValue(BlockStoneSlab.SEAMLESS).booleanValue() ? "all" : "normal";
                 return new ModelResourceLocation(s + "_double_slab", s1);
             }
         });
         this.registerBlockWithStateMapper(Blocks.double_stone_slab2, new StateMapperBase() {
-            protected ModelResourceLocation getModelResourceLocation(IBlockState state) {
-                Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());
-                String s = BlockStoneSlabNew.VARIANT.getName((BlockStoneSlabNew.EnumType) map.remove(BlockStoneSlabNew.VARIANT));
+            protected ModelResourceLocation getModelResourceLocation(final IBlockState state) {
+                final Map<IProperty, Comparable> map = Maps.newLinkedHashMap(state.getProperties());
+                final String s = BlockStoneSlabNew.VARIANT.getName((BlockStoneSlabNew.EnumType) map.remove(BlockStoneSlabNew.VARIANT));
                 map.remove(BlockStoneSlab.SEAMLESS);
-                String s1 = state.getValue(BlockStoneSlabNew.SEAMLESS) ? "all" : "normal";
+                final String s1 = state.getValue(BlockStoneSlabNew.SEAMLESS).booleanValue() ? "all" : "normal";
                 return new ModelResourceLocation(s + "_double_slab", s1);
             }
         });

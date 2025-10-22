@@ -13,21 +13,24 @@ import net.minecraft.world.World;
 public class EntityEnderPearl extends EntityThrowable {
     private EntityLivingBase field_181555_c;
 
-    public EntityEnderPearl(World worldIn) {
-        super(worldIn);
+    public EntityEnderPearl(final World p_i46455_1_) {
+        super(p_i46455_1_);
     }
 
-    public EntityEnderPearl(World worldIn, EntityLivingBase p_i1783_2_) {
+    public EntityEnderPearl(final World worldIn, final EntityLivingBase p_i1783_2_) {
         super(worldIn, p_i1783_2_);
         this.field_181555_c = p_i1783_2_;
     }
 
-    public EntityEnderPearl(World worldIn, double x, double y, double z) {
-        super(worldIn, x, y, z);
+    public EntityEnderPearl(final World worldIn, final double p_i1784_2_, final double p_i1784_4_, final double p_i1784_6_) {
+        super(worldIn, p_i1784_2_, p_i1784_4_, p_i1784_6_);
     }
 
-    protected void onImpact(MovingObjectPosition p_70184_1_) {
-        EntityLivingBase entitylivingbase = this.getThrower();
+    /**
+     * Called when this EntityThrowable hits a block or entity.
+     */
+    protected void onImpact(final MovingObjectPosition p_70184_1_) {
+        final EntityLivingBase entitylivingbase = this.getThrower();
 
         if (p_70184_1_.entityHit != null) {
             if (p_70184_1_.entityHit == this.field_181555_c) {
@@ -42,11 +45,12 @@ public class EntityEnderPearl extends EntityThrowable {
         }
 
         if (!this.worldObj.isRemote) {
-            if (entitylivingbase instanceof EntityPlayerMP entityplayermp) {
+            if (entitylivingbase instanceof EntityPlayerMP) {
+                final EntityPlayerMP entityplayermp = (EntityPlayerMP) entitylivingbase;
 
                 if (entityplayermp.playerNetServerHandler.getNetworkManager().isChannelOpen() && entityplayermp.worldObj == this.worldObj && !entityplayermp.isPlayerSleeping()) {
-                    if (this.rand.nextFloat() < 0.05F && this.worldObj.getGameRules().getBoolean("doMobSpawning")) {
-                        EntityEndermite entityendermite = new EntityEndermite(this.worldObj);
+                    if (this.rand.nextFloat() < 0.05F && this.worldObj.getGameRules().getGameRuleBooleanValue("doMobSpawning")) {
+                        final EntityEndermite entityendermite = new EntityEndermite(this.worldObj);
                         entityendermite.setSpawnedByPlayer(true);
                         entityendermite.setLocationAndAngles(entitylivingbase.posX, entitylivingbase.posY, entitylivingbase.posZ, entitylivingbase.rotationYaw, entitylivingbase.rotationPitch);
                         this.worldObj.spawnEntityInWorld(entityendermite);
@@ -69,8 +73,11 @@ public class EntityEnderPearl extends EntityThrowable {
         }
     }
 
+    /**
+     * Called to update the entity's position/logic.
+     */
     public void onUpdate() {
-        EntityLivingBase entitylivingbase = this.getThrower();
+        final EntityLivingBase entitylivingbase = this.getThrower();
 
         if (entitylivingbase != null && entitylivingbase instanceof EntityPlayer && !entitylivingbase.isEntityAlive()) {
             this.setDead();

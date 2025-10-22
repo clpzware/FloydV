@@ -9,11 +9,11 @@ public class GuiChatOF extends GuiChat {
     private static final String CMD_RELOAD_SHADERS = "/reloadShaders";
     private static final String CMD_RELOAD_CHUNKS = "/reloadChunks";
 
-    public GuiChatOF(GuiChat guiChat) {
+    public GuiChatOF(final GuiChat guiChat) {
         super(GuiVideoSettings.getGuiChatText(guiChat));
     }
 
-    public void sendChatMessage(String msg) {
+    public void sendChatMessage(final String msg) {
         if (this.checkCustomCommand(msg)) {
             this.mc.ingameGUI.getChatGUI().addToSentMessages(msg);
         } else {

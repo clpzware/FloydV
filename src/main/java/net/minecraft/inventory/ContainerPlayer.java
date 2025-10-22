@@ -10,12 +10,19 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 
 public class ContainerPlayer extends Container {
+    /**
+     * The crafting matrix inventory.
+     */
     public InventoryCrafting craftMatrix = new InventoryCrafting(this, 2, 2);
     public IInventory craftResult = new InventoryCraftResult();
+
+    /**
+     * Determines if inventory manipulation should be handled.
+     */
     public boolean isLocalWorld;
     private final EntityPlayer thePlayer;
 
-    public ContainerPlayer(final InventoryPlayer playerInventory, boolean localWorld, EntityPlayer player) {
+    public ContainerPlayer(final InventoryPlayer playerInventory, final boolean localWorld, final EntityPlayer player) {
         this.isLocalWorld = localWorld;
         this.thePlayer = player;
         this.addSlotToContainer(new SlotCrafting(playerInventory.player, this.craftMatrix, this.craftResult, 0, 144, 36));
@@ -33,7 +40,7 @@ public class ContainerPlayer extends Container {
                     return 1;
                 }
 
-                public boolean isItemValid(ItemStack stack) {
+                public boolean isItemValid(final ItemStack stack) {
                     return stack != null && (stack.getItem() instanceof ItemArmor ? ((ItemArmor) stack.getItem()).armorType == k_f : ((stack.getItem() == Item.getItemFromBlock(Blocks.pumpkin) || stack.getItem() == Items.skull) && k_f == 0));
                 }
 
@@ -56,15 +63,21 @@ public class ContainerPlayer extends Container {
         this.onCraftMatrixChanged(this.craftMatrix);
     }
 
-    public void onCraftMatrixChanged(IInventory inventoryIn) {
+    /**
+     * Callback for when the crafting matrix is changed.
+     */
+    public void onCraftMatrixChanged(final IInventory inventoryIn) {
         this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.thePlayer.worldObj));
     }
 
-    public void onContainerClosed(EntityPlayer playerIn) {
+    /**
+     * Called when the container is closed.
+     */
+    public void onContainerClosed(final EntityPlayer playerIn) {
         super.onContainerClosed(playerIn);
 
         for (int i = 0; i < 4; ++i) {
-            ItemStack itemstack = this.craftMatrix.removeStackFromSlot(i);
+            final ItemStack itemstack = this.craftMatrix.getStackInSlotOnClosing(i);
 
             if (itemstack != null) {
                 playerIn.dropPlayerItemWithRandomChoice(itemstack, false);
@@ -74,16 +87,19 @@ public class ContainerPlayer extends Container {
         this.craftResult.setInventorySlotContents(0, null);
     }
 
-    public boolean canInteractWith(EntityPlayer playerIn) {
+    public boolean canInteractWith(final EntityPlayer playerIn) {
         return true;
     }
 
-    public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+    /**
+     * Take a stack from the specified inventory slot.
+     */
+    public ItemStack transferStackInSlot(final EntityPlayer playerIn, final int index) {
         ItemStack itemstack = null;
-        Slot slot = this.inventorySlots.get(index);
+        final Slot slot = this.inventorySlots.get(index);
 
         if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+            final ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
             if (index == 0) {
@@ -92,25 +108,25 @@ public class ContainerPlayer extends Container {
                 }
 
                 slot.onSlotChange(itemstack1, itemstack);
-            } else if (index < 5) {
+            } else if (index >= 1 && index < 5) {
                 if (!this.mergeItemStack(itemstack1, 9, 45, false)) {
                     return null;
                 }
-            } else if (index < 9) {
+            } else if (index >= 5 && index < 9) {
                 if (!this.mergeItemStack(itemstack1, 9, 45, false)) {
                     return null;
                 }
             } else if (itemstack.getItem() instanceof ItemArmor && !this.inventorySlots.get(5 + ((ItemArmor) itemstack.getItem()).armorType).getHasStack()) {
-                int i = 5 + ((ItemArmor) itemstack.getItem()).armorType;
+                final int i = 5 + ((ItemArmor) itemstack.getItem()).armorType;
 
                 if (!this.mergeItemStack(itemstack1, i, i + 1, false)) {
                     return null;
                 }
-            } else if (index < 36) {
+            } else if (index >= 9 && index < 36) {
                 if (!this.mergeItemStack(itemstack1, 36, 45, false)) {
                     return null;
                 }
-            } else if (index < 45) {
+            } else if (index >= 36 && index < 45) {
                 if (!this.mergeItemStack(itemstack1, 9, 36, false)) {
                     return null;
                 }
@@ -134,7 +150,11 @@ public class ContainerPlayer extends Container {
         return itemstack;
     }
 
-    public boolean canMergeSlot(ItemStack stack, Slot slotIn) {
-        return slotIn.inventory != this.craftResult && super.canMergeSlot(stack, slotIn);
+    /**
+     * Called to determine if the current slot is valid for the stack merging (double-click) code. The stack passed in
+     * is null for the initial slot that was double-clicked.
+     */
+    public boolean canMergeSlot(final ItemStack stack, final Slot p_94530_2_) {
+        return p_94530_2_.inventory != this.craftResult && super.canMergeSlot(stack, p_94530_2_);
     }
 }

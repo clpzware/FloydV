@@ -7,11 +7,14 @@ import net.minecraft.util.ResourceLocation;
 public class RenderCow extends RenderLiving<EntityCow> {
     private static final ResourceLocation cowTextures = new ResourceLocation("textures/entity/cow/cow.png");
 
-    public RenderCow(RenderManager renderManagerIn, ModelBase modelBaseIn, float shadowSizeIn) {
+    public RenderCow(final RenderManager renderManagerIn, final ModelBase modelBaseIn, final float shadowSizeIn) {
         super(renderManagerIn, modelBaseIn, shadowSizeIn);
     }
 
-    protected ResourceLocation getEntityTexture(EntityCow entity) {
+    /**
+     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+     */
+    protected ResourceLocation getEntityTexture(final EntityCow entity) {
         return cowTextures;
     }
 }

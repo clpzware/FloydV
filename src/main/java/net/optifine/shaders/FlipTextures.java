@@ -9,32 +9,32 @@ public class FlipTextures {
     private final boolean[] flips;
     private final boolean[] changed;
 
-    public FlipTextures(IntBuffer textures, int indexFlipped) {
+    public FlipTextures(final IntBuffer textures, final int indexFlipped) {
         this.textures = textures;
         this.indexFlipped = indexFlipped;
         this.flips = new boolean[textures.capacity()];
         this.changed = new boolean[textures.capacity()];
     }
 
-    public int getA(int index) {
+    public int getA(final int index) {
         return this.get(index, this.flips[index]);
     }
 
-    public int getB(int index) {
+    public int getB(final int index) {
         return this.get(index, !this.flips[index]);
     }
 
-    private int get(int index, boolean flipped) {
-        int i = flipped ? this.indexFlipped : 0;
+    private int get(final int index, final boolean flipped) {
+        final int i = flipped ? this.indexFlipped : 0;
         return this.textures.get(i + index);
     }
 
-    public void flip(int index) {
+    public void flip(final int index) {
         this.flips[index] = !this.flips[index];
         this.changed[index] = true;
     }
 
-    public boolean isChanged(int index) {
+    public boolean isChanged(final int index) {
         return this.changed[index];
     }
 

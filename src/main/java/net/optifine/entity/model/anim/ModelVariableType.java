@@ -20,7 +20,7 @@ public enum ModelVariableType {
     private final String name;
     public static ModelVariableType[] VALUES = values();
 
-    ModelVariableType(String name) {
+    ModelVariableType(final String name) {
         this.name = name;
     }
 
@@ -28,28 +28,51 @@ public enum ModelVariableType {
         return this.name;
     }
 
-    public float getFloat(ModelRenderer mr) {
-        return switch (this) {
-            case POS_X -> mr.rotationPointX;
-            case POS_Y -> mr.rotationPointY;
-            case POS_Z -> mr.rotationPointZ;
-            case ANGLE_X -> mr.rotateAngleX;
-            case ANGLE_Y -> mr.rotateAngleY;
-            case ANGLE_Z -> mr.rotateAngleZ;
-            case OFFSET_X -> mr.offsetX;
-            case OFFSET_Y -> mr.offsetY;
-            case OFFSET_Z -> mr.offsetZ;
-            case SCALE_X -> mr.scaleX;
-            case SCALE_Y -> mr.scaleY;
-            case SCALE_Z -> mr.scaleZ;
-            default -> {
+    public float getFloat(final ModelRenderer mr) {
+        switch (this) {
+            case POS_X:
+                return mr.rotationPointX;
+
+            case POS_Y:
+                return mr.rotationPointY;
+
+            case POS_Z:
+                return mr.rotationPointZ;
+
+            case ANGLE_X:
+                return mr.rotateAngleX;
+
+            case ANGLE_Y:
+                return mr.rotateAngleY;
+
+            case ANGLE_Z:
+                return mr.rotateAngleZ;
+
+            case OFFSET_X:
+                return mr.offsetX;
+
+            case OFFSET_Y:
+                return mr.offsetY;
+
+            case OFFSET_Z:
+                return mr.offsetZ;
+
+            case SCALE_X:
+                return mr.scaleX;
+
+            case SCALE_Y:
+                return mr.scaleY;
+
+            case SCALE_Z:
+                return mr.scaleZ;
+
+            default:
                 Config.warn("GetFloat not supported for: " + this);
-                yield 0.0F;
-            }
-        };
+                return 0.0F;
+        }
     }
 
-    public void setFloat(ModelRenderer mr, float val) {
+    public void setFloat(final ModelRenderer mr, final float val) {
         switch (this) {
             case POS_X:
                 mr.rotationPointX = val;
@@ -104,8 +127,10 @@ public enum ModelVariableType {
         }
     }
 
-    public static ModelVariableType parse(String str) {
-        for (ModelVariableType modelvariabletype : VALUES) {
+    public static ModelVariableType parse(final String str) {
+        for (int i = 0; i < VALUES.length; ++i) {
+            final ModelVariableType modelvariabletype = VALUES[i];
+
             if (modelvariabletype.getName().equals(str)) {
                 return modelvariabletype;
             }

@@ -12,11 +12,11 @@ public enum TokenType {
     private final String charsNext;
     public static final TokenType[] VALUES = values();
 
-    TokenType(String charsFirst) {
+    TokenType(final String charsFirst) {
         this(charsFirst, "");
     }
 
-    TokenType(String charsFirst, String charsNext) {
+    TokenType(final String charsFirst, final String charsNext) {
         this.charsFirst = charsFirst;
         this.charsNext = charsNext;
     }
@@ -29,8 +29,10 @@ public enum TokenType {
         return this.charsNext;
     }
 
-    public static TokenType getTypeByFirstChar(char ch) {
-        for (TokenType tokentype : VALUES) {
+    public static TokenType getTypeByFirstChar(final char ch) {
+        for (int i = 0; i < VALUES.length; ++i) {
+            final TokenType tokentype = VALUES[i];
+
             if (tokentype.getCharsFirst().indexOf(ch) >= 0) {
                 return tokentype;
             }
@@ -39,7 +41,7 @@ public enum TokenType {
         return null;
     }
 
-    public boolean hasCharNext(char ch) {
+    public boolean hasCharNext(final char ch) {
         return this.charsNext.indexOf(ch) >= 0;
     }
 

@@ -11,8 +11,11 @@ public class EnchantmentNameParts {
         return instance;
     }
 
+    /**
+     * Randomly generates a new name built up of 3 or 4 randomly selected words.
+     */
     public String generateNewRandomName() {
-        int i = this.rand.nextInt(2) + 3;
+        final int i = this.rand.nextInt(2) + 3;
         String s = "";
 
         for (int j = 0; j < i; ++j) {
@@ -26,7 +29,10 @@ public class EnchantmentNameParts {
         return s;
     }
 
-    public void reseedRandomGenerator(long seed) {
+    /**
+     * Resets the underlying random number generator using a given seed.
+     */
+    public void reseedRandomGenerator(final long seed) {
         this.rand.setSeed(seed);
     }
 }

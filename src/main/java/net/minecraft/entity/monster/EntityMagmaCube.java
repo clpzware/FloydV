@@ -8,7 +8,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 public class EntityMagmaCube extends EntitySlime {
-    public EntityMagmaCube(World worldIn) {
+    public EntityMagmaCube(final World worldIn) {
         super(worldIn);
         this.isImmuneToFire = true;
     }
@@ -18,23 +18,35 @@ public class EntityMagmaCube extends EntitySlime {
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.20000000298023224D);
     }
 
+    /**
+     * Checks if the entity's current position is a valid location to spawn this entity.
+     */
     public boolean getCanSpawnHere() {
         return this.worldObj.getDifficulty() != EnumDifficulty.PEACEFUL;
     }
 
+    /**
+     * Checks that the entity is not colliding with any blocks / liquids
+     */
     public boolean isNotColliding() {
         return this.worldObj.checkNoEntityCollision(this.getEntityBoundingBox(), this) && this.worldObj.getCollidingBoundingBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.worldObj.isAnyLiquid(this.getEntityBoundingBox());
     }
 
+    /**
+     * Returns the current armor value as determined by a call to InventoryPlayer.getTotalArmorValue
+     */
     public int getTotalArmorValue() {
         return this.getSlimeSize() * 3;
     }
 
-    public int getBrightnessForRender(float partialTicks) {
+    public int getBrightnessForRender(final float partialTicks) {
         return 15728880;
     }
 
-    public float getBrightness(float partialTicks) {
+    /**
+     * Gets how bright this entity is.
+     */
+    public float getBrightness(final float partialTicks) {
         return 1.0F;
     }
 
@@ -50,14 +62,17 @@ public class EntityMagmaCube extends EntitySlime {
         return Items.magma_cream;
     }
 
-    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
-        Item item = this.getDropItem();
+    /**
+     * Drop 0-2 items of this living's type
+     */
+    protected void dropFewItems(final boolean p_70628_1_, final int p_70628_2_) {
+        final Item item = this.getDropItem();
 
         if (item != null && this.getSlimeSize() > 1) {
             int i = this.rand.nextInt(4) - 2;
 
-            if (lootingModifier > 0) {
-                i += this.rand.nextInt(lootingModifier + 1);
+            if (p_70628_2_ > 0) {
+                i += this.rand.nextInt(p_70628_2_ + 1);
             }
 
             for (int j = 0; j < i; ++j) {
@@ -66,10 +81,16 @@ public class EntityMagmaCube extends EntitySlime {
         }
     }
 
+    /**
+     * Returns true if the entity is on fire. Used by render to add the fire effect on rendering.
+     */
     public boolean isBurning() {
         return false;
     }
 
+    /**
+     * Gets the amount of time the slime needs to wait between jumps.
+     */
     protected int getJumpDelay() {
         return super.getJumpDelay() * 4;
     }
@@ -78,6 +99,9 @@ public class EntityMagmaCube extends EntitySlime {
         this.squishAmount *= 0.9F;
     }
 
+    /**
+     * Causes this entity to do an upwards motion (jumping).
+     */
     protected void jump() {
         this.motionY = 0.42F + (float) this.getSlimeSize() * 0.1F;
         this.isAirBorne = true;
@@ -88,21 +112,33 @@ public class EntityMagmaCube extends EntitySlime {
         this.isAirBorne = true;
     }
 
-    public void fall(float distance, float damageMultiplier) {
+    public void fall(final float distance, final float damageMultiplier) {
     }
 
+    /**
+     * Indicates weather the slime is able to damage the player (based upon the slime's size)
+     */
     protected boolean canDamagePlayer() {
         return true;
     }
 
+    /**
+     * Gets the amount of damage dealt to the player when "attacked" by the slime.
+     */
     protected int getAttackStrength() {
         return super.getAttackStrength() + 2;
     }
 
+    /**
+     * Returns the name of the sound played when the slime jumps.
+     */
     protected String getJumpSound() {
         return this.getSlimeSize() > 1 ? "mob.magmacube.big" : "mob.magmacube.small";
     }
 
+    /**
+     * Returns true if the slime makes a sound when it lands after a jump (based upon the slime's size)
+     */
     protected boolean makesSoundOnLand() {
         return true;
     }

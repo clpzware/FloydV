@@ -1,11 +1,6 @@
 package net.minecraft.world.pathfinder;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor;
-import net.minecraft.block.BlockFence;
-import net.minecraft.block.BlockFenceGate;
-import net.minecraft.block.BlockRailBase;
-import net.minecraft.block.BlockWall;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
@@ -21,26 +16,34 @@ public class WalkNodeProcessor extends NodeProcessor {
     private boolean canSwim;
     private boolean shouldAvoidWater;
 
-    public void initProcessor(IBlockAccess iblockaccessIn, Entity entityIn) {
+    public void initProcessor(final IBlockAccess iblockaccessIn, final Entity entityIn) {
         super.initProcessor(iblockaccessIn, entityIn);
         this.shouldAvoidWater = this.avoidsWater;
     }
 
+    /**
+     * This method is called when all nodes have been processed and PathEntity is created.
+     * {@link net.minecraft.world.pathfinder.WalkNodeProcessor WalkNodeProcessor} uses this to change its field {@link
+     * net.minecraft.world.pathfinder.WalkNodeProcessor#avoidsWater avoidsWater}
+     */
     public void postProcess() {
         super.postProcess();
         this.avoidsWater = this.shouldAvoidWater;
     }
 
-    public PathPoint getPathPointTo(Entity entityIn) {
+    /**
+     * Returns given entity's position as PathPoint
+     */
+    public PathPoint getPathPointTo(final Entity entityIn) {
         int i;
 
         if (this.canSwim && entityIn.isInWater()) {
             i = (int) entityIn.getEntityBoundingBox().minY;
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(MathHelper.floor_double(entityIn.posX), i, MathHelper.floor_double(entityIn.posZ));
+            final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(MathHelper.floor_double(entityIn.posX), i, MathHelper.floor_double(entityIn.posZ));
 
             for (Block block = this.blockaccess.getBlockState(blockpos$mutableblockpos).getBlock(); block == Blocks.flowing_water || block == Blocks.water; block = this.blockaccess.getBlockState(blockpos$mutableblockpos).getBlock()) {
                 ++i;
-                blockpos$mutableblockpos.set(MathHelper.floor_double(entityIn.posX), i, MathHelper.floor_double(entityIn.posZ));
+                blockpos$mutableblockpos.func_181079_c(MathHelper.floor_double(entityIn.posX), i, MathHelper.floor_double(entityIn.posZ));
             }
 
             this.avoidsWater = false;
@@ -51,11 +54,19 @@ public class WalkNodeProcessor extends NodeProcessor {
         return this.openPoint(MathHelper.floor_double(entityIn.getEntityBoundingBox().minX), i, MathHelper.floor_double(entityIn.getEntityBoundingBox().minZ));
     }
 
-    public PathPoint getPathPointToCoords(Entity entityIn, double x, double y, double target) {
+    /**
+     * Returns PathPoint for given coordinates
+     *
+     * @param entityIn entity which size will be used to center position
+     * @param x        target x coordinate
+     * @param y        target y coordinate
+     * @param target   z coordinate
+     */
+    public PathPoint getPathPointToCoords(final Entity entityIn, final double x, final double y, final double target) {
         return this.openPoint(MathHelper.floor_double(x - (double) (entityIn.width / 2.0F)), MathHelper.floor_double(y), MathHelper.floor_double(target - (double) (entityIn.width / 2.0F)));
     }
 
-    public int findPathOptions(PathPoint[] pathOptions, Entity entityIn, PathPoint currentPoint, PathPoint targetPoint, float maxDistance) {
+    public int findPathOptions(final PathPoint[] pathOptions, final Entity entityIn, final PathPoint currentPoint, final PathPoint targetPoint, final float maxDistance) {
         int i = 0;
         int j = 0;
 
@@ -63,10 +74,10 @@ public class WalkNodeProcessor extends NodeProcessor {
             j = 1;
         }
 
-        PathPoint pathpoint = this.getSafePoint(entityIn, currentPoint.xCoord, currentPoint.yCoord, currentPoint.zCoord + 1, j);
-        PathPoint pathpoint1 = this.getSafePoint(entityIn, currentPoint.xCoord - 1, currentPoint.yCoord, currentPoint.zCoord, j);
-        PathPoint pathpoint2 = this.getSafePoint(entityIn, currentPoint.xCoord + 1, currentPoint.yCoord, currentPoint.zCoord, j);
-        PathPoint pathpoint3 = this.getSafePoint(entityIn, currentPoint.xCoord, currentPoint.yCoord, currentPoint.zCoord - 1, j);
+        final PathPoint pathpoint = this.getSafePoint(entityIn, currentPoint.xCoord, currentPoint.yCoord, currentPoint.zCoord + 1, j);
+        final PathPoint pathpoint1 = this.getSafePoint(entityIn, currentPoint.xCoord - 1, currentPoint.yCoord, currentPoint.zCoord, j);
+        final PathPoint pathpoint2 = this.getSafePoint(entityIn, currentPoint.xCoord + 1, currentPoint.yCoord, currentPoint.zCoord, j);
+        final PathPoint pathpoint3 = this.getSafePoint(entityIn, currentPoint.xCoord, currentPoint.yCoord, currentPoint.zCoord - 1, j);
 
         if (pathpoint != null && !pathpoint.visited && pathpoint.distanceTo(targetPoint) < maxDistance) {
             pathOptions[i++] = pathpoint;
@@ -87,9 +98,12 @@ public class WalkNodeProcessor extends NodeProcessor {
         return i;
     }
 
-    private PathPoint getSafePoint(Entity entityIn, int x, int y, int z, int p_176171_5_) {
+    /**
+     * Returns a point that the entity can safely move to
+     */
+    private PathPoint getSafePoint(final Entity entityIn, final int x, int y, final int z, final int p_176171_5_) {
         PathPoint pathpoint = null;
-        int i = this.getVerticalOffset(entityIn, x, y, z);
+        final int i = this.getVerticalOffset(entityIn, x, y, z);
 
         if (i == 2) {
             return this.openPoint(x, y, z);
@@ -138,20 +152,26 @@ public class WalkNodeProcessor extends NodeProcessor {
         }
     }
 
-    private int getVerticalOffset(Entity entityIn, int x, int y, int z) {
+    /**
+     * Checks if an entity collides with blocks at a position.
+     * Returns 1 if clear, 0 for colliding with any solid block, -1 for water(if avoids water),
+     * -2 for lava, -3 for fence and wall, -4 for closed trapdoor, 2 if otherwise clear except for open trapdoor or
+     * water(if not avoiding)
+     */
+    private int getVerticalOffset(final Entity entityIn, final int x, final int y, final int z) {
         return func_176170_a(this.blockaccess, entityIn, x, y, z, this.entitySizeX, this.entitySizeY, this.entitySizeZ, this.avoidsWater, this.canBreakDoors, this.canEnterDoors);
     }
 
-    public static int func_176170_a(IBlockAccess blockaccessIn, Entity entityIn, int x, int y, int z, int sizeX, int sizeY, int sizeZ, boolean avoidWater, boolean breakDoors, boolean enterDoors) {
+    public static int func_176170_a(final IBlockAccess blockaccessIn, final Entity entityIn, final int x, final int y, final int z, final int sizeX, final int sizeY, final int sizeZ, final boolean avoidWater, final boolean breakDoors, final boolean enterDoors) {
         boolean flag = false;
-        BlockPos blockpos = new BlockPos(entityIn);
-        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+        final BlockPos blockpos = new BlockPos(entityIn);
+        final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
         for (int i = x; i < x + sizeX; ++i) {
             for (int j = y; j < y + sizeY; ++j) {
                 for (int k = z; k < z + sizeZ; ++k) {
-                    blockpos$mutableblockpos.set(i, j, k);
-                    Block block = blockaccessIn.getBlockState(blockpos$mutableblockpos).getBlock();
+                    blockpos$mutableblockpos.func_181079_c(i, j, k);
+                    final Block block = blockaccessIn.getBlockState(blockpos$mutableblockpos).getBlock();
 
                     if (block.getMaterial() != Material.air) {
                         if (block != Blocks.trapdoor && block != Blocks.iron_trapdoor) {
@@ -183,7 +203,7 @@ public class WalkNodeProcessor extends NodeProcessor {
                                 return -4;
                             }
 
-                            Material material = block.getMaterial();
+                            final Material material = block.getMaterial();
 
                             if (material != Material.lava) {
                                 return 0;
@@ -201,19 +221,19 @@ public class WalkNodeProcessor extends NodeProcessor {
         return flag ? 2 : 1;
     }
 
-    public void setEnterDoors(boolean canEnterDoorsIn) {
+    public void setEnterDoors(final boolean canEnterDoorsIn) {
         this.canEnterDoors = canEnterDoorsIn;
     }
 
-    public void setBreakDoors(boolean canBreakDoorsIn) {
+    public void setBreakDoors(final boolean canBreakDoorsIn) {
         this.canBreakDoors = canBreakDoorsIn;
     }
 
-    public void setAvoidsWater(boolean avoidsWaterIn) {
+    public void setAvoidsWater(final boolean avoidsWaterIn) {
         this.avoidsWater = avoidsWaterIn;
     }
 
-    public void setCanSwim(boolean canSwimIn) {
+    public void setCanSwim(final boolean canSwimIn) {
         this.canSwim = canSwimIn;
     }
 

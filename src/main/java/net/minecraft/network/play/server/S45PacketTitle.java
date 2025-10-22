@@ -1,11 +1,11 @@
 package net.minecraft.network.play.server;
 
-import java.io.IOException;
-
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.util.IChatComponent;
+
+import java.io.IOException;
 
 public class S45PacketTitle implements Packet<INetHandlerPlayClient> {
     private S45PacketTitle.Type type;
@@ -17,15 +17,15 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient> {
     public S45PacketTitle() {
     }
 
-    public S45PacketTitle(S45PacketTitle.Type type, IChatComponent message) {
+    public S45PacketTitle(final S45PacketTitle.Type type, final IChatComponent message) {
         this(type, message, -1, -1, -1);
     }
 
-    public S45PacketTitle(int fadeInTime, int displayTime, int fadeOutTime) {
+    public S45PacketTitle(final int fadeInTime, final int displayTime, final int fadeOutTime) {
         this(S45PacketTitle.Type.TIMES, null, fadeInTime, displayTime, fadeOutTime);
     }
 
-    public S45PacketTitle(S45PacketTitle.Type type, IChatComponent message, int fadeInTime, int displayTime, int fadeOutTime) {
+    public S45PacketTitle(final S45PacketTitle.Type type, final IChatComponent message, final int fadeInTime, final int displayTime, final int fadeOutTime) {
         this.type = type;
         this.message = message;
         this.fadeInTime = fadeInTime;
@@ -33,7 +33,10 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient> {
         this.fadeOutTime = fadeOutTime;
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.type = buf.readEnumValue(Type.class);
 
         if (this.type == S45PacketTitle.Type.TITLE || this.type == S45PacketTitle.Type.SUBTITLE) {
@@ -47,7 +50,10 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient> {
         }
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeEnumValue(this.type);
 
         if (this.type == S45PacketTitle.Type.TITLE || this.type == S45PacketTitle.Type.SUBTITLE) {
@@ -61,7 +67,10 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient> {
         }
     }
 
-    public void processPacket(INetHandlerPlayClient handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayClient handler) {
         handler.handleTitle(this);
     }
 
@@ -92,8 +101,8 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient> {
         CLEAR,
         RESET;
 
-        public static S45PacketTitle.Type byName(String name) {
-            for (S45PacketTitle.Type s45packettitle$type : values()) {
+        public static S45PacketTitle.Type byName(final String name) {
+            for (final S45PacketTitle.Type s45packettitle$type : values()) {
                 if (s45packettitle$type.name().equalsIgnoreCase(name)) {
                     return s45packettitle$type;
                 }
@@ -103,10 +112,10 @@ public class S45PacketTitle implements Packet<INetHandlerPlayClient> {
         }
 
         public static String[] getNames() {
-            String[] astring = new String[values().length];
+            final String[] astring = new String[values().length];
             int i = 0;
 
-            for (S45PacketTitle.Type s45packettitle$type : values()) {
+            for (final S45PacketTitle.Type s45packettitle$type : values()) {
                 astring[i++] = s45packettitle$type.name().toLowerCase();
             }
 

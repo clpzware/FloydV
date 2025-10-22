@@ -8,24 +8,31 @@ public class ClickEvent {
     private final ClickEvent.Action action;
     private final String value;
 
-    public ClickEvent(ClickEvent.Action theAction, String theValue) {
+    public ClickEvent(final ClickEvent.Action theAction, final String theValue) {
         this.action = theAction;
         this.value = theValue;
     }
 
+    /**
+     * Gets the action to perform when this event is raised.
+     */
     public ClickEvent.Action getAction() {
         return this.action;
     }
 
+    /**
+     * Gets the value to perform the action on when this event is raised.  For example, if the action is "open URL",
+     * this would be the URL to open.
+     */
     public String getValue() {
         return this.value;
     }
 
-    public boolean equals(Object p_equals_1_) {
+    public boolean equals(final Object p_equals_1_) {
         if (this == p_equals_1_) {
             return true;
         } else if (p_equals_1_ != null && this.getClass() == p_equals_1_.getClass()) {
-            ClickEvent clickevent = (ClickEvent) p_equals_1_;
+            final ClickEvent clickevent = (ClickEvent) p_equals_1_;
 
             if (this.action != clickevent.action) {
                 return false;
@@ -53,6 +60,7 @@ public class ClickEvent {
         OPEN_URL("open_url", true),
         OPEN_FILE("open_file", false),
         RUN_COMMAND("run_command", true),
+        TWITCH_USER_INFO("twitch_user_info", false),
         SUGGEST_COMMAND("suggest_command", true),
         CHANGE_PAGE("change_page", true);
 
@@ -60,7 +68,7 @@ public class ClickEvent {
         private final boolean allowedInChat;
         private final String canonicalName;
 
-        Action(String canonicalNameIn, boolean allowedInChatIn) {
+        Action(final String canonicalNameIn, final boolean allowedInChatIn) {
             this.canonicalName = canonicalNameIn;
             this.allowedInChat = allowedInChatIn;
         }
@@ -73,12 +81,12 @@ public class ClickEvent {
             return this.canonicalName;
         }
 
-        public static ClickEvent.Action getValueByCanonicalName(String canonicalNameIn) {
+        public static ClickEvent.Action getValueByCanonicalName(final String canonicalNameIn) {
             return nameMapping.get(canonicalNameIn);
         }
 
         static {
-            for (ClickEvent.Action clickevent$action : values()) {
+            for (final ClickEvent.Action clickevent$action : values()) {
                 nameMapping.put(clickevent$action.getCanonicalName(), clickevent$action);
             }
         }

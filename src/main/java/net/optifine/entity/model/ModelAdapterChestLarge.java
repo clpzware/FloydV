@@ -20,10 +20,11 @@ public class ModelAdapterChestLarge extends ModelAdapter {
         return new ModelLargeChest();
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelChest modelchest)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelChest)) {
             return null;
         } else {
+            final ModelChest modelchest = (ModelChest) model;
             return modelPart.equals("lid") ? modelchest.chestLid : (modelPart.equals("base") ? modelchest.chestBelow : (modelPart.equals("knob") ? modelchest.chestKnob : null));
         }
     }
@@ -32,8 +33,8 @@ public class ModelAdapterChestLarge extends ModelAdapter {
         return new String[]{"lid", "base", "knob"};
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        TileEntityRendererDispatcher tileentityrendererdispatcher = TileEntityRendererDispatcher.instance;
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final TileEntityRendererDispatcher tileentityrendererdispatcher = TileEntityRendererDispatcher.instance;
         TileEntitySpecialRenderer tileentityspecialrenderer = tileentityrendererdispatcher.getSpecialRendererByClass(TileEntityChest.class);
 
         if (!(tileentityspecialrenderer instanceof TileEntityChestRenderer)) {

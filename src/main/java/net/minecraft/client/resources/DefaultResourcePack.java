@@ -16,17 +16,17 @@ public class DefaultResourcePack implements IResourcePack {
     public static final Set<String> defaultResourceDomains = ImmutableSet.of("minecraft", "realms");
     private final Map<String, File> mapAssets;
 
-    public DefaultResourcePack(Map<String, File> mapAssetsIn) {
+    public DefaultResourcePack(final Map<String, File> mapAssetsIn) {
         this.mapAssets = mapAssetsIn;
     }
 
-    public InputStream getInputStream(ResourceLocation location) throws IOException {
-        InputStream inputstream = this.getResourceStream(location);
+    public InputStream getInputStream(final ResourceLocation location) throws IOException {
+        final InputStream inputstream = this.getResourceStream(location);
 
         if (inputstream != null) {
             return inputstream;
         } else {
-            InputStream inputstream1 = this.getInputStreamAssets(location);
+            final InputStream inputstream1 = this.getInputStreamAssets(location);
 
             if (inputstream1 != null) {
                 return inputstream1;
@@ -36,18 +36,18 @@ public class DefaultResourcePack implements IResourcePack {
         }
     }
 
-    public InputStream getInputStreamAssets(ResourceLocation location) throws IOException {
-        File file1 = this.mapAssets.get(location.toString());
+    public InputStream getInputStreamAssets(final ResourceLocation location) throws IOException {
+        final File file1 = this.mapAssets.get(location.toString());
         return file1 != null && file1.isFile() ? new FileInputStream(file1) : null;
     }
 
-    private InputStream getResourceStream(ResourceLocation location) {
-        String s = "/assets/" + location.getResourceDomain() + "/" + location.getResourcePath();
-        InputStream inputstream = ReflectorForge.getOptiFineResourceStream(s);
+    private InputStream getResourceStream(final ResourceLocation location) {
+        final String s = "/assets/" + location.getResourceDomain() + "/" + location.getResourcePath();
+        final InputStream inputstream = ReflectorForge.getOptiFineResourceStream(s);
         return inputstream != null ? inputstream : DefaultResourcePack.class.getResourceAsStream(s);
     }
 
-    public boolean resourceExists(ResourceLocation location) {
+    public boolean resourceExists(final ResourceLocation location) {
         return this.getResourceStream(location) != null || this.mapAssets.containsKey(location.toString());
     }
 
@@ -55,13 +55,13 @@ public class DefaultResourcePack implements IResourcePack {
         return defaultResourceDomains;
     }
 
-    public <T extends IMetadataSection> T getPackMetadata(IMetadataSerializer metadataSerializer, String metadataSectionName) throws IOException {
+    public <T extends IMetadataSection> T getPackMetadata(final IMetadataSerializer p_135058_1_, final String p_135058_2_) throws IOException {
         try {
-            InputStream inputstream = new FileInputStream(this.mapAssets.get("pack.mcmeta"));
-            return AbstractResourcePack.readMetadata(metadataSerializer, inputstream, metadataSectionName);
-        } catch (RuntimeException var4) {
+            final InputStream inputstream = new FileInputStream(this.mapAssets.get("pack.mcmeta"));
+            return AbstractResourcePack.readMetadata(p_135058_1_, inputstream, p_135058_2_);
+        } catch (final RuntimeException var4) {
             return null;
-        } catch (FileNotFoundException var5) {
+        } catch (final FileNotFoundException var5) {
             return null;
         }
     }

@@ -1,17 +1,18 @@
 package net.optifine.shaders;
 
 import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
-import org.lwjglx.BufferUtils;
 
 import java.nio.ByteBuffer;
 
 public class HFNoiseTexture implements ICustomTexture {
     private int texID = GL11.glGenTextures();
+    private final int textureUnit = 15;
 
-    public HFNoiseTexture(int width, int height) {
-        byte[] abyte = this.genHFNoiseImage(width, height);
-        ByteBuffer bytebuffer = BufferUtils.createByteBuffer(abyte.length);
+    public HFNoiseTexture(final int width, final int height) {
+        final byte[] abyte = this.genHFNoiseImage(width, height);
+        final ByteBuffer bytebuffer = BufferUtils.createByteBuffer(abyte.length);
         bytebuffer.put(abyte);
         bytebuffer.flip();
         GlStateManager.bindTexture(this.texID);
@@ -39,13 +40,13 @@ public class HFNoiseTexture implements ICustomTexture {
         return seed;
     }
 
-    private byte random(int x, int y, int z) {
-        int i = (this.random(x) + this.random(y * 19)) * this.random(z * 23) - z;
+    private byte random(final int x, final int y, final int z) {
+        final int i = (this.random(x) + this.random(y * 19)) * this.random(z * 23) - z;
         return (byte) (this.random(i) % 128);
     }
 
-    private byte[] genHFNoiseImage(int width, int height) {
-        byte[] abyte = new byte[width * height * 3];
+    private byte[] genHFNoiseImage(final int width, final int height) {
+        final byte[] abyte = new byte[width * height * 3];
         int i = 0;
 
         for (int j = 0; j < height; ++j) {
@@ -64,7 +65,7 @@ public class HFNoiseTexture implements ICustomTexture {
     }
 
     public int getTextureUnit() {
-        return 15;
+        return this.textureUnit;
     }
 
     public int getTarget() {

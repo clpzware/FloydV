@@ -12,52 +12,54 @@ import java.util.Map;
 public class ShaderExpressionResolver implements IExpressionResolver {
     private final Map<String, IExpression> mapExpressions = new HashMap();
 
-    public ShaderExpressionResolver(Map<String, IExpression> map) {
+    public ShaderExpressionResolver(final Map<String, IExpression> map) {
         this.registerExpressions();
 
-        for (String s : map.keySet()) {
-            IExpression iexpression = map.get(s);
+        for (final String s : map.keySet()) {
+            final IExpression iexpression = map.get(s);
             this.registerExpression(s, iexpression);
         }
     }
 
     private void registerExpressions() {
-        ShaderParameterFloat[] ashaderparameterfloat = ShaderParameterFloat.values();
+        final ShaderParameterFloat[] ashaderparameterfloat = ShaderParameterFloat.values();
 
-        for (ShaderParameterFloat shaderparameterfloat : ashaderparameterfloat) {
+        for (int i = 0; i < ashaderparameterfloat.length; ++i) {
+            final ShaderParameterFloat shaderparameterfloat = ashaderparameterfloat[i];
             this.addParameterFloat(this.mapExpressions, shaderparameterfloat);
         }
 
-        ShaderParameterBool[] ashaderparameterbool = ShaderParameterBool.values();
+        final ShaderParameterBool[] ashaderparameterbool = ShaderParameterBool.values();
 
-        for (ShaderParameterBool shaderparameterbool : ashaderparameterbool) {
+        for (int k = 0; k < ashaderparameterbool.length; ++k) {
+            final ShaderParameterBool shaderparameterbool = ashaderparameterbool[k];
             this.mapExpressions.put(shaderparameterbool.getName(), shaderparameterbool);
         }
 
-        for (BiomeGenBase biomegenbase : BiomeGenBase.BIOME_ID_MAP.values()) {
+        for (final BiomeGenBase biomegenbase : BiomeGenBase.BIOME_ID_MAP.values()) {
             String s = biomegenbase.biomeName.trim();
             s = "BIOME_" + s.toUpperCase().replace(' ', '_');
-            int j = biomegenbase.biomeID;
-            IExpression iexpression = new ConstantFloat((float) j);
+            final int j = biomegenbase.biomeID;
+            final IExpression iexpression = new ConstantFloat((float) j);
             this.registerExpression(s, iexpression);
         }
     }
 
-    private void addParameterFloat(Map<String, IExpression> map, ShaderParameterFloat spf) {
-        String[] astring = spf.getIndexNames1();
+    private void addParameterFloat(final Map<String, IExpression> map, final ShaderParameterFloat spf) {
+        final String[] astring = spf.getIndexNames1();
 
         if (astring == null) {
             map.put(spf.getName(), new ShaderParameterIndexed(spf));
         } else {
             for (int i = 0; i < astring.length; ++i) {
-                String s = astring[i];
-                String[] astring1 = spf.getIndexNames2();
+                final String s = astring[i];
+                final String[] astring1 = spf.getIndexNames2();
 
                 if (astring1 == null) {
                     map.put(spf.getName() + "." + s, new ShaderParameterIndexed(spf, i));
                 } else {
                     for (int j = 0; j < astring1.length; ++j) {
-                        String s1 = astring1[j];
+                        final String s1 = astring1[j];
                         map.put(spf.getName() + "." + s + "." + s1, new ShaderParameterIndexed(spf, i, j));
                     }
                 }
@@ -65,7 +67,7 @@ public class ShaderExpressionResolver implements IExpressionResolver {
         }
     }
 
-    public boolean registerExpression(String name, IExpression expr) {
+    public boolean registerExpression(final String name, final IExpression expr) {
         if (this.mapExpressions.containsKey(name)) {
             SMCLog.warning("Expression already defined: " + name);
             return false;
@@ -75,11 +77,11 @@ public class ShaderExpressionResolver implements IExpressionResolver {
         }
     }
 
-    public IExpression getExpression(String name) {
+    public IExpression getExpression(final String name) {
         return this.mapExpressions.get(name);
     }
 
-    public boolean hasExpression(String name) {
+    public boolean hasExpression(final String name) {
         return this.mapExpressions.containsKey(name);
     }
 }

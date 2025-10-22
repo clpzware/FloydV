@@ -10,7 +10,7 @@ public class CombatEntry {
     private final String field_94566_e;
     private final float fallDistance;
 
-    public CombatEntry(DamageSource damageSrcIn, int p_i1564_2_, float healthAmount, float damageAmount, String p_i1564_5_, float fallDistanceIn) {
+    public CombatEntry(final DamageSource damageSrcIn, final int p_i1564_2_, final float healthAmount, final float damageAmount, final String p_i1564_5_, final float fallDistanceIn) {
         this.damageSrc = damageSrcIn;
         this.field_94567_b = p_i1564_2_;
         this.damage = damageAmount;
@@ -19,6 +19,9 @@ public class CombatEntry {
         this.fallDistance = fallDistanceIn;
     }
 
+    /**
+     * Get the DamageSource of the CombatEntry instance.
+     */
     public DamageSource getDamageSrc() {
         return this.damageSrc;
     }
@@ -27,6 +30,9 @@ public class CombatEntry {
         return this.damage;
     }
 
+    /**
+     * Returns true if {@link net.minecraft.util.DamageSource#getEntity() damage source} is a living entity
+     */
     public boolean isLivingDamageSrc() {
         return this.damageSrc.getEntity() instanceof EntityLivingBase;
     }

@@ -9,26 +9,27 @@ import net.minecraft.entity.Entity;
 import java.util.List;
 
 public class ChatComponentProcessor {
-    public static IChatComponent processComponent(ICommandSender commandSender, IChatComponent component, Entity entityIn) throws CommandException {
+    public static IChatComponent processComponent(final ICommandSender commandSender, final IChatComponent component, final Entity entityIn) throws CommandException {
         IChatComponent ichatcomponent = null;
 
-        if (component instanceof ChatComponentScore chatcomponentscore) {
+        if (component instanceof ChatComponentScore) {
+            final ChatComponentScore chatcomponentscore = (ChatComponentScore) component;
             String s = chatcomponentscore.getName();
 
             if (PlayerSelector.hasArguments(s)) {
-                List<Entity> list = PlayerSelector.matchEntities(commandSender, s, Entity.class);
+                final List<Entity> list = PlayerSelector.matchEntities(commandSender, s, Entity.class);
 
                 if (list.size() != 1) {
                     throw new EntityNotFoundException();
                 }
 
-                s = list.get(0).getName();
+                s = list.get(0).getCommandSenderName();
             }
 
-            ichatcomponent = entityIn != null && s.equals("*") ? new ChatComponentScore(entityIn.getName(), chatcomponentscore.getObjective()) : new ChatComponentScore(s, chatcomponentscore.getObjective());
+            ichatcomponent = entityIn != null && s.equals("*") ? new ChatComponentScore(entityIn.getCommandSenderName(), chatcomponentscore.getObjective()) : new ChatComponentScore(s, chatcomponentscore.getObjective());
             ((ChatComponentScore) ichatcomponent).setValue(chatcomponentscore.getUnformattedTextForChat());
         } else if (component instanceof ChatComponentSelector) {
-            String s1 = ((ChatComponentSelector) component).getSelector();
+            final String s1 = ((ChatComponentSelector) component).getSelector();
             ichatcomponent = PlayerSelector.matchEntitiesToChatComponent(commandSender, s1);
 
             if (ichatcomponent == null) {
@@ -41,10 +42,10 @@ public class ChatComponentProcessor {
                 return component;
             }
 
-            Object[] aobject = ((ChatComponentTranslation) component).getFormatArgs();
+            final Object[] aobject = ((ChatComponentTranslation) component).getFormatArgs();
 
             for (int i = 0; i < aobject.length; ++i) {
-                Object object = aobject[i];
+                final Object object = aobject[i];
 
                 if (object instanceof IChatComponent) {
                     aobject[i] = processComponent(commandSender, (IChatComponent) object, entityIn);
@@ -54,13 +55,13 @@ public class ChatComponentProcessor {
             ichatcomponent = new ChatComponentTranslation(((ChatComponentTranslation) component).getKey(), aobject);
         }
 
-        ChatStyle chatstyle = component.getChatStyle();
+        final ChatStyle chatstyle = component.getChatStyle();
 
         if (chatstyle != null) {
             ichatcomponent.setChatStyle(chatstyle.createShallowCopy());
         }
 
-        for (IChatComponent ichatcomponent1 : component.getSiblings()) {
+        for (final IChatComponent ichatcomponent1 : component.getSiblings()) {
             ichatcomponent.appendSibling(processComponent(commandSender, ichatcomponent1, entityIn));
         }
 

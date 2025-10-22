@@ -5,7 +5,7 @@ public class RenderScale {
     private float offsetX = 0.0F;
     private float offsetY = 0.0F;
 
-    public RenderScale(float scale, float offsetX, float offsetY) {
+    public RenderScale(final float scale, final float offsetX, final float offsetY) {
         this.scale = scale;
         this.offsetX = offsetX;
         this.offsetY = offsetY;
@@ -24,6 +24,6 @@ public class RenderScale {
     }
 
     public String toString() {
-        return this.scale + ", " + this.offsetX + ", " + this.offsetY;
+        return "" + this.scale + ", " + this.offsetX + ", " + this.offsetY;
     }
 }

@@ -12,15 +12,19 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class RecipesArmorDyes implements IRecipe {
-    public boolean matches(InventoryCrafting inv, World worldIn) {
+    /**
+     * Used to check if a recipe matches current crafting inventory
+     */
+    public boolean matches(final InventoryCrafting inv, final World worldIn) {
         ItemStack itemstack = null;
-        List<ItemStack> list = Lists.newArrayList();
+        final List<ItemStack> list = Lists.newArrayList();
 
         for (int i = 0; i < inv.getSizeInventory(); ++i) {
-            ItemStack itemstack1 = inv.getStackInSlot(i);
+            final ItemStack itemstack1 = inv.getStackInSlot(i);
 
             if (itemstack1 != null) {
-                if (itemstack1.getItem() instanceof ItemArmor itemarmor) {
+                if (itemstack1.getItem() instanceof ItemArmor) {
+                    final ItemArmor itemarmor = (ItemArmor) itemstack1.getItem();
 
                     if (itemarmor.getArmorMaterial() != ItemArmor.ArmorMaterial.LEATHER || itemstack != null) {
                         return false;
@@ -40,15 +44,18 @@ public class RecipesArmorDyes implements IRecipe {
         return itemstack != null && !list.isEmpty();
     }
 
-    public ItemStack getCraftingResult(InventoryCrafting inv) {
+    /**
+     * Returns an Item that is the result of this recipe
+     */
+    public ItemStack getCraftingResult(final InventoryCrafting inv) {
         ItemStack itemstack = null;
-        int[] aint = new int[3];
+        final int[] aint = new int[3];
         int i = 0;
         int j = 0;
         ItemArmor itemarmor = null;
 
         for (int k = 0; k < inv.getSizeInventory(); ++k) {
-            ItemStack itemstack1 = inv.getStackInSlot(k);
+            final ItemStack itemstack1 = inv.getStackInSlot(k);
 
             if (itemstack1 != null) {
                 if (itemstack1.getItem() instanceof ItemArmor) {
@@ -62,10 +69,10 @@ public class RecipesArmorDyes implements IRecipe {
                     itemstack.stackSize = 1;
 
                     if (itemarmor.hasColor(itemstack1)) {
-                        int l = itemarmor.getColor(itemstack);
-                        float f = (float) (l >> 16 & 255) / 255.0F;
-                        float f1 = (float) (l >> 8 & 255) / 255.0F;
-                        float f2 = (float) (l & 255) / 255.0F;
+                        final int l = itemarmor.getColor(itemstack);
+                        final float f = (float) (l >> 16 & 255) / 255.0F;
+                        final float f1 = (float) (l >> 8 & 255) / 255.0F;
+                        final float f2 = (float) (l & 255) / 255.0F;
                         i = (int) ((float) i + Math.max(f, Math.max(f1, f2)) * 255.0F);
                         aint[0] = (int) ((float) aint[0] + f * 255.0F);
                         aint[1] = (int) ((float) aint[1] + f1 * 255.0F);
@@ -77,10 +84,10 @@ public class RecipesArmorDyes implements IRecipe {
                         return null;
                     }
 
-                    float[] afloat = EntitySheep.getDyeRgb(EnumDyeColor.byDyeDamage(itemstack1.getMetadata()));
-                    int l1 = (int) (afloat[0] * 255.0F);
-                    int i2 = (int) (afloat[1] * 255.0F);
-                    int j2 = (int) (afloat[2] * 255.0F);
+                    final float[] afloat = EntitySheep.func_175513_a(EnumDyeColor.byDyeDamage(itemstack1.getMetadata()));
+                    final int l1 = (int) (afloat[0] * 255.0F);
+                    final int i2 = (int) (afloat[1] * 255.0F);
+                    final int j2 = (int) (afloat[2] * 255.0F);
                     i += Math.max(l1, Math.max(i2, j2));
                     aint[0] += l1;
                     aint[1] += i2;
@@ -96,8 +103,8 @@ public class RecipesArmorDyes implements IRecipe {
             int i1 = aint[0] / j;
             int j1 = aint[1] / j;
             int k1 = aint[2] / j;
-            float f3 = (float) i / (float) j;
-            float f4 = (float) Math.max(i1, Math.max(j1, k1));
+            final float f3 = (float) i / (float) j;
+            final float f4 = (float) Math.max(i1, Math.max(j1, k1));
             i1 = (int) ((float) i1 * f3 / f4);
             j1 = (int) ((float) j1 * f3 / f4);
             k1 = (int) ((float) k1 * f3 / f4);
@@ -108,6 +115,9 @@ public class RecipesArmorDyes implements IRecipe {
         }
     }
 
+    /**
+     * Returns the size of the recipe area
+     */
     public int getRecipeSize() {
         return 10;
     }
@@ -116,11 +126,11 @@ public class RecipesArmorDyes implements IRecipe {
         return null;
     }
 
-    public ItemStack[] getRemainingItems(InventoryCrafting inv) {
-        ItemStack[] aitemstack = new ItemStack[inv.getSizeInventory()];
+    public ItemStack[] getRemainingItems(final InventoryCrafting inv) {
+        final ItemStack[] aitemstack = new ItemStack[inv.getSizeInventory()];
 
         for (int i = 0; i < aitemstack.length; ++i) {
-            ItemStack itemstack = inv.getStackInSlot(i);
+            final ItemStack itemstack = inv.getStackInSlot(i);
 
             if (itemstack != null && itemstack.getItem().hasContainerItem()) {
                 aitemstack[i] = new ItemStack(itemstack.getItem().getContainerItem());

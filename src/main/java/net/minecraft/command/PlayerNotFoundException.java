@@ -5,7 +5,7 @@ public class PlayerNotFoundException extends CommandException {
         this("commands.generic.player.notFound");
     }
 
-    public PlayerNotFoundException(String message, Object... replacements) {
+    public PlayerNotFoundException(final String message, final Object... replacements) {
         super(message, replacements);
     }
 }

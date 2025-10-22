@@ -17,10 +17,11 @@ public class ModelAdapterIronGolem extends ModelAdapter {
         return new ModelIronGolem();
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelIronGolem modelirongolem)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelIronGolem)) {
             return null;
         } else {
+            final ModelIronGolem modelirongolem = (ModelIronGolem) model;
             return modelPart.equals("head") ? modelirongolem.ironGolemHead : (modelPart.equals("body") ? modelirongolem.ironGolemBody : (modelPart.equals("left_arm") ? modelirongolem.ironGolemLeftArm : (modelPart.equals("right_arm") ? modelirongolem.ironGolemRightArm : (modelPart.equals("left_leg") ? modelirongolem.ironGolemLeftLeg : (modelPart.equals("right_leg") ? modelirongolem.ironGolemRightLeg : null)))));
         }
     }
@@ -29,9 +30,9 @@ public class ModelAdapterIronGolem extends ModelAdapter {
         return new String[]{"head", "body", "right_arm", "left_arm", "left_leg", "right_leg"};
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderIronGolem renderirongolem = new RenderIronGolem(rendermanager);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderIronGolem renderirongolem = new RenderIronGolem(rendermanager);
         renderirongolem.mainModel = modelBase;
         renderirongolem.shadowSize = shadowSize;
         return renderirongolem;

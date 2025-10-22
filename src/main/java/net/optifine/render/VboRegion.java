@@ -24,22 +24,22 @@ public class VboRegion {
     private int drawMode;
     private final int vertexBytes;
 
-    public VboRegion(EnumWorldBlockLayer layer) {
+    public VboRegion(final EnumWorldBlockLayer layer) {
         this.bufferIndexVertex = Config.createDirectIntBuffer(this.capacity);
         this.bufferCountVertex = Config.createDirectIntBuffer(this.capacity);
         this.drawMode = 7;
         this.vertexBytes = DefaultVertexFormats.BLOCK.getNextOffset();
         this.layer = layer;
         this.bindBuffer();
-        long i = this.toBytes(this.capacity);
+        final long i = this.toBytes(this.capacity);
         OpenGlHelper.glBufferData(OpenGlHelper.GL_ARRAY_BUFFER, i, OpenGlHelper.GL_STATIC_DRAW);
         this.unbindBuffer();
     }
 
-    public void bufferData(ByteBuffer data, VboRange range) {
-        int i = range.getPosition();
-        int j = range.getSize();
-        int k = this.toVertex(data.limit());
+    public void bufferData(final ByteBuffer data, final VboRange range) {
+        final int i = range.getPosition();
+        final int j = range.getSize();
+        final int k = this.toVertex(data.limit());
 
         if (k <= 0) {
             if (i >= 0) {
@@ -64,7 +64,7 @@ public class VboRegion {
             range.setSize(k);
             this.sizeUsed += k - j;
             this.checkVboSize(range.getPositionNext());
-            long l = this.toBytes(range.getPosition());
+            final long l = this.toBytes(range.getPosition());
             this.bindBuffer();
             OpenGlHelper.glBufferSubData(OpenGlHelper.GL_ARRAY_BUFFER, l, data);
             this.unbindBuffer();
@@ -75,7 +75,7 @@ public class VboRegion {
         }
     }
 
-    private void compactRanges(int countMax) {
+    private void compactRanges(final int countMax) {
         if (!this.rangeList.isEmpty()) {
             VboRange vborange = this.compactRangeLast;
 
@@ -84,7 +84,7 @@ public class VboRegion {
             }
 
             int i = vborange.getPosition();
-            VboRange vborange1 = vborange.getPrev();
+            final VboRange vborange1 = vborange.getPrev();
 
             if (vborange1 == null) {
                 i = 0;
@@ -101,7 +101,7 @@ public class VboRegion {
                     i += vborange.getSize();
                     vborange = vborange.getNext();
                 } else {
-                    int k = vborange.getPosition() - i;
+                    final int k = vborange.getPosition() - i;
 
                     if (vborange.getSize() <= k) {
                         this.copyVboData(vborange.getPosition(), i, vborange.getSize());
@@ -113,7 +113,7 @@ public class VboRegion {
                         this.copyVboData(vborange.getPosition(), this.positionTop, vborange.getSize());
                         vborange.setPosition(this.positionTop);
                         this.positionTop += vborange.getSize();
-                        VboRange vborange2 = vborange.getNext();
+                        final VboRange vborange2 = vborange.getNext();
                         this.rangeList.remove(vborange.getNode());
                         this.rangeList.addLast(vborange.getNode());
                         vborange = vborange2;
@@ -141,13 +141,13 @@ public class VboRegion {
                 throw new RuntimeException("Invalid range: " + vborange);
             }
 
-            VboRange vborange1 = vborange.getPrev();
+            final VboRange vborange1 = vborange.getPrev();
 
             if (vborange1 != null && vborange.getPosition() < vborange1.getPositionNext()) {
                 throw new RuntimeException("Invalid range: " + vborange);
             }
 
-            VboRange vborange2 = vborange.getNext();
+            final VboRange vborange2 = vborange.getNext();
 
             if (vborange2 != null && vborange.getPositionNext() > vborange2.getPosition()) {
                 throw new RuntimeException("Invalid range: " + vborange);
@@ -161,16 +161,16 @@ public class VboRegion {
         }
     }
 
-    private void checkVboSize(int sizeMin) {
+    private void checkVboSize(final int sizeMin) {
         if (this.capacity < sizeMin) {
             this.expandVbo(sizeMin);
         }
     }
 
-    private void copyVboData(int posFrom, int posTo, int size) {
-        long i = this.toBytes(posFrom);
-        long j = this.toBytes(posTo);
-        long k = this.toBytes(size);
+    private void copyVboData(final int posFrom, final int posTo, final int size) {
+        final long i = this.toBytes(posFrom);
+        final long j = this.toBytes(posTo);
+        final long k = this.toBytes(size);
         OpenGlHelper.glBindBuffer(OpenGlHelper.GL_COPY_READ_BUFFER, this.glBufferId);
         OpenGlHelper.glBindBuffer(OpenGlHelper.GL_COPY_WRITE_BUFFER, this.glBufferId);
         OpenGlHelper.glCopyBufferSubData(OpenGlHelper.GL_COPY_READ_BUFFER, OpenGlHelper.GL_COPY_WRITE_BUFFER, i, j, k);
@@ -179,15 +179,15 @@ public class VboRegion {
         OpenGlHelper.glBindBuffer(OpenGlHelper.GL_COPY_WRITE_BUFFER, 0);
     }
 
-    private void expandVbo(int sizeMin) {
+    private void expandVbo(final int sizeMin) {
         int i;
 
         for (i = this.capacity * 6 / 4; i < sizeMin; i = i * 6 / 4) {
         }
 
-        long j = this.toBytes(this.capacity);
-        long k = this.toBytes(i);
-        int l = OpenGlHelper.glGenBuffers();
+        final long j = this.toBytes(this.capacity);
+        final long k = this.toBytes(i);
+        final int l = OpenGlHelper.glGenBuffers();
         OpenGlHelper.glBindBuffer(OpenGlHelper.GL_ARRAY_BUFFER, l);
         OpenGlHelper.glBufferData(OpenGlHelper.GL_ARRAY_BUFFER, k, OpenGlHelper.GL_STATIC_DRAW);
         Config.checkGlError("Expand VBO");
@@ -209,7 +209,7 @@ public class VboRegion {
         OpenGlHelper.glBindBuffer(OpenGlHelper.GL_ARRAY_BUFFER, this.glBufferId);
     }
 
-    public void drawArrays(int drawMode, VboRange range) {
+    public void drawArrays(final int drawMode, final VboRange range) {
         if (this.drawMode != drawMode) {
             if (this.bufferIndexVertex.position() > 0) {
                 throw new IllegalArgumentException("Mixed region draw modes: " + this.drawMode + " != " + drawMode);
@@ -222,7 +222,7 @@ public class VboRegion {
         this.bufferCountVertex.put(range.getSize());
     }
 
-    public void finishDraw(VboRenderList vboRenderList) {
+    public void finishDraw(final VboRenderList vboRenderList) {
         this.bindBuffer();
         vboRenderList.setupArrayPointers();
         this.bufferIndexVertex.flip();
@@ -247,11 +247,11 @@ public class VboRegion {
         }
     }
 
-    private long toBytes(int vertex) {
+    private long toBytes(final int vertex) {
         return (long) vertex * (long) this.vertexBytes;
     }
 
-    private int toVertex(long bytes) {
+    private int toVertex(final long bytes) {
         return (int) (bytes / (long) this.vertexBytes);
     }
 

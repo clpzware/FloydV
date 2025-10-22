@@ -13,10 +13,19 @@ public interface IBlockAccess {
 
     IBlockState getBlockState(BlockPos pos);
 
+    /**
+     * Checks to see if an air block exists at the provided location. Note that this only checks to see if the blocks
+     * material is set to air, meaning it is possible for non-vanilla blocks to still pass this check.
+     *
+     * @param pos The position of the block being checked.
+     */
     boolean isAirBlock(BlockPos pos);
 
     BiomeGenBase getBiomeGenForCoords(BlockPos pos);
 
+    /**
+     * set by !chunk.getAreLevelsEmpty
+     */
     boolean extendedLevelsInChunkCache();
 
     int getStrongPower(BlockPos pos, EnumFacing direction);

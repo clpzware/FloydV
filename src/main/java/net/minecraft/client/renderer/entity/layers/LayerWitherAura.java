@@ -12,23 +12,23 @@ public class LayerWitherAura implements LayerRenderer<EntityWither> {
     private final RenderWither witherRenderer;
     private final ModelWither witherModel = new ModelWither(0.5F);
 
-    public LayerWitherAura(RenderWither witherRendererIn) {
+    public LayerWitherAura(final RenderWither witherRendererIn) {
         this.witherRenderer = witherRendererIn;
     }
 
-    public void doRenderLayer(EntityWither entitylivingbaseIn, float p_177141_2_, float p_177141_3_, float partialTicks, float p_177141_5_, float p_177141_6_, float p_177141_7_, float scale) {
+    public void doRenderLayer(final EntityWither entitylivingbaseIn, final float p_177141_2_, final float p_177141_3_, final float partialTicks, final float p_177141_5_, final float p_177141_6_, final float p_177141_7_, final float scale) {
         if (entitylivingbaseIn.isArmored()) {
             GlStateManager.depthMask(!entitylivingbaseIn.isInvisible());
             this.witherRenderer.bindTexture(WITHER_ARMOR);
             GlStateManager.matrixMode(5890);
             GlStateManager.loadIdentity();
-            float f = (float) entitylivingbaseIn.ticksExisted + partialTicks;
-            float f1 = MathHelper.cos(f * 0.02F) * 3.0F;
-            float f2 = f * 0.01F;
+            final float f = (float) entitylivingbaseIn.ticksExisted + partialTicks;
+            final float f1 = MathHelper.cos(f * 0.02F) * 3.0F;
+            final float f2 = f * 0.01F;
             GlStateManager.translate(f1, f2, 0.0F);
             GlStateManager.matrixMode(5888);
             GlStateManager.enableBlend();
-            float f3 = 0.5F;
+            final float f3 = 0.5F;
             GlStateManager.color(f3, f3, f3, 1.0F);
             GlStateManager.disableLighting();
             GlStateManager.blendFunc(1, 1);

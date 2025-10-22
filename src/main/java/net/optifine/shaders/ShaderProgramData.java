@@ -79,7 +79,7 @@ public class ShaderProgramData {
     public int uniform_centerDepthSmooth;
     public int uniform_atlasSize;
 
-    public ShaderProgramData(int programID) {
+    public ShaderProgramData(final int programID) {
         this.programIDGL = programID;
         this.uniform_texture = ARBShaderObjects.glGetUniformLocationARB(programID, "texture");
         this.uniform_lightmap = ARBShaderObjects.glGetUniformLocationARB(programID, "lightmap");

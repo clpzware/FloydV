@@ -17,10 +17,11 @@ public class ModelAdapterCreeper extends ModelAdapter {
         return new ModelCreeper();
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelCreeper modelcreeper)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelCreeper)) {
             return null;
         } else {
+            final ModelCreeper modelcreeper = (ModelCreeper) model;
             return modelPart.equals("head") ? modelcreeper.head : (modelPart.equals("armor") ? modelcreeper.creeperArmor : (modelPart.equals("body") ? modelcreeper.body : (modelPart.equals("leg1") ? modelcreeper.leg1 : (modelPart.equals("leg2") ? modelcreeper.leg2 : (modelPart.equals("leg3") ? modelcreeper.leg3 : (modelPart.equals("leg4") ? modelcreeper.leg4 : null))))));
         }
     }
@@ -29,9 +30,9 @@ public class ModelAdapterCreeper extends ModelAdapter {
         return new String[]{"head", "armor", "body", "leg1", "leg2", "leg3", "leg4"};
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderCreeper rendercreeper = new RenderCreeper(rendermanager);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderCreeper rendercreeper = new RenderCreeper(rendermanager);
         rendercreeper.mainModel = modelBase;
         rendercreeper.shadowSize = shadowSize;
         return rendercreeper;

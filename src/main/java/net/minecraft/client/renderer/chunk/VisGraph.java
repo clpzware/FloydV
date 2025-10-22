@@ -14,28 +14,28 @@ public class VisGraph {
     private static final int[] field_178613_e = new int[1352];
     private int field_178611_f = 4096;
 
-    public void func_178606_a(BlockPos pos) {
+    public void func_178606_a(final BlockPos pos) {
         this.field_178612_d.set(getIndex(pos), true);
         --this.field_178611_f;
     }
 
-    private static int getIndex(BlockPos pos) {
+    private static int getIndex(final BlockPos pos) {
         return getIndex(pos.getX() & 15, pos.getY() & 15, pos.getZ() & 15);
     }
 
-    private static int getIndex(int x, int y, int z) {
+    private static int getIndex(final int x, final int y, final int z) {
         return x << 0 | y << 8 | z << 4;
     }
 
     public SetVisibility computeVisibility() {
-        SetVisibility setvisibility = new SetVisibility();
+        final SetVisibility setvisibility = new SetVisibility();
 
         if (4096 - this.field_178611_f < 256) {
             setvisibility.setAllVisible(true);
         } else if (this.field_178611_f == 0) {
             setvisibility.setAllVisible(false);
         } else {
-            for (int i : field_178613_e) {
+            for (final int i : field_178613_e) {
                 if (!this.field_178612_d.get(i)) {
                     setvisibility.setManyVisible(this.func_178604_a(i));
                 }
@@ -45,26 +45,26 @@ public class VisGraph {
         return setvisibility;
     }
 
-    public Set<EnumFacing> func_178609_b(BlockPos pos) {
+    public Set<EnumFacing> func_178609_b(final BlockPos pos) {
         return this.func_178604_a(getIndex(pos));
     }
 
-    private Set<EnumFacing> func_178604_a(int p_178604_1_) {
-        Set<EnumFacing> set = EnumSet.noneOf(EnumFacing.class);
-        Queue<Integer> queue = new ArrayDeque(384);
-        queue.add(IntegerCache.getInteger(p_178604_1_));
+    private Set<EnumFacing> func_178604_a(final int p_178604_1_) {
+        final Set<EnumFacing> set = EnumSet.noneOf(EnumFacing.class);
+        final Queue<Integer> queue = new ArrayDeque(384);
+        queue.add(IntegerCache.func_181756_a(p_178604_1_));
         this.field_178612_d.set(p_178604_1_, true);
 
         while (!queue.isEmpty()) {
-            int i = queue.poll();
+            final int i = queue.poll().intValue();
             this.func_178610_a(i, set);
 
-            for (EnumFacing enumfacing : EnumFacing.VALUES) {
-                int j = this.func_178603_a(i, enumfacing);
+            for (final EnumFacing enumfacing : EnumFacing.VALUES) {
+                final int j = this.func_178603_a(i, enumfacing);
 
                 if (j >= 0 && !this.field_178612_d.get(j)) {
                     this.field_178612_d.set(j, true);
-                    queue.add(IntegerCache.getInteger(j));
+                    queue.add(IntegerCache.func_181756_a(j));
                 }
             }
         }
@@ -72,8 +72,8 @@ public class VisGraph {
         return set;
     }
 
-    private void func_178610_a(int p_178610_1_, Set<EnumFacing> p_178610_2_) {
-        int i = p_178610_1_ >> 0 & 15;
+    private void func_178610_a(final int p_178610_1_, final Set<EnumFacing> p_178610_2_) {
+        final int i = p_178610_1_ >> 0 & 15;
 
         if (i == 0) {
             p_178610_2_.add(EnumFacing.WEST);
@@ -81,7 +81,7 @@ public class VisGraph {
             p_178610_2_.add(EnumFacing.EAST);
         }
 
-        int j = p_178610_1_ >> 8 & 15;
+        final int j = p_178610_1_ >> 8 & 15;
 
         if (j == 0) {
             p_178610_2_.add(EnumFacing.DOWN);
@@ -89,7 +89,7 @@ public class VisGraph {
             p_178610_2_.add(EnumFacing.UP);
         }
 
-        int k = p_178610_1_ >> 4 & 15;
+        final int k = p_178610_1_ >> 4 & 15;
 
         if (k == 0) {
             p_178610_2_.add(EnumFacing.NORTH);
@@ -98,51 +98,58 @@ public class VisGraph {
         }
     }
 
-    private int func_178603_a(int p_178603_1_, EnumFacing p_178603_2_) {
-        return switch (p_178603_2_) {
-            case DOWN -> {
+    private int func_178603_a(final int p_178603_1_, final EnumFacing p_178603_2_) {
+        switch (p_178603_2_) {
+            case DOWN:
                 if ((p_178603_1_ >> 8 & 15) == 0) {
-                    yield -1;
+                    return -1;
                 }
-                yield p_178603_1_ - field_178615_c;
-            }
-            case UP -> {
+
+                return p_178603_1_ - field_178615_c;
+
+            case UP:
                 if ((p_178603_1_ >> 8 & 15) == 15) {
-                    yield -1;
+                    return -1;
                 }
-                yield p_178603_1_ + field_178615_c;
-            }
-            case NORTH -> {
+
+                return p_178603_1_ + field_178615_c;
+
+            case NORTH:
                 if ((p_178603_1_ >> 4 & 15) == 0) {
-                    yield -1;
+                    return -1;
                 }
-                yield p_178603_1_ - field_178614_b;
-            }
-            case SOUTH -> {
+
+                return p_178603_1_ - field_178614_b;
+
+            case SOUTH:
                 if ((p_178603_1_ >> 4 & 15) == 15) {
-                    yield -1;
+                    return -1;
                 }
-                yield p_178603_1_ + field_178614_b;
-            }
-            case WEST -> {
+
+                return p_178603_1_ + field_178614_b;
+
+            case WEST:
                 if ((p_178603_1_ >> 0 & 15) == 0) {
-                    yield -1;
+                    return -1;
                 }
-                yield p_178603_1_ - field_178616_a;
-            }
-            case EAST -> {
+
+                return p_178603_1_ - field_178616_a;
+
+            case EAST:
                 if ((p_178603_1_ >> 0 & 15) == 15) {
-                    yield -1;
+                    return -1;
                 }
-                yield p_178603_1_ + field_178616_a;
-            }
-            default -> -1;
-        };
+
+                return p_178603_1_ + field_178616_a;
+
+            default:
+                return -1;
+        }
     }
 
     static {
-        int i = 0;
-        int j = 15;
+        final int i = 0;
+        final int j = 15;
         int k = 0;
 
         for (int l = 0; l < 16; ++l) {

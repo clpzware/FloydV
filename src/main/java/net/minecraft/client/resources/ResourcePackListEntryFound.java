@@ -5,7 +5,7 @@ import net.minecraft.client.gui.GuiScreenResourcePacks;
 public class ResourcePackListEntryFound extends ResourcePackListEntry {
     private final ResourcePackRepository.Entry field_148319_c;
 
-    public ResourcePackListEntryFound(GuiScreenResourcePacks resourcePacksGUIIn, ResourcePackRepository.Entry p_i45053_2_) {
+    public ResourcePackListEntryFound(final GuiScreenResourcePacks resourcePacksGUIIn, final ResourcePackRepository.Entry p_i45053_2_) {
         super(resourcePacksGUIIn);
         this.field_148319_c = p_i45053_2_;
     }

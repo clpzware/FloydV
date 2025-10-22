@@ -4,7 +4,7 @@ public class ShaderMacro {
     private final String name;
     private final String value;
 
-    public ShaderMacro(String name, String value) {
+    public ShaderMacro(final String name, final String value) {
         this.name = name;
         this.value = value;
     }

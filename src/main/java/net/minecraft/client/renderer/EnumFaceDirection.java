@@ -13,16 +13,16 @@ public enum EnumFaceDirection {
     private static final EnumFaceDirection[] facings = new EnumFaceDirection[6];
     private final EnumFaceDirection.VertexInformation[] vertexInfos;
 
-    public static EnumFaceDirection getFacing(EnumFacing facing) {
+    public static EnumFaceDirection getFacing(final EnumFacing facing) {
         return facings[facing.getIndex()];
     }
 
-    EnumFaceDirection(EnumFaceDirection.VertexInformation[] vertexInfosIn) {
+    EnumFaceDirection(final EnumFaceDirection.VertexInformation[] vertexInfosIn) {
         this.vertexInfos = vertexInfosIn;
     }
 
-    public EnumFaceDirection.VertexInformation getVertexInformation(int index) {
-        return this.vertexInfos[index];
+    public EnumFaceDirection.VertexInformation func_179025_a(final int p_179025_1_) {
+        return this.vertexInfos[p_179025_1_];
     }
 
     static {
@@ -44,14 +44,14 @@ public enum EnumFaceDirection {
     }
 
     public static class VertexInformation {
-        public final int xIndex;
-        public final int yIndex;
-        public final int zIndex;
+        public final int field_179184_a;
+        public final int field_179182_b;
+        public final int field_179183_c;
 
-        private VertexInformation(int xIndexIn, int yIndexIn, int zIndexIn) {
-            this.xIndex = xIndexIn;
-            this.yIndex = yIndexIn;
-            this.zIndex = zIndexIn;
+        private VertexInformation(final int p_i46270_1_, final int p_i46270_2_, final int p_i46270_3_) {
+            this.field_179184_a = p_i46270_1_;
+            this.field_179182_b = p_i46270_2_;
+            this.field_179183_c = p_i46270_3_;
         }
     }
 }

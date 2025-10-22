@@ -19,9 +19,12 @@ public class BlockHay extends BlockRotatedPillar {
         this.setCreativeTab(CreativeTabs.tabBlock);
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
         EnumFacing.Axis enumfacing$axis = EnumFacing.Axis.Y;
-        int i = meta & 12;
+        final int i = meta & 12;
 
         if (i == 4) {
             enumfacing$axis = EnumFacing.Axis.X;
@@ -32,9 +35,12 @@ public class BlockHay extends BlockRotatedPillar {
         return this.getDefaultState().withProperty(AXIS, enumfacing$axis);
     }
 
-    public int getMetaFromState(IBlockState state) {
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
         int i = 0;
-        EnumFacing.Axis enumfacing$axis = state.getValue(AXIS);
+        final EnumFacing.Axis enumfacing$axis = state.getValue(AXIS);
 
         if (enumfacing$axis == EnumFacing.Axis.X) {
             i |= 4;
@@ -49,11 +55,15 @@ public class BlockHay extends BlockRotatedPillar {
         return new BlockState(this, AXIS);
     }
 
-    protected ItemStack createStackedBlock(IBlockState state) {
+    protected ItemStack createStackedBlock(final IBlockState state) {
         return new ItemStack(Item.getItemFromBlock(this), 1, 0);
     }
 
-    public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+    /**
+     * Called by ItemBlocks just before a block is actually set in the world, to allow for adjustments to the
+     * IBlockstate
+     */
+    public IBlockState onBlockPlaced(final World worldIn, final BlockPos pos, final EnumFacing facing, final float hitX, final float hitY, final float hitZ, final int meta, final EntityLivingBase placer) {
         return super.onBlockPlaced(worldIn, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(AXIS, facing.getAxis());
     }
 }

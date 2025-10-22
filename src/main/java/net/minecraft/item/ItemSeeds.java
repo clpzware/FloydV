@@ -9,15 +9,25 @@ import net.minecraft.world.World;
 
 public class ItemSeeds extends Item {
     private final Block crops;
+
+    /**
+     * BlockID of the block the seeds can be planted on.
+     */
     private final Block soilBlockID;
 
-    public ItemSeeds(Block crops, Block soil) {
+    public ItemSeeds(final Block crops, final Block soil) {
         this.crops = crops;
         this.soilBlockID = soil;
         this.setCreativeTab(CreativeTabs.tabMaterials);
     }
 
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    /**
+     * Called when a Block is right-clicked with this Item
+     *
+     * @param pos  The block being right-clicked
+     * @param side The side being right-clicked
+     */
+    public boolean onItemUse(final ItemStack stack, final EntityPlayer playerIn, final World worldIn, final BlockPos pos, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         if (side != EnumFacing.UP) {
             return false;
         } else if (!playerIn.canPlayerEdit(pos.offset(side), side, stack)) {

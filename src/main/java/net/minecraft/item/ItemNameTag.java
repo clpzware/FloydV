@@ -10,10 +10,14 @@ public class ItemNameTag extends Item {
         this.setCreativeTab(CreativeTabs.tabTools);
     }
 
-    public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
+    /**
+     * Returns true if the item can be used on the given entity, e.g. shears on sheep.
+     */
+    public boolean itemInteractionForEntity(final ItemStack stack, final EntityPlayer playerIn, final EntityLivingBase target) {
         if (!stack.hasDisplayName()) {
             return false;
-        } else if (target instanceof EntityLiving entityliving) {
+        } else if (target instanceof EntityLiving) {
+            final EntityLiving entityliving = (EntityLiving) target;
             entityliving.setCustomNameTag(stack.getDisplayName());
             entityliving.enablePersistence();
             --stack.stackSize;

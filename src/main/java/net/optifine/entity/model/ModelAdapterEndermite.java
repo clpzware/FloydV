@@ -19,19 +19,20 @@ public class ModelAdapterEndermite extends ModelAdapter {
         return new ModelEnderMite();
     }
 
-    public ModelRenderer getModelRenderer(ModelBase model, String modelPart) {
-        if (!(model instanceof ModelEnderMite modelendermite)) {
+    public ModelRenderer getModelRenderer(final ModelBase model, final String modelPart) {
+        if (!(model instanceof ModelEnderMite)) {
             return null;
         } else {
-            String s = "body";
+            final ModelEnderMite modelendermite = (ModelEnderMite) model;
+            final String s = "body";
 
             if (modelPart.startsWith(s)) {
-                ModelRenderer[] amodelrenderer = (ModelRenderer[]) Reflector.getFieldValue(modelendermite, Reflector.ModelEnderMite_bodyParts);
+                final ModelRenderer[] amodelrenderer = (ModelRenderer[]) Reflector.getFieldValue(modelendermite, Reflector.ModelEnderMite_bodyParts);
 
                 if (amodelrenderer == null) {
                     return null;
                 } else {
-                    String s1 = modelPart.substring(s.length());
+                    final String s1 = modelPart.substring(s.length());
                     int i = Config.parseInt(s1, -1);
                     --i;
                     return i >= 0 && i < amodelrenderer.length ? amodelrenderer[i] : null;
@@ -46,9 +47,9 @@ public class ModelAdapterEndermite extends ModelAdapter {
         return new String[]{"body1", "body2", "body3", "body4"};
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderEndermite renderendermite = new RenderEndermite(rendermanager);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderEndermite renderendermite = new RenderEndermite(rendermanager);
         renderendermite.mainModel = modelBase;
         renderendermite.shadowSize = shadowSize;
         return renderendermite;

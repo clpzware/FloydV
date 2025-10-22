@@ -41,10 +41,7 @@ public class AsyncVersionSlider extends GuiButton {
         this.values = ViaLoadingBase.PROTOCOLS;
         Collections.reverse(values);
         this.sliderValue = dragValue;
-        if (values.get((int) Math.ceil(this.sliderValue * (values.size() - 1))).equalTo(ProtocolVersion.v1_12_2))
-            this.displayString = "1.12.2";
-        else
-            this.displayString = values.get((int) Math.ceil(this.sliderValue * (values.size() - 1))).getName();
+        this.displayString = values.get((int) Math.ceil(this.sliderValue * (values.size() - 1))).getName();
     }
 
     public void drawButton(Minecraft mc, int mouseX, int mouseY)
@@ -76,8 +73,8 @@ public class AsyncVersionSlider extends GuiButton {
 
                 // Ceil index to show correctly display string (26.999998 => 27)
                 int selectedProtocolIndex = (int) Math.ceil(this.sliderValue * (values.size() - 1));
-                ViaLoadingBase.getInstance().reload(values.get(selectedProtocolIndex));
                 this.displayString = values.get(selectedProtocolIndex).getName();
+                ViaLoadingBase.getInstance().reload(values.get(selectedProtocolIndex));
             }
 
             mc.getTextureManager().bindTexture(buttonTextures);

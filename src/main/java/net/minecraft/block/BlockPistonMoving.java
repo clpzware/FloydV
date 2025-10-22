@@ -26,16 +26,19 @@ public class BlockPistonMoving extends BlockContainer {
         this.setHardness(-1.0F);
     }
 
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    /**
+     * Returns a new instance of a block's tile entity class. Called on placing the block.
+     */
+    public TileEntity createNewTileEntity(final World worldIn, final int meta) {
         return null;
     }
 
-    public static TileEntity newTileEntity(IBlockState state, EnumFacing facing, boolean extending, boolean renderHead) {
+    public static TileEntity newTileEntity(final IBlockState state, final EnumFacing facing, final boolean extending, final boolean renderHead) {
         return new TileEntityPiston(state, facing, extending, renderHead);
     }
 
-    public void breakBlock(World worldIn, BlockPos pos, IBlockState state) {
-        TileEntity tileentity = worldIn.getTileEntity(pos);
+    public void breakBlock(final World worldIn, final BlockPos pos, final IBlockState state) {
+        final TileEntity tileentity = worldIn.getTileEntity(pos);
 
         if (tileentity instanceof TileEntityPiston) {
             ((TileEntityPiston) tileentity).clearPistonTileEntity();
@@ -44,23 +47,32 @@ public class BlockPistonMoving extends BlockContainer {
         }
     }
 
-    public boolean canPlaceBlockAt(World worldIn, BlockPos pos) {
+    public boolean canPlaceBlockAt(final World worldIn, final BlockPos pos) {
         return false;
     }
 
-    public boolean canPlaceBlockOnSide(World worldIn, BlockPos pos, EnumFacing side) {
+    /**
+     * Check whether this Block can be placed on the given side
+     */
+    public boolean canPlaceBlockOnSide(final World worldIn, final BlockPos pos, final EnumFacing side) {
         return false;
     }
 
-    public void onBlockDestroyedByPlayer(World worldIn, BlockPos pos, IBlockState state) {
-        BlockPos blockpos = pos.offset(state.getValue(FACING).getOpposite());
-        IBlockState iblockstate = worldIn.getBlockState(blockpos);
+    /**
+     * Called when a player destroys this Block
+     */
+    public void onBlockDestroyedByPlayer(final World worldIn, final BlockPos pos, final IBlockState state) {
+        final BlockPos blockpos = pos.offset(state.getValue(FACING).getOpposite());
+        final IBlockState iblockstate = worldIn.getBlockState(blockpos);
 
-        if (iblockstate.getBlock() instanceof BlockPistonBase && iblockstate.getValue(BlockPistonBase.EXTENDED)) {
+        if (iblockstate.getBlock() instanceof BlockPistonBase && iblockstate.getValue(BlockPistonBase.EXTENDED).booleanValue()) {
             worldIn.setBlockToAir(blockpos);
         }
     }
 
+    /**
+     * Used to determine ambient occlusion and culling when rebuilding chunks for render
+     */
     public boolean isOpaqueCube() {
         return false;
     }
@@ -69,7 +81,7 @@ public class BlockPistonMoving extends BlockContainer {
         return false;
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos, final IBlockState state, final EntityPlayer playerIn, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         if (!worldIn.isRemote && worldIn.getTileEntity(pos) == null) {
             worldIn.setBlockToAir(pos);
             return true;
@@ -78,33 +90,53 @@ public class BlockPistonMoving extends BlockContainer {
         }
     }
 
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    /**
+     * Get the Item that this Block should drop when harvested.
+     *
+     * @param fortune the level of the Fortune enchantment on the player's tool
+     */
+    public Item getItemDropped(final IBlockState state, final Random rand, final int fortune) {
         return null;
     }
 
-    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+    /**
+     * Spawns this Block's drops into the World as EntityItems.
+     *
+     * @param chance  The chance that each Item is actually spawned (1.0 = always, 0.0 = never)
+     * @param fortune The player's fortune level
+     */
+    public void dropBlockAsItemWithChance(final World worldIn, final BlockPos pos, final IBlockState state, final float chance, final int fortune) {
         if (!worldIn.isRemote) {
-            TileEntityPiston tileentitypiston = this.getTileEntity(worldIn, pos);
+            final TileEntityPiston tileentitypiston = this.getTileEntity(worldIn, pos);
 
             if (tileentitypiston != null) {
-                IBlockState iblockstate = tileentitypiston.getPistonState();
+                final IBlockState iblockstate = tileentitypiston.getPistonState();
                 iblockstate.getBlock().dropBlockAsItem(worldIn, pos, iblockstate, 0);
             }
         }
     }
 
-    public MovingObjectPosition collisionRayTrace(World worldIn, BlockPos pos, Vec3 start, Vec3 end) {
+    /**
+     * Ray traces through the blocks collision from start vector to end vector returning a ray trace hit.
+     *
+     * @param start The start vector
+     * @param end   The end vector
+     */
+    public MovingObjectPosition collisionRayTrace(final World worldIn, final BlockPos pos, final Vec3 start, final Vec3 end) {
         return null;
     }
 
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
+    /**
+     * Called when a neighboring block changes.
+     */
+    public void onNeighborBlockChange(final World worldIn, final BlockPos pos, final IBlockState state, final Block neighborBlock) {
         if (!worldIn.isRemote) {
             worldIn.getTileEntity(pos);
         }
     }
 
-    public AxisAlignedBB getCollisionBoundingBox(World worldIn, BlockPos pos, IBlockState state) {
-        TileEntityPiston tileentitypiston = this.getTileEntity(worldIn, pos);
+    public AxisAlignedBB getCollisionBoundingBox(final World worldIn, final BlockPos pos, final IBlockState state) {
+        final TileEntityPiston tileentitypiston = this.getTileEntity(worldIn, pos);
 
         if (tileentitypiston == null) {
             return null;
@@ -119,12 +151,12 @@ public class BlockPistonMoving extends BlockContainer {
         }
     }
 
-    public void setBlockBoundsBasedOnState(IBlockAccess worldIn, BlockPos pos) {
-        TileEntityPiston tileentitypiston = this.getTileEntity(worldIn, pos);
+    public void setBlockBoundsBasedOnState(final IBlockAccess worldIn, final BlockPos pos) {
+        final TileEntityPiston tileentitypiston = this.getTileEntity(worldIn, pos);
 
         if (tileentitypiston != null) {
-            IBlockState iblockstate = tileentitypiston.getPistonState();
-            Block block = iblockstate.getBlock();
+            final IBlockState iblockstate = tileentitypiston.getPistonState();
+            final Block block = iblockstate.getBlock();
 
             if (block == this || block.getMaterial() == Material.air) {
                 return;
@@ -142,7 +174,7 @@ public class BlockPistonMoving extends BlockContainer {
                 f = 0.0F;
             }
 
-            EnumFacing enumfacing = tileentitypiston.getFacing();
+            final EnumFacing enumfacing = tileentitypiston.getFacing();
             this.minX = block.getBlockBoundsMinX() - (double) ((float) enumfacing.getFrontOffsetX() * f);
             this.minY = block.getBlockBoundsMinY() - (double) ((float) enumfacing.getFrontOffsetY() * f);
             this.minZ = block.getBlockBoundsMinZ() - (double) ((float) enumfacing.getFrontOffsetZ() * f);
@@ -152,9 +184,9 @@ public class BlockPistonMoving extends BlockContainer {
         }
     }
 
-    public AxisAlignedBB getBoundingBox(World worldIn, BlockPos pos, IBlockState extendingBlock, float progress, EnumFacing direction) {
+    public AxisAlignedBB getBoundingBox(final World worldIn, final BlockPos pos, final IBlockState extendingBlock, final float progress, final EnumFacing direction) {
         if (extendingBlock.getBlock() != this && extendingBlock.getBlock().getMaterial() != Material.air) {
-            AxisAlignedBB axisalignedbb = extendingBlock.getBlock().getCollisionBoundingBox(worldIn, pos, extendingBlock);
+            final AxisAlignedBB axisalignedbb = extendingBlock.getBlock().getCollisionBoundingBox(worldIn, pos, extendingBlock);
 
             if (axisalignedbb == null) {
                 return null;
@@ -191,20 +223,29 @@ public class BlockPistonMoving extends BlockContainer {
         }
     }
 
-    private TileEntityPiston getTileEntity(IBlockAccess worldIn, BlockPos pos) {
-        TileEntity tileentity = worldIn.getTileEntity(pos);
+    private TileEntityPiston getTileEntity(final IBlockAccess worldIn, final BlockPos pos) {
+        final TileEntity tileentity = worldIn.getTileEntity(pos);
         return tileentity instanceof TileEntityPiston ? (TileEntityPiston) tileentity : null;
     }
 
-    public Item getItem(World worldIn, BlockPos pos) {
+    /**
+     * Used by pick block on the client to get a block's item form, if it exists.
+     */
+    public Item getItem(final World worldIn, final BlockPos pos) {
         return null;
     }
 
-    public IBlockState getStateFromMeta(int meta) {
+    /**
+     * Convert the given metadata into a BlockState for this Block
+     */
+    public IBlockState getStateFromMeta(final int meta) {
         return this.getDefaultState().withProperty(FACING, BlockPistonExtension.getFacing(meta)).withProperty(TYPE, (meta & 8) > 0 ? BlockPistonExtension.EnumPistonType.STICKY : BlockPistonExtension.EnumPistonType.DEFAULT);
     }
 
-    public int getMetaFromState(IBlockState state) {
+    /**
+     * Convert the BlockState into the correct metadata value
+     */
+    public int getMetaFromState(final IBlockState state) {
         int i = 0;
         i = i | state.getValue(FACING).getIndex();
 

@@ -6,35 +6,38 @@ import com.mojang.authlib.GameProfile;
 import java.io.File;
 
 public class UserListBans extends UserList<GameProfile, UserListBansEntry> {
-    public UserListBans(File bansFile) {
+    public UserListBans(final File bansFile) {
         super(bansFile);
     }
 
-    protected UserListEntry<GameProfile> createEntry(JsonObject entryData) {
+    protected UserListEntry<GameProfile> createEntry(final JsonObject entryData) {
         return new UserListBansEntry(entryData);
     }
 
-    public boolean isBanned(GameProfile profile) {
+    public boolean isBanned(final GameProfile profile) {
         return this.hasEntry(profile);
     }
 
     public String[] getKeys() {
-        String[] astring = new String[this.getValues().size()];
+        final String[] astring = new String[this.getValues().size()];
         int i = 0;
 
-        for (UserListBansEntry userlistbansentry : this.getValues().values()) {
+        for (final UserListBansEntry userlistbansentry : this.getValues().values()) {
             astring[i++] = userlistbansentry.getValue().getName();
         }
 
         return astring;
     }
 
-    protected String getObjectKey(GameProfile obj) {
+    /**
+     * Gets the key value for the given object
+     */
+    protected String getObjectKey(final GameProfile obj) {
         return obj.getId().toString();
     }
 
-    public GameProfile isUsernameBanned(String username) {
-        for (UserListBansEntry userlistbansentry : this.getValues().values()) {
+    public GameProfile isUsernameBanned(final String username) {
+        for (final UserListBansEntry userlistbansentry : this.getValues().values()) {
             if (username.equalsIgnoreCase(userlistbansentry.getValue().getName())) {
                 return userlistbansentry.getValue();
             }

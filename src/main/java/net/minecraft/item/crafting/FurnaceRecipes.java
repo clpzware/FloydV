@@ -18,6 +18,9 @@ public class FurnaceRecipes {
     private final Map<ItemStack, ItemStack> smeltingList = Maps.newHashMap();
     private final Map<ItemStack, Float> experienceList = Maps.newHashMap();
 
+    /**
+     * Returns an instance of FurnaceRecipes.
+     */
     public static FurnaceRecipes instance() {
         return smeltingBase;
     }
@@ -44,7 +47,7 @@ public class FurnaceRecipes {
         this.addSmeltingRecipeForBlock(Blocks.netherrack, new ItemStack(Items.netherbrick), 0.1F);
         this.addSmeltingRecipe(new ItemStack(Blocks.sponge, 1, 1), new ItemStack(Blocks.sponge, 1, 0), 0.15F);
 
-        for (ItemFishFood.FishType itemfishfood$fishtype : ItemFishFood.FishType.values()) {
+        for (final ItemFishFood.FishType itemfishfood$fishtype : ItemFishFood.FishType.values()) {
             if (itemfishfood$fishtype.canCook()) {
                 this.addSmeltingRecipe(new ItemStack(Items.fish, 1, itemfishfood$fishtype.getMetadata()), new ItemStack(Items.cooked_fish, 1, itemfishfood$fishtype.getMetadata()), 0.35F);
             }
@@ -56,21 +59,45 @@ public class FurnaceRecipes {
         this.addSmeltingRecipeForBlock(Blocks.quartz_ore, new ItemStack(Items.quartz), 0.2F);
     }
 
-    public void addSmeltingRecipeForBlock(Block input, ItemStack stack, float experience) {
+    /**
+     * Adds a smelting recipe, where the input item is an instance of Block.
+     *
+     * @param input      The block to be used as the input for the smelting recipe.
+     * @param stack      The output for this recipe in the form of an ItemStack.
+     * @param experience The amount of experience this recipe will give the player.
+     */
+    public void addSmeltingRecipeForBlock(final Block input, final ItemStack stack, final float experience) {
         this.addSmelting(Item.getItemFromBlock(input), stack, experience);
     }
 
-    public void addSmelting(Item input, ItemStack stack, float experience) {
+    /**
+     * Adds a smelting recipe using an Item as the input item.
+     *
+     * @param input      The input Item to be used for this recipe.
+     * @param stack      The output ItemStack for this recipe.
+     * @param experience The amount of experience this recipe will give the player.
+     */
+    public void addSmelting(final Item input, final ItemStack stack, final float experience) {
         this.addSmeltingRecipe(new ItemStack(input, 1, 32767), stack, experience);
     }
 
-    public void addSmeltingRecipe(ItemStack input, ItemStack stack, float experience) {
+    /**
+     * Adds a smelting recipe using an ItemStack as the input for the recipe.
+     *
+     * @param input      The input ItemStack for this recipe.
+     * @param stack      The output ItemStack for this recipe.
+     * @param experience The amount of experience this recipe will give the player.
+     */
+    public void addSmeltingRecipe(final ItemStack input, final ItemStack stack, final float experience) {
         this.smeltingList.put(input, stack);
-        this.experienceList.put(stack, experience);
+        this.experienceList.put(stack, Float.valueOf(experience));
     }
 
-    public ItemStack getSmeltingResult(ItemStack stack) {
-        for (Entry<ItemStack, ItemStack> entry : this.smeltingList.entrySet()) {
+    /**
+     * Returns the smelting result of an item.
+     */
+    public ItemStack getSmeltingResult(final ItemStack stack) {
+        for (final Entry<ItemStack, ItemStack> entry : this.smeltingList.entrySet()) {
             if (this.compareItemStacks(stack, entry.getKey())) {
                 return entry.getValue();
             }
@@ -79,7 +106,10 @@ public class FurnaceRecipes {
         return null;
     }
 
-    private boolean compareItemStacks(ItemStack stack1, ItemStack stack2) {
+    /**
+     * Compares two itemstacks to ensure that they are the same. This checks both the item and the metadata of the item.
+     */
+    private boolean compareItemStacks(final ItemStack stack1, final ItemStack stack2) {
         return stack2.getItem() == stack1.getItem() && (stack2.getMetadata() == 32767 || stack2.getMetadata() == stack1.getMetadata());
     }
 
@@ -87,10 +117,10 @@ public class FurnaceRecipes {
         return this.smeltingList;
     }
 
-    public float getSmeltingExperience(ItemStack stack) {
-        for (Entry<ItemStack, Float> entry : this.experienceList.entrySet()) {
+    public float getSmeltingExperience(final ItemStack stack) {
+        for (final Entry<ItemStack, Float> entry : this.experienceList.entrySet()) {
             if (this.compareItemStacks(stack, entry.getKey())) {
-                return entry.getValue();
+                return entry.getValue().floatValue();
             }
         }
 

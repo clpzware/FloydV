@@ -11,12 +11,12 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class WorldGenMegaJungle extends WorldGenHugeTrees {
-    public WorldGenMegaJungle(boolean p_i46448_1_, int p_i46448_2_, int p_i46448_3_, IBlockState p_i46448_4_, IBlockState p_i46448_5_) {
+    public WorldGenMegaJungle(final boolean p_i46448_1_, final int p_i46448_2_, final int p_i46448_3_, final IBlockState p_i46448_4_, final IBlockState p_i46448_5_) {
         super(p_i46448_1_, p_i46448_2_, p_i46448_3_, p_i46448_4_, p_i46448_5_);
     }
 
-    public boolean generate(World worldIn, Random rand, BlockPos position) {
-        int i = this.func_150533_a(rand);
+    public boolean generate(final World worldIn, final Random rand, final BlockPos position) {
+        final int i = this.func_150533_a(rand);
 
         if (!this.func_175929_a(worldIn, rand, position, i)) {
             return false;
@@ -24,7 +24,7 @@ public class WorldGenMegaJungle extends WorldGenHugeTrees {
             this.func_175930_c(worldIn, position.up(i), 2);
 
             for (int j = position.getY() + i - 2 - rand.nextInt(4); j > position.getY() + i / 2; j -= 2 + rand.nextInt(4)) {
-                float f = rand.nextFloat() * (float) Math.PI * 2.0F;
+                final float f = rand.nextFloat() * (float) Math.PI * 2.0F;
                 int k = position.getX() + (int) (0.5F + MathHelper.cos(f) * 4.0F);
                 int l = position.getZ() + (int) (0.5F + MathHelper.sin(f) * 4.0F);
 
@@ -34,17 +34,17 @@ public class WorldGenMegaJungle extends WorldGenHugeTrees {
                     this.setBlockAndNotifyAdequately(worldIn, new BlockPos(k, j - 3 + i1 / 2, l), this.woodMetadata);
                 }
 
-                int j2 = 1 + rand.nextInt(2);
-                int j1 = j;
+                final int j2 = 1 + rand.nextInt(2);
+                final int j1 = j;
 
                 for (int k1 = j - j2; k1 <= j1; ++k1) {
-                    int l1 = k1 - j1;
+                    final int l1 = k1 - j1;
                     this.func_175928_b(worldIn, new BlockPos(k, k1, l), 1 - l1);
                 }
             }
 
             for (int i2 = 0; i2 < i; ++i2) {
-                BlockPos blockpos = position.up(i2);
+                final BlockPos blockpos = position.up(i2);
 
                 if (this.func_150523_a(worldIn.getBlockState(blockpos).getBlock())) {
                     this.setBlockAndNotifyAdequately(worldIn, blockpos, this.woodMetadata);
@@ -56,7 +56,7 @@ public class WorldGenMegaJungle extends WorldGenHugeTrees {
                 }
 
                 if (i2 < i - 1) {
-                    BlockPos blockpos1 = blockpos.east();
+                    final BlockPos blockpos1 = blockpos.east();
 
                     if (this.func_150523_a(worldIn.getBlockState(blockpos1).getBlock())) {
                         this.setBlockAndNotifyAdequately(worldIn, blockpos1, this.woodMetadata);
@@ -67,7 +67,7 @@ public class WorldGenMegaJungle extends WorldGenHugeTrees {
                         }
                     }
 
-                    BlockPos blockpos2 = blockpos.south().east();
+                    final BlockPos blockpos2 = blockpos.south().east();
 
                     if (this.func_150523_a(worldIn.getBlockState(blockpos2).getBlock())) {
                         this.setBlockAndNotifyAdequately(worldIn, blockpos2, this.woodMetadata);
@@ -78,7 +78,7 @@ public class WorldGenMegaJungle extends WorldGenHugeTrees {
                         }
                     }
 
-                    BlockPos blockpos3 = blockpos.south();
+                    final BlockPos blockpos3 = blockpos.south();
 
                     if (this.func_150523_a(worldIn.getBlockState(blockpos3).getBlock())) {
                         this.setBlockAndNotifyAdequately(worldIn, blockpos3, this.woodMetadata);
@@ -95,14 +95,14 @@ public class WorldGenMegaJungle extends WorldGenHugeTrees {
         }
     }
 
-    private void func_181632_a(World p_181632_1_, Random p_181632_2_, BlockPos p_181632_3_, PropertyBool p_181632_4_) {
+    private void func_181632_a(final World p_181632_1_, final Random p_181632_2_, final BlockPos p_181632_3_, final PropertyBool p_181632_4_) {
         if (p_181632_2_.nextInt(3) > 0 && p_181632_1_.isAirBlock(p_181632_3_)) {
-            this.setBlockAndNotifyAdequately(p_181632_1_, p_181632_3_, Blocks.vine.getDefaultState().withProperty(p_181632_4_, Boolean.TRUE));
+            this.setBlockAndNotifyAdequately(p_181632_1_, p_181632_3_, Blocks.vine.getDefaultState().withProperty(p_181632_4_, Boolean.valueOf(true)));
         }
     }
 
-    private void func_175930_c(World worldIn, BlockPos p_175930_2_, int p_175930_3_) {
-        int i = 2;
+    private void func_175930_c(final World worldIn, final BlockPos p_175930_2_, final int p_175930_3_) {
+        final int i = 2;
 
         for (int j = -i; j <= 0; ++j) {
             this.func_175925_a(worldIn, p_175930_2_.up(j), p_175930_3_ + 1 - j);

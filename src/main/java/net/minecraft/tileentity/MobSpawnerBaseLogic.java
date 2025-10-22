@@ -1,40 +1,60 @@
 package net.minecraft.tileentity;
 
 import com.google.common.collect.Lists;
-
-import java.util.List;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.StringUtils;
-import net.minecraft.util.WeightedRandom;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public abstract class MobSpawnerBaseLogic {
+    /**
+     * The delay to spawn.
+     */
     private int spawnDelay = 20;
     private String mobID = "Pig";
     private final List<MobSpawnerBaseLogic.WeightedRandomMinecart> minecartToSpawn = Lists.newArrayList();
     private MobSpawnerBaseLogic.WeightedRandomMinecart randomEntity;
+
+    /**
+     * The rotation of the mob inside the mob spawner
+     */
     private double mobRotation;
+
+    /**
+     * the previous rotation of the mob inside the mob spawner
+     */
     private double prevMobRotation;
     private int minSpawnDelay = 200;
     private int maxSpawnDelay = 800;
     private int spawnCount = 4;
+
+    /**
+     * Cached instance of the entity to render inside the spawner.
+     */
     private Entity cachedEntity;
     private int maxNearbyEntities = 6;
+
+    /**
+     * The distance from which a player activates the spawner.
+     */
     private int activatingRangeFromPlayer = 16;
+
+    /**
+     * The range coefficient for spawning entities around.
+     */
     private int spawnRange = 4;
 
+    /**
+     * Gets the entity name that should be spawned.
+     */
     private String getEntityNameToSpawn() {
         if (this.getRandomEntity() == null) {
             if (this.mobID != null && this.mobID.equals("Minecart")) {
@@ -47,23 +67,26 @@ public abstract class MobSpawnerBaseLogic {
         }
     }
 
-    public void setEntityName(String name) {
+    public void setEntityName(final String name) {
         this.mobID = name;
     }
 
+    /**
+     * Returns true if there's a player close enough to this mob spawner to activate it.
+     */
     private boolean isActivated() {
-        BlockPos blockpos = this.getSpawnerPosition();
+        final BlockPos blockpos = this.getSpawnerPosition();
         return this.getSpawnerWorld().isAnyPlayerWithinRangeAt((double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 0.5D, (double) blockpos.getZ() + 0.5D, this.activatingRangeFromPlayer);
     }
 
     public void updateSpawner() {
         if (this.isActivated()) {
-            BlockPos blockpos = this.getSpawnerPosition();
+            final BlockPos blockpos = this.getSpawnerPosition();
 
             if (this.getSpawnerWorld().isRemote) {
-                double d3 = (float) blockpos.getX() + this.getSpawnerWorld().rand.nextFloat();
-                double d4 = (float) blockpos.getY() + this.getSpawnerWorld().rand.nextFloat();
-                double d5 = (float) blockpos.getZ() + this.getSpawnerWorld().rand.nextFloat();
+                final double d3 = (float) blockpos.getX() + this.getSpawnerWorld().rand.nextFloat();
+                final double d4 = (float) blockpos.getY() + this.getSpawnerWorld().rand.nextFloat();
+                final double d5 = (float) blockpos.getZ() + this.getSpawnerWorld().rand.nextFloat();
                 this.getSpawnerWorld().spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d3, d4, d5, 0.0D, 0.0D, 0.0D);
                 this.getSpawnerWorld().spawnParticle(EnumParticleTypes.FLAME, d3, d4, d5, 0.0D, 0.0D, 0.0D);
 
@@ -86,23 +109,23 @@ public abstract class MobSpawnerBaseLogic {
                 boolean flag = false;
 
                 for (int i = 0; i < this.spawnCount; ++i) {
-                    Entity entity = EntityList.createEntityByName(this.getEntityNameToSpawn(), this.getSpawnerWorld());
+                    final Entity entity = EntityList.createEntityByName(this.getEntityNameToSpawn(), this.getSpawnerWorld());
 
                     if (entity == null) {
                         return;
                     }
 
-                    int j = this.getSpawnerWorld().getEntitiesWithinAABB(entity.getClass(), (new AxisAlignedBB(blockpos.getX(), blockpos.getY(), blockpos.getZ(), blockpos.getX() + 1, blockpos.getY() + 1, blockpos.getZ() + 1)).expand(this.spawnRange, this.spawnRange, this.spawnRange)).size();
+                    final int j = this.getSpawnerWorld().getEntitiesWithinAABB(entity.getClass(), (new AxisAlignedBB(blockpos.getX(), blockpos.getY(), blockpos.getZ(), blockpos.getX() + 1, blockpos.getY() + 1, blockpos.getZ() + 1)).expand(this.spawnRange, this.spawnRange, this.spawnRange)).size();
 
                     if (j >= this.maxNearbyEntities) {
                         this.resetTimer();
                         return;
                     }
 
-                    double d0 = (double) blockpos.getX() + (this.getSpawnerWorld().rand.nextDouble() - this.getSpawnerWorld().rand.nextDouble()) * (double) this.spawnRange + 0.5D;
-                    double d1 = blockpos.getY() + this.getSpawnerWorld().rand.nextInt(3) - 1;
-                    double d2 = (double) blockpos.getZ() + (this.getSpawnerWorld().rand.nextDouble() - this.getSpawnerWorld().rand.nextDouble()) * (double) this.spawnRange + 0.5D;
-                    EntityLiving entityliving = entity instanceof EntityLiving ? (EntityLiving) entity : null;
+                    final double d0 = (double) blockpos.getX() + (this.getSpawnerWorld().rand.nextDouble() - this.getSpawnerWorld().rand.nextDouble()) * (double) this.spawnRange + 0.5D;
+                    final double d1 = blockpos.getY() + this.getSpawnerWorld().rand.nextInt(3) - 1;
+                    final double d2 = (double) blockpos.getZ() + (this.getSpawnerWorld().rand.nextDouble() - this.getSpawnerWorld().rand.nextDouble()) * (double) this.spawnRange + 0.5D;
+                    final EntityLiving entityliving = entity instanceof EntityLiving ? (EntityLiving) entity : null;
                     entity.setLocationAndAngles(d0, d1, d2, this.getSpawnerWorld().rand.nextFloat() * 360.0F, 0.0F);
 
                     if (entityliving == null || entityliving.getCanSpawnHere() && entityliving.isNotColliding()) {
@@ -124,13 +147,13 @@ public abstract class MobSpawnerBaseLogic {
         }
     }
 
-    private Entity spawnNewEntity(Entity entityIn, boolean spawn) {
+    private Entity spawnNewEntity(final Entity entityIn, final boolean spawn) {
         if (this.getRandomEntity() != null) {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
             entityIn.writeToNBTOptional(nbttagcompound);
 
-            for (String s : this.getRandomEntity().nbtData.getKeySet()) {
-                NBTBase nbtbase = this.getRandomEntity().nbtData.getTag(s);
+            for (final String s : this.getRandomEntity().nbtData.getKeySet()) {
+                final NBTBase nbtbase = this.getRandomEntity().nbtData.getTag(s);
                 nbttagcompound.setTag(s, nbtbase.copy());
             }
 
@@ -144,14 +167,14 @@ public abstract class MobSpawnerBaseLogic {
 
             for (Entity entity = entityIn; nbttagcompound.hasKey("Riding", 10); nbttagcompound = nbttagcompound2) {
                 nbttagcompound2 = nbttagcompound.getCompoundTag("Riding");
-                Entity entity1 = EntityList.createEntityByName(nbttagcompound2.getString("id"), entityIn.worldObj);
+                final Entity entity1 = EntityList.createEntityByName(nbttagcompound2.getString("id"), entityIn.worldObj);
 
                 if (entity1 != null) {
-                    NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+                    final NBTTagCompound nbttagcompound1 = new NBTTagCompound();
                     entity1.writeToNBTOptional(nbttagcompound1);
 
-                    for (String s1 : nbttagcompound2.getKeySet()) {
-                        NBTBase nbtbase1 = nbttagcompound2.getTag(s1);
+                    for (final String s1 : nbttagcompound2.getKeySet()) {
+                        final NBTBase nbtbase1 = nbttagcompound2.getTag(s1);
                         nbttagcompound1.setTag(s1, nbtbase1.copy());
                     }
 
@@ -182,24 +205,24 @@ public abstract class MobSpawnerBaseLogic {
         if (this.maxSpawnDelay <= this.minSpawnDelay) {
             this.spawnDelay = this.minSpawnDelay;
         } else {
-            int i = this.maxSpawnDelay - this.minSpawnDelay;
+            final int i = this.maxSpawnDelay - this.minSpawnDelay;
             this.spawnDelay = this.minSpawnDelay + this.getSpawnerWorld().rand.nextInt(i);
         }
 
-        if (!this.minecartToSpawn.isEmpty()) {
+        if (this.minecartToSpawn.size() > 0) {
             this.setRandomEntity(WeightedRandom.getRandomItem(this.getSpawnerWorld().rand, this.minecartToSpawn));
         }
 
         this.func_98267_a(1);
     }
 
-    public void readFromNBT(NBTTagCompound nbt) {
+    public void readFromNBT(final NBTTagCompound nbt) {
         this.mobID = nbt.getString("EntityId");
         this.spawnDelay = nbt.getShort("Delay");
         this.minecartToSpawn.clear();
 
         if (nbt.hasKey("SpawnPotentials", 9)) {
-            NBTTagList nbttaglist = nbt.getTagList("SpawnPotentials", 10);
+            final NBTTagList nbttaglist = nbt.getTagList("SpawnPotentials", 10);
 
             for (int i = 0; i < nbttaglist.tagCount(); ++i) {
                 this.minecartToSpawn.add(new MobSpawnerBaseLogic.WeightedRandomMinecart(nbttaglist.getCompoundTagAt(i)));
@@ -232,8 +255,8 @@ public abstract class MobSpawnerBaseLogic {
         }
     }
 
-    public void writeToNBT(NBTTagCompound nbt) {
-        String s = this.getEntityNameToSpawn();
+    public void writeToNBT(final NBTTagCompound nbt) {
+        final String s = this.getEntityNameToSpawn();
 
         if (!StringUtils.isNullOrEmpty(s)) {
             nbt.setString("EntityId", s);
@@ -249,11 +272,11 @@ public abstract class MobSpawnerBaseLogic {
                 nbt.setTag("SpawnData", this.getRandomEntity().nbtData.copy());
             }
 
-            if (this.getRandomEntity() != null || !this.minecartToSpawn.isEmpty()) {
-                NBTTagList nbttaglist = new NBTTagList();
+            if (this.getRandomEntity() != null || this.minecartToSpawn.size() > 0) {
+                final NBTTagList nbttaglist = new NBTTagList();
 
-                if (!this.minecartToSpawn.isEmpty()) {
-                    for (MobSpawnerBaseLogic.WeightedRandomMinecart mobspawnerbaselogic$weightedrandomminecart : this.minecartToSpawn) {
+                if (this.minecartToSpawn.size() > 0) {
+                    for (final MobSpawnerBaseLogic.WeightedRandomMinecart mobspawnerbaselogic$weightedrandomminecart : this.minecartToSpawn) {
                         nbttaglist.appendTag(mobspawnerbaselogic$weightedrandomminecart.toNBT());
                     }
                 } else {
@@ -265,7 +288,7 @@ public abstract class MobSpawnerBaseLogic {
         }
     }
 
-    public Entity func_180612_a(World worldIn) {
+    public Entity func_180612_a(final World worldIn) {
         if (this.cachedEntity == null) {
             Entity entity = EntityList.createEntityByName(this.getEntityNameToSpawn(), worldIn);
 
@@ -278,7 +301,10 @@ public abstract class MobSpawnerBaseLogic {
         return this.cachedEntity;
     }
 
-    public boolean setDelayToMin(int delay) {
+    /**
+     * Sets the delay to minDelay if parameter given is 1, else return false.
+     */
+    public boolean setDelayToMin(final int delay) {
         if (delay == 1 && this.getSpawnerWorld().isRemote) {
             this.spawnDelay = this.minSpawnDelay;
             return true;
@@ -291,7 +317,7 @@ public abstract class MobSpawnerBaseLogic {
         return this.randomEntity;
     }
 
-    public void setRandomEntity(MobSpawnerBaseLogic.WeightedRandomMinecart p_98277_1_) {
+    public void setRandomEntity(final MobSpawnerBaseLogic.WeightedRandomMinecart p_98277_1_) {
         this.randomEntity = p_98277_1_;
     }
 
@@ -313,15 +339,15 @@ public abstract class MobSpawnerBaseLogic {
         private final NBTTagCompound nbtData;
         private final String entityType;
 
-        public WeightedRandomMinecart(NBTTagCompound tagCompound) {
+        public WeightedRandomMinecart(final NBTTagCompound tagCompound) {
             this(tagCompound.getCompoundTag("Properties"), tagCompound.getString("Type"), tagCompound.getInteger("Weight"));
         }
 
-        public WeightedRandomMinecart(NBTTagCompound tagCompound, String type) {
+        public WeightedRandomMinecart(final NBTTagCompound tagCompound, final String type) {
             this(tagCompound, type, 1);
         }
 
-        private WeightedRandomMinecart(NBTTagCompound tagCompound, String type, int weight) {
+        private WeightedRandomMinecart(final NBTTagCompound tagCompound, String type, final int weight) {
             super(weight);
 
             if (type.equals("Minecart")) {
@@ -337,7 +363,7 @@ public abstract class MobSpawnerBaseLogic {
         }
 
         public NBTTagCompound toNBT() {
-            NBTTagCompound nbttagcompound = new NBTTagCompound();
+            final NBTTagCompound nbttagcompound = new NBTTagCompound();
             nbttagcompound.setTag("Properties", this.nbtData);
             nbttagcompound.setString("Type", this.entityType);
             nbttagcompound.setInteger("Weight", this.itemWeight);

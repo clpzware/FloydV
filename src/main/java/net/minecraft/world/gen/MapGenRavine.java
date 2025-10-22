@@ -1,7 +1,5 @@
 package net.minecraft.world.gen;
 
-import java.util.Random;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
@@ -9,18 +7,20 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkPrimer;
 
+import java.util.Random;
+
 public class MapGenRavine extends MapGenBase {
     private final float[] field_75046_d = new float[1024];
 
-    protected void func_180707_a(long p_180707_1_, int p_180707_3_, int p_180707_4_, ChunkPrimer p_180707_5_, double p_180707_6_, double p_180707_8_, double p_180707_10_, float p_180707_12_, float p_180707_13_, float p_180707_14_, int p_180707_15_, int p_180707_16_, double p_180707_17_) {
-        Random random = new Random(p_180707_1_);
-        double d0 = p_180707_3_ * 16 + 8;
-        double d1 = p_180707_4_ * 16 + 8;
+    protected void func_180707_a(final long p_180707_1_, final int p_180707_3_, final int p_180707_4_, final ChunkPrimer p_180707_5_, double p_180707_6_, double p_180707_8_, double p_180707_10_, final float p_180707_12_, float p_180707_13_, float p_180707_14_, int p_180707_15_, int p_180707_16_, final double p_180707_17_) {
+        final Random random = new Random(p_180707_1_);
+        final double d0 = p_180707_3_ * 16 + 8;
+        final double d1 = p_180707_4_ * 16 + 8;
         float f = 0.0F;
         float f1 = 0.0F;
 
         if (p_180707_16_ <= 0) {
-            int i = this.range * 16 - 16;
+            final int i = this.range * 16 - 16;
             p_180707_16_ = i - random.nextInt(i / 4);
         }
 
@@ -46,8 +46,8 @@ public class MapGenRavine extends MapGenBase {
             double d2 = d9 * p_180707_17_;
             d9 = d9 * ((double) random.nextFloat() * 0.25D + 0.75D);
             d2 = d2 * ((double) random.nextFloat() * 0.25D + 0.75D);
-            float f3 = MathHelper.cos(p_180707_14_);
-            float f4 = MathHelper.sin(p_180707_14_);
+            final float f3 = MathHelper.cos(p_180707_14_);
+            final float f4 = MathHelper.sin(p_180707_14_);
             p_180707_6_ += MathHelper.cos(p_180707_13_) * f3;
             p_180707_8_ += f4;
             p_180707_10_ += MathHelper.sin(p_180707_13_) * f3;
@@ -60,10 +60,10 @@ public class MapGenRavine extends MapGenBase {
             f = f + (random.nextFloat() - random.nextFloat()) * random.nextFloat() * 4.0F;
 
             if (flag1 || random.nextInt(4) != 0) {
-                double d3 = p_180707_6_ - d0;
-                double d4 = p_180707_10_ - d1;
-                double d5 = p_180707_16_ - p_180707_15_;
-                double d6 = p_180707_12_ + 2.0F + 16.0F;
+                final double d3 = p_180707_6_ - d0;
+                final double d4 = p_180707_10_ - d1;
+                final double d5 = p_180707_16_ - p_180707_15_;
+                final double d6 = p_180707_12_ + 2.0F + 16.0F;
 
                 if (d3 * d3 + d4 * d4 - d5 * d5 > d6 * d6) {
                     return;
@@ -106,8 +106,8 @@ public class MapGenRavine extends MapGenBase {
                     for (int j1 = k2; !flag2 && j1 < k; ++j1) {
                         for (int k1 = i3; !flag2 && k1 < i1; ++k1) {
                             for (int l1 = l + 1; !flag2 && l1 >= l2 - 1; --l1) {
-                                if (l1 < 256) {
-                                    IBlockState iblockstate = p_180707_5_.getBlockState(j1, l1, k1);
+                                if (l1 >= 0 && l1 < 256) {
+                                    final IBlockState iblockstate = p_180707_5_.getBlockState(j1, l1, k1);
 
                                     if (iblockstate.getBlock() == Blocks.flowing_water || iblockstate.getBlock() == Blocks.water) {
                                         flag2 = true;
@@ -122,21 +122,21 @@ public class MapGenRavine extends MapGenBase {
                     }
 
                     if (!flag2) {
-                        BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+                        final BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
                         for (int j3 = k2; j3 < k; ++j3) {
-                            double d10 = ((double) (j3 + p_180707_3_ * 16) + 0.5D - p_180707_6_) / d9;
+                            final double d10 = ((double) (j3 + p_180707_3_ * 16) + 0.5D - p_180707_6_) / d9;
 
                             for (int i2 = i3; i2 < i1; ++i2) {
-                                double d7 = ((double) (i2 + p_180707_4_ * 16) + 0.5D - p_180707_10_) / d9;
+                                final double d7 = ((double) (i2 + p_180707_4_ * 16) + 0.5D - p_180707_10_) / d9;
                                 boolean flag = false;
 
                                 if (d10 * d10 + d7 * d7 < 1.0D) {
                                     for (int j2 = l; j2 > l2; --j2) {
-                                        double d8 = ((double) (j2 - 1) + 0.5D - p_180707_8_) / d2;
+                                        final double d8 = ((double) (j2 - 1) + 0.5D - p_180707_8_) / d2;
 
                                         if ((d10 * d10 + d7 * d7) * (double) this.field_75046_d[j2 - 1] + d8 * d8 / 6.0D < 1.0D) {
-                                            IBlockState iblockstate1 = p_180707_5_.getBlockState(j3, j2, i2);
+                                            final IBlockState iblockstate1 = p_180707_5_.getBlockState(j3, j2, i2);
 
                                             if (iblockstate1.getBlock() == Blocks.grass) {
                                                 flag = true;
@@ -149,7 +149,7 @@ public class MapGenRavine extends MapGenBase {
                                                     p_180707_5_.setBlockState(j3, j2, i2, Blocks.air.getDefaultState());
 
                                                     if (flag && p_180707_5_.getBlockState(j3, j2 - 1, i2).getBlock() == Blocks.dirt) {
-                                                        blockpos$mutableblockpos.set(j3 + p_180707_3_ * 16, 0, i2 + p_180707_4_ * 16);
+                                                        blockpos$mutableblockpos.func_181079_c(j3 + p_180707_3_ * 16, 0, i2 + p_180707_4_ * 16);
                                                         p_180707_5_.setBlockState(j3, j2 - 1, i2, this.worldObj.getBiomeGenForCoords(blockpos$mutableblockpos).topBlock);
                                                     }
                                                 }
@@ -169,17 +169,20 @@ public class MapGenRavine extends MapGenBase {
         }
     }
 
-    protected void recursiveGenerate(World worldIn, int chunkX, int chunkZ, int p_180701_4_, int p_180701_5_, ChunkPrimer chunkPrimerIn) {
+    /**
+     * Recursively called by generate()
+     */
+    protected void recursiveGenerate(final World worldIn, final int chunkX, final int chunkZ, final int p_180701_4_, final int p_180701_5_, final ChunkPrimer chunkPrimerIn) {
         if (this.rand.nextInt(50) == 0) {
-            double d0 = chunkX * 16 + this.rand.nextInt(16);
-            double d1 = this.rand.nextInt(this.rand.nextInt(40) + 8) + 20;
-            double d2 = chunkZ * 16 + this.rand.nextInt(16);
-            int i = 1;
+            final double d0 = chunkX * 16 + this.rand.nextInt(16);
+            final double d1 = this.rand.nextInt(this.rand.nextInt(40) + 8) + 20;
+            final double d2 = chunkZ * 16 + this.rand.nextInt(16);
+            final int i = 1;
 
             for (int j = 0; j < i; ++j) {
-                float f = this.rand.nextFloat() * (float) Math.PI * 2.0F;
-                float f1 = (this.rand.nextFloat() - 0.5F) * 2.0F / 8.0F;
-                float f2 = (this.rand.nextFloat() * 2.0F + this.rand.nextFloat()) * 2.0F;
+                final float f = this.rand.nextFloat() * (float) Math.PI * 2.0F;
+                final float f1 = (this.rand.nextFloat() - 0.5F) * 2.0F / 8.0F;
+                final float f2 = (this.rand.nextFloat() * 2.0F + this.rand.nextFloat()) * 2.0F;
                 this.func_180707_a(this.rand.nextLong(), p_180701_4_, p_180701_5_, chunkPrimerIn, d0, d1, d2, f2, f, f1, 0, 0, 3.0D);
             }
         }

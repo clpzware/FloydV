@@ -10,6 +10,7 @@ import net.minecraft.util.Cartesian;
 import net.minecraft.util.MapPopulator;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class BlockState {
     private static final Joiner COMMA_JOINER = Joiner.on(", ");
@@ -18,21 +19,21 @@ public class BlockState {
     private final ImmutableList<IProperty> properties;
     private final ImmutableList<IBlockState> validStates;
 
-    public BlockState(Block blockIn, IProperty... properties) {
+    public BlockState(final Block blockIn, final IProperty... properties) {
         this.block = blockIn;
-        Arrays.sort(properties, (p_compare_1_, p_compare_2_) -> p_compare_1_.getName().compareTo(p_compare_2_.getName()));
+        Arrays.sort(properties, Comparator.comparing(IProperty::getName));
         this.properties = ImmutableList.copyOf(properties);
-        Map<Map<IProperty, Comparable>, BlockState.StateImplementation> map = Maps.newLinkedHashMap();
-        List<BlockState.StateImplementation> list = Lists.newArrayList();
+        final Map<Map<IProperty, Comparable>, BlockState.StateImplementation> map = Maps.newLinkedHashMap();
+        final List<BlockState.StateImplementation> list = Lists.newArrayList();
 
-        for (List<Comparable> list1 : Cartesian.cartesianProduct(this.getAllowedValues())) {
-            Map<IProperty, Comparable> map1 = MapPopulator.createMap(this.properties, list1);
-            BlockState.StateImplementation blockstate$stateimplementation = new BlockState.StateImplementation(blockIn, ImmutableMap.copyOf(map1));
+        for (final List<Comparable> list1 : Cartesian.cartesianProduct(this.getAllowedValues())) {
+            final Map<IProperty, Comparable> map1 = MapPopulator.createMap(this.properties, list1);
+            final BlockState.StateImplementation blockstate$stateimplementation = new BlockState.StateImplementation(blockIn, ImmutableMap.copyOf(map1));
             map.put(map1, blockstate$stateimplementation);
             list.add(blockstate$stateimplementation);
         }
 
-        for (BlockState.StateImplementation blockstate$stateimplementation1 : list) {
+        for (final BlockState.StateImplementation blockstate$stateimplementation1 : list) {
             blockstate$stateimplementation1.buildPropertyValueTable(map);
         }
 
@@ -44,7 +45,7 @@ public class BlockState {
     }
 
     private List<Iterable<Comparable>> getAllowedValues() {
-        List<Iterable<Comparable>> list = Lists.newArrayList();
+        final List<Iterable<Comparable>> list = Lists.newArrayList();
 
         for (int i = 0; i < this.properties.size(); ++i) {
             list.add(this.properties.get(i).getAllowedValues());
@@ -66,7 +67,7 @@ public class BlockState {
     }
 
     public String toString() {
-        return Objects.toStringHelper(this).add("block", Block.blockRegistry.getNameForObject(this.block)).add("properties", Iterables.transform(this.properties, GET_NAME_FUNC)).toString();
+        return Objects.toStringHelper(this).add("block", Block.blockRegistry.getNameForObject(this.block)).add("properties", this.properties.stream().map(GET_NAME_FUNC::apply).collect(Collectors.toList())).toString();
     }
 
     static class StateImplementation extends BlockStateBase {
@@ -74,7 +75,7 @@ public class BlockState {
         private final ImmutableMap<IProperty, Comparable> properties;
         private ImmutableTable<IProperty, Comparable, IBlockState> propertyValueTable;
 
-        private StateImplementation(Block blockIn, ImmutableMap<IProperty, Comparable> propertiesIn) {
+        private StateImplementation(final Block blockIn, final ImmutableMap<IProperty, Comparable> propertiesIn) {
             this.block = blockIn;
             this.properties = propertiesIn;
         }
@@ -83,7 +84,7 @@ public class BlockState {
             return Collections.unmodifiableCollection(this.properties.keySet());
         }
 
-        public <T extends Comparable<T>> T getValue(IProperty<T> property) {
+        public <T extends Comparable<T>> T getValue(final IProperty<T> property) {
             if (!this.properties.containsKey(property)) {
                 throw new IllegalArgumentException("Cannot get property " + property + " as it does not exist in " + this.block.getBlockState());
             } else {
@@ -91,7 +92,7 @@ public class BlockState {
             }
         }
 
-        public <T extends Comparable<T>, V extends T> IBlockState withProperty(IProperty<T> property, V value) {
+        public <T extends Comparable<T>, V extends T> IBlockState withProperty(final IProperty<T> property, final V value) {
             if (!this.properties.containsKey(property)) {
                 throw new IllegalArgumentException("Cannot set property " + property + " as it does not exist in " + this.block.getBlockState());
             } else if (!property.getAllowedValues().contains(value)) {
@@ -109,7 +110,7 @@ public class BlockState {
             return this.block;
         }
 
-        public boolean equals(Object p_equals_1_) {
+        public boolean equals(final Object p_equals_1_) {
             return this == p_equals_1_;
         }
 
@@ -117,16 +118,16 @@ public class BlockState {
             return this.properties.hashCode();
         }
 
-        public void buildPropertyValueTable(Map<Map<IProperty, Comparable>, BlockState.StateImplementation> map) {
+        public void buildPropertyValueTable(final Map<Map<IProperty, Comparable>, BlockState.StateImplementation> map) {
             if (this.propertyValueTable != null) {
                 throw new IllegalStateException();
             } else {
-                Table<IProperty, Comparable, IBlockState> table = HashBasedTable.create();
+                final Table<IProperty, Comparable, IBlockState> table = HashBasedTable.create();
 
-                for (IProperty<? extends Comparable> iproperty : this.properties.keySet()) {
-                    for (Comparable comparable : iproperty.getAllowedValues()) {
+                for (final IProperty iproperty : this.properties.keySet()) {
+                    for (final Object comparable : iproperty.getAllowedValues()) {
                         if (comparable != this.properties.get(iproperty)) {
-                            table.put(iproperty, comparable, map.get(this.getPropertiesWithValue(iproperty, comparable)));
+                            table.put(iproperty, (Comparable) comparable, map.get(this.setPropertyValue(iproperty, (Comparable) comparable)));
                         }
                     }
                 }
@@ -135,8 +136,8 @@ public class BlockState {
             }
         }
 
-        private Map<IProperty, Comparable> getPropertiesWithValue(IProperty property, Comparable value) {
-            Map<IProperty, Comparable> map = Maps.newHashMap(this.properties);
+        private Map<IProperty, Comparable> setPropertyValue(final IProperty property, final Comparable value) {
+            final Map<IProperty, Comparable> map = Maps.newHashMap(this.properties);
             map.put(property, value);
             return map;
         }

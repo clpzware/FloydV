@@ -26,16 +26,26 @@ public class ItemDye extends Item {
         this.setCreativeTab(CreativeTabs.tabMaterials);
     }
 
-    public String getUnlocalizedName(ItemStack stack) {
-        int i = stack.getMetadata();
+    /**
+     * Returns the unlocalized name of this item. This version accepts an ItemStack so different stacks can have
+     * different names based on their damage or NBT.
+     */
+    public String getUnlocalizedName(final ItemStack stack) {
+        final int i = stack.getMetadata();
         return super.getUnlocalizedName() + "." + EnumDyeColor.byDyeDamage(i).getUnlocalizedName();
     }
 
-    public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
+    /**
+     * Called when a Block is right-clicked with this Item
+     *
+     * @param pos  The block being right-clicked
+     * @param side The side being right-clicked
+     */
+    public boolean onItemUse(final ItemStack stack, final EntityPlayer playerIn, final World worldIn, BlockPos pos, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         if (!playerIn.canPlayerEdit(pos.offset(side), side, stack)) {
             return false;
         } else {
-            EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(stack.getMetadata());
+            final EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(stack.getMetadata());
 
             if (enumdyecolor == EnumDyeColor.WHITE) {
                 if (applyBonemeal(stack, worldIn, pos)) {
@@ -46,8 +56,8 @@ public class ItemDye extends Item {
                     return true;
                 }
             } else if (enumdyecolor == EnumDyeColor.BROWN) {
-                IBlockState iblockstate = worldIn.getBlockState(pos);
-                Block block = iblockstate.getBlock();
+                final IBlockState iblockstate = worldIn.getBlockState(pos);
+                final Block block = iblockstate.getBlock();
 
                 if (block == Blocks.log && iblockstate.getValue(BlockPlanks.VARIANT) == BlockPlanks.EnumType.JUNGLE) {
                     if (side == EnumFacing.DOWN) {
@@ -61,7 +71,7 @@ public class ItemDye extends Item {
                     pos = pos.offset(side);
 
                     if (worldIn.isAirBlock(pos)) {
-                        IBlockState iblockstate1 = Blocks.cocoa.onBlockPlaced(worldIn, pos, side, hitX, hitY, hitZ, 0, playerIn);
+                        final IBlockState iblockstate1 = Blocks.cocoa.onBlockPlaced(worldIn, pos, side, hitX, hitY, hitZ, 0, playerIn);
                         worldIn.setBlockState(pos, iblockstate1, 2);
 
                         if (!playerIn.capabilities.isCreativeMode) {
@@ -77,10 +87,11 @@ public class ItemDye extends Item {
         }
     }
 
-    public static boolean applyBonemeal(ItemStack stack, World worldIn, BlockPos target) {
-        IBlockState iblockstate = worldIn.getBlockState(target);
+    public static boolean applyBonemeal(final ItemStack stack, final World worldIn, final BlockPos target) {
+        final IBlockState iblockstate = worldIn.getBlockState(target);
 
-        if (iblockstate.getBlock() instanceof IGrowable igrowable) {
+        if (iblockstate.getBlock() instanceof IGrowable) {
+            final IGrowable igrowable = (IGrowable) iblockstate.getBlock();
 
             if (igrowable.canGrow(worldIn, target, iblockstate, worldIn.isRemote)) {
                 if (!worldIn.isRemote) {
@@ -98,28 +109,32 @@ public class ItemDye extends Item {
         return false;
     }
 
-    public static void spawnBonemealParticles(World worldIn, BlockPos pos, int amount) {
+    public static void spawnBonemealParticles(final World worldIn, final BlockPos pos, int amount) {
         if (amount == 0) {
             amount = 15;
         }
 
-        Block block = worldIn.getBlockState(pos).getBlock();
+        final Block block = worldIn.getBlockState(pos).getBlock();
 
         if (block.getMaterial() != Material.air) {
             block.setBlockBoundsBasedOnState(worldIn, pos);
 
             for (int i = 0; i < amount; ++i) {
-                double d0 = itemRand.nextGaussian() * 0.02D;
-                double d1 = itemRand.nextGaussian() * 0.02D;
-                double d2 = itemRand.nextGaussian() * 0.02D;
+                final double d0 = itemRand.nextGaussian() * 0.02D;
+                final double d1 = itemRand.nextGaussian() * 0.02D;
+                final double d2 = itemRand.nextGaussian() * 0.02D;
                 worldIn.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, (float) pos.getX() + itemRand.nextFloat(), (double) pos.getY() + (double) itemRand.nextFloat() * block.getBlockBoundsMaxY(), (float) pos.getZ() + itemRand.nextFloat(), d0, d1, d2);
             }
         }
     }
 
-    public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer playerIn, EntityLivingBase target) {
-        if (target instanceof EntitySheep entitysheep) {
-            EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(stack.getMetadata());
+    /**
+     * Returns true if the item can be used on the given entity, e.g. shears on sheep.
+     */
+    public boolean itemInteractionForEntity(final ItemStack stack, final EntityPlayer playerIn, final EntityLivingBase target) {
+        if (target instanceof EntitySheep) {
+            final EntitySheep entitysheep = (EntitySheep) target;
+            final EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(stack.getMetadata());
 
             if (!entitysheep.getSheared() && entitysheep.getFleeceColor() != enumdyecolor) {
                 entitysheep.setFleeceColor(enumdyecolor);
@@ -132,7 +147,12 @@ public class ItemDye extends Item {
         }
     }
 
-    public void getSubItems(Item itemIn, CreativeTabs tab, List<ItemStack> subItems) {
+    /**
+     * returns a list of items with the same ID, but different meta (eg: dye returns 16 items)
+     *
+     * @param subItems The List of sub-items. This is a List of ItemStacks.
+     */
+    public void getSubItems(final Item itemIn, final CreativeTabs tab, final List<ItemStack> subItems) {
         for (int i = 0; i < 16; ++i) {
             subItems.add(new ItemStack(itemIn, 1, i));
         }

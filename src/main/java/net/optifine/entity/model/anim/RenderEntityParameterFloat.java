@@ -23,8 +23,8 @@ public enum RenderEntityParameterFloat implements IExpressionFloat {
     MOVE_STRAFING("move_strafing"),
     PARTIAL_TICKS("partial_ticks"),
     POS_X("pos_x"),
-    POS_Y("pos_y"),
-    POS_Z("pos_z"),
+    POS_Y("pos_Y"),
+    POS_Z("pos_Z"),
     REVENGE_TIME("revenge_time"),
     SWING_PROGRESS("swing_progress");
 
@@ -32,7 +32,7 @@ public enum RenderEntityParameterFloat implements IExpressionFloat {
     private final RenderManager renderManager;
     private static final RenderEntityParameterFloat[] VALUES = values();
 
-    RenderEntityParameterFloat(String name) {
+    RenderEntityParameterFloat(final String name) {
         this.name = name;
         this.renderManager = Minecraft.getMinecraft().getRenderManager();
     }
@@ -46,12 +46,13 @@ public enum RenderEntityParameterFloat implements IExpressionFloat {
     }
 
     public float eval() {
-        Render render = this.renderManager.renderRender;
+        final Render render = this.renderManager.renderRender;
 
         if (render == null) {
             return 0.0F;
         } else {
-            if (render instanceof RendererLivingEntity rendererlivingentity) {
+            if (render instanceof RendererLivingEntity) {
+                final RendererLivingEntity rendererlivingentity = (RendererLivingEntity) render;
 
                 switch (this) {
                     case LIMB_SWING:
@@ -73,7 +74,7 @@ public enum RenderEntityParameterFloat implements IExpressionFloat {
                         return rendererlivingentity.renderScaleFactor;
 
                     default:
-                        EntityLivingBase entitylivingbase = rendererlivingentity.renderEntity;
+                        final EntityLivingBase entitylivingbase = rendererlivingentity.renderEntity;
 
                         if (entitylivingbase == null) {
                             return 0.0F;
@@ -120,11 +121,13 @@ public enum RenderEntityParameterFloat implements IExpressionFloat {
         }
     }
 
-    public static RenderEntityParameterFloat parse(String str) {
+    public static RenderEntityParameterFloat parse(final String str) {
         if (str == null) {
             return null;
         } else {
-            for (RenderEntityParameterFloat renderentityparameterfloat : VALUES) {
+            for (int i = 0; i < VALUES.length; ++i) {
+                final RenderEntityParameterFloat renderentityparameterfloat = VALUES[i];
+
                 if (renderentityparameterfloat.getName().equals(str)) {
                     return renderentityparameterfloat;
                 }

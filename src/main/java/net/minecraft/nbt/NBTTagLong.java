@@ -5,39 +5,51 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 public class NBTTagLong extends NBTBase.NBTPrimitive {
+    /**
+     * The long value for the tag.
+     */
     private long data;
 
     NBTTagLong() {
     }
 
-    public NBTTagLong(long data) {
+    public NBTTagLong(final long data) {
         this.data = data;
     }
 
-    void write(DataOutput output) throws IOException {
+    /**
+     * Write the actual data contents of the tag, implemented in NBT extension classes
+     */
+    void write(final DataOutput output) throws IOException {
         output.writeLong(this.data);
     }
 
-    void read(DataInput input, int depth, NBTSizeTracker sizeTracker) throws IOException {
+    void read(final DataInput input, final int depth, final NBTSizeTracker sizeTracker) throws IOException {
         sizeTracker.read(128L);
         this.data = input.readLong();
     }
 
+    /**
+     * Gets the type byte for the tag.
+     */
     public byte getId() {
         return (byte) 4;
     }
 
     public String toString() {
-        return this.data + "L";
+        return "" + this.data + "L";
     }
 
+    /**
+     * Creates a clone of the tag.
+     */
     public NBTBase copy() {
         return new NBTTagLong(this.data);
     }
 
-    public boolean equals(Object p_equals_1_) {
+    public boolean equals(final Object p_equals_1_) {
         if (super.equals(p_equals_1_)) {
-            NBTTagLong nbttaglong = (NBTTagLong) p_equals_1_;
+            final NBTTagLong nbttaglong = (NBTTagLong) p_equals_1_;
             return this.data == nbttaglong.data;
         } else {
             return false;

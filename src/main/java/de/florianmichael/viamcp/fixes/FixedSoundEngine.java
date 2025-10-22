@@ -18,7 +18,6 @@
 
 package de.florianmichael.viamcp.fixes;
 
-import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import de.florianmichael.viamcp.ViaMCP;
 import net.minecraft.block.Block;

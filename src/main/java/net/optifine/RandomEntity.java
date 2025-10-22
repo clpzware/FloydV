@@ -11,9 +11,9 @@ public class RandomEntity implements IRandomEntity {
     private Entity entity;
 
     public int getId() {
-        UUID uuid = this.entity.getUniqueID();
-        long i = uuid.getLeastSignificantBits();
-        int j = (int) (i & 2147483647L);
+        final UUID uuid = this.entity.getUniqueID();
+        final long i = uuid.getLeastSignificantBits();
+        final int j = (int) (i & 2147483647L);
         return j;
     }
 
@@ -30,17 +30,19 @@ public class RandomEntity implements IRandomEntity {
     }
 
     public int getHealth() {
-        if (!(this.entity instanceof EntityLiving entityliving)) {
+        if (!(this.entity instanceof EntityLiving)) {
             return 0;
         } else {
+            final EntityLiving entityliving = (EntityLiving) this.entity;
             return (int) entityliving.getHealth();
         }
     }
 
     public int getMaxHealth() {
-        if (!(this.entity instanceof EntityLiving entityliving)) {
+        if (!(this.entity instanceof EntityLiving)) {
             return 0;
         } else {
+            final EntityLiving entityliving = (EntityLiving) this.entity;
             return (int) entityliving.getMaxHealth();
         }
     }
@@ -49,7 +51,7 @@ public class RandomEntity implements IRandomEntity {
         return this.entity;
     }
 
-    public void setEntity(Entity entity) {
+    public void setEntity(final Entity entity) {
         this.entity = entity;
     }
 }

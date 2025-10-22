@@ -10,22 +10,22 @@ public class DynamicLightsMap {
     private final List<DynamicLight> list = new ArrayList();
     private boolean dirty = false;
 
-    public DynamicLight put(int id, DynamicLight dynamicLight) {
-        DynamicLight dynamiclight = this.map.put(id, dynamicLight);
+    public DynamicLight put(final int id, final DynamicLight dynamicLight) {
+        final DynamicLight dynamiclight = this.map.put(Integer.valueOf(id), dynamicLight);
         this.setDirty();
         return dynamiclight;
     }
 
-    public DynamicLight get(int id) {
-        return this.map.get(id);
+    public DynamicLight get(final int id) {
+        return this.map.get(Integer.valueOf(id));
     }
 
     public int size() {
         return this.map.size();
     }
 
-    public DynamicLight remove(int id) {
-        DynamicLight dynamiclight = this.map.remove(id);
+    public DynamicLight remove(final int id) {
+        final DynamicLight dynamiclight = this.map.remove(Integer.valueOf(id));
 
         if (dynamiclight != null) {
             this.setDirty();

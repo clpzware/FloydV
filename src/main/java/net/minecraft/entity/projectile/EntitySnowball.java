@@ -8,19 +8,22 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class EntitySnowball extends EntityThrowable {
-    public EntitySnowball(World worldIn) {
+    public EntitySnowball(final World worldIn) {
         super(worldIn);
     }
 
-    public EntitySnowball(World worldIn, EntityLivingBase throwerIn) {
+    public EntitySnowball(final World worldIn, final EntityLivingBase throwerIn) {
         super(worldIn, throwerIn);
     }
 
-    public EntitySnowball(World worldIn, double x, double y, double z) {
+    public EntitySnowball(final World worldIn, final double x, final double y, final double z) {
         super(worldIn, x, y, z);
     }
 
-    protected void onImpact(MovingObjectPosition p_70184_1_) {
+    /**
+     * Called when this EntityThrowable hits a block or entity.
+     */
+    protected void onImpact(final MovingObjectPosition p_70184_1_) {
         if (p_70184_1_.entityHit != null) {
             int i = 0;
 

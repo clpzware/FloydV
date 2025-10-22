@@ -15,18 +15,38 @@ public class EntitySquid extends EntityWaterMob {
     public float prevSquidPitch;
     public float squidYaw;
     public float prevSquidYaw;
+
+    /**
+     * appears to be rotation in radians; we already have pitch & yaw, so this completes the triumvirate.
+     */
     public float squidRotation;
+
+    /**
+     * previous squidRotation in radians
+     */
     public float prevSquidRotation;
+
+    /**
+     * angle of the tentacles in radians
+     */
     public float tentacleAngle;
+
+    /**
+     * the last calculated angle of the tentacles in radians
+     */
     public float lastTentacleAngle;
     private float randomMotionSpeed;
+
+    /**
+     * change in squidRotation in radians.
+     */
     private float rotationVelocity;
     private float field_70871_bB;
     private float randomMotionVecX;
     private float randomMotionVecY;
     private float randomMotionVecZ;
 
-    public EntitySquid(World worldIn) {
+    public EntitySquid(final World worldIn) {
         super(worldIn);
         this.setSize(0.95F, 0.95F);
         this.rand.setSeed(1 + this.getEntityId());
@@ -43,18 +63,30 @@ public class EntitySquid extends EntityWaterMob {
         return this.height * 0.5F;
     }
 
+    /**
+     * Returns the sound this mob makes while it's alive.
+     */
     protected String getLivingSound() {
         return null;
     }
 
+    /**
+     * Returns the sound this mob makes when it is hurt.
+     */
     protected String getHurtSound() {
         return null;
     }
 
+    /**
+     * Returns the sound this mob makes on death.
+     */
     protected String getDeathSound() {
         return null;
     }
 
+    /**
+     * Returns the volume for the sounds this mob makes.
+     */
     protected float getSoundVolume() {
         return 0.4F;
     }
@@ -63,22 +95,37 @@ public class EntitySquid extends EntityWaterMob {
         return null;
     }
 
+    /**
+     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
+     * prevent them from trampling crops
+     */
     protected boolean canTriggerWalking() {
         return false;
     }
 
-    protected void dropFewItems(boolean wasRecentlyHit, int lootingModifier) {
-        int i = this.rand.nextInt(3 + lootingModifier) + 1;
+    /**
+     * Drop 0-2 items of this living's type
+     */
+    protected void dropFewItems(final boolean p_70628_1_, final int p_70628_2_) {
+        final int i = this.rand.nextInt(3 + p_70628_2_) + 1;
 
         for (int j = 0; j < i; ++j) {
             this.entityDropItem(new ItemStack(Items.dye, 1, EnumDyeColor.BLACK.getDyeDamage()), 0.0F);
         }
     }
 
+    /**
+     * Checks if this entity is inside water (if inWater field is true as a result of handleWaterMovement() returning
+     * true)
+     */
     public boolean isInWater() {
         return this.worldObj.handleMaterialAcceleration(this.getEntityBoundingBox().expand(0.0D, -0.6000000238418579D, 0.0D), Material.water, this);
     }
 
+    /**
+     * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
+     * use this to react to sunlight and start to burn.
+     */
     public void onLivingUpdate() {
         super.onLivingUpdate();
         this.prevSquidPitch = this.squidPitch;
@@ -103,7 +150,7 @@ public class EntitySquid extends EntityWaterMob {
 
         if (this.inWater) {
             if (this.squidRotation < (float) Math.PI) {
-                float f = this.squidRotation / (float) Math.PI;
+                final float f = this.squidRotation / (float) Math.PI;
                 this.tentacleAngle = MathHelper.sin(f * f * (float) Math.PI) * (float) Math.PI * 0.25F;
 
                 if ((double) f > 0.75D) {
@@ -124,7 +171,7 @@ public class EntitySquid extends EntityWaterMob {
                 this.motionZ = this.randomMotionVecZ * this.randomMotionSpeed;
             }
 
-            float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+            final float f1 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
             this.renderYawOffset += (-((float) MathHelper.atan2(this.motionX, this.motionZ)) * 180.0F / (float) Math.PI - this.renderYawOffset) * 0.1F;
             this.rotationYaw = this.renderYawOffset;
             this.squidYaw = (float) ((double) this.squidYaw + Math.PI * (double) this.field_70871_bB * 1.5D);
@@ -143,23 +190,29 @@ public class EntitySquid extends EntityWaterMob {
         }
     }
 
-    public void moveEntityWithHeading(float strafe, float forward) {
+    /**
+     * Moves the entity based on the specified heading.  Args: strafe, forward
+     */
+    public void moveEntityWithHeading(final float strafe, final float forward) {
         this.moveEntity(this.motionX, this.motionY, this.motionZ);
     }
 
+    /**
+     * Checks if the entity's current position is a valid location to spawn this entity.
+     */
     public boolean getCanSpawnHere() {
-        return this.posY > 45.0D && this.posY < (double) this.worldObj.getSeaLevel() && super.getCanSpawnHere();
+        return this.posY > 45.0D && this.posY < (double) this.worldObj.func_181545_F() && super.getCanSpawnHere();
     }
 
-    public void handleStatusUpdate(byte id) {
+    public void handleHealthUpdate(final byte id) {
         if (id == 19) {
             this.squidRotation = 0.0F;
         } else {
-            super.handleStatusUpdate(id);
+            super.handleHealthUpdate(id);
         }
     }
 
-    public void func_175568_b(float randomMotionVecXIn, float randomMotionVecYIn, float randomMotionVecZIn) {
+    public void func_175568_b(final float randomMotionVecXIn, final float randomMotionVecYIn, final float randomMotionVecZIn) {
         this.randomMotionVecX = randomMotionVecXIn;
         this.randomMotionVecY = randomMotionVecYIn;
         this.randomMotionVecZ = randomMotionVecZIn;
@@ -172,7 +225,7 @@ public class EntitySquid extends EntityWaterMob {
     static class AIMoveRandom extends EntityAIBase {
         private final EntitySquid squid;
 
-        public AIMoveRandom(EntitySquid p_i45859_1_) {
+        public AIMoveRandom(final EntitySquid p_i45859_1_) {
             this.squid = p_i45859_1_;
         }
 
@@ -181,15 +234,15 @@ public class EntitySquid extends EntityWaterMob {
         }
 
         public void updateTask() {
-            int i = this.squid.getAge();
+            final int i = this.squid.getAge();
 
             if (i > 100) {
                 this.squid.func_175568_b(0.0F, 0.0F, 0.0F);
             } else if (this.squid.getRNG().nextInt(50) == 0 || !this.squid.inWater || !this.squid.func_175567_n()) {
-                float f = this.squid.getRNG().nextFloat() * (float) Math.PI * 2.0F;
-                float f1 = MathHelper.cos(f) * 0.2F;
-                float f2 = -0.1F + this.squid.getRNG().nextFloat() * 0.2F;
-                float f3 = MathHelper.sin(f) * 0.2F;
+                final float f = this.squid.getRNG().nextFloat() * (float) Math.PI * 2.0F;
+                final float f1 = MathHelper.cos(f) * 0.2F;
+                final float f2 = -0.1F + this.squid.getRNG().nextFloat() * 0.2F;
+                final float f3 = MathHelper.sin(f) * 0.2F;
                 this.squid.func_175568_b(f1, f2, f3);
             }
         }

@@ -10,19 +10,32 @@ public enum UniformType {
     VEC3,
     VEC4;
 
-    public ShaderUniformBase makeShaderUniform(String name) {
-        return switch (this) {
-            case BOOL -> new ShaderUniform1i(name);
-            case INT -> new ShaderUniform1i(name);
-            case FLOAT -> new ShaderUniform1f(name);
-            case VEC2 -> new ShaderUniform2f(name);
-            case VEC3 -> new ShaderUniform3f(name);
-            case VEC4 -> new ShaderUniform4f(name);
-            default -> throw new RuntimeException("Unknown uniform type: " + this);
-        };
+    public ShaderUniformBase makeShaderUniform(final String name) {
+        switch (this) {
+            case BOOL:
+                return new ShaderUniform1i(name);
+
+            case INT:
+                return new ShaderUniform1i(name);
+
+            case FLOAT:
+                return new ShaderUniform1f(name);
+
+            case VEC2:
+                return new ShaderUniform2f(name);
+
+            case VEC3:
+                return new ShaderUniform3f(name);
+
+            case VEC4:
+                return new ShaderUniform4f(name);
+
+            default:
+                throw new RuntimeException("Unknown uniform type: " + this);
+        }
     }
 
-    public void updateUniform(IExpression expression, ShaderUniformBase uniform) {
+    public void updateUniform(final IExpression expression, final ShaderUniformBase uniform) {
         switch (this) {
             case BOOL:
                 this.updateUniformBool((IExpressionBool) expression, (ShaderUniform1i) uniform);
@@ -53,24 +66,24 @@ public enum UniformType {
         }
     }
 
-    private void updateUniformBool(IExpressionBool expression, ShaderUniform1i uniform) {
-        boolean flag = expression.eval();
-        int i = flag ? 1 : 0;
+    private void updateUniformBool(final IExpressionBool expression, final ShaderUniform1i uniform) {
+        final boolean flag = expression.eval();
+        final int i = flag ? 1 : 0;
         uniform.setValue(i);
     }
 
-    private void updateUniformInt(IExpressionFloat expression, ShaderUniform1i uniform) {
-        int i = (int) expression.eval();
+    private void updateUniformInt(final IExpressionFloat expression, final ShaderUniform1i uniform) {
+        final int i = (int) expression.eval();
         uniform.setValue(i);
     }
 
-    private void updateUniformFloat(IExpressionFloat expression, ShaderUniform1f uniform) {
-        float f = expression.eval();
+    private void updateUniformFloat(final IExpressionFloat expression, final ShaderUniform1f uniform) {
+        final float f = expression.eval();
         uniform.setValue(f);
     }
 
-    private void updateUniformFloat2(IExpressionFloatArray expression, ShaderUniform2f uniform) {
-        float[] afloat = expression.eval();
+    private void updateUniformFloat2(final IExpressionFloatArray expression, final ShaderUniform2f uniform) {
+        final float[] afloat = expression.eval();
 
         if (afloat.length != 2) {
             throw new RuntimeException("Value length is not 2, length: " + afloat.length);
@@ -79,8 +92,8 @@ public enum UniformType {
         }
     }
 
-    private void updateUniformFloat3(IExpressionFloatArray expression, ShaderUniform3f uniform) {
-        float[] afloat = expression.eval();
+    private void updateUniformFloat3(final IExpressionFloatArray expression, final ShaderUniform3f uniform) {
+        final float[] afloat = expression.eval();
 
         if (afloat.length != 3) {
             throw new RuntimeException("Value length is not 3, length: " + afloat.length);
@@ -89,8 +102,8 @@ public enum UniformType {
         }
     }
 
-    private void updateUniformFloat4(IExpressionFloatArray expression, ShaderUniform4f uniform) {
-        float[] afloat = expression.eval();
+    private void updateUniformFloat4(final IExpressionFloatArray expression, final ShaderUniform4f uniform) {
+        final float[] afloat = expression.eval();
 
         if (afloat.length != 4) {
             throw new RuntimeException("Value length is not 4, length: " + afloat.length);
@@ -99,20 +112,33 @@ public enum UniformType {
         }
     }
 
-    public boolean matchesExpressionType(ExpressionType expressionType) {
-        return switch (this) {
-            case BOOL -> expressionType == ExpressionType.BOOL;
-            case INT -> expressionType == ExpressionType.FLOAT;
-            case FLOAT -> expressionType == ExpressionType.FLOAT;
-            case VEC2, VEC3, VEC4 -> expressionType == ExpressionType.FLOAT_ARRAY;
-            default -> throw new RuntimeException("Unknown uniform type: " + this);
-        };
+    public boolean matchesExpressionType(final ExpressionType expressionType) {
+        switch (this) {
+            case BOOL:
+                return expressionType == ExpressionType.BOOL;
+
+            case INT:
+                return expressionType == ExpressionType.FLOAT;
+
+            case FLOAT:
+                return expressionType == ExpressionType.FLOAT;
+
+            case VEC2:
+            case VEC3:
+            case VEC4:
+                return expressionType == ExpressionType.FLOAT_ARRAY;
+
+            default:
+                throw new RuntimeException("Unknown uniform type: " + this);
+        }
     }
 
-    public static UniformType parse(String type) {
-        UniformType[] auniformtype = values();
+    public static UniformType parse(final String type) {
+        final UniformType[] auniformtype = values();
 
-        for (UniformType uniformtype : auniformtype) {
+        for (int i = 0; i < auniformtype.length; ++i) {
+            final UniformType uniformtype = auniformtype[i];
+
             if (uniformtype.name().toLowerCase().equals(type)) {
                 return uniformtype;
             }

@@ -24,7 +24,7 @@ public class ModelSprite {
     private float maxU = 0.0F;
     private float maxV = 0.0F;
 
-    public ModelSprite(ModelRenderer modelRenderer, int textureOffsetX, int textureOffsetY, float posX, float posY, float posZ, int sizeX, int sizeY, int sizeZ, float sizeAdd) {
+    public ModelSprite(final ModelRenderer modelRenderer, final int textureOffsetX, final int textureOffsetY, final float posX, final float posY, final float posZ, final int sizeX, final int sizeY, final int sizeZ, final float sizeAdd) {
         this.modelRenderer = modelRenderer;
         this.textureOffsetX = textureOffsetX;
         this.textureOffsetY = textureOffsetY;
@@ -41,7 +41,7 @@ public class ModelSprite {
         this.maxV = (float) (textureOffsetY + sizeY) / modelRenderer.textureHeight;
     }
 
-    public void render(Tessellator tessellator, float scale) {
+    public void render(final Tessellator tessellator, final float scale) {
         GlStateManager.translate(this.posX * scale, this.posY * scale, this.posZ * scale);
         float f = this.minU;
         float f1 = this.maxU;
@@ -62,16 +62,16 @@ public class ModelSprite {
         GlStateManager.translate(-this.posX * scale, -this.posY * scale, -this.posZ * scale);
     }
 
-    public static void renderItemIn2D(Tessellator tess, float minU, float minV, float maxU, float maxV, int sizeX, int sizeY, float width, float texWidth, float texHeight) {
+    public static void renderItemIn2D(final Tessellator tess, final float minU, final float minV, final float maxU, final float maxV, final int sizeX, final int sizeY, float width, final float texWidth, final float texHeight) {
         if (width < 6.25E-4F) {
             width = 6.25E-4F;
         }
 
-        float f = maxU - minU;
-        float f1 = maxV - minV;
-        double d0 = MathHelper.abs(f) * (texWidth / 16.0F);
-        double d1 = MathHelper.abs(f1) * (texHeight / 16.0F);
-        WorldRenderer worldrenderer = tess.getWorldRenderer();
+        final float f = maxU - minU;
+        final float f1 = maxV - minV;
+        final double d0 = MathHelper.abs(f) * (texWidth / 16.0F);
+        final double d1 = MathHelper.abs(f1) * (texHeight / 16.0F);
+        final WorldRenderer worldrenderer = tess.getWorldRenderer();
         GL11.glNormal3f(0.0F, 0.0F, -1.0F);
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
         worldrenderer.pos(0.0D, d1, 0.0D).tex(minU, maxV).endVertex();
@@ -86,14 +86,14 @@ public class ModelSprite {
         worldrenderer.pos(d0, d1, width).tex(maxU, maxV).endVertex();
         worldrenderer.pos(0.0D, d1, width).tex(minU, maxV).endVertex();
         tess.draw();
-        float f2 = 0.5F * f / (float) sizeX;
-        float f3 = 0.5F * f1 / (float) sizeY;
+        final float f2 = 0.5F * f / (float) sizeX;
+        final float f3 = 0.5F * f1 / (float) sizeY;
         GL11.glNormal3f(-1.0F, 0.0F, 0.0F);
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
         for (int i = 0; i < sizeX; ++i) {
-            float f4 = (float) i / (float) sizeX;
-            float f5 = minU + f * f4 + f2;
+            final float f4 = (float) i / (float) sizeX;
+            final float f5 = minU + f * f4 + f2;
             worldrenderer.pos((double) f4 * d0, d1, width).tex(f5, maxV).endVertex();
             worldrenderer.pos((double) f4 * d0, d1, 0.0D).tex(f5, maxV).endVertex();
             worldrenderer.pos((double) f4 * d0, 0.0D, 0.0D).tex(f5, minV).endVertex();
@@ -105,9 +105,9 @@ public class ModelSprite {
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
         for (int j = 0; j < sizeX; ++j) {
-            float f7 = (float) j / (float) sizeX;
-            float f10 = minU + f * f7 + f2;
-            float f6 = f7 + 1.0F / (float) sizeX;
+            final float f7 = (float) j / (float) sizeX;
+            final float f10 = minU + f * f7 + f2;
+            final float f6 = f7 + 1.0F / (float) sizeX;
             worldrenderer.pos((double) f6 * d0, 0.0D, width).tex(f10, minV).endVertex();
             worldrenderer.pos((double) f6 * d0, 0.0D, 0.0D).tex(f10, minV).endVertex();
             worldrenderer.pos((double) f6 * d0, d1, 0.0D).tex(f10, maxV).endVertex();
@@ -119,9 +119,9 @@ public class ModelSprite {
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
         for (int k = 0; k < sizeY; ++k) {
-            float f8 = (float) k / (float) sizeY;
-            float f11 = minV + f1 * f8 + f3;
-            float f13 = f8 + 1.0F / (float) sizeY;
+            final float f8 = (float) k / (float) sizeY;
+            final float f11 = minV + f1 * f8 + f3;
+            final float f13 = f8 + 1.0F / (float) sizeY;
             worldrenderer.pos(0.0D, (double) f13 * d1, width).tex(minU, f11).endVertex();
             worldrenderer.pos(d0, (double) f13 * d1, width).tex(maxU, f11).endVertex();
             worldrenderer.pos(d0, (double) f13 * d1, 0.0D).tex(maxU, f11).endVertex();
@@ -133,8 +133,8 @@ public class ModelSprite {
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
 
         for (int l = 0; l < sizeY; ++l) {
-            float f9 = (float) l / (float) sizeY;
-            float f12 = minV + f1 * f9 + f3;
+            final float f9 = (float) l / (float) sizeY;
+            final float f12 = minV + f1 * f9 + f3;
             worldrenderer.pos(d0, (double) f9 * d1, width).tex(maxU, f12).endVertex();
             worldrenderer.pos(0.0D, (double) f9 * d1, width).tex(minU, f12).endVertex();
             worldrenderer.pos(0.0D, (double) f9 * d1, 0.0D).tex(minU, f12).endVertex();

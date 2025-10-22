@@ -18,9 +18,9 @@ public class ModelAdapterSkeleton extends ModelAdapterBiped {
         return new ModelSkeleton();
     }
 
-    public IEntityRenderer makeEntityRender(ModelBase modelBase, float shadowSize) {
-        RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
-        RenderSkeleton renderskeleton = new RenderSkeleton(rendermanager);
+    public IEntityRenderer makeEntityRender(final ModelBase modelBase, final float shadowSize) {
+        final RenderManager rendermanager = Minecraft.getMinecraft().getRenderManager();
+        final RenderSkeleton renderskeleton = new RenderSkeleton(rendermanager);
         Render.setModelBipedMain(renderskeleton, (ModelBiped) modelBase);
         renderskeleton.mainModel = modelBase;
         renderskeleton.shadowSize = shadowSize;

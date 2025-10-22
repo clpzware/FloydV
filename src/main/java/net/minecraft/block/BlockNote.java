@@ -23,11 +23,15 @@ public class BlockNote extends BlockContainer {
         this.setCreativeTab(CreativeTabs.tabRedstone);
     }
 
-    public void onNeighborBlockChange(World worldIn, BlockPos pos, IBlockState state, Block neighborBlock) {
-        boolean flag = worldIn.isBlockPowered(pos);
-        TileEntity tileentity = worldIn.getTileEntity(pos);
+    /**
+     * Called when a neighboring block changes.
+     */
+    public void onNeighborBlockChange(final World worldIn, final BlockPos pos, final IBlockState state, final Block neighborBlock) {
+        final boolean flag = worldIn.isBlockPowered(pos);
+        final TileEntity tileentity = worldIn.getTileEntity(pos);
 
-        if (tileentity instanceof TileEntityNote tileentitynote) {
+        if (tileentity instanceof TileEntityNote) {
+            final TileEntityNote tileentitynote = (TileEntityNote) tileentity;
 
             if (tileentitynote.previousRedstoneState != flag) {
                 if (flag) {
@@ -39,13 +43,14 @@ public class BlockNote extends BlockContainer {
         }
     }
 
-    public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(final World worldIn, final BlockPos pos, final IBlockState state, final EntityPlayer playerIn, final EnumFacing side, final float hitX, final float hitY, final float hitZ) {
         if (worldIn.isRemote) {
             return true;
         } else {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+            final TileEntity tileentity = worldIn.getTileEntity(pos);
 
-            if (tileentity instanceof TileEntityNote tileentitynote) {
+            if (tileentity instanceof TileEntityNote) {
+                final TileEntityNote tileentitynote = (TileEntityNote) tileentity;
                 tileentitynote.changePitch();
                 tileentitynote.triggerNote(worldIn, pos);
                 playerIn.triggerAchievement(StatList.field_181735_S);
@@ -55,9 +60,9 @@ public class BlockNote extends BlockContainer {
         }
     }
 
-    public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+    public void onBlockClicked(final World worldIn, final BlockPos pos, final EntityPlayer playerIn) {
         if (!worldIn.isRemote) {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+            final TileEntity tileentity = worldIn.getTileEntity(pos);
 
             if (tileentity instanceof TileEntityNote) {
                 ((TileEntityNote) tileentity).triggerNote(worldIn, pos);
@@ -66,7 +71,10 @@ public class BlockNote extends BlockContainer {
         }
     }
 
-    public TileEntity createNewTileEntity(World worldIn, int meta) {
+    /**
+     * Returns a new instance of a block's tile entity class. Called on placing the block.
+     */
+    public TileEntity createNewTileEntity(final World worldIn, final int meta) {
         return new TileEntityNote();
     }
 
@@ -78,13 +86,19 @@ public class BlockNote extends BlockContainer {
         return INSTRUMENTS.get(id);
     }
 
-    public boolean onBlockEventReceived(World worldIn, BlockPos pos, IBlockState state, int eventID, int eventParam) {
-        float f = (float) Math.pow(2.0D, (double) (eventParam - 12) / 12.0D);
+    /**
+     * Called on both Client and Server when World#addBlockEvent is called
+     */
+    public boolean onBlockEventReceived(final World worldIn, final BlockPos pos, final IBlockState state, final int eventID, final int eventParam) {
+        final float f = (float) Math.pow(2.0D, (double) (eventParam - 12) / 12.0D);
         worldIn.playSoundEffect((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, "note." + this.getInstrument(eventID), 3.0F, f);
         worldIn.spawnParticle(EnumParticleTypes.NOTE, (double) pos.getX() + 0.5D, (double) pos.getY() + 1.2D, (double) pos.getZ() + 0.5D, (double) eventParam / 24.0D, 0.0D, 0.0D);
         return true;
     }
 
+    /**
+     * The type of render function called. 3 for standard block models, 2 for TESR's, 1 for liquids, -1 is no render
+     */
     public int getRenderType() {
         return 3;
     }

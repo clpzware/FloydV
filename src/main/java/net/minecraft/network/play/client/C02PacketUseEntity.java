@@ -1,9 +1,5 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
-
-import lombok.Getter;
-import lombok.Setter;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
@@ -11,28 +7,30 @@ import net.minecraft.network.play.INetHandlerPlayServer;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
+import java.io.IOException;
+
 public class C02PacketUseEntity implements Packet<INetHandlerPlayServer> {
     private int entityId;
-    @Getter
     private C02PacketUseEntity.Action action;
-    @Getter
-    @Setter
-    private Vec3 hitVec;
+    public Vec3 hitVec;
 
     public C02PacketUseEntity() {
     }
 
-    public C02PacketUseEntity(Entity entity, C02PacketUseEntity.Action action) {
+    public C02PacketUseEntity(final Entity entity, final C02PacketUseEntity.Action action) {
         this.entityId = entity.getEntityId();
         this.action = action;
     }
 
-    public C02PacketUseEntity(Entity entity, Vec3 hitVec) {
+    public C02PacketUseEntity(final Entity entity, final Vec3 hitVec) {
         this(entity, C02PacketUseEntity.Action.INTERACT_AT);
         this.hitVec = hitVec;
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
         this.entityId = buf.readVarIntFromBuffer();
         this.action = buf.readEnumValue(Action.class);
 
@@ -41,7 +39,10 @@ public class C02PacketUseEntity implements Packet<INetHandlerPlayServer> {
         }
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         buf.writeVarIntToBuffer(this.entityId);
         buf.writeEnumValue(this.action);
 
@@ -52,12 +53,23 @@ public class C02PacketUseEntity implements Packet<INetHandlerPlayServer> {
         }
     }
 
-    public void processPacket(INetHandlerPlayServer handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayServer handler) {
         handler.processUseEntity(this);
     }
 
-    public Entity getEntityFromWorld(World worldIn) {
+    public Entity getEntityFromWorld(final World worldIn) {
         return worldIn.getEntityByID(this.entityId);
+    }
+
+    public C02PacketUseEntity.Action getAction() {
+        return this.action;
+    }
+
+    public Vec3 getHitVec() {
+        return this.hitVec;
     }
 
     public enum Action {

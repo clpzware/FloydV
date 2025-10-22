@@ -19,22 +19,22 @@ public class NaturalTextures {
         propertiesByIndex = new NaturalProperties[0];
 
         if (Config.isNaturalTextures()) {
-            String s = "optifine/natural.properties";
+            final String s = "optifine/natural.properties";
 
             try {
-                ResourceLocation resourcelocation = new ResourceLocation(s);
+                final ResourceLocation resourcelocation = new ResourceLocation(s);
 
                 if (!Config.hasResource(resourcelocation)) {
                     Config.dbg("NaturalTextures: configuration \"" + s + "\" not found");
                     return;
                 }
 
-                boolean flag = Config.isFromDefaultResourcePack(resourcelocation);
-                InputStream inputstream = Config.getResourceStream(resourcelocation);
-                ArrayList arraylist = new ArrayList(256);
-                String s1 = Config.readInputStream(inputstream);
+                final boolean flag = Config.isFromDefaultResourcePack(resourcelocation);
+                final InputStream inputstream = Config.getResourceStream(resourcelocation);
+                final ArrayList arraylist = new ArrayList(256);
+                final String s1 = Config.readInputStream(inputstream);
                 inputstream.close();
-                String[] astring = Config.tokenize(s1, "\n\r");
+                final String[] astring = Config.tokenize(s1, "\n\r");
 
                 if (flag) {
                     Config.dbg("Natural Textures: Parsing default configuration \"" + s + "\"");
@@ -43,25 +43,25 @@ public class NaturalTextures {
                     Config.dbg("Natural Textures: Parsing configuration \"" + s + "\"");
                 }
 
-                TextureMap texturemap = TextureUtils.getTextureMapBlocks();
+                final TextureMap texturemap = TextureUtils.getTextureMapBlocks();
 
-                for (String string : astring) {
-                    String s2 = string.trim();
+                for (int i = 0; i < astring.length; ++i) {
+                    final String s2 = astring[i].trim();
 
                     if (!s2.startsWith("#")) {
-                        String[] astring1 = Config.tokenize(s2, "=");
+                        final String[] astring1 = Config.tokenize(s2, "=");
 
                         if (astring1.length != 2) {
                             Config.warn("Natural Textures: Invalid \"" + s + "\" line: " + s2);
                         } else {
-                            String s3 = astring1[0].trim();
-                            String s4 = astring1[1].trim();
-                            TextureAtlasSprite textureatlassprite = texturemap.getSpriteSafe("minecraft:blocks/" + s3);
+                            final String s3 = astring1[0].trim();
+                            final String s4 = astring1[1].trim();
+                            final TextureAtlasSprite textureatlassprite = texturemap.getSpriteSafe("minecraft:blocks/" + s3);
 
                             if (textureatlassprite == null) {
                                 Config.warn("Natural Textures: Texture not found: \"" + s + "\" line: " + s2);
                             } else {
-                                int j = textureatlassprite.getIndexInMap();
+                                final int j = textureatlassprite.getIndexInMap();
 
                                 if (j < 0) {
                                     Config.warn("Natural Textures: Invalid \"" + s + "\" line: " + s2);
@@ -70,7 +70,7 @@ public class NaturalTextures {
                                         return;
                                     }
 
-                                    NaturalProperties naturalproperties = new NaturalProperties(s4);
+                                    final NaturalProperties naturalproperties = new NaturalProperties(s4);
 
                                     if (naturalproperties.isValid()) {
                                         while (arraylist.size() <= j) {
@@ -78,7 +78,7 @@ public class NaturalTextures {
                                         }
 
                                         arraylist.set(j, naturalproperties);
-                                        // annoying Config.dbg("NaturalTextures: " + s3 + " = " + s4);
+                                        Config.dbg("NaturalTextures: " + s3 + " = " + s4);
                                     }
                                 }
                             }
@@ -87,27 +87,28 @@ public class NaturalTextures {
                 }
 
                 propertiesByIndex = (NaturalProperties[]) arraylist.toArray(new NaturalProperties[arraylist.size()]);
-            } catch (FileNotFoundException var17) {
+            } catch (final FileNotFoundException var17) {
                 Config.warn("NaturalTextures: configuration \"" + s + "\" not found");
-            } catch (Exception exception) {
+                return;
+            } catch (final Exception exception) {
                 exception.printStackTrace();
             }
         }
     }
 
-    public static BakedQuad getNaturalTexture(BlockPos blockPosIn, BakedQuad quad) {
-        TextureAtlasSprite textureatlassprite = quad.getSprite();
+    public static BakedQuad getNaturalTexture(final BlockPos blockPosIn, final BakedQuad quad) {
+        final TextureAtlasSprite textureatlassprite = quad.getSprite();
 
         if (textureatlassprite == null) {
             return quad;
         } else {
-            NaturalProperties naturalproperties = getNaturalProperties(textureatlassprite);
+            final NaturalProperties naturalproperties = getNaturalProperties(textureatlassprite);
 
             if (naturalproperties == null) {
                 return quad;
             } else {
-                int i = ConnectedTextures.getSide(quad.getFace());
-                int j = Config.getRandom(blockPosIn, i);
+                final int i = ConnectedTextures.getSide(quad.getFace());
+                final int j = Config.getRandom(blockPosIn, i);
                 int k = 0;
                 boolean flag = false;
 
@@ -128,14 +129,14 @@ public class NaturalTextures {
         }
     }
 
-    public static NaturalProperties getNaturalProperties(TextureAtlasSprite icon) {
+    public static NaturalProperties getNaturalProperties(final TextureAtlasSprite icon) {
         if (!(icon instanceof TextureAtlasSprite)) {
             return null;
         } else {
-            int i = icon.getIndexInMap();
+            final int i = icon.getIndexInMap();
 
             if (i >= 0 && i < propertiesByIndex.length) {
-                NaturalProperties naturalproperties = propertiesByIndex[i];
+                final NaturalProperties naturalproperties = propertiesByIndex[i];
                 return naturalproperties;
             } else {
                 return null;

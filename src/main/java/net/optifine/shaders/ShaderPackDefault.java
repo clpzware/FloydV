@@ -6,7 +6,7 @@ public class ShaderPackDefault implements IShaderPack {
     public void close() {
     }
 
-    public InputStream getResourceAsStream(String resName) {
+    public InputStream getResourceAsStream(final String resName) {
         return ShaderPackDefault.class.getResourceAsStream(resName);
     }
 
@@ -14,7 +14,7 @@ public class ShaderPackDefault implements IShaderPack {
         return "(internal)";
     }
 
-    public boolean hasDirectory(String name) {
+    public boolean hasDirectory(final String name) {
         return false;
     }
 }

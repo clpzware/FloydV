@@ -8,34 +8,51 @@ import net.minecraft.util.Vec3;
 import java.util.Random;
 
 public class RandomPositionGenerator {
+    /**
+     * used to store a driection when the user passes a point to move towards or away from. WARNING: NEVER THREAD SAFE.
+     * MULTIPLE findTowards and findAway calls, will share this var
+     */
     private static Vec3 staticVector = new Vec3(0.0D, 0.0D, 0.0D);
 
-    public static Vec3 findRandomTarget(EntityCreature entitycreatureIn, int xz, int y) {
+    /**
+     * finds a random target within par1(x,z) and par2 (y) blocks
+     */
+    public static Vec3 findRandomTarget(final EntityCreature entitycreatureIn, final int xz, final int y) {
         return findRandomTargetBlock(entitycreatureIn, xz, y, null);
     }
 
-    public static Vec3 findRandomTargetBlockTowards(EntityCreature entitycreatureIn, int xz, int y, Vec3 targetVec3) {
+    /**
+     * finds a random target within par1(x,z) and par2 (y) blocks in the direction of the point par3
+     */
+    public static Vec3 findRandomTargetBlockTowards(final EntityCreature entitycreatureIn, final int xz, final int y, final Vec3 targetVec3) {
         staticVector = targetVec3.subtract(entitycreatureIn.posX, entitycreatureIn.posY, entitycreatureIn.posZ);
         return findRandomTargetBlock(entitycreatureIn, xz, y, staticVector);
     }
 
-    public static Vec3 findRandomTargetBlockAwayFrom(EntityCreature entitycreatureIn, int xz, int y, Vec3 targetVec3) {
+    /**
+     * finds a random target within par1(x,z) and par2 (y) blocks in the reverse direction of the point par3
+     */
+    public static Vec3 findRandomTargetBlockAwayFrom(final EntityCreature entitycreatureIn, final int xz, final int y, final Vec3 targetVec3) {
         staticVector = (new Vec3(entitycreatureIn.posX, entitycreatureIn.posY, entitycreatureIn.posZ)).subtract(targetVec3);
         return findRandomTargetBlock(entitycreatureIn, xz, y, staticVector);
     }
 
-    private static Vec3 findRandomTargetBlock(EntityCreature entitycreatureIn, int xz, int y, Vec3 targetVec3) {
-        Random random = entitycreatureIn.getRNG();
+    /**
+     * searches 10 blocks at random in a within par1(x,z) and par2 (y) distance, ignores those not in the direction of
+     * par3Vec3, then points to the tile for which creature.getBlockPathWeight returns the highest number
+     */
+    private static Vec3 findRandomTargetBlock(final EntityCreature entitycreatureIn, final int xz, final int y, final Vec3 targetVec3) {
+        final Random random = entitycreatureIn.getRNG();
         boolean flag = false;
         int i = 0;
         int j = 0;
         int k = 0;
         float f = -99999.0F;
-        boolean flag1;
+        final boolean flag1;
 
         if (entitycreatureIn.hasHome()) {
-            double d0 = entitycreatureIn.getHomePosition().distanceSq(MathHelper.floor_double(entitycreatureIn.posX), MathHelper.floor_double(entitycreatureIn.posY), MathHelper.floor_double(entitycreatureIn.posZ)) + 4.0D;
-            double d1 = entitycreatureIn.getMaximumHomeDistance() + (float) xz;
+            final double d0 = entitycreatureIn.getHomePosition().distanceSq(MathHelper.floor_double(entitycreatureIn.posX), MathHelper.floor_double(entitycreatureIn.posY), MathHelper.floor_double(entitycreatureIn.posZ)) + 4.0D;
+            final double d1 = entitycreatureIn.getMaximumHomeDistance() + (float) xz;
             flag1 = d0 < d1 * d1;
         } else {
             flag1 = false;
@@ -48,7 +65,7 @@ public class RandomPositionGenerator {
 
             if (targetVec3 == null || (double) l * targetVec3.xCoord + (double) i1 * targetVec3.zCoord >= 0.0D) {
                 if (entitycreatureIn.hasHome() && xz > 1) {
-                    BlockPos blockpos = entitycreatureIn.getHomePosition();
+                    final BlockPos blockpos = entitycreatureIn.getHomePosition();
 
                     if (entitycreatureIn.posX > (double) blockpos.getX()) {
                         l -= random.nextInt(xz / 2);
@@ -66,10 +83,10 @@ public class RandomPositionGenerator {
                 l = l + MathHelper.floor_double(entitycreatureIn.posX);
                 k1 = k1 + MathHelper.floor_double(entitycreatureIn.posY);
                 i1 = i1 + MathHelper.floor_double(entitycreatureIn.posZ);
-                BlockPos blockpos1 = new BlockPos(l, k1, i1);
+                final BlockPos blockpos1 = new BlockPos(l, k1, i1);
 
                 if (!flag1 || entitycreatureIn.isWithinHomeDistanceFromPosition(blockpos1)) {
-                    float f1 = entitycreatureIn.getBlockPathWeight(blockpos1);
+                    final float f1 = entitycreatureIn.getBlockPathWeight(blockpos1);
 
                     if (f1 > f) {
                         f = f1;

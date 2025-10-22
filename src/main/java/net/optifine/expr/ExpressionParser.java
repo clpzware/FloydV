@@ -8,12 +8,12 @@ import java.util.*;
 public class ExpressionParser {
     private final IExpressionResolver expressionResolver;
 
-    public ExpressionParser(IExpressionResolver expressionResolver) {
+    public ExpressionParser(final IExpressionResolver expressionResolver) {
         this.expressionResolver = expressionResolver;
     }
 
-    public IExpressionFloat parseFloat(String str) throws ParseException {
-        IExpression iexpression = this.parse(str);
+    public IExpressionFloat parseFloat(final String str) throws ParseException {
+        final IExpression iexpression = this.parse(str);
 
         if (!(iexpression instanceof IExpressionFloat)) {
             throw new ParseException("Not a float expression: " + iexpression.getExpressionType());
@@ -22,8 +22,8 @@ public class ExpressionParser {
         }
     }
 
-    public IExpressionBool parseBool(String str) throws ParseException {
-        IExpression iexpression = this.parse(str);
+    public IExpressionBool parseBool(final String str) throws ParseException {
+        final IExpression iexpression = this.parse(str);
 
         if (!(iexpression instanceof IExpressionBool)) {
             throw new ParseException("Not a boolean expression: " + iexpression.getExpressionType());
@@ -32,29 +32,33 @@ public class ExpressionParser {
         }
     }
 
-    public IExpression parse(String str) throws ParseException {
+    public IExpression parse(final String str) throws ParseException {
         try {
-            Token[] atoken = TokenParser.parse(str);
+            final Token[] atoken = TokenParser.parse(str);
 
-            Deque<Token> deque = new ArrayDeque(Arrays.asList(atoken));
-            return this.parseInfix(deque);
-        } catch (IOException ioexception) {
+            if (atoken == null) {
+                return null;
+            } else {
+                final Deque<Token> deque = new ArrayDeque(Arrays.asList(atoken));
+                return this.parseInfix(deque);
+            }
+        } catch (final IOException ioexception) {
             throw new ParseException(ioexception.getMessage(), ioexception);
         }
     }
 
-    private IExpression parseInfix(Deque<Token> deque) throws ParseException {
+    private IExpression parseInfix(final Deque<Token> deque) throws ParseException {
         if (deque.isEmpty()) {
             return null;
         } else {
-            List<IExpression> list = new LinkedList();
-            List<Token> list1 = new LinkedList();
-            IExpression iexpression = this.parseExpression(deque);
+            final List<IExpression> list = new LinkedList();
+            final List<Token> list1 = new LinkedList();
+            final IExpression iexpression = this.parseExpression(deque);
             checkNull(iexpression, "Missing expression");
             list.add(iexpression);
 
             while (true) {
-                Token token = deque.poll();
+                final Token token = deque.poll();
 
                 if (token == null) {
                     return this.makeInfix(list, list1);
@@ -64,7 +68,7 @@ public class ExpressionParser {
                     throw new ParseException("Invalid operator: " + token);
                 }
 
-                IExpression iexpression1 = this.parseExpression(deque);
+                final IExpression iexpression1 = this.parseExpression(deque);
                 checkNull(iexpression1, "Missing expression");
                 list1.add(token);
                 list.add(iexpression1);
@@ -72,11 +76,11 @@ public class ExpressionParser {
         }
     }
 
-    private IExpression makeInfix(List<IExpression> listExpr, List<Token> listOper) throws ParseException {
-        List<FunctionType> list = new LinkedList();
+    private IExpression makeInfix(final List<IExpression> listExpr, final List<Token> listOper) throws ParseException {
+        final List<FunctionType> list = new LinkedList();
 
-        for (Token token : listOper) {
-            FunctionType functiontype = FunctionType.parse(token.getText());
+        for (final Token token : listOper) {
+            final FunctionType functiontype = FunctionType.parse(token.getText());
             checkNull(functiontype, "Invalid operator: " + token);
             list.add(functiontype);
         }
@@ -84,7 +88,7 @@ public class ExpressionParser {
         return this.makeInfixFunc(listExpr, list);
     }
 
-    private IExpression makeInfixFunc(List<IExpression> listExpr, List<FunctionType> listFunc) throws ParseException {
+    private IExpression makeInfixFunc(final List<IExpression> listExpr, final List<FunctionType> listFunc) throws ParseException {
         if (listExpr.size() != listFunc.size() + 1) {
             throw new ParseException("Invalid infix expression, expressions: " + listExpr.size() + ", operators: " + listFunc.size());
         } else if (listExpr.size() == 1) {
@@ -93,7 +97,7 @@ public class ExpressionParser {
             int i = Integer.MAX_VALUE;
             int j = Integer.MIN_VALUE;
 
-            for (FunctionType functiontype : listFunc) {
+            for (final FunctionType functiontype : listFunc) {
                 i = Math.min(functiontype.getPrecedence(), i);
                 j = Math.max(functiontype.getPrecedence(), j);
             }
@@ -103,7 +107,7 @@ public class ExpressionParser {
                     this.mergeOperators(listExpr, listFunc, k);
                 }
 
-                if (listExpr.size() == 1 && listFunc.isEmpty()) {
+                if (listExpr.size() == 1 && listFunc.size() == 0) {
                     return listExpr.get(0);
                 } else {
                     throw new ParseException("Error merging operators, expressions: " + listExpr.size() + ", operators: " + listFunc.size());
@@ -114,23 +118,23 @@ public class ExpressionParser {
         }
     }
 
-    private void mergeOperators(List<IExpression> listExpr, List<FunctionType> listFuncs, int precedence) throws ParseException {
+    private void mergeOperators(final List<IExpression> listExpr, final List<FunctionType> listFuncs, final int precedence) throws ParseException {
         for (int i = 0; i < listFuncs.size(); ++i) {
-            FunctionType functiontype = listFuncs.get(i);
+            final FunctionType functiontype = listFuncs.get(i);
 
             if (functiontype.getPrecedence() == precedence) {
                 listFuncs.remove(i);
-                IExpression iexpression = listExpr.remove(i);
-                IExpression iexpression1 = listExpr.remove(i);
-                IExpression iexpression2 = makeFunction(functiontype, new IExpression[]{iexpression, iexpression1});
+                final IExpression iexpression = listExpr.remove(i);
+                final IExpression iexpression1 = listExpr.remove(i);
+                final IExpression iexpression2 = makeFunction(functiontype, new IExpression[]{iexpression, iexpression1});
                 listExpr.add(i, iexpression2);
                 --i;
             }
         }
     }
 
-    private IExpression parseExpression(Deque<Token> deque) throws ParseException {
-        Token token = deque.poll();
+    private IExpression parseExpression(final Deque<Token> deque) throws ParseException {
+        final Token token = deque.poll();
         checkNull(token, "Missing expression");
 
         switch (token.getType()) {
@@ -138,7 +142,7 @@ public class ExpressionParser {
                 return makeConstantFloat(token);
 
             case IDENTIFIER:
-                FunctionType functiontype = this.getFunctionType(token, deque);
+                final FunctionType functiontype = this.getFunctionType(token, deque);
 
                 if (functiontype != null) {
                     return this.makeFunction(functiontype, deque);
@@ -150,16 +154,16 @@ public class ExpressionParser {
                 return this.makeBracketed(token, deque);
 
             case OPERATOR:
-                FunctionType functiontype1 = FunctionType.parse(token.getText());
+                final FunctionType functiontype1 = FunctionType.parse(token.getText());
                 checkNull(functiontype1, "Invalid operator: " + token);
 
                 if (functiontype1 == FunctionType.PLUS) {
                     return this.parseExpression(deque);
                 } else if (functiontype1 == FunctionType.MINUS) {
-                    IExpression iexpression1 = this.parseExpression(deque);
+                    final IExpression iexpression1 = this.parseExpression(deque);
                     return makeFunction(FunctionType.NEG, new IExpression[]{iexpression1});
                 } else if (functiontype1 == FunctionType.NOT) {
-                    IExpression iexpression = this.parseExpression(deque);
+                    final IExpression iexpression = this.parseExpression(deque);
                     return makeFunction(FunctionType.NOT, new IExpression[]{iexpression});
                 }
 
@@ -168,25 +172,21 @@ public class ExpressionParser {
         }
     }
 
-    private static IExpression makeConstantFloat(Token token) throws ParseException {
-        float f = Config.parseFloat(token.getText(), Float.NaN);
+    private static IExpression makeConstantFloat(final Token token) throws ParseException {
+        final float f = Config.parseFloat(token.getText(), Float.NaN);
 
-        if (f == Float.NaN) {
-            throw new ParseException("Invalid float value: " + token);
-        } else {
-            return new ConstantFloat(f);
-        }
+        return new ConstantFloat(f);
     }
 
-    private FunctionType getFunctionType(Token token, Deque<Token> deque) throws ParseException {
-        Token token1 = deque.peek();
+    private FunctionType getFunctionType(final Token tokens, final Deque<Token> deque) throws ParseException {
+        final Token token = deque.peek();
 
-        if (token1 != null && token1.getType() == TokenType.BRACKET_OPEN) {
-            FunctionType enumfunctiontype1 = FunctionType.parse(token1.getText());
-            checkNull(enumfunctiontype1, "Unknown function: " + token1);
-            return enumfunctiontype1;
+        if (tokens != null && token.getType() == TokenType.BRACKET_OPEN) {
+            final FunctionType functiontype1 = FunctionType.parse(token.getText());
+            checkNull(functiontype1, "Unknown function: " + token);
+            return functiontype1;
         } else {
-            FunctionType functiontype = FunctionType.parse(token.getText());
+            final FunctionType functiontype = FunctionType.parse(token.getText());
 
             if (functiontype == null) {
                 return null;
@@ -198,30 +198,30 @@ public class ExpressionParser {
         }
     }
 
-    private IExpression makeFunction(FunctionType type, Deque<Token> deque) throws ParseException {
+    private IExpression makeFunction(final FunctionType type, final Deque<Token> deque) throws ParseException {
         if (type.getParameterCount(new IExpression[0]) == 0) {
-            Token token = deque.peek();
+            final Token token = deque.peek();
 
             if (token == null || token.getType() != TokenType.BRACKET_OPEN) {
                 return makeFunction(type, new IExpression[0]);
             }
         }
 
-        Token token1 = deque.poll();
-        Deque<Token> deque2 = getGroup(deque, TokenType.BRACKET_CLOSE, true);
-        IExpression[] aiexpression = this.parseExpressions(deque2);
+        final Token token1 = deque.poll();
+        final Deque<Token> deque2 = getGroup(deque, TokenType.BRACKET_CLOSE, true);
+        final IExpression[] aiexpression = this.parseExpressions(deque2);
         return makeFunction(type, aiexpression);
     }
 
-    private IExpression[] parseExpressions(Deque<Token> deque) throws ParseException {
-        List<IExpression> list = new ArrayList();
+    private IExpression[] parseExpressions(final Deque<Token> deque) throws ParseException {
+        final List<IExpression> list = new ArrayList();
 
         while (true) {
-            Deque<Token> deque2 = getGroup(deque, TokenType.COMMA, false);
-            IExpression iexpression = this.parseInfix(deque2);
+            final Deque<Token> deque2 = getGroup(deque, TokenType.COMMA, false);
+            final IExpression iexpression = this.parseInfix(deque2);
 
             if (iexpression == null) {
-                IExpression[] aiexpression = list.toArray(new IExpression[list.size()]);
+                final IExpression[] aiexpression = list.toArray(new IExpression[list.size()]);
                 return aiexpression;
             }
 
@@ -229,16 +229,16 @@ public class ExpressionParser {
         }
     }
 
-    private static IExpression makeFunction(FunctionType type, IExpression[] args) throws ParseException {
-        ExpressionType[] aexpressiontype = type.getParameterTypes(args);
+    private static IExpression makeFunction(final FunctionType type, final IExpression[] args) throws ParseException {
+        final ExpressionType[] aexpressiontype = type.getParameterTypes(args);
 
         if (args.length != aexpressiontype.length) {
             throw new ParseException("Invalid number of arguments, function: \"" + type.getName() + "\", count arguments: " + args.length + ", should be: " + aexpressiontype.length);
         } else {
             for (int i = 0; i < args.length; ++i) {
-                IExpression iexpression = args[i];
-                ExpressionType expressiontype = iexpression.getExpressionType();
-                ExpressionType expressiontype1 = aexpressiontype[i];
+                final IExpression iexpression = args[i];
+                final ExpressionType expressiontype = iexpression.getExpressionType();
+                final ExpressionType expressiontype1 = aexpressiontype[i];
 
                 if (expressiontype != expressiontype1) {
                     throw new ParseException("Invalid argument type, function: \"" + type.getName() + "\", index: " + i + ", type: " + expressiontype + ", should be: " + expressiontype1);
@@ -257,11 +257,11 @@ public class ExpressionParser {
         }
     }
 
-    private IExpression makeVariable(Token token) throws ParseException {
+    private IExpression makeVariable(final Token token) throws ParseException {
         if (this.expressionResolver == null) {
             throw new ParseException("Model variable not found: " + token);
         } else {
-            IExpression iexpression = this.expressionResolver.getExpression(token.getText());
+            final IExpression iexpression = this.expressionResolver.getExpression(token.getText());
 
             if (iexpression == null) {
                 throw new ParseException("Model variable not found: " + token);
@@ -271,18 +271,18 @@ public class ExpressionParser {
         }
     }
 
-    private IExpression makeBracketed(Token token, Deque<Token> deque) throws ParseException {
-        Deque<Token> deque2 = getGroup(deque, TokenType.BRACKET_CLOSE, true);
+    private IExpression makeBracketed(final Token token, final Deque<Token> deque) throws ParseException {
+        final Deque<Token> deque2 = getGroup(deque, TokenType.BRACKET_CLOSE, true);
         return this.parseInfix(deque2);
     }
 
-    private static Deque<Token> getGroup(Deque<Token> deque, TokenType tokenTypeEnd, boolean tokenEndRequired) throws ParseException {
-        Deque<Token> deque3 = new ArrayDeque();
+    private static Deque<Token> getGroup(final Deque<Token> deque, final TokenType tokenTypeEnd, final boolean tokenEndRequired) throws ParseException {
+        final Deque<Token> deque3 = new ArrayDeque();
         int i = 0;
-        Iterator iterator = deque.iterator();
+        final Iterator iterator = deque.iterator();
 
         while (iterator.hasNext()) {
-            Token token = (Token) iterator.next();
+            final Token token = (Token) iterator.next();
             iterator.remove();
 
             if (i == 0 && token.getType() == tokenTypeEnd) {
@@ -307,7 +307,7 @@ public class ExpressionParser {
         }
     }
 
-    private static void checkNull(Object obj, String message) throws ParseException {
+    private static void checkNull(final Object obj, final String message) throws ParseException {
         if (obj == null) {
             throw new ParseException(message);
         }

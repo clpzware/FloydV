@@ -1,11 +1,11 @@
 package net.minecraft.network.play.client;
 
-import java.io.IOException;
-
 import net.minecraft.entity.player.PlayerCapabilities;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.INetHandlerPlayServer;
+
+import java.io.IOException;
 
 public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
     private boolean invulnerable;
@@ -18,7 +18,7 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
     public C13PacketPlayerAbilities() {
     }
 
-    public C13PacketPlayerAbilities(PlayerCapabilities capabilities) {
+    public C13PacketPlayerAbilities(final PlayerCapabilities capabilities) {
         this.setInvulnerable(capabilities.disableDamage);
         this.setFlying(capabilities.isFlying);
         this.setAllowFlying(capabilities.allowFlying);
@@ -27,8 +27,11 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
         this.setWalkSpeed(capabilities.getWalkSpeed());
     }
 
-    public void readPacketData(PacketBuffer buf) throws IOException {
-        byte b0 = buf.readByte();
+    /**
+     * Reads the raw packet data from the data stream.
+     */
+    public void readPacketData(final PacketBuffer buf) throws IOException {
+        final byte b0 = buf.readByte();
         this.setInvulnerable((b0 & 1) > 0);
         this.setFlying((b0 & 2) > 0);
         this.setAllowFlying((b0 & 4) > 0);
@@ -37,7 +40,10 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
         this.setWalkSpeed(buf.readFloat());
     }
 
-    public void writePacketData(PacketBuffer buf) throws IOException {
+    /**
+     * Writes the raw packet data to the data stream.
+     */
+    public void writePacketData(final PacketBuffer buf) throws IOException {
         byte b0 = 0;
 
         if (this.isInvulnerable()) {
@@ -61,7 +67,10 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
         buf.writeFloat(this.walkSpeed);
     }
 
-    public void processPacket(INetHandlerPlayServer handler) {
+    /**
+     * Passes this Packet on to the NetHandler for processing.
+     */
+    public void processPacket(final INetHandlerPlayServer handler) {
         handler.processPlayerAbilities(this);
     }
 
@@ -69,7 +78,7 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
         return this.invulnerable;
     }
 
-    public void setInvulnerable(boolean isInvulnerable) {
+    public void setInvulnerable(final boolean isInvulnerable) {
         this.invulnerable = isInvulnerable;
     }
 
@@ -77,7 +86,7 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
         return this.flying;
     }
 
-    public void setFlying(boolean isFlying) {
+    public void setFlying(final boolean isFlying) {
         this.flying = isFlying;
     }
 
@@ -85,7 +94,7 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
         return this.allowFlying;
     }
 
-    public void setAllowFlying(boolean isAllowFlying) {
+    public void setAllowFlying(final boolean isAllowFlying) {
         this.allowFlying = isAllowFlying;
     }
 
@@ -93,15 +102,15 @@ public class C13PacketPlayerAbilities implements Packet<INetHandlerPlayServer> {
         return this.creativeMode;
     }
 
-    public void setCreativeMode(boolean isCreativeMode) {
+    public void setCreativeMode(final boolean isCreativeMode) {
         this.creativeMode = isCreativeMode;
     }
 
-    public void setFlySpeed(float flySpeedIn) {
+    public void setFlySpeed(final float flySpeedIn) {
         this.flySpeed = flySpeedIn;
     }
 
-    public void setWalkSpeed(float walkSpeedIn) {
+    public void setWalkSpeed(final float walkSpeedIn) {
         this.walkSpeed = walkSpeedIn;
     }
 }

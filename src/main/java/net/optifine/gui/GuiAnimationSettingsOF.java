@@ -14,19 +14,23 @@ public class GuiAnimationSettingsOF extends GuiScreen {
     private final GameSettings settings;
     private static final GameSettings.Options[] enumOptions = new GameSettings.Options[]{GameSettings.Options.ANIMATED_WATER, GameSettings.Options.ANIMATED_LAVA, GameSettings.Options.ANIMATED_FIRE, GameSettings.Options.ANIMATED_PORTAL, GameSettings.Options.ANIMATED_REDSTONE, GameSettings.Options.ANIMATED_EXPLOSION, GameSettings.Options.ANIMATED_FLAME, GameSettings.Options.ANIMATED_SMOKE, GameSettings.Options.VOID_PARTICLES, GameSettings.Options.WATER_PARTICLES, GameSettings.Options.RAIN_SPLASH, GameSettings.Options.PORTAL_PARTICLES, GameSettings.Options.POTION_PARTICLES, GameSettings.Options.DRIPPING_WATER_LAVA, GameSettings.Options.ANIMATED_TERRAIN, GameSettings.Options.ANIMATED_TEXTURES, GameSettings.Options.FIREWORK_PARTICLES, GameSettings.Options.PARTICLES};
 
-    public GuiAnimationSettingsOF(GuiScreen guiscreen, GameSettings gamesettings) {
+    public GuiAnimationSettingsOF(final GuiScreen guiscreen, final GameSettings gamesettings) {
         this.prevScreen = guiscreen;
         this.settings = gamesettings;
     }
 
+    /**
+     * Adds the buttons (and other controls) to the screen in question. Called when the GUI is displayed and when the
+     * window resizes, the buttonList is cleared beforehand.
+     */
     public void initGui() {
         this.title = I18n.format("of.options.animationsTitle");
         this.buttonList.clear();
 
         for (int i = 0; i < enumOptions.length; ++i) {
-            GameSettings.Options gamesettings$options = enumOptions[i];
-            int j = this.width / 2 - 155 + i % 2 * 160;
-            int k = this.height / 6 + 21 * (i / 2) - 12;
+            final GameSettings.Options gamesettings$options = enumOptions[i];
+            final int j = this.width / 2 - 155 + i % 2 * 160;
+            final int k = this.height / 6 + 21 * (i / 2) - 12;
 
             if (!gamesettings$options.getEnumFloat()) {
                 this.buttonList.add(new GuiOptionButtonOF(gamesettings$options.returnEnumOrdinal(), j, k, gamesettings$options, this.settings.getKeyBinding(gamesettings$options)));
@@ -40,7 +44,10 @@ public class GuiAnimationSettingsOF extends GuiScreen {
         this.buttonList.add(new GuiOptionButton(200, this.width / 2 + 5, this.height / 6 + 168 + 11, I18n.format("gui.done")));
     }
 
-    protected void actionPerformed(GuiButton guibutton) {
+    /**
+     * Called by the controls from the buttonList when activated. (Mouse pressed for buttons)
+     */
+    protected void actionPerformed(final GuiButton guibutton) {
         if (guibutton.enabled) {
             if (guibutton.id < 200 && guibutton instanceof GuiOptionButton) {
                 this.settings.setOptionValue(((GuiOptionButton) guibutton).returnEnumOptions(), 1);
@@ -60,12 +67,15 @@ public class GuiAnimationSettingsOF extends GuiScreen {
                 this.mc.gameSettings.setAllAnimations(false);
             }
 
-            ScaledResolution scaledresolution = new ScaledResolution(this.mc);
+            final ScaledResolution scaledresolution = mc.scaledResolution;
             this.setWorldAndResolution(this.mc, scaledresolution.getScaledWidth(), scaledresolution.getScaledHeight());
         }
     }
 
-    public void drawScreen(int x, int y, float f) {
+    /**
+     * Draws the screen and all the components in it. Args : mouseX, mouseY, renderPartialTicks
+     */
+    public void drawScreen(final int x, final int y, final float f) {
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj, this.title, this.width / 2, 15, 16777215);
         super.drawScreen(x, y, f);

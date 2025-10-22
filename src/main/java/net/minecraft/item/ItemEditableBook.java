@@ -18,25 +18,30 @@ public class ItemEditableBook extends Item {
         this.setMaxStackSize(1);
     }
 
-    public static boolean validBookTagContents(NBTTagCompound nbt) {
+    public static boolean validBookTagContents(final NBTTagCompound nbt) {
         if (!ItemWritableBook.isNBTValid(nbt)) {
             return false;
         } else if (!nbt.hasKey("title", 8)) {
             return false;
         } else {
-            String s = nbt.getString("title");
+            final String s = nbt.getString("title");
             return s != null && s.length() <= 32 && nbt.hasKey("author", 8);
         }
     }
 
-    public static int getGeneration(ItemStack book) {
+    /**
+     * Gets the generation of the book (how many times it has been cloned)
+     *
+     * @param book The book to get the generation of
+     */
+    public static int getGeneration(final ItemStack book) {
         return book.getTagCompound().getInteger("generation");
     }
 
-    public String getItemStackDisplayName(ItemStack stack) {
+    public String getItemStackDisplayName(final ItemStack stack) {
         if (stack.hasTagCompound()) {
-            NBTTagCompound nbttagcompound = stack.getTagCompound();
-            String s = nbttagcompound.getString("title");
+            final NBTTagCompound nbttagcompound = stack.getTagCompound();
+            final String s = nbttagcompound.getString("title");
 
             if (!StringUtils.isNullOrEmpty(s)) {
                 return s;
@@ -46,10 +51,16 @@ public class ItemEditableBook extends Item {
         return super.getItemStackDisplayName(stack);
     }
 
-    public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+    /**
+     * allows items to add custom lines of information to the mouseover description
+     *
+     * @param tooltip  All lines to display in the Item's tooltip. This is a List of Strings.
+     * @param advanced Whether the setting "Advanced tooltips" is enabled
+     */
+    public void addInformation(final ItemStack stack, final EntityPlayer playerIn, final List<String> tooltip, final boolean advanced) {
         if (stack.hasTagCompound()) {
-            NBTTagCompound nbttagcompound = stack.getTagCompound();
-            String s = nbttagcompound.getString("author");
+            final NBTTagCompound nbttagcompound = stack.getTagCompound();
+            final String s = nbttagcompound.getString("author");
 
             if (!StringUtils.isNullOrEmpty(s)) {
                 tooltip.add(EnumChatFormatting.GRAY + StatCollector.translateToLocalFormatted("book.byAuthor", new Object[]{s}));
@@ -59,7 +70,10 @@ public class ItemEditableBook extends Item {
         }
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
+    /**
+     * Called whenever this item is equipped and the right mouse button is pressed. Args: itemStack, world, entityPlayer
+     */
+    public ItemStack onItemRightClick(final ItemStack itemStackIn, final World worldIn, final EntityPlayer playerIn) {
         if (!worldIn.isRemote) {
             this.resolveContents(itemStackIn, playerIn);
         }
@@ -69,24 +83,24 @@ public class ItemEditableBook extends Item {
         return itemStackIn;
     }
 
-    private void resolveContents(ItemStack stack, EntityPlayer player) {
+    private void resolveContents(final ItemStack stack, final EntityPlayer player) {
         if (stack != null && stack.getTagCompound() != null) {
-            NBTTagCompound nbttagcompound = stack.getTagCompound();
+            final NBTTagCompound nbttagcompound = stack.getTagCompound();
 
             if (!nbttagcompound.getBoolean("resolved")) {
                 nbttagcompound.setBoolean("resolved", true);
 
                 if (validBookTagContents(nbttagcompound)) {
-                    NBTTagList nbttaglist = nbttagcompound.getTagList("pages", 8);
+                    final NBTTagList nbttaglist = nbttagcompound.getTagList("pages", 8);
 
                     for (int i = 0; i < nbttaglist.tagCount(); ++i) {
-                        String s = nbttaglist.getStringTagAt(i);
+                        final String s = nbttaglist.getStringTagAt(i);
                         IChatComponent ichatcomponent;
 
                         try {
                             ichatcomponent = IChatComponent.Serializer.jsonToComponent(s);
                             ichatcomponent = ChatComponentProcessor.processComponent(player, ichatcomponent, player);
-                        } catch (Exception var9) {
+                        } catch (final Exception var9) {
                             ichatcomponent = new ChatComponentText(s);
                         }
 
@@ -96,7 +110,7 @@ public class ItemEditableBook extends Item {
                     nbttagcompound.setTag("pages", nbttaglist);
 
                     if (player instanceof EntityPlayerMP && player.getCurrentEquippedItem() == stack) {
-                        Slot slot = player.openContainer.getSlotFromInventory(player.inventory, player.inventory.currentItem);
+                        final Slot slot = player.openContainer.getSlotFromInventory(player.inventory, player.inventory.currentItem);
                         ((EntityPlayerMP) player).playerNetServerHandler.sendPacket(new S2FPacketSetSlot(0, slot.slotNumber, stack));
                     }
                 }
@@ -104,7 +118,7 @@ public class ItemEditableBook extends Item {
         }
     }
 
-    public boolean hasEffect(ItemStack stack) {
+    public boolean hasEffect(final ItemStack stack) {
         return true;
     }
 }

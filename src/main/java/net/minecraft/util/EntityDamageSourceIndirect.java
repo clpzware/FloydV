@@ -7,8 +7,8 @@ import net.minecraft.item.ItemStack;
 public class EntityDamageSourceIndirect extends EntityDamageSource {
     private final Entity indirectEntity;
 
-    public EntityDamageSourceIndirect(String damageTypeIn, Entity source, Entity indirectEntityIn) {
-        super(damageTypeIn, source);
+    public EntityDamageSourceIndirect(final String p_i1568_1_, final Entity p_i1568_2_, final Entity indirectEntityIn) {
+        super(p_i1568_1_, p_i1568_2_);
         this.indirectEntity = indirectEntityIn;
     }
 
@@ -20,11 +20,14 @@ public class EntityDamageSourceIndirect extends EntityDamageSource {
         return this.indirectEntity;
     }
 
-    public IChatComponent getDeathMessage(EntityLivingBase entityLivingBaseIn) {
-        IChatComponent ichatcomponent = this.indirectEntity == null ? this.damageSourceEntity.getDisplayName() : this.indirectEntity.getDisplayName();
-        ItemStack itemstack = this.indirectEntity instanceof EntityLivingBase ? ((EntityLivingBase) this.indirectEntity).getHeldItem() : null;
-        String s = "death.attack." + this.damageType;
-        String s1 = s + ".item";
-        return itemstack != null && itemstack.hasDisplayName() && StatCollector.canTranslate(s1) ? new ChatComponentTranslation(s1, entityLivingBaseIn.getDisplayName(), ichatcomponent, itemstack.getChatComponent()) : new ChatComponentTranslation(s, entityLivingBaseIn.getDisplayName(), ichatcomponent);
+    /**
+     * Gets the death message that is displayed when the player dies
+     */
+    public IChatComponent getDeathMessage(final EntityLivingBase p_151519_1_) {
+        final IChatComponent ichatcomponent = this.indirectEntity == null ? this.damageSourceEntity.getDisplayName() : this.indirectEntity.getDisplayName();
+        final ItemStack itemstack = this.indirectEntity instanceof EntityLivingBase ? ((EntityLivingBase) this.indirectEntity).getHeldItem() : null;
+        final String s = "death.attack." + this.damageType;
+        final String s1 = s + ".item";
+        return itemstack != null && itemstack.hasDisplayName() && StatCollector.canTranslate(s1) ? new ChatComponentTranslation(s1, p_151519_1_.getDisplayName(), ichatcomponent, itemstack.getChatComponent()) : new ChatComponentTranslation(s, p_151519_1_.getDisplayName(), ichatcomponent);
     }
 }
