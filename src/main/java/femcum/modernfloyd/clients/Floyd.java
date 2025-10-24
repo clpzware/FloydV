@@ -243,6 +243,8 @@ public enum Floyd {
      */
     public void terminate() {
         if (this.configManager != null && this.configManager.getLatestConfig() != null) {
+            // Enable keybind saving for the latest config
+            this.configManager.getLatestConfig().allowKeyCodeLoading();
             this.configManager.getLatestConfig().write();
         }
         if (!executor.isShutdown()) {

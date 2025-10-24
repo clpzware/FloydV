@@ -23,6 +23,12 @@ public final class Config extends Command {
     @Override
     public void execute(final String[] args) {
         final ConfigManager configManager = getInstance().getConfigManager();
+
+        if (args.length < 2) {
+            ChatUtil.display("command.config.usage");
+            return;
+        }
+
         final String command = args[1].toLowerCase();
 
         switch (args.length) {
@@ -35,7 +41,7 @@ public final class Config extends Command {
 
                         final ConfigFile config = configManager.get(name);
 
-                        if (config != null) {
+                        if (config != null && config.getFile().exists()) {
                             CompletableFuture.runAsync(() -> {
                                 if (config.read()) {
                                     ChatUtil.display("command.config.loaded", name);
@@ -43,9 +49,11 @@ public final class Config extends Command {
                                         ChatUtil.display("command.config.accident");
                                     }
                                 } else {
-
+                                    ChatUtil.display("Failed to load config: " + name);
                                 }
                             });
+                        } else {
+                            ChatUtil.display("Config not found: " + name);
                         }
                         break;
 
@@ -57,12 +65,27 @@ public final class Config extends Command {
                         }
 
                         CompletableFuture.runAsync(() -> {
-                            configManager.set(name, false);
-
+                            configManager.set(name, true); // Changed to true to save keybinds
                             ChatUtil.display("command.config.saved");
                             ChatUtil.display("command.config.reminder");
                         });
                         break;
+
+                    case "delete":
+                        if (name.equalsIgnoreCase("latest")) {
+                            ChatUtil.display("Cannot delete the latest config!");
+                            return;
+                        }
+
+                        CompletableFuture.runAsync(() -> {
+                            if (configManager.delete(name)) {
+                                ChatUtil.display("Deleted config: " + name);
+                            } else {
+                                ChatUtil.display("Failed to delete config: " + name);
+                            }
+                        });
+                        break;
+
                     default:
                         ChatUtil.display("command.config.usage");
                         break;
@@ -75,6 +98,11 @@ public final class Config extends Command {
                         ChatUtil.display("command.config.selectload");
 
                         configManager.update();
+
+                        if (configManager.isEmpty()) {
+                            ChatUtil.display("No configs found!");
+                            break;
+                        }
 
                         configManager.forEach(configFile -> {
                             final String configName = configFile.getFile().getName().replace(".json", "");
@@ -102,8 +130,24 @@ public final class Config extends Command {
                         }
                         break;
 
+                    case "loadlatest":
+                        CompletableFuture.runAsync(() -> {
+                            ConfigFile latestConfig = configManager.getLatestConfig();
+                            if (latestConfig != null && latestConfig.getFile().exists()) {
+                                if (latestConfig.read()) {
+                                    ChatUtil.display("Loaded latest config");
+                                } else {
+                                    ChatUtil.display("Failed to load latest config");
+                                }
+                            } else {
+                                ChatUtil.display("No latest config found");
+                            }
+                        });
+                        break;
+
                     default:
                         ChatUtil.display("command.config.actions");
+                        ChatUtil.display("Available commands: list, folder, loadlatest, load <name>, save <name>, delete <name>");
                         break;
                 }
                 break;

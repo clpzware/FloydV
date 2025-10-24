@@ -1,259 +1,331 @@
-[20:18:40] [Floyd thread/ERROR] n.m.c.r.ResourceIndex: Can't find the resource index file: assets\indexes\1.8.json
-[20:18:40] [Floyd thread/INFO] n.m.c.Minecraft: Setting user: FloydClient251
-[20:18:40] [Floyd thread/INFO] n.m.c.Minecraft: (Session ID is token:0:FloydClient251)
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reflector Forge ***
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: mods.betterfoliage.client.BetterFoliageClient
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.asm.transformers.BlamingTransformer
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.event.world.ChunkWatchEvent$UnWatch
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.relauncher.CoreModManager
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.DimensionManager
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.GuiScreenEvent$DrawScreenEvent$Pre
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.GuiScreenEvent$DrawScreenEvent$Post
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.EntityViewRenderEvent$CameraSetup
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.EntityViewRenderEvent$FogColors
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.eventhandler.Event
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.eventhandler.EventBus
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.eventhandler.Event$Result
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.property.ExtendedBlockState
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.FMLClientHandler
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.FMLCommonHandler
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.biome.BiomeGenBase.getWaterColorMultiplier
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.addDestroyEffects
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.addHitEffects
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.canCreatureSpawn
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.canRenderInLayer
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.doesSideBlockRendering
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getBedDirection
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getExtendedState
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getLightOpacity
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getLightValue
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.hasTileEntity
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isAir
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isBed
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isBedFoot
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isSideSolid
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.ChunkCache.isSideSolid
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.entity.Entity.canRiderInteract
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Field not present: net.minecraft.entity.Entity.captureDrops
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Field not present: net.minecraft.entity.Entity.capturedDrops
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.entity.Entity.shouldRenderInPass
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.entity.Entity.shouldRiderSit
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.event.ForgeEventFactory
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.ForgeHooks
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.ForgeHooksClient
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Field not present: net.minecraft.item.Item.delegate
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.getDurabilityForDisplay
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.getModel
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.onEntitySwing
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.shouldCauseReequipAnimation
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.showDurabilityBar
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.ForgeModContainer
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.potion.PotionEffect.isCurativeItem
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.canRenderBreaking
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.getRenderBoundingBox
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.hasFastRenderer
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.shouldRenderInPass
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.client.renderer.vertex.VertexFormatElement$EnumUsage.preDraw
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.client.renderer.vertex.VertexFormatElement$EnumUsage.postDraw
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.World.countEntities
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.World.getPerWorldStorage
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getCloudRenderer
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getSkyRenderer
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getWeatherRenderer
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getSaveFolder
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.GuiModList
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.IColoredBakedQuad
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.property.IExtendedBlockState
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.IModel
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.IRenderHandler
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.ItemModelMesherForge
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraft.launchwrapper.Launch
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.pipeline.LightUtil
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.Loader
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.MinecraftForge
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.MinecraftForgeClient
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.ModContainer
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.ModelLoader
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderBlockOverlayEvent$OverlayType
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.registry.RenderingRegistry
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderItemInFrameEvent
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Pre
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Post
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Specials$Pre
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Specials$Post
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.SplashProgress
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.event.world.WorldEvent$Load
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reflector Vanilla ***
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: optifine.OptiFineClassTransformer
-[20:18:42] [Floyd thread/INFO] n.m.c.Minecraft: LWJGL Version: 2.9.4
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] 
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OptiFine_1.8.9_HD_U_L5
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Build: null
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OS: Windows 11 (amd64) version 10.0
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Java: 17.0.16, Microsoft
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] VM: OpenJDK 64-Bit Server VM (mixed mode, sharing), Microsoft
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] LWJGL: 2.9.4
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OpenGL: NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2, version 4.6.0 NVIDIA 581.08, NVIDIA Corporation
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OpenGL Version: 4.6.0
-[20:18:42] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Maximum texture size: 32768x32768
-[20:18:42] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] OpenGL Version: 4.6.0 NVIDIA 581.08
-[20:18:42] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Vendor:  NVIDIA Corporation
-[20:18:42] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Renderer: NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2
-[20:18:42] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Capabilities:  2.0  2.1  3.0  3.2  4.0 
-[20:18:42] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] GL_MAX_DRAW_BUFFERS: 8
-[20:18:42] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] GL_MAX_COLOR_ATTACHMENTS_EXT: 8
-[20:18:42] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] GL_MAX_TEXTURE_IMAGE_UNITS: 32
-[20:18:42] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Load shaders configuration.
-[20:18:42] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Save shaders configuration.
-[20:18:42] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] No shaderpack loaded.
-[20:18:43] [Floyd thread/INFO] n.m.c.r.SimpleReloadableResourceManager: Reloading ResourceManager: Default
-[20:18:43] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reloading textures ***
-[20:18:43] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Resource packs: Default
-[20:18:43] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.Attributes
-[20:18:43] [Sound Library Loader/INFO] n.m.c.a.SoundManager: Starting up SoundSystem...
-[20:18:43] [Thread-5/INFO] n.m.c.a.SoundManager: Initializing LWJGL OpenAL
-[20:18:43] [Thread-5/INFO] n.m.c.a.SoundManager: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
-[20:18:43] [Thread-5/INFO] n.m.c.a.SoundManager: OpenAL initialized.
-[20:18:43] [Sound Library Loader/INFO] n.m.c.a.SoundManager: Sound engine started
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Mipmap levels: 4
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Multitexture: false
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/0_glass_white/glass_pane_white.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/0_glass_white/glass_white.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/10_glass_purple/glass_pane_purple.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/10_glass_purple/glass_purple.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/11_glass_blue/glass_blue.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/11_glass_blue/glass_pane_blue.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/12_glass_brown/glass_brown.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/12_glass_brown/glass_pane_brown.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/13_glass_green/glass_green.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/13_glass_green/glass_pane_green.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/14_glass_red/glass_pane_red.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/14_glass_red/glass_red.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/15_glass_black/glass_black.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/15_glass_black/glass_pane_black.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/1_glass_orange/glass_orange.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/1_glass_orange/glass_pane_orange.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/2_glass_magenta/glass_magenta.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/2_glass_magenta/glass_pane_magenta.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/3_glass_light_blue/glass_light_blue.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/3_glass_light_blue/glass_pane_light_blue.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/4_glass_yellow/glass_pane_yellow.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/4_glass_yellow/glass_yellow.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/5_glass_lime/glass_lime.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/5_glass_lime/glass_pane_lime.properties
-[20:18:44] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/6_glass_pink/glass_pane_pink.properties
-[20:18:45] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/6_glass_pink/glass_pink.properties
-[20:18:45] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/7_glass_gray/glass_gray.properties
-[20:18:45] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/7_glass_gray/glass_pane_gray.properties
-[20:18:45] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/8_glass_silver/glass_pane_silver.properties
-[20:18:45] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/8_glass_silver/glass_silver.properties
-[20:18:45] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/9_glass_cyan/glass_cyan.properties
-[20:18:45] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/9_glass_cyan/glass_pane_cyan.properties
-[20:18:45] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/bookshelf.properties
-[20:18:45] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/glass.properties
-[20:18:45] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/glasspane.properties
-[20:18:45] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/sandstone.properties
-[20:18:45] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Multipass connected textures: false
-[20:18:45] [Floyd thread/INFO] n.m.s.Config: [OptiFine] BetterGrass: Parsing default configuration optifine/bettergrass.properties
-[20:18:45] [Floyd thread/INFO] n.m.c.r.t.TextureMap: Created: 1024x512 textures-atlas
-[20:18:45] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Animated sprites: 11
-[20:18:48] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reloading custom textures ***
-[20:18:48] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Enable face culling: acacia_leaves, birch_leaves, dark_oak_leaves, jungle_leaves, oak_leaves, spruce_leaves
-[20:18:49] [Via-Mappingloader-0/INFO] ViaLoadingBase: Loading block connection mappings ...
-[20:18:49] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loaded Platform ViaVersion
-[20:18:49] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loading translations...
-[20:18:49] [Floyd-Main-Thread/INFO] ViaLoadingBase: Registering protocols...
-[20:18:50] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loaded Platform ViaBackwards
-[20:18:50] [Floyd-Main-Thread/INFO] ViaLoadingBase: Registering protocols...
-[20:18:50] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loaded Platform ViaRewind
-[20:18:50] [Floyd-Main-Thread/INFO] ViaLoadingBase: ViaVersion detected lowest supported version by the proxy: 1.7.2-1.7.5 (4)
-[20:18:50] [Floyd-Main-Thread/INFO] ViaLoadingBase: Highest supported version by the proxy: 1.21.5 (770)
-[20:18:50] [Floyd-Main-Thread/WARN] ViaLoadingBase: Please update your Java runtime to at least Java 21 (your version is 17.0.16).
-[20:18:50] [Floyd-Main-Thread/WARN] ViaLoadingBase: At some point in the future, ViaVersion will no longer be compatible with this version of Java.
-[20:18:50] [Via Async Scheduler 0/INFO] ViaLoadingBase: Finished mapping loading, shutting down loader executor.
-[20:18:50] [Floyd-Main-Thread/INFO] ViaLoadingBase: ViaLoadingBase has loaded 3/3 platforms
-[20:18:50] [Via Async Task 1/WARN] ViaLoadingBase: There is a newer plugin version available: 5.5.1, you're on: 5.3.0
-[20:18:54] [pool-7-thread-1/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:music.menu
-[20:19:04] [Server thread/INFO] n.m.s.i.IntegratedServer: Starting integrated minecraft server version 1.9
-[20:19:04] [Server thread/INFO] n.m.s.i.IntegratedServer: Generating keypair
-[20:19:04] [Server thread/INFO] n.m.s.MinecraftServer: Preparing start region for level 0
-[20:19:05] [Server thread/INFO] n.m.s.i.IntegratedServer: Changing view distance to 8, from 10
-[20:19:06] [Server thread/INFO] n.m.s.m.ServerConfigurationManager: FloydClient251[local:E:50d4c044] logged in with entity id 265 at (27.70678078272308, 68.0, 43.640403949367744)
-[20:19:06] [Server thread/INFO] n.m.s.MinecraftServer: FloydClient251 joined the game
-[20:19:06] [Server thread/INFO] n.m.s.i.IntegratedServer: Saving and pausing game...
-[20:19:06] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Overworld
-[20:19:06] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Nether
-[20:19:06] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/The End
-[20:19:06] [Server thread/INFO] n.m.s.i.IntegratedServer: Saving and pausing game...
-[20:19:06] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Overworld
-[20:19:06] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Nether
-[20:19:06] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/The End
-[20:19:07] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
-[20:19:07] [Server thread/INFO] n.m.s.MinecraftServer: Stopping server
-[20:19:07] [Server thread/INFO] n.m.s.MinecraftServer: Saving players
-[20:19:07] [Server thread/INFO] n.m.s.MinecraftServer: Saving worlds
-[20:19:07] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Overworld
-[20:19:07] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Nether
-[20:19:07] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/The End
-[20:19:09] [Floyd thread/INFO] n.m.c.m.GuiConnecting: Connecting to zNEeQOt2ZCkH3DORmXcT5Jg8w3cF3RhB.eu-sto.liquidproxy.net, 25565
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[20:19:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] /register <password> <password>
-[20:19:18] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
-[20:19:21] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
-[20:19:21] [pool-7-thread-2/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:music.menu
-[20:19:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
-[20:19:23] [Floyd thread/INFO] n.m.c.m.GuiConnecting: Connecting to 6zmDOKPaKfv5m1D28HyOCD5PSIGOhgXm.eu-sto.liquidproxy.net, 25565
-[20:19:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
-[20:19:34] [Floyd thread/INFO] n.m.c.Minecraft: Stopping!
-[20:19:34] [Floyd thread/INFO] n.m.c.a.SoundManager: SoundSystem shutting down...
-[20:19:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Author: Paul Lamb, www.paulscode.com
+[23:03:53] [Floyd thread/ERROR] n.m.c.r.ResourceIndex: Can't find the resource index file: assets\indexes\1.8.json
+[23:03:53] [Floyd thread/INFO] n.m.c.Minecraft: Setting user: FloydClient238
+[23:03:53] [Floyd thread/INFO] n.m.c.Minecraft: (Session ID is token:0:FloydClient238)
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reflector Forge ***
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: mods.betterfoliage.client.BetterFoliageClient
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.asm.transformers.BlamingTransformer
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.event.world.ChunkWatchEvent$UnWatch
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.relauncher.CoreModManager
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.DimensionManager
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.GuiScreenEvent$DrawScreenEvent$Pre
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.GuiScreenEvent$DrawScreenEvent$Post
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.EntityViewRenderEvent$CameraSetup
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.EntityViewRenderEvent$FogColors
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.eventhandler.Event
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.eventhandler.EventBus
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.eventhandler.Event$Result
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.property.ExtendedBlockState
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.FMLClientHandler
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.FMLCommonHandler
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.biome.BiomeGenBase.getWaterColorMultiplier
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.addDestroyEffects
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.addHitEffects
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.canCreatureSpawn
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.canRenderInLayer
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.doesSideBlockRendering
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getBedDirection
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getExtendedState
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getLightOpacity
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getLightValue
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.hasTileEntity
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isAir
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isBed
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isBedFoot
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isSideSolid
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.ChunkCache.isSideSolid
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.entity.Entity.canRiderInteract
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Field not present: net.minecraft.entity.Entity.captureDrops
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Field not present: net.minecraft.entity.Entity.capturedDrops
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.entity.Entity.shouldRenderInPass
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.entity.Entity.shouldRiderSit
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.event.ForgeEventFactory
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.ForgeHooks
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.ForgeHooksClient
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Field not present: net.minecraft.item.Item.delegate
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.getDurabilityForDisplay
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.getModel
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.onEntitySwing
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.shouldCauseReequipAnimation
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.showDurabilityBar
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.ForgeModContainer
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.potion.PotionEffect.isCurativeItem
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.canRenderBreaking
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.getRenderBoundingBox
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.hasFastRenderer
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.shouldRenderInPass
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.client.renderer.vertex.VertexFormatElement$EnumUsage.preDraw
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.client.renderer.vertex.VertexFormatElement$EnumUsage.postDraw
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.World.countEntities
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.World.getPerWorldStorage
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getCloudRenderer
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getSkyRenderer
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getWeatherRenderer
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getSaveFolder
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.GuiModList
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.IColoredBakedQuad
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.property.IExtendedBlockState
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.IModel
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.IRenderHandler
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.ItemModelMesherForge
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraft.launchwrapper.Launch
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.pipeline.LightUtil
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.Loader
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.MinecraftForge
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.MinecraftForgeClient
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.ModContainer
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.ModelLoader
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderBlockOverlayEvent$OverlayType
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.registry.RenderingRegistry
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderItemInFrameEvent
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Pre
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Post
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Specials$Pre
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Specials$Post
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.SplashProgress
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.event.world.WorldEvent$Load
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reflector Vanilla ***
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: optifine.OptiFineClassTransformer
+[23:03:55] [Floyd thread/INFO] n.m.c.Minecraft: LWJGL Version: 2.9.4
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] 
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OptiFine_1.8.9_HD_U_L5
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Build: null
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OS: Windows 11 (amd64) version 10.0
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Java: 17.0.16, Microsoft
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] VM: OpenJDK 64-Bit Server VM (mixed mode, sharing), Microsoft
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] LWJGL: 2.9.4
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OpenGL: NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2, version 4.6.0 NVIDIA 581.08, NVIDIA Corporation
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OpenGL Version: 4.6.0
+[23:03:55] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Maximum texture size: 32768x32768
+[23:03:56] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] OpenGL Version: 4.6.0 NVIDIA 581.08
+[23:03:56] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Vendor:  NVIDIA Corporation
+[23:03:56] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Renderer: NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2
+[23:03:56] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Capabilities:  2.0  2.1  3.0  3.2  4.0 
+[23:03:56] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] GL_MAX_DRAW_BUFFERS: 8
+[23:03:56] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] GL_MAX_COLOR_ATTACHMENTS_EXT: 8
+[23:03:56] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] GL_MAX_TEXTURE_IMAGE_UNITS: 32
+[23:03:56] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Load shaders configuration.
+[23:03:56] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Save shaders configuration.
+[23:03:56] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] No shaderpack loaded.
+[23:03:56] [Floyd thread/INFO] n.m.c.r.SimpleReloadableResourceManager: Reloading ResourceManager: Default
+[23:03:56] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reloading textures ***
+[23:03:56] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Resource packs: Default
+[23:03:56] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.Attributes
+[23:03:56] [Sound Library Loader/INFO] n.m.c.a.SoundManager: Starting up SoundSystem...
+[23:03:56] [Thread-5/INFO] n.m.c.a.SoundManager: Initializing LWJGL OpenAL
+[23:03:56] [Thread-5/INFO] n.m.c.a.SoundManager: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[23:03:56] [Thread-5/INFO] n.m.c.a.SoundManager: OpenAL initialized.
+[23:03:56] [Sound Library Loader/INFO] n.m.c.a.SoundManager: Sound engine started
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Mipmap levels: 4
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Multitexture: false
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/0_glass_white/glass_pane_white.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/0_glass_white/glass_white.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/10_glass_purple/glass_pane_purple.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/10_glass_purple/glass_purple.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/11_glass_blue/glass_blue.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/11_glass_blue/glass_pane_blue.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/12_glass_brown/glass_brown.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/12_glass_brown/glass_pane_brown.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/13_glass_green/glass_green.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/13_glass_green/glass_pane_green.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/14_glass_red/glass_pane_red.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/14_glass_red/glass_red.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/15_glass_black/glass_black.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/15_glass_black/glass_pane_black.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/1_glass_orange/glass_orange.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/1_glass_orange/glass_pane_orange.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/2_glass_magenta/glass_magenta.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/2_glass_magenta/glass_pane_magenta.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/3_glass_light_blue/glass_light_blue.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/3_glass_light_blue/glass_pane_light_blue.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/4_glass_yellow/glass_pane_yellow.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/4_glass_yellow/glass_yellow.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/5_glass_lime/glass_lime.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/5_glass_lime/glass_pane_lime.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/6_glass_pink/glass_pane_pink.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/6_glass_pink/glass_pink.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/7_glass_gray/glass_gray.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/7_glass_gray/glass_pane_gray.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/8_glass_silver/glass_pane_silver.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/8_glass_silver/glass_silver.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/9_glass_cyan/glass_cyan.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/9_glass_cyan/glass_pane_cyan.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/bookshelf.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/glass.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/glasspane.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/sandstone.properties
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Multipass connected textures: false
+[23:03:58] [Floyd thread/INFO] n.m.s.Config: [OptiFine] BetterGrass: Parsing default configuration optifine/bettergrass.properties
+[23:03:59] [Floyd thread/INFO] n.m.c.r.t.TextureMap: Created: 1024x512 textures-atlas
+[23:03:59] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Animated sprites: 11
+[23:04:02] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reloading custom textures ***
+[23:04:02] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Enable face culling: acacia_leaves, birch_leaves, dark_oak_leaves, jungle_leaves, oak_leaves, spruce_leaves
+[23:04:03] [Via-Mappingloader-0/INFO] ViaLoadingBase: Loading block connection mappings ...
+[23:04:03] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loaded Platform ViaVersion
+[23:04:03] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loading translations...
+[23:04:03] [Floyd-Main-Thread/INFO] ViaLoadingBase: Registering protocols...
+[23:04:04] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loaded Platform ViaBackwards
+[23:04:04] [Floyd-Main-Thread/INFO] ViaLoadingBase: Registering protocols...
+[23:04:04] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loaded Platform ViaRewind
+[23:04:04] [Floyd-Main-Thread/INFO] ViaLoadingBase: ViaVersion detected lowest supported version by the proxy: 1.7.2-1.7.5 (4)
+[23:04:04] [Floyd-Main-Thread/INFO] ViaLoadingBase: Highest supported version by the proxy: 1.21.5 (770)
+[23:04:04] [Floyd-Main-Thread/WARN] ViaLoadingBase: Please update your Java runtime to at least Java 21 (your version is 17.0.16).
+[23:04:04] [Floyd-Main-Thread/WARN] ViaLoadingBase: At some point in the future, ViaVersion will no longer be compatible with this version of Java.
+[23:04:04] [Via Async Scheduler 0/INFO] ViaLoadingBase: Finished mapping loading, shutting down loader executor.
+[23:04:04] [Floyd-Main-Thread/INFO] ViaLoadingBase: ViaLoadingBase has loaded 3/3 platforms
+[23:04:04] [Via Async Task 1/WARN] ViaLoadingBase: There is a newer plugin version available: 5.5.1, you're on: 5.3.0
+[23:04:08] [pool-7-thread-2/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:music.menu
+[23:04:13] [Server thread/INFO] n.m.s.i.IntegratedServer: Starting integrated minecraft server version 1.9
+[23:04:13] [Server thread/INFO] n.m.s.i.IntegratedServer: Generating keypair
+[23:04:13] [Server thread/INFO] n.m.s.MinecraftServer: Preparing start region for level 0
+[23:04:14] [Server thread/INFO] n.m.s.i.IntegratedServer: Changing view distance to 7, from 10
+[23:04:14] [Server thread/INFO] n.m.s.m.ServerConfigurationManager: FloydClient238[local:E:fb954f7f] logged in with entity id 290 at (168.391732815466, 69.0, 234.15006713746698)
+[23:04:14] [Server thread/INFO] n.m.s.MinecraftServer: FloydClient238 joined the game
+[23:04:15] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.bat.takeoff
+[23:04:15] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.bat.takeoff
+[23:04:15] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.bat.takeoff
+[23:04:15] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.bat.takeoff
+[23:04:18] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.say
+[23:04:19] [ForkJoinPool.commonPool-worker-1/INFO] n.m.c.g.GuiNewChat: [CHAT] §l§bFloyd§r§b » §rLoaded BlocksMC config file!
+[23:04:19] [ForkJoinPool.commonPool-worker-1/INFO] n.m.c.g.GuiNewChat: [CHAT] §l§bFloyd§r§b » §rAccidentally loaded this config? Use .config load latest, to load the most recent autosaved config
+[23:04:19] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:20] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:20] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:21] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:21] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:21] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.say
+[23:04:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.step
+[23:04:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.chicken.say
+[23:04:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:30] [Server thread/INFO] n.m.s.i.IntegratedServer: Saving and pausing game...
+[23:04:30] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Overworld
+[23:04:30] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Nether
+[23:04:30] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/The End
+[23:04:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
+[23:04:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.grass
+[23:04:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.chicken.say
+[23:04:36] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.say
+[23:04:36] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.rabbit.idle
+[23:04:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:37] [pool-7-thread-1/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:music.game.creative
+[23:04:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[23:04:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.sheep.say
+[23:04:40] [Server thread/INFO] n.m.s.i.IntegratedServer: Saving and pausing game...
+[23:04:40] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Overworld
+[23:04:40] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Nether
+[23:04:40] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/The End
+[23:04:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
+[23:04:40] [Server thread/INFO] n.m.s.MinecraftServer: Stopping server
+[23:04:40] [Server thread/INFO] n.m.s.MinecraftServer: Saving players
+[23:04:40] [Server thread/INFO] n.m.s.MinecraftServer: Saving worlds
+[23:04:40] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Overworld
+[23:04:40] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Nether
+[23:04:40] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/The End

@@ -1,3 +1,5 @@
+// File: ConfigFile.java
+
 package femcum.modernfloyd.clients.util.file.config;
 
 import femcum.modernfloyd.clients.Floyd;
@@ -46,32 +48,28 @@ public class ConfigFile extends File implements Bindable {
         }
 
         try {
-            // reads file to a json object
             final FileReader fileReader = new FileReader(getFile());
             final BufferedReader bufferedReader = new BufferedReader(fileReader);
             final JsonObject jsonObject = getGSON().fromJson(bufferedReader, JsonObject.class);
 
-            // closes both readers
             bufferedReader.close();
             fileReader.close();
 
-            // checks if there was data read
             if (jsonObject == null) {
                 return false;
             }
 
-            if (Floyd.INSTANCE.getConfigManager().getStopWatch().finished(1000L)) {
-                //TODO: Nigga
-                //Network.getInstance().getClient().sendMessage(new C2SPacketConvertConfig(jsonObject.toString()).export());
-                Floyd.INSTANCE.getConfigManager().getStopWatch().reset();
-            }
+            applyConfigData(jsonObject);
+
         } catch (final IOException ignored) {
             return false;
         }
 
         Floyd.INSTANCE.getEventBus().handle(new ConfigLoadEvent());
 
-        if (name != null) NotificationComponent.post("Config", "Loaded " + name + " config");
+        if (name != null) {
+            NotificationComponent.post("Config", "Loaded " + name + " config");
+        }
 
         return true;
     }
@@ -79,109 +77,83 @@ public class ConfigFile extends File implements Bindable {
     @Override
     public boolean write() {
         try {
-            // creates the file
             this.getFile().createNewFile();
-            // creates a new json object where all data is stored in
+
             final JsonObject jsonObject = new JsonObject();
 
-            // Add some extra information to the config
             final JsonObject metadataJsonObject = new JsonObject();
             metadataJsonObject.addProperty("version", Floyd.VERSION);
             metadataJsonObject.addProperty("creationDate", DATE_FORMATTER.format(new Date()));
             jsonObject.add("Metadata", metadataJsonObject);
 
-            // loops through all modules to save their data
             for (final Module module : Floyd.INSTANCE.getModuleManager().getAll()) {
-                // creates an own module json object
                 final JsonObject moduleJsonObject = new JsonObject();
 
-                // adds data to the module json object
                 if (!(module instanceof ClickGUI)) {
                     moduleJsonObject.addProperty("state", module.isEnabled());
                 }
 
-                if (saveKeyCodes) moduleJsonObject.addProperty("keyCode", module.getKey());
+                if (saveKeyCodes) {
+                    moduleJsonObject.addProperty("keyCode", module.getKey());
+                }
 
-                int index = 0;
                 for (final Value<?> value : module.getAllValues()) {
-                    index++;
                     final JsonObject valueJsonObject = new JsonObject();
 
-                    if (value instanceof ModeValue) {
-                        final ModeValue enumValue = (ModeValue) value;
-                        Object val = enumValue.getValue();
+                    if (value instanceof ModeValue modeValue) {
+                        Object val = modeValue.getValue();
 
-                        // If the stored value is a Mode, get the name
-                        if (val instanceof Mode) {
-                            valueJsonObject.addProperty("value", ((Mode) val).getName());
-                        }
-                        // If it's a String, just save it directly (fallback)
-                        else if (val instanceof String) {
-                            valueJsonObject.addProperty("value", (String) val);
-                        }
-                        // Otherwise, fallback to toString()
-                        else if (val != null) {
+                        if (val instanceof Mode mode) {
+                            valueJsonObject.addProperty("value", mode.getName());
+                        } else if (val != null) {
                             valueJsonObject.addProperty("value", val.toString());
                         }
-                    } else if (value instanceof BooleanValue) {
-                        final BooleanValue booleanValue = (BooleanValue) value;
+                    } else if (value instanceof BooleanValue booleanValue) {
                         valueJsonObject.addProperty("value", booleanValue.getValue());
-                    } else if (value instanceof NumberValue) {
-                        final NumberValue numberValue = (NumberValue) value;
+                    } else if (value instanceof NumberValue numberValue) {
                         valueJsonObject.addProperty("value", numberValue.getValue().doubleValue());
-                    } else if (value instanceof StringValue) {
-                        final StringValue stringValue = (StringValue) value;
-
+                    } else if (value instanceof StringValue stringValue) {
                         String save = stringValue.getValue();
                         save = save.replace("%", "<percentsign>");
-
                         valueJsonObject.addProperty("value", save);
-                    } else if (value instanceof BoundsNumberValue) {
-                        final BoundsNumberValue boundsNumberValue = (BoundsNumberValue) value;
+                    } else if (value instanceof BoundsNumberValue boundsNumberValue) {
                         valueJsonObject.addProperty("first", boundsNumberValue.getValue().doubleValue());
                         valueJsonObject.addProperty("second", boundsNumberValue.getSecondValue().doubleValue());
-                    } else if (value instanceof ColorValue) {
-                        final ColorValue colorValue = (ColorValue) value;
-
+                    } else if (value instanceof ColorValue colorValue) {
                         valueJsonObject.addProperty("red", colorValue.getValue().getRed());
                         valueJsonObject.addProperty("green", colorValue.getValue().getGreen());
                         valueJsonObject.addProperty("blue", colorValue.getValue().getBlue());
                         valueJsonObject.addProperty("alpha", colorValue.getValue().getAlpha());
-                    } else if (value instanceof DragValue) {
-                        final DragValue positionValue = (DragValue) value;
-
-                        valueJsonObject.addProperty("positionX", positionValue.position.x);
-                        valueJsonObject.addProperty("positionY", positionValue.position.y);
-
-                        valueJsonObject.addProperty("scaleX", positionValue.scale.x);
-                        valueJsonObject.addProperty("scaleY", positionValue.scale.y);
-                    } else if (value instanceof ListValue) {
-                        final ListValue<?> enumValue = (ListValue<?>) value;
-                        valueJsonObject.addProperty("value", enumValue.getValue().toString());
+                    } else if (value instanceof DragValue dragValue) {
+                        valueJsonObject.addProperty("positionX", dragValue.position.x);
+                        valueJsonObject.addProperty("positionY", dragValue.position.y);
+                        valueJsonObject.addProperty("scaleX", dragValue.scale.x);
+                        valueJsonObject.addProperty("scaleY", dragValue.scale.y);
+                    } else if (value instanceof ListValue<?> listValue) {
+                        valueJsonObject.addProperty("value", listValue.getValue().toString());
                     }
 
-                    String name = value.getParent() != null ? (value.getParent() instanceof Module ? ((Module) value.getParent()).getModuleInfo().aliases()[0] + " Module" :
-                            ((Mode<?>) value.getParent()).getName() + " Mode") : "Unknown";
+                    String parentName = value.getParent() != null ?
+                            (value.getParent() instanceof Module ?
+                                    ((Module) value.getParent()).getModuleInfo().aliases()[0] + " Module" :
+                                    ((Mode<?>) value.getParent()).getName() + " Mode") :
+                            "Unknown";
 
-                    moduleJsonObject.add(value.getName() + " in " + name, valueJsonObject);
+                    moduleJsonObject.add(value.getName() + " in " + parentName, valueJsonObject);
                 }
 
-                // updates json object which contains all data
                 jsonObject.add(module.getModuleInfo().aliases()[0], moduleJsonObject);
             }
 
             jsonObject.addProperty("theme", Floyd.INSTANCE.getThemeManager().getTheme().name());
 
-            // writes json object data to a file
             final FileWriter fileWriter = new FileWriter(getFile());
             final BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             getGSON().toJson(jsonObject, bufferedWriter);
 
-            // closes the writer
             bufferedWriter.flush();
             bufferedWriter.close();
-//            fileWriter.flush();
-//            fileWriter.close();
+
         } catch (final IOException exception) {
             exception.printStackTrace();
             return false;
@@ -190,7 +162,7 @@ public class ConfigFile extends File implements Bindable {
         return true;
     }
 
-    public void saveKeyCodes() {
+    public void allowKeyCodeLoading() {
         this.saveKeyCodes = true;
     }
 
@@ -216,7 +188,6 @@ public class ConfigFile extends File implements Bindable {
 
     public void readFromString(String json) {
         try {
-            // Parse JSON string
             final JsonObject jsonObject = getGSON().fromJson(json, JsonObject.class);
 
             if (jsonObject == null) {
@@ -224,98 +195,131 @@ public class ConfigFile extends File implements Bindable {
                 return;
             }
 
-            // Optional: mimic behavior of read() (like network or stopwatch reset)
-            if (Floyd.INSTANCE.getConfigManager().getStopWatch().finished(1000L)) {
-                // Normally this would send config data to the network, omitted here
-                Floyd.INSTANCE.getConfigManager().getStopWatch().reset();
-            }
+            applyConfigData(jsonObject);
 
-            // Simulate config load event and notifications like in read()
             Floyd.INSTANCE.getEventBus().handle(new ConfigLoadEvent());
 
             if (name != null) {
                 NotificationComponent.post("Config", "Loaded " + name + " config (from memory)");
             }
 
-            // --- Now actually apply settings to modules ---
-            for (final Module module : Floyd.INSTANCE.getModuleManager().getAll()) {
-                final String alias = module.getModuleInfo().aliases()[0];
-                if (!jsonObject.has(alias)) continue;
-
-                final JsonObject moduleJson = jsonObject.getAsJsonObject(alias);
-
-                // Restore module enabled state
-                if (moduleJson.has("state") && !(module instanceof ClickGUI)) {
-                    module.setEnabled(moduleJson.get("state").getAsBoolean());
-                }
-
-                // Restore key binding if present
-                if (moduleJson.has("keyCode")) {
-                    module.setKey(moduleJson.get("keyCode").getAsInt());
-                }
-
-                for (final Value<?> value : module.getAllValues()) {
-                    for (String key : moduleJson.keySet()) {
-                        if (!key.startsWith(value.getName())) continue;
-
-                        final var element = moduleJson.get(key);
-                        if (element == null || element.isJsonNull()) continue;
-
-                        if (!element.isJsonObject()) {
-                            // primitive value: boolean, number, string
-                            if (value instanceof BooleanValue) {
-                                ((BooleanValue) value).setValue(element.getAsBoolean());
-                            } else if (value instanceof NumberValue) {
-                                ((NumberValue) value).setValue(parseNumberSafely(element));
-                            } else if (value instanceof StringValue) {
-                                ((StringValue) value).setValue(element.getAsString().replace("<percentsign>", "%"));
-                            }
-                            continue;
-                        }
-
-                        // complex object
-                        final JsonObject valueJson = element.getAsJsonObject();
-
-                        if (value instanceof BoundsNumberValue) {
-                            double first = getSafeDouble(valueJson, "first", (Double) ((BoundsNumberValue) value).getValue());
-                            double second = getSafeDouble(valueJson, "second", (Double) ((BoundsNumberValue) value).getSecondValue());
-                            ((BoundsNumberValue) value).setValue(first);
-                            ((BoundsNumberValue) value).setSecondValue(second);
-                        } else if (value instanceof DragValue) {
-                            ((DragValue) value).position.x = getSafeFloat(valueJson, "positionX", (float) ((DragValue) value).position.x);
-                            ((DragValue) value).position.y = getSafeFloat(valueJson, "positionY", (float) ((DragValue) value).position.y);
-                            ((DragValue) value).scale.x = getSafeFloat(valueJson, "scaleX", (float) ((DragValue) value).scale.x);
-                            ((DragValue) value).scale.y = getSafeFloat(valueJson, "scaleY", (float) ((DragValue) value).scale.y);
-                        } else if (value instanceof ColorValue) {
-                            if (valueJson.has("red") && valueJson.has("green") && valueJson.has("blue") && valueJson.has("alpha")) {
-                                ((ColorValue) value).setValue(new Color(
-                                        valueJson.get("red").getAsInt(),
-                                        valueJson.get("green").getAsInt(),
-                                        valueJson.get("blue").getAsInt(),
-                                        valueJson.get("alpha").getAsInt()
-                                ));
-                            }
-                        } else if (value instanceof ListValue<?> listValue) {
-                            if (valueJson.has("value")) {
-                                listValue.setValueAsObject(valueJson.get("value").getAsString());
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Restore theme if present
-            if (jsonObject.has("theme")) {
-                String themeName = jsonObject.get("theme").getAsString();
-                Floyd.INSTANCE.getThemeManager().setTheme(Themes.valueOf(themeName.toLowerCase(Locale.ROOT)));
-            }
-
-            System.out.println("Successfully loaded config from string.");
-
         } catch (Exception e) {
             System.err.println("Failed to load config from string:");
             e.printStackTrace();
         }
+    }
+
+    private void applyConfigData(JsonObject jsonObject) {
+        for (final Module module : Floyd.INSTANCE.getModuleManager().getAll()) {
+            final String alias = module.getModuleInfo().aliases()[0];
+            if (!jsonObject.has(alias)) continue;
+
+            final JsonObject moduleJson = jsonObject.getAsJsonObject(alias);
+
+            if (moduleJson.has("state") && !(module instanceof ClickGUI)) {
+                module.setEnabled(moduleJson.get("state").getAsBoolean());
+            }
+
+            if (moduleJson.has("keyCode")) {
+                module.setKey(moduleJson.get("keyCode").getAsInt());
+            }
+
+            for (final Value<?> value : module.getAllValues()) {
+                for (String key : moduleJson.keySet()) {
+                    if (!key.startsWith(value.getName())) continue;
+
+                    final var element = moduleJson.get(key);
+                    if (element == null || element.isJsonNull()) continue;
+
+                    if (!element.isJsonObject()) {
+                        if (value instanceof BooleanValue booleanValue) {
+                            booleanValue.setValue(element.getAsBoolean());
+                        } else if (value instanceof NumberValue numberValue) {
+                            numberValue.setValue(parseNumberSafely(element));
+                        } else if (value instanceof StringValue stringValue) {
+                            stringValue.setValue(element.getAsString().replace("<percentsign>", "%"));
+                        } else if (value instanceof ModeValue modeValue) {
+                            String modeName = element.getAsString();
+                            for (Mode<?> mode : modeValue.getModes()) {
+                                if (mode.getName().equalsIgnoreCase(modeName)) {
+                                    modeValue.setValue(mode);
+                                    break;
+                                }
+                            }
+                        }
+                        continue;
+                    }
+
+                    final JsonObject valueJson = element.getAsJsonObject();
+
+                    // Handle ModeValue stored in JsonObject format (old configs)
+                    if (value instanceof ModeValue modeValue && valueJson.has("value")) {
+                        try {
+                            String modeName = valueJson.get("value").getAsString();
+                            for (Mode<?> mode : modeValue.getModes()) {
+                                if (mode.getName().equalsIgnoreCase(modeName)) {
+                                    modeValue.setValue(mode);
+                                    break;
+                                }
+                            }
+                        } catch (Exception e) {
+                            System.err.println("Failed to load ModeValue: " + value.getName());
+                        }
+                        continue;
+                    }
+
+                    // Handle ListValue stored in JsonObject format
+                    if (value instanceof ListValue<?> listValue && valueJson.has("value")) {
+                        try {
+                            String valueName = valueJson.get("value").getAsString();
+                            listValue.setValueAsObject(valueName);
+                        } catch (Exception e) {
+                            System.err.println("Failed to load ListValue: " + value.getName());
+                        }
+                        continue;
+                    }
+
+                    if (value instanceof BoundsNumberValue boundsNumberValue) {
+                        double first = getSafeDouble(valueJson, "first", boundsNumberValue.getValue().doubleValue());
+                        double second = getSafeDouble(valueJson, "second", boundsNumberValue.getSecondValue().doubleValue());
+                        boundsNumberValue.setValue(first);
+                        boundsNumberValue.setSecondValue(second);
+                    } else if (value instanceof DragValue dragValue) {
+                        dragValue.position.x = getSafeFloat(valueJson, "positionX", (float) dragValue.position.x);
+                        dragValue.position.y = getSafeFloat(valueJson, "positionY", (float) dragValue.position.y);
+                        dragValue.scale.x = getSafeFloat(valueJson, "scaleX", (float) dragValue.scale.x);
+                        dragValue.scale.y = getSafeFloat(valueJson, "scaleY", (float) dragValue.scale.y);
+                    } else if (value instanceof ColorValue colorValue) {
+                        if (valueJson.has("red") && valueJson.has("green") &&
+                                valueJson.has("blue") && valueJson.has("alpha")) {
+                            colorValue.setValue(new Color(
+                                    valueJson.get("red").getAsInt(),
+                                    valueJson.get("green").getAsInt(),
+                                    valueJson.get("blue").getAsInt(),
+                                    valueJson.get("alpha").getAsInt()
+                            ));
+                        }
+                    } else if (value instanceof ListValue<?> listValue) {
+                        if (valueJson.has("value")) {
+                            listValue.setValueAsObject(valueJson.get("value").getAsString());
+                        }
+                    }
+                }
+            }
+        }
+
+        if (jsonObject.has("theme")) {
+            try {
+                String themeName = jsonObject.get("theme").getAsString();
+                // Try uppercase first (standard enum format)
+                Themes theme = Themes.valueOf(themeName.toUpperCase(Locale.ROOT));
+                Floyd.INSTANCE.getThemeManager().setTheme(theme);
+            } catch (IllegalArgumentException e) {
+                System.err.println("Invalid theme name in config, using default theme");
+            }
+        }
+
+        System.out.println("Successfully loaded config data.");
     }
 
     private double getSafeDouble(JsonObject obj, String key, double fallback) {

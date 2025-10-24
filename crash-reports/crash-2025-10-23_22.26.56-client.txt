@@ -1,0 +1,80 @@
+---- Minecraft Crash Report ----
+// Why did you do that?
+
+Time: 10/23/25, 10:26 PM
+Description: Initializing game
+
+java.lang.NullPointerException: Cannot read field "rotationYaw" because "femcum.modernfloyd.clients.module.impl.player.Scaffold.mc.thePlayer" is null
+	at femcum.modernfloyd.clients.module.impl.player.Scaffold.onEnable(Scaffold.java:160)
+	at femcum.modernfloyd.clients.module.Module.superEnable(Module.java:106)
+	at femcum.modernfloyd.clients.module.Module.setEnabled(Module.java:79)
+	at femcum.modernfloyd.clients.util.file.config.ConfigFile.applyConfigData(ConfigFile.java:220)
+	at femcum.modernfloyd.clients.util.file.config.ConfigFile.read(ConfigFile.java:62)
+	at femcum.modernfloyd.clients.util.file.config.ConfigManager.setupLatestConfig(ConfigManager.java:31)
+	at femcum.modernfloyd.clients.util.file.config.ConfigManager.init(ConfigManager.java:24)
+	at femcum.modernfloyd.clients.Floyd.init(Floyd.java:186)
+	at net.minecraft.client.Minecraft.startGame(Minecraft.java:603)
+	at net.minecraft.client.Minecraft.run(Minecraft.java:444)
+	at net.minecraft.client.main.Main.main(Main.java:102)
+	at Start.main(Start.java:40)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Stacktrace:
+	at femcum.modernfloyd.clients.module.impl.player.Scaffold.onEnable(Scaffold.java:160)
+	at femcum.modernfloyd.clients.module.Module.superEnable(Module.java:106)
+	at femcum.modernfloyd.clients.module.Module.setEnabled(Module.java:79)
+	at femcum.modernfloyd.clients.util.file.config.ConfigFile.applyConfigData(ConfigFile.java:220)
+	at femcum.modernfloyd.clients.util.file.config.ConfigFile.read(ConfigFile.java:62)
+	at femcum.modernfloyd.clients.util.file.config.ConfigManager.setupLatestConfig(ConfigManager.java:31)
+	at femcum.modernfloyd.clients.util.file.config.ConfigManager.init(ConfigManager.java:24)
+	at femcum.modernfloyd.clients.Floyd.init(Floyd.java:186)
+	at net.minecraft.client.Minecraft.startGame(Minecraft.java:603)
+
+-- Initialization --
+Details:
+Stacktrace:
+	at net.minecraft.client.Minecraft.run(Minecraft.java:444)
+	at net.minecraft.client.main.Main.main(Main.java:102)
+	at Start.main(Start.java:40)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.8.9
+	Operating System: Windows 11 (amd64) version 10.0
+	Java Version: 17.0.16, Microsoft
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode, sharing), Microsoft
+	Memory: 50526264 bytes (48 MB) / 191889408 bytes (183 MB) up to 1946157056 bytes (1856 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	Launched Version: Floyd
+	LWJGL: 2.9.4
+	OpenGL: NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2 GL version 4.6.0 NVIDIA 581.08, NVIDIA Corporation
+	GL Caps: Using GL 1.3 multitexturing.
+Using GL 1.3 texture combiners.
+Using framebuffer objects because OpenGL 3.0 is supported and separate blending is supported.
+Shaders are available because OpenGL 2.1 is supported.
+VBOs are available because OpenGL 1.5 is supported.
+
+	Using VBOs: No
+	Is Modded: Very likely; Jar signature invalidated
+	Type: Floyd (map_client.txt)
+	Resource Packs: 
+	Current Language: ~~ERROR~~ NullPointerException: Cannot invoke "net.minecraft.client.resources.Language.toString()" because the return value of "net.minecraft.client.resources.LanguageManager.getCurrentLanguage()" is null
+	Profiler Position: N/A (disabled)
+	CPU: 16x AMD Ryzen 7 6800H with Radeon Graphics 
+	OptiFine Version: OptiFine_1.8.9_HD_U_L5
+	OptiFine Build: ~~NULL~~
+	Render Distance Chunks: 7
+	Mipmaps: 4
+	Anisotropic Filtering: 1
+	Antialiasing: 0
+	Multitexture: false
+	Shaders: null
+	OpenGlVersion: 4.6.0 NVIDIA 581.08
+	OpenGlRenderer: NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2
+	OpenGlVendor: NVIDIA Corporation
+	CpuCount: 16
