@@ -82,7 +82,6 @@ public final class ModuleManager {
         this.put(StaffDetector.class, new StaffDetector());
 
         // Other
-
         this.put(Sampler.class, new Sampler());
         this.put(AntiAFK.class, new AntiAFK());
         this.put(AutoGG.class, new AutoGG());

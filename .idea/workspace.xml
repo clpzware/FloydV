@@ -5,9 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52c56bbc-6396-4429-92df-7561d2ef115b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/discord_rpc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/util/discordutil/DiscordRPCUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Floyd/alts/alts.json" beforeDir="false" afterPath="$PROJECT_DIR$/Floyd/alts/alts.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Floyd/configs/latest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Floyd/configs/latest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rise/alts/alts.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rise/configs/BloxD.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rise/configs/GANG.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rise/configs/Hypixel1.21.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rise/configs/Hypixel1.8.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rise/configs/Pika.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Rise/configs/latest.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/2025-10-22-1.log.gz" beforeDir="false" afterPath="$PROJECT_DIR$/logs/2025-10-22-1.log.gz" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/2025-10-22-2.log.gz" beforeDir="false" afterPath="$PROJECT_DIR$/logs/2025-10-22-2.log.gz" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/2025-10-22-3.log.gz" beforeDir="false" afterPath="$PROJECT_DIR$/logs/2025-10-22-3.log.gz" afterDir="false" />
@@ -18,6 +28,15 @@
       <change beforePath="$PROJECT_DIR$/logs/latest.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/latest.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/options.txt" beforeDir="false" afterPath="$PROJECT_DIR$/options.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/optionsof.txt" beforeDir="false" afterPath="$PROJECT_DIR$/optionsof.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/data/villages.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/data/villages.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/data/villages_end.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/data/villages_end.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/data/villages_nether.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/data/villages_nether.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/level.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/level.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/level.dat_old" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/level.dat_old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/region/r.-1.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/region/r.-1.0.mca" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/region/r.0.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/region/r.0.0.mca" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/session.lock" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/session.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World/data/villages.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/data/villages.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World/data/villages_end.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/data/villages_end.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World/data/villages_nether.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/data/villages_nether.dat" afterDir="false" />
@@ -30,31 +49,28 @@
       <change beforePath="$PROJECT_DIR$/saves/New World/session.lock" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/session.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/servers.dat" beforeDir="false" afterPath="$PROJECT_DIR$/servers.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/Floyd.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/Floyd.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/component/impl/player/TargetComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/component/impl/player/TargetComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/font/Fonts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/font/Fonts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/module/api/manager/ModuleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/module/api/manager/ModuleManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/ui/menu/MenuColors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/ui/menu/MenuColors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/ui/menu/component/button/impl/MenuTextButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/ui/menu/component/button/impl/MenuTextButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/ui/menu/impl/intro/IntroSequence.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/ui/menu/impl/intro/IntroSequence.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/ui/menu/impl/main/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/ui/menu/impl/main/MainMenu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/util/render/RenderUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/util/render/RenderUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/net/minecraft/client/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/net/minecraft/client/main/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/minecraft/floyd/images/background.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/minecraft/floyd/images/background.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/minecraft/floyd/images/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/minecraft/floyd/images/splash.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/minecraft/floyd/shader/main_menu/background.frag" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/minecraft/floyd/shader/main_menu/background.frag" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/assets/minecraft/floyd/images/background.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/assets/minecraft/floyd/images/background.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/assets/minecraft/floyd/images/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/assets/minecraft/floyd/images/splash.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/assets/minecraft/floyd/shader/main_menu/background.frag" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/assets/minecraft/floyd/shader/main_menu/background.frag" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/Interface$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/Interface$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/Interface$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/Interface$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/Interface$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/Interface$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/Interface.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/Interface.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/Floyd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/Floyd.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/api/manager/ModuleManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/api/manager/ModuleManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/usercache.json" beforeDir="false" afterPath="$PROJECT_DIR$/usercache.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -77,14 +93,17 @@
     &quot;Application.Start Floyd.executor&quot;: &quot;Debug&quot;,
     &quot;Application.Start.executor&quot;: &quot;Debug&quot;,
     &quot;Application.Unnamed.executor&quot;: &quot;Debug&quot;,
+    &quot;Maven.rise-client [compile].executor&quot;: &quot;Run&quot;,
     &quot;Maven.rise-client [org.apache.maven.plugins:maven-clean-plugin:3.2.0:clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.rise-client [package].executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;

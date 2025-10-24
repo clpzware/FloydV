@@ -20,6 +20,7 @@ import femcum.modernfloyd.clients.ui.click.standard.RiseClickGUI;
 import femcum.modernfloyd.clients.ui.theme.ThemeManager;
 import femcum.modernfloyd.clients.util.ReflectionUtil;
 import femcum.modernfloyd.clients.util.constants.ConstantsManager;
+import femcum.modernfloyd.clients.util.discordutil.DiscordRPCUtil;
 import femcum.modernfloyd.clients.util.file.FileManager;
 import femcum.modernfloyd.clients.util.file.alt.AltManager;
 import femcum.modernfloyd.clients.util.file.config.ConfigManager;
@@ -63,6 +64,7 @@ public enum Floyd {
             """;
     public static final String THAGANG = "";
     public static boolean DEVELOPMENT_SWITCH = true;
+    DiscordRPCUtil discordRPC = new DiscordRPCUtil();
 
     // Authentication-related fields for IntroSequence
     @Setter
@@ -185,6 +187,8 @@ public enum Floyd {
         this.bindableManager.init();
 
         Display.setTitle(NAME + " " + VERSION_FULL.replace(".0", ""));
+        discordRPC.start();
+        discordRPC.update();
     }
 
     /**

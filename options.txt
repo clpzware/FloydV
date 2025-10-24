@@ -13,10 +13,10 @@ fboEnable:true
 difficulty:2
 fancyGraphics:true
 ao:2
-renderClouds:true
+renderClouds:fast
 resourcePacks:[]
 incompatibleResourcePacks:[]
-lastServer:pika.host
+lastServer:uGzTuE9WTmoRWDTR6ueZrOKwuNpG3g2M.eu-sto.liquidproxy.net
 lang:en_US
 chatVisibility:0
 chatColors:true
