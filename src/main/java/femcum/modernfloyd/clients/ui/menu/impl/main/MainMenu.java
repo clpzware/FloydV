@@ -30,6 +30,7 @@ public final class MainMenu extends Menu {
     private MenuTextButton multiPlayerButton;
     private MenuTextButton altManagerButton;
     private MenuTextButton optionsButton;
+    private MenuTextButton quitButton;
     private MenuButton[] menuButtons;
     private boolean rice;
 
@@ -38,18 +39,80 @@ public final class MainMenu extends Menu {
         rice = Math.random() > 0.98;
         int centerX = this.width / 2;
         int centerY = this.height / 2;
-        int buttonWidth = 180;
-        int buttonHeight = 24;
-        int buttonSpacing = 6;
-        int buttonX = centerX - buttonWidth / 2;
-        int buttonY = centerY - buttonHeight / 2 - buttonSpacing / 2 - buttonHeight / 2;
 
-        this.singlePlayerButton = new MenuTextButton(buttonX, buttonY, buttonWidth, buttonHeight, () -> mc.displayGuiScreen(new GuiSelectWorld(this)), "Singleplayer");
-        this.multiPlayerButton = new MenuTextButton(buttonX, buttonY + buttonHeight + buttonSpacing, buttonWidth, buttonHeight, () -> mc.displayGuiScreen(new GuiMultiplayer(this)), "Multiplayer");
-        this.altManagerButton = new MenuTextButton(buttonX + buttonWidth / 2 + buttonSpacing / 2, buttonY + buttonHeight * 2 + buttonSpacing * 2, buttonWidth / 2 - buttonSpacing / 2, buttonHeight, () -> mc.displayGuiScreen(new AccountManagerScreen(this)), "Alts");
-        this.optionsButton = new MenuTextButton(buttonX, buttonY + buttonHeight * 2 + buttonSpacing * 2, buttonWidth / 2 - buttonSpacing / 2, buttonHeight, () -> mc.displayGuiScreen(new GuiOptions(this, mc.gameSettings)), "Options");
+        // Button dimensions
+        int largeButtonWidth = 140;
+        int smallButtonWidth = 90;
+        int buttonHeight = 28;
+        int spacing = 8;
+        int quitButtonWidth = 100;
+
+        // Row 1: Singleplayer and Multiplayer (side by side)
+        int row1Y = centerY - buttonHeight - spacing / 2;
+        int row1TotalWidth = largeButtonWidth * 2 + spacing;
+        int row1StartX = centerX - row1TotalWidth / 2;
+
+        this.singlePlayerButton = new MenuTextButton(
+                row1StartX,
+                row1Y,
+                largeButtonWidth,
+                buttonHeight,
+                () -> mc.displayGuiScreen(new GuiSelectWorld(this)),
+                "Singleplayer"
+        );
+
+        this.multiPlayerButton = new MenuTextButton(
+                row1StartX + largeButtonWidth + spacing,
+                row1Y,
+                largeButtonWidth,
+                buttonHeight,
+                () -> mc.displayGuiScreen(new GuiMultiplayer(this)),
+                "Multiplayer"
+        );
+
+        // Row 2: Options and Alts (side by side, centered)
+        int row2Y = centerY + spacing / 2;
+        int row2TotalWidth = smallButtonWidth * 2 + spacing;
+        int row2StartX = centerX - row2TotalWidth / 2;
+
+        this.optionsButton = new MenuTextButton(
+                row2StartX,
+                row2Y,
+                smallButtonWidth,
+                buttonHeight,
+                () -> mc.displayGuiScreen(new GuiOptions(this, mc.gameSettings)),
+                "Settings"
+        );
+
+        this.altManagerButton = new MenuTextButton(
+                row2StartX + smallButtonWidth + spacing,
+                row2Y,
+                smallButtonWidth,
+                buttonHeight,
+                () -> mc.displayGuiScreen(new AccountManagerScreen(this)),
+                "Alts"
+        );
+
+        // Row 3: Quit button (centered below)
+        int row3Y = row2Y + buttonHeight + spacing + 4;
+
+        this.quitButton = new MenuTextButton(
+                centerX - quitButtonWidth / 2,
+                row3Y,
+                quitButtonWidth,
+                buttonHeight,
+                () -> mc.shutdown(),
+                "Quit"
+        );
+
         this.animation = new Animation(Easing.EASE_OUT_QUINT, 600);
-        this.menuButtons = new MenuButton[]{singlePlayerButton, multiPlayerButton, altManagerButton, optionsButton};
+        this.menuButtons = new MenuButton[]{
+                singlePlayerButton,
+                multiPlayerButton,
+                optionsButton,
+                altManagerButton,
+                quitButton
+        };
     }
 
     @Override
@@ -71,14 +134,21 @@ public final class MainMenu extends Menu {
 
         // Render logo and text
         Font fontRenderer = Fonts.MAIN.get(64, Weight.REGULAR);
-        final double destination = this.singlePlayerButton.getY() - fontRenderer.height();
+        final double destination = this.singlePlayerButton.getY() - fontRenderer.height() - 20;
         this.animation.run(destination);
-        String name = rice ? "fl0yD" : Floyd.NAME;
+        String name = rice ? "Floyd" : "Floyd";
         final double value = this.animation.getValue();
         final Color color = ColorUtil.withAlpha(Color.WHITE, (int) (value / destination * 200));
 
         getLayer(REGULAR).add(() -> {
             fontRenderer.drawCentered(name, width / 2.0F, value, color.getRGB());
+
+            // Version info below logo
+           // Font versionFont = Fonts.MAIN.get(16, Weight.REGULAR);
+           // versionFont.drawCentered("v" + Floyd.VERSION, width / 2.0F, value + fontRenderer.height() + 4,
+            //        ColorUtil.withAlpha(Color.WHITE, (int) (value / destination * 150)).getRGB());
+
+            // Credits and copyright in bottom right
             Fonts.MAIN.get(16, Weight.REGULAR).drawRight(Floyd.CREDITS,
                     scaledResolution.getScaledWidth() - 5, scaledResolution.getScaledHeight() - 20,
                     ColorUtil.withAlpha(TEXT_SUBTEXT, 100).getRGB());

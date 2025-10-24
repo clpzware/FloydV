@@ -34,7 +34,7 @@ import static femcum.modernfloyd.clients.layer.Layers.*;
 public class ModernInterface extends Mode<Interface> {
 
     private final Font productSansMedium36 = MAIN.get(36, Weight.MEDIUM);
-    private final Font watermarkFont = MAIN.get(23, Weight.REGULAR);
+    private final Font productSansRegular18 = MAIN.get(18, Weight.REGULAR);
     private final Font productSansMedium18 = MAIN.get(18, Weight.MEDIUM);
     private final Font productSansRegular = MAIN.get(18, Weight.REGULAR);
     private Font arrayListFont = productSansRegular;
@@ -77,18 +77,17 @@ public class ModernInterface extends Mode<Interface> {
 
     // Watermark settings
     private final BooleanValue watermarkBackground = new BooleanValue("Watermark Background", this, true);
-    private final NumberValue watermarkScale = new NumberValue("Watermark Scale", this, 1.0, 2.0, 0.5, 0.05);
-    private final NumberValue watermarkBackgroundAlpha = new NumberValue("Watermark BG Alpha", this, 0.11, 1.0, 0.0, 0.01);
-    private final NumberValue watermarkPaddingX = new NumberValue("Watermark Padding X", this, 5.0, 16.0, 4.0, 0.5);
-    private final NumberValue watermarkPaddingY = new NumberValue("Watermark Padding Y", this, 5.5, 12.0, 3.0, 0.5);
-    private final NumberValue watermarkCornerRadius = new NumberValue("Watermark Radius", this, 9.0, 10.0, 0.0, 0.5);
-    private final NumberValue watermarkShadowSize = new NumberValue("Watermark Shadow", this, 5.0, 5.0, 0.0, 1.0);
+    private final NumberValue watermarkBackgroundAlpha = new NumberValue("Watermark BG Alpha", this, 0.7, 1.0, 0.0, 0.05);
+    private final NumberValue watermarkPaddingX = new NumberValue("Watermark Padding X", this, 10.0, 20.0, 4.0, 0.5);
+    private final NumberValue watermarkPaddingY = new NumberValue("Watermark Padding Y", this, 7.0, 15.0, 3.0, 0.5);
+    private final NumberValue watermarkCornerRadius = new NumberValue("Watermark Radius", this, 8.0, 15.0, 0.0, 0.5);
+    private final NumberValue watermarkShadowSize = new NumberValue("Watermark Shadow", this, 8.0, 15.0, 0.0, 1.0);
 
     private boolean glow, shadow;
     private boolean normalBackGround, blurBackGround;
     private String username, coordinates;
     private Color logoColor;
-    private float userWidth, xyzWidth;
+    private float xyzWidth;
 
     public ModernInterface(String name, Interface parent) {
         super(name, parent);
@@ -105,7 +104,6 @@ public class ModernInterface extends Mode<Interface> {
         this.getParent().setWidthComparator(arrayListFont);
         this.getParent().setEdgeOffset(10);
 
-        float sx = event.getScaledResolution().getScaledWidth();
         float sy = event.getScaledResolution().getScaledHeight() - arrayListFont.height() - 1;
         final double widthOffset = minecraft ? 3.5 : 2;
 
@@ -141,7 +139,6 @@ public class ModernInterface extends Mode<Interface> {
                             this.getParent().moduleSpacing, Color.BLACK));
                 }
 
-                // Draw the glow/shadow around the module
                 getLayer(BLOOM).add(() -> {
                     if (glow || shadow) {
                         RenderUtil.rectangle(
@@ -196,108 +193,148 @@ public class ModernInterface extends Mode<Interface> {
             }
         });
 
-        // Enhanced watermark rendering
-        final float scale = Math.min(watermarkScale.getValue().floatValue(), sx / 300.0f);
+        // Enhanced watermark rendering with proper centering
         final float paddingX = watermarkPaddingX.getValue().floatValue();
         final float paddingY = watermarkPaddingY.getValue().floatValue();
         final float radius = watermarkCornerRadius.getValue().floatValue();
 
         final String clientNameText = customClientName.getValue().isEmpty() ? Floyd.NAME : customClientName.getValue();
-        final String fullWatermark = clientNameText + " " + Floyd.VERSION;
-        final String intentInfo = String.format("%s | UID: %s", username, Floyd.UID != null ? Floyd.UID : "0");
-        final String info = String.format(" | %s fps | %s", mc.getDebugFPS(), intentInfo);
+        final String versionText = Floyd.VERSION;
+        final String fpsText = mc.getDebugFPS() + " fps";
+        final String userText = username;
+        final String uidText = "UID: " + (Floyd.UID != null ? Floyd.UID : "0");
 
-        final float nameWidth = this.productSansMedium36.width(fullWatermark) * scale;
-        final float infoWidth = this.watermarkFont.width(info) * scale;
-        final float textSpacing = 8.0f * scale;
-        final float finalTotalWidth = Math.min(
-                nameWidth + infoWidth + textSpacing + 2.0f * paddingX * scale,
-                sx - 4.0f - 2.0f
-        );
-        final float finalTotalHeight = Math.min(
-                Math.max(this.productSansMedium36.height(), this.watermarkFont.height()) * scale + 2.0f * paddingY * scale,
-                event.getScaledResolution().getScaledHeight() - 4.5f - 2.0f
-        );
+        // Calculate widths for proper layout
+        final float nameWidth = this.productSansMedium36.width(clientNameText);
+        final float versionWidth = this.productSansMedium36.width(versionText);
+        final float fpsWidth = this.productSansRegular18.width(fpsText);
+        final float userWidth = this.productSansRegular18.width(userText);
+        final float uidWidth = this.productSansRegular18.width(uidText);
+        final float separatorWidth = this.productSansRegular18.width(" | ");
+
+        // Calculate total dimensions
+        final float lineSpacing = 2.0f;
+        final float titleHeight = this.productSansMedium36.height();
+        final float infoHeight = this.productSansRegular18.height();
+        final float totalTextHeight = titleHeight + lineSpacing + infoHeight;
+
+        final float line1Width = nameWidth + 2 + versionWidth;
+        final float line2Width = fpsWidth + separatorWidth + userWidth + separatorWidth + uidWidth;
+        final float maxTextWidth = Math.max(line1Width, line2Width);
+
+        final float finalTotalWidth = maxTextWidth + 2.0f * paddingX;
+        final float finalTotalHeight = totalTextHeight + 2.0f * paddingY;
 
         final float posX = 4.0f;
         final float posY = 4.5f;
 
+        // Define colors - Red and dark theme
+        final Color redAccent = new Color(255, 50, 50);
+        final Color darkRed = new Color(180, 30, 30);
+        final Color backgroundColor = new Color(18, 18, 18, (int)(watermarkBackgroundAlpha.getValue().floatValue() * 255));
+        final Color textSecondary = new Color(200, 200, 200);
+
         // Draw watermark background and shadow
         getLayer(REGULAR, 1).add(() -> {
             if (watermarkBackground.getValue()) {
-                // Draw custom shadow
+                // Draw smooth shadow
                 int shadowSize = watermarkShadowSize.getValue().intValue();
                 if (shadowSize > 0) {
-                    for (int i = 0; i < shadowSize; i++) {
-                        float alpha = (float)(shadowSize - i) / (float)shadowSize * 0.3f;
-                        Color shadowColor = new Color(0, 0, 0, (int)(alpha * 255.0f));
+                    for (int i = shadowSize; i > 0; i--) {
+                        float alpha = (float)i / (float)shadowSize * 0.15f;
+                        Color shadow = new Color(0, 0, 0, (int)(alpha * 255.0f));
                         RenderUtil.roundedRectangle(
-                                posX - i, posY - i,
-                                finalTotalWidth + (i * 2), finalTotalHeight + (i * 2),
-                                radius + i, shadowColor
+                                posX - i * 0.5f, posY - i * 0.5f,
+                                finalTotalWidth + i, finalTotalHeight + i,
+                                radius + i * 0.3f, shadow
                         );
                     }
                 }
 
                 // Draw background
-                Color bgColor = ColorUtil.withAlpha(Color.BLACK, (int)(watermarkBackgroundAlpha.getValue().floatValue() * 255));
-                RenderUtil.roundedRectangle(posX, posY, finalTotalWidth, finalTotalHeight, radius, bgColor);
+                RenderUtil.roundedRectangle(posX, posY, finalTotalWidth, finalTotalHeight, radius, backgroundColor);
+
+                // Draw bottom accent bar
+                RenderUtil.rectangle(posX + radius, posY + finalTotalHeight - 2.5f, finalTotalWidth - radius * 2, 2.5f, redAccent);
             }
 
-            // Render the client name with gradient
-            float charX = posX + paddingX * scale;
-            final float textY = posY + (finalTotalHeight - this.productSansMedium36.height() * scale) / 2.0f;
+            // Calculate centered positions
+            final float contentStartY = posY + paddingY;
 
-            for (char c : fullWatermark.toCharArray()) {
-                String string = String.valueOf(c);
-                float stringWidth = this.productSansMedium36.width(string) * scale;
-                final float finalCharX = charX;
-                this.productSansMedium36.draw(
-                        string,
-                        finalCharX / scale, textY / scale,
-                        this.getTheme().getAccentColor(new Vector2d(finalCharX * 32, textY)).getRGB()
+            // Line 1: Client name and version (centered)
+            float line1X = posX + (finalTotalWidth - line1Width) / 2.0f;
+            float titleY = contentStartY;
+
+            // Draw client name in red gradient
+            float currentX = line1X;
+            for (int i = 0; i < clientNameText.length(); i++) {
+                char c = clientNameText.charAt(i);
+                String str = String.valueOf(c);
+                float charWidth = this.productSansMedium36.width(str);
+
+                // Gradient from red to dark red
+                float progress = (float)i / (float)clientNameText.length();
+                Color charColor = new Color(
+                        (int)(redAccent.getRed() + (darkRed.getRed() - redAccent.getRed()) * progress),
+                        (int)(redAccent.getGreen() + (darkRed.getGreen() - redAccent.getGreen()) * progress),
+                        (int)(redAccent.getBlue() + (darkRed.getBlue() - redAccent.getBlue()) * progress)
                 );
-                charX += stringWidth + 0.25f * scale;
+
+                this.productSansMedium36.drawWithShadow(str, currentX, titleY, charColor.getRGB());
+                currentX += charWidth;
             }
 
-            // Draw info text
-            final float infoY = posY + (finalTotalHeight - this.watermarkFont.height() * scale) / 2.0f;
-            this.watermarkFont.draw(info, charX / scale, infoY / scale, 0xFFFFFFFF);
+            // Draw version in lighter red
+            currentX += 2;
+            this.productSansMedium36.drawWithShadow(versionText, currentX, titleY, new Color(255, 120, 120).getRGB());
+
+            // Line 2: FPS | Username | UID (centered)
+            float line2X = posX + (finalTotalWidth - line2Width) / 2.0f;
+            float infoY = contentStartY + titleHeight + lineSpacing;
+
+            currentX = line2X;
+
+            // FPS with red accent
+            this.productSansRegular18.drawWithShadow(fpsText, currentX, infoY, redAccent.getRGB());
+            currentX += fpsWidth;
+
+            // Separator
+            this.productSansRegular18.drawWithShadow(" | ", currentX, infoY, textSecondary.getRGB());
+            currentX += separatorWidth;
+
+            // Username
+            this.productSansRegular18.drawWithShadow(userText, currentX, infoY, Color.WHITE.getRGB());
+            currentX += userWidth;
+
+            // Separator
+            this.productSansRegular18.drawWithShadow(" | ", currentX, infoY, textSecondary.getRGB());
+            currentX += separatorWidth;
+
+            // UID
+            this.productSansRegular18.drawWithShadow(uidText, currentX, infoY, textSecondary.getRGB());
 
             // Draw coordinates at bottom
-            productSansRegular.drawWithShadow("XYZ:", 5, sy, 0xFFCCCCCC);
-            productSansMedium18.drawWithShadow(coordinates, 5 + xyzWidth, sy, 0xFFCCCCCC);
+            productSansRegular.drawWithShadow("XYZ:", 5, sy, textSecondary.getRGB());
+            productSansMedium18.drawWithShadow(coordinates, 5 + xyzWidth, sy, Color.WHITE.getRGB());
         });
 
         // Add bloom/glow effect to watermark
         getLayer(BLOOM).add(() -> {
-            if (watermarkBackground.getValue() && (glow || shadow)) {
-                Color outlineColor = glow ? this.getTheme().getFirstColor() : getTheme().getDropShadow();
+            if (watermarkBackground.getValue()) {
+                // Always glow the accent bar for that sick effect!
+                RenderUtil.rectangle(posX + radius, posY + finalTotalHeight - 2.5f, finalTotalWidth - radius * 2, 2.5f,
+                        ColorUtil.withAlpha(redAccent, 200));
 
-                RenderUtil.roundedRectangle(
-                        posX - 1.0f, posY - 1.0f,
-                        finalTotalWidth + 2.0f, finalTotalHeight + 2.0f,
-                        radius, Color.BLACK
-                );
+                // Extra intense glow layers for the bar
+                RenderUtil.rectangle(posX + radius - 1, posY + finalTotalHeight - 3.5f, finalTotalWidth - radius * 2 + 2, 4.5f,
+                        ColorUtil.withAlpha(redAccent, 120));
+                RenderUtil.rectangle(posX + radius - 2, posY + finalTotalHeight - 4.5f, finalTotalWidth - radius * 2 + 4, 6.5f,
+                        ColorUtil.withAlpha(redAccent, 60));
 
-                RenderUtil.roundedRectangle(posX, posY, finalTotalWidth, finalTotalHeight, radius, outlineColor);
-            }
-
-            // Render glowing text if glow is enabled
-            if (glow) {
-                float charX = posX + paddingX * scale;
-                final float textY = posY + (finalTotalHeight - this.productSansMedium36.height() * scale) / 2.0f;
-
-                for (char c : fullWatermark.toCharArray()) {
-                    String string = String.valueOf(c);
-                    float stringWidth = this.productSansMedium36.width(string) * scale;
-                    final float finalCharX = charX;
-                    this.productSansMedium36.draw(
-                            string,
-                            finalCharX / scale, textY / scale,
-                            this.getTheme().getAccentColor(new Vector2d(finalCharX * 32, textY)).getRGB()
-                    );
-                    charX += stringWidth + 0.25f * scale;
+                if (glow) {
+                    // Glow the entire watermark box when glow mode is enabled
+                    RenderUtil.roundedRectangle(posX, posY, finalTotalWidth, finalTotalHeight, radius,
+                            ColorUtil.withAlpha(redAccent, 80));
                 }
             }
 
@@ -334,7 +371,9 @@ public class ModernInterface extends Mode<Interface> {
             normalBackGround = background.getValue().getName().equals("Normal");
             blurBackGround = normalBackGround || background.getValue().getName().equals("Blur");
 
-            username = mc.getSession() == null || mc.getSession().getUsername() == null ? "null" : mc.getSession().getUsername();
+            username = Floyd.DISCUSER != null && !Floyd.DISCUSER.equals("Processing") && !Floyd.DISCUSER.equals("Unknown")
+                    ? Floyd.DISCUSER
+                    : (mc.getSession() == null || mc.getSession().getUsername() == null ? "null" : mc.getSession().getUsername());
             coordinates = (int) mc.thePlayer.posX + ", " + (int) mc.thePlayer.posY + ", " + (int) mc.thePlayer.posZ;
             xyzWidth = this.productSansMedium18.width("XYZ:") + 2;
             logoColor = this.getTheme().getFirstColor();

@@ -5,10 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52c56bbc-6396-4429-92df-7561d2ef115b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/util/shader/impl/IntroShader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/assets/minecraft/floyd/shader/main_menu/intro.frag" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Floyd/alts/alts.json" beforeDir="false" afterPath="$PROJECT_DIR$/Floyd/alts/alts.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Floyd/configs/NIG.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Floyd/configs/PEAK.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Floyd/configs/BlocksMC.json" beforeDir="false" afterPath="$PROJECT_DIR$/Floyd/configs/BlocksMC.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Floyd/configs/latest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Floyd/configs/latest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/2025-10-23-1.log.gz" beforeDir="false" afterPath="$PROJECT_DIR$/logs/2025-10-23-1.log.gz" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/2025-10-23-2.log.gz" beforeDir="false" afterPath="$PROJECT_DIR$/logs/2025-10-23-2.log.gz" afterDir="false" />
@@ -20,14 +21,17 @@
       <change beforePath="$PROJECT_DIR$/logs/latest.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/latest.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/options.txt" beforeDir="false" afterPath="$PROJECT_DIR$/options.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/optionsof.txt" beforeDir="false" afterPath="$PROJECT_DIR$/optionsof.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/data/Mineshaft.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/data/Mineshaft.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/data/villages.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/data/villages.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/data/villages_end.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/data/villages_end.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/data/villages_nether.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/data/villages_nether.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/level.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/level.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/level.dat_old" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/level.dat_old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/playerdata/121019b7-8254-3732-89bb-f6829f0d205e.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/playerdata/121019b7-8254-3732-89bb-f6829f0d205e.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/region/r.-1.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/region/r.-1.0.mca" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/region/r.0.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/region/r.0.0.mca" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/session.lock" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/session.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/stats/121019b7-8254-3732-89bb-f6829f0d205e.json" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/stats/121019b7-8254-3732-89bb-f6829f0d205e.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World/data/villages.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/data/villages.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World/data/villages_end.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/data/villages_end.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World/data/villages_nether.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/data/villages_nether.dat" afterDir="false" />
@@ -39,17 +43,26 @@
       <change beforePath="$PROJECT_DIR$/saves/New World/region/r.0.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/region/r.0.0.mca" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World/session.lock" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/session.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/servers.dat" beforeDir="false" afterPath="$PROJECT_DIR$/servers.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/command/impl/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/command/impl/Config.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/util/file/config/ConfigFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/util/file/config/ConfigFile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/util/file/config/ConfigManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/util/file/config/ConfigManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/command/impl/Config.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/command/impl/Config.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/ui/click/standard/screen/impl/CommunityScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/ui/click/standard/screen/impl/CommunityScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/Floyd.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/Floyd.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/module/impl/combat/KillAura.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/module/impl/combat/KillAura.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/ui/menu/impl/intro/IntroSequence.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/ui/menu/impl/intro/IntroSequence.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/ui/menu/impl/main/MainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/ui/menu/impl/main/MainMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/util/shader/RiseShaders.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/util/shader/RiseShaders.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/Floyd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/Floyd.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/other/Debugger.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/other/Debugger.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/WurstInterface.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/WurstInterface.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/script/api/RiseAPI.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/script/api/RiseAPI.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/ui/click/standard/screen/impl/InfoScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/ui/click/standard/screen/impl/InfoScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/ui/menu/impl/intro/IntroSequence$AuthResult.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/ui/menu/impl/intro/IntroSequence$AuthResult.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/ui/menu/impl/intro/IntroSequence$UserData.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/ui/menu/impl/intro/IntroSequence$UserData.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/ui/menu/impl/intro/IntroSequence.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/ui/menu/impl/intro/IntroSequence.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/ui/menu/impl/main/MainMenu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/ui/menu/impl/main/MainMenu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/util/file/alt/AltFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/util/file/alt/AltFile.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/util/file/config/ConfigFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/util/file/config/ConfigFile.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/util/file/config/ConfigManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/util/file/config/ConfigManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/rise-client-1.0-SNAPSHOT.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/util/file/data/DataFile.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/util/file/data/DataFile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/util/shader/RiseShaders.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/util/shader/RiseShaders.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/usercache.json" beforeDir="false" afterPath="$PROJECT_DIR$/usercache.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,6 +82,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$USER_HOME$/.jdks/corretto-24.0.2/lib/src.zip!/java.base/java/lang/RuntimeException.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/javassist/javassist/3.28.0-GA/javassist-3.28.0-GA.jar!/META-INF/maven/org.javassist/javassist/pom.xml" root0="SKIP_INSPECTION" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,

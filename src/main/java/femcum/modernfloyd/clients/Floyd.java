@@ -54,7 +54,7 @@ public enum Floyd {
     INSTANCE;
 
     public static String NAME = "Floyd";
-    public static final String VERSION = "5";
+    public static final String VERSION = "V";
     public static final String VERSION_FULL = "5.0.0";
     public static final String COPYRIGHT = """
             © Floyd 2025. All Rights Reserved

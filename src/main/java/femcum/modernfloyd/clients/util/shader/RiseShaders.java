@@ -2,7 +2,6 @@ package femcum.modernfloyd.clients.util.shader;
 
 import femcum.modernfloyd.clients.util.shader.base.RiseShader;
 import femcum.modernfloyd.clients.util.shader.impl.*;
-import femcum.modernfloyd.clients.util.shader.impl.*;
 
 public interface RiseShaders {
     AlphaShader ALPHA_SHADER = new AlphaShader();
@@ -18,6 +17,7 @@ public interface RiseShaders {
     ROQShader ROQ_SHADER = new ROQShader();
     ROGQShader ROGQ_SHADER = new ROGQShader();
     RiseShader MAIN_MENU_SHADER = new MainMenuBackgroundShader();
+    RiseShader INTRO_SHADER = new IntroShader();  // ADD THIS LINE
     RiseShader BAW_SHADER = new BAWShader();
     RGQTestShader RGQ_SHADER_TEST = new RGQTestShader();
 

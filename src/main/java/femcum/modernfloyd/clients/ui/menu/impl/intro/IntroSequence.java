@@ -7,11 +7,14 @@ import femcum.modernfloyd.clients.ui.menu.impl.main.MainMenu;
 import femcum.modernfloyd.clients.util.animation.Animation;
 import femcum.modernfloyd.clients.util.animation.Easing;
 import femcum.modernfloyd.clients.util.render.RenderUtil;
+import femcum.modernfloyd.clients.util.shader.RiseShaders;
+import femcum.modernfloyd.clients.util.shader.base.ShaderRenderType;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.io.*;
@@ -32,13 +35,14 @@ public class IntroSequence extends GuiScreen {
     private final Animation logoAnimation = new Animation(Easing.EASE_IN_OUT_CUBIC, 3000);
     private boolean started = false;
 
-    // Authentication fields
     private static final String HWID_FILE = "HWID.json";
     private static final String CLIENT_DATA_DIR = "floyd_client";
     private static final String AUTH_URL = "http://87.106.208.203:13487/";
     private static final String CLIENT_ID = "1417894615457202286";
     private static final String CLIENT_SECRET = "EugjCOAnjVK-5kMmQUIO24PgZZD0YODq";
     private static final String REDIRECT_URI = "http://localhost:8080/callback";
+    private static final long SHADER_FADE_DURATION = 2000; // Time for shader to fade in
+    private static final long SHADER_SOLO_DURATION = 3000; // Shader plays solo before splash appears
     private static final long PRESENTING_DURATION = 2000;
     private static final long HWID_CHECK_DURATION = 1000;
     private static final long CACHE_VERIFY_DURATION = 3000;
@@ -56,12 +60,13 @@ public class IntroSequence extends GuiScreen {
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
     private static String cachedHWID = null;
     private static UserData cachedUserData = null;
-    private static volatile String authState = "presenting";
+    private static volatile String authState = "shader_intro";
     private static CompletableFuture<AuthResult> authFuture;
     private static long stateStartTime = System.currentTimeMillis();
     private static boolean authenticationCompleted = false;
     private static long authStartTime = 0;
     private static int count = 0;
+    private static long shaderStartTime = 0;
 
     private static class UserData {
         String hwid, discordId, username, displayName, uid;
@@ -107,10 +112,12 @@ public class IntroSequence extends GuiScreen {
     public void initGui() {
         if (!started) {
             started = true;
-            logoAnimation.setValue(255);
+            logoAnimation.setValue(255); // Logo visible from start
             logoAnimation.reset();
             authStartTime = System.currentTimeMillis();
-            System.out.println("[Floyd Auth] Starting authentication sequence...");
+            shaderStartTime = System.currentTimeMillis();
+            RiseShaders.INTRO_SHADER.update();
+            System.out.println("[Floyd Auth] Starting intro sequence...");
         }
     }
 
@@ -123,20 +130,62 @@ public class IntroSequence extends GuiScreen {
         }
 
         ScaledResolution sr = new ScaledResolution(mc);
-        RenderUtil.color(Color.WHITE);
+
+        // Draw black background first
         RenderUtil.rectangle(0, 0, sr.getScaledWidth(), sr.getScaledHeight(), Color.BLACK);
-        RenderUtil.image(new net.minecraft.util.ResourceLocation("floyd/images/splash.png"),
-                sr.getScaledWidth() / 2D - 75, sr.getScaledHeight() / 2D - 25,
-                150, 50, new Color(255, 255, 255, (int) logoAnimation.getValue()));
 
-        logoAnimation.run(0);
+        // Calculate shader fade-in over 2 seconds
+        long timeSinceStart = System.currentTimeMillis() - shaderStartTime;
+        float shaderAlpha = Math.min(1.0f, timeSinceStart / (float)SHADER_FADE_DURATION);
+
+        // Render shader with fade-in alpha - plays continuously throughout intro
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, shaderAlpha);
+
+        RiseShaders.INTRO_SHADER.run(ShaderRenderType.OVERLAY, partialTicks, null);
+
+        // Reset GL state after shader
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+        // Apply blur effect
+        renderBlurEffect(sr);
+
+        // Show splash and text AFTER shader has played solo for SHADER_SOLO_DURATION
+        if (timeSinceStart >= SHADER_SOLO_DURATION) {
+            // Start fading in the logo after shader solo period
+            long fadeTime = timeSinceStart - SHADER_SOLO_DURATION;
+            int alpha = (int) Math.min(255, (fadeTime / 1500.0) * 255); // Fade in over 1.5 seconds
+
+            if (alpha > 0) {
+                // Reset GL state before rendering image
+                GL11.glEnable(GL11.GL_BLEND);
+                GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                GL11.glEnable(GL11.GL_TEXTURE_2D);
+                GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+                // Render the logo image with fade animation
+                RenderUtil.color(Color.WHITE);
+                RenderUtil.image(new net.minecraft.util.ResourceLocation("floyd/images/splash.png"),
+                        sr.getScaledWidth() / 2D - 75, sr.getScaledHeight() / 2D - 25,
+                        150, 50, new Color(255, 255, 255, alpha));
+
+                // Show auth text only after logo is fully visible
+                if (alpha >= 255) {
+                    String displayText = getDisplayText();
+                    int color = getDisplayColor();
+                    float textX = (sr.getScaledWidth() - mc.fontRendererObj.width(displayText)) / 2f;
+                    float textY = sr.getScaledHeight() / 2f + 50;
+
+                    drawTextWithStroke(displayText, textX, textY, color);
+                }
+            }
+        }
+
         handleAuthenticationFlow();
-
-        String displayText = getDisplayText();
-        int color = getDisplayColor();
-        mc.fontRendererObj.draw(displayText,
-                (int)((sr.getScaledWidth() - mc.fontRendererObj.width(displayText)) / 2f),
-                (int)(sr.getScaledHeight() / 2f + 40), color, true);
 
         if (shouldContinueAuthLoop()) {
             return;
@@ -147,6 +196,37 @@ public class IntroSequence extends GuiScreen {
             mc.displayGuiScreen(new MainMenu());
             Floyd.INSTANCE.getConfigManager().setupLatestConfig();
         }
+    }
+
+    private void drawTextWithStroke(String text, float x, float y, int color) {
+        Color shadow = new Color(0, 0, 0, 180);
+
+        // Draw shadow/stroke using RenderUtil if available, or just draw the main text
+        mc.fontRendererObj.draw(text, x + 1, y + 1, shadow.getRGB());
+        mc.fontRendererObj.draw(text, x - 1, y - 1, shadow.getRGB());
+        mc.fontRendererObj.draw(text, x + 1, y - 1, shadow.getRGB());
+        mc.fontRendererObj.draw(text, x - 1, y + 1, shadow.getRGB());
+
+        // Draw main text
+        mc.fontRendererObj.draw(text, x, y, color);
+    }
+
+    private void renderBlurEffect(ScaledResolution sr) {
+        GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glColor4f(0.0f, 0.0f, 0.0f, 0.3f);
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glVertex2f(0, 0);
+        GL11.glVertex2f(sr.getScaledWidth(), 0);
+        GL11.glVertex2f(sr.getScaledWidth(), sr.getScaledHeight());
+        GL11.glVertex2f(0, sr.getScaledHeight());
+        GL11.glEnd();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glPopMatrix();
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
     private boolean shouldContinueAuthLoop() {
@@ -167,6 +247,7 @@ public class IntroSequence extends GuiScreen {
 
         long timeInState = System.currentTimeMillis() - stateStartTime;
         return switch (authState) {
+            case "shader_intro" -> timeInState < SHADER_SOLO_DURATION;
             case "presenting" -> timeInState < PRESENTING_DURATION;
             case "hwid_check" -> timeInState < HWID_CHECK_DURATION;
             case "verifying_cache" -> timeInState < CACHE_VERIFY_DURATION && (authFuture == null || !authFuture.isDone());
@@ -187,6 +268,13 @@ public class IntroSequence extends GuiScreen {
         long timeInState = currentTime - stateStartTime;
 
         switch (authState) {
+            case "shader_intro" -> {
+                if (timeInState >= SHADER_SOLO_DURATION) {
+                    authState = "presenting";
+                    stateStartTime = currentTime;
+                    System.out.println("[Floyd Auth] Starting authentication sequence...");
+                }
+            }
             case "presenting" -> {
                 if (timeInState >= PRESENTING_DURATION) {
                     authState = "hwid_check";
@@ -304,6 +392,7 @@ public class IntroSequence extends GuiScreen {
 
     private String getDisplayText() {
         return switch (authState) {
+            case "shader_intro" -> ""; // No text during shader intro
             case "presenting" -> "FloydCEO Presents" + ".".repeat(count % 4);
             case "hwid_check" -> "Checking authentication...";
             case "verifying_cache" -> "Verifying cached login...";
@@ -375,7 +464,7 @@ public class IntroSequence extends GuiScreen {
             Path hwidFile = getClientDataPath().resolve(HWID_FILE);
             if (!Files.exists(hwidFile)) return null;
 
-            String jsonContent = new String(Files.readAllBytes(hwidFile), StandardCharsets.UTF_8);
+            String jsonContent = Files.readString(hwidFile, StandardCharsets.UTF_8);
             JsonObject json = gson.fromJson(jsonContent, JsonObject.class);
 
             String cachedHwid = json.get("hwid").getAsString();
@@ -416,7 +505,7 @@ public class IntroSequence extends GuiScreen {
             json.addProperty("uid", userData.uid);
             json.addProperty("lastAuth", userData.lastAuth);
             json.addProperty("isValid", userData.isValid);
-            Files.write(hwidFile, gson.toJson(json).getBytes(StandardCharsets.UTF_8));
+            Files.writeString(hwidFile, gson.toJson(json), StandardCharsets.UTF_8);
         } catch (Exception e) {
             System.err.println("[Floyd Auth] Failed to save authentication data");
         }
@@ -484,12 +573,79 @@ public class IntroSequence extends GuiScreen {
             out.println("Connection: close");
             out.println();
             out.println("<!DOCTYPE html><html><head><title>Floyd Client Authentication</title>");
-            out.println("<style>body { font-family: Arial, sans-serif; background: #000; color: #fff; text-align: center; padding: 50px; }");
-            out.println(".container { background: rgba(255,0,0,0.2); padding: 20px; border-radius: 10px; }");
-            out.println("</style></head><body><div class='container'>");
-            out.println(authResult.success ? "<h2>Authentication Successful</h2><p>Welcome " + Objects.requireNonNullElse(authResult.username, "User") + "!</p>" :
-                    "<h2>Authentication Failed</h2><p>" + Objects.requireNonNullElse(authResult.errorMessage, "Access denied") + "</p><p>Visit <a href='https://floyd.sellhub.cx/'>https://floyd.sellhub.cx/</a> to purchase access.</p>");
-            out.println("</div></body></html>");
+            out.println("<meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'>");
+            out.println("<style>");
+            out.println("* { margin: 0; padding: 0; box-sizing: border-box; }");
+            out.println("body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #000; color: #fff; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }");
+            out.println("canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }");
+            out.println(".container { position: relative; z-index: 1; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); border: 1px solid rgba(255,0,0,0.2); border-radius: 16px; padding: 48px 40px; max-width: 480px; text-align: center; box-shadow: 0 8px 32px rgba(255,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.05); animation: slideUp 0.6s ease-out; }");
+            out.println("@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }");
+            out.println(".logo { font-size: 42px; font-weight: 900; background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; letter-spacing: 2px; animation: glow 2s ease-in-out infinite; }");
+            out.println("@keyframes glow { 0%, 100% { filter: drop-shadow(0 0 8px rgba(255,0,0,0.5)); } 50% { filter: drop-shadow(0 0 16px rgba(255,0,0,0.8)); } }");
+            out.println(".subtitle { font-size: 13px; color: rgba(255,255,255,0.5); margin-bottom: 32px; letter-spacing: 3px; text-transform: uppercase; font-weight: 600; }");
+            out.println(".status { font-size: 18px; margin: 32px 0; padding: 24px; border-radius: 12px; font-weight: 600; position: relative; overflow: hidden; }");
+            out.println(".status::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); animation: shimmer 2s infinite; }");
+            out.println("@keyframes shimmer { 0% { left: -100%; } 100% { left: 100%; } }");
+            out.println(".success { background: linear-gradient(135deg, rgba(0,255,100,0.15), rgba(0,200,80,0.15)); color: #00ff88; border: 1px solid rgba(0,255,100,0.3); }");
+            out.println(".error { background: linear-gradient(135deg, rgba(255,0,0,0.15), rgba(200,0,0,0.15)); color: #ff4444; border: 1px solid rgba(255,0,0,0.3); }");
+            out.println(".icon { font-size: 48px; margin-bottom: 16px; display: block; }");
+            out.println(".username { color: #ff3333; font-weight: 700; }");
+            out.println(".uid { color: rgba(255,255,255,0.6); font-size: 14px; margin-top: 8px; }");
+            out.println(".instruction { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 24px; line-height: 1.6; }");
+            out.println(".link { color: #ff3333; text-decoration: none; font-weight: 600; transition: all 0.3s; }");
+            out.println(".link:hover { color: #ff6666; text-shadow: 0 0 8px rgba(255,0,0,0.5); }");
+            out.println("</style></head><body>");
+            out.println("<canvas id='bg'></canvas>");
+            out.println("<div class='container'>");
+            out.println("<div class='logo'>FLOYD</div>");
+            out.println("<div class='subtitle'>CLIENT AUTHENTICATION</div>");
+
+            if (authResult.success) {
+                String welcomeUsername = authResult.username != null ? authResult.username : "User";
+                String welcomeUid = authResult.uid != null ? authResult.uid : "N/A";
+                out.println("<div class='status success'>");
+                out.println("<span class='icon'>✓</span>");
+                out.println("<div><strong>AUTHENTICATION SUCCESSFUL</strong></div>");
+                out.println("<div style='margin-top: 16px;'>Welcome <span class='username'>" + welcomeUsername + "</span></div>");
+                out.println("<div class='uid'>UID: " + welcomeUid + "</div>");
+                out.println("</div>");
+                out.println("<div class='instruction'>You can now return to your client</div>");
+            } else {
+                out.println("<div class='status error'>");
+                out.println("<span class='icon'>✕</span>");
+                out.println("<div><strong>AUTHENTICATION FAILED</strong></div>");
+                out.println("<div style='margin-top: 12px; font-size: 15px;'>" + (authResult.errorMessage != null ? authResult.errorMessage : "Access denied") + "</div>");
+                out.println("</div>");
+                out.println("<div class='instruction'>Purchase access at <a href='https://floyd.sellhub.cx/' class='link'>floyd.sellhub.cx</a></div>");
+                out.println("<div class='instruction' style='margin-top: 16px;'>You can now close this window</div>");
+            }
+
+            out.println("</div>");
+            out.println("<script>");
+            out.println("const canvas = document.getElementById('bg');");
+            out.println("const gl = canvas.getContext('webgl');");
+            out.println("if (gl) {");
+            out.println("  canvas.width = window.innerWidth; canvas.height = window.innerHeight;");
+            out.println("  const vs = gl.createShader(gl.VERTEX_SHADER);");
+            out.println("  gl.shaderSource(vs, 'attribute vec2 p; void main() { gl_Position = vec4(p, 0, 1); }');");
+            out.println("  gl.compileShader(vs);");
+            out.println("  const fs = gl.createShader(gl.FRAGMENT_SHADER);");
+            out.println("  gl.shaderSource(fs, 'precision mediump float; uniform float t; uniform vec2 r; void main() { vec2 u = (gl_FragCoord.xy * 2.0 - r) / r.y; float d = length(u); float a = atan(u.y, u.x); float wave = sin(d * 10.0 - t * 2.0) * 0.5 + 0.5; float rings = smoothstep(0.4, 0.6, wave); vec3 col = vec3(0.8, 0.0, 0.0) * rings * (1.0 - d * 0.5); gl_FragColor = vec4(col * 0.3, 1.0); }');");
+            out.println("  gl.compileShader(fs);");
+            out.println("  const prog = gl.createProgram();");
+            out.println("  gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog); gl.useProgram(prog);");
+            out.println("  const buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);");
+            out.println("  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);");
+            out.println("  const pos = gl.getAttribLocation(prog, 'p'); gl.enableVertexAttribArray(pos);");
+            out.println("  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);");
+            out.println("  const tLoc = gl.getUniformLocation(prog, 't');");
+            out.println("  const rLoc = gl.getUniformLocation(prog, 'r');");
+            out.println("  function draw() { gl.uniform1f(tLoc, Date.now() * 0.001); gl.uniform2f(rLoc, canvas.width, canvas.height); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); requestAnimationFrame(draw); }");
+            out.println("  draw();");
+            out.println("}");
+            out.println("window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });");
+            out.println("</script>");
+            out.println("</body></html>");
             client.close();
             server.close();
             return authResult;

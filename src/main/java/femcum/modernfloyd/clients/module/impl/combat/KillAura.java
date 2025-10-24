@@ -45,6 +45,7 @@ import net.minecraft.util.*;
 import rip.vantage.commons.util.time.StopWatch;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Queue;
@@ -249,7 +250,8 @@ public final class KillAura extends Module {
     public void getTargets() {
         double range = this.range.getValue().doubleValue();
 
-        targets = TargetComponent.getTargets(range);
+        // Create a MUTABLE ArrayList from the targets to prevent UnsupportedOperationException
+        targets = new ArrayList<>(TargetComponent.getTargets(range));
 
         if (mode.getValue().getName().equals("Switch")) {
             targets.removeAll(pastTargets);
@@ -257,7 +259,8 @@ public final class KillAura extends Module {
 
         if (targets.isEmpty()) {
             pastTargets.clear();
-            targets = TargetComponent.getTargets(range + expandRange);
+            // Again, create a MUTABLE ArrayList
+            targets = new ArrayList<>(TargetComponent.getTargets(range + expandRange));
         }
 
         switch (sorting.getValue().getName()) {
@@ -606,49 +609,6 @@ public final class KillAura extends Module {
             mc.playerController.attackEntity(mc.thePlayer, target);
         }
 
-//        if (target == mc.thePlayer || clickMode.getValue().getName().equals("Hit Select") && target.hurtTime > (PingComponent.getPing() / 50 + 1) && mc.thePlayer.ticksSinceVelocity > 11) {
-//            return;
-//        }
-//
-//        switchTicks++;
-//        if (switchTicks >= switchDelay.getRandomBetween().intValue()) {
-//            pastTargets.add(target);
-//            switchTicks = 0;
-//        }
-//
-//        this.attack = Math.min(Math.max(this.attack, this.attack + 2), 5);
-//
-//        if (!this.noSwing.getValue() && ViaLoadingBase.getInstance().getTargetVersion().olderThanOrEqualTo(ProtocolVersion.v1_8)) {
-//            Client.INSTANCE.getEventBus().handle(new ClickEvent());
-//            mc.thePlayer.swingItem();
-//        }
-//
-//        final AttackEvent event = new AttackEvent(target);
-//        Client.INSTANCE.getEventBus().handle(event);
-//
-//        if (!event.isCancelled()) {
-//            if (this.canBlock()) {
-//                this.attackBlock();
-//            }
-//
-//            if (this.keepSprint.getValue()) {
-//                mc.playerController.syncCurrentPlayItem();
-//
-//                PacketUtil.send(new C02PacketUseEntity(event.getTarget(), C02PacketUseEntity.Action.ATTACK));
-//
-//                if (mc.thePlayer.fallDistance > 0 && !mc.thePlayer.onGround && !mc.thePlayer.isOnLadder() && !mc.thePlayer.isInWater() && !mc.thePlayer.isPotionActive(Potion.blindness) && mc.thePlayer.ridingEntity == null) {
-//                    mc.thePlayer.onCriticalHit(target);
-//                }
-//            } else {
-//                mc.playerController.attackEntity(mc.thePlayer, target);
-//            }
-//        }
-//
-//        if (!this.noSwing.getValue() && ViaLoadingBase.getInstance().getTargetVersion().newerThan(ProtocolVersion.v1_8)) {
-//            Client.INSTANCE.getEventBus().handle(new ClickEvent());
-//            mc.thePlayer.swingItem();
-//        }
-//
         this.clickStopWatch.reset();
         this.hitTicks = 0;
     }
@@ -661,8 +621,6 @@ public final class KillAura extends Module {
                 this.interact(movingObjectPosition);
             }
 
-//            ChatUtil.display("MC " + mc.thePlayer.getHeldItem());
-//            ChatUtil.display("Rise " + getComponent(SlotComponent.class).getItemStack());
             PacketUtil.send(new C08PacketPlayerBlockPlacement(getComponent(Slot.class).getItemStack()));
 
             blocking = true;
@@ -715,227 +673,4 @@ public final class KillAura extends Module {
     public double clickDelayBlock(double delay) {
         switch (autoBlock.getValue().getName()) {
             case "Universal":
-                delay = blockTicks >= 4 ? -1 : 500;
-                break;
-        }
-
-        return delay;
-    }
-
-    public void packetBlock(final PacketSendEvent event) {
-        final Packet<?> p = event.getPacket();
-
-        switch (autoBlock.getValue().getName()) {
-            case "Intave": {
-                if (p instanceof C03PacketPlayer) {
-                    event.setCancelled();
-                    this.unblock(false);
-                    PacketUtil.sendNoEvent(p);
-                    this.block(false, true);
-                }
-                break;
-            }
-
-        }
-    }
-
-    @EventLink
-    public final Listener<RightClickEvent> onRightClick = event -> {
-        if (target == null || getComponent(Slot.class).getItemStack() == null || !(getComponent(Slot.class).getItemStack().getItem() instanceof ItemSword))
-            return;
-
-        switch (autoBlock.getValue().getName()) {
-            case "Fake":
-            case "None":
-                if (!preventServerSideBlocking.getValue() || getComponent(Slot.class).getItemStack() == null || !(getComponent(Slot.class).getItemStack().getItem() instanceof ItemSword)) {
-                    return;
-                }
-
-                event.setCancelled();
-                break;
-
-            // case "Watchdog":
-            case "Legit":
-                break;
-
-            default:
-                event.setCancelled();
-                break;
-        }
-    };
-
-    @EventLink
-    public final Listener<SlowDownEvent> onSlowDown = event -> {
-        switch (autoBlock.getValue().getName()) {
-            case "Legit":
-//                event.setStrafeMultiplier(0.2f);
-//                event.setForwardMultiplier(0.2f);
-//                event.setCancelled(false);
-//                event.setUseItem(true);
-                break;
-
-            case "Watchdog":
-                //prevent from noslowing without a target or while using items when killaura is enabled
-                if (target != null && mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword)
-                    event.setCancelled();
-                break;
-        }
-    };
-
-    private void attackBlock() {
-//        switch (autoBlock.getValue().getName()) {
-//            case "Legit":
-//                break;
-//        }
-
-    }
-
-    private void postAttackBlock() {
-        switch (autoBlock.getValue().getName()) {
-            case "Legit":
-
-                break;
-
-            case "Intave":
-                this.block(false, false);
-                break;
-
-            case "Vanilla":
-                if (this.hitTicks != 0) {
-                    this.block(false, true);
-                }
-                break;
-
-            case "Imperfect Vanilla":
-                if (this.hitTicks == 1 && mc.thePlayer.isSwingInProgress && Math.random() > 0.1) {
-                    this.block(false, true);
-                }
-                break;
-
-            case "Vanilla ReBlock":
-                if (this.hitTicks == 1 /*|| !this.blocking*/) {
-                    this.block(false, true);
-                }
-                break;
-        }
-    }
-
-    private void preBlock() {
-        switch (autoBlock.getValue().getName()) {
-            case "Legit":
-                double range = PlayerUtil.calculatePerfectRangeToEntity(target);
-                mc.gameSettings.keyBindUseItem.setPressed(range < 3 && hitTicks <= 5 && mc.thePlayer.ticksSinceVelocity >= 5);
-                blockTicks++;
-                if (mc.gameSettings.keyBindUseItem.isPressed() || mc.thePlayer.isUsingItem()) {
-                    blockTicks = 0;
-                }
-
-                allowAttack = blockTicks >= 2;
-
-                break;
-
-            case "NCP":
-            case "Intave":
-                allowAttack = true;
-                this.unblock(false);
-                break;
-
-            case "Grim":
-                PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex() % 8 + 1));
-                PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex()));
-                this.block(false, false);
-                break;
-
-            case "Watchdog 1.17":
-                PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex() % 8 + 1));
-                PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex()));
-                this.block(false, false);
-                break;
-
-            case "New NCP":
-                if (this.blocking) {
-                    PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex() % 8 + 1));
-                    PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex()));
-                    this.blocking = false;
-                }
-                break;
-
-            case "Old Intave":
-//                InventoryDeSyncComponent.setActive("/booster");
-
-                if (mc.thePlayer.isUsingItem()) {
-                    PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex() % 8 + 1));
-                    PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex()));
-                }
-                break;
-
-            case "Universal":
-                if ((mc.playerController.curBlockDamageMP != 0 && mc.objectMouseOver.typeOfHit ==
-                        MovingObjectPosition.MovingObjectType.BLOCK)) {
-                    blockTicks = 0;
-                    return;
-                }
-
-                blockTicks++;
-                if (blockTicks > 5) blockTicks = 2;
-
-                PingSpoofComponent.blink();
-
-                switch (blockTicks) {
-                    case 2:
-                        this.block(false, true);
-                        break;
-
-                    case 3:
-                        this.unblock(false);
-                        break;
-                }
-
-                break;
-
-            case "Watchdog":
-
-//                allowAttack = false;
-//                blockTicks++;
-//                PingSpoofComponent.blink();
-//
-//                if (blockTicks == 1) {
-//                    if (rayCast.getValue()) {
-//                        mc.clickMouse();
-//                    } else {
-//                        attack(target);
-//                    }
-//                    mc.rightClickMouse();
-//                } else if (blockTicks >= 2) {
-//                    blockTicks = 0;
-//                }
-                break;
-        }
-    }
-
-    private void postBlock() {
-        switch (autoBlock.getValue().getName()) {
-            case "NCP":
-            case "New NCP":
-                this.block(true, false);
-                break;
-
-            case "Universal":
-                if (this.blockTicks == 2) {
-                    PingSpoofComponent.dispatch();
-                }
-                break;
-
-            case "Watchdog":
-                if (blockTicks == 1) {
-                    //PingSpoofComponent.dispatch();
-                }
-                break;
-
-        }
-    }
-
-    public boolean canBlock() {
-        return (!rightClickOnly.getValue() || mc.gameSettings.keyBindUseItem.isKeyDown()) && getComponent(Slot.class).getItemStack() != null && getComponent(Slot.class).getItemStack().getItem() instanceof ItemSword;
-    }
-}
+                delay
