@@ -1,254 +1,1616 @@
-[03:33:01] [Floyd thread/ERROR] n.m.c.r.ResourceIndex: Can't find the resource index file: assets\indexes\1.8.json
-[03:33:01] [Floyd thread/INFO] n.m.c.Minecraft: Setting user: FloydClient984
-[03:33:01] [Floyd thread/INFO] n.m.c.Minecraft: (Session ID is token:0:FloydClient984)
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reflector Forge ***
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: mods.betterfoliage.client.BetterFoliageClient
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.asm.transformers.BlamingTransformer
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.event.world.ChunkWatchEvent$UnWatch
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.relauncher.CoreModManager
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.DimensionManager
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.GuiScreenEvent$DrawScreenEvent$Pre
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.GuiScreenEvent$DrawScreenEvent$Post
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.EntityViewRenderEvent$CameraSetup
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.EntityViewRenderEvent$FogColors
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.eventhandler.Event
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.eventhandler.EventBus
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.eventhandler.Event$Result
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.property.ExtendedBlockState
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.FMLClientHandler
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.FMLCommonHandler
-[03:33:04] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.biome.BiomeGenBase.getWaterColorMultiplier
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.addDestroyEffects
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.addHitEffects
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.canCreatureSpawn
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.canRenderInLayer
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.doesSideBlockRendering
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getBedDirection
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getExtendedState
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getLightOpacity
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getLightValue
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.hasTileEntity
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isAir
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isBed
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isBedFoot
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isSideSolid
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.ChunkCache.isSideSolid
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.entity.Entity.canRiderInteract
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Field not present: net.minecraft.entity.Entity.captureDrops
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Field not present: net.minecraft.entity.Entity.capturedDrops
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.entity.Entity.shouldRenderInPass
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.entity.Entity.shouldRiderSit
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.event.ForgeEventFactory
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.ForgeHooks
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.ForgeHooksClient
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Field not present: net.minecraft.item.Item.delegate
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.getDurabilityForDisplay
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.getModel
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.onEntitySwing
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.shouldCauseReequipAnimation
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.showDurabilityBar
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.ForgeModContainer
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.potion.PotionEffect.isCurativeItem
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.canRenderBreaking
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.getRenderBoundingBox
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.hasFastRenderer
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.shouldRenderInPass
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.client.renderer.vertex.VertexFormatElement$EnumUsage.preDraw
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.client.renderer.vertex.VertexFormatElement$EnumUsage.postDraw
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.World.countEntities
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.World.getPerWorldStorage
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getCloudRenderer
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getSkyRenderer
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getWeatherRenderer
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getSaveFolder
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.GuiModList
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.IColoredBakedQuad
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.property.IExtendedBlockState
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.IModel
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.IRenderHandler
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.ItemModelMesherForge
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraft.launchwrapper.Launch
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.pipeline.LightUtil
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.Loader
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.MinecraftForge
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.MinecraftForgeClient
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.ModContainer
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.ModelLoader
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderBlockOverlayEvent$OverlayType
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.registry.RenderingRegistry
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderItemInFrameEvent
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Pre
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Post
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Specials$Pre
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Specials$Post
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.SplashProgress
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.event.world.WorldEvent$Load
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reflector Vanilla ***
-[03:33:05] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: optifine.OptiFineClassTransformer
-[03:33:05] [Floyd thread/INFO] n.m.c.Minecraft: LWJGL Version: 2.9.4
-[03:33:06] [Floyd thread/INFO] n.m.s.Config: [OptiFine] 
-[03:33:06] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OptiFine_1.8.9_HD_U_L5
-[03:33:06] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Build: null
-[03:33:06] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OS: Windows 11 (amd64) version 10.0
-[03:33:06] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Java: 17.0.16, Microsoft
-[03:33:06] [Floyd thread/INFO] n.m.s.Config: [OptiFine] VM: OpenJDK 64-Bit Server VM (mixed mode, sharing), Microsoft
-[03:33:06] [Floyd thread/INFO] n.m.s.Config: [OptiFine] LWJGL: 2.9.4
-[03:33:06] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OpenGL: NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2, version 4.6.0 NVIDIA 581.08, NVIDIA Corporation
-[03:33:06] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OpenGL Version: 4.6.0
-[03:33:06] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Maximum texture size: 32768x32768
-[03:33:06] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] OpenGL Version: 4.6.0 NVIDIA 581.08
-[03:33:06] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Vendor:  NVIDIA Corporation
-[03:33:06] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Renderer: NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2
-[03:33:06] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Capabilities:  2.0  2.1  3.0  3.2  4.0 
-[03:33:06] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] GL_MAX_DRAW_BUFFERS: 8
-[03:33:06] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] GL_MAX_COLOR_ATTACHMENTS_EXT: 8
-[03:33:06] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] GL_MAX_TEXTURE_IMAGE_UNITS: 32
-[03:33:06] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Load shaders configuration.
-[03:33:06] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Save shaders configuration.
-[03:33:06] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] No shaderpack loaded.
-[03:33:07] [Floyd thread/INFO] n.m.c.r.SimpleReloadableResourceManager: Reloading ResourceManager: Default
-[03:33:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reloading textures ***
-[03:33:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Resource packs: Default
-[03:33:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.Attributes
-[03:33:07] [Sound Library Loader/INFO] n.m.c.a.SoundManager: Starting up SoundSystem...
-[03:33:07] [Thread-5/INFO] n.m.c.a.SoundManager: Initializing LWJGL OpenAL
-[03:33:07] [Thread-5/INFO] n.m.c.a.SoundManager: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
-[03:33:07] [Thread-5/INFO] n.m.c.a.SoundManager: OpenAL initialized.
-[03:33:08] [Sound Library Loader/INFO] n.m.c.a.SoundManager: Sound engine started
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Mipmap levels: 4
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Multitexture: false
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/0_glass_white/glass_pane_white.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/0_glass_white/glass_white.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/10_glass_purple/glass_pane_purple.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/10_glass_purple/glass_purple.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/11_glass_blue/glass_blue.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/11_glass_blue/glass_pane_blue.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/12_glass_brown/glass_brown.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/12_glass_brown/glass_pane_brown.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/13_glass_green/glass_green.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/13_glass_green/glass_pane_green.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/14_glass_red/glass_pane_red.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/14_glass_red/glass_red.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/15_glass_black/glass_black.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/15_glass_black/glass_pane_black.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/1_glass_orange/glass_orange.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/1_glass_orange/glass_pane_orange.properties
-[03:33:10] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/2_glass_magenta/glass_magenta.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/2_glass_magenta/glass_pane_magenta.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/3_glass_light_blue/glass_light_blue.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/3_glass_light_blue/glass_pane_light_blue.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/4_glass_yellow/glass_pane_yellow.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/4_glass_yellow/glass_yellow.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/5_glass_lime/glass_lime.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/5_glass_lime/glass_pane_lime.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/6_glass_pink/glass_pane_pink.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/6_glass_pink/glass_pink.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/7_glass_gray/glass_gray.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/7_glass_gray/glass_pane_gray.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/8_glass_silver/glass_pane_silver.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/8_glass_silver/glass_silver.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/9_glass_cyan/glass_cyan.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/9_glass_cyan/glass_pane_cyan.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/bookshelf.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/glass.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/glasspane.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/sandstone.properties
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Multipass connected textures: false
-[03:33:11] [Floyd thread/INFO] n.m.s.Config: [OptiFine] BetterGrass: Parsing default configuration optifine/bettergrass.properties
-[03:33:13] [Floyd thread/INFO] n.m.c.r.t.TextureMap: Created: 1024x512 textures-atlas
-[03:33:13] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Animated sprites: 11
-[03:33:17] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reloading custom textures ***
-[03:33:17] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Enable face culling: acacia_leaves, birch_leaves, dark_oak_leaves, jungle_leaves, oak_leaves, spruce_leaves
-[03:33:17] [Via-Mappingloader-0/INFO] ViaLoadingBase: Loading block connection mappings ...
-[03:33:18] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loaded Platform ViaVersion
-[03:33:18] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loading translations...
-[03:33:18] [Floyd-Main-Thread/INFO] ViaLoadingBase: Registering protocols...
-[03:33:19] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loaded Platform ViaBackwards
-[03:33:19] [Floyd-Main-Thread/INFO] ViaLoadingBase: Registering protocols...
-[03:33:19] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loaded Platform ViaRewind
-[03:33:19] [Floyd-Main-Thread/INFO] ViaLoadingBase: ViaVersion detected lowest supported version by the proxy: 1.7.2-1.7.5 (4)
-[03:33:19] [Floyd-Main-Thread/INFO] ViaLoadingBase: Highest supported version by the proxy: 1.21.5 (770)
-[03:33:19] [Floyd-Main-Thread/WARN] ViaLoadingBase: Please update your Java runtime to at least Java 21 (your version is 17.0.16).
-[03:33:19] [Floyd-Main-Thread/WARN] ViaLoadingBase: At some point in the future, ViaVersion will no longer be compatible with this version of Java.
-[03:33:19] [Via Async Scheduler 0/INFO] ViaLoadingBase: Finished mapping loading, shutting down loader executor.
-[03:33:19] [Floyd-Main-Thread/INFO] ViaLoadingBase: ViaLoadingBase has loaded 3/3 platforms
-[03:33:19] [Via Async Task 1/WARN] ViaLoadingBase: There is a newer plugin version available: 5.5.1, you're on: 5.3.0
-[03:33:23] [pool-7-thread-1/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:music.menu
-[03:33:33] [pool-7-thread-1/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:music.menu
-[03:33:48] [Server thread/INFO] n.m.s.i.IntegratedServer: Starting integrated minecraft server version 1.9
-[03:33:48] [Server thread/INFO] n.m.s.i.IntegratedServer: Generating keypair
-[03:33:48] [Server thread/INFO] n.m.s.MinecraftServer: Preparing start region for level 0
-[03:33:49] [Server thread/INFO] n.m.s.i.IntegratedServer: Changing view distance to 7, from 10
-[03:33:49] [Server thread/INFO] n.m.s.m.ServerConfigurationManager: FloydClient984[local:E:5a730bcc] logged in with entity id 251 at (296.36483771189074, 91.0, 321.22058003827124)
-[03:33:49] [Server thread/INFO] n.m.s.MinecraftServer: FloydClient984 joined the game
-[03:33:50] [Server thread/INFO] n.m.s.i.IntegratedServer: Saving and pausing game...
-[03:33:50] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Overworld
-[03:33:50] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Nether
-[03:33:50] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/The End
-[03:34:10] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
-[03:34:10] [Server thread/INFO] n.m.s.MinecraftServer: Stopping server
-[03:34:10] [Server thread/INFO] n.m.s.MinecraftServer: Saving players
-[03:34:10] [Server thread/INFO] n.m.s.MinecraftServer: Saving worlds
-[03:34:10] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Overworld
-[03:34:10] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Nether
-[03:34:10] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/The End
-[03:34:12] [Floyd thread/INFO] n.m.c.m.GuiConnecting: Connecting to zNEeQOt2ZCkH3DORmXcT5Jg8w3cF3RhB.eu-sto.liquidproxy.net, 25565
-[03:34:12] [pool-7-thread-2/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:music.menu
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
-[03:34:16] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] /register <password> <password>
-[03:34:17] [pool-7-thread-2/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:music.game
-[03:38:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
-[03:40:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
-[03:41:18] [Floyd thread/INFO] n.m.c.Minecraft: Stopping!
-[03:41:18] [Floyd thread/INFO] n.m.c.a.SoundManager: SoundSystem shutting down...
-[03:41:18] [Floyd thread/WARN] n.m.c.a.SoundManager: Author: Paul Lamb, www.paulscode.com
+[05:10:05] [Floyd thread/ERROR] n.m.c.r.ResourceIndex: Can't find the resource index file: assets\indexes\1.8.json
+[05:10:05] [Floyd thread/INFO] n.m.c.Minecraft: Setting user: FloydClient875
+[05:10:05] [Floyd thread/INFO] n.m.c.Minecraft: (Session ID is token:0:FloydClient875)
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reflector Forge ***
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: mods.betterfoliage.client.BetterFoliageClient
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.asm.transformers.BlamingTransformer
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.event.world.ChunkWatchEvent$UnWatch
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.relauncher.CoreModManager
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.DimensionManager
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.GuiScreenEvent$DrawScreenEvent$Pre
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.GuiScreenEvent$DrawScreenEvent$Post
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.EntityViewRenderEvent$CameraSetup
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.EntityViewRenderEvent$FogColors
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.eventhandler.Event
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.eventhandler.EventBus
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.eventhandler.Event$Result
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.property.ExtendedBlockState
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.FMLClientHandler
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.FMLCommonHandler
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.biome.BiomeGenBase.getWaterColorMultiplier
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.addDestroyEffects
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.addHitEffects
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.canCreatureSpawn
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.canRenderInLayer
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.doesSideBlockRendering
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getBedDirection
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getExtendedState
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getLightOpacity
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.getLightValue
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.hasTileEntity
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isAir
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isBed
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isBedFoot
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.block.Block.isSideSolid
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.ChunkCache.isSideSolid
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.entity.Entity.canRiderInteract
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Field not present: net.minecraft.entity.Entity.captureDrops
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Field not present: net.minecraft.entity.Entity.capturedDrops
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.entity.Entity.shouldRenderInPass
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.entity.Entity.shouldRiderSit
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.event.ForgeEventFactory
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.ForgeHooks
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.ForgeHooksClient
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Field not present: net.minecraft.item.Item.delegate
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.getDurabilityForDisplay
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.getModel
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.onEntitySwing
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.shouldCauseReequipAnimation
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.item.Item.showDurabilityBar
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.ForgeModContainer
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.potion.PotionEffect.isCurativeItem
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.canRenderBreaking
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.getRenderBoundingBox
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.hasFastRenderer
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.tileentity.TileEntity.shouldRenderInPass
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.client.renderer.vertex.VertexFormatElement$EnumUsage.preDraw
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.client.renderer.vertex.VertexFormatElement$EnumUsage.postDraw
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.World.countEntities
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.World.getPerWorldStorage
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getCloudRenderer
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getSkyRenderer
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getWeatherRenderer
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Method not present: net.minecraft.world.WorldProvider.getSaveFolder
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.GuiModList
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.IColoredBakedQuad
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.property.IExtendedBlockState
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.IModel
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.IRenderHandler
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.ItemModelMesherForge
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraft.launchwrapper.Launch
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.pipeline.LightUtil
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.Loader
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.common.MinecraftForge
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.MinecraftForgeClient
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.common.ModContainer
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.ModelLoader
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderBlockOverlayEvent$OverlayType
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.registry.RenderingRegistry
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderItemInFrameEvent
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Pre
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Post
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Specials$Pre
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.event.RenderLivingEvent$Specials$Post
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.fml.client.SplashProgress
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.event.world.WorldEvent$Load
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reflector Vanilla ***
+[05:10:07] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: optifine.OptiFineClassTransformer
+[05:10:07] [Floyd thread/INFO] n.m.c.Minecraft: LWJGL Version: 2.9.4
+[05:10:08] [Floyd thread/INFO] n.m.s.Config: [OptiFine] 
+[05:10:08] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OptiFine_1.8.9_HD_U_L5
+[05:10:08] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Build: null
+[05:10:08] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OS: Windows 11 (amd64) version 10.0
+[05:10:08] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Java: 17.0.16, Microsoft
+[05:10:08] [Floyd thread/INFO] n.m.s.Config: [OptiFine] VM: OpenJDK 64-Bit Server VM (mixed mode, sharing), Microsoft
+[05:10:08] [Floyd thread/INFO] n.m.s.Config: [OptiFine] LWJGL: 2.9.4
+[05:10:08] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OpenGL: NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2, version 4.6.0 NVIDIA 581.08, NVIDIA Corporation
+[05:10:08] [Floyd thread/INFO] n.m.s.Config: [OptiFine] OpenGL Version: 4.6.0
+[05:10:08] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Maximum texture size: 32768x32768
+[05:10:08] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] OpenGL Version: 4.6.0 NVIDIA 581.08
+[05:10:08] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Vendor:  NVIDIA Corporation
+[05:10:08] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Renderer: NVIDIA GeForce RTX 3050 Ti Laptop GPU/PCIe/SSE2
+[05:10:08] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Capabilities:  2.0  2.1  3.0  3.2  4.0 
+[05:10:08] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] GL_MAX_DRAW_BUFFERS: 8
+[05:10:08] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] GL_MAX_COLOR_ATTACHMENTS_EXT: 8
+[05:10:08] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] GL_MAX_TEXTURE_IMAGE_UNITS: 32
+[05:10:08] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Load shaders configuration.
+[05:10:08] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] Save shaders configuration.
+[05:10:08] [Floyd thread/INFO] n.o.s.SMCLog: [Shaders] No shaderpack loaded.
+[05:10:09] [Floyd thread/INFO] n.m.c.r.SimpleReloadableResourceManager: Reloading ResourceManager: Default
+[05:10:09] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reloading textures ***
+[05:10:09] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Resource packs: Default
+[05:10:09] [Floyd thread/INFO] n.m.s.Config: [OptiFine] (Reflector) Class not present: net.minecraftforge.client.model.Attributes
+[05:10:09] [Sound Library Loader/INFO] n.m.c.a.SoundManager: Starting up SoundSystem...
+[05:10:09] [Thread-5/INFO] n.m.c.a.SoundManager: Initializing LWJGL OpenAL
+[05:10:09] [Thread-5/INFO] n.m.c.a.SoundManager: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[05:10:09] [Thread-5/INFO] n.m.c.a.SoundManager: OpenAL initialized.
+[05:10:10] [Sound Library Loader/INFO] n.m.c.a.SoundManager: Sound engine started
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Mipmap levels: 4
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Multitexture: false
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/0_glass_white/glass_pane_white.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/0_glass_white/glass_white.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/10_glass_purple/glass_pane_purple.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/10_glass_purple/glass_purple.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/11_glass_blue/glass_blue.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/11_glass_blue/glass_pane_blue.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/12_glass_brown/glass_brown.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/12_glass_brown/glass_pane_brown.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/13_glass_green/glass_green.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/13_glass_green/glass_pane_green.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/14_glass_red/glass_pane_red.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/14_glass_red/glass_red.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/15_glass_black/glass_black.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/15_glass_black/glass_pane_black.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/1_glass_orange/glass_orange.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/1_glass_orange/glass_pane_orange.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/2_glass_magenta/glass_magenta.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/2_glass_magenta/glass_pane_magenta.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/3_glass_light_blue/glass_light_blue.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/3_glass_light_blue/glass_pane_light_blue.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/4_glass_yellow/glass_pane_yellow.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/4_glass_yellow/glass_yellow.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/5_glass_lime/glass_lime.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/5_glass_lime/glass_pane_lime.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/6_glass_pink/glass_pane_pink.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/6_glass_pink/glass_pink.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/7_glass_gray/glass_gray.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/7_glass_gray/glass_pane_gray.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/8_glass_silver/glass_pane_silver.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/8_glass_silver/glass_silver.properties
+[05:10:12] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/9_glass_cyan/glass_cyan.properties
+[05:10:13] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/9_glass_cyan/glass_pane_cyan.properties
+[05:10:13] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/bookshelf.properties
+[05:10:13] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/glass.properties
+[05:10:13] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/glasspane.properties
+[05:10:13] [Floyd thread/INFO] n.m.s.Config: [OptiFine] ConnectedTextures: mcpatcher/ctm/default/sandstone.properties
+[05:10:13] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Multipass connected textures: false
+[05:10:13] [Floyd thread/INFO] n.m.s.Config: [OptiFine] BetterGrass: Parsing default configuration optifine/bettergrass.properties
+[05:10:14] [Floyd thread/INFO] n.m.c.r.t.TextureMap: Created: 1024x512 textures-atlas
+[05:10:14] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Animated sprites: 11
+[05:10:18] [Floyd thread/INFO] n.m.s.Config: [OptiFine] *** Reloading custom textures ***
+[05:10:19] [Floyd thread/INFO] n.m.s.Config: [OptiFine] Enable face culling: acacia_leaves, birch_leaves, dark_oak_leaves, jungle_leaves, oak_leaves, spruce_leaves
+[05:10:19] [Via-Mappingloader-0/INFO] ViaLoadingBase: Loading block connection mappings ...
+[05:10:20] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loaded Platform ViaVersion
+[05:10:20] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loading translations...
+[05:10:20] [Floyd-Main-Thread/INFO] ViaLoadingBase: Registering protocols...
+[05:10:20] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loaded Platform ViaBackwards
+[05:10:20] [Floyd-Main-Thread/INFO] ViaLoadingBase: Registering protocols...
+[05:10:20] [Floyd-Main-Thread/INFO] ViaLoadingBase: Loaded Platform ViaRewind
+[05:10:20] [Floyd-Main-Thread/INFO] ViaLoadingBase: ViaVersion detected lowest supported version by the proxy: 1.7.2-1.7.5 (4)
+[05:10:20] [Floyd-Main-Thread/INFO] ViaLoadingBase: Highest supported version by the proxy: 1.21.5 (770)
+[05:10:20] [Floyd-Main-Thread/WARN] ViaLoadingBase: Please update your Java runtime to at least Java 21 (your version is 17.0.16).
+[05:10:20] [Floyd-Main-Thread/WARN] ViaLoadingBase: At some point in the future, ViaVersion will no longer be compatible with this version of Java.
+[05:10:20] [Via Async Scheduler 0/INFO] ViaLoadingBase: Finished mapping loading, shutting down loader executor.
+[05:10:20] [Floyd-Main-Thread/INFO] ViaLoadingBase: ViaLoadingBase has loaded 3/3 platforms
+[05:10:21] [Via Async Task 1/WARN] ViaLoadingBase: There is a newer plugin version available: 5.5.1, you're on: 5.3.0
+[05:10:24] [pool-7-thread-1/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:music.menu
+[05:10:29] [pool-7-thread-1/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:music.menu
+[05:10:30] [Server thread/INFO] n.m.s.i.IntegratedServer: Starting integrated minecraft server version 1.9
+[05:10:30] [Server thread/INFO] n.m.s.i.IntegratedServer: Generating keypair
+[05:10:30] [Server thread/INFO] n.m.s.MinecraftServer: Preparing start region for level 0
+[05:10:31] [Server thread/INFO] n.m.s.MinecraftServer: Preparing spawn area: 62%
+[05:10:32] [Server thread/INFO] n.m.s.i.IntegratedServer: Changing view distance to 7, from 10
+[05:10:32] [Server thread/INFO] n.m.s.m.ServerConfigurationManager: FloydClient875[local:E:f550a4e0] logged in with entity id 270 at (1.0610780673169322, 68.0, 60.35294129094609)
+[05:10:32] [Server thread/INFO] n.m.s.MinecraftServer: FloydClient875 joined the game
+[05:10:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.neutral.hurt.fall.small
+[05:10:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.pig.say
+[05:10:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:10:34] [Server thread/INFO] n.m.s.MinecraftServer: FloydClient875 has just earned the achievement [Taking Inventory]
+[05:10:34] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] FloydClient875 has just earned the achievement [Taking Inventory]
+[05:10:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.pig.step
+[05:10:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.pig.say
+[05:10:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:10:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:10:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:10:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:10:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:10:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.pig.step
+[05:10:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:10:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.pig.step
+[05:10:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.pig.step
+[05:10:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.pig.say
+[05:10:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:10:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:10:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.pig.step
+[05:10:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.pig.say
+[05:10:44] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:10:44] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.pig.step
+[05:10:44] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:10:45] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:10:45] [Server thread/INFO] n.m.s.i.IntegratedServer: Saving and pausing game...
+[05:10:45] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Overworld
+[05:10:45] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Nether
+[05:10:45] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/The End
+[05:10:45] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
+[05:10:45] [Server thread/INFO] n.m.s.MinecraftServer: Stopping server
+[05:10:45] [Server thread/INFO] n.m.s.MinecraftServer: Saving players
+[05:10:45] [Server thread/INFO] n.m.s.MinecraftServer: Saving worlds
+[05:10:45] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Overworld
+[05:10:45] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/Nether
+[05:10:45] [Server thread/INFO] n.m.s.MinecraftServer: Saving chunks for level 'New World'/The End
+[05:10:47] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
+[05:10:48] [Floyd thread/INFO] n.m.c.m.GuiConnecting: Connecting to zNEeQOt2ZCkH3DORmXcT5Jg8w3cF3RhB.eu-sto.liquidproxy.net, 25565
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] /register <password> <password>
+[05:10:57] [pool-7-thread-2/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:music.game
+[05:10:57] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Successful Register.
+[05:10:57] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] ┃ BlocksMC ┃ If you have a premium minecraft account you may join through:
+[05:10:57] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] ┃ BlocksMC ┃ PREMIUM.BLOCKSMC.COM
+[05:10:59] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:59] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:59] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT]                         Welcome to BlocksMC
+[05:10:59] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT]                 We have 494 players at our network
+[05:10:59] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:59] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT]                          Check out these links:
+[05:10:59] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT]      Website - Rules - Store - Support - Discord - Vote
+[05:10:59] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:10:59] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT]                                Have Fun ❤
+[05:10:59] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:04] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:04] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:04] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:04] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:05] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
+[05:11:05] [Floyd thread/INFO] n.m.c.m.GuiConnecting: Connecting to zNEeQOt2ZCkH3DORmXcT5Jg8w3cF3RhB.eu-sto.liquidproxy.net, 25565
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] /login <password>
+[05:11:10] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] If you lost the password type /resetpassword
+[05:11:20] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
+[05:11:22] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Successful Login.
+[05:11:22] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] ┃ BlocksMC ┃ If you have a premium minecraft account you may join through:
+[05:11:22] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] ┃ BlocksMC ┃ PREMIUM.BLOCKSMC.COM
+[05:11:24] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:24] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:24] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT]                         Welcome to BlocksMC
+[05:11:24] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT]                 We have 494 players at our network
+[05:11:24] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:24] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT]                          Check out these links:
+[05:11:24] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT]      Website - Rules - Store - Support - Discord - Vote
+[05:11:24] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:24] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT]                                Have Fun ❤
+[05:11:24] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:11:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
+[05:11:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
+[05:11:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
+[05:11:31] [Floyd thread/WARN] n.m.c.r.t.TextureManager: Failed to load texture: minecraft:floyd/images/Cookie.png
+java.io.FileNotFoundException: minecraft:floyd/images/Cookie.png
+	at net.minecraft.client.resources.FallbackResourceManager.getResource(FallbackResourceManager.java:52) ~[classes/:?]
+	at net.minecraft.client.resources.SimpleReloadableResourceManager.getResource(SimpleReloadableResourceManager.java:54) ~[classes/:?]
+	at net.minecraft.client.renderer.texture.SimpleTexture.loadTexture(SimpleTexture.java:32) ~[classes/:?]
+	at net.minecraft.client.renderer.texture.TextureManager.loadTexture(TextureManager.java:79) ~[classes/:?]
+	at net.minecraft.client.renderer.texture.TextureManager.bindTexture(TextureManager.java:54) ~[classes/:?]
+	at femcum.modernfloyd.clients.util.render.RenderUtil.image(RenderUtil.java:188) ~[classes/:?]
+	at femcum.modernfloyd.clients.util.render.RenderUtil.image(RenderUtil.java:209) ~[classes/:?]
+	at femcum.modernfloyd.clients.ui.menu.component.button.impl.MenuAccountTypeButton.lambda$draw$2(MenuAccountTypeButton.java:46) ~[classes/:?]
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511) ~[?:?]
+	at femcum.modernfloyd.clients.layer.Layer.run(Layer.java:29) ~[classes/:?]
+	at femcum.modernfloyd.clients.layer.LayerManager.lambda$render$5(LayerManager.java:80) ~[classes/:?]
+	at java.base/java.util.LinkedHashMap$LinkedValues.forEach(LinkedHashMap.java:647) ~[?:?]
+	at femcum.modernfloyd.clients.layer.LayerManager.lambda$render$6(LayerManager.java:80) ~[classes/:?]
+	at java.base/java.util.LinkedHashMap.forEach(LinkedHashMap.java:721) ~[?:?]
+	at femcum.modernfloyd.clients.layer.LayerManager.render(LayerManager.java:80) ~[classes/:?]
+	at femcum.modernfloyd.clients.layer.LayerManager.lambda$new$0(LayerManager.java:49) ~[classes/:?]
+	at femcum.modernfloyd.clients.event.bus.impl.EventBus.handle(EventBus.java:119) [classes/:?]
+	at net.minecraft.client.renderer.EntityRenderer.func_181560_a(EntityRenderer.java:1263) [classes/:?]
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:1035) [classes/:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:457) [classes/:?]
+	at net.minecraft.client.main.Main.main(Main.java:102) [classes/:?]
+	at Start.main(Start.java:40) [test-classes/:?]
+[05:11:36] [Floyd thread/INFO] n.m.c.m.GuiConnecting: Connecting to zNEeQOt2ZCkH3DORmXcT5Jg8w3cF3RhB.eu-sto.liquidproxy.net, 25565
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:11:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] /register <password> <password>
+[05:11:45] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Successful Register.
+[05:11:45] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] ┃ BlocksMC ┃ If you have a premium minecraft account you may join through:
+[05:11:45] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] ┃ BlocksMC ┃ PREMIUM.BLOCKSMC.COM
+[05:13:45] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
+[05:13:45] [Floyd thread/INFO] n.m.c.m.GuiConnecting: Connecting to zNEeQOt2ZCkH3DORmXcT5Jg8w3cF3RhB.eu-sto.liquidproxy.net, 25565
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] /login <password>
+[05:13:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] If you lost the password type /resetpassword
+[05:13:50] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Successful Login.
+[05:13:50] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] ┃ BlocksMC ┃ If you have a premium minecraft account you may join through:
+[05:13:50] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] ┃ BlocksMC ┃ PREMIUM.BLOCKSMC.COM
+[05:13:51] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:51] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:51] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT]                         Welcome to BlocksMC
+[05:13:51] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT]                 We have 505 players at our network
+[05:13:51] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:51] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT]                          Check out these links:
+[05:13:51] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT]      Website - Rules - Store - Support - Discord - Vote
+[05:13:51] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:51] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT]                                Have Fun ❤
+[05:13:51] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+[05:13:52] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:52] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:52] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:52] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:52] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:52] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:53] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:53] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:13:53] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:53] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:53] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:53] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:53] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:53] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:55] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:55] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:55] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:55] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:55] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:55] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:55] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:56] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:56] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:56] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:56] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:56] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:56] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:56] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:56] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:57] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:57] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:57] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:57] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:57] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:57] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:57] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:57] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:57] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:57] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:57] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:58] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Unknown command. Type "/help" for help.
+[05:13:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:13:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:
+[05:14:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:04] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:04] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:04] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:04] [ForkJoinPool.commonPool-worker-1/INFO] n.m.c.g.GuiNewChat: [CHAT] §l§bFloyd§r§b » §rLoaded BlocksMC config file!
+[05:14:04] [ForkJoinPool.commonPool-worker-1/INFO] n.m.c.g.GuiNewChat: [CHAT] §l§bFloyd§r§b » §rAccidentally loaded this config? Use .config load latest, to load the most recent autosaved config
+[05:14:04] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:04] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:04] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:04] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:04] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:05] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:05] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:05] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:05] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:05] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:05] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:06] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:06] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:06] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:06] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:06] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:06] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:06] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:06] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:06] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:07] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:07] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:07] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:07] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:
+[05:14:07] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:
+[05:14:07] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:
+[05:14:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:
+[05:14:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:
+[05:14:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:
+[05:14:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:
+[05:14:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:
+[05:14:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:
+[05:14:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:
+[05:14:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:10] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:10] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:10] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:11] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:11] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:11] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:12] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:12] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:13] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:13] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:13] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:13] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:
+[05:14:13] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:14] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:14] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:14] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:14] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:15] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:15] [ForkJoinPool.commonPool-worker-1/INFO] n.m.c.g.GuiNewChat: [CHAT] §l§bFloyd§r§b » §rSaved config file!
+[05:14:15] [ForkJoinPool.commonPool-worker-1/INFO] n.m.c.g.GuiNewChat: [CHAT] §l§bFloyd§r§b » §rRemember if you want to share this config, use .config folder to open the path!
+[05:14:15] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:17] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:17] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:17] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:18] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:18] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:18] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:18] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:19] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:19] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:19] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:19] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:19] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:19] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:19] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:20] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:20] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:21] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] DU ▏ TheLazerrr » come 4v4
+[05:14:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:
+[05:14:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.gravel
+[05:14:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.gravel
+[05:14:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:14:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.gravel
+[05:14:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:14:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:14:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.gravel
+[05:14:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:14:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:14:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:14:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:14:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:14:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:14:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:14:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:14:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:14:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:14:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:14:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:14:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:14:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:14:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:36] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] St1_t1n has joined the server.
+[05:14:36] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:36] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:36] [Floyd thread/FATAL] n.m.c.Minecraft: Error executing task
+java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot invoke "net.minecraft.client.network.NetworkPlayerInfo.getGameProfile()" because the return value of "net.minecraft.client.network.NetHandlerPlayClient.getPlayerInfo(java.util.UUID)" is null
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:191) ~[?:?]
+	at net.minecraft.util.Util.func_181617_a(Util.java:17) [classes/:?]
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:980) [classes/:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:457) [classes/:?]
+	at net.minecraft.client.main.Main.main(Main.java:102) [classes/:?]
+	at Start.main(Start.java:40) [test-classes/:?]
+Caused by: java.lang.NullPointerException: Cannot invoke "net.minecraft.client.network.NetworkPlayerInfo.getGameProfile()" because the return value of "net.minecraft.client.network.NetHandlerPlayClient.getPlayerInfo(java.util.UUID)" is null
+	at net.minecraft.client.network.NetHandlerPlayClient.handleSpawnPlayer(NetHandlerPlayClient.java:358) ~[classes/:?]
+	at net.minecraft.network.play.server.S0CPacketSpawnPlayer.processPacket(S0CPacketSpawnPlayer.java:78) ~[classes/:?]
+	at net.minecraft.network.play.server.S0CPacketSpawnPlayer.processPacket(S0CPacketSpawnPlayer.java:16) ~[classes/:?]
+	at net.minecraft.network.PacketThreadUtil$1.run(PacketThreadUtil.java:17) ~[classes/:?]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java) ~[?:?]
+	at net.minecraft.util.Util.func_181617_a(Util.java:16) ~[classes/:?]
+	... 4 more
+[05:14:36] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Urfavmajahh has joined the server.
+[05:14:36] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:36] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:36] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:36] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:41] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] ▏ BedWars Solo ▏ Warmup started. You will be teleported in the next 10 seconds.
+[05:14:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.hat
+[05:14:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:44] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:44] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:44] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:44] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:44] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:44] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:44] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:44] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:44] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:45] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:45] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:45] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:45] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:45] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:46] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:46] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:46] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:46] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:46] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:46] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:47] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:47] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:47] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.hat
+[05:14:47] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:48] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:48] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:48] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:48] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:48] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.hat
+[05:14:48] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:48] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:49] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:49] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.hat
+[05:14:49] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:49] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:49] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:50] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:50] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:50] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] ▏ BedWars Solo ▏ You are now playing on the Yellow Team!
+[05:14:50] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.successful_hit
+[05:14:51] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:51] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:52] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:52] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:52] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:52] [Floyd thread/FATAL] n.m.c.Minecraft: Error executing task
+java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot invoke "net.minecraft.client.network.NetworkPlayerInfo.getGameProfile()" because the return value of "net.minecraft.client.network.NetHandlerPlayClient.getPlayerInfo(java.util.UUID)" is null
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:191) ~[?:?]
+	at net.minecraft.util.Util.func_181617_a(Util.java:17) [classes/:?]
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:980) [classes/:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:457) [classes/:?]
+	at net.minecraft.client.main.Main.main(Main.java:102) [classes/:?]
+	at Start.main(Start.java:40) [test-classes/:?]
+Caused by: java.lang.NullPointerException: Cannot invoke "net.minecraft.client.network.NetworkPlayerInfo.getGameProfile()" because the return value of "net.minecraft.client.network.NetHandlerPlayClient.getPlayerInfo(java.util.UUID)" is null
+	at net.minecraft.client.network.NetHandlerPlayClient.handleSpawnPlayer(NetHandlerPlayClient.java:358) ~[classes/:?]
+	at net.minecraft.network.play.server.S0CPacketSpawnPlayer.processPacket(S0CPacketSpawnPlayer.java:78) ~[classes/:?]
+	at net.minecraft.network.play.server.S0CPacketSpawnPlayer.processPacket(S0CPacketSpawnPlayer.java:16) ~[classes/:?]
+	at net.minecraft.network.PacketThreadUtil$1.run(PacketThreadUtil.java:17) ~[classes/:?]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java) ~[?:?]
+	at net.minecraft.util.Util.func_181617_a(Util.java:16) ~[classes/:?]
+	... 4 more
+[05:14:52] [Floyd thread/FATAL] n.m.c.Minecraft: Error executing task
+java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot invoke "net.minecraft.client.network.NetworkPlayerInfo.getGameProfile()" because the return value of "net.minecraft.client.network.NetHandlerPlayClient.getPlayerInfo(java.util.UUID)" is null
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:191) ~[?:?]
+	at net.minecraft.util.Util.func_181617_a(Util.java:17) [classes/:?]
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:980) [classes/:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:457) [classes/:?]
+	at net.minecraft.client.main.Main.main(Main.java:102) [classes/:?]
+	at Start.main(Start.java:40) [test-classes/:?]
+Caused by: java.lang.NullPointerException: Cannot invoke "net.minecraft.client.network.NetworkPlayerInfo.getGameProfile()" because the return value of "net.minecraft.client.network.NetHandlerPlayClient.getPlayerInfo(java.util.UUID)" is null
+	at net.minecraft.client.network.NetHandlerPlayClient.handleSpawnPlayer(NetHandlerPlayClient.java:358) ~[classes/:?]
+	at net.minecraft.network.play.server.S0CPacketSpawnPlayer.processPacket(S0CPacketSpawnPlayer.java:78) ~[classes/:?]
+	at net.minecraft.network.play.server.S0CPacketSpawnPlayer.processPacket(S0CPacketSpawnPlayer.java:16) ~[classes/:?]
+	at net.minecraft.network.PacketThreadUtil$1.run(PacketThreadUtil.java:17) ~[classes/:?]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java) ~[?:?]
+	at net.minecraft.util.Util.func_181617_a(Util.java:16) ~[classes/:?]
+	... 4 more
+[05:14:52] [Floyd thread/FATAL] n.m.c.Minecraft: Error executing task
+java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot invoke "net.minecraft.client.network.NetworkPlayerInfo.getGameProfile()" because the return value of "net.minecraft.client.network.NetHandlerPlayClient.getPlayerInfo(java.util.UUID)" is null
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:191) ~[?:?]
+	at net.minecraft.util.Util.func_181617_a(Util.java:17) [classes/:?]
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:980) [classes/:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:457) [classes/:?]
+	at net.minecraft.client.main.Main.main(Main.java:102) [classes/:?]
+	at Start.main(Start.java:40) [test-classes/:?]
+Caused by: java.lang.NullPointerException: Cannot invoke "net.minecraft.client.network.NetworkPlayerInfo.getGameProfile()" because the return value of "net.minecraft.client.network.NetHandlerPlayClient.getPlayerInfo(java.util.UUID)" is null
+	at net.minecraft.client.network.NetHandlerPlayClient.handleSpawnPlayer(NetHandlerPlayClient.java:358) ~[classes/:?]
+	at net.minecraft.network.play.server.S0CPacketSpawnPlayer.processPacket(S0CPacketSpawnPlayer.java:78) ~[classes/:?]
+	at net.minecraft.network.play.server.S0CPacketSpawnPlayer.processPacket(S0CPacketSpawnPlayer.java:16) ~[classes/:?]
+	at net.minecraft.network.PacketThreadUtil$1.run(PacketThreadUtil.java:17) ~[classes/:?]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java) ~[?:?]
+	at net.minecraft.util.Util.func_181617_a(Util.java:16) ~[classes/:?]
+	... 4 more
+[05:14:52] [Floyd thread/FATAL] n.m.c.Minecraft: Error executing task
+java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot invoke "net.minecraft.client.network.NetworkPlayerInfo.getGameProfile()" because the return value of "net.minecraft.client.network.NetHandlerPlayClient.getPlayerInfo(java.util.UUID)" is null
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:191) ~[?:?]
+	at net.minecraft.util.Util.func_181617_a(Util.java:17) [classes/:?]
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:980) [classes/:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:457) [classes/:?]
+	at net.minecraft.client.main.Main.main(Main.java:102) [classes/:?]
+	at Start.main(Start.java:40) [test-classes/:?]
+Caused by: java.lang.NullPointerException: Cannot invoke "net.minecraft.client.network.NetworkPlayerInfo.getGameProfile()" because the return value of "net.minecraft.client.network.NetHandlerPlayClient.getPlayerInfo(java.util.UUID)" is null
+	at net.minecraft.client.network.NetHandlerPlayClient.handleSpawnPlayer(NetHandlerPlayClient.java:358) ~[classes/:?]
+	at net.minecraft.network.play.server.S0CPacketSpawnPlayer.processPacket(S0CPacketSpawnPlayer.java:78) ~[classes/:?]
+	at net.minecraft.network.play.server.S0CPacketSpawnPlayer.processPacket(S0CPacketSpawnPlayer.java:16) ~[classes/:?]
+	at net.minecraft.network.PacketThreadUtil$1.run(PacketThreadUtil.java:17) ~[classes/:?]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java) ~[?:?]
+	at net.minecraft.util.Util.func_181617_a(Util.java:16) ~[classes/:?]
+	... 4 more
+[05:14:52] [Floyd thread/FATAL] n.m.c.Minecraft: Error executing task
+java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot invoke "net.minecraft.client.network.NetworkPlayerInfo.getGameProfile()" because the return value of "net.minecraft.client.network.NetHandlerPlayClient.getPlayerInfo(java.util.UUID)" is null
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:191) ~[?:?]
+	at net.minecraft.util.Util.func_181617_a(Util.java:17) [classes/:?]
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:980) [classes/:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:457) [classes/:?]
+	at net.minecraft.client.main.Main.main(Main.java:102) [classes/:?]
+	at Start.main(Start.java:40) [test-classes/:?]
+Caused by: java.lang.NullPointerException: Cannot invoke "net.minecraft.client.network.NetworkPlayerInfo.getGameProfile()" because the return value of "net.minecraft.client.network.NetHandlerPlayClient.getPlayerInfo(java.util.UUID)" is null
+	at net.minecraft.client.network.NetHandlerPlayClient.handleSpawnPlayer(NetHandlerPlayClient.java:358) ~[classes/:?]
+	at net.minecraft.network.play.server.S0CPacketSpawnPlayer.processPacket(S0CPacketSpawnPlayer.java:78) ~[classes/:?]
+	at net.minecraft.network.play.server.S0CPacketSpawnPlayer.processPacket(S0CPacketSpawnPlayer.java:16) ~[classes/:?]
+	at net.minecraft.network.PacketThreadUtil$1.run(PacketThreadUtil.java:17) ~[classes/:?]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java) ~[?:?]
+	at net.minecraft.util.Util.func_181617_a(Util.java:16) ~[classes/:?]
+	... 4 more
+[05:14:52] [Floyd thread/FATAL] n.m.c.Minecraft: Error executing task
+java.util.concurrent.ExecutionException: java.lang.NullPointerException: Cannot invoke "net.minecraft.client.network.NetworkPlayerInfo.getGameProfile()" because the return value of "net.minecraft.client.network.NetHandlerPlayClient.getPlayerInfo(java.util.UUID)" is null
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:191) ~[?:?]
+	at net.minecraft.util.Util.func_181617_a(Util.java:17) [classes/:?]
+	at net.minecraft.client.Minecraft.runGameLoop(Minecraft.java:980) [classes/:?]
+	at net.minecraft.client.Minecraft.run(Minecraft.java:457) [classes/:?]
+	at net.minecraft.client.main.Main.main(Main.java:102) [classes/:?]
+	at Start.main(Start.java:40) [test-classes/:?]
+Caused by: java.lang.NullPointerException: Cannot invoke "net.minecraft.client.network.NetworkPlayerInfo.getGameProfile()" because the return value of "net.minecraft.client.network.NetHandlerPlayClient.getPlayerInfo(java.util.UUID)" is null
+	at net.minecraft.client.network.NetHandlerPlayClient.handleSpawnPlayer(NetHandlerPlayClient.java:358) ~[classes/:?]
+	at net.minecraft.network.play.server.S0CPacketSpawnPlayer.processPacket(S0CPacketSpawnPlayer.java:78) ~[classes/:?]
+	at net.minecraft.network.play.server.S0CPacketSpawnPlayer.processPacket(S0CPacketSpawnPlayer.java:16) ~[classes/:?]
+	at net.minecraft.network.PacketThreadUtil$1.run(PacketThreadUtil.java:17) ~[classes/:?]
+	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:539) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run$$$capture(FutureTask.java:264) ~[?:?]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java) ~[?:?]
+	at net.minecraft.util.Util.func_181617_a(Util.java:16) ~[classes/:?]
+	... 4 more
+[05:14:53] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:53] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:14:53] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:14:53] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:14:56] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:14:57] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:14:57] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:58] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:14:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:02] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:04] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:05] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:05] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:05] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:06] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:06] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:06] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:06] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:06] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:07] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:10] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:10] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:11] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:11] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:11] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:11] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:12] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.pling
+[05:15:12] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Enjoy your purchase!
+[05:15:13] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.pling
+[05:15:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Enjoy your purchase!
+[05:15:13] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.pling
+[05:15:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Enjoy your purchase!
+[05:15:13] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.villager.no
+[05:15:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] You don't have enough Iron!
+[05:15:13] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.villager.no
+[05:15:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] You don't have enough Iron!
+[05:15:13] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.villager.no
+[05:15:13] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] You don't have enough Iron!
+[05:15:14] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:14] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:14] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:15] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:15] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:15] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:15] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:17] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.pling
+[05:15:17] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Enjoy your purchase!
+[05:15:17] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.villager.no
+[05:15:17] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] You don't have enough Iron!
+[05:15:18] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:19] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:19] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:15:20] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:15:21] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:15:21] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] §l§bFloyd§r§b » §rException in console
+[05:15:21] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:35] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:36] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:36] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:36] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:36] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:36] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] super1905 » yellow hack
+[05:15:36] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:36] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:15:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:37] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:15:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:15:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:15:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:15:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:15:38] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:15:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:15:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:15:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:15:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:15:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:15:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.successful_hit
+[05:15:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] ▏ BedWars Solo ▏ You gained 5 global points for killing super1905
+[05:15:40] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] super1905 was killed by St1_t1n
+[05:15:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:42] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] DARKMYJESTY was killed by 19JonTurk22
+[05:15:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:15:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:15:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:15:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.wood
+[05:15:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.wood
+[05:15:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.enderdragon.growl
+[05:15:43] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] You destoryed Lime's bed.
+[05:15:43] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] BED DESTRUCTION > Lime Bed was destroyed by St1_t1n!
+[05:15:43] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] ▏ BedWars Solo ▏ You gained 20 global points for destroing the bed.
+[05:15:43] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] ┃ BlocksMC ┃ You earned 2 tokens! You now have 2 tokens.
+[05:15:43] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:44] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:15:45] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:15:45] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:15:45] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:15:46] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:15:46] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:46] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.enderdragon.growl
+[05:15:46] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] BED DESTRUCTION > Red Bed was destroyed by 19JonTurk22!
+[05:15:46] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:46] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:47] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:15:47] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:47] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:15:47] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:47] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:15:48] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:15:48] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:48] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:48] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] St1_t1n was killed by super1905
+[05:15:50] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] ibtissem » whhhhhhhht
+[05:15:53] [Texture Downloader #89/ERROR] n.m.c.r.ThreadDownloadImageData: Couldn't download http texture: java.net.UnknownHostException: skins.minecraft.net
+[05:15:53] [Texture Downloader #90/ERROR] n.m.c.r.ThreadDownloadImageData: Couldn't download http texture: java.net.UnknownHostException: skins.minecraft.net
+[05:15:53] [Texture Downloader #88/ERROR] n.m.c.r.ThreadDownloadImageData: Couldn't download http texture: java.net.UnknownHostException: skins.minecraft.net
+[05:15:53] [Texture Downloader #85/ERROR] n.m.c.r.ThreadDownloadImageData: Couldn't download http texture: java.net.UnknownHostException: skins.minecraft.net
+[05:15:53] [Texture Downloader #91/ERROR] n.m.c.r.ThreadDownloadImageData: Couldn't download http texture: java.net.UnknownHostException: skins.minecraft.net
+[05:15:53] [Texture Downloader #87/ERROR] n.m.c.r.ThreadDownloadImageData: Couldn't download http texture: java.net.UnknownHostException: skins.minecraft.net
+[05:15:53] [Texture Downloader #92/ERROR] n.m.c.r.ThreadDownloadImageData: Couldn't download http texture: java.net.UnknownHostException: skins.minecraft.net
+[05:15:53] [Texture Downloader #86/ERROR] n.m.c.r.ThreadDownloadImageData: Couldn't download http texture: java.net.UnknownHostException: skins.minecraft.net
+[05:15:53] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Your bed has brought you new life!
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:15:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:55] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:55] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:55] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] super1905 » yellow hackeerr
+[05:15:55] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:15:58] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 19JonTurk22 was killed by DARKMYJESTY
+[05:15:59] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.pling
+[05:15:59] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Enjoy your purchase!
+[05:16:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.pling
+[05:16:00] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Enjoy your purchase!
+[05:16:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.pling
+[05:16:00] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Enjoy your purchase!
+[05:16:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.pling
+[05:16:00] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Enjoy your purchase!
+[05:16:00] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.pling
+[05:16:00] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Enjoy your purchase!
+[05:16:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.pling
+[05:16:01] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Enjoy your purchase!
+[05:16:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.pling
+[05:16:01] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Enjoy your purchase!
+[05:16:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.villager.no
+[05:16:01] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] You don't have enough Iron!
+[05:16:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.villager.no
+[05:16:01] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] You don't have enough Iron!
+[05:16:01] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:mob.villager.no
+[05:16:01] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] You don't have enough Iron!
+[05:16:03] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] §l§bFloyd§r§b » §rPlayer §cShaDowUwU_2012§f has §dIron Armor
+[05:16:03] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] §l§bFloyd§r§b » §rPlayer §cSt1_t1n§f has an §bIron Sword
+[05:16:04] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:04] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:05] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:05] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:16:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:16:08] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:16:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:16:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:16:10] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:16:11] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:16:11] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:16:11] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:16:11] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:dig.cloth
+[05:16:12] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:12] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:14] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:14] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:16:15] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:16] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:17] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:17] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:17] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:17] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:17] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] §l§bFloyd§r§b » §rPlayer §csuper1905§f has §dIron Armor
+[05:16:17] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:18] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.pling
+[05:16:18] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Enjoy your purchase!
+[05:16:19] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.pling
+[05:16:19] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Enjoy your purchase!
+[05:16:19] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.pling
+[05:16:19] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Enjoy your purchase!
+[05:16:19] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:note.pling
+[05:16:19] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Enjoy your purchase!
+[05:16:20] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:21] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:21] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:16:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:16:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:16:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:22] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:23] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:24] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:25] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:26] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:27] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] §l§bFloyd§r§b » §rPlayer §csuper1905§f has an §bIron Sword
+[05:16:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:27] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:28] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:29] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:30] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.cloth
+[05:16:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:16:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt.fall.small
+[05:16:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:16:31] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:16:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:32] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:16:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:16:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:16:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:16:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:33] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:34] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt
+[05:16:34] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] St1_t1n was killed by super1905
+[05:16:39] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Your bed has brought you new life!
+[05:16:39] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:40] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:random.pop
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:41] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:42] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.stone
+[05:16:50] [Floyd thread/INFO] n.m.c.m.GuiConnecting: Connecting to funniesthvh.uk, 25565
+[05:16:52] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Anti-Bot | Currently verifying you. Please wait...
+[05:16:52] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt.fall.big
+[05:16:52] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.snow
+[05:16:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:game.player.hurt.fall.small
+[05:16:54] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:step.grass
+[05:16:59] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] Anti-Bot | Verification successful!
+[05:16:59] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+[05:16:59] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] (!) Please register by using: /register <password> <password>
+[05:17:04] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] You have exhausted the account limits per IP.
+[05:17:07] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
+[05:17:09] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
+[05:17:21] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
+[05:17:22] [Floyd thread/INFO] n.m.c.m.GuiConnecting: Connecting to funniesthvh.uk, 25565
+[05:17:23] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+[05:17:23] [Floyd thread/INFO] n.m.c.g.GuiNewChat: [CHAT] (!) Please register by using: /register <password> <password>
+[05:21:03] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
+[05:21:05] [Floyd thread/WARN] n.m.c.a.SoundManager: Unable to play unknown soundEvent: minecraft:gui.button.press
+[05:21:06] [Floyd thread/INFO] n.m.c.Minecraft: Stopping!
+[05:21:06] [Floyd thread/INFO] n.m.c.a.SoundManager: SoundSystem shutting down...
+[05:21:06] [Floyd thread/WARN] n.m.c.a.SoundManager: Author: Paul Lamb, www.paulscode.com

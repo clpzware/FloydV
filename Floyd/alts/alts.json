@@ -138,6 +138,13 @@
       "uuid": "28cd21b46579356c8103139185ffb981",
       "accessToken": "accessToken",
       "lastUsed": 1761283108407
+    },
+    {
+      "type": "Cracked",
+      "name": "St1_t1n",
+      "uuid": "ccfa88e00ecb3a8e8dae19080e6c3aac",
+      "accessToken": "accessToken",
+      "lastUsed": 1761297094182
     }
   ]
 }

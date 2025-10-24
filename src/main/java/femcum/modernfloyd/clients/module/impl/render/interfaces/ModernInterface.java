@@ -1,3 +1,5 @@
+// File: ModernInterface.java
+
 package femcum.modernfloyd.clients.module.impl.render.interfaces;
 
 import femcum.modernfloyd.clients.Floyd;
@@ -66,6 +68,7 @@ public class ModernInterface extends Mode<Interface> {
     private final BooleanValue dropShadow = new BooleanValue("Drop Shadow", this, true);
     private final BooleanValue sidebar = new BooleanValue("Sidebar", this, true);
     private final BooleanValue particles = new BooleanValue("Particles on Kill", this, true);
+
     private final ModeValue background = new ModeValue("BackGround", this) {{
         add(new SubMode("Off"));
         add(new SubMode("Normal"));
@@ -75,13 +78,21 @@ public class ModernInterface extends Mode<Interface> {
 
     private final StringValue customClientName = new StringValue("Custom Floyd Name", this, "");
 
+    // ArrayList settings - SIMPLIFIED
+    private final BooleanValue arrayListBackground = new BooleanValue("ArrayList Background", this, true);
+    private final NumberValue arrayListBackgroundAlpha = new NumberValue("ArrayList BG Alpha", this, 0.65, 0.0, 1.0, 0.05);
+    private final NumberValue arrayListPaddingX = new NumberValue("ArrayList Padding X", this, 6.0, 2.0, 15.0, 0.5);
+    private final NumberValue arrayListPaddingY = new NumberValue("ArrayList Padding Y", this, 3.0, 1.0, 10.0, 0.5);
+    private final NumberValue arrayListCornerRadius = new NumberValue("ArrayList Radius", this, 4.0, 0.0, 12.0, 0.5);
+    private final BooleanValue arrayListAccentBar = new BooleanValue("ArrayList Accent Bar", this, true);
+
     // Watermark settings
     private final BooleanValue watermarkBackground = new BooleanValue("Watermark Background", this, true);
-    private final NumberValue watermarkBackgroundAlpha = new NumberValue("Watermark BG Alpha", this, 0.7, 1.0, 0.0, 0.05);
-    private final NumberValue watermarkPaddingX = new NumberValue("Watermark Padding X", this, 10.0, 20.0, 4.0, 0.5);
-    private final NumberValue watermarkPaddingY = new NumberValue("Watermark Padding Y", this, 7.0, 15.0, 3.0, 0.5);
-    private final NumberValue watermarkCornerRadius = new NumberValue("Watermark Radius", this, 8.0, 15.0, 0.0, 0.5);
-    private final NumberValue watermarkShadowSize = new NumberValue("Watermark Shadow", this, 8.0, 15.0, 0.0, 1.0);
+    private final NumberValue watermarkBackgroundAlpha = new NumberValue("Watermark BG Alpha", this, 0.7, 0.0, 1.0, 0.05);
+    private final NumberValue watermarkPaddingX = new NumberValue("Watermark Padding X", this, 10.0, 4.0, 20.0, 0.5);
+    private final NumberValue watermarkPaddingY = new NumberValue("Watermark Padding Y", this, 7.0, 3.0, 15.0, 0.5);
+    private final NumberValue watermarkCornerRadius = new NumberValue("Watermark Radius", this, 8.0, 0.0, 15.0, 0.5);
+    private final NumberValue watermarkShadowSize = new NumberValue("Watermark Shadow", this, 8.0, 0.0, 15.0, 1.0);
 
     private boolean glow, shadow;
     private boolean normalBackGround, blurBackGround;
@@ -100,12 +111,23 @@ public class ModernInterface extends Mode<Interface> {
         }
 
         boolean minecraft = arrayListFont == MINECRAFT.get();
-        this.getParent().setModuleSpacing((minecraft ? 1.5F : 0.0F) + arrayListFont.height());
+
+        // Dynamic spacing based on padding and radius
+        float dynamicSpacing = arrayListBackground.getValue() ?
+                (arrayListPaddingY.getValue().floatValue() * 2 + arrayListCornerRadius.getValue().floatValue() * 0.5f) :
+                (minecraft ? 1.5F : 0.0F);
+
+        this.getParent().setModuleSpacing(arrayListFont.height() + dynamicSpacing);
         this.getParent().setWidthComparator(arrayListFont);
         this.getParent().setEdgeOffset(10);
 
         float sy = event.getScaledResolution().getScaledHeight() - arrayListFont.height() - 1;
         final double widthOffset = minecraft ? 3.5 : 2;
+
+        final float paddingX = arrayListPaddingX.getValue().floatValue();
+        final float paddingY = arrayListPaddingY.getValue().floatValue();
+        final float radius = arrayListCornerRadius.getValue().floatValue();
+        final Color darkBackground = new Color(18, 18, 18, (int)(arrayListBackgroundAlpha.getValue().floatValue() * 255));
 
         // Render modules in the top right corner
         for (final ModuleComponent moduleComponent : this.getParent().getActiveModuleComponents()) {
@@ -117,39 +139,145 @@ public class ModernInterface extends Mode<Interface> {
                     .replace(getParent().getRemoveSpaces().getValue() ? " " : "", "");
             String tag = (this.getParent().lowercase.getValue() ? moduleComponent.getTag().toLowerCase() : moduleComponent.getTag())
                     .replace(getParent().getRemoveSpaces().getValue() ? " " : "", "");
+
             final double x = moduleComponent.getPosition().getX();
             final double y = moduleComponent.getPosition().getY();
             final Color finalColor = moduleComponent.getColor();
             final boolean hasTag = !moduleComponent.getTag().isEmpty() && this.getParent().suffix.getValue();
 
-            if (this.normalBackGround || this.blurBackGround) {
-                Runnable backgroundRunnable = () -> RenderUtil.rectangle(
-                        x + 0.5 - widthOffset, y - 2.5,
-                        (moduleComponent.nameWidth + moduleComponent.tagWidth) + 2 + widthOffset,
-                        this.getParent().moduleSpacing, getTheme().getBackgroundShade());
+            // ArrayList background rendering
+            if (arrayListBackground.getValue()) {
+                final float totalWidth = (float)(moduleComponent.nameWidth + moduleComponent.tagWidth) + paddingX * 2 + (hasTag ? 3 : 0);
+                final float totalHeight = arrayListFont.height() + paddingY * 2;
 
-                if (this.normalBackGround) {
-                    getLayer(REGULAR, 1).add(backgroundRunnable);
-                }
-
-                if (this.blurBackGround) {
-                    getLayer(BLUR).add(() -> RenderUtil.rectangle(
-                            x + 0.5 - widthOffset, y - 2.5,
-                            (moduleComponent.nameWidth + moduleComponent.tagWidth) + 2 + widthOffset,
-                            this.getParent().moduleSpacing, Color.BLACK));
-                }
-
-                getLayer(BLOOM).add(() -> {
+                // Background with subtle shadow
+                getLayer(REGULAR, 1).add(() -> {
+                    // Subtle outer glow/shadow
                     if (glow || shadow) {
+                        RenderUtil.roundedRectangle(
+                                (float)x - paddingX - 1.5f,
+                                (float)y - paddingY - 1.5f,
+                                totalWidth + 3f,
+                                totalHeight + 3f,
+                                radius + 1f,
+                                new Color(0, 0, 0, 40)
+                        );
+                    }
+
+                    // Main background
+                    RenderUtil.roundedRectangle(
+                            (float)x - paddingX,
+                            (float)y - paddingY,
+                            totalWidth,
+                            totalHeight,
+                            radius,
+                            darkBackground
+                    );
+                });
+
+                // Blur layer
+                if (blurBackGround) {
+                    getLayer(BLUR).add(() -> RenderUtil.roundedRectangle(
+                            (float)x - paddingX,
+                            (float)y - paddingY,
+                            totalWidth,
+                            totalHeight,
+                            radius,
+                            Color.BLACK
+                    ));
+                }
+
+                // Accent bar on the left
+                if (arrayListAccentBar.getValue()) {
+                    final float accentWidth = 2f;
+                    final float accentHeight = totalHeight - (radius * 1.5f);
+                    final float accentY = (float)y - paddingY + (radius * 0.75f);
+
+                    getLayer(REGULAR, 1).add(() -> {
                         RenderUtil.rectangle(
-                                x + 0.5 - widthOffset, y - 2.5,
-                                (moduleComponent.nameWidth + moduleComponent.tagWidth) + 2 + widthOffset,
-                                this.getParent().moduleSpacing,
-                                glow ? ColorUtil.withAlpha(finalColor, 164) : getTheme().getDropShadow());
+                                (float)x - paddingX + 1.5f,
+                                accentY,
+                                accentWidth,
+                                accentHeight,
+                                finalColor
+                        );
+                    });
+
+                    // Bloom glow for accent bar
+                    getLayer(BLOOM).add(() -> {
+                        RenderUtil.rectangle(
+                                (float)x - paddingX + 1.5f,
+                                accentY,
+                                accentWidth,
+                                accentHeight,
+                                ColorUtil.withAlpha(finalColor, 180)
+                        );
+
+                        // Extra glow
+                        RenderUtil.rectangle(
+                                (float)x - paddingX + 0.5f,
+                                accentY - 1f,
+                                accentWidth + 2f,
+                                accentHeight + 2f,
+                                ColorUtil.withAlpha(finalColor, 100)
+                        );
+                    });
+                }
+
+                // Background bloom
+                getLayer(BLOOM).add(() -> {
+                    if (glow) {
+                        RenderUtil.roundedRectangle(
+                                (float)x - paddingX,
+                                (float)y - paddingY,
+                                totalWidth,
+                                totalHeight,
+                                radius,
+                                ColorUtil.withAlpha(finalColor, 40)
+                        );
+                    } else if (shadow) {
+                        RenderUtil.roundedRectangle(
+                                (float)x - paddingX,
+                                (float)y - paddingY,
+                                totalWidth,
+                                totalHeight,
+                                radius,
+                                getTheme().getDropShadow()
+                        );
                     }
                 });
+            } else {
+                // Original background rendering when ArrayList background is off
+                if (this.normalBackGround || this.blurBackGround) {
+                    Runnable backgroundRunnable = () -> RenderUtil.rectangle(
+                            x + 0.5 - widthOffset, y - 2.5,
+                            (moduleComponent.nameWidth + moduleComponent.tagWidth) + 2 + widthOffset,
+                            this.getParent().moduleSpacing, getTheme().getBackgroundShade());
+
+                    if (this.normalBackGround) {
+                        getLayer(REGULAR, 1).add(backgroundRunnable);
+                    }
+
+                    if (this.blurBackGround) {
+                        getLayer(BLUR).add(() -> RenderUtil.rectangle(
+                                x + 0.5 - widthOffset, y - 2.5,
+                                (moduleComponent.nameWidth + moduleComponent.tagWidth) + 2 + widthOffset,
+                                this.getParent().moduleSpacing, Color.BLACK));
+                    }
+
+                    getLayer(BLOOM).add(() -> {
+                        if (glow || shadow) {
+                            RenderUtil.rectangle(
+                                    x + 0.5 - widthOffset, y - 2.5,
+                                    (moduleComponent.nameWidth + moduleComponent.tagWidth) + 2 + widthOffset,
+                                    this.getParent().moduleSpacing,
+                                    glow ? ColorUtil.withAlpha(finalColor, 164) : getTheme().getDropShadow());
+                        }
+                    });
+                }
             }
 
+            // Draw text
             Runnable textRunnable = () -> {
                 if (dropShadow.getValue()) {
                     arrayListFont.drawWithShadow(name, x, y, finalColor.getRGB());
@@ -179,7 +307,8 @@ public class ModernInterface extends Mode<Interface> {
                 getLayer(BLOOM).add(shadowRunnable);
             }
 
-            if (this.sidebar.getValue()) {
+            // Old sidebar (only if ArrayList background is off)
+            if (this.sidebar.getValue() && !arrayListBackground.getValue()) {
                 getLayer(REGULAR, 1).add(() -> RenderUtil.roundedRectangle(
                         x + moduleComponent.getNameWidth() + moduleComponent.tagWidth + 2, y - 1.5f, 2, 9, 1, finalColor));
             }
@@ -193,10 +322,10 @@ public class ModernInterface extends Mode<Interface> {
             }
         });
 
-        // Enhanced watermark rendering with proper centering
-        final float paddingX = watermarkPaddingX.getValue().floatValue();
-        final float paddingY = watermarkPaddingY.getValue().floatValue();
-        final float radius = watermarkCornerRadius.getValue().floatValue();
+        // WATERMARK RENDERING
+        final float wPaddingX = watermarkPaddingX.getValue().floatValue();
+        final float wPaddingY = watermarkPaddingY.getValue().floatValue();
+        final float wRadius = watermarkCornerRadius.getValue().floatValue();
 
         final String clientNameText = customClientName.getValue().isEmpty() ? Floyd.NAME : customClientName.getValue();
         final String versionText = Floyd.VERSION;
@@ -204,7 +333,6 @@ public class ModernInterface extends Mode<Interface> {
         final String userText = username;
         final String uidText = "UID: " + (Floyd.UID != null ? Floyd.UID : "0");
 
-        // Calculate widths for proper layout
         final float nameWidth = this.productSansMedium36.width(clientNameText);
         final float versionWidth = this.productSansMedium36.width(versionText);
         final float fpsWidth = this.productSansRegular18.width(fpsText);
@@ -212,67 +340,47 @@ public class ModernInterface extends Mode<Interface> {
         final float uidWidth = this.productSansRegular18.width(uidText);
         final float separatorWidth = this.productSansRegular18.width(" | ");
 
-        // Calculate total dimensions
-        final float lineSpacing = 2.0f;
-        final float titleHeight = this.productSansMedium36.height();
-        final float infoHeight = this.productSansRegular18.height();
-        final float totalTextHeight = titleHeight + lineSpacing + infoHeight;
+        final float totalLineWidth = nameWidth + 2 + versionWidth + separatorWidth + fpsWidth + separatorWidth + userWidth + separatorWidth + uidWidth;
+        final float textHeight = this.productSansMedium36.height();
 
-        final float line1Width = nameWidth + 2 + versionWidth;
-        final float line2Width = fpsWidth + separatorWidth + userWidth + separatorWidth + uidWidth;
-        final float maxTextWidth = Math.max(line1Width, line2Width);
-
-        final float finalTotalWidth = maxTextWidth + 2.0f * paddingX;
-        final float finalTotalHeight = totalTextHeight + 2.0f * paddingY;
+        final float finalTotalWidth = totalLineWidth + 2.0f * wPaddingX;
+        final float finalTotalHeight = textHeight + 2.0f * wPaddingY;
 
         final float posX = 4.0f;
         final float posY = 4.5f;
 
-        // Define colors - Red and dark theme
         final Color redAccent = new Color(255, 50, 50);
         final Color darkRed = new Color(180, 30, 30);
         final Color backgroundColor = new Color(18, 18, 18, (int)(watermarkBackgroundAlpha.getValue().floatValue() * 255));
         final Color textSecondary = new Color(200, 200, 200);
 
-        // Draw watermark background and shadow
         getLayer(REGULAR, 1).add(() -> {
             if (watermarkBackground.getValue()) {
-                // Draw smooth shadow
                 int shadowSize = watermarkShadowSize.getValue().intValue();
                 if (shadowSize > 0) {
                     for (int i = shadowSize; i > 0; i--) {
                         float alpha = (float)i / (float)shadowSize * 0.15f;
-                        Color shadow = new Color(0, 0, 0, (int)(alpha * 255.0f));
+                        Color shadow2 = new Color(0, 0, 0, (int)(alpha * 255.0f));
                         RenderUtil.roundedRectangle(
                                 posX - i * 0.5f, posY - i * 0.5f,
                                 finalTotalWidth + i, finalTotalHeight + i,
-                                radius + i * 0.3f, shadow
+                                wRadius + i * 0.3f, shadow2
                         );
                     }
                 }
 
-                // Draw background
-                RenderUtil.roundedRectangle(posX, posY, finalTotalWidth, finalTotalHeight, radius, backgroundColor);
-
-                // Draw bottom accent bar
-                RenderUtil.rectangle(posX + radius, posY + finalTotalHeight - 2.5f, finalTotalWidth - radius * 2, 2.5f, redAccent);
+                RenderUtil.roundedRectangle(posX, posY, finalTotalWidth, finalTotalHeight, wRadius, backgroundColor);
+                RenderUtil.rectangle(posX + wRadius, posY + finalTotalHeight - 2.5f, finalTotalWidth - wRadius * 2, 2.5f, redAccent);
             }
 
-            // Calculate centered positions
-            final float contentStartY = posY + paddingY;
+            final float textY = posY + wPaddingY;
+            float currentX = posX + wPaddingX;
 
-            // Line 1: Client name and version (centered)
-            float line1X = posX + (finalTotalWidth - line1Width) / 2.0f;
-            float titleY = contentStartY;
-
-            // Draw client name in red gradient
-            float currentX = line1X;
             for (int i = 0; i < clientNameText.length(); i++) {
                 char c = clientNameText.charAt(i);
                 String str = String.valueOf(c);
                 float charWidth = this.productSansMedium36.width(str);
 
-                // Gradient from red to dark red
                 float progress = (float)i / (float)clientNameText.length();
                 Color charColor = new Color(
                         (int)(redAccent.getRed() + (darkRed.getRed() - redAccent.getRed()) * progress),
@@ -280,60 +388,50 @@ public class ModernInterface extends Mode<Interface> {
                         (int)(redAccent.getBlue() + (darkRed.getBlue() - redAccent.getBlue()) * progress)
                 );
 
-                this.productSansMedium36.drawWithShadow(str, currentX, titleY, charColor.getRGB());
+                this.productSansMedium36.drawWithShadow(str, currentX, textY, charColor.getRGB());
                 currentX += charWidth;
             }
 
-            // Draw version in lighter red
             currentX += 2;
-            this.productSansMedium36.drawWithShadow(versionText, currentX, titleY, new Color(255, 120, 120).getRGB());
+            this.productSansMedium36.drawWithShadow(versionText, currentX, textY, new Color(255, 120, 120).getRGB());
+            currentX += versionWidth;
 
-            // Line 2: FPS | Username | UID (centered)
-            float line2X = posX + (finalTotalWidth - line2Width) / 2.0f;
-            float infoY = contentStartY + titleHeight + lineSpacing;
+            final float smallFontOffset = (this.productSansMedium36.height() - this.productSansRegular18.height()) / 2.0f;
+            final float smallTextY = textY + smallFontOffset;
 
-            currentX = line2X;
+            this.productSansRegular18.drawWithShadow(" | ", currentX, smallTextY, textSecondary.getRGB());
+            currentX += separatorWidth;
 
-            // FPS with red accent
-            this.productSansRegular18.drawWithShadow(fpsText, currentX, infoY, redAccent.getRGB());
+            this.productSansRegular18.drawWithShadow(fpsText, currentX, smallTextY, redAccent.getRGB());
             currentX += fpsWidth;
 
-            // Separator
-            this.productSansRegular18.drawWithShadow(" | ", currentX, infoY, textSecondary.getRGB());
+            this.productSansRegular18.drawWithShadow(" | ", currentX, smallTextY, textSecondary.getRGB());
             currentX += separatorWidth;
 
-            // Username
-            this.productSansRegular18.drawWithShadow(userText, currentX, infoY, Color.WHITE.getRGB());
+            this.productSansRegular18.drawWithShadow(userText, currentX, smallTextY, Color.WHITE.getRGB());
             currentX += userWidth;
 
-            // Separator
-            this.productSansRegular18.drawWithShadow(" | ", currentX, infoY, textSecondary.getRGB());
+            this.productSansRegular18.drawWithShadow(" | ", currentX, smallTextY, textSecondary.getRGB());
             currentX += separatorWidth;
 
-            // UID
-            this.productSansRegular18.drawWithShadow(uidText, currentX, infoY, textSecondary.getRGB());
+            this.productSansRegular18.drawWithShadow(uidText, currentX, smallTextY, textSecondary.getRGB());
 
-            // Draw coordinates at bottom
             productSansRegular.drawWithShadow("XYZ:", 5, sy, textSecondary.getRGB());
             productSansMedium18.drawWithShadow(coordinates, 5 + xyzWidth, sy, Color.WHITE.getRGB());
         });
 
-        // Add bloom/glow effect to watermark
         getLayer(BLOOM).add(() -> {
             if (watermarkBackground.getValue()) {
-                // Always glow the accent bar for that sick effect!
-                RenderUtil.rectangle(posX + radius, posY + finalTotalHeight - 2.5f, finalTotalWidth - radius * 2, 2.5f,
+                RenderUtil.rectangle(posX + wRadius, posY + finalTotalHeight - 2.5f, finalTotalWidth - wRadius * 2, 2.5f,
                         ColorUtil.withAlpha(redAccent, 200));
 
-                // Extra intense glow layers for the bar
-                RenderUtil.rectangle(posX + radius - 1, posY + finalTotalHeight - 3.5f, finalTotalWidth - radius * 2 + 2, 4.5f,
+                RenderUtil.rectangle(posX + wRadius - 1, posY + finalTotalHeight - 3.5f, finalTotalWidth - wRadius * 2 + 2, 4.5f,
                         ColorUtil.withAlpha(redAccent, 120));
-                RenderUtil.rectangle(posX + radius - 2, posY + finalTotalHeight - 4.5f, finalTotalWidth - radius * 2 + 4, 6.5f,
+                RenderUtil.rectangle(posX + wRadius - 2, posY + finalTotalHeight - 4.5f, finalTotalWidth - wRadius * 2 + 4, 6.5f,
                         ColorUtil.withAlpha(redAccent, 60));
 
                 if (glow) {
-                    // Glow the entire watermark box when glow mode is enabled
-                    RenderUtil.roundedRectangle(posX, posY, finalTotalWidth, finalTotalHeight, radius,
+                    RenderUtil.roundedRectangle(posX, posY, finalTotalWidth, finalTotalHeight, wRadius,
                             ColorUtil.withAlpha(redAccent, 80));
                 }
             }
@@ -378,7 +476,6 @@ public class ModernInterface extends Mode<Interface> {
             xyzWidth = this.productSansMedium18.width("XYZ:") + 2;
             logoColor = this.getTheme().getFirstColor();
 
-            // Update font based on mode
             switch (fontMode.getValue().getName()) {
                 case "Product Sans":
                     Font productSans = MAIN.get(18, Weight.REGULAR);
@@ -405,7 +502,6 @@ public class ModernInterface extends Mode<Interface> {
                     break;
             }
 
-            // Update module components
             for (final ModuleComponent moduleComponent : this.getParent().getActiveModuleComponents()) {
                 if (moduleComponent.animationTime == 0) {
                     continue;

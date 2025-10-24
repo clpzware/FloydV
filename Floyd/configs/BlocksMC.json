@@ -36,6 +36,24 @@
     "Custom Floyd Name in Modern Mode": {
       "value": ""
     },
+    "ArrayList Background in Modern Mode": {
+      "value": true
+    },
+    "ArrayList BG Alpha in Modern Mode": {
+      "value": 0.65
+    },
+    "ArrayList Padding X in Modern Mode": {
+      "value": 6.0
+    },
+    "ArrayList Padding Y in Modern Mode": {
+      "value": 3.0
+    },
+    "ArrayList Radius in Modern Mode": {
+      "value": 4.0
+    },
+    "ArrayList Accent Bar in Modern Mode": {
+      "value": true
+    },
     "Watermark Background in Modern Mode": {
       "value": true
     },
@@ -78,8 +96,11 @@
     "Show Coordinates in Classic Mode": {
       "value": true
     },
+    "Show Version in Classic Mode": {
+      "value": true
+    },
     "Custom Floyd Name in Classic Mode": {
-      "value": "Rise"
+      "value": "FloydV"
     },
     "Font in Creida Mode": {
       "value": true
@@ -117,7 +138,7 @@
     "state": false,
     "keyCode": 48,
     "Mode in module.player.scaffold.name Module": {
-      "value": "Normal"
+      "value": "Eagle"
     },
     "Rotation Mode in module.player.scaffold.name Module": {
       "value": "Normal"
@@ -135,7 +156,7 @@
       "value": "Disabled"
     },
     "Same Y in module.player.scaffold.name Module": {
-      "value": "Auto Jump"
+      "value": "Off"
     },
     "Downwards (Press Sneak) in module.player.scaffold.name Module": {
       "value": "Off"
@@ -155,10 +176,10 @@
       "value": 0.0
     },
     "Movement Correction in module.player.scaffold.name Module": {
-      "value": true
+      "value": false
     },
     "Safe Walk in module.player.scaffold.name Module": {
-      "value": false
+      "value": true
     },
     "Sneak in module.player.scaffold.name Module": {
       "value": false
@@ -455,8 +476,8 @@
     "state": true,
     "keyCode": 0,
     " in module.render.hotbar.name Module": {
-      "positionX": 389.0,
-      "positionY": 461.5,
+      "positionX": 100.0,
+      "positionY": 100.0,
       "scaleX": 182.0,
       "scaleY": 40.0
     }
@@ -994,7 +1015,7 @@
     "Position in module.render.targetinfo.name Module": {
       "positionX": 100.0,
       "positionY": 100.0,
-      "scaleX": 167.0,
+      "scaleX": 147.0,
       "scaleY": 48.0
     },
     "Follow Player in module.render.targetinfo.name Module": {
@@ -1778,14 +1799,14 @@
       "value": false
     },
     " in module.render.chat.name Module": {
-      "positionX": 4.5,
-      "positionY": 345.0,
+      "positionX": 100.0,
+      "positionY": 100.0,
       "scaleX": 300.0,
       "scaleY": 130.0
     }
   },
   "module.combat.killaura.name": {
-    "state": true,
+    "state": false,
     "keyCode": 19,
     "Attack Mode in module.combat.killaura.name Module": {
       "value": "Single"
@@ -1854,19 +1875,19 @@
       "value": false
     },
     "Targets in module.combat.killaura.name Module": {
-      "value": true
+      "value": false
     },
     "Player in module.combat.killaura.name Module": {
       "value": true
     },
     "Invisibles in module.combat.killaura.name Module": {
-      "value": true
+      "value": false
     },
     "Animals in module.combat.killaura.name Module": {
-      "value": true
+      "value": false
     },
     "Mobs in module.combat.killaura.name Module": {
-      "value": true
+      "value": false
     },
     "Player Teammates in module.combat.killaura.name Module": {
       "value": true
@@ -1941,10 +1962,10 @@
     "state": true,
     "keyCode": 0,
     "Position in module.render.scoreboard.name Module": {
-      "positionX": 87.0,
+      "positionX": 100.0,
       "positionY": 100.0,
-      "scaleX": 81.0,
-      "scaleY": 69.0
+      "scaleX": 78.0,
+      "scaleY": 114.0
     },
     "Outline in module.render.scoreboard.name Module": {
       "value": false
