@@ -115,7 +115,7 @@
   },
   "module.player.scaffold.name": {
     "state": false,
-    "keyCode": 48,
+    "keyCode": 0,
     "Mode in module.player.scaffold.name Module": {
       "value": "Normal"
     },
@@ -126,7 +126,7 @@
       "value": "Strict"
     },
     "Sprint in module.player.scaffold.name Module": {
-      "value": "Disabled"
+      "value": "Normal"
     },
     "Speed in Vulcan Mode": {
       "value": 1.3
@@ -135,13 +135,13 @@
       "value": "Disabled"
     },
     "Same Y in module.player.scaffold.name Module": {
-      "value": "Auto Jump"
+      "value": "Off"
     },
     "Downwards (Press Sneak) in module.player.scaffold.name Module": {
       "value": "Off"
     },
     "Rotation Speed in module.player.scaffold.name Module": {
-      "first": 0.0,
+      "first": 5.0,
       "second": 10.0
     },
     "Place Delay in module.player.scaffold.name Module": {
@@ -155,10 +155,10 @@
       "value": 0.0
     },
     "Movement Correction in module.player.scaffold.name Module": {
-      "value": true
+      "value": false
     },
     "Safe Walk in module.player.scaffold.name Module": {
-      "value": false
+      "value": true
     },
     "Sneak in module.player.scaffold.name Module": {
       "value": false
@@ -238,7 +238,7 @@
     }
   },
   "module.combat.criticals.name": {
-    "state": true,
+    "state": false,
     "keyCode": 0,
     "Mode in module.combat.criticals.name Module": {
       "value": "Packet"
@@ -416,7 +416,7 @@
     "keyCode": 0
   },
   "module.other.bwutils.name": {
-    "state": true,
+    "state": false,
     "keyCode": 0,
     "Sword Reveal in module.other.bwutils.name Module": {
       "value": true
@@ -530,7 +530,7 @@
     }
   },
   "module.ghost.wtap.name": {
-    "state": true,
+    "state": false,
     "keyCode": 0,
     "Mode in module.ghost.wtap.name Module": {
       "value": "Legit"
@@ -891,10 +891,10 @@
     }
   },
   "module.combat.velocity.name": {
-    "state": true,
+    "state": false,
     "keyCode": 0,
     "Mode in module.combat.velocity.name Module": {
-      "value": "Legit/Jump Reset"
+      "value": "Standard"
     },
     "Horizontal in Standard Mode": {
       "value": 0.0
@@ -974,7 +974,7 @@
     }
   },
   "module.render.targetinfo.name": {
-    "state": true,
+    "state": false,
     "keyCode": 0,
     "Mode in module.render.targetinfo.name Module": {
       "value": "Modern"
@@ -994,8 +994,8 @@
     "Position in module.render.targetinfo.name Module": {
       "positionX": 100.0,
       "positionY": 100.0,
-      "scaleX": 141.0,
-      "scaleY": 48.0
+      "scaleX": 100.0,
+      "scaleY": 100.0
     },
     "Follow Player in module.render.targetinfo.name Module": {
       "value": false
@@ -1411,7 +1411,7 @@
   },
   "module.movement.flight.name": {
     "state": false,
-    "keyCode": 21,
+    "keyCode": 0,
     "Mode in module.movement.flight.name Module": {
       "value": "Vanilla"
     },
@@ -1647,13 +1647,13 @@
     }
   },
   "module.render.esp.name": {
-    "state": true,
+    "state": false,
     "keyCode": 0,
     "Glow in module.render.esp.name Module": {
-      "value": true
+      "value": false
     },
     "Chams in module.render.esp.name Module": {
-      "value": true
+      "value": false
     },
     "Static Color in module.render.esp.name Module": {
       "value": false
@@ -1779,14 +1779,14 @@
     },
     " in module.render.chat.name Module": {
       "positionX": 4.5,
-      "positionY": 345.0,
+      "positionY": 405.0,
       "scaleX": 300.0,
-      "scaleY": 130.0
+      "scaleY": 70.0
     }
   },
   "module.combat.killaura.name": {
     "state": false,
-    "keyCode": 19,
+    "keyCode": 0,
     "Attack Mode in module.combat.killaura.name Module": {
       "value": "Single"
     },
@@ -1817,11 +1817,11 @@
       "second": 15.0
     },
     "Rotation speed in module.combat.killaura.name Module": {
-      "first": 0.0,
+      "first": 5.0,
       "second": 10.0
     },
     "Movement correction in module.combat.killaura.name Module": {
-      "value": "Rise"
+      "value": "Off"
     },
     "Keep sprint in module.combat.killaura.name Module": {
       "value": false
@@ -1854,19 +1854,19 @@
       "value": false
     },
     "Targets in module.combat.killaura.name Module": {
-      "value": true
+      "value": false
     },
     "Player in module.combat.killaura.name Module": {
       "value": true
     },
     "Invisibles in module.combat.killaura.name Module": {
-      "value": true
+      "value": false
     },
     "Animals in module.combat.killaura.name Module": {
-      "value": true
+      "value": false
     },
     "Mobs in module.combat.killaura.name Module": {
-      "value": true
+      "value": false
     },
     "Player Teammates in module.combat.killaura.name Module": {
       "value": true
@@ -1877,7 +1877,7 @@
     "keyCode": 0
   },
   "module.movement.sprint.name": {
-    "state": true,
+    "state": false,
     "keyCode": 0,
     "Legit in module.movement.sprint.name Module": {
       "value": true
@@ -1941,10 +1941,10 @@
     "state": true,
     "keyCode": 0,
     "Position in module.render.scoreboard.name Module": {
-      "positionX": 87.0,
+      "positionX": 100.0,
       "positionY": 100.0,
-      "scaleX": 119.0,
-      "scaleY": 150.0
+      "scaleX": 100.0,
+      "scaleY": 100.0
     },
     "Outline in module.render.scoreboard.name Module": {
       "value": false

@@ -15,20 +15,13 @@
       <change beforePath="$PROJECT_DIR$/logs/2025-10-24-6.log.gz" beforeDir="false" afterPath="$PROJECT_DIR$/logs/2025-10-24-6.log.gz" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/2025-10-24-7.log.gz" beforeDir="false" afterPath="$PROJECT_DIR$/logs/2025-10-24-7.log.gz" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/latest.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/latest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/options.txt" beforeDir="false" afterPath="$PROJECT_DIR$/options.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/data/villages.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/data/villages.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/data/villages_end.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/data/villages_end.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/data/villages_nether.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/data/villages_nether.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/level.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/level.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/level.dat_old" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/level.dat_old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/region/r.-1.-1.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/region/r.-1.-1.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/region/r.-1.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/region/r.-1.0.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/region/r.0.-1.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/region/r.0.-1.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/region/r.0.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/region/r.0.0.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/session.lock" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/session.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/module/impl/combat/KillAura.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/module/impl/combat/KillAura.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/combat/KillAura$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/combat/KillAura.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/level.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/level.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/level.dat_old" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/level.dat_old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/playerdata/f2560728-80d8-3e1b-98f0-5c257bdb8518.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/playerdata/f2560728-80d8-3e1b-98f0-5c257bdb8518.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/region/r.-1.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/region/r.-1.0.mca" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/region/r.0.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/region/r.0.0.mca" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/session.lock" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/session.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/saves/New World-/stats/f2560728-80d8-3e1b-98f0-5c257bdb8518.json" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/stats/f2560728-80d8-3e1b-98f0-5c257bdb8518.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/usercache.json" beforeDir="false" afterPath="$PROJECT_DIR$/usercache.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
