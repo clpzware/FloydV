@@ -1,3 +1,5 @@
+// File: KillAura.java
+
 package femcum.modernfloyd.clients.module.impl.combat;
 
 import femcum.modernfloyd.clients.Floyd;
@@ -75,7 +77,6 @@ public final class KillAura extends Module {
             .add(new SubMode("New NCP"))
             .add(new SubMode("Universal"))
             .add(new SubMode("Watchdog"))
-            // .add(new SubMode("Watchdog2"))
             .setDefault("None");
 
     private final BooleanValue rightClickOnly = new BooleanValue("Right Click Only", this, false, () -> autoBlock.getValue().getName().equals("None") || autoBlock.getValue().getName().equals("Fake"));
@@ -129,7 +130,6 @@ public final class KillAura extends Module {
     public final BooleanValue teams = new BooleanValue("Player Teammates", this, true, () -> !showTargets.getValue());
 
     private final Queue<Packet<?>> packetQueue = new ConcurrentLinkedQueue<>();
-
     private final StopWatch attackStopWatch = new StopWatch();
     private final StopWatch clickStopWatch = new StopWatch();
 
@@ -144,14 +144,13 @@ public final class KillAura extends Module {
     boolean shouldBlink;
     public boolean swingg;
 
-    // Pointless to remember past 9 because hurt resistance is 10 ticks
     private final EvictingList<EntityLivingBase> pastTargets = new EvictingList<>(9);
+    int ticks = 0;
 
     public KillAura() {
         for (MovementFix movementFix : MovementFix.values()) {
             movementCorrection.add(movementFix);
         }
-
         movementCorrection.setDefault(MovementFix.OFF);
     }
 
@@ -162,7 +161,6 @@ public final class KillAura extends Module {
 
         this.hitTicks++;
 
-        // Set blocking to false when switching items
         if (getComponent(Slot.class).getItemStack() == null || !(getComponent(Slot.class).getItemStack().getItem() instanceof ItemSword)) {
             blocking = false;
         }
@@ -177,7 +175,7 @@ public final class KillAura extends Module {
                 target = null;
             }
         }
-        Color color = /*getTheme().getFirstColor()*/ Color.WHITE;
+        Color color = Color.WHITE;
 
         switch (espMode.getValue().getName()) {
             case "Ring":
@@ -211,12 +209,10 @@ public final class KillAura extends Module {
                     mc.rightClickMouse();
                     mc.objectMouseOver = movingObjectPosition;
                     BlinkComponent.blinking = true;
-
                 }
             } else {
                 BlinkComponent.dispatch();
             }
-
         }
     };
 
@@ -225,7 +221,6 @@ public final class KillAura extends Module {
         this.attack = 0;
         this.blockTicks = 0;
         this.nextSwing = 0;
-//        Client.INSTANCE.setClickGUI(new RiseClickGUI());
     }
 
     @Override
@@ -250,7 +245,6 @@ public final class KillAura extends Module {
     public void getTargets() {
         double range = this.range.getValue().doubleValue();
 
-        // Create a MUTABLE ArrayList from the targets to prevent UnsupportedOperationException
         targets = new ArrayList<>(TargetComponent.getTargets(range));
 
         if (mode.getValue().getName().equals("Switch")) {
@@ -259,7 +253,6 @@ public final class KillAura extends Module {
 
         if (targets.isEmpty()) {
             pastTargets.clear();
-            // Again, create a MUTABLE ArrayList
             targets = new ArrayList<>(TargetComponent.getTargets(range + expandRange));
         }
 
@@ -309,9 +302,6 @@ public final class KillAura extends Module {
 
         this.attack = Math.max(Math.min(this.attack, this.attack - 2), 0);
 
-        /*
-         * Heuristic fix
-         */
         if (mc.thePlayer.ticksExisted % 20 == 0) {
             expandRange = (int) (3 + Math.random() * 0.5);
         }
@@ -320,9 +310,6 @@ public final class KillAura extends Module {
             return;
         }
 
-        /*
-         * Getting targets and selecting the nearest one
-         */
         this.getTargets();
 
         if (targets.isEmpty()) {
@@ -344,28 +331,17 @@ public final class KillAura extends Module {
             this.cantPreBlock();
         }
 
-        /*
-         * Calculating rotations to target
-         */
         this.rotations();
     };
 
-    // We attack on an event after all others, because other modules may have overridden the rotations
-    // this way we won't attack if a module has overriden the killaura's rotations
     @EventLink()
     public final Listener<PreUpdateEvent> onMediumPriorityPreUpdate = event -> {
         if (target == null || mc.thePlayer.isDead) {
             return;
         }
 
-        /*
-         * Doing the attack
-         */
         this.doAttack(targets);
 
-        /*
-         * Blocking
-         */
         if (this.canBlock()) {
             this.postAttackBlock();
         }
@@ -382,12 +358,27 @@ public final class KillAura extends Module {
     public void rotations() {
         final float rotationSpeed = this.rotationSpeed.getRandomBetween().floatValue();
 
+        // Safely get the MovementFix value - handle potential casting issues
+        MovementFix movementFix;
+        try {
+            Object value = movementCorrection.getValue();
+            if (value instanceof MovementFix) {
+                movementFix = (MovementFix) value;
+            } else {
+                movementFix = MovementFix.OFF;
+            }
+        } catch (Exception e) {
+            movementFix = MovementFix.OFF;
+        }
+
+        final MovementFix finalMovementFix = (movementFix == null || movementFix == MovementFix.OFF) ? MovementFix.OFF : movementFix;
+
         switch (rotationMode.getValue().getName()) {
             case "Legit/Normal":
                 Vector2f targetRotations = RotationUtil.calculate(target, true, range.getValue().doubleValue());
 
                 if (rotationSpeed != 0) RotationComponent.setRotations(targetRotations, rotationSpeed,
-                        movementCorrection.getValue() == MovementFix.OFF ? MovementFix.OFF : movementCorrection.getValue(),
+                        finalMovementFix,
                         rotations -> {
                             MovingObjectPosition movingObjectPosition = RayCastUtil.rayCast(rotations, range.getValue().floatValue(), -0.1f);
 
@@ -408,34 +399,27 @@ public final class KillAura extends Module {
 
                 if (rotationSpeed != 0) {
                     if (Math.random() > 0.1) {
-                        RotationComponent.setRotations(axis, rotationSpeed,
-                                movementCorrection.getValue() == MovementFix.OFF ? MovementFix.OFF : movementCorrection.getValue());
+                        RotationComponent.setRotations(axis, rotationSpeed, finalMovementFix);
                     } else {
-                        RotationComponent.setRotations(RotationComponent.targetRotations.add((float) ((Math.random() - 0.5) * 10), (float) ((Math.random() - 0.5) * 3)), rotationSpeed,
-                                movementCorrection.getValue() == MovementFix.OFF ? MovementFix.OFF : movementCorrection.getValue());
-
+                        RotationComponent.setRotations(RotationComponent.targetRotations.add((float) ((Math.random() - 0.5) * 10), (float) ((Math.random() - 0.5) * 3)), rotationSpeed, finalMovementFix);
                     }
                 }
-                //ChatUtil.display("Prediction Position: " + position.x + position.y + position.z);
                 break;
 
             case "Snap":
                 final Vector2f rotations = RotationUtil.calculate(target, true, range.getValue().doubleValue());
 
                 if (rotationSpeed != 0 && lastSafeUnBlockTick()) {
-                    RotationComponent.setRotations(rotations, rotationSpeed,
-                            movementCorrection.getValue() == MovementFix.OFF ? MovementFix.OFF : movementCorrection.getValue());
+                    RotationComponent.setRotations(rotations, rotationSpeed, finalMovementFix);
                 } else {
-                    RotationComponent.setRotations(new Vector2f(mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch), rotationSpeed, movementCorrection.getValue() == MovementFix.OFF ? MovementFix.OFF : movementCorrection.getValue());
+                    RotationComponent.setRotations(new Vector2f(mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch), rotationSpeed, finalMovementFix);
                 }
                 break;
 
             case "Autistic AntiCheat":
-                RotationComponent.setRotations(new Vector2f(RotationComponent.rotations.x + rotationSpeed * 10, 0), (rotationSpeed * 10) / 18,
-                        movementCorrection.getValue() == MovementFix.OFF ? MovementFix.OFF : movementCorrection.getValue());
+                RotationComponent.setRotations(new Vector2f(RotationComponent.rotations.x + rotationSpeed * 10, 0), (rotationSpeed * 10) / 18, finalMovementFix);
                 break;
         }
-
     }
 
     @EventLink
@@ -525,9 +509,6 @@ public final class KillAura extends Module {
 
             if (Math.sin(nextSwing) + 1 > Math.random() || attackStopWatch.finished(this.nextSwing + 500) || Math.random() > 0.5) {
                 if (this.allowAttack) {
-                    /*
-                     * Attacking target
-                     */
                     final double range = this.range.getValue().doubleValue();
                     final Vec3 rotationVector = mc.thePlayer.getVectorForRotation(RotationComponent.rotations.getY(), RotationComponent.rotations.getX());
                     MovingObjectPosition movingObjectPosition = RayCastUtil.rayCast(RotationComponent.rotations, range);
@@ -557,7 +538,6 @@ public final class KillAura extends Module {
                                     case "Normal":
                                     case "Hit Select":
                                         if (mc.playerController.curBlockDamageMP != 0) return;
-//                                        PacketUtil.send(new C0APacketAnimation());
                                         break;
                                 }
                             }
@@ -617,7 +597,7 @@ public final class KillAura extends Module {
         if (!blocking || !check) {
             MovingObjectPosition movingObjectPosition = RayCastUtil.rayCast(RotationComponent.lastRotations, 3);
 
-            if (interact && movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
+            if (interact && movingObjectPosition != null && movingObjectPosition.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
                 this.interact(movingObjectPosition);
             }
 
@@ -639,8 +619,9 @@ public final class KillAura extends Module {
             blocking = false;
         }
 
-        if (mc.gameSettings.keyBindUseItem.isKeyDown() && getComponent(Slot.class).getItemStack() != null && getComponent(Slot.class).getItemStack().getItem() instanceof ItemSword) {
-            //mc.gameSettings.keyBindUseItem.setPressed(false);
+        ItemStack heldItem = getComponent(Slot.class).getItemStack();
+        if (mc.gameSettings.keyBindUseItem.isKeyDown() && heldItem != null && heldItem.getItem() instanceof ItemSword) {
+            // Intentionally empty - controlled blocking
         }
     }
 
@@ -652,7 +633,6 @@ public final class KillAura extends Module {
         }
     };
 
-    int ticks = 0;
     @EventLink
     public final Listener<PacketSendEvent> onPacketSend = event -> {
         if (event.isCancelled()) {
@@ -673,4 +653,194 @@ public final class KillAura extends Module {
     public double clickDelayBlock(double delay) {
         switch (autoBlock.getValue().getName()) {
             case "Universal":
-                delay
+                delay = blockTicks >= 4 ? -1 : 500;
+                break;
+        }
+
+        return delay;
+    }
+
+    @EventLink
+    public final Listener<RightClickEvent> onRightClick = event -> {
+        if (target == null || getComponent(Slot.class).getItemStack() == null || !(getComponent(Slot.class).getItemStack().getItem() instanceof ItemSword))
+            return;
+
+        switch (autoBlock.getValue().getName()) {
+            case "Fake":
+            case "None":
+                if (!preventServerSideBlocking.getValue() || getComponent(Slot.class).getItemStack() == null || !(getComponent(Slot.class).getItemStack().getItem() instanceof ItemSword)) {
+                    return;
+                }
+
+                event.setCancelled();
+                break;
+
+            case "Legit":
+                break;
+
+            default:
+                event.setCancelled();
+                break;
+        }
+    };
+
+    @EventLink
+    public final Listener<SlowDownEvent> onSlowDown = event -> {
+        switch (autoBlock.getValue().getName()) {
+            case "Legit":
+                break;
+
+            case "Watchdog":
+                if (target != null && mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword)
+                    event.setCancelled();
+                break;
+        }
+    };
+
+    private void attackBlock() {
+        // Empty in original - no implementation needed
+    }
+
+    private void postAttackBlock() {
+        switch (autoBlock.getValue().getName()) {
+            case "Legit":
+                break;
+
+            case "Intave":
+                this.block(false, false);
+                break;
+
+            case "Vanilla":
+                if (this.hitTicks != 0) {
+                    this.block(false, true);
+                }
+                break;
+
+            case "Imperfect Vanilla":
+                if (this.hitTicks == 1 && mc.thePlayer.isSwingInProgress && Math.random() > 0.1) {
+                    this.block(false, true);
+                }
+                break;
+
+            case "Vanilla ReBlock":
+                if (this.hitTicks == 1) {
+                    this.block(false, true);
+                }
+                break;
+        }
+    }
+
+    private void preBlock() {
+        switch (autoBlock.getValue().getName()) {
+            case "Legit":
+                double range = PlayerUtil.calculatePerfectRangeToEntity(target);
+                mc.gameSettings.keyBindUseItem.setPressed(range < 3 && hitTicks <= 5 && mc.thePlayer.ticksSinceVelocity >= 5);
+                blockTicks++;
+                if (mc.gameSettings.keyBindUseItem.isPressed() || mc.thePlayer.isUsingItem()) {
+                    blockTicks = 0;
+                }
+                allowAttack = blockTicks >= 2;
+                break;
+
+            case "NCP":
+            case "Intave":
+                allowAttack = true;
+                this.unblock(false);
+                break;
+
+            case "Grim":
+                PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex() % 8 + 1));
+                PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex()));
+                this.block(false, false);
+                break;
+
+            case "Watchdog 1.17":
+                PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex() % 8 + 1));
+                PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex()));
+                this.block(false, false);
+                break;
+
+            case "New NCP":
+                if (this.blocking) {
+                    PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex() % 8 + 1));
+                    PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex()));
+                    this.blocking = false;
+                }
+                break;
+
+            case "Old Intave":
+                if (mc.thePlayer.isUsingItem()) {
+                    PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex() % 8 + 1));
+                    PacketUtil.send(new C09PacketHeldItemChange(getComponent(Slot.class).getItemIndex()));
+                }
+                break;
+
+            case "Universal":
+                if ((mc.playerController.curBlockDamageMP != 0 && mc.objectMouseOver.typeOfHit ==
+                        MovingObjectPosition.MovingObjectType.BLOCK)) {
+                    blockTicks = 0;
+                    return;
+                }
+
+                blockTicks++;
+                if (blockTicks > 5) blockTicks = 2;
+
+                PingSpoofComponent.blink();
+
+                switch (blockTicks) {
+                    case 2:
+                        this.block(false, true);
+                        break;
+
+                    case 3:
+                        this.unblock(false);
+                        break;
+                }
+                break;
+
+            case "Watchdog":
+                break;
+        }
+    }
+
+    private void postBlock() {
+        switch (autoBlock.getValue().getName()) {
+            case "NCP":
+            case "New NCP":
+                this.block(true, false);
+                break;
+
+            case "Universal":
+                if (this.blockTicks == 2) {
+                    PingSpoofComponent.dispatch();
+                }
+                break;
+
+            case "Watchdog":
+                if (blockTicks == 1) {
+                    // PingSpoofComponent.dispatch();
+                }
+                break;
+        }
+    }
+
+    public boolean canBlock() {
+        return (!rightClickOnly.getValue() || mc.gameSettings.keyBindUseItem.isKeyDown()) && getComponent(Slot.class).getItemStack() != null && getComponent(Slot.class).getItemStack().getItem() instanceof ItemSword;
+    }
+
+    public void packetBlock(final PacketSendEvent event) {
+        final Packet<?> p = event.getPacket();
+
+        switch (autoBlock.getValue().getName()) {
+            case "Intave": {
+                if (p instanceof C03PacketPlayer) {
+                    event.setCancelled();
+                    this.unblock(false);
+                    PacketUtil.sendNoEvent(p);
+                    this.block(false, true);
+                }
+                break;
+            }
+        }
+    }
+}
