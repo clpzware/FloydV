@@ -1,0 +1,69 @@
+# Java and JVM-related
+*.class
+*.log
+/bin/
+/target/
+/out/
+*.jar
+*.war
+*.ear
+
+# Gradle build files
+/.gradle/
+/build/
+/gradle/wrapper/gradle-wrapper.jar
+/gradlew
+/gradlew.bat
+/gradle.properties
+
+# Maven build files (if using Maven)
+/target/
+pom.xml.versionsBackup
+pom.xml.releaseBackup
+
+# Minecraft-specific
+/run/
+/crash-reports/
+/logs/
+/screenshots/
+/saves/
+/resourcepacks/
+/shaderpacks/
+/mods/
+*.lock
+*.hprof
+/minecraft/
+/libraries/
+/versions/
+/assets/indexes/
+/assets/objects/
+
+# IDE and editor files
+/.idea/
+*.iml
+/.vscode/
+/.settings/
+/.project
+/.classpath
+/.factorypath
+/nbproject/
+*.sublime-project
+*.sublime-workspace
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment and local configs
+/.env
+/local.properties
+/config/
+*.secret
+*.key
+*.token
+
+# Miscellaneous
+*.tmp
+*.bak
+*.swp
+*~
