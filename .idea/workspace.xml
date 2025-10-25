@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="52c56bbc-6396-4429-92df-7561d2ef115b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Floyd/alts/alts.json" beforeDir="false" afterPath="$PROJECT_DIR$/Floyd/alts/alts.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Floyd/configs/BlocksMC.json" beforeDir="false" afterPath="$PROJECT_DIR$/Floyd/configs/BlocksMC.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Floyd/configs/latest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Floyd/configs/latest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/2025-10-24-1.log.gz" beforeDir="false" afterPath="$PROJECT_DIR$/logs/2025-10-24-1.log.gz" afterDir="false" />
@@ -16,38 +17,18 @@
       <change beforePath="$PROJECT_DIR$/logs/2025-10-24-6.log.gz" beforeDir="false" afterPath="$PROJECT_DIR$/logs/2025-10-24-6.log.gz" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/2025-10-24-7.log.gz" beforeDir="false" afterPath="$PROJECT_DIR$/logs/2025-10-24-7.log.gz" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/latest.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/latest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/options.txt" beforeDir="false" afterPath="$PROJECT_DIR$/options.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/data/villages.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/data/villages.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/data/villages_end.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/data/villages_end.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/data/villages_nether.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/data/villages_nether.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/level.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/level.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/level.dat_old" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/level.dat_old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World-/playerdata/f2560728-80d8-3e1b-98f0-5c257bdb8518.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/playerdata/f2560728-80d8-3e1b-98f0-5c257bdb8518.dat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/region/r.-1.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/region/r.-1.0.mca" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/region/r.0.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/region/r.0.0.mca" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/saves/New World-/session.lock" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/session.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World-/stats/f2560728-80d8-3e1b-98f0-5c257bdb8518.json" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World-/stats/f2560728-80d8-3e1b-98f0-5c257bdb8518.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/data/villages.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/data/villages.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/data/villages_end.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/data/villages_end.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/data/villages_nether.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/data/villages_nether.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/level.dat" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/level.dat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/level.dat_old" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/level.dat_old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/region/r.-1.-1.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/region/r.-1.-1.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/region/r.-1.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/region/r.-1.0.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/region/r.0.-1.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/region/r.0.-1.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/region/r.0.0.mca" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/region/r.0.0.mca" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/saves/New World/session.lock" beforeDir="false" afterPath="$PROJECT_DIR$/saves/New World/session.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/module/impl/render/interfaces/ExhibitionInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/module/impl/render/interfaces/ExhibitionInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/minecraft/floyd/cape/RiseCapeRed.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/assets/minecraft/floyd/cape/RiseCapeRed.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ExhibitionInterface$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ExhibitionInterface$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ExhibitionInterface$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ExhibitionInterface$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ExhibitionInterface.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ExhibitionInterface.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/femcum/modernfloyd/clients/module/impl/render/interfaces/ModernInterface.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/servers.dat" beforeDir="false" afterPath="$PROJECT_DIR$/servers.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/floyd-1.0-SNAPSHOT.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/floyd-1.0-SNAPSHOT.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/usercache.json" beforeDir="false" afterPath="$PROJECT_DIR$/usercache.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -85,6 +66,7 @@
     "Application.Start.executor": "Debug",
     "Application.Unnamed.executor": "Debug",
     "Maven.floyd [clean].executor": "Run",
+    "Maven.floyd [compile].executor": "Run",
     "Maven.floyd [deploy].executor": "Run",
     "Maven.floyd [package].executor": "Run",
     "Maven.rise-client [compile].executor": "Run",
@@ -92,6 +74,7 @@
     "Maven.rise-client [package].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "main",

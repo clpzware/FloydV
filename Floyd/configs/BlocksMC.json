@@ -43,13 +43,13 @@
       "value": 0.65
     },
     "ArrayList Padding X in Modern Mode": {
-      "value": 6.0
+      "value": 8.5
     },
     "ArrayList Padding Y in Modern Mode": {
-      "value": 3.0
+      "value": 4.0
     },
     "ArrayList Radius in Modern Mode": {
-      "value": 4.0
+      "value": 3.0
     },
     "ArrayList Accent Bar in Modern Mode": {
       "value": true
@@ -61,13 +61,13 @@
       "value": 0.7
     },
     "Watermark Padding X in Modern Mode": {
-      "value": 10.0
+      "value": 9.0
     },
     "Watermark Padding Y in Modern Mode": {
-      "value": 7.0
+      "value": 3.0
     },
     "Watermark Radius in Modern Mode": {
-      "value": 8.0
+      "value": 10.5
     },
     "Watermark Shadow in Modern Mode": {
       "value": 8.0
@@ -138,7 +138,7 @@
     "state": false,
     "keyCode": 48,
     "Mode in module.player.scaffold.name Module": {
-      "value": "Eagle"
+      "value": "Normal"
     },
     "Rotation Mode in module.player.scaffold.name Module": {
       "value": "Normal"
@@ -156,7 +156,7 @@
       "value": "Disabled"
     },
     "Same Y in module.player.scaffold.name Module": {
-      "value": "Off"
+      "value": "On"
     },
     "Downwards (Press Sneak) in module.player.scaffold.name Module": {
       "value": "Off"
@@ -179,7 +179,7 @@
       "value": false
     },
     "Safe Walk in module.player.scaffold.name Module": {
-      "value": true
+      "value": false
     },
     "Sneak in module.player.scaffold.name Module": {
       "value": false
@@ -1013,9 +1013,9 @@
       "value": "Glass"
     },
     "Position in module.render.targetinfo.name Module": {
-      "positionX": 100.0,
-      "positionY": 100.0,
-      "scaleX": 147.0,
+      "positionX": 480.0,
+      "positionY": 366.0,
+      "scaleX": 153.0,
       "scaleY": 48.0
     },
     "Follow Player in module.render.targetinfo.name Module": {
@@ -1816,7 +1816,7 @@
       "second": 0.0
     },
     "Auto Block in module.combat.killaura.name Module": {
-      "value": "None"
+      "value": "Vanilla"
     },
     "Right Click Only in module.combat.killaura.name Module": {
       "value": false
@@ -1962,10 +1962,10 @@
     "state": true,
     "keyCode": 0,
     "Position in module.render.scoreboard.name Module": {
-      "positionX": 100.0,
-      "positionY": 100.0,
-      "scaleX": 78.0,
-      "scaleY": 114.0
+      "positionX": 874.5,
+      "positionY": 114.0,
+      "scaleX": 81.0,
+      "scaleY": 69.0
     },
     "Outline in module.render.scoreboard.name Module": {
       "value": false
