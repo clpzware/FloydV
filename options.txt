@@ -16,7 +16,7 @@ ao:0
 renderClouds:false
 resourcePacks:[]
 incompatibleResourcePacks:[]
-lastServer:anticheat-test.com
+lastServer:hylex.gg
 lang:en_US
 chatVisibility:0
 chatColors:true
